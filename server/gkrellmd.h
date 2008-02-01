@@ -101,18 +101,27 @@
 (GKRELLMD_VERSION_MAJOR == (major) && GKRELLMD_VERSION_MINOR == (minor) && \
 GKRELLMD_VERSION_REV >= (rev)))
 
-#define GKRELLMD_CONFIG     "gkrellmd.conf"
-
+#define GKRELLMD_CONFIG				"gkrellmd.conf"
 #define GKRELLMD_PLUGINS_DIR		".gkrellm2/plugins-gkrellmd"
+
+#if defined(WIN32)
+#define GKRELLMD_LOCAL_PLUGINS_DIR	"./plugins-gkrellmd"
+#undef GKRELLMD_SYSTEM_PLUGINS_DIR
+#else
 #define GKRELLMD_LOCAL_PLUGINS_DIR	"/usr/local/lib/gkrellm2/plugins-gkrellmd"
 #if !defined(GKRELLMD_SYSTEM_PLUGINS_DIR)
 #define GKRELLMD_SYSTEM_PLUGINS_DIR	"/usr/lib/gkrellm2/plugins-gkrellmd"
 #endif
+#endif // defined(WIN32)
 
-#if !defined(WIN32)
-#define	GKRELLMD_SYS_ETC	"/etc"
+
+#if defined(WIN32)
+#undef GKRELLMD_SYS_ETC
+#define GKRELLMD_LOCAL_ETC	"./etc"
+#else
+#define GKRELLMD_SYS_ETC	"/etc"
 #define GKRELLMD_LOCAL_ETC	"/usr/local/etc"
-#endif
+#endif // defined(WIN32)
 
 
 typedef struct _GkrellmdClient
