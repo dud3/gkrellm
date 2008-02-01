@@ -154,8 +154,8 @@ endif
 windows: libgkrellmd.a
 	$(MAKE) \
 	CFLAGS="${CFLAGS} -D_WIN32_WINNT=0x0500 -DWINVER=0x0500" \
-	LINK_FLAGS="${LINK_FLAGS} -mwindows" \
-	EXTRAOBJS="resource.o win32-gui.o win32-plugin.o" \
+	LINK_FLAGS="${LINK_FLAGS} -mconsole" \
+	EXTRAOBJS="win32-resource.o win32-plugin.o" \
 	SYS_LIBS=" -llargeint -lws2_32 -lpdh -lnetapi32 -liphlpapi -lntdll -lintl" \
 	gkrellmd
 
@@ -207,9 +207,11 @@ clean:
 		libgkrellmd.a core
 
 SYSDEPS = ../src/sysdeps/bsd-common.c ../src/sysdeps/bsd-net-open.c \
+	../src/sysdeps/darwin.c \
 	../src/sysdeps/freebsd.c ../src/sysdeps/gtop.c \
 	../src/sysdeps/linux.c ../src/sysdeps/netbsd.c \
-	../src/sysdeps/openbsd.c ../src/sysdeps/solaris.c ../src/sysdeps/darwin.c
+	../src/sysdeps/openbsd.c ../src/sysdeps/sensors-common.c \
+	../src/sysdeps/solaris.c ../src/sysdeps/win32.c 
 
 main.o:		main.c gkrellmd.h
 monitor.o:	monitor.c gkrellmd.h 
@@ -225,6 +227,5 @@ win32-libgkrellmd.o: win32-libgkrellmd.c win32-plugin.h gkrellmd.h
 libgkrellmd.a: win32-libgkrellmd.o
 	ar -cr libgkrellmd.a win32-libgkrellmd.o
 
-resource.o: ../resource.rc
-	windres -I.. -o resource.o ../resource.rc
-
+win32-resource.o: win32-resource.rc win32-resource.h
+	windres -I.. -o win32-resource.o win32-resource.rc

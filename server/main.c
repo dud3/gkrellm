@@ -22,12 +22,6 @@
 #include "gkrellmd.h"
 #include "gkrellmd-private.h"
 
-#ifdef WIN32
-	#include "win32-gui.h"
-#endif
-
-//#include "../src/inet.h"
-
 // we do have addrinfo on win32 but do not have getaddrinfo(), doh
 #if !defined(HAVE_GETADDRINFO) && !defined(WIN32)
 struct addrinfo
@@ -95,10 +89,19 @@ remove_pidfile(void)
 	}
 
 static void
+gkrellmd_exit(gint exit_code)
+	{
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		printf("GKrellM Daemon exiting.\n");
+	gkrellm_sys_main_cleanup();
+	remove_pidfile();
+	exit(exit_code);
+	}
+
+static void
 cb_sigterm(gint sig)
 	{
-	remove_pidfile();
-    exit(0);
+	gkrellmd_exit(0);
 	}
 
 gint
@@ -600,6 +603,7 @@ read_config(void)
 	gchar	*path;
 
 	_GK.update_HZ = 3;
+	_GK.debug_level = 0;
 	_GK.max_clients = 2;
 	_GK.server_port = GKRELLMD_SERVER_PORT;
 
@@ -865,7 +869,7 @@ detach_from_terminal(void)
 #if !defined(WIN32)
 #if !defined(HAVE_DAEMON)
 	gint	i, fd;
-#endif
+#endif /* HAVE_DAEMON */
 
 	if (getppid() == 1)	 /* already a daemon */
 		return;
@@ -874,8 +878,7 @@ detach_from_terminal(void)
 	if (daemon(0, 0))
 		{
 		fprintf(stderr, "gkrellmd detach failed: %s\n", strerror(errno));
-		remove_pidfile();
-		exit(1);
+		gkrellmd_exit(1);
 		}
 #else
 	i = fork();
@@ -885,8 +888,7 @@ detach_from_terminal(void)
 	if (i < 0 || setsid() == -1)		/* new session process group */
 		{
 		fprintf(stderr, "gkrellmd detach failed: %s\n", strerror(errno));
-		remove_pidfile();
-		exit(1);
+		gkrellmd_exit(1);
 		}
 
 	if ((fd = open(_PATH_DEVNULL, O_RDWR, 0)) != -1)
@@ -898,7 +900,7 @@ detach_from_terminal(void)
 			close(fd);
 		}
 	chdir("/");
-#endif
+#endif /* HAVE_DAEMON */
 
 //	signal(SIGCHLD, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
@@ -907,8 +909,8 @@ detach_from_terminal(void)
 	signal(SIGHUP, SIG_IGN);
 #if !defined(MSG_NOSIGNAL)
 	signal(SIGPIPE, SIG_IGN);
-#endif
-#endif
+#endif /* MSG_NOSIGNAL */
+#endif /* WIN32 */
 	}
 
 
@@ -928,19 +930,10 @@ drop_privileges(void)
 	}
 
 
-#if defined(WIN32)
-int APIENTRY
-WinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPSTR lpCmd, int nCmdShow)
-	{
-	int		argc;
-	gchar	**argv;
-	gchar	*cmd;
-
-#else
 gint
 main(gint argc, gchar **argv)
 	{
-#endif // WIN32
+
 #ifdef HAVE_GETADDRINFO
 	struct sockaddr_storage client_addr;
 #else
@@ -952,7 +945,7 @@ main(gint argc, gchar **argv)
 	size_t				addr_len;
 	gint				fd, server_fd, client_fd, i;
 #if defined(WIN32)
-	gulong			nbytes;
+	gulong				nbytes;
 #else
 	gint				nbytes;
 #endif // WIN32
@@ -960,18 +953,11 @@ main(gint argc, gchar **argv)
 	gint				listen_fds = 0;
 	gint				interval, result;
 
-#if defined(WIN32)
-    createServerWindow(hInst);
-
-    // lpCmd does not contain the exe name, GetCommandLine() does :)
-	cmd = GetCommandLine();
-	g_shell_parse_argv(cmd, &argc, &argv, NULL);
-#endif // WIN32
 
 #ifdef ENABLE_NLS
 #ifdef LOCALEDIR
 	bindtextdomain(PACKAGE_D, LOCALEDIR);
-#endif
+#endif /* LOCALEDIR */
 	textdomain(PACKAGE_D);
 	bind_textdomain_codeset(PACKAGE_D, "UTF-8");
 #endif	/* ENABLE_NLS */
@@ -982,6 +968,11 @@ main(gint argc, gchar **argv)
 	if (_GK.verbose)
 		printf("update_HZ=%d\n", _GK.update_HZ);
 
+#if defined(WIN32)
+	// can't detach, just listen to QUIT and TERM signals
+	signal(SIGTERM, cb_sigterm);
+	signal(SIGINT, cb_sigterm);
+#else
 	if (   detach_flag
 	    && !_GK.log_plugins && !_GK.list_plugins && _GK.debug_level == 0
 	   )
@@ -989,15 +980,13 @@ main(gint argc, gchar **argv)
 	else
 		{
 		signal(SIGTERM, cb_sigterm);
-#if !defined(WIN32)
 		signal(SIGQUIT, cb_sigterm);
 		signal(SIGTSTP, SIG_IGN);
-#endif
 		signal(SIGINT, cb_sigterm);
 		}
+#endif
 
 	make_pidfile();
-
 	gkrellm_sys_main_init();
 	drop_privileges();
 
@@ -1021,8 +1010,7 @@ main(gint argc, gchar **argv)
 	if (_GK.server_fd == NULL)
 		{
 		fprintf(stderr, "gkrellmd socket() failed: %s\n", strerror(errno));
-		remove_pidfile();
-		exit(1);
+		gkrellmd_exit(1);
 		}
 
 	/* Listen on the socket so a client gkrellm can connect.
@@ -1043,43 +1031,34 @@ main(gint argc, gchar **argv)
 	if (listen_fds <= 0)
 		{
 		fprintf(stderr, "gkrellmd listen() failed: %s\n", strerror(errno));
-		remove_pidfile();
-		exit(1);
+		gkrellmd_exit(1);
 		}
 
 	interval = 1000000 / _GK.update_HZ;
 
-#if defined(WIN32)
-	while (!done)
-        {
-            {
-                MSG msg;
-		while (PeekMessage(&msg, (HWND) NULL, 0, 0, PM_REMOVE))
-			{
-                    TranslateMessage(&msg); 
-                    DispatchMessage(&msg); 
-                }
-            }
-#else
-    while(1)
+	// main event loop
+	while(1)
 		{
-#endif
 		test_fds = read_fds;
+
 #ifdef HAVE_GETADDRINFO
 		addr_len = sizeof(struct sockaddr_storage);
 #else
 		addr_len = sizeof(struct sockaddr_in);
 #endif
+
 		tv.tv_usec = interval;
 		tv.tv_sec = 0;
-		if ((result = select(max_fd + 1, &test_fds, NULL, NULL, &tv) == -1))
+		
+		result = select(max_fd + 1, &test_fds, NULL, NULL, &tv);
+		if (result == -1)
 			{
 			if (errno == EINTR)
 				continue;
 			fprintf(stderr, "gkrellmd select() failed: %s\n", strerror(errno));
-			remove_pidfile();
-			exit(1);
+			gkrellmd_exit(1);
 			}
+
 #if 0	/* BUG, result is 0 when test_fds has a set fd!! */
 		if (result == 0)	
 			{
@@ -1087,17 +1066,20 @@ main(gint argc, gchar **argv)
 			continue;
 			}
 #endif
+
 		for (fd = 0; fd <= max_fd; ++fd)
 			{
 			if (!FD_ISSET(fd, &test_fds))
 				continue;
 			server_fd = -1;
 			for (i = 1; i <= _GK.server_fd[0]; ++i)
+				{
 				if (fd == _GK.server_fd[i])
 					{
 					server_fd = fd;
 					break;
 					}
+				}
 			if (server_fd >= 0)
 				{
 				client_fd = accept(server_fd,
@@ -1107,8 +1089,7 @@ main(gint argc, gchar **argv)
 					{
 					fprintf(stderr, "gkrellmd accept() failed: %s\n",
 							strerror(errno));
-					remove_pidfile();
-					exit(1);
+					gkrellmd_exit(1);
 					}
 				if (client_fd > max_fd)
 					max_fd = client_fd;
@@ -1122,9 +1103,11 @@ main(gint argc, gchar **argv)
 				FD_SET(client_fd, &read_fds);
 				gkrellmd_serve_setup(client);
 				if (_GK.verbose)
+					{
 					printf("gkrellmd accepted client: %s:%u\n",
 						client->hostname,
 						ntohs(((struct sockaddr_in *)&client_addr)->sin_port));
+					}
 				}
 			else
 				{
@@ -1139,13 +1122,9 @@ main(gint argc, gchar **argv)
 				}
 			}
 		gkrellmd_update_monitors();
-		}
-		
-#ifdef WIN32
-	deleteServerWindow();
-#endif
+		} /* while(1) */
 	return 0;
-	} // main()/WinMain()
+	} // main()
 
 
 GkrellmdTicks *

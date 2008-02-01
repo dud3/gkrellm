@@ -1,0 +1,40 @@
+#include "win32-resource.h"
+#include "windows.h"
+
+//
+// Icon resources
+//
+IDI_ICON3           ICON          "gkrellm.ico"
+
+//
+// Version Information resources
+//
+1 VERSIONINFO
+    FILEVERSION     2,3,1,0
+    PRODUCTVERSION  0,0,0,0
+    FILEOS          VOS__WINDOWS32
+    FILETYPE        VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "FileDescription", "GKrellM Daemon"
+            VALUE "FileVersion", "2.3.1"
+            VALUE "InternalName", "gkrellmd"
+            VALUE "LegalCopyright", "Copyright (C) 1999-2007 Bill Wilson"
+            VALUE "OriginalFilename", "gkrellmd.exe"
+            VALUE "ProductName", "GKrellM"
+            VALUE "ProductVersion", "2.3.1"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+      VALUE "Translation", 0x409, 1200
+    END
+END
+
+//
+// Manifest resources
+//
+1                   RT_MANIFEST   "win32-manifest.xml"
