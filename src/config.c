@@ -2501,7 +2501,18 @@ gkrellm_save_user_config(void)
 		fclose(ff);
 		}
 	fclose(f);
-	rename(config_new, config);
+#if defined(WIN32)
+	/* windows rename() does not allow overwriting existing files! */
+	unlink(config);
+#endif
+	i = rename(config_new, config);
+	if (i != 0)
+		{
+		printf(_("Cannot rename new config file %s to %s.\n"), config_new, config);
+		g_free(config);
+		g_free(config_new);
+		return;
+		}
 
 #if defined (S_IRUSR)
 	mode = (S_IRUSR | S_IWUSR);
