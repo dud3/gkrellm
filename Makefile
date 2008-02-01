@@ -189,13 +189,13 @@ install_solaris: install_gkrellm.pc
 install_windows:
 	(${MAKE} INSTALL=/bin/install install_gkrellm.pc)
 	(cd po && ${MAKE} \
-		INSTALL=/bin/install INSTALLDIR=$(INSTALLROOT) LOCALEDIR=$(INSTALLROOT)/locale \
+		INSTALL=/bin/install INSTALLDIR=$(INSTALLROOT) LOCALEDIR=$(INSTALLROOT)/share/locale \
 		install)
 	(cd src && ${MAKE} \
-		INSTALL=/bin/install INSTALLDIR=$(INSTALLROOT) LOCALEDIR=$(INSTALLROOT)/locale \
+		INSTALL=/bin/install INSTALLDIR=$(INSTALLROOT) LOCALEDIR=$(INSTALLROOT)/share/locale \
 		install_windows)
 	(cd server && ${MAKE} \
-		INSTALL=/bin/install SINSTALLDIR=$(INSTALLROOT) LOCALEDIR=$(INSTALLROOT)/locale \
+		INSTALL=/bin/install SINSTALLDIR=$(INSTALLROOT) LOCALEDIR=$(INSTALLROOT)/share/locale \
 		install_windows)
 
 clean:
@@ -301,9 +301,9 @@ gtop1.0: gkrellm.pc
 	(cd server && ${MAKE} gkrellmd )
 
 windows: gkrellm.pc_win
-	(cd po && ${MAKE} LOCALEDIR="locale" all)
-	(cd src && ${MAKE} LOCALEDIR="locale" windows )
-	(cd server && ${MAKE} LOCALEDIR="locale" windows)
+	(cd po && ${MAKE} LOCALEDIR="share/locale" all)
+	(cd src && ${MAKE} LOCALEDIR="share/locale" windows )
+	(cd server && ${MAKE} LOCALEDIR="share/locale" windows)
 
 msgmerge:
 	(cd po && ${MAKE} messages)
