@@ -23,7 +23,6 @@
 #include "gkrellm-sysdeps.h"
 #include "gkrellm-private.h"
 
-
 #define	PPP_LOCK_FILE	"LCK..modem"
 
 #define TIMER_TYPE_NONE		0
@@ -390,6 +389,12 @@ gkrellm_net_led_positions(gint *x_rx_led, gint *y_rx_led,
 #include    "pixmaps/timer/bg_timer.xpm"
 #include    "pixmaps/timer/decal_timer_button.xpm"
 
+/* ISO 8601 date format for network stats gui*/
+#ifdef WIN32
+#define GK_NET_ISO_DATE "%Y-%m-%d"
+#else
+#define GK_NET_ISO_DATE "%F"
+#endif
 
 #define	MIN_GRID_RES		5
 #define	MAX_GRID_RES		100000000
@@ -1703,13 +1708,13 @@ net_stat_set_date_string(NetStat *ns, enum StatType stat_type, struct tm *t)
 
 	if (stat_type == DAY_STAT)
 		{
-		strftime(buf, sizeof(buf), "%F", &tm);	/* %Y-%m-%d (the ISO 8601) */
+		strftime(buf, sizeof(buf), GK_NET_ISO_DATE, &tm);
 		}
 	else if (stat_type == WEEK_STAT)
 		{
 		while (tm.tm_wday != SATURDAY)
 			next_day(&tm);
-		strftime(buf, sizeof(buf), "%F", &tm);
+		strftime(buf, sizeof(buf), GK_NET_ISO_DATE, &tm);
 		}
 	else if (stat_type == MONTH_STAT)
 		{
