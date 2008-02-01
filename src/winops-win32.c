@@ -21,7 +21,7 @@
 
 #include "gkrellm.h"
 #include "gkrellm-private.h"
-#include "resource.h"
+#include "win32-resource.h"
 #include <gdk/gdkwin32.h>
 
 static UINT      WM_GKRELLMCALLBACK;
@@ -252,7 +252,7 @@ gboolean gkrellm_winop_draw_rootpixmap_onto_transparent_chart(GkrellmChart *p)
 gboolean gkrellm_winop_draw_rootpixmap_onto_transparent_panel(GkrellmPanel *p)
 	{
 	if (!p->transparency || !p->drawing_area || !p->drawing_area->window || trans_gc == NULL)
-	return FALSE;
+		return FALSE;
 
 	gdk_gc_set_fill(trans_gc, GDK_SOLID);
 	gdk_gc_set_foreground(trans_gc, &trans_color);

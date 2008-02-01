@@ -162,7 +162,7 @@ windows: libgkrellm.a
 	$(MAKE) \
 	CFLAGS="${CFLAGS} -DWIN32_CLIENT -D_WIN32_WINNT=0x0500 -DWINVER=0x0500" \
 	LINK_FLAGS="${LINK_FLAGS} -mwindows" \
-	EXTRAOBJS="${EXTRAOBJS} winops-win32.o sysdeps/win32.o win32-plugin.o resource.o" \
+	EXTRAOBJS="${EXTRAOBJS} winops-win32.o sysdeps/win32.o win32-plugin.o win32-resource.o" \
 	SYS_LIBS=" -llargeint -lws2_32 -lpdh -lnetapi32 -liphlpapi -lntdll -lintl" \
 	SMC_LIBS="" \
 	UNIXOBJS="" \
@@ -314,7 +314,7 @@ sysdeps/win32.o: sysdeps/win32.c $(GKRELLM_H_SYS)
 winops-win32.o:  winops-win32.c $(GKRELLM_H)
 win32-plugin.o: win32-plugin.c win32-plugin.h
 win32-libgkrellm.o: win32-libgkrellm.c win32-plugin.h
-resource.o: ../resource.rc
-	windres -I.. -o resource.o ../resource.rc
+win32-resource.o: win32-resource.rc win32-resource.h
+	windres -I.. -o win32-resource.o win32-resource.rc
 libgkrellm.a: win32-libgkrellm.o
 	ar -cr libgkrellm.a win32-libgkrellm.o
