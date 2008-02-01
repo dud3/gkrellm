@@ -22,11 +22,37 @@
 #include "gkrellm.h"
 #include "gkrellm-private.h"
 
+#ifdef WIN32
+
+#define	DEFAULT_CLOCK_FORMAT \
+	"%#I:%M <span foreground=\"$A\"><small>%S</small></span>"
+#define	ALT1_CLOCK_FORMAT \
+	"%#I:%M <span foreground=\"$A\"><small>%p</small></span>"	
+#define ALT2_CLOCK_FORMAT \
+	"%#H:%M <span foreground=\"$A\"><small>%S</small></span>"
+#define	DEFAULT_CAL_FORMAT \
+	"%a <span foreground=\"$A\"><big><big>%#d</big></big></span> %b"
+#define ALT1_CAL_FORMAT \
+	"<big>%a %b <span foreground=\"$A\">%#d</span></big>"
+#define ALT2_CAL_FORMAT \
+	"%a <span foreground=\"cyan2\"><span font_desc=\"16.5\"><i>%#d</i></span></span> %b"
+
+#else
 
 #define	DEFAULT_CLOCK_FORMAT \
 	"%l:%M <span foreground=\"$A\"><small>%S</small></span>"
+#define	ALT1_CLOCK_FORMAT \
+	"%l:%M <span foreground=\"$A\"><small>%p</small></span>"	
+#define ALT2_CLOCK_FORMAT \
+	"%k:%M <span foreground=\"$A\"><small>%S</small></span>"
 #define	DEFAULT_CAL_FORMAT \
 	"%a <span foreground=\"$A\"><big><big>%e</big></big></span> %b"
+#define ALT1_CAL_FORMAT \
+	"<big>%a %b <span foreground=\"$A\">%e</span></big>"
+#define ALT2_CAL_FORMAT \
+	"%a <span foreground=\"cyan2\"><span font_desc=\"16.5\"><i>%e</i></span></span> %b"
+
+#endif
 
 
 static GkrellmMonitor
@@ -593,7 +619,9 @@ cal_format_cb(GtkWidget *widget, gpointer data)
 	{
 	gchar	*s, *check;
 
-	s = gkrellm_gtk_entry_get_text(&(GTK_COMBO(cal_format_combo)->entry));
+	s = gtk_combo_box_get_active_text(GTK_COMBO_BOX(cal_format_combo));
+	if (s == NULL)
+		return;
 
 	check = strftime_format(s, cal_alt_color_string);
 
@@ -618,7 +646,7 @@ clock_format_cb(GtkWidget *widget, gpointer data)
 	{
 	gchar	*s, *check;
 
-	s = gkrellm_gtk_entry_get_text(&(GTK_COMBO(clock_format_combo)->entry));
+	s = gtk_combo_box_get_active_text(GTK_COMBO_BOX(clock_format_combo));
 
 	check = strftime_format(s, clock_alt_color_string);
 
@@ -662,7 +690,6 @@ create_clock_tab(GtkWidget *tab_vbox)
 	{
 	GtkWidget	*tabs;
 	GtkWidget	*table, *vbox, *vbox1, *hbox, *label, *text;
-	GList		*list;
 	gint		i;
 
 	tabs = gtk_notebook_new();
@@ -682,22 +709,14 @@ create_clock_tab(GtkWidget *tab_vbox)
 	gtk_box_pack_start(GTK_BOX(vbox1), hbox, FALSE, FALSE, 6);
 	label = gtk_label_new(_("Display format string:"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 2);
-	cal_format_combo = gtk_combo_new();
+	cal_format_combo = gtk_combo_box_entry_new_text();
 	gtk_box_pack_start(GTK_BOX(vbox1), cal_format_combo, TRUE, TRUE, 0);
-	list = NULL;
-	list = g_list_append(list, cal_format);
-	list = g_list_append(list, DEFAULT_CAL_FORMAT);
-	list = g_list_append(list,
-"<big>%a %b <span foreground=\"$A\">%e</span></big>");
-	list = g_list_append(list,
-"%a <span foreground=\"cyan2\"><span font_desc=\"16.5\"><i>%e</i></big></span></span> %b");
-
-	gtk_combo_set_popdown_strings(GTK_COMBO(cal_format_combo), list);
-	gtk_combo_set_case_sensitive(GTK_COMBO(cal_format_combo), TRUE);
-	g_list_free(list);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(cal_format_combo)->entry),
-			cal_format);
-	g_signal_connect(G_OBJECT(GTK_COMBO(cal_format_combo)->entry), "changed",
+	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo), cal_format);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo), DEFAULT_CAL_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo), ALT1_CAL_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo), ALT2_CAL_FORMAT);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(cal_format_combo), 0);
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(cal_format_combo)), "changed",
 			G_CALLBACK(cal_format_cb), NULL);
 
 	vbox1 = gkrellm_gtk_category_vbox(vbox, _("Clock"), 4, 0, TRUE);
@@ -709,22 +728,14 @@ create_clock_tab(GtkWidget *tab_vbox)
 	gtk_box_pack_start(GTK_BOX(vbox1), hbox, FALSE, FALSE, 6);
 	label = gtk_label_new(_("Display format string:"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 2);
-	clock_format_combo = gtk_combo_new();
+	clock_format_combo = gtk_combo_box_entry_new_text();
 	gtk_box_pack_start(GTK_BOX(vbox1), clock_format_combo, TRUE, TRUE, 0);
-	list = NULL;
-	list = g_list_append(list, clock_format);
-	list = g_list_append(list, DEFAULT_CLOCK_FORMAT);
-	list = g_list_append(list,
-		"%l:%M <span foreground=\"$A\"><small>%p</small></span>");
-	list = g_list_append(list,
-		"%k:%M <span foreground=\"$A\"><small>%S</small></span>");
-
-	gtk_combo_set_popdown_strings(GTK_COMBO(clock_format_combo), list);
-	gtk_combo_set_case_sensitive(GTK_COMBO(clock_format_combo), TRUE);
-	g_list_free(list);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(clock_format_combo)->entry),
-			clock_format);
-	g_signal_connect(G_OBJECT(GTK_COMBO(clock_format_combo)->entry), "changed",
+	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo), clock_format);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo), DEFAULT_CLOCK_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo), ALT1_CLOCK_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo), ALT2_CLOCK_FORMAT);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(clock_format_combo), 0);
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(clock_format_combo)), "changed",
 			G_CALLBACK(clock_format_cb), NULL);
 
 /* -- Setup tab */
