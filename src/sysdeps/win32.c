@@ -41,8 +41,9 @@
 #include <iphlpapi.h>
 
 #include <pdh.h>
-	#include <pdhmsg.h>
-	#include <lmcons.h>
+#include <pdhmsg.h>
+#include <lmcons.h>
+#include <lmerr.h>
 #include <lmwksta.h>
 #include <lmapibuf.h>
 
@@ -115,21 +116,21 @@ static gchar* hostname;
 static TCHAR* perfKeyList[PerfKeysSize];
 
 static HQUERY   pdhQueryHandle = 0;
-    static HCOUNTER cpuUserCounter[MAX_CPU + 1];
-    static HCOUNTER cpuSysCounter[MAX_CPU + 1];
-    static HCOUNTER processCounter;
-    static HCOUNTER threadCounter;
-    static HCOUNTER uptimeCounter;
-    static HCOUNTER diskReadCounter[MAX_DISKS + 1];
-    static HCOUNTER diskWriteCounter[MAX_DISKS + 1];
-    static HCOUNTER netRecCounter[MAX_NET_ADAPTERS + 1];
-    static HCOUNTER netSendCounter[MAX_NET_ADAPTERS + 1];
-    static PDH_STATUS status;
+static HCOUNTER cpuUserCounter[MAX_CPU + 1];
+static HCOUNTER cpuSysCounter[MAX_CPU + 1];
+static HCOUNTER processCounter;
+static HCOUNTER threadCounter;
+static HCOUNTER uptimeCounter;
+static HCOUNTER diskReadCounter[MAX_DISKS + 1];
+static HCOUNTER diskWriteCounter[MAX_DISKS + 1];
+static HCOUNTER netRecCounter[MAX_NET_ADAPTERS + 1];
+static HCOUNTER netSendCounter[MAX_NET_ADAPTERS + 1];
+static PDH_STATUS status;
 
 // *****************************************************************
 
 // local function protos
-void initPerfKeyList(void);
+static void initPerfKeyList(void);
 
 static void placePerfKeysFromReg(const PerfKey key, unsigned int index1,
 	unsigned int index2);
@@ -143,70 +144,53 @@ static void placePerfKey(const PerfKey key, const TCHAR* value);
 //***************************************************************************
 
 void gkrellm_sys_main_init(void)
-{
-    WSADATA wsdata;
-    int err;
+	{
+	WSADATA wsdata;
+	int err;
 
-    // initialize winsock
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Starting Winsock\n");
-    err = WSAStartup(MAKEWORD(1,1), &wsdata);
-    if (err != 0 && _GK.debug_level & DEBUG_SYSDEP) 
-        printf("Starting Winsock failed with error code %i\n", err);
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		printf("Starting Winsock\n");
+	err = WSAStartup(MAKEWORD(1,1), &wsdata);
+	if (err != 0)
+		{ 
+		printf("Starting Winsock failed with error code %i\n", err);
+		return;
+		}
 
-    if (pdhQueryHandle == 0)
-	 {
-        if (_GK.debug_level & DEBUG_SYSDEP)
-            printf("Opening Pdh");
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		printf("Opening Pdh\n");
+	status = PdhOpenQuery(NULL, 0, &pdhQueryHandle);
+	if (status != ERROR_SUCCESS || pdhQueryHandle == 0)
+		{
+		if (_GK.debug_level & DEBUG_SYSDEP)
+			printf("Opening Pdh failed with error code %ld\n", status);
+		pdhQueryHandle = 0;
+		}
+	// get perflib localized key names
+	initPerfKeyList();
 
-        status = PdhOpenQuery(NULL, 0, &pdhQueryHandle);
-        if (status != ERROR_SUCCESS)
-		  {
-            if (_GK.debug_level & DEBUG_SYSDEP)
-                printf("Opening Pdh failed with error code %ld\n", status);
-        }
-    }
+	// do this once
+	info.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+	GetVersionEx(&info);
 
-    // do this once
-    info.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-    GetVersionEx(&info);
+	// we don't have local mail on Windows (yet?)
+	gkrellm_mail_local_unsupported();
 
-    // we don't have local mail on Windows (yet?)
-    gkrellm_mail_local_unsupported();
-    
-    // initialize call back structure for plugins
-    win32_init_callbacks();
+	// initialize call back structure for plugins
+	win32_init_callbacks();
+	}
 
-    // get perflib localized key names
-    initPerfKeyList();
-}
 
 void gkrellm_sys_main_cleanup(void)
 {
     int i;
 #if defined(WIN32_CLIENT)
     NOTIFYICONDATA nid;
-
     // remove system tray icon
-    nid.cbSize = sizeof(NOTIFYICONDATA);                
+    nid.cbSize = sizeof(NOTIFYICONDATA);
     nid.hWnd = GDK_WINDOW_HWND(gkrellm_get_top_window()->window);
-    nid.uID = 1;   
+    nid.uID = 1;
     Shell_NotifyIcon(NIM_DELETE, &nid);
-
-    if (_GK.withdrawn)
-    {
-        // remove from bluebox slit
-        /*HWND slitHwnd = FindWindowEx(NULL, NULL, "BControl", "BSlitWindow");
-        if (slitHwnd != NULL)
-        {
-            SendMessage(slitHwnd, BM_SLITMESSAGE, BSM_DELETEWINDOW, (LPARAM) GDK_WINDOW_HWND(gkrellm_get_top_window()->window));
-        }
-		RemoveProp(GDK_WINDOW_HWND(gkrellm_get_top_window()->window), "BSlitControl");
-		SetParent(GDK_WINDOW_HWND(gkrellm_get_top_window()->window), NULL);
-        if (_GK.debug_level & DEBUG_SYSDEP)
-            printf("Removing from slit\n");*/
-		//SetWindowPos(0, m_nLeft, m_nTop, m_nWidth, m_nHeight, SWP_NOZORDER);
-    }
 #endif // WIN32_CLIENT
 
     if (_GK.debug_level & DEBUG_SYSDEP)
@@ -218,10 +202,6 @@ void gkrellm_sys_main_cleanup(void)
         // in case we are trying to get mail info
         Sleep(500);
     }
-
-    // stop performance gathering
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Stopping perfomance monitoring.\n");
 
     // Close PDH query-handle
     if (_GK.debug_level & DEBUG_SYSDEP)
@@ -245,17 +225,23 @@ void gkrellm_sys_main_cleanup(void)
 static void win32_read_proc_stat(void)
 	{
 	static gint	data_read_tick	= -1;
-
 	if (data_read_tick == gkrellm_get_timer_ticks())	/* One read per tick */
 		return;
-
 	data_read_tick = gkrellm_get_timer_ticks();
+	if (pdhQueryHandle == 0)
+		return;
 
-    if (pdhQueryHandle != 0)
-	{
-        status = PdhCollectQueryData(pdhQueryHandle);
-    }
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		{
+		printf("Collecting PDH query data\n");
+		}
 
+	status = PdhCollectQueryData(pdhQueryHandle);
+	if (status != ERROR_SUCCESS)
+		{
+		printf("Collecting PDH query data failed with status %ld\n",
+		       status);
+		}
 	}
 
 
@@ -370,84 +356,86 @@ typedef struct {
 } SharedData;
 
 
-static int ReadMBMSharedData(void);
-static int ReadSFSharedData(void);
+static gboolean ReadMBMSharedData(void);
+static gboolean ReadSFSharedData(void);
 
 
-static int ReadSharedData(void)
+static gboolean ReadSharedData(void)
+	{
+	static gint      sens_data_read_tick = -1;
+	static gboolean  sens_data_valid = FALSE;
+
+	if (sens_data_read_tick == gkrellm_get_timer_ticks())	/* One read per tick */
+		return sens_data_valid;
+	sens_data_read_tick = gkrellm_get_timer_ticks();
+
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		printf("Reading MBM or SpeedFan data\n");
+
+	// Try getting data from MBM
+	sens_data_valid = ReadMBMSharedData();
+
+	// Try SpeedFan in case MBM is absent
+	if (!sens_data_valid)
+		sens_data_valid = ReadSFSharedData();
+
+	return sens_data_valid;
+	} // ReadSharedData()
+
+
+static gboolean ReadMBMSharedData(void)
 {
-    printf("ReadSharedData()\n");
+	SharedData *ptr;
+	SharedSensor *sens;
+	HANDLE hSData;
+	int i, j;
+	int totalCount;
 
-	// try getting data from MBM
-   if (ReadMBMSharedData() == 1)
-   {
-		// and try SpeedFan in case MBM is absent
-      return ReadSFSharedData();
-	}
-	return 0;
-}
+	hSData=OpenFileMapping(FILE_MAP_READ, FALSE, "$M$B$M$5$S$D$");
+	if (hSData == 0) 
+		return FALSE;
 
-
-static int ReadMBMSharedData(void)
-{
-  SharedData *ptr;
-  SharedSensor *sens;
-  HANDLE hSData;
-  int i, j;
-  int totalCount;
-
-  hSData=OpenFileMapping(FILE_MAP_READ, FALSE, "$M$B$M$5$S$D$");
-  if (hSData==0) 
-      return 1;
-
-  ptr = (SharedData *)MapViewOfFile(hSData, FILE_MAP_READ, 0, 0, 0);
+	ptr = (SharedData *)MapViewOfFile(hSData, FILE_MAP_READ, 0, 0, 0);
 	if (ptr == 0)
 	{
-      CloseHandle(hSData);
-      return 1;
-  }
+		CloseHandle(hSData);
+		return FALSE;
+	}
 
-  totalCount = 0;
+	totalCount = 0;
 	for (i = 0; i < 5; i++)
-	{
-      totalCount += ptr->sdIndex[i].Count;
-  }
+		{
+		totalCount += ptr->sdIndex[i].Count;
+		}
 
-  tempCount = 0;
-  voltCount = 0;
-  fanCount = 0;
+	tempCount = 0;
+	voltCount = 0;
+	fanCount = 0;
 	for (j = 0; j < totalCount; j++)
-	{
-      sens = &(ptr->sdSensor[j]);
-
-        switch (sens->ssType)
-        {
-      case stUnknown:
-          break;
-      case stTemperature:
-            temperatures[tempCount] = sens->ssCurrent;
-          ++tempCount;
-          break;
-      case stVoltage:
-            voltages[voltCount] = sens->ssCurrent;
-          ++voltCount;
-          break;
-      case stFan:
-            fans[fanCount] = sens->ssCurrent;
-          ++fanCount;
-          break;
-      case stMhz:
-          break;
-      case stPercentage:
-          break;
-      }
-  }
-        
-  UnmapViewOfFile(ptr);
-  CloseHandle(hSData);
-
-  return 0;
-}
+		{
+		sens = &(ptr->sdSensor[j]);
+		switch (sens->ssType)
+			{
+			case stTemperature:
+				temperatures[tempCount] = sens->ssCurrent;
+				++tempCount;
+				break;
+			case stVoltage:
+				voltages[voltCount] = sens->ssCurrent;
+				++voltCount;
+				break;
+			case stFan:
+				fans[fanCount] = sens->ssCurrent;
+				++fanCount;
+				break;
+			default:
+				break;
+			}
+		}
+	UnmapViewOfFile(ptr);
+	CloseHandle(hSData);
+	return TRUE;
+	}
 
 
 
@@ -474,39 +462,41 @@ typedef struct
 } SFSharedMemory;
 #pragma pack(pop)
 
-static int ReadSFSharedData(void)
-{
+
+static gboolean ReadSFSharedData(void)
+	{
 	SFSharedMemory *ptr;
 	HANDLE hSData;
 	int i;
 
 	hSData = OpenFileMapping(FILE_MAP_READ, FALSE, TEXT("SFSharedMemory_ALM"));
 	if (hSData == 0)
-		return 1;
+		return FALSE;
 
 	ptr = (SFSharedMemory *)MapViewOfFile(hSData, FILE_MAP_READ, 0, 0, 0);
 	if (ptr == 0)
 	{
-	   CloseHandle(hSData);
-	   return 1;
+		CloseHandle(hSData);
+		return FALSE;
 	}
 
-    tempCount = min(NrTemperature, ptr->NumTemps);
-    for (i = 0; i < tempCount; i++)
+	tempCount = min(NrTemperature, ptr->NumTemps);
+	for (i = 0; i < tempCount; i++)
 		temperatures[i] = ptr->temps[i] / 100.0;
 
-    voltCount = min(NrVoltage, ptr->NumVolts);
-    for (i = 0; i < voltCount; i++)
+	voltCount = min(NrVoltage, ptr->NumVolts);
+	for (i = 0; i < voltCount; i++)
 		voltages[i] = ptr->volts[i] / 100.0;
 
-    fanCount = min(NrFan, ptr->NumFans);
-    for (i = 0; i < fanCount; i++)
+	fanCount = min(NrFan, ptr->NumFans);
+	for (i = 0; i < fanCount; i++)
 		fans[i] = ptr->fans[i];
 
 	UnmapViewOfFile(ptr);
 	CloseHandle(hSData);
-	return 0;
-}
+	return TRUE;
+	}
+
 
 /* ======================================================================== */
 
@@ -514,109 +504,87 @@ static int ReadSFSharedData(void)
 gboolean gkrellm_sys_sensors_get_voltage(gchar *device_name, gint id,
 		gint iodev, gint inter, gfloat *volt)
 {
-
-    if (iodev < NrVoltage && iodev >= 0) {
-        if (ReadSharedData() == 1) {
-            *volt = 0;
-            return FALSE;
-        }
-
-        *volt = voltages[iodev];
-
-        return TRUE;
-    }
-    else {
-        *volt = 0;
-        return FALSE;
-    }
+	*volt = 0;
+	if (iodev < 0 || iodev >= NrVoltage)
+		return FALSE;
+	if (ReadSharedData() == FALSE)
+		return FALSE;
+	*volt = voltages[iodev];
+	return TRUE;
 }
 
 gboolean gkrellm_sys_sensors_get_fan(gchar *device_name, gint id,
 		gint iodev, gint inter, gfloat *fan)
-{
-
-    if (iodev < NrFan && iodev >= 0) {
-        if (ReadSharedData() == 1) {
-            *fan = 0;
-            return FALSE;
-        }
-
-        *fan = fans[iodev];    
-
-        return TRUE;
-    }
-    else {
-        *fan = 0;
-        return FALSE;
-    }
-}
+	{
+	*fan = 0;
+	if (iodev >= NrFan || iodev < 0)
+		return FALSE;
+	if (ReadSharedData() == FALSE)
+		return FALSE;
+	*fan = fans[iodev];    
+	return TRUE;
+	}
 
 gboolean gkrellm_sys_sensors_get_temperature(gchar *device_name, gint id,
 		gint iodev, gint inter, gfloat *temp)
-{
-
-    if (iodev < NrTemperature && iodev >= 0) {
-        if (ReadSharedData() == 1) {
-            *temp = 0;
-            return FALSE;
-        }
-
-        *temp = temperatures[iodev];
-
-        return TRUE;
-    }
-    else {
-        *temp = 0;
-        return FALSE;
-    }
-}
+	{
+	*temp = 0;
+	if (iodev >= NrTemperature || iodev < 0)
+		return FALSE;
+	if (ReadSharedData() == FALSE)
+		return FALSE;
+	*temp = temperatures[iodev];
+	return TRUE;
+	}
 
 gboolean gkrellm_sys_sensors_init(void)
-{
-    char buf[25];
-    int i;
+	{
+	char buf[25];
+	int i;
 
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Initializing sensors.\n");
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		printf("Initializing sensors.\n");
 
-    {   
-        tempCount = 0;
-        voltCount = 0;
-        fanCount = 0;
+	//TODO: determine number of sensors at startup? This could cause
+	//      user confusion in case mbm/speedfan is started after gkrellm
+	tempCount = 0;
+	voltCount = 0;
+	fanCount = 0;
 
-        for (i = 0; i < NrTemperature; i++)
-        {
-            sprintf(buf, "Temp %i", i);
-            gkrellm_sensors_add_sensor(SENSOR_TEMPERATURE, NULL, buf,
-	            tempCount, tempCount, 0,
-	            1, 0, NULL, buf);
-            ++tempCount;
-        }
+	for (i = 0; i < NrTemperature; i++)
+		{
+		//TODO: i18n?
+		snprintf(buf, sizeof(buf), "Temp %i", i);
+		gkrellm_sensors_add_sensor(SENSOR_TEMPERATURE, NULL, buf, tempCount,
+		                           tempCount, 0, 1, 0, NULL, buf);
+		++tempCount;
+		}
 
-        for (i = 0; i < NrVoltage; i++)
-        {
-            sprintf(buf, "Volt %i", i);
-            gkrellm_sensors_add_sensor(SENSOR_VOLTAGE, NULL, buf,
-		        voltCount, voltCount, 0,
-		        1, 0, NULL, buf);
-            ++voltCount;
-        }
-    
-        for (i = 0; i < NrFan; i++)
-        {
-            sprintf(buf, "Fan %i", i);
-            gkrellm_sensors_add_sensor(SENSOR_FAN, NULL, buf,
-	            fanCount, fanCount, 0,
-	            1, 0, NULL, buf);
-            ++fanCount;
-        }
-    }
+	for (i = 0; i < NrVoltage; i++)
+		{
+		snprintf(buf, sizeof(buf), "Volt %i", i);
+		gkrellm_sensors_add_sensor(SENSOR_VOLTAGE, NULL, buf, voltCount,
+		                           voltCount, 0, 1, 0, NULL, buf);
+		++voltCount;
+		}
 
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Initialized sensors for %i temps, %i volts, %i fans.\n", tempCount, voltCount, fanCount);
+	for (i = 0; i < NrFan; i++)
+		{
+		snprintf(buf, sizeof(buf), "Fan %i", i);
+		gkrellm_sensors_add_sensor(SENSOR_FAN, NULL, buf, fanCount, fanCount,
+		                           0, 1, 0, NULL, buf);
+		++fanCount;
+		}
 
-    return TRUE;
-}
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		{
+		printf("Initialized sensors for %i temps, %i volts and %i fans.\n",
+		       tempCount, voltCount, fanCount);
+		}
+
+	return TRUE;
+	}
+
 
 /* ===================================================================== */
 /* CPU monitor interface */
@@ -628,39 +596,57 @@ gboolean gkrellm_sys_sensors_init(void)
  **/	 
 void gkrellm_sys_cpu_read_data(void)
 	{
-    static gulong user[MAX_CPU] = {0,0,0,0,0,0};
-    static gulong sys[MAX_CPU]  = {0,0,0,0,0,0};
-    static gulong idle[MAX_CPU] = {0,0,0,0,0,0};
+	static gulong user[MAX_CPU] = {0,0,0,0,0,0};
+	static gulong sys[MAX_CPU]  = {0,0,0,0,0,0};
+	static gulong idle[MAX_CPU] = {0,0,0,0,0,0};
 
-    DWORD type;
-    PDH_FMT_COUNTERVALUE value;
-    int i;
-    gulong userInt = 0, idleInt = 0, sysInt = 0;
+	DWORD type;
+	PDH_FMT_COUNTERVALUE value;
+	int i;
+	gulong userInt = 0;
+	gulong idleInt = 0;
+	gulong sysInt = 0;
 
-    win32_read_proc_stat();
+	if (pdhQueryHandle == 0)
+		return;
 
-    if (pdhQueryHandle != 0)
-	{
-        for (i = 0; i < numCPUs; i++)
+	win32_read_proc_stat();
+
+	for (i = 0; i < numCPUs; i++)
 		{
-            status = PdhGetFormattedCounterValue(cpuUserCounter[i], PDH_FMT_LONG, &type, &value);
-            userInt = (status != 0 ? 0 : value.longValue);
-    
-            status = PdhGetFormattedCounterValue(cpuSysCounter[i], PDH_FMT_LONG, &type, &value);
-            sysInt = (status != 0 ? 0 : value.longValue);
+		status = PdhGetFormattedCounterValue(cpuUserCounter[i], PDH_FMT_LONG, &type, &value);
+		if (status != ERROR_SUCCESS)
+			{
+			printf("Getting PDH-counter (cpu user time) failed with status %ld\n", status);
+			return;
+			}
+		else
+			{
+			userInt = value.longValue;
+			}
 
-            // user time defined as total - system
-            userInt -= sysInt;
+		status = PdhGetFormattedCounterValue(cpuSysCounter[i], PDH_FMT_LONG, &type, &value);
+		if (status != ERROR_SUCCESS)
+			{
+			printf("Getting PDH-counter (cpu sys time) failed with status %ld\n", status);
+			return;
+			}
+		else
+			{
+			sysInt = value.longValue;
+			}
 
-            idleInt = 100 - userInt - sysInt;
+		// user time defined as total - system
+		userInt -= sysInt;
 
-            user[i] += userInt;
-            sys[i] += sysInt;
-            idle[i] += idleInt;
-   
-	        gkrellm_cpu_assign_data(i, user[i], 0/*nice[i]*/, sys[i], idle[i]);
-        }
-    }
+		idleInt = 100 - userInt - sysInt;
+
+		user[i] += userInt;
+		sys[i] += sysInt;
+		idle[i] += idleInt;
+
+		gkrellm_cpu_assign_data(i, user[i], 0/*nice[i]*/, sys[i], idle[i]);
+		}
 	}
 
 
@@ -684,7 +670,7 @@ gboolean gkrellm_sys_cpu_init(void)
 	if (numCPUs > MAX_CPU)
         numCPUs = MAX_CPU;
 
-	if (pdhQueryHandle != 0)
+	if (pdhQueryHandle != 0 && perfKeyList[CpuStart] != NULL && perfKeyList[CpuTime] != NULL)
 	{
 		for (i = 0; i < numCPUs; i++)
 		{
@@ -723,26 +709,42 @@ gboolean gkrellm_sys_cpu_init(void)
 
 void gkrellm_sys_net_read_data(void)
 {
-	gint	i;
-    DWORD type;
-    PDH_FMT_COUNTERVALUE value;
+	gint i;
+	DWORD type;
+	PDH_FMT_COUNTERVALUE value;
 
-    win32_read_proc_stat();
+	if (pdhQueryHandle == 0)
+		return;
 
-    if (pdhQueryHandle != 0)
-    {
-        for (i = 0; i < numAdapters; i++)
-        {
-            status = PdhGetFormattedCounterValue(netRecCounter[i], PDH_FMT_LONG, &type, &value);
-            rx[i] += value.longValue / _GK.update_HZ;
+	win32_read_proc_stat();
 
-            status = PdhGetFormattedCounterValue(netSendCounter[i], PDH_FMT_LONG, &type, &value);
-            tx[i] += value.longValue / _GK.update_HZ;
+	for (i = 0; i < numAdapters; i++)
+		{
+		status = PdhGetFormattedCounterValue(netRecCounter[i], PDH_FMT_LONG, &type, &value);
+		if (status != ERROR_SUCCESS)
+			{
+			printf("Getting PDH-counter (net recv counter) failed with status %ld\n", status);
+			return;
+			}
+		else
+			{
+			rx[i] += value.longValue / _GK.update_HZ;
+			}
 
-            gkrellm_net_assign_data(netName[i], rx[i], tx[i]);
-        }
-    }
-}
+		status = PdhGetFormattedCounterValue(netSendCounter[i], PDH_FMT_LONG, &type, &value);
+		if (status != ERROR_SUCCESS)
+			{
+			printf("Getting PDH-counter (net send counter) failed with status %ld\n", status);
+			return;
+			}
+		else
+			{
+			tx[i] += value.longValue / _GK.update_HZ;
+			}
+
+		gkrellm_net_assign_data(netName[i], rx[i], tx[i]);
+		}
+	}
 
 void gkrellm_sys_net_check_routes(void)
 {
@@ -879,6 +881,7 @@ gchar * gkrellm_sys_disk_name_from_device(gint device_number, gint unit_number,
 {
 	static gchar name[32];
 
+	//TODO: i18n?
 	sprintf(name, "Disk%s", diskName[device_number]);
 	*order = device_number;
 	return name;
@@ -890,37 +893,48 @@ gint gkrellm_sys_disk_order_from_name(gchar *name)
 }
 
 void gkrellm_sys_disk_read_data(void)
-{
+	{
 	/* One routine reads cpu, disk, and swap data.  All three monitors will
 	| call it, but only the first call per timer tick will do the work.
 	*/
-    DWORD type;
-    PDH_FMT_COUNTERVALUE value;
-    double readInt = 0, writeInt = 0;
-    int i;
+	DWORD type;
+	PDH_FMT_COUNTERVALUE value;
+	double readInt = 0;
+	double writeInt = 0;
+	int i;
 
-    win32_read_proc_stat();
+	if (pdhQueryHandle == 0)
+		return;
 
-    if (pdhQueryHandle != 0)
-	 {
-        for (i = 0; i < numDisks; i++) {
-            status = PdhGetFormattedCounterValue(diskReadCounter[i], PDH_FMT_DOUBLE, &type, &value);
-            readInt = value.doubleValue / _GK.update_HZ;
-
-            status = PdhGetFormattedCounterValue(diskWriteCounter[i], PDH_FMT_DOUBLE, &type, &value);
-            writeInt = value.doubleValue / _GK.update_HZ;
-
-            diskread[i] += readInt;
-            diskwrite[i] += writeInt;
-
-        }
-    }
+	win32_read_proc_stat();
 
 	for (i = 0; i < numDisks; i++)
 		{
-//    		gkrellm_disk_assign_data_nth(i, diskread[i], diskwrite[i]);
-    	    gkrellm_disk_assign_data_by_device(i, 0,
-						diskread[i], diskwrite[i], FALSE);
+		status = PdhGetFormattedCounterValue(diskReadCounter[i], PDH_FMT_DOUBLE, &type, &value);
+		if (status != ERROR_SUCCESS)
+			{
+			printf("Getting PDH-counter (disk read cnt) failed with status %ld\n", status);
+			return;
+			}
+		readInt = value.doubleValue / _GK.update_HZ;
+
+		status = PdhGetFormattedCounterValue(diskWriteCounter[i], PDH_FMT_DOUBLE, &type, &value);
+		if (status != ERROR_SUCCESS)
+			{
+			printf("Getting PDH-counter (disk write cnt) failed with status %ld\n", status);
+			return;
+			}
+		writeInt = value.doubleValue / _GK.update_HZ;
+
+		diskread[i] += readInt;
+		diskwrite[i] += writeInt;
+		}
+
+	for (i = 0; i < numDisks; i++)
+		{
+		//gkrellm_disk_assign_data_nth(i, diskread[i], diskwrite[i]);
+		gkrellm_disk_assign_data_by_device(i, 0, diskread[i], diskwrite[i],
+		                                   FALSE);
 		}
 	}
 
@@ -1021,26 +1035,38 @@ gboolean gkrellm_sys_disk_init(void)
 
 void gkrellm_sys_proc_read_data(void)
 	{
-    DWORD type;
-    PDH_FMT_COUNTERVALUE value;
-    gint	n_running = 0, n_processes = 0;
-	gulong	n_forks = 0;
-    static gulong last_n_forks = 0;
-    gulong new_forks;
+	static gulong last_n_forks = 0;
 	static gfloat	fload = 0;
-    gfloat a;
 
-    win32_read_proc_stat();
+	DWORD type;
+	PDH_FMT_COUNTERVALUE value;
+	gint n_running = 0, n_processes = 0;
+	gulong n_forks = 0;
+	gulong new_forks;
+	gfloat a;
 
-    if (pdhQueryHandle != 0) {
-        status = PdhGetFormattedCounterValue(processCounter, PDH_FMT_LONG, &type, &value);
-        n_processes = value.longValue;
+	if (pdhQueryHandle == 0)
+		return;
 
-        status = PdhGetFormattedCounterValue(threadCounter, PDH_FMT_LONG, &type, &value);
-        n_forks = value.longValue;
-    }
+	win32_read_proc_stat();
 
-    n_running = n_processes;
+	status = PdhGetFormattedCounterValue(processCounter, PDH_FMT_LONG, &type, &value);
+	if (status != ERROR_SUCCESS)
+		{
+		printf("Getting PDH-counter (process cnt) failed with status %ld\n", status);
+		return;
+		}
+	n_processes = value.longValue;
+	
+	status = PdhGetFormattedCounterValue(threadCounter, PDH_FMT_LONG, &type, &value);
+		if (status != ERROR_SUCCESS)
+			{
+			printf("Getting PDH-counter (thread cnt) failed with status %ld\n", status);
+			return;
+			}
+	n_forks = value.longValue;
+
+	n_running = n_processes;
 
     //fload - is the system load average, an exponential moving average over a period
     //    of a minute of n_running.  It measures how heavily a system is loaded
@@ -1070,40 +1096,41 @@ void gkrellm_sys_proc_read_data(void)
 
 void gkrellm_sys_proc_read_users(void)
 	{
-	gint			n_users = 0;
+	gint n_users = 1;
 	DWORD entriesRead;
 	DWORD totalEntries;
-    LPBYTE         ptr;
-    NET_API_STATUS err;
+	LPBYTE ptr;
+	NET_API_STATUS nerr;
 
-    err = NetWkstaUserEnum(NULL, 0, &ptr, MAX_PREFERRED_LENGTH, &entriesRead, &totalEntries, NULL);
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		printf("Getting number of logged in users.\n");
 
-    if (err != 0 && err != ERROR_MORE_DATA)
-    	n_users = 1;
-    else
-		n_users = totalEntries;
+	nerr = NetWkstaUserEnum(NULL, 0, &ptr, MAX_PREFERRED_LENGTH, &entriesRead,
+	                        &totalEntries, NULL);
+	if (nerr == NERR_Success)
+		n_users = entriesRead;
 
-    NetApiBufferFree(ptr);
+	NetApiBufferFree(ptr);
 
 	gkrellm_proc_assign_users(n_users);
 	}
 
 
 gboolean gkrellm_sys_proc_init(void)
-{
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Initializing process monitor.\n");
-
-	if (pdhQueryHandle != 0)
 	{
-        if (_GK.debug_level & DEBUG_SYSDEP)
-            printf("Adding %s as process monitor.\n", perfKeyList[NumProcesses]);
-        status = PdhAddCounter(pdhQueryHandle, perfKeyList[NumProcesses], 0, &processCounter);
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		printf("Initializing process monitor.\n");
 
-        if (_GK.debug_level & DEBUG_SYSDEP)
-            printf("Adding %s as thread monitor.\n", perfKeyList[NumThreads]);
-        status = PdhAddCounter(pdhQueryHandle, perfKeyList[NumThreads], 0, &threadCounter);
-    }
+	if (pdhQueryHandle == 0)
+		return FALSE;
+
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		printf("Adding '%s' as process monitor.\n", perfKeyList[NumProcesses]);
+	status = PdhAddCounter(pdhQueryHandle, perfKeyList[NumProcesses], 0, &processCounter);
+
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		printf("Adding '%s' as thread monitor.\n", perfKeyList[NumThreads]);
+	status = PdhAddCounter(pdhQueryHandle, perfKeyList[NumThreads], 0, &threadCounter);
 
 	return TRUE;
 	}
@@ -1143,16 +1170,8 @@ void gkrellm_sys_mem_read_data(void)
 }
 
 
-
-
-
-
-
-
-
-
 void gkrellm_sys_swap_read_data(void)
-{
+	{
 	SYSTEM_INFO si;
 	GetSystemInfo(&si);
 
@@ -1203,15 +1222,15 @@ void gkrellm_sys_swap_read_data(void)
 	free(pBuf);
 
 	gkrellm_swap_assign_data(swapTotal, swapUsed, swapIn, swapOut);
-}
+	}
+
 
 gboolean gkrellm_sys_mem_init(void)
-{
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Initialized Memory monitor.\n");
-
+	{
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		printf("Initialized Memory monitor.\n");
 	return TRUE;
-}
+	}
 
 
 /* ===================================================================== */
@@ -1225,35 +1244,38 @@ gboolean gkrellm_sys_mem_init(void)
 
 void gkrellm_sys_battery_read_data(void)
 {
-	gboolean	available, on_line, charging;
-	gint		percent, time_left;
+	gboolean available, on_line, charging;
+	gint percent, time_left;
+	SYSTEM_POWER_STATUS power;
 
-    SYSTEM_POWER_STATUS power;
-
-    GetSystemPowerStatus(&power);
-
-	if ((power.BatteryFlag & L_NO_BATTERY) == L_NO_BATTERY || (power.BatteryFlag & L_UNKNOWN) == L_UNKNOWN)
+	GetSystemPowerStatus(&power);
+	if (   (power.BatteryFlag & L_NO_BATTERY) == L_NO_BATTERY
+	    || (power.BatteryFlag & L_UNKNOWN) == L_UNKNOWN
+	   )
+		{
 		available = FALSE;
+		}
 	else
+		{
 		available = TRUE;
+		}
 
 	on_line = ((power.ACLineStatus & L_ON_LINE) == L_ON_LINE) ? TRUE : FALSE;
 	charging= ((power.BatteryFlag & L_CHARGING) == L_CHARGING) ? TRUE : FALSE;
 
-    time_left = power.BatteryLifeTime;
-
-    percent = power.BatteryLifePercent;
+	time_left = power.BatteryLifeTime;
+	percent = power.BatteryLifePercent;
 
 	gkrellm_battery_assign_data(0, available, on_line, charging, percent, time_left);
 }
 
-gboolean gkrellm_sys_battery_init()
-{
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Initialized Battery monitor.\n");
 
+gboolean gkrellm_sys_battery_init()
+	{
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		printf("Initialized Battery monitor.\n");
 	return TRUE;
-}
+	}
 
 
 /* ============================================== */
@@ -1272,101 +1294,99 @@ void eject_win32_cdrom(gchar *device)
     char buf[25];
     DWORD numBytes;
 
-	if (!device || strlen(device) <= 0)
-        return;
+	if (!device || strlen(device) == 0)
+		return;
 
-    sprintf(buf, "\\\\.\\%c:", device[0]);
-    hFile = CreateFile(buf, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, NULL);
+	sprintf(buf, "\\\\.\\%c:", device[0]);
+	hFile = CreateFile(buf, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, NULL);
 	if (hFile != 0 && hFile != INVALID_HANDLE_VALUE)
-	{
-        // this should be safe for non-removable drives
+		{
+		// this should be safe for non-removable drives
 		err = DeviceIoControl(hFile, FSCTL_DISMOUNT_VOLUME, NULL, 0, NULL, 0,
 			&numBytes, NULL);
 		if (!err)
-		{
+			{
 			err = DeviceIoControl(hFile, IOCTL_STORAGE_EJECT_MEDIA, NULL, 0,
-				NULL, 0, &numBytes, NULL);
+			                      NULL, 0, &numBytes, NULL);
+			}
+		CloseHandle(hFile);
 		}
-        CloseHandle(hFile);
-    }
-}
+	}
+
 
 gboolean gkrellm_sys_fs_init(void) 
-{
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Initializing file system monitor.\n");
-
+	{
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		printf("Initializing file system monitor.\n");
 	gkrellm_fs_mounting_unsupported();
 	gkrellm_fs_setup_eject(NULL, NULL, eject_win32_cdrom, NULL);
-
-    return TRUE;
-}
+	return TRUE;
+	}
 
 
 void gkrellm_sys_fs_get_fsusage(gpointer fs, gchar *dir)
-{
-    BOOL err = 0;
+	{
+	BOOL err = 0;
 
-    if (!dir || strlen(dir) <= 0)
-        return;
+	if (!dir || strlen(dir) <= 0)
+		return;
 
-		ULARGE_INTEGER freeAvailableToCaller;
-		ULARGE_INTEGER totalBytes;
-		ULARGE_INTEGER freeBytes;
-		gulong total, freeCaller, free;
+	ULARGE_INTEGER freeAvailableToCaller;
+	ULARGE_INTEGER totalBytes;
+	ULARGE_INTEGER freeBytes;
+	gulong total, freeCaller, free;
 
-		err = GetDiskFreeSpaceEx(dir, &freeAvailableToCaller, &totalBytes, &freeBytes);
-		if (err != 0)
+	err = GetDiskFreeSpaceEx(dir, &freeAvailableToCaller, &totalBytes, &freeBytes);
+	if (err != 0)
 		{
-            total = EnlargedUnsignedDivide(totalBytes, 1024, 0);
-            freeCaller = EnlargedUnsignedDivide(freeAvailableToCaller, 1024, 0);
-            free = EnlargedUnsignedDivide(freeBytes, 1024, 0);
-
-            // fs, blocks, avail, free, size
-	        gkrellm_fs_assign_fsusage_data(fs, total, freeCaller, free, 1024);
-        }
-		else
+		total = EnlargedUnsignedDivide(totalBytes, 1024, 0);
+		freeCaller = EnlargedUnsignedDivide(freeAvailableToCaller, 1024, 0);
+		free = EnlargedUnsignedDivide(freeBytes, 1024, 0);
+		// fs, blocks, avail, free, size
+		gkrellm_fs_assign_fsusage_data(fs, total, freeCaller, free, 1024);
+		}
+	else
 		{
-        printf("GetDiskFreeSpaceEx() failed on drive %c: with error %d\n", *dir, err);
-        }
-    }
+		// may happen on cd/dvd drives, ignore for now
+		//printf("GetDiskFreeSpaceEx() failed on drive %c:, error %d\n", *dir, err);
+		}
+	}
 
 
 void gkrellm_sys_fs_get_mounts_list(void)
-{
-    char buf[1024];
-    char* drive;
-
-    GetLogicalDriveStrings(1024, buf);
-	for (drive = buf; *drive != 0; drive += lstrlen(drive) + 1)
 	{
-        // dir, dev, type
-		if (strcmp("A:\\", drive) != 0 && strcmp("a:\\", drive) != 0 &&
-		    strcmp("B:\\", drive) != 0 && strcmp("b:\\", drive) != 0)
+	char buf[1024];
+	char* drive;
+	GetLogicalDriveStrings(1024, buf);
+	for (drive = buf; *drive != 0; drive += lstrlen(drive) + 1)
 		{
-    	    gkrellm_fs_add_to_mounts_list(drive, drive, "");
-        }
-    }    
-}
+		if (strcmp("A:\\", drive) != 0 && strcmp("a:\\", drive) != 0 &&
+		    strcmp("B:\\", drive) != 0 && strcmp("b:\\", drive) != 0
+		   )
+			{
+			gkrellm_fs_add_to_mounts_list(drive, drive, "");
+			}
+		}
+	}
+
 
 void gkrellm_sys_fs_get_fstab_list(void)
-{
-    char buf[1024];
-    char* drive;
-
-    GetLogicalDriveStrings(1024, buf);
-	for (drive = buf; *drive != 0; drive += lstrlen(drive) + 1)
 	{
-        // dir, dev, type, opt
-		if (strcmp("A:\\", drive) != 0 && strcmp("a:\\", drive) != 0 &&
-		    strcmp("B:\\", drive) != 0 && strcmp("b:\\", drive) != 0)
+	char buf[1024];
+	char* drive;
+	GetLogicalDriveStrings(1024, buf);
+	for (drive = buf; *drive != 0; drive += lstrlen(drive) + 1)
 		{
-            if (_GK.debug_level & DEBUG_SYSDEP)
-                printf("Adding fstab %s\n", drive);
-            gkrellm_fs_add_to_fstab_list(drive, drive, "", "");
-        }
-    }    
-}
+		if (strcmp("A:\\", drive) != 0 && strcmp("a:\\", drive) != 0 &&
+		    strcmp("B:\\", drive) != 0 && strcmp("b:\\", drive) != 0
+		   )
+			{
+			if (_GK.debug_level & DEBUG_SYSDEP)
+				printf("Adding fstab %s\n", drive);
+			gkrellm_fs_add_to_fstab_list(drive, drive, "", "");
+			}
+		}
+	}
 
 /* ===================================================================== */
 /* INET monitor interfaces */
@@ -1377,41 +1397,44 @@ gboolean gkrellm_sys_inet_init(void)
 	return TRUE;
 }
 
+
 void gkrellm_sys_inet_read_tcp_data(void)
-{
-	PMIB_TCPTABLE  pTcpTable   = NULL;
-	DWORD          dwTableSize = 0;
+	{
+	PMIB_TCPTABLE pTcpTable = NULL;
+	DWORD dwTableSize = 0;
 
 	// Make an initial call to GetTcpTable to
 	// get the necessary size into the dwSize variable
-	if (GetTcpTable(NULL, &dwTableSize, FALSE) == ERROR_INSUFFICIENT_BUFFER)
-	{
+	if (GetTcpTable(NULL, &dwTableSize, FALSE) == ERROR_INSUFFICIENT_BUFFER
+	    && dwTableSize > 0
+	   )
+		{
 		pTcpTable = (MIB_TCPTABLE *)malloc(dwTableSize);
 
 		// Make a second call to GetTcpTable to get
 		// the actual data we require
 		if (GetTcpTable(pTcpTable, &dwTableSize, FALSE) == NO_ERROR)
-		{
-			ActiveTCP	   tcp;
-	      DWORD i;
-			for (i = 0; i < pTcpTable->dwNumEntries; i++)
 			{
-		      MIB_TCPROW *row = &pTcpTable->table[i];
+			ActiveTCP tcp;
+			DWORD i;
+			for (i = 0; i < pTcpTable->dwNumEntries; i++)
+				{
+				MIB_TCPROW *row = &pTcpTable->table[i];
 
 				if (row->dwState != MIB_TCP_STATE_ESTAB)
-				continue;
+					continue;
 
 				tcp.family             = AF_INET;
 				tcp.local_port         = htons(row->dwLocalPort);
 				tcp.remote_port        = htons(row->dwRemotePort);
 				tcp.remote_addr.s_addr = row->dwRemoteAddr;
 
-			gkrellm_inet_log_tcp_port_data(&tcp);
+				gkrellm_inet_log_tcp_port_data(&tcp);
+				}
 			}
+		free(pTcpTable);
 		}
-		GlobalFree(pTcpTable);
 	}
-}
 
 
 /* ===================================================================== */
@@ -1420,62 +1443,74 @@ void gkrellm_sys_inet_read_tcp_data(void)
 
 time_t gkrellm_sys_uptime_read_uptime(void)
 {
-    DWORD type;
-    PDH_FMT_COUNTERVALUE value;
-    long l = 0;
+	DWORD type;
+	PDH_FMT_COUNTERVALUE value;
+	long l = 0;
 
-    win32_read_proc_stat();
+	win32_read_proc_stat();
 
 	if (pdhQueryHandle != 0)
-	{
-        status = PdhGetFormattedCounterValue(uptimeCounter, PDH_FMT_LONG, &type, &value);
-        l = value.longValue;
-    }
+		{
+		status = PdhGetFormattedCounterValue(uptimeCounter, PDH_FMT_LONG, &type, &value);
+		if (status != ERROR_SUCCESS)
+			{
+			printf("Getting PDH-counter (uptime) failed with status %ld\n", status);
+			return (time_t)0;
+			}
+		l = value.longValue;
+		}
 
-    return (time_t) l;
-    }
+	return (time_t) l;
+	}
+
 
 gboolean gkrellm_sys_uptime_init(void)
-{
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Initializing uptime monitor.\n");
-
-	if (pdhQueryHandle != 0)
 	{
-        status = PdhAddCounter(pdhQueryHandle, perfKeyList[Uptime], 0, &uptimeCounter);
-    }
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		printf("Initializing uptime monitor.\n");
 
-    return TRUE;
-    }
+	if (pdhQueryHandle == 0)
+		return FALSE;
+		
+	status = PdhAddCounter(pdhQueryHandle, perfKeyList[Uptime], 0, &uptimeCounter);
+	if (status != ERROR_SUCCESS)
+		{
+		printf("Adding PDH-counter (uptime) failed with status %ld\n", status);
+		return FALSE;
+		}
+
+	return TRUE;
+	}
+
 
 /* ===================================================================== */
 /* hostname interface */
 /* ===================================================================== */
 
 gchar *gkrellm_sys_get_host_name(void)
-{
-	static gboolean	have_it = FALSE;
-
-	if (!have_it)
 	{
+	static gboolean	host_name_fetched = FALSE;
+
+	if (!host_name_fetched)
+		{
 		char buf[128];
-    int err;
+		int err;
+
+		if (_GK.debug_level & DEBUG_SYSDEP)
+			printf("Retrieving host name.\n");
 
 		err = gethostname(buf, sizeof(buf));
 
 		if (err != 0)
-            hostname = g_strdup("Unknown");
+			hostname = g_strdup("Unknown");
 		else
 			hostname = g_strdup(buf);
 
-        if (_GK.debug_level & DEBUG_SYSDEP)
-            printf("Retrieving host name.\n");
-
-        have_it = TRUE;
-    }
-
+		host_name_fetched = TRUE;
+		}
 	return hostname;
-}
+	}
+
 
 /* ===================================================================== */
 /* System name interface */
@@ -1551,9 +1586,16 @@ gboolean gkrellm_sys_sensors_mbmon_supported(void)
 /* ===================================================================== */
 
 
-void initPerfKeyList(void)
+static void initPerfKeyList(void)
 {
-	printf("initPerfKeyList();\n");
+	int i;
+	for (i = 0; i < PerfKeysSize; i++)
+		{
+		perfKeyList[i] = NULL; 
+		}
+		
+	if (pdhQueryHandle == 0)
+		return;
 
 	placePerfKeysFromReg(NumProcesses , 2  , 248);
 	placePerfKeysFromReg(NumThreads   , 2  , 250);
@@ -1572,7 +1614,7 @@ void initPerfKeyList(void)
 
 
 static void placePerfKeysFromReg(const PerfKey key, unsigned int index1, unsigned int index2)
-{
+	{
 	TCHAR buf[512];
 	TCHAR perfName[512];
 	PDH_STATUS stat;
@@ -1580,7 +1622,7 @@ static void placePerfKeysFromReg(const PerfKey key, unsigned int index1, unsigne
 
 	stat = PdhLookupPerfNameByIndex(NULL, index1, perfName, &size);
 	if (stat == ERROR_SUCCESS)
-	{
+		{
 		_tcsncpy(buf, _T("\\"), 512);
 		_tcsncat(buf, perfName, 512);
 		_tcsncat(buf, _T("\\"), 512);
@@ -1588,25 +1630,26 @@ static void placePerfKeysFromReg(const PerfKey key, unsigned int index1, unsigne
 		size = 512;
 		stat = PdhLookupPerfNameByIndex(NULL, index2, perfName, &size);
 		if (stat == ERROR_SUCCESS)
-		{
+			{
 			_tcsncat(buf, perfName, 512);
-                        }
+			placePerfKey(key, buf);
+			}
 		else
-		{
+			{
 			printf("could not find perflib index %d in registry\n", index2);
-                    }
-
-		placePerfKey(key, buf);
-	}
+			placePerfKey(key, NULL);
+			}
+		}
 	else
-	{
+		{
 		printf("Could not find perflib index %d in registry\n", index1);
-                }
-            }
+		placePerfKey(key, NULL);
+		}
+	}
 
 static void placePerfKeyFromReg(const PerfKey key, unsigned int index,
 	const TCHAR* prefix, const TCHAR* suffix)
-{
+	{
 	TCHAR buf[512];
 	TCHAR perfName[512];
 	PDH_STATUS stat;
@@ -1614,49 +1657,54 @@ static void placePerfKeyFromReg(const PerfKey key, unsigned int index,
 
 	stat = PdhLookupPerfNameByIndex(NULL, index, perfName, &size);
 	if (stat == ERROR_SUCCESS)
-	{
-		if (prefix)
 		{
+		if (prefix)
+			{
 			_tcsncpy(buf, prefix, 512);
 			_tcsncat(buf, perfName, 512);
-        }
+			}
 		else
-		{
+			{
 			_tcsncpy(buf, perfName, 512);
-    }
+			}
 		
 		if (suffix)
-		{
+			{
 			_tcsncat(buf, suffix, 512);
-    }
-
+			}
 		placePerfKey(key, buf);
-	}
+		}
 	else
-	{
+		{
 		printf("could not find index %d in registry\n", index);
-}
-}
+		placePerfKey(key, NULL);
+		}
+	}
 
 
 static void placePerfKey(const PerfKey key, const TCHAR* value)
-{
+	{
 	size_t strSize;
-
 	if (((int)key > -1) && ((int)key < PerfKeysSize))
-	{
+		{
 		free(perfKeyList[key]);
-		strSize = _tcsclen(value);
-		perfKeyList[key] = malloc(sizeof(TCHAR) * strSize + 1);
-		_tcscpy(perfKeyList[key], value);
-        
-		printf("perfKeyList[ %d ] = '%s'\n", key, perfKeyList[key]);
-    }
+		if (value != NULL)
+			{
+			strSize = _tcsclen(value);
+			perfKeyList[key] = malloc(sizeof(TCHAR) * strSize + 1);
+			_tcscpy(perfKeyList[key], value);
+			}
+		else
+			{
+			perfKeyList[key] = NULL;
+			}
+		//printf("perfKeyList[ %d ] = '%s'\n", key, perfKeyList[key]);
+		}
 	else
-	{
-		printf("Invalid placement for key %d and value %s\n", key, value);
-    }
-}
+		{
+		printf("Invalid placement for key %d; value was '%s'\n", key, value);
+		}
+	}
 
 
 
@@ -1831,4 +1879,3 @@ if (addr != NULL)
 addr->s_addr = htonl(val);
 return (1);
 }
-
