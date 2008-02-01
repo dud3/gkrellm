@@ -1,0 +1,425 @@
+.TH gkrellmd 1 "Oct 24, 2006" "GNU/Linux" "User's Manual"
+
+.SH "NAME"
+gkrellmd \- The GNU Krell Monitors Server
+
+.SH "SYNOPSIS"
+.B gkrellmd
+[
+.B \-\-help
+]
+[
+.B \-\-verbose
+]
+[
+.B \-u
+|
+.B \-\-update-hz
+f
+]
+[
+.B \-m
+|
+.B \-\-max-clients
+N
+]
+[
+.B \-A
+|
+.B \-\-address
+server_address
+]
+[
+.B \-P
+|
+.B \-\-port
+server_port
+]
+[
+.B \-a
+|
+.B \-\-allow-host
+hostname
+]
+[
+.B \-d
+|
+.B \-\-detach
+]
+[
+.B \-p
+|
+.B \-\-plugin
+name
+]
+[
+.B \-pe
+|
+.B \-\-plugin-enable
+name
+]
+[
+.B \-\-plist
+]
+[
+.B \-\-plog
+]
+[
+.B \-U
+|
+.B \-\-user
+username
+]
+[
+.B \-G
+|
+.B \-\-group
+groupname
+]
+[
+.B \-\-pidfile
+path
+]
+[
+.B \-\-inet-interval
+seconds
+]
+[
+.B \-\-io-timeout
+seconds
+]
+[
+.B \-\-reconnect-timeout
+seconds
+]
+[
+.B \-\-mailbox
+mbox_path
+]
+[
+.B \-\-net-timer
+net_interface
+]
+[
+.B \-\-mbmon-port
+number
+]
+
+.SH "DESCRIPTION"
+.PP
+.B gkrellmd
+Listens for connections from
+.B
+gkrellm
+clients.  When a
+.B gkrellm
+client connects to a
+.B gkrellmd
+server all builtin monitors collect
+their data from the server.  However, the
+.B gkrellm
+process is running on the local machine, so
+plugins enabled in
+.B gkrellm
+will collect data from the local
+context unless the plugin is client/server capable and has a
+.B gkrellmd
+plugin counterpart which is installed
+and enabled on the server.  Enabling a
+.B gkrellmd
+plugin installed on a server requires adding a
+.I plugin-enable
+line to a
+.I gkrellmd.conf
+file.
+.PP
+Any command launching from a gkrellm client will run commands
+on the local machine.  If you want to execute commands on the server,
+the client side commands can use ssh.
+.PP
+There is no support for file system mounting on the machine where the
+.B gkrellmd
+server is running.
+
+
+.SH "OPTIONS"
+.TP
+.B \-h \-\-help
+Displays usage information and exits.
+.TP
+.B \-v \-\-version
+Prints
+.B gkrellmd
+version and exits.
+.TP
+.B \-V \-\-verbose
+Prints connection progress.
+.TP
+.B \-u, \-\-update-hz f
+Sets the data update frequency in samples per second for the server.
+This is independent of and should be less than the
+.B
+gkrellm
+client update rate.  The rate can be from 1 to 10 and should be lower
+to minimize network traffic.  A value of not much more than 1/2 the client
+update rate is best where it is not important to minimize network traffic.
+.TP
+.B \-m, \-\-max-clients N
+Sets the maximum number of simultaneous clients allowed to connect
+to the server.
+.TP
+.B \-A, \-\-address server_address
+Use
+.I server_address
+for the network connection.
+.TP
+.B \-P, \-\-port server_port
+Use
+.I server_port
+for the network connection.
+.TP
+.B \-a, \-\-allow-host hostname
+Specify hosts which are allowed to connect.  Multiple
+.I allow-host
+arguments may be given.  If no hosts are specified on the command
+line or in a gkrellmd.conf file, then all
+hosts are allowed to connect.  The
+.I hostname
+argument may be a text name or a IPv4 or IPv6
+dotted notation.  For IPv4, the simple subnet pattern x.y.z.* may be used.
+Also, if
+.I hostname
+is the keyword
+.B ALL
+then all hosts are allowed.  This option is additive and specified hosts
+will be added to the hostnames listed in gkrellmd.conf files unless the
+.I --clear-hosts
+option is given first.
+
+.TP
+.B \-p, \-\-plugin name
+For plugin development convenience, load and enable the command line
+specified plugin
+to avoid repeated install steps in the development cycle.
+See the README from the gkrellm
+.I demo5
+for more information on gkrellmd plugin development.
+Requires at least gkrellmd version 2.2.0.
+.TP
+.B \-pe, \-\-plugin-enable name
+Specify an installed plugin to enable (this is probably more convenient
+to specify in a gkrellmd.conf file).
+Requires at least gkrellmd version 2.2.0.
+
+.TP
+.B \-plist
+Output a list of plugins which are installed and available to enable and exit.
+Requires at least gkrellmd version 2.2.0.
+.TP
+.B \-plog
+Output a log of the plugin install process.  When requesting a log, the
+.I --detach
+option will have no effect.
+Requires at least gkrellmd version 2.2.0.
+
+.TP
+.B \-c, \-\-clear-hosts
+Clears the current list of allowed hosts.  Use this before any
+.I --allow-host
+arguments if you want command line
+allowed hosts to override and not be additive to those specified in
+gkrellmd.conf files.
+.TP
+.B -d, --detach
+Runs gkrellmd in the background and detaches from the terminal.
+.TP
+.B -U, --user username
+Changes user to
+.I username
+after startup.  Useful if you want to run gkrellmd as root, but set
+it to run with another privileges; typically as the
+.I nobody
+user.
+.TP
+.B -G, --group groupname
+Changes group to
+.I groupname
+after startup.
+.TP
+.B --pidfile path
+Create a PID file for the running gkrellmd.  Typically,
+.I path
+would be
+.I /var/run/gkrellmd.pid.
+Default is no PID file.
+.TP
+.B --inet-interval seconds
+The Internet monitor defaults to reading TCP connections once per second.
+However, for Linux SMP kernels where reading /proc/net/tcp causes high
+cpu usage, the
+.I inet-interval
+may be set to 1-20 seconds to slow down
+/proc/net/tcp reads.  Or set it to 0 to totally disable the Internet monitor.
+Requires at least gkrellmd version 2.1.8.
+.TP
+.B --io-timeout seconds
+Configure gkrellm clients to disconnect from a gkrellmd server if
+there is an
+.I io-timeout
+interval where the client receives no input
+from the server.  Use this for conditions where gkrellmd may be
+ungracefully terminated such that socket connections are not closed.
+Minimum is 2 (less than 2 for no I/O disconnecting and is the default).
+Requires at least 2.1.8 versions of both gkrellmd and gkrellm.
+.TP
+.B --reconnect-timeout seconds
+Configure gkrellm clients to attempt automatic reconnects to a
+gkrellmd server every
+.I reconnect-timeout
+seconds after a disconnected
+state is detected.  Disconnected states are created by normal gkrellmd
+shutdowns or by an expiring
+.I io-timeout.
+Minimum is 2 (less than 2 for no automatic reconnecting and is the default).
+Requires at least 2.1.8 versions of both gkrellmd and gkrellm.
+.TP
+.B --mailbox mbox_path
+Check the server side mailbox
+.I mbox_path
+and send mail counts to connected gkrellm clients.  Mailbox types may
+be mbox, Maildir, and MH mail.
+Requires at least 2.1.11 versions of both gkrellmd and gkrellm.
+
+.TP
+.B --net-timer net_interface
+Configure gkrellmd to send the connect time for a network interface
+to all clients to be displayed in the client gkrellm timer button
+monitor display.  If this is done, the client gkrellm timer button can
+still execute commands on the client, but the button will not affect the
+timer display.  If you want the client timer button to execute commands
+on the server, your timer button commands can use ssh.
+So set this if your server box has say a ppp0 or ippp0 connection and you
+want to monitor its connect time.
+Requires at least 2.2.7 versions of both gkrellmd and gkrellm.
+
+.TP
+.B --mbmon-port port_number
+If the mbmon daemon is running when gkrellmd is started, gkrellmd will
+connect to mbmon using the given port_number and send mbmon sensor data to
+connected gkrellm clients.  The mbmon daemon should have been started
+using the same port number like so:
+.B mbmon -r -P port_number
+
+
+.SH "EXAMPLE"
+.PP
+On the server machine where gkrellmd is installed, copy the sample
+.I gkrellmd.conf
+file from the
+.I server
+subdirectory of the
+.B gkrellm
+source tarball to one of the
+.I gkrellmd.conf
+locations listed in the
+.B FILES
+section and edit it to set your preferences or to enable plugins.  Probably
+don't set the
+.I detached
+option until you are happy with the configuration.  Run:
+.B gkrellmd
+.PP
+On a client machine, run:
+.B gkrellm -s server-machine-name
+.PP
+Configure the client gkrellm in its graphical configuration window as
+you wish, and that's all there is
+to it.  Of course, if you don't use the default
+.B gkrellmd
+.I port
+number you will have to supply an appropriate
+.I port
+argument to the client
+.B gkrellm.
+.PP
+Available plugins will be installed in the
+.I plugins-gkrellmd
+directory locations listed in the
+.B FILES
+section.  You may test enable any of these plugins with the
+.I -pe
+option, but for permanent enabling you should add a
+.I plugin-enable
+line to any
+.I gkrellmd.conf
+file listed in the
+.B FILES
+section.  Run
+.B gkrellmd -plist
+to see a list of all installed plugins and run
+.B gkrellmd -plog
+to see a log of the plugin install process.
+
+.SH "FILES"
+.TP
+.I /etc/gkrellmd.conf
+System server config which is read first.
+The config file may contain lines similar to the command line args.
+For example:
+.RS
+.TP
+.B
+allow-host localhost
+.TP
+.B
+allow-host 127.0.0.1
+.TP
+.B
+allow-host 192.168.0.*
+.TP
+.B
+port 19150
+.TP
+.B
+max-clients 2
+.TP
+.B
+update-hz 2
+.TP
+.B detach
+.TP
+.B io-timeout 5
+.TP
+.B reconnect-timeout 5
+.TP
+.B plugin-enable gkrelltopd
+
+.PP
+With the exception of
+.I --allow-host,
+command line args will override options in gkrellmd.conf files.
+
+.RE
+.TP
+.I /usr/local/etc/gkrellmd.conf
+Local server config file which is read second.
+.TP
+.I ~/.gkrellmd.conf
+User server config file which is read last.
+.TP
+.I ~/.gkrellm2/plugins-gkrellmd
+User server plugin directory.
+.TP
+.I /usr/lib/gkrellm2/plugins-gkrellmd
+System wide server plugin directory.
+.TP
+.I /usr/local/lib/gkrellm2/plugins-gkrellmd
+Local server plugin directory.
+
+
+.PP
+
+.SH "AUTHOR"
+
+Bill Wilson <billw@gkrellm.net>.
+http://www.gkrellm.net/

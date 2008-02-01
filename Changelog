@@ -1,0 +1,1818 @@
+GKrellM Changelog
+-----------------
+2.3.1 - Sun Dec 2, 2007
+------------------------
+	* Clock/Calendar monitor rewritten to use user configurable display
+	  format strings containing strftime conversion characters and
+	  Pango text attribute markup strings.
+	* Hans de Goede patch: add new to be released libsensors4 interface to
+	  linux sensors.
+	* Martijn Ras patch: -A option to bind gkrellmd to a specific interface.
+	* Include UDP connections in the Linux inet monitor.
+	* Bugfixes
+	  o Ville Skytta patch: add gcrypt.h for mail monitor gnutls support.
+	  o Add test for "charged" when checking linux battery charging state.
+	  o Stop pumping extra "float_factor" lines into user-config.
+	  o Add omitted substition variables: $L for disk, $H for some others.
+	  o make fs monitor panels adjust height according to changes in text
+	    extents with panel format string Pango markup changes (and fs
+	    labels can now use markup).
+	* Translation updates
+	  o de.po from Steffen Weise
+	  o fr.po from Jerome UZEL
+	  o pl.po from Michal Smoczyk
+
+2.3.0 - Fri Jul 20, 2007
+------------------------
+	* Upgrade to GPLv3
+	* Jindrich Makovicka patch: mail check for Sylpheed .claws_mark mark file.
+	* Stefan Gehn large set of patches for Windows:
+	    1) Makefiles updated for Windows 2000/XP builds under MinGW/MSYS.
+	       Drop win9x support.
+	    2) Add support: SpeedFan sensors, tcp port stats for the Inet monitor,
+	       theme transparency, 
+	    3) Add Vista detection, but running under Vista needs testing.
+	    4) Improve the plugin interface.  Added static libgkrellm.a for easier
+	       plugin porting.  New files: src/win32-libgkrellm.c,
+	       src/win32-plugin.c server/win32-gui.c  server/win32-gui.h 
+	       server/win32-libgkrellmd.c server/win32-plugin.c
+	       server/win32-plugin.h.
+	       Pass callback pointer to win32 gkrellmd plugins.
+	    5) Various #ifdef WIN32 unix/windows compatibility cleanups, new
+	       gkrellmd_get_timer_ticks() and gkrellmd_ticks() functions, trayicon
+	       handling.
+	* Michal Nazarewicz patch: preserve config of disabled monitors.
+	* Anthony Mallet patches:
+	    1) Add NetBSD ACPI battery monitor support.
+	    2) Collection of NetBSD pkgsrc port patches: Disk monitor API changes,
+	       DragonFLY OS support, 64 bit compile cleanups.
+	* Will Simoneau patch: look for linux I2O disks.
+	* Don't save config for disabled non-existing net interfaces.
+	* Add memory monitor raw free and raw used panel variables.
+	* Plugin interface to export strings (data) for panel/chart labels.
+	  Net monitor updated to check for exports.
+	* Linux nvidia GPU option to use nvclock when nvidia-settings fails.
+	* Translation updates
+	  o de.po from Steffen Weise
+	  o fr.po from Jerome UZEL
+	* Bugfixes
+	  o Add SubstructureRedirectMask in net_wm_state().
+	  o gkrellmd documentation: fix gkrellmd.1 typos, add missing pidfile.
+	  o Read of inet update_interval from config failed.
+	  o Negative sensor factors weren't saved in the config.
+	  o Linux sensors:
+	    1) handle libsensors via686a 2.0V voltage label style.
+	    2) Read temps from multiple nVidia gpu cores.
+	  o Linux.c 64 bit compile warnings.
+
+2.2.10 - Thu Oct 26, 2006
+-------------------------
+	* Hans de Goede patches: 1) handle sysfs sensors which represent themselves
+	  as platform drivers (/sys/class/hwmon). 2) Add a libsensors sensor
+	  monitor interface which will be used preferentially over sysfs if
+	  libsensors is installed and sensors_init() on /etc/sensors.conf succeeds.
+	* Add --without-libsensors command line option to force using /sysfs
+	  instead of libsensors for cases when running a new Linux sensor kernel
+	  module that is not yet supported by libsensors.  A fallback to /sysfs is
+	  automatic when libsensors detects zero sensors.
+	* Linux sensor config names change with migration to libsensors, so attempt
+	  to automatically do a conversion so user won't have to redo sensor
+	  config.  But this doesn't handle client/server runs so for these
+	  sensor configs must be redone.
+	* Michael Buesch patch: Add PowerMac G5 Windfarm sensor monitor interface.
+	* David G. North patch: Add content length check to mbox mail checking to
+	  get good mail counts even if there's a mal-formed mime content package.
+	* New Translation
+	  o pt_BR.po from Insigne Free Software (traducao--at--insignelinux.org)
+	* Translation updates
+	  o de.po
+	  o it.po from Vincenzo Reale
+	* Bugfixes
+	  o Christian Schmidt patch: add -pci- to sensor config compatibility fix.
+	  o gkrellmd plugins didn't get initial update data.
+	  o Don't limit mbmon detection to i386 architectures.
+	  o Flush gtk events pending between closing and moving gkrellm so
+	    window managers can get width updates before the move.
+	  o Fix warnings from newer gcc.
+
+2.2.9 - Fri Mar 31, 2006
+------------------------
+	* Bugfixes
+	  o Segfault if select config Builtins->Battery with no batteries present.
+
+
+2.2.8 - Thu Mar 30, 2006
+------------------------
+	* Add battery monitor option to use percent capacity remaining for alerts.
+	* Filippo Giunchedi linux.c patch: make sensor code able to read
+	  apple/pmu's sysfs based sensors.
+	* Jindrich Makovicka linux.c patch: subtract the memory allocated to
+	  slabs from the used memory and add it to the cached value instead.
+	* Put multiple instances lock files in /var/lock.
+	* Bugfixes:
+	  o Fix gkrellm_125_sequence() off by a bit here and there.
+	  o Invalidate chart text runs when chart height changed.
+	  o mbmon sensors decimal point char can be different from current locale.
+	  o Read linux cpu stats from /proc/stat as 64 bits.
+	  o Segfault on editing disk chart format string after disabling a disk.
+	  o gkrellmd -plog segfaulted if no plugins are installed.
+	  o Don't NULL serve_name prior to each gkrellmd plugin serve_data call.
+	  o Use a per client input_func in gkrellmd_client_read().
+	* Translation updates
+	  o bg.po new Bulgarian translation by Vasko Vasilev.
+	  o es.po from Cristian Othon Martinez Vera
+	  o ru.po from Vitaly Lipatov
+
+
+2.2.7 - Tue May 24, 2005
+------------------------
+	* gkrellmd can send a network interface connect time to be displayed
+	  on client timer button panels by configuring a net-timer in gkrellmd.conf.
+	* Don't add virtual disk (/dev/mdX) stats to composite disk.
+	* Bugfixes:
+	  o server/main.c inet6 compile error on machines with old libc.
+	  o Philipp Hartmann patch: add gnutls multithread initialization to mail.c
+	  o While mixing draw_decal_text and decal_scroll_text calls on transparent
+	    panels the text layer pixmap was not cleanup up properly.
+	* Translation updates
+	  o de.po
+
+2.2.6 - Fri May 13, 2005
+------------------------
+	* Samuel Mimram patch: preferentially link to gnutls over openssl to avoid
+	  GPL license compatibility issue.
+	* Stanislav Likavcan patch: add monitoring of ibm acpi sensors to linux.c.
+	* UI improvement in fs.c and mail.c config button sensitivities and labels.
+	* Bugfixes:
+	  o Test for not force creating user mailbox did not consider a configured
+	    mail fetch.
+	  o gkrellmd server mail check was missing the gkrellmd_need_serve() call
+	    and server/mail.c mailbox code needed syncing with src/mail.c.
+	  o gkrellmd glib 1.2 g_file_test compatibility was broken.
+	  o gkrellmd debug-level option was missing.
+	  o Darwin Makefile: add HAVE_GETADDRINFO=1
+	  o Don Bostrom patch: when remote mail checking, handle select() EINTR.
+	  o Charles Bailey patches:
+	    1) darwin.c and Makefile tweaks for building on OS X 10.3.8.
+	    2) darwin.c prevent left bit sign extension when shifting memory
+	       monitor data.
+	  o Don't read disabled sensors in the sensors thread.
+	* Translation updates
+	  o fr.po from Jerome UZEL
+	  o it.po from Massimo Maiurana
+	  o ja.po from Takeshi AIHANA
+
+2.2.5 - Sun Mar 20, 2005
+------------------------
+	* Sensor monitor can read data from "mbmon -r -P port" daemon.
+	  mbmon and hddtemp daemon sensor monitor code moved to
+	  sysdeps/sensors-common.c to be available to all operating systems.
+	* Hajimu Umemoto patch: added FreeBSD mbmon support.  Added general socket
+	  connection gkrellm_connect_to() function and cleaned up mail.c,
+	  client.c and sensors-common.c to use it.
+	* Add api for gkrellmd plugins to have gkrellmd.conf config items.
+	  Gkrellmd plugins can read data sent from their gkrellm client plugins.
+	* Keep history of daily, weekly & monthly net receive/transmit statistics.
+	* Tom Felker patch: add to Linux sensors nVidia video card temperature
+	  reading via the nvidia-settings command.
+	* Hajimu Umemoto patch: make gkrellmd support standard CIDR notation
+	  for both IPv4 and IPv6 allow-hosts.
+	* Jiri Denemark patch: while charging, battery display shows time to
+	  full charge instead of discharge time left.  Make launcher work for
+	  all battery panels in case batteries are removed.
+	* Try to make sensor labels fit better by using <small> markup.
+	* Added option for mail fetch/check program to run at local check interval.
+	* Bugfixes:
+	  o Jason Greene: IMAP patch fixes handling of status responses which
+	    contain literals.
+	  o Accumulate partial gkrellmd server lines.
+	  o Put minor mod numbers in Linux disk table to get c0d1, cc0d1, etc.
+	  o Segfault when rebuilding gkrellm if temp displayed on a disk panel.
+	  o Kim Bruning patch: display "no bat" if buggy APM flags don't flag
+	    when to hide batttery panel.
+	* Translation updates
+	  o cs.po from Pav Lucistnik
+	  o da.po from Chris Larsen
+
+2.2.4 - Mon Sep 6, 2004
+-----------------------
+	* 2.2.3 used a Gtk 2.4 function and did not compile under Gtk 2.2, so
+	  added GTK_CHECK_VERSION.
+	* Jerome UZEL got a patch in to account for deleted email in
+	  Evolution mailboxes.
+
+2.2.3 - Mon Sep 6, 2004
+-----------------------
+	* On SMP machines, allow sensors to be relocated to composite CPU panel.
+	* Alan Swanson: icon patch to give GKrellM and its configuration windows
+	  an icon for task switching.
+	* Bugfixes:
+	  o Christophe Barbe: fix mail.c X-Evolution flag decoding to use
+	    proper "seen" bit for determining new/old email.
+	  o Henrik Brix Andersen: use gtk_window_get_size() when calculating
+	    _NET_WM_STRUT size so strut space can be resized when shutting gkrellm.
+	  o Don't save new y_positions that are y packed and not user set (eg
+	    preserve user positon when opening fs secondaries for > 10 seconds).
+	  o Don't nest static function declarations inside of functions to fix
+	    upcoming gcc 3.5 compile errors - from Art Haas.
+	  o Sensor location menu wasn't recreated after the first config opening.
+
+2.2.2 Fri Jul 16, 2004
+----------------------
+	* Added some theme gkrellmrc variables, see Themes changelog.
+	* Bugfixes:
+	  o Client mode seconds display had a sampling beat effect which caused
+	    a second to be periodically skipped.
+	  o Craig Boston <craig--at--fopye.gank.org> fix pixbuf memory leak in
+	    gkrellm_decal_scroll_text_set_internal().
+
+2.2.1 - Thu Jun 3, 2004
+-----------------------
+	* Added markup text decal functions, see plugins changelog.
+	* Use <small> markup in system name if it doesn't fit.
+	* Try to trap out GdkFont font configs from < 2.2.0 versions.
+	* Translation updates
+	  o de.po
+	  o fr.po from Jerome UZEL
+
+2.2.0 - Sat May 15, 2004
+------------------------
+	* Replace GdkFont text drawing with Pango.
+	* Add plugin capability to the gkrellmd server. Wrote demo5 plugin as a
+	  tutorial on a client/server capable plugin.
+	* Minimize Pango drawing to get CPU usage down:
+	  1) Draw chart text on a caching text layer.
+	  2) Add a "scroll text" api to text decals where a Pango string is
+	     drawn on a pixmap which can be srolled by setting the decal offset.
+	  See the plugins and themes changelog for more info.
+	* linux.c reads temperatures from the hddtemp daemon so disk temperature
+	  display can be consistent with other sensors (and detected by gkrellmd).
+	* Hajimu Umemoto: glib12 server Makefile, use `glib-config --libs glib
+	  gmodule and initialize text extent in clock.c
+	* Sjoerd Simons: set the _NET_WM_STRUT property when dock type.
+	* Defer setting withdrawn state until after main window realize.
+
+
+
+--------------------------------------------------------------------------
+
+
+2.1.28 - Fri Mar 5, 2004
+-------------------------
+	* Bugfixes:
+	  o Stephan Kapfinger <s.kapfinger--at--gmx.de> mail.c patch fixes bug
+	      I introduced into the last release where parsing of mail launch
+	      commands could fail.
+
+2.1.27 - Sat Feb 28, 2004
+-------------------------
+	* Handle changing sysfs sensor name format from xxx_inputN to xxxN_input.
+	* Patches:
+	  o Kurt V. Hindenburg <khindenburg--at--cherrynebula.net> Consider only
+	    .so, .la, and .dll files during plugin scan (avoid Gentoo .keep
+	    ebuild files).
+	* Bugfixes:
+	  o Use g_spawn_async_with_pipes() instead of popen() in mail.c so gkrellm
+	    file descriptors won't be open in the mail monitor launched MUA.
+
+2.1.26 - Mon Feb 23, 2004
+-------------------------
+	* Patches:
+	  o Frederick Bruckman <fredb--at--immanent.net> detect multiple CPUs
+	    on NetBSD.
+	* Bugfixes:
+	  o Andreas Liebe <liebe--at--hrz.tu-darmstadt.de> patch to solaris.c
+	    prevents running out of fds on some SPARC servers.
+	  o CPU and Net stats from 64 bit gkrellmd server overflowed on a 32
+	    bit client.
+	  o Changed Linux sysfs sensor temperature factor from 100 to 1000.
+	    Those running Linux kernels >= 2.6.2 should now only need gkrellm
+	    config temperature factors of 1.0.  But those still running kernels
+	    <= 2.6.1 may still need factor of 10 gkrellm config adjustments.
+	  o $d should be %d typo in cs.po
+
+
+2.1.25 - Tue Jan 20, 2004
+-------------------------
+	* Hajimu UMEMOTO upgrades to the mail monitor:
+	  o Added a STARTTLS option for SSL mail checking.
+	  o Added NTLM authentication options for IMAP and POP3 and the required
+	    SMP crypto functions in files ntlm.h and smb*.[ch] (these functions
+	    are from fetchmail-6.2.5).
+	  o Organized a separate protocol and authentication mechanism structure
+	    to facilitate adding future authentication types.
+	* Bugfixes:
+	  o lock out using initial bogus window positions from configure event to
+	    avoid startup position errors.
+	  o Matti Rendahl <matti--at--comedialabs.com> patch fixes uninitialized
+	    MemShared variable which doesn't exist in Linux 2.6 /proc/meminfo.
+	  o FS displayed "used" blocks/percentage should be function of b_free and
+	    not b_avail to be consistent with df command.  Change arg types of
+	    gkrellm_fs_assign_fsusage_data() from gulong to glong as is in statfs()
+	    so can display negative BSD b_avail values (like the BSD df command).
+	  o Linux ACPI battery got confused on spurious kernel buggy remaining
+	    capacity readings that were greater than full capacity.
+	  o In client mode check for sysname changes at server reconnects in case
+	    server was rebooted with different kernel.
+	* Translation updates
+	  o ja.po from Takeshi AIHANA <aihana--at--jcom.home.ne.jp>
+	  o nl.po from Daniel van Eeden <daniel_e--at--dds.nl>
+	  o ru.po from Grigory Batalov <bga--at--altlinux.ru>
+	  o sl.po from Simon Cahuk <simon.cahuk--at--uni-mb.si>
+
+2.1.24 - Fri Dec 19, 2003
+-------------------------
+	* Patches:
+	  o Hajimu UMEMOTO, defer the mail check SSL initialization until after
+	    establishing connection to reduce CPU usage when offline.
+	* Bugfixes:
+	  o Hajimu UMEMOTO & Peter Hessler worked out OpenBSD md5.h compile issue.
+	  o Sjoerd Simons <sjoerd@air.luon.net> detect Linux sysfs lm75
+	    temperature files that don't end in a digit.
+	* Translation updates
+	  o de.po
+
+2.1.23 - Wed Dec 17, 2003
+-------------------------
+	* Hajimu UMEMOTO patch fixes mail check SSL implementation issues.  Now
+	  SSL is a connection protocol which can be selected for all remote mail
+	  authorization types so there can be IMAP over SSL, POP3 over SSL, etc.
+	  Also fixes broken md5 compiles and missing -l crypto.
+	* Patches:
+	  o Peter Hessler <phessler--at--theapt.org> some OpenBSD compile fixes
+	    for 64 bit reliability (use size_t) and enable battery on PPC.
+	* Translation updates
+	  o fr.po from Jerome UZEL <jerome.uzel--at--wanadoo.fr>
+	* Bugfixes:
+		o Don't load a plugin's .so if it has a .la libtool archive.
+
+2.1.22 - Fri Dec 12, 2003
+-------------------------
+	* On segfault, FPE, or abort, try to print which monitor is active.
+	* src/Makefile runs a configure script.  Script checks for ssl libs.
+	* Patches:
+	  o Samuel Mimram <samuel.mimram--at--ens-lyon.fr>
+	    Added builtin imaps support so there can be imap over ssl mail
+	    checking without using stunnel.
+	  o Ben Hines darwin Makefile fixes.
+	  o Bill Nalen Windows files.  Updates the plugin functions and adds
+	    -geometry option to Windows.
+	* Bugfixes:
+	  o Fix omission of check_func in the alert plugin interface.
+	* Translation updates
+	  o cs.po from Pav Lucistnik <pav--at--oook.cz>
+
+
+2.1.21 - Mon Oct 13, 2003
+-------------------------
+	* F2 key pops up main menu.
+	* Patches:
+	  o Frederick Bruckman <fredb--at--immanent.net> NetBSD Makefile changes
+	    so there's now "make netbsd1" and "make netbsd2" targets where netbsd2
+	    is to be used for NetBSD-1.6N and greater.  Further Makefile NetBSD
+	    changes: set the run path for -lSM and -lICE, don't setgid kvm,
+	    add -pthread for netbsd2, fix default manpath.
+	* Bugfixes:
+	  o Use username instead of userid in session management userid property.
+	    Fixes no session restarts in KDE 3.1.4.
+	  o My 2.1.20 Linux sensor changes broke temperature reads from /proc/acpi.
+	  o Charly Baker <cmb--at--fivefortyfour.com> make "unseen is new" option
+	    work with maildir checks.
+	  o Quentin Garnier <cube--at--cubidou.net> netbsd.c compile fix.
+	  o Add .gz to gkrellm.spec man files.
+	* Translation updates
+	  o de.po update
+
+
+2.1.20 - Tue Oct 7, 2003
+------------------------
+	* Linux: handle 2.6.0-test6 sysfs sensors "name" file format change.
+	  Change trying to map sysfs sensor names to be lm_sensor compatible to
+	  mapping lm_sensor names to be sysfs compatible.  So, 2.1.20 sensor-config
+	  file is not backwards compatible.
+	* Patches:
+	  o Hajimu UMEMOTO <ume--at--mahoroba.org> update FreeBSD battery error
+	    handling to recent ACPI changes in FreeBSD 5-CURRENT.
+	  o William H. Haller <bill--at--awmach.org> change $cN and $CN inet vars
+	    when in chart hour mode to show prior N hour instead of N minute hits.
+	  o Carlo Wood <carlo--at--alinoe.com> fix man install in spec file.
+	  o Frederick Bruckman <fredb--at--immanent.net> had a gkrellm 1.2.13
+	    NetBSD version >= 106110000 patch to add handling disk write bytes
+	    and I adapted it to gkrellm2.
+	* Bugfixes:
+	  o Solaris memory and swap size overflows.
+	  o Make -nc really not allow any configuration.
+	* Translation updates
+	  o fr.po from Jerome UZEL <jerome.uzel--at--wanadoo.fr> with contrib from
+	    Frederic <fbothamy--at--mail.dotcom.fr>
+
+2.1.19 - Fri Sep 12, 2003
+-------------------------
+	* Bugfixes
+	  o Fix broken gkrellmd server compiles using glib12.
+	* Translation updates
+	  o pl.po from Przemyslaw Sulek <pbs--at--linux.net.pl>
+
+2.1.18 - Thu Sep 11, 2003
+-------------------------
+	* Umm, also look for temperatures in /proc/acpi/thermal/
+
+2.1.17 - Thu Sep 11, 2003
+-------------------------
+	* Linux sensor monitor reads /proc/acpi/thermal_zone temperatures.
+	* Added uninstall target to Makefiles.
+	* Bugfixes:
+	  o Alan Swanson <swanson--at--uklinux.net> patch: register the previous
+	    session id with the session manager to avoid session manager startup
+	    hangs.  Also register the optional PID for sessions.
+	  o Config keywords could collide if one was a substring of the other.
+	* Translation updates
+	  o de.po update
+	  o fr.po from Jerome UZEL <jerome.uzel--at--wanadoo.fr>
+	  o ja.po from Takeshi AIHANA <aihana--at--jcom.home.ne.jp>
+	  o pl.po from Przemyslaw Sulek <pbs--at--linux.net.pl>
+
+2.1.16 - Wed Aug 20, 2003
+-------------------------
+	* Look for themes: /usr/share/themes/{THEME_NAME}/gkrellm2 and
+	  ~/.themes/{THEME_NAME}/gkrellm2.  Make gtk2 theme tracking work with
+	  a default theme fallback when a gtk2 matching gkrellm theme is not found.
+	* Add disks from the config only if enabled so stale disks (from hardware
+	  or partition changes) won't persist in the config.
+	* Added plugin API to the alerts amd removed gvoice plugin specific code
+	  from alerts.c (a gkrellm2 port of it can use this new API).
+	* Get swapping data from /proc/vmstat for Linux 2.6 kernels.
+	* Battery monitor handles composite battery if reported by sysdep code.
+	  Set each battery alert from a single master battery alert.
+	* Patches
+	  o Hajimu UMEMOTO <ume--at--mahoroba.org> patches to:
+	    - Add reporting of composite and each FreeBSD APM batteries.
+	    - Re-add support for FreeBSD LM78/LM79 sensors.
+	    - Correct AI_PASSIVE reference to be conditional on HAVE_GETADDRINFO.
+	* Bugfixes:
+	  o Rens Houben <shadur--at--systemec.nl> put IMAP folder names in quotes.
+	* Translation updates
+	  o it.po from Massimo Maiurana <maiurana--at--inwind.it>.
+
+2.1.15 - Wed Jul 30, 2003
+-------------------------
+	* Avoid some config breakage should the locale change:
+	  o Don't write translated "Disk" into the config.
+	  o Scale config saving/loading of floats to avoid writing decimal points.
+	  After initializing from user_config and sensors_config, start using
+	  new config file names user-config and sensor-config since the config is
+	  now not backwards compatible.
+	* Get disk data from /proc/diskstats on kernels >= 2.6.0
+	* Patches:
+	  o Daniel Eckl <daniel.eckl--at--gmx.de> gkrellm.spec locale fixes.
+	  o Tilman Sauerbeck <tilman--at--code-monkey.de> add to gkrellm.pc a
+	    "prefix" variable containing the prefix gkrellm is installed in.
+		So plugins can get an install dir to match gkrellm's install with:
+	         DIR = `pkg-config gkrellm --variable=prefix`/lib
+	* Bugfixes:
+	  o net timer hours would delay zeroing at timer resets if minutes were 00.
+	  o Sensor and battery substitution variables were not documented.
+	  o Grigory Batalov <bga-at--altlinux.ru> convert utf8 "mute" string in
+	    mail.c to the locale for displaying.
+	  o Fix my misinterpretation of fan_div and leave fan factors at 1.0.
+	  o Let imap folder names have spaces.
+	  o CPU alerts worked only on SMP systems.
+	* Translation updates
+	  o da.po from Chris Larsen <darth--at--vader.dk> (new Danish translation).
+	  o cs.po from Pav Lucistnik <pav--at--oook.cz>
+	  o de.po update
+	  o es.po from Cristian Othon Martinez Vera <cfuga--at--itam.mx>
+	  o fr.po from Jerome UZEL <jerome.uzel--at--wanadoo.fr>
+	  o ja.po from Takeshi AIHANA <aihana--at--jcom.home.ne.jp>
+	  o pl.po from Przemyslaw Sulek <pbs--at--linux.net.pl>
+	  o sl.po from Simon Cahuk <simon.cahuk--at--uni-mb.si>
+
+2.1.14 - Tue Jun 24, 2003
+-------------------------
+	* Bugfixes
+	  o Buffer overflow in gkrellmd_client_read().
+	  o Andrey Borzenkov <arvidjaar--at--mail.ru> patch makes stays on top
+	    option additionally set _NET_WM_STATE_STAYS_ON_TOP property for older
+	    window managers that don't recognize _NET_WM_STATE_ABOVE.
+	  o gkrellmd uname() usage did not handle Solaris success return value.
+
+2.1.13 - Tue Jun 17, 2003
+-------------------------
+	* Makefile can use DESTDIR and/or PREFIX if INSTALLROOT is not specified.
+	* Patches:
+	  o Andrey Borzenkov <arvidjaar--at--mail.ru> update linux.c to handle
+	    2.5 kernel sysfs support of sensors - adds sysfs_sensors_init(),
+	    sysfs_get_sensor(), and sysfs_get_chip_name().  Also adds usbfs to
+	    fs types to ignore.
+	  o Hajimu UMEMOTO <ume--at--mahoroba.org> gkrellmd workaround for listen()
+	    returning EADDRINUSE problem on some machines that are both IPv6 and
+	    IPv4 enabled.
+	  o Ville Skytta <ville.skytta-at--iki.fi> clean up of documentation typos.
+	  o Henrik Brix Andersen <brix--at--gimp.org> fix gkrellm.spec.
+	* Bugfixes
+	  o "make install" creates all install directories.
+	  o Some NetBSD compile errors.
+	  o Missing OpenBSD target in gkrellmd dir.
+	  o Some off by 1 sscanf() field widths.
+	* Translation updates
+	  o pl.po from Przemyslaw Sulek <pbs--at--linux.net.pl>
+
+
+2.1.12 Mon Jun 2, 2003
+----------------------
+	* The 2.1.12a tarball has no code changes, only a patch from
+	  Hajimu UMEMOTO to fix the Makefile to install gkrellm.pc for all
+	  install targets.  It also adds a install_freebsd target and makes
+	  some Makefile variables configurable.
+	* Replace the hours old  2.1.11 to fix a potential segfault if making
+	  a gkrellmd pidfile fails.
+	* Two display modes (selected with a panel button) for system name when it
+	  doesn't fit: 1) shortened name 2) vertical scroll of kernel name/version.
+	* Edge resistance to make it easy to move gkrellm to screen edges.
+	* gkrellmd can send server side local mailbox counts to gkrellm clients.
+	  This is oonfigured in gkrellmd and not on the gkrellm client side.
+	* Preserve '~' when entered in a local mailbox config.
+	* Allow simple x.y.z.* as a subnet pattern for gkrellmd allow-host option.
+	* Periodic saving of net data.
+	* Some new plugin functions - see plugins changelog.
+	* Patches:
+	  o Tilman Sauerbeck <tilman--at--code-monkey.de> Makefile generates and
+	    installs a gkrellm.pc file so plugins can use `pkg-config gkrellm`.
+	  o Vincent Bernat <bernat--at--free.fr> set SO_REUSEADDR on gkrellmd
+	    sockets so gkrellmd can be restarted without delays.
+	  o Kacper Kornet <kornet--at--camk.edu.pl> make gkrellmd disable reading
+	    nfs file system data if nfs-interval is set to zero.
+	* Bugfixes:
+	  o Scale borders of theme images instead of zeroing them if border extents
+	    are greater than image dimensions (avoids breaking some themes).
+	  o gkrellmd nfs file system stats weren't always served.
+	  o Re-render nice data pixmap at cpu chart height changes.
+	  o Draw memory krells in the right order so themes can have an xosview
+	    style multi-colored bar for memory usage.
+
+2.1.10 Sat Apr 26, 2003
+-----------------------
+	* Added INSTALLROOT to Makefile, see INSTALL file.
+	* Punt on _NET_WM_STATE and send the messages on the map event, so
+	  set_wm_state_hack effect is now assumed by default.
+	* Patches:
+	  o Valdis Kletnieks <Valdis.Kletnieks--at--vt.edu>  Account for Linux 2.5
+	    kernel's new /proc/stat field 'iowait' in CPU time calculation.
+	* Bugfixes:
+	  o Set WM_CLASS of all dialogs.
+	  o Make gkrellmd pidfile after detaching.
+
+2.1.9 Sat Apr 5, 2003
+---------------------
+	* Chart auto grid resolution mode now auto recalibrates unless the
+	  "Auto mode sticks at peak value" is set.  See the README for updated
+	  description of chart auto combinations.
+	* Added $cN and $CN variables to inet chart format strings for total
+	  connections over last N minutes (N <= chart width).
+	* Net transfer stats kept for current day, week, and month.  Displayable on
+	  charts using substitution vars; or chart button summarizes in a pop up.
+	  If there's a timed net, connect times also displayed in its pop up.
+	* gkrellmd server disconnect alert has a user config for an alarm command.
+	* gkrellmd --pidfile option.
+	* gkrellmd serves data for multiple batteries.
+	* hide battery panels if batteries not present.
+	* Don't gkrellm lock if lockf() fails for errors other than EAGAIN.
+	  Option --nolock is another way to disable locking.
+	* Patches:
+	  o Hajimu UMEMOTO <ume--at--mahoroba.org> devstat api fix for latest
+	    FreeBSD 5-CURRENT.
+	  o Tilman Sauerbeck <tilman--at--code-monkey.de> two new gkrellm piximage
+	    functions (listed in plugins changelog) to handle inline GdkPixbuf.
+	  o Darren Marshall <darren--at--marshall.nildram.co.uk> Windows fs fix.
+	  o Bill Nalen <nalenb--at--towers.com> Windows plugin function updates.
+	* Bugfixes:
+	  o Overflow fix when computing chart y coords for large data values.
+	  o Serve gkrellmd fs data to _all_ clients.
+	  o de-transpose int/pointer type args to gtk_tree_store_new() in gui.c.
+	    (caused config segfaults where sizeof(int) < sizeof(pointer))
+	  o Make all config windows set WM_CLASS to Gkrellm_conf.
+	  o Yuri Arapov <yuri.arapov--at--sctest.vrn.ru> added missing fclose()
+	    to mh_sequences_new_count().
+	* Translation updates
+	  o cs.po from Pav Lucistnik <pav--at--oook.cz>
+	  o de.po translation update
+	  o es.po from Cristian Othon Martinez Vera <cfuga--at--itam.mx>
+	  o fr.po from Jerome UZEL <jerome.uzel--at--wanadoo.fr>
+	  o it.po from Massimo Maiurana <maiurana--at--inwind.it>.
+	  o ja.po from Takeshi AIHANA <aihana--at--jcom.home.ne.jp>
+	  o nl.po from Daniel van Eeden <daniel_e--at--dds.nl>
+	  o pl.po from Przemyslaw Sulek <pbs--at--linux.net.pl>
+	  o ru.po from Grigory Batalov <bga--at--altlinux.ru>
+	  o sl.po from Simon Cahuk <simon.cahuk--at--uni-mb.si>
+
+2.1.8 Wed Mar 12, 2003
+----------------------
+	* Added many alerts:  cpu, load, disk, net, file system, memory, and swap.
+	  Some of these can have the alert trigger delayed for an interval during
+	  which triggering conditions must exist.
+	* Added some new alert functions - see the plugins changelog.
+	* New gkrellmd.conf options:
+	  o io-timeout and reconnect-timeout for automatic gkrellm reconnections
+	    to gkrellmd servers. See gkrellmd.conf or "man gkrellmd".
+	  o inet-interval so Linux reads of /proc/net/tcp can be slowed down.
+	    For Linux SMP machines which have a strange feature where a single read
+	    of /proc/net/tcp can for example take 0.7 seconds.
+	* Made allow multiple instances configurable in the GUI.  And added a
+	  Display name component to the lock file when no multiple instances.
+	* Warn if incompatible -w flag and window dock type option is set.
+	* Fix battery acpi to handle some variations: files named "status" instead
+	  of "state", and capitalized field descriptions.
+	* Hajimu UMEMOTO <ume--at--mahoroba.org> patch handles some definitions
+	  which were moved from dkstat.h to resource.h under FreeBSD 5-CURRENT.
+	* Ben Hines <bhines--at--alumni.ucsd.edu> Darwin Makefile link flag
+	  changes adds bind_at_load and prebind for faster launching.
+	* Translation updates
+	  o nl.po from Daniel van Eeden <daniel_e--at--dds.nl> (new translation).
+	  o cs.po from Pav Lucistnik <pav--at--oook.cz>.
+	  o de.po translation update.
+	  o es.po from Cristian Othon Martinez Vera <cfuga--at--itam.mx>.
+	  o fr.po from Jerome UZEL <jerome.uzel--at--wanadoo.fr>.  Added in to make
+	    the 2.1.8a tarball.  I left it out of 2.1.8 because of an email mixup.
+	  o it.po from Massimo Maiurana <maiurana--at--inwind.it>.
+	  o ja.po from Takeshi AIHANA <aihana--at--jcom.home.ne.jp>.
+	  o pl.po from Przemyslaw Sulek <pbs--at--linux.net.pl>.
+	  o ru.po from Grigory Batalov <bga--at--altlinux.ru>.
+	  o sv.po from Christian Rose <menthos--at--menthos.com>
+	* Bugfixes
+	  o Christopher Hassell <jeezfrk--at--pobox.com> patch stops some segfaults
+	    by making disk_assign_data() really not reference NULL disks.
+	  o Brian Almeida <bma--at--tux.org> fix to check chart format strings
+	    for NULL to stop some segfaults (it happens when g_locale_from_utf8()
+	    cannot convert a utf8 string to the current locale so this may also
+	    be a user font problem).
+	  o Patrik Modesto <mody--at--atlas.cz> patch changes fopen() to open()
+	    in Linux gkrellm_sys_net_isdn_online().  Beats me why fopen()
+	    wasn't working.
+
+2.1.7a Wed Jan 29, 2003
+-----------------------
+No code changes in gkrellm proper, but I'm putting up this "a" version because
+I got a very needed translation update just after releasing 2.1.7:
+	* Takeshi AIHANA <aihana--at--jcom.home.ne.jp> ja.po update.
+	* Oh, and there's Hajimu UMEMOTO's small one liner gkrellmd change to make
+	  the new gkrellmd drop privileges options work in *BSD.
+
+2.1.7 Tue Jan 28, 2003
+----------------------
+	* Handle .sylpheed_mark for Sylpheed mail folder new mail counts.
+	* Patches:
+	  o Radoslaw Zielinski <radek--at--karnet.pl> adds options to gkrellmd for
+	    dropping root privileges if gkrellmd was started as root.
+	* Translation updates
+	  o sl.po from Simon Cahuk <simon.cahuk--at--uni-mb.si>
+	* Bugfixes
+	  o The name conversion for scsi disk major(8) added in 2.1.6 segfaulted
+	    for drives > sda.  So removed the patch and fixed the name conversion
+	    in the right place, the disk_name_map[].
+	  o Prevent sensor relocation to Proc or CPU panels when those monitors are
+	    not enabled.
+	  o Bill Nalen fixed a couple of potential Windows memory leaks.
+
+2.1.6 Wed Jan 22, 2003
+----------------------
+	* Net charts appear in sorted order (excepting one linked to the timer).
+	* Let Linux ACPI battery monitoring work even if no ac_adapter file.
+	* Patches:
+	  o Andreas Boman <aboman--at--eiwaz.com> had two Linux patches:
+	    - added name conversion from scsi disk major(8) and minor numbers for
+	      devfs systems.
+	    - implemented reading disk stats from sysfs for recent 2.5.x kernels.
+	  o Based on patch by Daniel Gardell <f00daga--at--dd.chalmers.se> make
+	    linux.c acpi_setup() use a dirent scan instead of hardwired battery and
+	    ac_adapter names.
+	  o Hajimu UMEMOTO <ume--at--mahoroba.org> VM_TOTAL define fix for
+	    FreeBSD 5-CURRENT compiles.
+	* Bugfixes:
+	  o Sensors from a gkrellmd server did not work if there was a locale
+	    decimal point mismatch between client and server.
+	  o Inet monitor connections needed to be reset when reconnecting to the
+	    gkrellmd server.
+	  o Don't use getifaddrs() for net stats on Darwin.
+
+2.1.5 Wed Jan 8, 2003
+---------------------
+	* Added a file lock to help avoid the multiple gkrellm launches by buggy
+	  session managers problem.
+	* Linux disk chart names are ordered when stats are from /proc/partitions.
+	* Hajimu UMEMOTO <ume--at--mahoroba.org> BSD changes:
+	  o Based on a patch from Christian	Weisgerber <naddy--at--freebsd.org>,
+	    use getifaddrs(3) to gather information for a network meter where it
+	    is available to avoid if_msghdr alignment problem under OpenBSD/alpha.
+	  o For sensor compiles, use changed smd.h location in FreeBSD 5-CURRENT.
+	  o Fix sensors to be compilable under FreeBSD other than i386.
+	* Bill Nalen <nalenb--at--towers.com> Windows changes:
+	  o Added some more diagnostic information for network adapters.
+	  o Thanks to Darren Marshall (darren -- at -- marshall.nildram.co.uk) for
+        a bug fix for Windows 9x for cpu, disk & network monitor setup. 
+	* New Translations
+	  o Massimo Maiurana <maiurana--at--inwind.it> new it.po.
+	  o Pav Lucistnik <pav--at--oook.cz> new cs.po.
+
+2.1.4 Tue Dec 17, 2002
+----------------------
+	* Bill Nalen <nalenb--at--towers.com> Windows changes:
+	  Removed definition of getpid function (will use Windows version).
+	  Fixed focus setting on left click of icon.
+	  Fixed multithreaded model usage.
+	  Added system tray icon for server version of GKrellM.
+	* Bugfixes:
+	  o Solaris fixes: gkrellmd compiles when making in the server dir, and
+	    memory/swap monitors did not work because Solaris printf formatting
+	    doesn't grok %L.
+	  o Bad Linux disk monitoring when /proc/partitions had expanded names
+	    such as ide/host0/bus0/target0/lun0/part1 instead of simple hda1.
+	* Translation updates
+	  o de.po translation update.
+	  o Jerome UZEL <jerome.uzel--at--wanadoo.fr> fr.po update.
+	  o Grigory Batalov <bga--at--altlinux.ru> ru.po update.
+	  o Przemyslaw Sulek <pbs--at--linux.net.pl> pl.po update.
+
+2.1.3 Fri Dec 6, 2002
+---------------------
+	* If disk stats from /proc/partitions are available, the Linux disk monitor
+	  reports data from all disks and individual partitions listed there.  It
+	  takes a recent kernel compiled with .config option CONFIG_BLK_STATS=y.
+	* Battery monitor can display multiple batteries.
+	* Cleaned up some theme scaling rough edges:  Margins are scaled.  Panel
+	  background borders are scaled.  Krell yoff values from gkrellmrc are
+	  scaled (yoff values set programatically are not).
+	* Bill Nalen <nalenb--at--towers.com> Windows changes:
+	  Changed system tray icon response for left mouse button.
+	* Bugfixes:
+	  o Net timer lost the minutes display with large connect times.
+	  o Another try to get _NET_WM_STATE properties set right.
+	    Added _NET_WM_STATE_BELOW.
+	  o Linux ACPI battery monitoring fixes.
+
+2.1.2 Fri Nov 29, 2002
+----------------------
+	* Bugfix:
+	  The glib 1.2 version of the gkrellmd server had a compile error.
+	* Translation updates
+	  o de.po translation update.
+	  o pl.po from Przemyslaw Sulek <pbs--at--linux.net.pl>
+
+2.1.1 Sun Nov 24, 2002
+----------------------
+	* User can set a theme scale for adjusting krell and decal sizes.  Do this
+	  with custom font settings if you have high resolution screen squint eye.
+	  Some plugins will need small code updates before their decals can scale.
+	* Ben Hines <bhines--at--alumni.ucsd.edu> Darwin compile fixes.
+	* Eric Lauriault <elauri--at--lacitec.on.ca> Solaris 8 compile fixes.
+	* Bill Nalen <nalenb--at--towers.com> Windows changes: multi cpu reporting
+	  and mail check sockets being left open bug fixes; enable_nls translations
+	  now work; added Windows sysdep code debugging output.
+	* Various small bugfixes: right pixel truncation of shadow text; cpu chart
+	  autoscaling past 100%; memory leak when loading a theme alternative > 0;
+	  wrong gdk atom function was used in net_wm_state().
+	* Renamed apm.c to battery.c and replaced "apm" with "battery" in function
+	  names and the sysdep interface.
+	  Made Battery monitor work better if battery removed while running.
+	* Patches:
+	  o Tom Prado <tprado--at--charter.net> added Linux ACPI battery support
+	    and changed "APM" config references to "Battery".
+	* Translation updates
+	  o Grigory Batalov <bga--at--altlinux.ru> ru.po update.
+	  o de.po translation update.
+	  o Jerome UZEL <jerome.uzel--at--wanadoo.fr> fr.po update.
+
+2.1.0 Sat Oct 12, 2002
+----------------------
+	* New theming features.  Left and right areas of chart, panel and spacer
+	  images can overlap onto the left and right frames.  If chart top/bottom
+	  margins are set, the margin areas are converted to spacers.  These allow
+	  themes to have frame image structure which aligns with charts and panels.
+	  Themes can have "cap" images which are drawn on left and right frames
+	  aligned with monitor top and bottom positions.
+	  See themes changelog and the themes doc for more info.
+	  Bumped minor version to 1 because themes can now be made which won't work
+	  with previous versions.
+	* Added EWMH options: skip taskbar, skip pager, and floating.  Floating
+	  is a recent EWMH addition.
+	* gkrellmd can detach from its controlling terminal with -d option.
+	* Bill Nalen <nalenb--at--towers.com> Windows updates:
+	  o Changed sensors list to be fixed instead of read from MBM to fix
+	    issue of GKrellM being loaded before MBM.
+	  o Put icon in systray and removed from task bar.
+	  o Added files resource.c, resource.rc, and gkrellm.ico.
+	  o Updated GTK library which fixed crashes under certain shells.
+	  o Allow loading to slit under Bluebox (bluebox.lokai.net) with -w option.
+	* Hajimu UMEMOTO <ume--at--mahoroba.org> FreeBSD updates:
+	  o If ACPI is available, temperature and battery information are obtained
+	    via ACPI in the APM monitor.
+	  o Some sysctl() usage is cleaned up.
+	* Patches:
+	  o Hajimu UMEMOTO added use of daemon() function for gkrellmd terminal
+	    detach in BSD.
+	  o Bill Nalen gkrellmd socksetup() fix when HAVE_GETADDRINFO is
+	    not defined.
+
+2.0.4 Mon Sep 23, 2002
+----------------------
+	* Patches
+	  o Peter Hessler <phessler--at--sfobug.org> OpenBSD Makefile changes.
+	* Bugfixes
+	  o gkrellmd had a nice big memory leak.
+	* Translation updates
+	  es.po from Cristian Othon Martinez Vera <cfuga--at--itam.mx>
+
+2.0.3 Thu Sep 19, 2002
+----------------------
+	* Rewrote sensors config to use gtk tree store/view.  Got rid of the ugly
+	  magic labels and un exported gkrellm_sensor functions which depended on
+	  those magic labels (no plugins I know of used them).  If you had temps
+	  or fans located on the Proc or CPU panel via magic labels, you'll need
+	  to relocate them.  Temps, fans, and voltages can be re-ordered by a
+	  drag 'n drop in the config.
+	* Doing the sensors config was such a blast that I kept on and converted
+	  configs for all builtin monitors to use an instant apply.  It makes
+	  things like editing chart label format strings much nicer.
+	* If client mode loses server connection, click on alarm for reconnect try.
+	* gkrellmd --allow-hosts recognizes keyword ALL, new option --clear-hosts.
+	* Based on a Solaris patch from David Bustos <bustos--at--caltech.edu>
+	  which adds gkrellm_cpu_add_instance() to the sysdep interface, now cpu
+	  numbers match possibly non-sequential OS cpu instance numbers.  The patch
+	  fixes the Solaris compile by adding -lresolv for linking to inet_aton().
+	* Bugfixes
+	  o Second try at really fixing Gtk2 theme switch frame transparency bug.
+	* Translation updates
+	  o de.po translation update.
+	  o fr.po from Jerome UZEL <jerome.uzel--at--wanadoo.fr>
+	  o pl.po from Przemyslaw Sulek <pbs--at--linux.net.pl>
+	  o sl.po from Simon Cahuk <simon.cahuk--at--uni-mb.si>
+	  o sv.po from Christian Rose <menthos--at--menthos.com>
+
+2.0.2 Wed Sep 6, 2002
+---------------------
+	* Bufixes
+	  o Linux sensors stopped working for locales where the decimal
+	    point is not a period.
+	  o Side frames lost transparency when a Gtk2 theme was changed.
+
+2.0.1 Wed Sep 4, 2002
+---------------------
+	* Patches
+	  o Hajimu UMEMOTO <ume--at--mahoroba.org> nice patch to add IPv6 support
+	    for client/server connections and passing of inet data.  Added
+	    is_valid_reverse() and socksetup() functions to server/main.c.  Now
+	    allow_host() checks if reverse lookup is registered in forward lookup.
+	    He also patched apm.c so battery percent display switches automatically
+	    for laptops which return battery time left only when AC line status is
+		off-line.
+	  o Vladimir Kondratiev <vladimir.kondratiev--at--intel.com> gkrellm.spec
+	    fix to use gkrellm2 include dir and to package server files.
+	  o win32 files update from Bill Nalen.
+	* Translation updates
+	  o sl.po from Simon Cahuk <simon.cahuk--at--uni-mb.si>
+	* Bugfixes
+	  o net command launching config changes were not saved.
+	  o make PACKAGE=xxx consistency fixes.
+	  o Linux sensors should now read odd sensor file formats such as fscpos.
+
+2.0.0 Tues Aug 13, 2002
+-----------------------
+	* Final bugfixes and cleanups.
+	* See 2.0 porting guide for plugin development related release notes.
+	* Added a client mode visual alert if server connection is broken.
+
+2.0.0-pre3 Fri Aug 9, 2002
+--------------------------
+	* Added utf8 <-> current locale fixes so config text from user_config
+	  will be utf8 and strings written with gdk_draw calls will be in the
+	  current locale.
+
+2.0.0-pre2 Tue Aug 6, 2002
+--------------------------
+	* gkrellm_message_window() and gkrellm_config_message_window() replaced
+	  with gkrellm_message_dialog() and gkrellm_config_message_dialog().
+	* Make can set PACKAGE=name for text domain other than gkrellm,
+	  for example: make PACKAGE=gkrellm2
+	* Bugfixes:
+	  o gkrellm_message_window() was blocking.
+	  o Changed internet host addresses from the server to use dot notation.
+	  o Disabled bad IPv6 server->client handling.
+	  o Initial inet data from server was omitting already alive connections.
+	  o Usage and debug message output needed conversion to locale from utf8.
+	* Translation updates
+	  es.po from Cristian Othon Martinez Vera <cfuga--at--itam.mx>
+
+2.0.0-pre1.3 Fri Aug 2, 2002
+----------------------------
+	* One change to help with translation frustrations.  Added Jerome UZEL's
+	  bind_textdomain_codeset(PACKAGE, UTF-8) suggestion so translations
+	  do not need to be in UTF-8.
+
+2.0.0-pre1.2 Thu Aug 1, 2002
+----------------------------
+	* David Bustos <bustos--at--caltech.edu> patched solaris.c so Solaris version
+	  will compile.  Also changes in server directory so gkrellmd will compile
+	  under Solaris.
+	* Translation uprades to 2.0.0 strings and utf-8:
+	  o fr.po from Jerome UZEL <jerome.uzel--at--wanadoo.fr>
+
+2.0.0-pre1.1 Wed Jul 31, 2002
+-----------------------------
+	* Nothing here of general interest except for those that want one of the
+	  below translations.  Otherwise, this version is a sysdeps setup
+	  affecting Darwin, BSD and libgtop compiles.
+	* Initialized sysdeps/darwin.c
+	* Fixed sysdeps/gtop.c so gtop version can compile.
+	* Makefile updates and no more Makefile links.
+	* Translation uprades to 2.0.0 strings and utf-8:
+	  o pl.po from Przemyslaw Sulek <pbs--at--linux.net.pl>
+	  o sl.po from Simon Cahuk <simon.cahuk--at--uni-mb.si>
+	  o sv.po from Christian Rose <menthos--at--menthos.com>
+	  o es.po from Cristian Othon Martinez Vera <cfuga--at--itam.mx>
+
+2.0.0-pre1 Mon Jul 29, 2002
+---------------------------
+	* Disk monitor data will be in bytes if supported by sysdep interface.
+	* Various small bugfixes and cleanups: parts of gkrellmrc config parsing
+	  were failing; better force net config handling from client-server
+	  interface; fs drawer button behaviour modified; put back in --wm command
+	  line switch; utf8 validate text buffer strings; check for badly set
+	  theme image borders;
+	* Some OpenBSD sysdep touch ups based on a sent in compile log.
+
+2.0.0-pre0.x
+------------
+	* pre0.14:
+	  o Bill Nalen Windows updates:
+	    * Updated win32 files for Windows client/server version
+	    * Fixed some bugs in client.c and monitor.c
+	    * allow more than 1 cpu for NT/2k/XP - need new perfkey.dat
+
+	* pre0.13:
+	  o Can now run gkrellm in client mode which will connect to a gkrellmd
+	    server.  Added server directory which implements a gkrellmd server
+	    that reuses the gkrellm sysdep code so servers should be automatically
+	    available for architectures gkrellm is ported to.
+	    gkrellm has new options --server and ---port.
+	    This is brand new and I would welcome some testing feedback!
+	  o Added session management.
+	  o Added more major device entries to disk name table.
+	  o Spaces now allowed in sensors labeling.  Sensor config compatibility
+	    with pre0.12 is gone, so users must reconfig sensors.  This also
+	    should fix temp/fan config saving problem on Windows.
+	  o Bugfixes: Some configs wouldn't save in pre0.12.
+	  o Simon Cahuk <simon.cahuk--at--uni-mb.si> new sl.po translation.
+	  o Code contribs/Patches:
+	    * Hajimu UMEMOTO compile patches to freebsd.c, bsd-common.c, Makefiles.
+	    * Win32.c update from Bill Nalen.
+	    * Gary Peck <gbpeck--at--sbcglobal.net>: adapted his 1.2.13 APM poll
+	      interval patch.
+
+	* pre0.12:
+	  o Cleaned out all deprecated Gtk/Gdk/glib functions except for Gdk
+	    font/string handling which will be on hold until I know if Gtk 2.2 will
+	    have Pango equivalents for them.  clist and ctree are replaced
+	    with tree store and list store code.
+	  o Create builtin/plugin configs on demand.
+	  o Changed keyboard shortcuts for theme changing to Page_Up/Page_Down.
+	  o Use data-suffix directories when running gkrellm -c or when in
+	    force-host-config mode.
+	  o Enforce no popup messages during gkrellm_init_plugin().
+	  o Bill Nalen updated win32.c to run with mbm 5.1.9+
+	  o Patches:
+	    * Arwed von Merkatz <v.merkatz--at--gmx.net>: options to set EWMH
+	      window hints for sticky state and dock type (on-top/skip tasklist).
+
+	* pre0.11:
+	  o Use GTK_STOCK icon buttons.
+	  o Bill Nalen win32.c update, fixed # processes for win9x
+	  o Nick Mitchell <firepile--at--speakeasy.net> patch: fix IMAP login fail
+	    if password had certain chars.
+	  o Fix Linux APM to use ac_online status when battery status is unknown.
+
+	* pre0.10:
+	  o 0.10a Added parameter to gkrellm_style_is_themed() so in addition to
+	    checking if any style setting was themed, can check specific settings.
+	  o Improved button handling so buttons are no longer required to be
+	    created after the panel is created.
+	  o Improved theme style setting capability for krells.
+	  o Updated the plugin programmers reference and demo plugis to this
+	    2.0.0 version.
+	  o Bill Nalen updated win32 files and added perfkey.dat file.
+	    Got rid of nice setting.
+	    Translated registry keys.
+
+	* pre0.9:
+	  o Fixed a crash: gkrellm_destroy_button was failing to remove its decal.
+	  o win32.c, win32-plugin.h, win32-plugin.c updates from Bill Nalen.
+	* pre0.8:
+	  o Couple of small changes: handle spaces in mailbox names, try to load
+	    pango font descriptions from font browser first.
+	  o Bill Nalen added topmost window option for Windows.
+	* pre0.7:
+	  o Show/hide secondary fs monitors with mouse wheel.
+	  o Removed gkrellm_remove_and_destroy_decal (and krell) and fixed
+	    gkrellm_destroy_decal (and krell) to check if remove needed.
+	  o Alternate font loading handles Pango font descriptions from the dialog.
+	* pre0.6:
+	  o Touched up default gkrellmms theme.
+	  o Real CPU charts for SMP machines did not work.
+	* pre0.5:
+	  o win32.c winops-win32.c updates from Bill Nalen.
+	  o Moved sensors.c system dependent code into the sysdeps files.
+	* pre0.4:
+	  o Made /usr/local/gkrellm2 the default include install dir.
+	    Plugins should #include <gkrellm2/gkrellm.h>
+	* pre0.3: ??
+	* pre0.2:
+	  o Made gkrellm2 the directory for plugins, themes, and user config.
+
+	* Bill Nalen <bill--at--nalens.com> contributed Windows code.
+	* Ported GKrellM to run under Gtk+-2.0.  It uses gdk-pixbuf and no longer
+	  uses Imlib.  See the porting guide for more details on changes.
+	* Allow spaces in remote mailbox username and password.
+	* Get data for remote fs mounts in a thread.
+	* Contributions carried over from 1.2.12 not released.
+	  o Grigory Batalov <bga--at--altlinux.ru> ru.po update.
+	  o Chris <chris--at--starforge.co.uk> patch adds clock chime option.
+
+1.2.11 Thu Mar 28, 2002
+-----------------------
+	* Bugfixes
+	  o Gdk-ERROR BadDrawable if net chart displaying cumulative bytes and
+	    the mouse was in a net chart window and the theme was changed.
+	* Contributions
+	  o Ben Low <ben-apm--at--bdlow.net> patch adds battery time estimation
+	    feature.
+	  o New de.po translation update.
+	  o Przemyslaw Sulek <pbs--at--linux.net.pl> pl.po update.
+	  o Christian Rose <menthos--at--menthos.com> sv.po update.
+	  o Jerome UZEL <jerome.uzel--at--wanadoo.fr> fr.po update.
+	  o Cristian Othon Martinez Vera <cfuga--at--itam.mx> es.po update.
+
+1.2.10 Tues Mar 19, 2002
+-----------------------
+	* Temperature and fan sensor data previously displayable only on the CPU
+	  or Proc panels can now be optionally displayed on a separate panel.
+	* Remote mail checking informs you if user or password are not accepted.
+	* Bugfixes
+	  o Chart control menu strings were not translatable.
+	  o Changed linux startup eject check option from -n to -d so eject
+	    command won't fail just because there is no /dev/cdrom.
+	* Contributions:
+	  o Roland Smith <rsmith--at--xs4all.nl> patch adds option to disable
+	    clock seconds in 24 hour mode.
+	  o Joshua Stein <jcs-at-rt.fm> patch sets up eject command for OpenBSD.
+	  o Cristian Othon Martinez Vera <cfuga--at--itam.mx> es.po update.
+	  o Jerome UZEL <jerome.uzel--at--wanadoo.fr> fr.po update.
+	  o Przemyslaw Sulek <pbs--at--linux.net.pl> pl.po update.
+	  o Grigory Batalov <bga--at--altlinux.ru> ru.po update.
+	  o Christian Rose <menthos--at--menthos.com> sv.po update.
+
+1.2.9 Fri Feb 15, 2002
+----------------------
+	* New plugin and theme style settings for panel and krell margins - see
+	  respective changelogs.
+	* Put transparency options back into the Default theme.
+	* Bugfixes
+	  o Hajimu UMEMOTO <ume--at--FreeBSD.org> patch makes GKrellM run on
+	    FreeBSD/Alpha by disabling apm and sensors.
+	  o Display could flicker if moving a decal which was under another decal.
+	  o Handle 3 number sensor fan files.
+	  o X-Mozilla-Status read flag was not checked right.
+	  o Christian Schroeder <chs--at--baltic-online.de> fs.c patch to avoid
+	           potential Solaris segfault.
+	* Contributions:
+	  o Dj-Death <djdeath-at-gmx.fr> patch adds updated_background() to main.c
+	    so transparency will track background pixmap changes.
+	  o Jerome UZEL <jerome.uzel--at--wanadoo.fr> fr.po translation update.
+	  o Grigory Batalov <bga--at--altlinux.ru> ru.po translation update.
+	  o Cristian Othon Martinez Vera <cfuga--at--itam.mx> es.po translation
+	    update.
+
+1.2.8 Sat Jan 5, 2002
+---------------------
+	* Bugfixes
+	  o Bad handling of pclose() error returns in mail.c could cause segfaults.
+	* Contributions:
+	  o Przemyslaw Sulek <pbs--at--linux.net.pl> pl.po translation update.
+
+1.2.7 Wed Jan 2, 2002
+---------------------
+	* Don't read all the gkrellmrc files at startup, just display author for
+	  the current theme.
+	* Improved mail config for cleaner handling of non-standard port numbers
+	  and the authentication support Hajimu has added.  Substituted in public
+	  domain md5c.c and md5.h.
+	* Contributions:
+	  o Hajimu UMEMOTO <ume--at--FreeBSD.org> patch for adding CRAM-MD5
+	    password authentication support to the mail monitor POP3 and IMAP
+	    checking.
+	  o Christian Rose <menthos--at--menthos.com> sv.po translation update.
+
+1.2.6 Mon Dec 17, 2001
+----------------------
+	* Bugfixes
+	  o Memory & swap meters did not work for Linux 2.5.x development kernels.
+	  o Session management args could have NULL pointer.
+	  o Hajimu UMEMOTO patch to fix a duplicate free in net.c
+
+1.2.5 Wed Dec 5, 2001
+----------------------
+	* Changed positioning behaviour:  when vertical size decrease moves gkrellm
+	  off bottom of screen, bias y position towards the last user set position.
+	* Under systems that support ejecting, more ejectable device control added
+	  to file system monitor.  If a device is set "Ejectable" in the config,
+	  there will be an eject button which uses an internal ioctl CDROM eject
+	  or an eject command (if installed) for additional devices.  Linux uses
+	  the "eject" command while FreeBSD and NetBSD use the "cdcontrol" command.
+	  Ejecting patches for FreeBSD from Hajimu, NetBSD from Anthony, and
+	  Solaris from Daisuke.
+	* Option to run sensor reads in a thread - for systems with slow sensor
+	  interfaces that cause display pauses.
+	* Cumulative net bytes transfered displayable with dual trip counters.
+	* i18n enabled Makefile is default.
+	* Contributions:
+	  o Hajimu UMEMOTO <ume--at--FreeBSD.org> patch for adding APOP password
+	    authentication support to the mail monitor POP3 check. See the README.
+	  o Grigory Batalov <bga--at--kgok.murmansk.su> new Russian translation.
+	  o Christian Rose <menthos--at--menthos.com> sv.po translation update.
+	  o Przemyslaw Sulek <pbs--at--linux.net.pl> pl.po translation update.
+
+1.2.4 Tue Oct 30, 2001
+----------------------
+	* Mail monitor option: Count unseen mail as new mail.  (Based on a patch
+	  by Martin Man <Martin.Man--at--seznam.cz>)
+	* Bugfixes:
+	  o gkrellm -demo segfaulted.
+	  o CPU sensor decals could be mapped wrong.
+	* Contributions:
+	  o Anthony Mallet <anthony.mallet--at--useless-ficus.net> sensors.c patch
+	    adds temp, fan, and voltage monitoring for NetBSD
+	  o Przemyslaw Sulek <pbs--at--linux.net.pl> pl.po translation update.
+	  o Darell Tan <dardil--at--singnet.com.sg> fs.c patch checks for uid matching
+	    "owner" in fstab_user_permission().
+	  o Tomas Ogren <stric--at--cs.umu.se> Solaris disk.c patch avoids adding
+	    not found disks to the disk list.
+
+1.2.3 Tue Oct 23, 2001
+----------------------
+	* Voltage monitor: handles reference voltages for negative voltages for
+	  chips that need it (lm80); better factors/offsets initial values.
+	  New README/gkrellm.1 section explains conversion of lm_sensors compute
+	  lines to gkrellm correction factors and offsets.
+	* Option to automatically track Gtk theme changes if a gkrellm theme of
+	  the same name exists.
+	* Minor changes: lo net interface monitoring and > 4 gig memory monitoring.
+	* Some small bugfixes: apm display, inet scaling, SMP composite CPU %.
+	* Cleaned out stale debugging statements.
+	* Contributions:
+	  o Andrew Lombardi <andrew--at--mysticcoders.com> added Evolution mail status
+	    check to status_is_old().
+	  o Christian Rose <menthos--at--menthos.com> sent in a Swedish translation.
+	  o Przemyslaw Sulek <pbs--at--linux.net.pl> pl.po translation update.
+	  o Cristian Othon Martinez Vera <cfuga--at--itam.mx> es.po translation update.
+
+1.2.2 Wed Aug 22, 2001
+----------------------
+	* Hostname panel can also display system name.
+	* Move krells out of the way only if data is displayed in panels,
+	* Bugfixes:
+	  o Close open files before launching panel commands and net timer command.
+	  o Display and alert setting problems for negative voltages.
+	  o Allow "owner" as well as "user" for fstab mounting.
+	* Contributions:
+	  o Anthony Mallet <anthony.mallet--at--useless-ficus.net> patch to fix
+	    some compile issues with defining INET6 and HAVE_GETADDRINFO for
+	    Solaris 7.  Also made removable disk media ioctl work for
+            Solaris 7. 
+	  o Przemyslaw Sulek <pbs--at--linux.net.pl> sent in a Polish translation.
+
+1.2.1 Wed Aug 2, 2001
+---------------------
+	* Fixed a segfault on SMP machines.
+
+1.2.0 Wed Aug 1, 2001
+---------------------
+	NOTE: Some configuration issues:
+	  o Net and inet command launching will need re-entering.
+	  o Inet charts can't use data saved by 1.0.x versions.
+	  o Plugins that were automatically enabled by being in
+	    ~/.gkrellm/plugins will now have to be enabled on the plugins
+	    config page.  A consequence of this is that your existing
+	    configuration setup for these plugins may be lost.
+
+	* New chart drawing routines give many appearance options which can be
+	  configured by right clicking on the charts.  Plugins which create
+	  charts must make some coding changes - see the plugins changelog.
+	  One of these options is a split view which uses a new theme image, so
+	  split views in some themes won't look right until the themes are updated.
+	* CPU charts can now show nice time, which also uses a new theme image.
+	* New panel routines so panel and chart interfaces will be consistent, but
+	  unlike chart plugins, meter styled plugins may upgrade gracefully
+	  without a "required" recompile - see plugins changelog.
+	* Added an alert interface so limits can be set for triggering warn and
+	  alarm commands.  Builtin APM and sensor (temps, fan, volt) monitors
+	  can have alerts set.  Alerts can use the gvoice plugin.
+	* User selectable fonts.
+	* User plugin placements.
+	* User definable format strings for drawing chart labels.
+	* Right click on most panels to open the monitor config window.
+	* There is no longer compatibility with pre 0.10.0 theme formats (the
+	  change was announced a year ago).
+	* I can no longer provide RedHat 6.x RPMs.  The gkrellm.spec is now
+	  included in the source tarball, so in case anyone wants to roll their
+	  own, see the INSTALL file.
+	* Contributions:
+	  o Yuuki NINOMIYA <gm--at--debian.or.jp> updated his Japanese translation for
+	    this release and fixed a locale bug.
+	  o Cesar Perez Turrado <cesar--at--perez.turrado.com> updated his Spanish
+	    translation for this release.
+	  o Jason Lunz <j--at--falooley.org> patch to add multimua option to mail.c
+	  o Vladimir Kondratiev <vladimir.kondratiev--at--intel.com> - spec file patch.
+
+
+1.0.8-solaris Sun Apr 22, 2001
+------------------------------
+	* Daisuke Yabuki <dxy--at--acm.org>	contributed Solaris code so
+	  monitors now have a native Solaris interface.
+	  -> solaris-4: drop setgid privilege before gtk_init() (for gtk+ 1.2.9)
+	  -> solaris-3: code cleanup and bug fixes.
+	  -> solaris-2: kstat chain scan reduction in cpu.c and suppressed some
+	     unnecessary disk accesses in disk.c
+	  -> solaris-1: fixed Makefiles
+	  -> solaris-0: initial Solaris patch
+
+	Note: for version 1.0.8 _only_ there is a separate Solaris tarball since
+	the only code changes are the addition of the Solaris code and so there is
+	no need for all the Linux and BSD packagers to make a new package.
+
+1.0.8 Mon Apr 16, 2001
+----------------------
+	* Cesar Perez Turrado <cesar--at--perez.turrado.com> sent in updated es.po
+	* Bugfixes
+	  o Anthony Mallet <anthony.mallet--at--useless-ficus.net> patch to fix
+	    fonts with XFree86 > 4.0.2
+	  o Composite disk launch commands were not saved.
+
+1.0.7 Wed Mar 14, 2001
+----------------------
+	* Yuuki NINOMIYA <gm--at--debian.or.jp> sent in updated ja.po
+	* Stephane Gibier <sgibier--at--mail.dotcom.fr> created the gkrellm.1 man page.
+	* Patch from Laurent Caillat-Vallet <caillat--at--in2p3.fr>.  POP3/IMAP
+	  connections can be on non-standard port numbers if you enter
+	  server:port instead of just the server in the config.
+	* Bugfixes
+	  o imap checking could not handle untagged responses to LOGIN.
+	  o Patch from Joshua Stein <jcs--at--rt.fm> so apm will add itself
+	    under Net/Open BSD
+	  o meminfo label initialization and mua_is_launched fixes.
+
+1.0.6 Mon Jan 29, 2001
+----------------------
+	* Big patch from Hajimu UMEMOTO <ume--at--FreeBSD.org> for several major BSD
+	  improvements which significantly reduces cpu usage. Changes to cpu.c,
+	  inet.c, main.c, meminfo.c, net.c, proc.c., uptime.c.  In net.c, he
+	  merged Free/Net/Open BSD code into one read_bsd_net_data().
+	  Anthony Mallet <anthony.mallet--at--useless-ficus.net> added some
+	  adjustments to Hajimu's patch to remove the few remaining Net/Open
+	  BSD specific differences from read_bsd_net_data().
+	* inet charts can now monitor a range of port numbers as well as the
+	  previous only one or two ports per plot color.  Click the new inet
+	  panel button to get a list of current TCP connections being monitored.
+	  Hajimu patched the new connection lookup code to use better networking
+	  code and IPv6 support.
+	* Bugfixes:
+	  o Search /usr/lib/gkrellm/plugins and /usr/local/lib/gkrellm/plugins
+	    to comply with FHS.
+	  o Make sure GKRELLM_DATA_DIR is created.
+
+1.0.5 Mon Jan 22, 2001
+----------------------
+	* All builtins can now be disabled.
+	* Kevin Ford <klford--at--uitsg.com> improved the src.rpm package .spec file.
+	* MH mail checking optionally checks .mh_sequences for unseen mail.
+	* Bugfixes/cleanups:
+	  o apm decal drawing.
+	  o All builtins now correctly use top/bottom margins.
+
+1.0.4 Mon Jan 15, 2001
+----------------------
+	* Patch from Masaharu FUJITA <fujita--at--hpc.cs.ehime-u.ac.jp>  The new mail
+	  krell animation for BSD is now a Daemon.
+	* Namespace cleanup and removed gkrellm_private_proto.h from the install
+	  and the #include by gkrellm.h.  Plugin coders should look at
+	  Changelog-plugins.html.
+	* Added some hooks so I could write the gkrellm-gnome plugin. With the
+	  plugin, GKrellM gets Gnome session management and can set some window
+	  options (ontop, sticky, skip winlist, skip focus, don't put on taskbar).
+	* Bugfixes:
+	  o Sensor bugs: Bad temperature updating for comma based numeric locales.
+	    Problem reading negative volt factors from the config.
+
+1.0.3 Sun Jan 7, 2001
+---------------------
+	* Theme and plugin changes in their respective changelogs.
+	* Added --config suffix option so multiple gkrellms may be run with
+	  different configurations for each.  This will override usage of any
+	  host config files previously setup with --force-host-config.
+	* GKrellM can reload a theme from ~/.gkrellm/gkrellm_theme.cfg when the
+	  "_GKRELLM_READ_THEME" client message is sent.
+	* Removed on_top option from the config and contorted startup on top
+	  code from main.c.  Window managers should handle this function, but
+	  you can still get GKrellM to try to set the hint by: gkrellm --on-top.
+	  This will not work with all window managers - so don't use it.  Learn
+	  how to tell your window manager to do this function.
+	* Patches from Hajimu UMEMOTO: 1) reduce FreeBSD meminfo polling to reduce
+	  cpu usage. 2) drop setuid/setgid privileges before initializing GTK+ to
+	  avoid security hole.
+	* Gernot Poetsch <gernot--at--mayn.de> contributed a German de.po translation.
+	* Changed maildir code to not parse filenames as suggested by maildir(5):
+	  Other than skipping files starting with '.', readers should not attempt
+	  to parse filenames.
+	* Patch from Farooq Mela <f_mela--at--yahoo.com>  Added __OpenBSD__ defines
+	  so an OpenBSD native version can be compiled which it turns out is able
+	  to use the existing NetBSD and in one case FreeBSD code.
+	* Patch from Adam Sampson <ats1--at--ukc.ac.uk> Added MH mail check routine.
+	* Bugfixes:
+	  o -geometry placement was wrong for negative screen references (-x-y).
+	  o Various voltage monitor stuff: negative voltage displays were at best
+	    hosed, correction values did not allow enough precision, and if space
+	    allows, temperature precision is now .1 degree.
+
+1.0.2 Tue Nov 14, 2000
+----------------------
+	* Cesar Perez Turrado <cpt2--at--geocities.com> contributed a Spanish
+	  es.po translation.
+	* Added reading fan and voltage data to sensor module for Linux and
+	  Hajimu added it for FreeBSD.  Now fan RPMs can be displayed on
+	  the CPU and Proc panels, and there is a separate voltage monitor.
+	  Themers without motherboard sensors should run "gkrellm -demo" to see it.
+	* Cleaned up mail code and fixed some small bugs.
+	* Patch from Matt McClure <mlm--at--aya.yale.edu> to add tooltip reporting
+	  of the new mail counts for mailboxes checked via the Mail fetch/check
+	  program.
+	* Hajimu UMEMOTO sent in patches to use gdk_fontset_load() for the config
+	  info windows.
+	* Bugfixes:
+	  o Keyboard shortcut theme cycling bugs: theme config sometimes not
+	    marked to save, gkrellm -t bad news.
+
+1.0.1 Thu Oct 19, 2000
+----------------------
+	* Applied some diffs that Pascal Bleser made for his SuSE package so
+	  the Makefile can use gnome-config for libgtop compiles and the spec
+	  file can specify alternate system plugin and theme directories.
+	* Bugfixes:
+	  o The new fstab mounting check failed to consider that root does not
+	    need "user" fstab permission.
+	  o gtk_set_locale() should be called _before_ gtk_init().
+	  o Fixed conditions for which MUA button should be sensitive since it is
+	    also optionally used for stopping the animations and resetting counts.
+
+1.0.0 Fri Oct 13, 2000
+----------------------
+	* Anthony Mallet <anthony.mallet--at--useless-ficus.net> contributed
+	  NetBSD code so monitors now have a native NetBSD interface.
+	* Nicolas Rueff <n.rueff--at--libertysurf.fr> contributed a French fr.po
+	  translation.
+	* Added keyboard shortcuts to cycle through all the themes and theme
+	  alternatives:  'p' is previous and 'n' is next theme/alternative.
+	  Keys 'u' (previous) and 'd' (next) do the same thing except they skip
+	  cycling through any theme alternatives.
+	* Custom Default theme images for the PMU plugin.
+	* Mail sound command issued at first new mail count increase of a remote
+	  check instead of waiting until last thread is done.
+	* Bugfixes:
+	  o smbfs added to remote fs types so it will be checked at the
+	    remote interval.  And Linux /proc/mounts reports "." for the mounted
+	    on directory for smbs (don't know why), so added a fallback to using
+	    getmntent() when "." directories are detected.
+	  o IMAP/POP3 mail checking could get confused if complete lines are not
+	    received per read from a mail server, so changed raw reads to
+	    a line reading routine.
+	  o Theme config changes were not written at exit if theme was changed.
+	  o If fstab mounting was enabled, FS monitor did not allow turning off
+	    mount button if "user" option was later removed from fstab.
+	  o The MUA launch button was not desensitized if there is no MUA command.
+	  o Could not disable composite disk chart if no disks found (diskless WS).
+	  o The plugins glist got out of sync if a plugin object file could
+	    not load.
+
+0.10.5 Sun Aug 6, 2000
+----------------------
+	* Patch from Jonas Linde <jonas--at--init.se>:
+	  Changed set_on_top() to help GKrellM honor layer settings that
+	  the window manager may specify.
+	* Added some functions for plugins - see the plugins changelog.
+	* Removed "Draw extra info on charts at startup" option.  All charts (and
+	  File System / meminfo capacity displays) now have state in the
+	  user_config file.
+	* Added enable_nls script that simply changes Makefile link to
+	  Makefile.top_enable_nls which compiles with i18n enabled by default.
+	* Tweaked Yuuki's timer button patch so the seconds are drawn in a
+	  separate text decal so style (font size / color) can match clock.
+	* Patches from Yuuki NINOMIYA <gm--at--debian.or.jp>:
+	  o Added seconds to the timer button online time.
+	  o Replaced my erroneous use of gdk_fontset_load().
+	  o Added ja.po translation which has translation contributions from
+	    Yuuki and Takeshi Aihana <aihana--at--muc.biglobe.ne.jp>
+	* Changed read_linux_proc() and Hajimu did same for read_freebsd_proc()
+	  to stat() the utmp file and read it only if modified so disk hits
+	  can be minimized.
+	* Hajimu UMEMOTO patch to apm.c so operator group not needed for /dev/apm
+	* Bugfixes:
+	  o For locales with commas for decimal points, sscanf() in
+	    read_linux_proc() could not read load average from /proc/loadavg.
+
+0.10.4 Tue Jul 11, 2000
+-----------------------
+	* More Bugfixes:
+	  o The threading code added in 0.10.3 created joinable instead of
+	    detached threads and this caused a memory leak for each threaded check.
+	  o Theme related buglets in gkrellm_make_overlay_button & draw_inet_chart.
+
+0.10.3 Sun Jul 9, 2000
+----------------------
+	* Added a swap pages in/out chart to the memory monitor.
+	* Restructured the mail check loop to turn the fetch check into an
+	  internal mailbox type and to use threads for this patch:
+	* Patch from Michael Bell <mikeb--at--map.com>:
+	  He added routines for builtin POP3 and IMAP mailbox checking and
+	  added reporting of them to the tooltip popup.  And added mail counts to
+	  the tooltip.
+	  Hajimu UMEMOTO <ume--at--mahoroba.org> added IPv6 awareness to these routines.
+	* Bugfixes:
+	  o Fixed sensor temperature reporting to handle negative temps, for cryo
+	    cooling mad scientists,
+	  o Enabling composite Disk in kernel 2.4 did not stick.
+	  o Check for duplicate plugins/themes in /usr/local/share & /usr/share
+	  o Config ctree got out of sync with multiple plugin enables/disables.
+
+0.10.2 Mon Jul 3, 2000
+----------------------
+	* I have two reports of BadDrawables on RedHat 6.2 systems in the root
+	  pixmap transparency code.  Don't know why this is, but all this release
+	  does is add a -nt option to disable getting the root pixmap so
+	  people with this problem can get running.
+
+0.10.1 Thu Jun 29, 2000
+-----------------------
+	* Added gravity to plugin placement so multiple plugins requesting
+	  placement at the same location can have more placement control.
+	* Bugfixes:
+	  o hostname visiblity did not stick.
+	  o `libgtop-config --libs` for libgtop-1.1.2.1-solaris at least does not
+	    provide -lXau for some reason, so added it to Makefile.
+	  o fs/mem/swap format strings yielding string widths less than 1/3 decal
+	    width caused fp exception.
+
+0.10.0 Wed Jun 21, 2000
+-----------------------
+	* Scrolling FS and Mem/Swap panel text can be dragged (borrowed the nice
+	  idea from GKrellMMS).  $l added to format string set.
+	* FS update intervals can be user set and nfs mount update intervals
+	  can be set independently.
+	* Some had crashes when initially bringing up the config window - fixed.
+	* Added chart transparency in alternatives 2 and 3 to the default theme.
+	* Themes can have transparent panels or charts.  I don't do an X event
+	  loop and don't know how in Gtk to solicite PropertyNotify for the root
+	  window, so there is currently no transparency auto updating when the
+	  background is changed - it takes a click in GKrellM's top frame.
+	* Disk charts can handle new Linux 2.4 format and names will be device
+	  names instead of DiskA - DiskD.  The composite Disk chart is no longer
+	  overloaded onto DiskA.  But I don't know what the status of IDE1 - IDE3
+	  reporting is, so hdc-hdh may still not show up.
+	  Hajimu patched the FreeBSD code to use the new disk naming structure,
+	  and for FreeBSD 3.x or later, 'da0', 'wd1', etc style names show up.
+	* Added default theme customizations for GKrellMMS and Volume plugins.
+	* Theme code revised to enable plugins to have monitor specific theme
+	  images and gkrellmrc Style settings just like the builtins.
+	  Side effects of this are:
+	  1) Data structures for image handling changed, so plugins which
+	  directly access the GK struct for images (against policy) may break.
+	  2) A new and clearly final theme organization has evolved :),
+	  but at least all old 0.9.x themes are still handled so there
+	  should be a quiet and painless transition to the new format over time.
+	* Added a search for themes in /usr/local/share/gkrellm/themes and a
+	  search for plugins in /usr/local/share/gkrellm/plugins.
+	* No longer need to recycle config window for Info/Help font change.
+	* Patch from William Carrel <william.a--at--carrel.org> and
+	  Hajimu UMEMOTO <ume--at--mahoroba.org> to cleanup FreeBSD swap code.
+
+0.9.10 Wed May 24, 2000
+	* A few small bugfixes:  Mail animation never turned off if mail fetch
+	  program is check only and continuous animations are enabled.  Sensor
+	  temperature display disappeared for some.  Hajimu had a patch for
+	  swap usage displays on FreeBSD 4.0 or later.
+
+0.9.9 Wed May 17, 2000
+	* Development kernels 2.3.99-pre8 and after are changing the format of
+	  /proc/stat.  To get CPU charts back, select "composite cpu" in the
+	  config.  Disk reporting formats are changing and currently will not
+	  not show hdc - hdh, I assume future patches will address this.
+	  In the meantime, added primitive support for Disk charts under pre8,
+	  but only one Disk chart is available which combines all reported data.
+	* Added nicer formatting to the Info pages and option to select font size.
+	* Mem and Swap meters can scroll capacity values like the fs monitors,
+	  and each of these uses a format string for custom scrolling displays.
+	* Changed fs monitor button behavior: Btn1 (left) now toggles secondary
+	  fs monitor visibility and Btn2 or Btn3 toggles the capacity display.
+	  This is to make overall button behavior more consistent.
+	* Moved all source to "src" subdir.  Better organization for distributions
+	  that might want to overlay an i18n package.
+	* Applied the ENABLE_NLS and string internationalization code modifications
+	  from Takeshi Aihana <takeshi--at--turbolinux.co.jp>.
+	* Put Disk command launcher config in a scrolled and now launch entries
+	  are shown only for enabled disks.  This avoids the enlarged config
+	  window in case anybody uses my kernel patches to extend kernel disk
+	  reporting to 8 disks (for kernel 2.2.x).
+	* Added a "comment" entry for each command launch entry so the tooltip
+	  text may be set independent of the command.  Killed global tooltip
+	  enable because not needed.
+	* Patch from Stefan Schlott <stefan.schlott--at--student.uni-ulm.de>:
+	  Added option: If there is new mail, the names of the mailboxes
+	  containing new mail can be displayed in a tooltip.
+	* Tuneups: don't allow moving if withdrawn.  -wm option no longer has
+	  themed frames inside of window manager frames, now only the
+	  window manager frames (so -wm behaves as -wm -wm did).  A change in how
+	  I respond to window size configure events to try to stop the growing
+	  window problem when KDE sends incorrect sizes in the configure event.
+
+0.9.8 Mon Apr 10, 2000
+	* Changed config window to use a ctree listing of monitors to select
+	  configuration notebook pages.
+	* Put in a default gray frame for command launch overlay buttons because
+	  it appears most theme authors are not making the custom images for this.
+	* Fixed bug where buttons were not destroyed in gkrellm_destroy_panel().
+	* make install now installs the header files in /usr/include or
+	  /usr/local/include so users who compile plugins will not be required
+	  to install under the gkrellm source tree or to edit files to set the
+	  gkrellm.h location.
+	* Changed -wm code window policy because -wm did not work under some
+	  window managers.  Now gkrellm -wm -wm inhibits themed frames.
+	* FreeBSD patch from Hajimu UMEMOTO to use getloadavg() instead of
+	  accessing kmem.
+
+0.9.7 Thu Mar 23, 2000
+	* Added -m2 option so 2 button mice can side frame shut with left button.
+	  Also, middle and right buttons now open/shut secondary FS monitors,
+	  toggle the inet charts, and toggle tha apm display.
+	* Patch from Jason Kasper <j_dot_kasper--at--usa.net>: Added option to run
+	  in withdrawn mode for the Blackbox slit.
+	* Theme alternatives: themes can have multiple alternate image sets
+	  and gkrellmrc files selectable in the Themes tab.
+	  2 alt font overrides are selectable (for high res displays on small
+	  screens where default theme fonts may be too small).
+	* Plugins are searched for in /usr/share/gkrellm/plugins.  These
+	  system wide plugins must be enabled in a "Plugin Enables" config
+	  window before they will be activated.  Plugins can be placed after
+	  builtins (previously only placing before was possible).
+	* Hmmm, animations for maildir new messages were never turned on - fixed.
+	* Patch from Stefan Schlott <stefan.schlott--at--student.uni-ulm.de>:
+	  Adds a check to avoid double counting old mail with status lines
+	  from Netscape and standard "Status" mail readers.  Also adds a check
+	  to avoid counting mime attachments as messages, see is_multipart_mail()
+	* Secondary FS monitors can optionally remain shown if mounted when
+	  the secondary group is hidden.  Now the secondary group can be viewed
+	  as a drawer that FS monitors can be taken out of when mounted.
+	* FS mount commands can be customized so mounts can be made of file
+	  systems not in /etc/fstab.  Using this requires that GKrellM be
+	  run as root or that the user has sudo mount priviledges.
+	* Changed the FS capacity display from toggling to scrolling and added
+	  option to display in binary units (MiB GiB) instead of default SI norm.
+	* Patch from Tom Gilbert <gilbertt--at--btinternet.com> allows window
+	  managers to differentiate options dialog from GKrellM itself.
+
+0.9.6 Fri Mar 10, 2000
+	* Transparency mask now handled at configure_notify events instead of
+	  after pack_side_frames() because gdk_window_shape_combine_mask() was
+	  not working for some people.
+	* fixed fetchmail -c reading bug when output was: x messages (y seen) ...
+	  Added mailbox status detecting for Netscape mailboxes (X-Mozilla-Status)
+	* Changed timer command launch logic because some people are getting
+	  stale /var/run/ppp0.pid files left after pppd quits.
+	* Changed some plugin interface function names and one prototype to make
+	  function calling style more consistent.
+	* Patch from Kazuhisa TAKEI <takei--at--vinelinux.org>: added a middle mouse
+	  button toggle to show percentage time left on apm panel.
+	* For Linux, uptime monitor now always reads /proc/uptime instead of
+	  calculating an uptime (which had a fuzzy meaning for laptops that sleep).
+
+0.9.5 Fri Mar 3, 2000
+	* Net charts can have a label so you can title them with info about who
+	  they are connected to.
+	* Applied FreeBSD patch from Hajimu UMEMOTO to reduce potential
+	  security risks.
+	* Tooltips can be enabled for monitors that have a launch command set.
+	* Bug fixes: changed foreground/background pixel setting for depth 1 GCs
+	  to guarantee foreground pixel is 1.
+	* Fix from Hideaki YOSHIFUJI <yoshfuji--at--ecei.tohoku.ac.jp> conditionally
+	  defines INET6 so Linux systems using glibc 2.0 can compile inet.c
+
+0.9.4 Mon Feb 28, 2000
+    * FreeBSD code contributed by Hajimu UMEMOTO ume--at--mahoroba.org
+      All monitors now have a FreeBSD interface.  He also added IPv6 support
+      to the internet monitors for both FreeBSD and Linux.
+    * #ifdef'ed out libgtop if compiling under Linux and removed the Linux
+      dependency on libgtop to fix RPM dependency and compile problems some
+      were having.  Other systems can still compile a libgtop version.
+    * Bugs fixed: nice cpu time wasn't added to the total cpu time. If Proc
+	  monitor was disabled, restarting and writing config caused a segfault.
+
+0.9.3 Wed Feb 24, 2000
+	* Patch from Darko Koruga <darko.koruga--at--hermes.si> Feb 24, 2000
+	  Continuous mail animation option as long as there is new mail.
+	* Added up/down clist moving for fs entry editing.
+	* Fixed /etc/fstab reading of options if it is last token on line.
+0.9.2 Wed Feb 23, 2000
+	* Fixed net packet reporting bug in 2.0 kernels.  Enforced sensors.c
+	  read_temperature() reads to no more than once per 4 seconds.
+0.9.1 Wed Feb 23, 2000
+	* Fixed segfault if there are empty lines in /etc/fstab
+0.9.0 Tue Feb 22, 2000
+	* If hostname specific config files are used, put the hostname in the
+	  X title so the window manager can distinguish between remote GKrellMs.
+	* Added /usr/share/gkrellm/themes to theme search path.
+	* Added command launching capability to most monitors.
+	* Made adding of nice to user CPU usage an option.
+	* Mail check only mode tries to read the nmh program flist output
+	  for checking MH mail folders and tries to handle yet another
+	  fetchmail output variation.  Trapped out MAILER DAEMON internal data
+	  messages.
+	* Fixed remember position at exit bogus coordinates bug.
+	* Added decal buttons and frame buttons - replaced timer gtk button
+	  with a decal button.  Turned FS mount decals into decal buttons.
+	* Side frame button 2 instead of button 1 now closes GKrellM.
+	* Changes affecting plugins, create_plugin() coding style changes.
+	  Some function prototype changes and some function replacement.
+	* Timer button combo box to allow timer button links to ppp1, ippp0, ...
+	  Changed uptime timer to use /var/run/pppX.pid for ppp types.
+	* Set up allocation/free checks for images, pixmaps, styles, etc, so
+	  themes and sizes can be changed without restarting.  Added keyboard
+	  shortcuts to aid themers: F5 reload current theme, F6, F7 debugging.
+	* Theme image naming and gkrellmrc structure redefined to purge coding
+	  problems I was having with backward compatibility.  Cleaned up
+	  styles.
+	* All monitors restructured to modularize the data collection parts.
+	  Put in automatic switchover from /proc to glibtop if /proc files
+	  do not exist (for monitors glibtop can service).  If no /proc data and
+	  no glibtop calls, monitors do not install themselves.
+	* Added apm enable for laptops with problems reading /proc/apm
+	* -demo mode so themers can see all monitors.
+
+0.8.1 Thu Jan 20, 2000
+	* Fixed bug I introduced into host config code from Dan Mass - sorry.
+	* Added theme images for slider support.
+	* Added several gkrellm_xxx() interface functions for plugins.
+	  Added plugins/plugin_example/plugin_example.c as advanced plugin demo.
+	* Major revision of the Themes document for theme image renaming.
+	  Final non-backwards compatible change planned for 0.8.2
+
+0.8.0 Fri Jan 14, 2000
+	* Plugin cabability added.  Restructured builtin monitor interfaces to
+	  use same interface as plugins - more modular and trivial to convert
+	  a plugin to a builtin.
+	  Coded basic template plugin module.
+	  Adopted gkrellm_ prefix for public functions intended to be
+	  useable by plugins.
+	* FS mount/umount error reporting.
+	* Disk monitor extended to handle DiskA - DiskD and composite Disk.
+	* Changed theme subdir locations from ~/.gkrellm to ~/.gkrellm/themes,
+	  added upgrade_warn_message() for this. Changed +data dir to data.
+	* Frame transparency and other new theme features - see the Themes file.
+    * Patch from Dan Maas <dmaas--at--dcine.com> Dec 22, 1999
+	  Added support for host-specific configs and themes
+	  This is for people with > 1 computer but a shared home directory.
+	  Accept user_config and gkrellm_theme.cfg with a dash and then
+	  the hostnames appended... If I have two computers named abe and bill,
+	  I use user_config-abe, user_config-bill, gkrellm_theme.cfg-abe and
+	  gkrellm_theme.cfg-bill. They will be managed separately by gkrellm,
+	  so you can have different settings for each machine.
+	* Patch from Patrick Morris <pmorris--at--starnixsolutions.com> Dec 15, 1999
+	  check_maildir() accepts _name as messages.
+ 
+0.7.5 Wed Dec 5, 1999
+	* Bugfix: The motherboard temperature display went away in 0.7.4 - fixed.
+	* Bugfix: the new "Always on top" option did not work if gkrellm was
+	  started before a window manager (in .xinitrc or .xsession)
+
+0.7.4 Wed Dec 1, 1999
+	* Restructured chart drawing code to minimize X (network) traffic.
+	* Added some modes: save_position at exit, always on top, mail
+	  animation modes.
+	* Krell/LED update rate configurable.
+	* Charts can have 1-5 fixed grids instead of auto scaling.
+	* Added documentation to the Info tabs.
+	* Detect when GKrellM is resting on screen bottom or right edge and
+	  make it stick there when resizing to smaller size.
+	* Bug fixes.
+
+0.7.3 Fri Nov 5, 1999
+	* Minor changes mainly as final tune up before Debian potato freeze.
+	* Cleaned up mailcheck animation conditions, added fetch no download
+	  mode and inhibit mailcheck while MUA launched mode.
+	* Check for root uid in FS mountable check.
+	* Modem lock file link in ~/.gkrellm check added.
+
+0.7.2 Sun Oct 31, 1999
+	* Put number of procs extra on Proc chart above users extra.
+	* Mailcheck checks file sizes + mtime (mutt, etc restore mtimes)
+	* Added msg_count_mode, mail_check_timeout.
+	* Put current_processes on Proc chart.
+	* Added check_maildir() routine contributed by Patrick Crosby <xb--at--dotfiles.com>
+
+0.7.1 Wed Oct 27, 1999
+	* Mailbox check monitor + animations + remote mail fetch + sound.
+	# Historical inet data is saved at exit and loaded at startup.
+	* Added seconds display to clock.
+	* User interface cleanup for fs, inet - clists show all monitors.
+	* Changed config model from "OK Apply Cancel" to "OK Apply Close"
+	* Restart uses execvp() instead of system().
+	* Changed ppp timer/button to more general timer/button.  PPP0 panel may
+	  be decoupled from timer/button.
+
+0.7.0 Wed Oct 5
+	* File system monitor.  Mount/umount capability.
+	* Internet monitor.  Port connections and minute/hour port hit charts.
+	* APM laptop battery monitor.
+	* Sensors monitor for CPU/motherboard temperatures if lm_sensors installed
+	* Modified default bg_chart and added data_in/out images to default theme.
+	* Added data_in, data_out images for 3D/textured data plotting.
+	* Option to start up with chart extra info draws enabled.
+
+0.6.8
+	* Long or short hostnames
+	* Net interfaces can be hidden - if seldom used or unwanted.
+	* For themers: quoted strings, label position as percent of chart width,
+	  LED & PPP button size and position scaling.
+
+0.6.7 Sun Sep 4
+	* More gtk_widget_realize fixes to get rid of Gtk 1.2.1 (RedHat 6.0) 
+	  Gdk-CRITICAL messages (and some people got segfaults).
+	* Themes tab in configuration popup.
+	* Some code cleanup.
+	* Added -wm option to allow window managers to decorate.  Might
+	  help KDE etc, people.
+
+0.6.6 Mon Aug 30
+	* Cleaned up some code.  Some bugfixes.
+	* Finally may have done the realize/show dance properly.  Seems to work
+	  fine with Gtk 1.2.3 and 1.2.4
+
+0.6.5 Thu Aug 26 late night.
+	* Clock/calendar
+	* Extra detail info drawn on charts.
+
+0.6.4 Thu Aug 26 morning.
+	* Added extra hide/show for gtk+1.2.4 startup autoshrink problem.
+	* Now allow dual units on net traffic.  Packets used if bytes are zero.
+	  This is for deficient nic drivers that do not increment byte counters.
+
+0.6.3
+	* Bugfixes: net bytes overflow -> unsigned longs.
+	* Hostname display.
+
+0.6.2 Tue Aug 19
+	* Bugfix release.  SMP cpu display problem and ppp timer display.
+
+0.6.1 Tue Aug 17
+	* Switched labelling to X fonts =>  3 image files bit the dust.  Fonts
+	  and font colors can be specified.
+	* User prefs now settable in a gui popup.
+	* Added Proc monitor (load and forks).
+	* GKrellM window can be moved by dragging top frame with left button.
+
+0.6.0 Sat Aug 7
+	* Changed name of project to GKrellM.
+	* Massive code restructure for reading theme images.  Hierarchical names.
+	* Added krells, what I call the movement graphic for meter displays.
+	* 
+
+0.5.4	Thu Jul 29
+	* Put cpu0 - cpu3 into chart_labels.xpm changed to 12 labels deep.
+	* Modified cpu code in stat.c to detect and monitor up to 4 cpus.
+	* Cleaned up documentation inconsistencies.
+	* Added command line options: -geometry, --theme
+	* New demonstration theme: small
+
+0.5.3	Sun Jul 25
+	* Changed names of backgound images to make their purpose more clear.
+	* Fixed register_new_interface() bug which created a bogus PPP monitor
+	  when dummy or lo interfaces were present in /proc/dev/route.
+
+0.5.2	Wed Jul 21
+	* Fixed ppp_on_command and ppp_off_command to take args.
+
+0.5.1	Tue Jul 20
+	* Brightened the grid in chart_grid.xpm to make more visible.
+
+0.5.0	Mon Jul 19
+	* Changed widget tree structure to single segment side frames.
+	* Window slides closed horizontally instead of vertically.
+	  Slide direction is a function of location on root window.
+
+0.5
+	* Ported my old xforms monitor program to Gtk/Imlib and made it
+	  themeable.  Prepared for 1st public release.
+	* Added the memory and swap meters.
+	* Added uptime monitor.

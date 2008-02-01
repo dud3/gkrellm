@@ -1,0 +1,1139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+
+<body background="paper1.gif">
+<h3>Changelog for GKrellM Plugins</h3>
+<hr size="4">
+
+<h4>Changes for version 2.3.1</h4>
+none
+
+<h4>Changes for version 2.3.0</h4>
+New functions so plugins can export labels to display on charts and panels.
+A plugin can request or cancel exporting with these two:
+<pre>
+	gint        gkrellm_plugin_export_label(GkrellmMonitor *mon_plugin,
+	                    gchar *mon_name,
+	                    gchar key, gchar *(*func)(gchar key, gchar *which));
+	void        gkrellm_plugin_cancel_label(GkrellmMonitor *mon_plugin, gint id);
+</pre>
+Monitors must be updated to call this to get a plugin's label (currently
+net monitor only).
+<pre>
+	gchar       *gkrellm_plugin_get_exported_label(GkrellmMonitor *mon,
+	                    gchar key, gchar *which);
+</pre>
+For an example of these, I've patched GKrellM2-show_ip to export its ip
+address string for a net interface to the builtin Net monitor.  With the
+plugin enabled, you can enter a "$A" variable in the Net monitor
+"Format String for Chart Labels" to diplay an IP address returned
+from GKrellM2-show_ip.
+<p>
+For gkrellmd server plugins:
+<pre>
+    GkrellmdTicks *gkrellmd_ticks(void);
+    gint          gkrellmd_get_timer_ticks(void);
+</pre>
+
+<h4>Changes for version 2.2.7 - 2.2.10</h4>
+none
+
+<h4>Changes for version 2.2.5</h4>
+<ul>
+<li>
+gkrellmd plugins can read config from a gkrellmd.conf file.  Plugin
+specific config must appear like so:
+<pre>
+	[monitor-name]
+	config line 0
+	config line 1
+	...
+	[/monitor-name]
+</pre>
+gkrellmd plugins can read the config lines with:
+<pre>
+	const gchar  *gkrellmd_config_getline(GkrellmdMonitor *mon);
+</pre>
+</li>
+<li>
+gkrellmd plugins can read data sent from their gkrellm client plugins
+(demo5 is updated to demonstrate this) using the functions:
+<pre>
+	gboolean  gkrellm_client_send_to_server(gchar *key_name, gchar *line);
+	void    gkrellmd_client_input_connect(GkrellmdMonitor *mon,
+	             void (*func)(GkrellmdClient *, gchar *));
+</pre>
+</li>
+<li>
+Various other new functions (mostly to round out using text markup):
+<pre>
+	GkrellmDecal  *gkrellm_create_decal_text_markup(GkrellmPanel *p, gchar *string,
+	                    GkrellmTextstyle *ts, GkrellmStyle *style,
+	                    gint x, gint y, gint w);
+	void  gkrellm_decal_text_markup_insert(GkrellmDecal *d, gchar *s,
+	                    GkrellmTextstyle *ts, gint x_off, gint y_off);
+	void  gkrellm_decal_text_nth_inserted_set_offset(GkrellmDecal *d,
+	                    gint n, gint x_off, gint y_off);
+	void  gkrellm_decal_text_nth_inserted_get_offset(GkrellmDecal *d,
+	                    gint n, gint *x_off, gint *y_off);
+	void  gkrellm_config_instant_apply(GkrellmMonitor *mon);
+	GtkTreeSelection *gkrellm_gtk_scrolled_selection(GtkTreeView *treeview,
+	                    GtkWidget *box, GtkSelectionMode s_mode,
+	                    GtkPolicyType h_policy, GtkPolicyType v_policy,
+	                    void (*func_cb)(), gpointer data);
+	void  gkrellm_text_markup_extents(PangoFontDescription *font_desc,
+	                    gchar *text, gint len, gint *width, gint *height,
+	                    gint *baseline, gint *y_ink);
+	gint  gkrellm_gdk_string_markup_width(PangoFontDescription *, gchar *);
+	gint  gkrellm_gdk_text_markup_width(PangoFontDescription *font_desc,
+	                    const gchar *string, gint len);
+	void  gkrellm_gdk_draw_string_markup(GdkDrawable *drawable,
+	                    PangoFontDescription *font,
+	                    GdkGC *gc, gint x, gint y, gchar *string);
+	void  gkrellm_gdk_draw_text_markup(GdkDrawable *drawable,
+	                    PangoFontDescription *font,
+	                    GdkGC *gc, gint x, gint y, gchar *string, gint len);
+</pre>
+</li>
+
+<h4>Changes for versions 2.2.3 - 2.2.4</h4>
+none
+
+<h4>Changes for version 2.2.2</h4>
+	New function to get theme position settings for panel labels.
+<pre>
+	void   gkrellm_panel_label_get_position(GkrellmStyle *style,
+                      gint *x_position, gint *y_off);
+</pre>
+
+
+<h4>Changes for version 2.2.1</h4>
+	New functions for drawing text decals using Pango markup:
+<pre>
+	void    gkrellm_draw_decal_markup(GkrellmPanel *p, GkrellmDecal *d, gchar *text);
+	void    gkrellm_decal_scroll_text_set_markup(GkrellmPanel *p,
+                        GkrellmDecal *d, gchar *text);
+</pre>
+	The gkrellm_decal_scroll_text_set_text() function introduced in 2.2.0
+	no longer uses markup.
+
+
+<h4>Changes for version 2.2.0</h4>
+<ul>
+	<li> Gkrellm text drawing is converted from GdkFont to Pango.  The
+	main issue here is that plugins should not be using GdkFont functions
+	such as gdk_string_width() and should use the gkrellm_gdk functions
+	listed below.  With maybe only one or two exceptions, existing plugins
+	should compile (with some possible warnings) and run fine since
+	gkrellm now intercepts some straight GdkFont functions.  Without this
+	interception, many plugins would crash gkrellm.  A plugin using
+	gdk_string_width() can compile under all gkrellm versions by
+	substituting in gkrellm_gdk_string_width() and having this define:
+	<pre>
+	#if !GKRELLM_CHECK_VERSION(2,2,0)
+	#define gkrellm_gdk_string_width    gdk_string_width
+	#endif
+	</pre>
+	</li>
+	<li> There can now be gkrellmd server plugins.  See the tutorial
+	demo5 plugin on the plugins page at gkrellm.net.
+	</li>
+	<li>Updated the plugins reference with the new functions.  Updated demo3
+	  to use new scrolling text functions.
+	</li>
+	<li> gkrellm_draw_decal_text() now ignores the "value" arg and
+	internally checks for changed text before doing a redraw.
+	</li>
+	<li> gkrellm_create_decal_text_with_height() behavior is changed because
+	GdkFont baseline has a different definition from Pango baseline.  So the
+	last arg to the function now has a different meaning.  See the
+	plugin programmers reference.
+	</li>
+</ul>
+
+<blockquote>
+General new functions:
+<pre>
+	void    gkrellm_decal_get_size(GkrellmDecal *d, gint *w, gint *h);
+	void    gkrellm_decal_text_set_offset(GkrellmDecal *d, gint x, gint y);
+	void    gkrellm_decal_text_get_offset(GkrellmDecal *d, gint *x, gint *y);
+	void    gkrellm_chart_reuse_text_format(GkrellmChart *cp);
+	gchar   *gkrellm_get_hostname(void);
+</pre>
+
+New functions to minimize Pango drawing when scrolling text:
+<pre>
+	void    gkrellm_decal_scroll_text_set_text(GkrellmPanel *p,
+	                    GkrellmDecal *d, gchar *text);
+	void    gkrellm_decal_scroll_text_get_size(GkrellmDecal *d,
+	                    gint *w, gint *h);
+	void    gkrellm_decal_scroll_text_align_center(GkrellmDecal *d,
+	                    gboolean center);
+	void    gkrellm_decal_scroll_text_horizontal_loop(GkrellmDecal *d,
+	                    gboolean loop);
+	void    gkrellm_decal_scroll_text_vertical_loop(GkrellmDecal *d,
+	                    gboolean loop);
+</pre>
+
+Some convenience functions for transitioning from GdkFont to
+PangoFontDescription:
+<pre>
+	void    gkrellm_text_extents(PangoFontDescription *font_desc, gchar *text,
+	                    gint len, gint *width, gint *height, gint *baseline,
+	                    gint *y_ink);
+
+	gint    gkrellm_gdk_string_width(PangoFontDescription *, gchar *);
+	void    gkrellm_gdk_draw_string(GdkDrawable *drawable,
+	                    PangoFontDescription *font,
+	                    GdkGC *gc, gint x, gint y, gchar *string);
+	void    gkrellm_gdk_draw_text(GdkDrawable *drawable,
+	                    PangoFontDescription *font,
+	                    GdkGC *gc, gint x, gint y, gchar *string, gint len);
+
+</pre>
+
+New functions to implement client/server capable plugins:
+<pre>
+    /* -------- gkrellm client plugin functions ----------- */
+	gboolean  gkrellm_client_mode(void);
+	void    gkrellm_client_plugin_get_setup(gchar *key_name,
+	                    void (*setup_func_cb)(gchar *str));
+	void    gkrellm_client_plugin_serve_data_connect(GkrellmMonitor *mon,
+	                    gchar *key_name, void (*func_cb)(gchar *line));
+	void    gkrellm_client_plugin_reconnect_connect(gchar *key_name,
+	                    void (*func_cb)());
+
+    /* -------- gkrellmd server plugin functions ----------- */
+	void    gkrellmd_plugin_serve_setup(GkrellmdMonitor *mon,
+	                    gchar *name, gchar *line);
+	void    gkrellmd_need_serve(GkrellmdMonitor *mon);
+	void    gkrellmd_set_serve_name(GkrellmdMonitor *mon, const gchar *name);
+	void    gkrellmd_serve_data(GkrellmdMonitor *mon, gchar *line);
+	void    gkrellmd_add_serveflag_done(gboolean *);
+
+    /* -------- Small set of useful gkrellmd plugin functions -- */
+	void    gkrellmd_free_glist_and_data(GList **list_head);
+	gchar   *gkrellmd_dup_token(gchar **string, gchar *delimeters);
+	gboolean gkrellmd_dup_string(gchar **dst, gchar *src);
+</pre>
+
+
+<h4>Changes for version 2.1.23 - 2.1.28</h4>
+none
+
+<h4>Changes for version 2.1.22</h4>
+Fix omission of check_func in alert plugin interface.  Replace
+gkrellm_alert_plugin_connect() with:
+<pre>
+    void    gkrellm_alert_plugin_alert_connect(GkrellmAlertPlugin *gap,
+                 void (*alarm_func)(), void (*warn_func)(),
+                 void (*update_func)(), void (*check_func)(),
+                 void (*destroy_func)());
+</pre>
+(changes the API, but no plugins are using this yet).
+
+<h4>Changes for version 2.1.17 - 2.1.21</h4>
+none
+
+<h4>Changes for version 2.1.16</h4>
+Added a plugin API for alerts:
+<pre>
+	void        gkrellm_alert_get_alert_state(GkrellmAlert *alert,
+	                    gboolean *alarm_state, gboolean *warn_state);
+	GkrellmAlertPlugin *gkrellm_alert_plugin_add(GkrellmMonitor *mon,
+	                    gchar *name);
+	void        gkrellm_alert_plugin_connect(GkrellmAlertPlugin *gap,
+	                    void (*alarm_func)(), void (*warn_func)(),
+	                    void (*update_func)(), void (*destroy_func)());
+	void        gkrellm_alert_plugin_config_connect(GkrellmAlertPlugin *gap,
+	                    gchar *tab_name,
+	                    void (*config_create_func)(), void (*config_done_func),
+	                    void (*config_save_func)(),void (*config_load_func)());
+	gchar       *gkrellm_alert_plugin_config_get_id_string(GkrellmAlert *alert);
+	void        gkrellm_alert_plugin_alert_attach(GkrellmAlertPlugin *gap,
+	                    GkrellmAlert *alert, gpointer data);
+	void        gkrellm_alert_plugin_alert_detach(GkrellmAlertPlugin *gap,
+	                    GkrellmAlert *alert);
+	gpointer    gkrellm_alert_plugin_get_data(GkrellmAlertPlugin *gap,
+	                    GkrellmAlert *alert);
+	void        gkrellm_alert_plugin_command_process(GkrellmAlert *alert,
+	                    gchar *src, gchar *dst, gint dst_size);
+</pre>
+Other new functions:
+<pre>
+	GtkWidget   *gkrellm_gtk_category_vbox(GtkWidget *box, gchar *category_header,
+	                    gint header_pad, gint box_pad, gboolean pack_start);
+	void         gkrellm_remove_launcher(GkrellmLauncher *launch);
+</pre>
+
+</blockquote>
+
+<h4>Changes for version 2.1.13 - 2.1.15</h4>
+none
+
+<h4>Changes for version 2.1.12</h4>
+As mentioned in the main Changelog, make install will install a gkrellm.pc
+file so plugin makefiles may use:
+<pre>
+	`pkg-config gkrellm --cflags`
+	`pkg-config gkrellm --libs`
+</pre>
+
+New functions:
+<pre>
+	void        gkrellm_decal_text_clear(GkrellmDecal *d);
+	void        gkrellm_decal_text_insert(GkrellmDecal *d, gchar *s,
+	                    GkrellmTextstyle *ts, gint x_off, gint y_off);
+	GkrellmDecal *gkrellm_create_decal_text_with_height(GkrellmPanel *p,
+	                    GkrellmTextstyle *ts, GkrellmStyle *style,
+	                    gint x, gint y, gint w, gint h, gint y_baseline);
+	void         gkrellm_chartconfig_callback_block(GkrellmChartconfig *, gboolean);
+
+</pre>
+
+<h4>Changes for version 2.1.10</h4>
+None
+
+<h4>Changes for version 2.1.9</h4>
+New functions:
+<pre>
+	GkrellmPiximage *gkrellm_piximage_new_from_inline(const guint8 *data, gboolean copy_pixels);
+	gboolean	gkrellm_load_piximage_from_inline(gchar *name, const guint8 *data,
+						GkrellmPiximage **image,
+						gchar *subdir, gboolean copy_pixels);
+	void		gkrellm_alert_commands_config(GkrellmAlert *alert,
+						gboolean alarm, gboolean warn);
+	void		gkrellm_reset_alert_soft(GkrellmAlert *alert);
+</pre>
+See the GKrellM2 plugin programmers reference for descriptions.
+
+<h4>Changes for version 2.1.8</h4>
+New functions:
+<pre>
+	void		gkrellm_panel_label_on_top_of_decals(GkrellmPanel *p,
+						gboolean mode);
+	gboolean	gkrellm_alert_is_activated(GkrellmAlert *alert);
+	void		gkrellm_alert_dup(GkrellmAlert **ap, GkrellmAlert *a_src);
+	void		gkrellm_alert_config_create_connect(GkrellmAlert *alert,
+						void (*func)(), gpointer data);
+	void		gkrellm_alert_command_process_connect(GkrellmAlert *alert,
+						void (*func)(), gpointer data);
+	gboolean	gkrellm_alert_decal_visible(GkrellmAlert *alert);
+	void		gkrellm_alert_set_delay(GkrellmAlert *alert, gint delay);
+	void		gkrellm_alert_delay_config(GkrellmAlert *alert, gint step,
+						gint high, gint low);
+	void		gkrellm_gtk_alert_button(GtkWidget *box, GtkWidget **button,
+						gboolean expand, gboolean fill, gint pad,
+						gboolean pack_start, void (*cb_func)(), gpointer data);
+</pre>
+The GKrellM2 plugin programmers reference is updated with these functions
+and now includes a link to a tutorial demo-alert.c.
+
+<h4>Changes for version 2.1.2 - 2.1.7</h4>
+None
+
+<h4>Changes for version 2.1.1</h4>
+Users can set a theme scale.  Buttons made with
+gkrellm_make_scaled_button() and krells are automatically theme scaled, but
+plugins that have their own multi frame
+decal images will need a code change if they want the decal image to be
+user scalable.  This fragment shows a clean way to do it:
+<pre>
+	gkrellm_load_piximae("foo", foo_xpm, &foo_piximage, FOO_STYLE_NAME);
+#if defined(GKRELLM_HAVE_THEME_SCALE)
+	/* New function scales to multiple of frame height and does not require
+	|  the plugin to maintain a pixmap and mask.
+	*/
+	foo_decal = gkrellm_make_scaled_decal_pixmap(panel, foo_piximage, style,
+	              N_FOO_FRAMES, -1, -1, 0, 0);
+#else
+	gkrellm_scale_piximage_to_pixmap(foo_piximage, &foo_pixmap,
+	              &foo_mask, 0, 0);
+	foo_decal = gkrellm_create_decal_pixmap(p, foo_pixmap, foo_mask,
+	              N_FOO_FRAMES, style, -1, -1);
+#endif
+</pre>
+However, if the plugin needs to maintain the pixmap and mask, you can
+handle things yourself by
+scaling the decal frame height by the theme_scale value and
+then creating the pixmap height to be a multiple of the frame height:
+<pre>
+#if defined(GKRELLM_HAVE_THEME_SCALE)
+	h = gdk_pixbuf_get_height(foo_piximage->pixbuf) / N_FOO_FRAMES;
+	h *= gkrellm_get_theme_scale();     /* New function */
+	h *= N_FOO_FRAMES;
+	w = -1;			/* Scales to drawn image size * theme_scale */
+#else
+	h = 0;             /* Will scale to drawn image size */
+	w = 0;
+#endif
+	gkrellm_scale_piximage_to_pixmap(foo_piximage, &foo_pixmap,
+	              &foo_mask, w, h);
+	foo_decal = gkrellm_create_decal_pixmap(panel, foo_pixmap, foo_mask,
+	              N_FOO_FRAMES, style, -1, -1);
+</pre>
+Code that places decals relative to margins or to other decal/krell
+positions and sizes should be fine, but if you place at hardwired locations,
+the x,y location values might need to be
+scaled by gkrellm_get_theme_scale() for things to look right when the
+user changes the theme scale.
+
+<h4>Changes for version 2.1.0</h4>
+There is an issue with the new theming features in 2.1.0.  There are
+only two defined monitor types (chart and meter), but some monitors
+are hybrids.  The new spacer and cap theme images are applied based
+on monitor type, but for hybrid monitors there is no way for gkrellm
+to determine which images should really be used.  So there is a
+new function:
+<pre>
+gkrellm_spacers_set_types(GkrellmMonitor *mon, gint top, gint bottom);
+</pre>
+where top and bottom are GKRELLM_SPACER_CHART or GKRELLM_SPACER_METER.
+Hybrid monitors can now make this call to let gkrellm know what it
+is doing.  See the builtin mem.c and my plugin gkrellmss (version 2.1)
+for examples of its usage.
+
+<h4>Changes for version 2.0.4</h4>
+None.
+
+<h4>Changes for version 2.0.3</h4>
+<ul>
+<li> If a plugin implements instant apply (so no apply_config() and it
+	is NULL in the GkrellmMonitor struct), then if the plugins config
+	page is selected, there will be no "Apply" button shown since
+	it, ...ummm...  doesn't apply.</li>
+<li> For plugins which have an apply_config(), now there is an
+	implied apply if the user leaves the plugins config page
+	by selecting another monitor. </li>
+</ul>
+
+<h4>Changes for version 2.0.1 - 2.0.2</h4>
+None.
+
+<h4>Changes for version 2.0.0</h4>
+See the gkrellm-2.0 porting guide.
+
+<h4>Changes for version 1.2.10 - 1.2.11</h4>
+None.
+
+<h4>Changes for version 1.2.9</h4>
+Some added functions (see the Plugin Programmers Reference for more functions):
+	<pre><font size="-1">
+Style   *gkrellm_meter_style_by_name(gchar *name);
+Style   *gkrellm_panel_style_by_name(gchar *name);
+Style   *gkrellm_chart_style_by_name(gchar *name);
+	</font></pre>
+which provide for using a custom style
+with values set with
+StyleMeter or StylePanel lines in the gkrellmrc.  If you have extra
+krells you want to allow to be themed, this can clean up your code
+by eliminating a bunch
+of gkrellm_get_gkrellmrc_integer() or gkrellm_get_gkrellmrc_string()
+calls.
+See the Themes file and gkrellmss.c in GKrellMSS 0.4 (when I release it)
+for a working example of this.
+<p>
+Style margin changes for more layout control.  Usually these will be set
+by a theme author in the gkrellmrc:
+	<ul>
+		<li>There is now a left and right panel margin instead of the single
+		"margin".  These are in a new Margin struct which also includes
+		the top and bottom margin.  Use gkrellm_get_style_margins() to
+		access the themed margin values.</li>
+		<li>The Style struct has new krell_left_margin and krell_right_margin
+		for setting krell margins independently of panel margins.</li>
+	</ul>
+<p>
+
+<h4>Changes for version 1.2.6 - 1.2.8</h4>
+None.
+
+<h4>Changes for version 1.2.5</h4>
+Added some functions.
+	<pre><font size="-1">
+void    gkrellm_set_krell_expand(Style *, gchar *);
+void    gkrellm_insert_krell_nth(Panel *, Krell *, gint);
+void    gkrellm_insert_decal_nth(Panel *, Decal *, gint);
+gboolean gkrellm_in_decal(Decal *, GdkEventButton *);
+void    gkrellm_decal_button_connect(DecalButton *, void (*func)(), void *);
+void    gkrellm_decal_button_right_connect(DecalButton *, void (*func)(), void *);
+void    gkrellm_set_button_sensitive(DecalButton *, gboolean);
+void    gkrellm_hide_button(DecalButton *);
+void    gkrellm_show_button(DecalButton *);
+	</font></pre>
+
+The DecalButton callback function prototype adds a "gpointer data" so
+you don't have to reference button->data.
+
+<h4>Changes for version 1.2.3 - 1.2.4</h4>
+None.
+
+<h4>Changes for version 1.2.2</h4>
+Added some functions.  Some of them are (for controlling decals and krells):
+	<pre><font size="-1">
+void          gkrellm_set_krell_margins(Panel *, Krell *k, gint, gint);
+void          gkrellm_move_krell_yoff(Panel *, Krell *, gint);
+void          gkrellm_draw_decal_on_chart(Chart *, Decal *, gint, gint);
+void          gkrellm_move_decal(Panel *, Decal *, gint, gint);
+void          gkrellm_decal_on_top_layer(Decal *, gboolean);
+	</font></pre>
+
+<h4>Changes for version 1.2.1</h4>
+None.
+
+<h4>Changes for version 1.2.0</h4>
+Any plugin using charts will require coding changes and a recompile.
+Charts are now automatically user configurable with a right click on a chart.
+There are too many new functions to cover here, so look over the updated
+plugin programmers reference and especially the chart demo1.c program.
+All of the "chartconfig" and "chartdata" functions are new.  The create
+and destroy functions are changed to gkrellm_chart_create() and
+gkrellm_chart_destroy().  You should no longer do awkward settings such
+as chart->previous = blah (use gkrellm_monotonic_chartdata()) or
+chart->scale_max = 0 (chart scaling is now handled properly)
+A couple of key points to note are:
+<ul>
+	<li>Charts no longer automatically have two data sets.  There is a new
+	ChartData struct which is added to Charts as needed.  To handle a
+	variable number of data layers, the store data routine is changed
+	to a varargs <br>
+	&nbsp &nbsp &nbsp &nbsp gkrellm_store_chartdata(Chart *, gulong total, ...);
+	</li>
+	<li>There are several chart config options all handled automatically.  But
+	you do need to save and load the config - see demo1.c
+	</li>
+</ul>
+
+Plugins that use panels do not require a recompile, but I've made
+the chart and panel coding styles cleaner and more consistent by adding
+some functions you should migrate to.  When you do,
+your plugin will depend on GKrellM version >= 1.2.0.
+These are for coding cleanups and some new functions:
+	<ul>
+	<li>If you have a spare right click, you can have it call<br>
+     &nbsp &nbsp &nbsp &nbsp gkrellm_open_config_window(Monitor *);<br>
+	and the config window will be opened right to your plugin's config page.
+	</li>
+	<li>Use gkrellm_panel_create() instead of gkrellm_create_panel().
+	Use gkrellm_panel_configure() instead of gkrellm_configure_panel().
+	Use gkrellm_panel_enable_visibility() instead of
+	gkrellm_enable_visibility()
+	(or you could use gkrellm_hide_panel() and gkrellm_show_panel()).
+	See the plugin programmers reference for usage.
+	</li>
+	<li> After you upgrade to using these new functions, there should
+	be no need to worry about managing stuff that gkrellm should be
+	handling.  ie, you should never have to make
+	any gkrellm_monitor_height_adjust() or gkrellm_pack_side_frame() calls.
+	Also, decal/krell lists will be automatically destroyed prior to
+	create plugin calls (but you can override this) and you should no
+	longer set krell->previous
+	(use gkrellm_monotonic_krell_values()).  Also if you destroy a panel,
+	you will no longer need to destroy lists, adjust monitor height,
+	or g_free() the Panel struct storage.
+	<p>
+	Look at the revised demos in the programmers
+	reference.  Also look at the bottom of gkrellm_public_proto.h for the
+	list of functions that should be replaced.
+	</li>
+</ul>
+
+
+<h4>Changes for version 1.0.8</h4>
+None
+
+<h4>Changes for version 1.0.7</h4>
+None
+
+<h4>Changes for version 1.0.6</h4>
+/usr/lib/gkrellm/plugins and /usr/local/lib/gkrellm/plugins are now also
+searched to comply with the FHS.
+
+<h4>Changes for version 1.0.5</h4>
+None
+
+<h4>Changes for version 1.0.4</h4>
+<blockquote>
+Looking ahead a bit (some months?) when I get to 1.1.0
+I want the gkrellm namespace to be cleaned up.  I'm defining
+that to mean that if you do a "nm -u plugin.so" the undefined symbols
+expected to link to gkrellm will be only GK and gkrellm_XXX symbols.
+Starting with 1.0.4 gkrellm_private_proto.h is no longer included
+by gkrellm.h and it is not installed in the include directory.  I 
+have temporarily moved some symbols affecting a few plugins
+from private to public proto.h.  I hope I moved enough so
+that all current plugins I know of will still compile.  The plan is
+when 1.1.0 arrives I will do the "Cut Here" at the bottom of
+gkrellm_public_proto.h, so source will need to be in sync
+by then.<br>
+<b>To check if you need changes,
+#ifdef out the part that will be cut and see if you get warnings
+compiling with -Wall.</b><br>
+If you have changes to make or want to use any new functions below,
+make your source dependent on version 1.0.4 as described in the
+changes for version 1.0.3.
+<p>
+Added some handy utility routines (most were already in
+gkrellm_private_proto.h without a gkrellm_ prefix):
+	<pre><font size="-1">
+	GtkWidget *gkrellm_create_tab(GtkWidget *, gchar *);
+	gchar   *gkrellm_entry_get_text(GtkWidget **);
+	void    gkrellm_spin_button(GtkWidget *, GtkWidget **, gfloat, gfloat, gfloat,
+	                gfloat, gfloat, gint, gint, void (*func)(), gpointer, gboolean, gchar *);
+	void    gkrellm_check_button(GtkWidget *, GtkWidget **, gboolean, gboolean, gint, gchar *);
+	gchar   *gkrellm_homedir(void);
+	gboolean gkrellm_dup_string(gchar **, gchar *);
+	gchar   *gkrellm_make_config_file_name(gchar *, gchar *);
+	struct tm *gkrellm_get_current_time();
+	</font></pre>
+Other uninteresting changes are: Added some session manager plugin helper
+functions so I could write the gkrellm-gnome plugin and exported sensor
+reading functions for special purpose sensor monitoring plugins.
+</blockquote>
+
+<h4>Changes for version 1.0.3</h4>
+<ul>
+<li> You can run <b>gkrellm -p plugin-under-test.so</b> to load the plugin
+	you are working on in the current directory.  Should be a development
+	time saver.
+</li>	
+<li>
+I am changing the way top and bottom margins are specified in panels.
+Previously labels and decals were margined by using the top and
+bottom borders of the background image.  Now there are new
+<b>top_margin</b> and <b>bottom_margin</b> values in the Style struct to go
+with the existing <b>margin</b> value (which is used for both
+left and right margins).  Most
+plugins probably don't care about this since the gkrellm create and
+configure routines handle most placements, but if you were using
+any <b>border.top</b> or <b>border.bottom</b> references for positioning,
+you should use the new routine:
+	<pre><font size="-1">
+    void  gkrellm_get_top_bottom_margins(Style *s, gint *top, gint *bot)
+	</font></pre>
+
+This routine determines if a theme is using the new top_margin and
+bottom_margin values and returns them, otherwise it will return the old
+top and bottom border values so existing themes will not break.
+</li>
+<p>
+<li>
+Two new Style copying functions needed to fix a bad programming practice
+I had promoted in my demo programs:
+	<pre><font size="-1">
+    Style     *gkrellm_copy_style(Style *src_style);
+    TextStyle *gkrellm_copy_textstyle(TextStyle *src_style);
+	</font></pre>
+
+Previously I had suggested
+copying a style to a plugin local style like so:
+	<pre><font size="-1">
+    Style *my_style, *style;
+
+    style     = gkrellm_meter_style(DEFAULT_STYLE);
+    my_style  = gkrellm_style_new0();
+    *my_style = *style;
+	</font></pre>
+
+But I goofed and this is no good.  If you have such code please change it.
+It should now be done like so:
+	<pre><font size="-1">
+    Style *my_style, *style;
+
+    style    = gkrellm_meter_style(style_id);
+    my_style = gkrellm_copy_style(style);
+	</font></pre>
+
+<b>NOTE:</b> Just to emphasize a point, you should never have a static
+local Style or TextStyle declared.  You should use the above copy
+function so the style can be initialized with a themes gkrellmrc settings.
+</li>
+<p>
+<li>
+If you do use the above new routines and don't want to clutter your code
+with #ifdefs to make it compatible with old GKrellM versions, I suggest
+making your plugin require version 1.0.3.  After all, I don't think it's
+unreasonable to ask someone installing your latest plugin
+version to also have installed a recent GKrellM version.  It's what I
+would do and it can keep your code base clean.  You can enforce
+this requirement in your header file after you include gkrellm.h:
+	<pre><font size="-1">
+    #include &lt;gkrellm/gkrellm.h&gt;
+    #if  !defined(GKRELLM_VERSION_MAJOR) \
+         || (GKRELLM_VERSION_MAJOR==1 && GKRELLM_VERSION_MINOR==0 && GKRELLM_VERSION_REV<3)
+    #error This plugin requires GKrellM version >= 1.0.3
+    #endif
+	</font></pre>
+	
+Notice that in 1.0.3 you can now use GKRELLM_VERSION_MAJOR instead of just
+VERSION_MAJOR.
+Similarly, if you want to clean out ugly #ifdef'ed code sections
+for previous versions of your plugin, just do it!
+But if you want to conditional on a GKrellM version prior to 1.0.3, you
+can't use the GKRELLM_VERSION_MAJOR.
+Ie. if you #ifdef'ed in some of the new functions for 0.10.0, clean them
+out and put in your header:
+	<pre><font size="-1">
+    #include &lt;gkrellm/gkrellm.h&gt;
+    #if &nbsp (VERSION_MAJOR==0) && (VERSION_MINOR<10)
+    #error This plugin requires GKrellM version >= 0.10.0
+    #endif
+	</font></pre>
+But, if you are going to do this, why not just make a clean break?
+Go ahead and use the first example using GKRELLM_VERSION_XXX defines,
+and be done with it!
+</li>
+</ul>
+
+<h4>Changes for version 1.0.0 - 1.0.2</h4>
+None.
+
+<h4>Changes for version 0.10.5</h4>
+Added these routines:
+<ul>
+	<li>gkrellm_config_modified()</li>
+	<li>gkrellm_chart_images_override()</li>
+	<li>gkrellm_get_gkrellmrc_integer()</li>
+	<li>gkrellm_get_gkrellmrc_string()</li>
+</ul>
+See the Plugins programmers reference for descriptions.
+
+<h4>Changes for version 0.10.2 - 0.10.4</h4>
+None.
+
+<h4>Changes for version 0.10.1</h4>
+<ul>
+<li>There has been a loose end with controlling plugin placement when
+multiple plugins are placing themselves before the same monitor.  So far
+this placement has been determined by the order plugins are read from the
+plugin directories and this in turn is a function of the order they
+were written into the directory.  There is no alphabetical sorting
+at all.  So to give some control, plugins can now specify a gravity value
+from 0 to 15 in the placement parameter.  Think of it as higher gravity
+pulling a plugin down in its placement slot.  If you see no reason your
+plugin should care about this level of control then do nothing, no
+code changes are required.  But if there is some reason you prefer your
+plugin be biased downwards, then give it gravity like so:
+<pre>
+#ifdef GRAVITY
+#define MY_PLACEMENT (MON_APM | GRAVITY(8))
+#else
+#define MY_PLACEMENT (MON_APM)
+#endif
+</pre>
+If there is a very strong reason to bias it down, give it gravity 15.
+If you want placement with respect to another plugin that has gravity,
+then give yours a gravity value just above or below the gravity for the
+other plugin.  Many plugins can just pass this by and be fine with the
+default zero gravity.  
+<p>
+<li>Cleaned out all GK.debug usage from GKrellM source so it is now solely for
+plugin use.   You can run "gkrellm -debug" or "gkrellm -debugN" where N is
+an arbitrary integer you pick for your plugin specific use.  Basically,
+use "if (GK.debug)" for general debugging, or use "if (GK.debug == N)"
+for debugging isolated to your plugin.   I guess just rely on chance
+and squatters rights and just pick an N that
+you hope does not collide with some other plugin.
+</ul>
+
+<h4>Changes for version 0.10.0</h4>
+<blockquote>
+Final release check list (some details are below):
+<ul>
+	<li>Fix GK struct references - only xxx_tick and debug references are OK.
+	<li>Consider adding style_id support - use the new functions.
+	<li>Consider using gkrellm_load_image() to load custom #included images.
+</ul>
+
+<h5>Details</h5>
+New functions (see plugin programmers reference):
+<pre><font size="-1">
+gboolean gkrellm_load_image(gchar *name, gchar **xpm, GdkImlibImage **im, gchar *subdir);
+gboolean gkrellm_set_image_border(gchar *name, gchar **xpm, Style *style);
+gint     gkrellm_add_chart_style(Monitor *mon, gchar *name);
+gint     gkrellm_add_meter_style(Monitor *mon, gchar *name);
+gint     gkrellm_lookup_chart_style_id(gchar *name);
+gint     gkrellm_lookup_meter_style_id(gchar *name);
+gchar    *gkrellm_get_theme_path(void);
+void     gkrellm_add_info_text_string(GtkWidget *text, gchar *string);
+</font></pre>
+
+The GK structure is changing.
+It has always been the case that the only safe parts of GK to
+access are the debug and xxx_tick parts.
+If any plugin directly accesses the structure (does not use the
+gkrellm_XXX() helper functions) for image or style pointers
+it's pretty certain it will break.
+Also, even if you did use gkrellm_XXX() functions to access images or styles
+for other monitors (not the DEFAULT_STYLE) you will now get unexpected
+results (but should not crash).  Use the gkrellm_lookup_xxxx_style_id()
+functions to get a style_id for other monitors.
+Some other references are OK for now,
+like GK.theme_path, but should be changed to the new gkrellm_get_theme_path()
+under 0.10.0 (but consider using the new gkrellm_load_image() function
+so you don't have to do any theme path processing at all).
+<p>
+Code references like these are a problem:
+<pre>
+    GK.XXX_style[id]      where XXX is chart, panel, or meter.
+    GK.bg_XXX_image[id]   where XXX is chart, panel, meter, or grid.
+    GK.krell_XXX_image[]  where XXX is panel or meter
+    GK.monitor_height += p->h;
+    UC.chart_width
+    GK.decal_misc_pixmap
+    some_function(XXX_STYLE) where XXX is APM, FS, CLOCK, CAL, etc.
+</pre>
+Fix them like this:
+<pre>
+    gkrellm_XXX_style(id);
+    gkrellm_bg_XXX_image(id);
+    gkrellm_krell_XXX_image(id);
+    gkrellm_monitor_height_adjust(h);
+    gkrellm_chart_width();
+    gkrellm_decal_misc_pixmap();
+    some_function(gkrellm_lookup_meter_style_id(XXX_STYLE_NAME));
+</pre>
+See the plugin programmers reference.  It has updated documentation on the
+above new calls and the demo programs are updated as well.   The
+short story is plugins can
+now be themed at the same level as builtins.  Check the Styles and Themes
+section.
+<p>
+Here's something that might help:
+<ul>
+	<li>Make your plugin compilable under 0.9.x or 0.10.x by doing this:<br>
+		In a header or at the top of your source file:
+<pre>
+#if ((VERSION_MAJOR>0)||(VERSION_MINOR>9))
+#define PLUGIN_STYLE style_id
+static gint  style_id;
+#else
+    #define PLUGIN_STYLE DEFAULT_STYLE
+#endif
+</pre>
+		Access styles and images by using PLUGIN_STYLE as an argument.
+		And in the init_plugin() routine, add this:
+<pre>
+#if ((VERSION_MAJOR>0)||(VERSION_MINOR>9))
+    style_id = gkrellm_add_meter_style(&plugin_mon, "somename");
+#endif
+</pre>
+	<li>If you have custom images to load and want to use gkrellm_load_image(),
+	it is more difficult to be compilable under 0.9.x and 0.10.x.  You
+	could use #if around gkrellm_load_image() calls, or you could just
+	not bother and have the requirement that the plugin needs 0.10.x.
+</blockquote>
+
+
+<h4>Changes for version 0.9.9</h4>
+<blockquote>
+Not much new for this release.  About the only thing is I have followed
+the lead of several plugins and added a global function to get the nice
+bold (and added italic) text into the Info/Help pages.   You can use it if
+you want or keep doing it the way you have been, but one benefit is
+that I have an alternate larger font size the user can select if he
+wants.  Just insert &lt;b&gt; for bold or &lt;i&gt; for
+bold italic in front of
+strings in a string array, like this:
+<pre><font size="-1">
+gchar	*info_text[] =
+    {
+    "&lt;b&gt;The first ",
+    "two words of this line are bold\n"
+    "and the last two words of this line ",
+    "&lt;i&gt;are italic\n"
+    };
+...
+GtkWidget *text;
+
+...
+text = gtk_text_new(NULL, NULL);
+gkrellm_add_info_text(text, info_text, sizeof(info_text) / sizeof(gchar *));
+...
+</font></pre>
+
+If you look at the GKrellM source you will notice _( ) and N_( ) macros
+around text strings.  There has been some interest in internationalizing
+the program (Turbolinux Japan) and these macros support that.  I don't
+know if this will extend to the plugins, so my suggestion is do whatever
+you feel comfortable with (the macros are a no-op unless i18n is enabled).
+If you choose to do this, then the above info_text declaration would look like:
+
+
+<pre><font size="-1">
+gchar	*info_text[] =
+    {
+    N_("&lt;b&gt;The first "),
+    N_("two words of this line are bold\n"
+    "and the last two words of this line "),
+    N_("&lt;i&gt;are italic\n")
+    };
+</font></pre>
+
+
+I'm giving some thought to a way for plugins to have custom theme images
+(as do the builtins), but did not get to it for this release.  Maybe
+next time.
+</blockquote>
+
+<h4>Changes for version 0.9.8</h4>
+<ul>
+<li>make install from source and package installation now installs the
+	header files.  So, source for plugins can now<br>
+	&nbsp &nbsp &nbsp <b>#include &lt;gkrellm/gkrellm.h&gt;</b>
+	<br>as a default so people
+	compiling plugins do not have to install them in the plugins source
+	tree or edit the location of gkrellm.h.
+<li>Fixed a bug where DecalButtons were not destroyed when
+	gkrellm_destroy_panel() was called.
+</ul>
+
+<h4>Changes for version 0.9.7</h4>
+<ul>
+<li>IMPORTANT: init_plugin() returning NULL is now properly handled.
+	Any plugin which
+	finds it  cannot install itself because some resource is not available
+	should not issue any error messages from the init_plugin() routine.
+	If the resource deficiency is serious (some feature not compiled into
+	the kernel, etc), the plugin should return NULL.  However, if the
+	problem is resolvable (as in a permission problem or setup issue), then
+	the plugin should return the address of the monitor structure as normal,
+	but should then trap the problem and issue an error message in the
+	create_plugin() routine.
+	The reason
+	for this is that there is now a system wide plugins directory where
+	plugins for all users may be installed.  This means plugins may be
+	loaded for users who do not want them enabled at all or
+	who do not currently have
+	permission to access resources needed by the plugin.
+	A message in the init_plugin() routine will appear each time GKrellM
+	is started and will probably just annoy the user.  The proper place
+	for any messages, in the create_plugin() routine, will not be called
+	unless the user has asked for the plugin to be enabled.  A message
+	here could let the user know what is needed to make the plugin
+	accessible, so you could issue the message and then return without
+	creating your monitor.  And of course, your update routine needs
+	to be aware if the plugin has actually been created.
+<li>A flag can be or'ed into a placement value so a plugin can be placed
+	after a builtin monitor instead of the default before the monitor.
+	For example, to place a plugin after the file system monitors, use <br>
+	(MON_FS | MON_INSERT_AFTER)<br>
+	I think a good rule to follow would be
+	to place a plugin before a particular
+	monitor when you are doing it for appearance (ie that is where the
+	plugin looks like it should go), but place the plugin "after" a monitor
+	when there is a functional similarity between the builtin and plugin.
+	Otherwise, a plugin which has a functional similarity and really should
+	be placed right next to a builtin monitor may not end up in the right
+	place if several plugins are asking to be placed in the same position.
+	If I can use current plugins as an example, I think the Mailwatch
+	would be a candidate to be placed after MON_MAIL because it has the
+	similarity and it is likely to be enabled at the same time as the builtin
+	mail monitor.
+	The others are probably OK being placed before any particular monitor. 
+	The powerbook_pmu plugin does
+	not need to be placed after the builtin MON_APM because it will not
+	be enabled at the same time the builtin apm monitor is enabled.
+</ul>
+
+<h4>Changes for version 0.9.6</h4>
+As of 0.9.6 I want to make name changes (and one prototype change)
+for these four routines.
+But for several versions, I'll keep them around to avoid breaking plugins.
+<pre><font size="-1">
+
+Decal   *gkrellm_create_text_decal(Panel *p, gchar *, TextStyle *, Style *, gint, gint, gint);
+Decal   *gkrellm_create_pixmap_decal(Panel *, GdkPixmap *, GdkBitmap *, gint, Style *);
+void    gkrellm_draw_pixmap_decal(Panel *, Decal *, gint);
+void    gkrellm_draw_text_decal(Panel *, Decal *, gchar *, gint);
+
+They are changed to:
+
+Decal   *gkrellm_create_decal_text(Panel *p, gchar *, TextStyle *, Style *, gint, gint, gint);
+Decal   *gkrellm_create_decal_pixmap(Panel *, GdkPixmap *, GdkBitmap *, gint, Style *, gint, gint);
+void    gkrellm_draw_decal_pixmap(Panel *, Decal *, gint);
+void    gkrellm_draw_decal_text(Panel *, Decal *, gchar *, gint);
+</font></pre>
+Plugins writers should migrate these four routines at their convenience.
+This is simply done by replacing
+the names, and in the case of gkrellm_create_decal_pixmap(), the following
+two calls are equivalent:
+<pre><font size="-1">
+    gkrellm_create_pixmap_decal(p, pixmap, mask, depth, style);
+    gkrellm_create_decal_pixmap(p, pixmap, mask, depth, style, -1, -1);
+</font></pre>
+
+
+<hr size="4">
+<h4>Changes for version 0.9.0</h4>
+
+The API for plugins is changed for version 0.9.0.  There are a few
+prototype changes and coding style changes.  One change is necessary
+because GKrellM now resizes and changes themes without restarting.
+This changes the create_plugin() routine from a one time create
+function to a create event function which can be repeatedly called.
+
+<pre><font size="-1">
+-------------------------------------------------------------------
+Coding style change: create_plugin() 
+
+-------------The old style--------------:
+
+static void
+create_plugin(GtkWidget *vbox)
+	{
+	Chart	*chart;
+	Panel	*p;
+
+	chart = gkrellm_chart_new0();
+	p = chart->panel = gkrellm_panel_new();
+	...
+
+	/* Create decals, krells. Configure panel, create panel, create chart */
+	...
+
+	gtk_signal_connect(GTK_OBJECT(p->drawing_area), "expose_event",
+			(GtkSignalFunc) panel_expose_event, NULL);
+	gtk_signal_connect(GTK_OBJECT(chart->drawing_area),"expose_event",
+			(GtkSignalFunc) chart_expose_event, NULL);
+	}
+
+--------------The new style-------------:
+
+static void
+create_plugin(GtkWidget *vbox, gint first_create)
+	{
+	Chart	*chart;
+	Panel	*p;
+
+	if (first_create)
+		{
+		chart = gkrellm_chart_new0();
+		p = chart->panel = gkrellm_panel_new();
+		}
+	else
+		{
+		gkrellm_destroy_krell_list(p);
+		gkrellm_destroy_decal_list(p);
+		}
+	...
+
+	/* Create decals, krells. Configure panel, create panel, create chart
+	|  just as before.
+	|
+	| If you create any local pixmaps, widgets, etc you should destroy
+	| them or not create them again if this is not the first_create to
+	| avoid memory leaks.  You could test for first_create or objects != NULL.
+	| See the plugin_example.c for code marked with MMM.
+	*/
+	...
+
+	if (first_create)
+		{
+		gtk_signal_connect(GTK_OBJECT(p->drawing_area), "expose_event",
+				(GtkSignalFunc) panel_expose_event, NULL);
+		gtk_signal_connect(GTK_OBJECT(chart->drawing_area),"expose_event",
+				(GtkSignalFunc) chart_expose_event, NULL);
+		}
+	}
+
+
+
+================================================================
+Coding style change: panel decal and krell lists are now a GList.
+
+-------------The old style--------------:
+Krell *k;
+
+for (k = chart->panel->krell; k; k = k->next)
+	{
+	...
+	}
+
+-------------The new style--------------:
+Krell   *k;
+GList   *list;
+
+for (list = chart->panel->krell; list; list = list->next)
+	{
+	k = (Krell *) list->data;
+	...
+	}
+
+Same change for panel->decal.
+
+
+
+================================================================
+Coding style change: gkrellm_default_textstyle() function defunct:
+
+-------------The old function--------------:
+gkrellm_default_textstyle(p->textstyle, TEXTSTYLE_XXX, style);
+
+-------------Is replaced with several functions--------------:
+p->textstyle = gkrellm_panel_textstyle(DEFAULT_STYLE);
+p->textstyle = gkrellm_chart_textstyle(DEFAULT_STYLE);
+p->textstyle = gkrellm_meter_textstyle(DEFAULT_STYLE);
+p->textstyle = gkrellm_chart_alt_textstyle(DEFAULT_STYLE);
+p->textstyle = gkrellm_panel_alt_textstyle(DEFAULT_STYLE);
+p->textstyle = gkrellm_meter_alt_textstyle(DEFAULT_STYLE);
+
+Use these functions in context.  If you have created a chart with panel
+and want to write text on the panel, use gkrellm_panel_textstyle().
+
+
+================================================================
+Function prototype changes (see gkrellm_public_proto.h):
+
+Change gkrellm_create_krell() calls from:
+	k = gkrellm_create_krell(krell_image, &p->krell, style);
+to
+	k = gkrellm_create_krell(p, krell_image, style);
+
+
+Change gkrellm_create_xxx_decal() calls from:
+	d = gkrellm_create_text_decal(label, TEXTSTYLE_XXX, &p->decal,
+					style, x, y, w);
+	d = gkrellm_create_pixmap_decal(pixmap, mask, n_decals, &p->decal, style);
+to
+	d = gkrellm_create_text_decal(p, label, textstyle, style, x, y, w);
+	d = gkrellm_create_pixmap_decal(p, pixmap, mask, n_decals, style);
+
+
+================================================================
+Monitor structure change:
+The pre-spacer and post-spacer members are gone.  There is no longer
+a bg_spacer.
+
+
+
+=================================================================
+Notes:
+If you create a krell you can reference it later in two ways (if
+it is only a single krell in a panel or meter area):
+
+1) save a pointer to the created krell, and reference that:
+	my_krell = gkrellm_create_krell(p, krell_image, style);
+	my_krell->full_scale = xx;
+
+2) Don't save a pointer and reference the krell from the GList:
+	gkrellm_create_krell(p, krell_image, style);
+	KRELL(p)->full_scale = xx;
+
+   Note that in this case you cannot use the old reference style:
+	p->krell->full_scale = xx;
+
+If you have more than one krell per panel or meter area, use the first
+referencing method, save pointers to all the krells you create.
+
+The same two referencing examples apply to decals as well.
+
+
+=================================================================
+New:
+Decals can be converted to buttons.  The plugins_example.c now
+creates two decal buttons, so look there.
+</font>
+</pre>
+</body>
+</html>

@@ -1,0 +1,2921 @@
+# Dutch translation of GKrellM.
+# Copyright (C) 2003 Free Software Foundation, Inc.
+# Daniel van Eeden <daniel_e@dds.nl>, 2003.
+#
+# Homepage: http://compukid.no-ip.org/dev/
+#
+# useful Debian packages:
+# dict: Dictionary Client
+# gnuvd: Query the online Dutch Van Dale dictionary
+# gsdict: GNUstep frontend to the dict UNIX utility
+# idutch: The Dutch dictionary for ispell, in new (August 1996) spelling.
+#
+# Changelog:
+# 2003123101 updated for v2.1.24
+# 2003040101 updated for v2.1.9
+# 2003030601 updated for v2.1.8pre1
+# 2003020301 updated --help (80 cols fix)
+msgid ""
+msgstr ""
+"Project-Id-Version: GKrellM 2.1.24\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-11-27 18:25-0600\n"
+"PO-Revision-Date: 2003-12-31 12:48+0100\n"
+"Last-Translator: Daniel van Eeden <daniel_e@dds.nl>\n"
+"Language-Team: none <none>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-15\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/alerts.c:1153
+msgid "GKrellM Set Alerts"
+msgstr "GKrellm Alarm instellingen"
+
+#: ../src/alerts.c:1165 ../src/battery.c:1122 ../src/gui.c:555
+#: ../src/sensors.c:2780
+msgid "Alerts"
+msgstr "Waarschuwingen"
+
+#: ../src/alerts.c:1188
+msgid "High Limits"
+msgstr "Bovengrens"
+
+#: ../src/alerts.c:1195
+msgid "High alarm limit"
+msgstr "Bovengrens alarm"
+
+#: ../src/alerts.c:1201
+msgid "High warn limit"
+msgstr "Bovengrens waarschuwing"
+
+#: ../src/alerts.c:1208
+msgid "Low Limits"
+msgstr "Ondergrens"
+
+#: ../src/alerts.c:1214
+msgid "Low warn limit"
+msgstr "Ondergrens waarschuwing"
+
+#: ../src/alerts.c:1219
+msgid "Low alarm limit"
+msgstr "Ondergrens alarm"
+
+#: ../src/alerts.c:1229
+msgid "Seconds limit conditions must exist to have an alert"
+msgstr ""
+"Aantal secondes dat de limiet geduurt moet hebben voor het weergeven van een "
+"waarschuwing"
+
+#: ../src/alerts.c:1241
+msgid "Commands - with repeat intervals in seconds"
+msgstr "Commando's - met herhaal interval in seconden"
+
+#: ../src/alerts.c:1251
+msgid "Alarm command:"
+msgstr "Alarm commando:"
+
+#: ../src/alerts.c:1271
+msgid "Warn command:"
+msgstr "Waarschuw commando:"
+
+#: ../src/alerts.c:1295
+msgid "A repeat of zero seconds executes the command once per alert."
+msgstr ""
+"Een herhaling van nul seconden zal het commando een keer per waarschuwing "
+"uitvoeren."
+
+#: ../src/battery.c:566 ../src/battery.c:964 ../src/battery.c:997
+msgid "GKrellM Battery"
+msgstr "GKrellM Batterij"
+
+#: ../src/battery.c:567
+msgid ""
+"Battery times are unavailable.  You\n"
+"could select the Estimated Time option."
+msgstr ""
+"Batterij tijden zijn onbeschikbaar. U\n"
+"kunt de Verwachtte Tijd optie instellen."
+
+#: ../src/battery.c:800 ../src/battery.c:806 ../src/battery.c:1217
+#: ../src/battery.c:1248
+msgid "Battery"
+msgstr "Batterij"
+
+#: ../src/battery.c:801
+msgid "Battery Percent Limits"
+msgstr "Batterij Percentage Limiet"
+
+#: ../src/battery.c:807
+msgid "Battery Minutes Remaining Limits"
+msgstr "Batterij Aantal Minuten Te Gaan"
+
+#: ../src/battery.c:965 ../src/battery.c:998
+msgid ""
+"The Battery alert units are changed\n"
+"and the alert must be reconfigured."
+msgstr ""
+"De Batterij waarschuwings eenheden zijn\n"
+"veranderd, en moeten opnieuw ingesteld worden"
+
+#: ../src/battery.c:1105 ../src/mail.c:3683 ../src/sensors.c:2648
+msgid "<h>Setup\n"
+msgstr "<h>Instellingen\n"
+
+#: ../src/battery.c:1106
+msgid "<b>Display Estimated Time\n"
+msgstr "<b>Laat de verwachte tijd zien\n"
+
+#: ../src/battery.c:1107
+msgid ""
+"If battery times are not reported by the BIOS or if the reported times\n"
+"are inaccurate, select this option to display a battery time remaining or\n"
+"time to charge which is calculated based on the current battery percentage\n"
+"level, user supplied total battery times, and a linear extrapolation model.\n"
+msgstr ""
+"Als de batterij tijden niet door de BIOS worden weergegeven of als ze niet\n"
+"betrouwbaar zijn, selecteer dan deze optie om de de overige batterij tijd "
+"te\n"
+"laten zien of oplaadtijd welke is berekend op basis van het oplaad "
+"percentage,\n"
+"door de gebruiker opgegeven tijden, en het lineare extrapolatie model.\n"
+
+#: ../src/battery.c:1112
+msgid "<b>Total Battery Times\n"
+msgstr "<b>Totale Batterij Tijd\n"
+
+#: ../src/battery.c:1113
+msgid ""
+"Enter the typical total run time and total charge time in hours for your\n"
+"battery.\n"
+msgstr ""
+"Voor de verwachte totale tijd en totale oplaad tijd in uren in voor uw\n"
+"batterij.\n"
+
+#: ../src/battery.c:1116
+msgid "<b>Exponential Charge Model\n"
+msgstr "<b>Exponentieel Oplaad Model\n"
+
+#: ../src/battery.c:1117
+#, no-c-format
+msgid ""
+"For some charging systems battery capacity rises exponentially, which\n"
+"means the simple linear model will grossly underestimate the time to 100%.\n"
+"Select the exponential model for more accuracy in this case.\n"
+msgstr ""
+"Voor sommige oplaad systemen loopt de batterij capaciteit exponentieel op,\n"
+"wat betekent dat het simpele lineare model de oplaadtijd zal onderschatten.\n"
+"Selecteer het exponentiële model voor meer nauwkeurigheid.\n"
+
+#: ../src/battery.c:1124 ../src/cpu.c:1269 ../src/disk.c:1330 ../src/fs.c:2474
+#: ../src/mem.c:1263 ../src/net.c:2914 ../src/proc.c:890 ../src/sensors.c:2658
+msgid "Substitution variables may be used in alert commands.\n"
+msgstr ""
+"Substitutie variabelen mogen gebruikt worden in waarschuwings commando's.\n"
+
+#: ../src/battery.c:1125
+msgid "\t$p    battery percent level.\n"
+msgstr "\t$p    batterij percentage nivo\n"
+
+#: ../src/battery.c:1126
+msgid "\t$t    battery time left.\n"
+msgstr "\t$b    batterij tijd over.\n"
+
+#: ../src/battery.c:1127
+msgid "\t$n    battery number.\n"
+msgstr "\t$n    batterij nummer.\n"
+
+#: ../src/battery.c:1128
+msgid "\t$o    online state (boolean).\n"
+msgstr "\t$o    online staat (boolean).\n"
+
+#: ../src/battery.c:1129
+msgid "\t$c    charging state (boolean).\n"
+msgstr "\t$c    status opladen (boolean).\n"
+
+#: ../src/battery.c:1131 ../src/fs.c:2476 ../src/inet.c:1806 ../src/mem.c:1266
+msgid "<h>Mouse Button Actions:\n"
+msgstr "<h>Muisknop acties:\n"
+
+#: ../src/battery.c:1132 ../src/fs.c:2477 ../src/gui.c:1026 ../src/inet.c:1807
+#: ../src/mail.c:3724 ../src/mail.c:3727 ../src/mem.c:1267
+msgid "<b>\tLeft "
+msgstr "<b>\tLinks "
+
+#: ../src/battery.c:1133
+msgid ""
+" click on the charging state decal to toggle the display mode\n"
+"\t\tbetween a minutes, percentage, or charging rate display.\n"
+msgstr ""
+" klik op de oplaad staat gedeelte om te wisselen tussen\n"
+"\t\tminuten, percentages of oplaad snelheid weergave.\n"
+
+#: ../src/battery.c:1135 ../src/inet.c:1810 ../src/mail.c:3730
+msgid "<b>\tMiddle "
+msgstr "<b>\tMidden "
+
+#: ../src/battery.c:1136
+msgid ""
+" clicking anywhere on the Battery panel also toggles the display mode.\n"
+msgstr ""
+" klik ergens op het Batterij paneel om van weergave modus te wisselen.\n"
+
+#: ../src/battery.c:1152 ../src/clock.c:674 ../src/cpu.c:1292
+#: ../src/disk.c:1355 ../src/fs.c:2513 ../src/gui.c:1051 ../src/gui.c:1894
+#: ../src/mail.c:4077 ../src/mem.c:1290 ../src/proc.c:905
+#: ../src/sensors.c:2796 ../src/sensors.c:2827 ../src/uptime.c:265
+msgid "Options"
+msgstr "Opties"
+
+#: ../src/battery.c:1157 ../src/clock.c:680 ../src/clock.c:707
+#: ../src/disk.c:1368 ../src/plugins.c:1712 ../src/sensors.c:2728
+msgid "Enable"
+msgstr "Inschakelen"
+
+#: ../src/battery.c:1162
+msgid "Composite Battery"
+msgstr "Samengevoegde batterij"
+
+#: ../src/battery.c:1166
+msgid "Real Batteries"
+msgstr "Echte batterijen"
+
+#: ../src/battery.c:1172
+msgid "Enable Battery"
+msgstr "Batterij Inschakelen"
+
+#: ../src/battery.c:1181
+msgid "Display estimated time remaining and time to charge"
+msgstr "Laat de verwachte overige tijd en de oplaad tijd zien"
+
+#: ../src/battery.c:1189
+msgid "Total battery run time in hours"
+msgstr "Totale batterij aan tijd in uren"
+
+#: ../src/battery.c:1193
+msgid "Total battery charge time in hours"
+msgstr "Totale batterij oplaad tijd in uren"
+
+#: ../src/battery.c:1198
+msgid "Exponential charge model"
+msgstr "Exponentieel oplaad model"
+
+#: ../src/battery.c:1206 ../src/inet.c:2000
+msgid "Seconds between updates"
+msgstr "Seconden tussen vernieuwing"
+
+#: ../src/battery.c:1210 ../src/clock.c:731 ../src/cpu.c:1343
+#: ../src/disk.c:1401 ../src/fs.c:2510 ../src/inet.c:1994 ../src/mail.c:3767
+#: ../src/mem.c:1329 ../src/net.c:3055 ../src/proc.c:945 ../src/sensors.c:2697
+#: ../src/uptime.c:262
+msgid "Setup"
+msgstr "Instellingen"
+
+#: ../src/battery.c:1213 ../src/clock.c:758 ../src/cpu.c:1371
+#: ../src/disk.c:1424 ../src/inet.c:2026 ../src/mem.c:1400 ../src/net.c:3043
+#: ../src/proc.c:967 ../src/uptime.c:273
+msgid "Launch Commands"
+msgstr "Uitvoer Commando's"
+
+#: ../src/battery.c:1234
+msgid "Alerts check for percent capacity remaining."
+msgstr ""
+
+#: ../src/battery.c:1239 ../src/clock.c:766 ../src/cpu.c:1394
+#: ../src/disk.c:1438 ../src/fs.c:2560 ../src/gui.c:1161 ../src/gui.c:1975
+#: ../src/inet.c:2039 ../src/mail.c:4145 ../src/mem.c:1418 ../src/net.c:3087
+#: ../src/proc.c:979 ../src/sensors.c:2865
+msgid "Info"
+msgstr "Info"
+
+#: ../src/chart.c:1021
+msgid "Ag8"
+msgstr ""
+
+#: ../src/chart.c:2292 ../src/chart.c:2449
+msgid "/Control/Auto mode sticks at peak value"
+msgstr "/Controle/Automaat mode blijft op top waarde"
+
+#: ../src/chart.c:2296 ../src/chart.c:2447
+msgid "/Control/Auto mode recalibrate"
+msgstr "/Controle/Automaat mode opnieuw kalibreren"
+
+#: ../src/chart.c:2445
+msgid "/Control"
+msgstr "/Controle"
+
+#: ../src/chart.c:2446 ../src/chart.c:2451 ../src/chart.c:2457
+msgid "/Control/-"
+msgstr "/Controle/-"
+
+#: ../src/chart.c:2452 ../src/chart.c:2456 ../src/chart.c:2483
+msgid "/Control/Sequence.../1 2 5"
+msgstr "/Controle/Opeenvolging.../1 2 5"
+
+#: ../src/chart.c:2454 ../src/chart.c:2485
+msgid "/Control/Sequence.../1 1.5 2 3 5 7"
+msgstr "/Controle/Opeenvolging.../1 1.5 2 3 5 7"
+
+#: ../src/chart.c:2520
+msgid "GKrellM Chart Config"
+msgstr "GKrellM Grafiek Instelling"
+
+#: ../src/chart.c:2541
+msgid "Line style"
+msgstr "Lijn stijl"
+
+#: ../src/chart.c:2548
+msgid "Inverted"
+msgstr "Omgekeerd"
+
+#: ../src/chart.c:2556
+msgid "Split view"
+msgstr "Gesplitste weergave"
+
+#: ../src/chart.c:2568
+msgid "Hide"
+msgstr "Verberg"
+
+#: ../src/chart.c:2583
+msgid "Resolution per Grid"
+msgstr "Resolutie per Rooster"
+
+#: ../src/chart.c:2603
+msgid "Auto"
+msgstr "Automaat"
+
+#: ../src/chart.c:2615
+msgid "Number of Grids"
+msgstr "Aantal roosters"
+
+#: ../src/chart.c:2620
+msgid "0: Auto    1-5: Constant"
+msgstr "0: Automaat    1-5: Constant"
+
+#: ../src/chart.c:2629
+msgid "Chart height"
+msgstr "Grafiek hoogte"
+
+#: ../src/client.c:1862 ../src/mail.c:641
+msgid "Unable to connect."
+msgstr "Connectie onmogelijk."
+
+#: ../src/clock.c:647
+msgid "<h>Clock/Calendar Format Strings\n"
+msgstr ""
+
+#: ../src/clock.c:648
+msgid ""
+"The display format strings should contain strftime conversion\n"
+"characters and Pango text attribute markup strings.\n"
+msgstr ""
+
+#: ../src/clock.c:651
+msgid ""
+"For the clock, the provided default strings will display a 12 hour\n"
+"clock with seconds, a 12 hour clock with AM/PM indicator, or a 24 hour\n"
+"clock with seconds.\n"
+msgstr ""
+
+#: ../src/clock.c:655
+msgid ""
+"The special $A substitution variable expands to the current theme\n"
+"alternate color and is for use with the Pango \"foreground\" attribute.\n"
+msgstr ""
+
+#: ../src/clock.c:676 ../src/clock.c:763 ../src/clock.c:828
+msgid "Calendar"
+msgstr "Datum weergave"
+
+#: ../src/clock.c:683 ../src/clock.c:710
+msgid "Display format string:"
+msgstr ""
+
+#: ../src/clock.c:703 ../src/clock.c:779 ../src/clock.c:789
+msgid "Clock"
+msgstr "Klok"
+
+#: ../src/clock.c:733
+msgid "Clock Chime Commands"
+msgstr "Klokkenspel Commando's"
+
+#: ../src/clock.c:738
+msgid "Hour"
+msgstr "Uur"
+
+#: ../src/clock.c:746
+msgid "Quarter hour"
+msgstr "Kwartier"
+
+#: ../src/clock.c:756
+msgid "Loop hour chime command"
+msgstr "Herhaal uur klokkenspel commando"
+
+#: ../src/config.c:260
+#, c-format
+msgid "Bad textcolor line %s\n"
+msgstr "Verkeerde tekstkleur lijn %s\n"
+
+#: ../src/config.c:1040 ../src/config.c:1071
+#, c-format
+msgid "  Cannot load file image: %s\n"
+msgstr "  Kan figuur bestand niet laden %s\n"
+
+#: ../src/config.c:1046
+#, c-format
+msgid "  Cannot load GdkPixbuf inline data.\n"
+msgstr "  Kan GdkPixbuf inlijn data niet laden.\n"
+
+#: ../src/config.c:1077
+#, c-format
+msgid "  Cannot load xpm: %s\n"
+msgstr "  Kan xpm niet laden: %s\n"
+
+#: ../src/config.c:1741
+#, c-format
+msgid ""
+"Incomplete config line:\n"
+"    %s\n"
+msgstr ""
+"Configuratie regel niet compleet:\n"
+"    %s\n"
+
+#: ../src/config.c:2425
+#, c-format
+msgid "Cannot open config file %s for writing.\n"
+msgstr "Kan configuratie bestand %s niet beschrijven.\n"
+
+#: ../src/cpu.c:175
+#, c-format
+msgid "CPU%s"
+msgstr "CPU%s"
+
+# CPU or CVE (Centrale Verwerkings Eenheid)?
+#: ../src/cpu.c:843
+msgid "sys time"
+msgstr "sys tijd"
+
+#: ../src/cpu.c:844
+msgid "user time"
+msgstr "gebruikers tijd"
+
+#: ../src/cpu.c:853 ../src/cpu.c:857 ../src/cpu.c:1104
+msgid "nice time"
+msgstr "nice tijd"
+
+#: ../src/cpu.c:964 ../src/cpu.c:1426
+msgid "CPU"
+msgstr "CPU"
+
+#: ../src/cpu.c:965 ../src/fs.c:1289 ../src/mem.c:986
+msgid "Percent Usage"
+msgstr "Procent gebruikt"
+
+#: ../src/cpu.c:1261 ../src/disk.c:1322 ../src/gui.c:998 ../src/inet.c:1795
+#: ../src/mem.c:1236 ../src/net.c:2898 ../src/proc.c:881
+msgid "<h>Chart Labels\n"
+msgstr "<h>Grafiek Labels\n"
+
+#: ../src/cpu.c:1262 ../src/disk.c:1323 ../src/inet.c:1796 ../src/mem.c:1237
+#: ../src/net.c:2899 ../src/proc.c:882
+msgid "Substitution variables for the format string for chart labels:\n"
+msgstr "Vervang variabelen voor de weergave tekst voor grafiek labels:\n"
+
+#: ../src/cpu.c:1263
+msgid "\t$L    the CPU label\n"
+msgstr "\t$L    het CPU label\n"
+
+#: ../src/cpu.c:1264
+msgid "\t$T    total CPU time percent usage\n"
+msgstr "\t$T    totale CPU tijd percentage gebruik\n"
+
+#: ../src/cpu.c:1265
+msgid "\t$s    sys time percent usage\n"
+msgstr "\t$s    sys tijd percentage gebruik\n"
+
+#: ../src/cpu.c:1266
+msgid "\t$u    user time percent usage\n"
+msgstr "\t$u    gebruikers tijd percentage gebruik\n"
+
+#: ../src/cpu.c:1267
+msgid "\t$n    nice time percent usage\n"
+msgstr "\t$n    nice tijd percentage gebruik\n"
+
+#: ../src/cpu.c:1296
+msgid "Enable CPU"
+msgstr "CPU inschakelen"
+
+#: ../src/cpu.c:1301
+msgid "Exclude nice CPU time from krell even if nice is shown on chart"
+msgstr ""
+"Haal nice tijd van de CPU krell af zelfs als nice in de grafiek wordt "
+"weergegeven"
+
+#: ../src/cpu.c:1306 ../src/proc.c:915
+msgid "Draw fan and temperature values separately (not alternating)."
+msgstr "Laat fan en temperatuur waardes afzonderlijk zien."
+
+#: ../src/cpu.c:1313
+msgid "Apply any CPU chart config height change to all CPU charts"
+msgstr "Gebruik elke CPU grafiek hoogte instelling voor alle CPU grafieken"
+
+#: ../src/cpu.c:1316
+msgid "SMP Charts Select"
+msgstr "SMP Grafiek Selectie"
+
+#: ../src/cpu.c:1319
+msgid "Real CPUs."
+msgstr "Echte CPU's."
+
+#: ../src/cpu.c:1324
+msgid "Composite CPU."
+msgstr "Gezamelijke CPU."
+
+#: ../src/cpu.c:1330
+msgid "Composite and real"
+msgstr "Gezamelijk en werkelijk"
+
+#: ../src/cpu.c:1346 ../src/disk.c:1404 ../src/inet.c:2006 ../src/mem.c:1332
+#: ../src/net.c:3058 ../src/proc.c:948
+msgid "Format String for Chart Labels"
+msgstr "Weergave Tekst voor Grafiek Labels"
+
+#: ../src/cpu.c:1356
+msgid "\\fu \\.$u\\n\\fs \\.$s"
+msgstr "\\fu \\.$u\\n\\fs \\.$s"
+
+#: ../src/cpu.c:1357
+msgid "\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s"
+msgstr "\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s"
+
+#: ../src/cpu.c:1358
+msgid "\\ww\\D3\\f\\au\\.$u\\D0\\f\\as\\.$s"
+msgstr "\\ww\\D3\\f\\au\\.$u\\D0\\f\\as\\.$s"
+
+#: ../src/cpu.c:1379
+#, c-format
+msgid "%s"
+msgstr "%s"
+
+#: ../src/disk.c:297 ../src/disk.c:1376 ../src/disk.c:1447 ../src/disk.c:1475
+#: ../src/sensors.c:2272 ../src/sensors.c:2350 ../src/sysdeps/openbsd.c:398
+msgid "Disk"
+msgstr "Schijf"
+
+#: ../src/disk.c:738 ../src/disk.c:1200
+msgid "Write bytes"
+msgstr "Schrijf bytes"
+
+#: ../src/disk.c:739 ../src/disk.c:1197
+msgid "Read bytes"
+msgstr "Lees bytes"
+
+#: ../src/disk.c:750
+msgid "Disk I/O blocks per sec"
+msgstr "Schijf I/O blokken per sec"
+
+#: ../src/disk.c:750
+msgid "Disk I/O bytes per sec"
+msgstr "Schijf I/O bytes per sec"
+
+#: ../src/disk.c:866 ../src/net.c:2402
+msgid "Bytes per second"
+msgstr "Bytes per seconde"
+
+#: ../src/disk.c:1064
+msgid "Composite chart combines data for all disks"
+msgstr "Gezamelijke grafiek combineert data voor alle schijven"
+
+#: ../src/disk.c:1324
+msgid "\t$L    the Disk label\n"
+msgstr ""
+
+#: ../src/disk.c:1325 ../src/inet.c:1797 ../src/mem.c:1238 ../src/net.c:2900
+msgid "\t$M    maximum chart value\n"
+msgstr "\t$M    maximum grafiek waarde\n"
+
+#: ../src/disk.c:1326
+msgid "\t$T    total read bytes + write bytes\n"
+msgstr "\t$T    totaal lees blokken + schrijf blokken\n"
+
+#: ../src/disk.c:1327
+msgid "\t$r    read bytes\n"
+msgstr "\t$r    ontvangen bytes\n"
+
+#: ../src/disk.c:1328
+msgid "\t$w    write bytes\n"
+msgstr "\t$w    schrijf blokken\n"
+
+#: ../src/disk.c:1414
+msgid "\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"
+msgstr "\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"
+
+#: ../src/fs.c:868
+msgid "GKrellM Mount Error"
+msgstr "GKrellM Mount Fout"
+
+#: ../src/fs.c:1556
+msgid "Primary"
+msgstr "Primaire"
+
+#: ../src/fs.c:1570 ../src/fs.c:2289
+msgid "Secondary"
+msgstr "Secondaire"
+
+#: ../src/fs.c:1909 ../src/fs.c:2003 ../src/fs.c:2015 ../src/fs.c:2023
+msgid "Entry Error"
+msgstr "Inschrijving Fout"
+
+#: ../src/fs.c:1910
+msgid ""
+"At least one primary fs monitor must exist to click on in order to show\n"
+"secondary ones.\n"
+msgstr ""
+"Om z'n minst moet een primaire fs monitor bestaan als secondaire weergeven\n"
+"moeten worden.\n"
+
+#: ../src/fs.c:2005
+msgid "Both a label and a mount point must be entered."
+msgstr "Zowel het label en de mount plaatst moeten ingevoerd worden."
+
+#: ../src/fs.c:2016
+msgid "Both mount and umount commands must be entered."
+msgstr "Zowel mount als umount commando's moeten opgegeven worden."
+
+#: ../src/fs.c:2024
+msgid "Missing ejectable device entry."
+msgstr "Er mist een uitwerpbaar apparaat inschrijving."
+
+#: ../src/fs.c:2254 ../src/fs.c:2378 ../src/inet.c:1856 ../src/inet.c:1862
+#: ../src/inet.c:1947 ../src/inet.c:1967 ../src/sensors.c:2737
+msgid "Label"
+msgstr "Label"
+
+#: ../src/fs.c:2263 ../src/fs.c:2382
+msgid "Mount Point"
+msgstr "Mount Plaats"
+
+#: ../src/fs.c:2296
+msgid "Show if mounted"
+msgstr "Laat zien als gemount"
+
+#: ../src/fs.c:2302
+msgid "Enable /etc/fstab mounting"
+msgstr "Schakel /etc/fstab mounten in"
+
+#: ../src/fs.c:2316
+msgid "Ejectable"
+msgstr "Uitwerpbaar"
+
+#: ../src/fs.c:2322
+msgid "Device"
+msgstr "Apparaat"
+
+#: ../src/fs.c:2337
+msgid "mount"
+msgstr "mount"
+
+#: ../src/fs.c:2339
+msgid "umount"
+msgstr "umount"
+
+#: ../src/fs.c:2405
+msgid "<h>Mounting\n"
+msgstr "<h>Mounten\n"
+
+#: ../src/fs.c:2406
+msgid ""
+"Enter file system mount points to monitor and enter a label to describe\n"
+"the mount point.  The krell shows the ratio of blocks used to total blocks\n"
+"available.  Mounting commands can be enabled for mount points in one\n"
+"of two ways:\n"
+"\n"
+msgstr ""
+"Voer bestands systeem mount plekken in om te monitoren en voer een label in\n"
+"om de mount plaats te beschrijven. De krell laat de ratio van gebruikte "
+"blokken\n"
+"ten opzichte van het totaal zien. Mount commando's kunnen op een of twee "
+"manieren\n"
+"ingeschakeld worden:\n"
+"\n"
+
+#: ../src/fs.c:2411
+msgid "<b>\t1) Mounting using /etc/fstab: "
+msgstr "<b>\t1) Mounten met behulp van /etc/fstab: "
+
+#: ../src/fs.c:2413
+msgid ""
+"If a mount point is in your\n"
+"\t/etc/fstab and you have mount permission then mount and umount\n"
+"\tcommands can be enabled and executed for that mount point simply\n"
+"\tby checking the \"Enable /etc/fstab mounting\" option.\n"
+"\tMount table entries in /etc/fstab need the \"user\" or \"owner\" option\n"
+"\tset to grant this permission unless GKrellM is run as root.\n"
+"\tFor example, if you run GKrellM as a normal user and you want\n"
+"\tto be able to mount your floppy, your /etc/fstab could have\n"
+"\teither of:\n"
+msgstr ""
+"Als een mount plaats in uw\n"
+"\t/etc/fstab is en u heeft mount permissies dan kunnen mount en\n"
+"\tumount commando's ingeschakeld worden en uitgevoerd voor die mount\n"
+"\tplaats door op de \"Schakel /etc/fstab mounten in\" optie te klikken.\n"
+"\tMount tabel inschrijvingen in /etc/fstab hebben de \"user\" of \"owner\" "
+"optie\n"
+"\tnodig om rechten te geven tenzij GKrellM door root gebruikt wordt.\n"
+"\tAls voorbeeld, als je GKrellM als gewone gebruiker gebruikt en u wilt\n"
+"\tuw floppy kunnen mounten, dan moet uw /etc/fstab een van deze opties\n"
+"\thebben:\n"
+
+#: ../src/fs.c:2423
+msgid "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,noauto,rw,exec 0 0\n"
+msgstr "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,noauto,rw,exec 0 0\n"
+
+#: ../src/fs.c:2424
+msgid "\tor\n"
+msgstr "\tof\n"
+
+#: ../src/fs.c:2425
+msgid ""
+"<i>\t\t/dev/fd0 /mnt/floppy ext2 user,defaults 0 0\n"
+"\n"
+msgstr ""
+"<i>\t\t/dev/fd0 /mnt/floppy ext2 user,defaults 0 0\n"
+"\n"
+
+#: ../src/fs.c:2427
+msgid "<b>\t2) Mounting using custom commands: "
+msgstr "<b>\t2) Mounten met handmatige commando's: "
+
+#: ../src/fs.c:2428
+msgid ""
+"If GKrellM is run as root or if\n"
+"\tyou have sudo permission to run the mount commands, then a custom\n"
+"\tmount command can be entered into the \"mount command\" entry\n"
+"\tbox.  A umount command must also be entered if you choose this\n"
+"\tmethod.  Example mount and umount entries using sudo:\n"
+msgstr ""
+"Als GKrellM door root wordt gebruikt\n"
+"\tof als u sudo permissies heeft om het mount commando te gebruiken, dan\n"
+"\tkunt u een handmatig mount commando invullen in het \"mount commando\"\n"
+"\tinvulvak. Een umount commando moet ook ingevuld worden als u deze optie\n"
+"\tkiest. Voorbeeld mount en umount commando's voor sudo:\n"
+
+#: ../src/fs.c:2434
+msgid "<i>\t\tsudo /bin/mount -t msdos /dev/fd0 /mnt/A\n"
+msgstr "<i>\t\tsudo /bin/mount -t msdos /dev/fd0 /mnt/A\n"
+
+#: ../src/fs.c:2435
+msgid "<i>\t\tsudo /bin/umount /mnt/A\n"
+msgstr "<i>\t\tsudo /bin/umount /mnt/A\n"
+
+#: ../src/fs.c:2437
+msgid ""
+"\tNotes: the mount point specified in a custom mount command\n"
+"\t(/mnt/A in this example) must be the same as entered in the\n"
+"\t\"Mount Point\" entry.  You should have the NOPASSWD option set\n"
+"\tin /etc/sudoers if using sudo.\n"
+"\n"
+msgstr ""
+"\tNotitie: de mount plaats in het handmatige mount commando\n"
+"\t(/mnt/A in dit voorbeeld) moet het zelfde zijn als in het\n"
+"\t\"Mount Plaats\" invulvak. U zou de NOPASSWD optie moeten gebruiken\n"
+"\tin /etc/sudoers als u sudo gebruikt.\n"
+
+#: ../src/fs.c:2442
+msgid "<h>Primary and Secondary Monitors\n"
+msgstr "<h>Primaire en Secondaire Monitoren\n"
+
+#: ../src/fs.c:2443
+#, no-c-format
+msgid ""
+"File system monitors can be created as primary (always visible)\n"
+"or secondary which can be hidden and then shown when they are of\n"
+"interest.  For example, you might make primary file system monitors\n"
+"for root, home, or user so they will be always visible, but make\n"
+"secondary monitors for less frequently used mount points such as\n"
+"floppy, zip, backup partitions, foreign file system types, etc.\n"
+"Secondary FS monitors can also be configured to always be visible if they\n"
+"are mounted by checking the \"Show if mounted\" option.   Using this\n"
+"feature you can show the secondary group, mount a file system, and have\n"
+"that FS monitor remain visible even when the secondary group is hidden.\n"
+"A standard cdrom mount will show as 100% full but a monitor for it\n"
+"could be created with mounting enabled just to have the\n"
+"mount/umount convenience.\n"
+"\n"
+msgstr ""
+"Bestands systeem monitoren kunnen worden gemaakt als primair (altijd\n"
+"zichtbaar) of als secundair welke des gewenst verborgen kunnen worden.\n"
+"Als voorbeeld, u kunt primaire monitoren maken voor root, home of user\n"
+"zodat deze altijd zichtbaar zijn, maar de minder gebruikte mount plaatsen\n"
+"zoals floppy, zip, backup partitie, andere bestands systemen, etc.\n"
+"Secundaire FS monitoren kunnen ook zo ingesteld worden dat ze altijd\n"
+"zichtbaar zijn als ze gemount zijn door de \"Laat zien als gemount\" optie\n"
+"aan te vinken. Door deze optie te gebruiken kunt u een secondaire groep\n"
+"laten zien, een bestandssyteem mounten, en de bijpassende monitor laten "
+"zien\n"
+"zelfs als de secondaire groep verborgen is. Een standaard cdrom mount zal\n"
+"verschijnen als 100% vol maar een monitor ervoor kan gebruikt worden om de\n"
+"mount/umount mogelijkheden te gebruiken.\n"
+"\n"
+
+#: ../src/fs.c:2460 ../src/mem.c:1243
+msgid "<h>Panel Labels\n"
+msgstr "<h>Paneel Labels\n"
+
+#: ../src/fs.c:2461
+msgid "Substitution variables for the format string for file system panels:\n"
+msgstr ""
+"Vervang variabelen voor de weergave tekst voor de bestands systeem panelen:\n"
+
+#: ../src/fs.c:2462
+msgid "\t$t    total capacity\n"
+msgstr "\t$t    totale capaciteit\n"
+
+#: ../src/fs.c:2463
+msgid "\t$u    used space\n"
+msgstr "\t$u    gebruikte ruimte\n"
+
+#: ../src/fs.c:2464
+msgid "\t$f    free space\n"
+msgstr "\t$f    vrije ruimte\n"
+
+#: ../src/fs.c:2465
+msgid "\t$U    used %,\n"
+msgstr "\t$U    gebruikt %,\n"
+
+#: ../src/fs.c:2466 ../src/mem.c:1252
+msgid "\t$F    free %\n"
+msgstr "\t$F    vrij %\n"
+
+#: ../src/fs.c:2467
+msgid "\t$l    the panel label\n"
+msgstr "\t$l    het paneel label\n"
+
+#: ../src/fs.c:2469
+msgid "\t$D    the mount point\n"
+msgstr "\t$D    de mount plaats\n"
+
+#: ../src/fs.c:2471
+msgid "\t$D    the disk\n"
+msgstr "\t$D    de schijf\n"
+
+#: ../src/fs.c:2478
+msgid "click on a panel to scroll a programmable display\n"
+msgstr "klik op een paneel om te wisselen tussen een programmeerbaar display\n"
+
+#: ../src/fs.c:2479
+msgid "\t\tof file system capacities (default is total and free space).\n"
+msgstr ""
+"\t\tof bestands systeem capaciteiten (standaard is totaal en vrije ruimte).\n"
+
+#: ../src/fs.c:2480
+msgid "<b>\tWheel "
+msgstr "<b>\tWiel "
+
+#: ../src/fs.c:2481
+msgid "Shows and hides the secondary file system monitors.\n"
+msgstr "Laat de secondaire bestands systeem monitoren zien of verbergt ze.\n"
+
+#: ../src/fs.c:2500
+msgid "Panels"
+msgstr "Panelen"
+
+#: ../src/fs.c:2518
+msgid "Use binary units (MiB, GiG) for reporting disk capacities."
+msgstr ""
+"Gebruikt binaire eenheden (MiB, GiG) voor het weergeven van schijf "
+"capaciteiten."
+
+#: ../src/fs.c:2524
+msgid "Auto eject when ejectable devices are unmounted"
+msgstr "Automatisch uitwerpen wanneer uitwerpbare apparaten geünmount worden"
+
+#: ../src/fs.c:2533
+msgid "Seconds between data updates for local mounted file systems"
+msgstr ""
+"Secondes tussen data het vernieuwen van lokaal gemounte bestands systemen"
+
+#: ../src/fs.c:2538
+msgid "Seconds between data updates for remote mounted file systems"
+msgstr ""
+"Secondes tussen het vernieuwen van op afstand gemounte bestands systemen"
+
+#: ../src/fs.c:2542 ../src/mem.c:1354
+msgid "Format String for Panel Labels"
+msgstr "Weergave Tekst voor Paneel Labels"
+
+#: ../src/fs.c:2549 ../src/mem.c:1363 ../src/mem.c:1385
+msgid "$t - $u used"
+msgstr "$t - $u gebruikt"
+
+#: ../src/fs.c:2550 ../src/mem.c:1364 ../src/mem.c:1386
+msgid "$t - $U"
+msgstr "$t - $U"
+
+#: ../src/fs.c:2574
+msgid "File System"
+msgstr "Bestands Systeem"
+
+#: ../src/gui.c:391
+#, c-format
+msgid "%s command"
+msgstr "%s commando"
+
+#: ../src/gui.c:409
+msgid "comment"
+msgstr "commentaar"
+
+#: ../src/gui.c:758
+#, c-format
+msgid ""
+"GKrellM %d.%d.%d%s\n"
+"GNU Krell Monitors\n"
+"\n"
+"Copyright (c) 1999-2007 by Bill Wilson\n"
+"billw@gkrellm.net\n"
+"http://gkrellm.net\n"
+"\n"
+"Released under the GNU General Public License"
+msgstr ""
+"GKrellM %d.%d.%d%s\n"
+"GNU Krell Monitoren\n"
+"\n"
+"Copyright (c) 1999-2007 bij Bill Wilson\n"
+"billw@gkrellm.net\n"
+"http://gkrellm.net\n"
+"\n"
+"Uitgegeven onder de GNU General Public License"
+
+#: ../src/gui.c:774
+msgid ""
+"Mac OS X code was contributed by:\n"
+"Ben Hines <bhines@alumni.ucsd.edu>\n"
+"and\n"
+"Hajimu UMEMOTO <ume@mahoroba.org>"
+msgstr ""
+"Mac OS X code is gedoneerd door:\n"
+"Ben Hines <bhines@alumni.ucsd.edu>\n"
+"and\n"
+"Hajimu UMEMOTO <ume@mahoroba.org>"
+
+#: ../src/gui.c:784
+msgid ""
+"FreeBSD system dependent code was contributed by:\n"
+"Hajimu UMEMOTO <ume@mahoroba.org>"
+msgstr ""
+"FreeBSD systeem afhankelijke code is gedoneerd door:\n"
+"Hajimu UMEMOTO <ume@mahoroba.org>"
+
+#: ../src/gui.c:792
+msgid ""
+"DragonFly system dependent code was contributed by:\n"
+"Joerg Sonnenberger <joerg@bec.de>"
+msgstr ""
+
+#: ../src/gui.c:800
+msgid ""
+"NetBSD system dependent code was contributed by:\n"
+"Anthony Mallet <anthony.mallet@useless-ficus.net>"
+msgstr ""
+"NetBSD systeem afhankelijke code is gedoneerd door:\n"
+"Anthony Mallet <anthony.mallet@useless-ficus.net>"
+
+#: ../src/gui.c:808
+msgid ""
+"Solaris system dependent code was contributed by:\n"
+"Daisuke Yabuki <dxy@acm.org>"
+msgstr ""
+"Solaris systeem afhankelijke code is gedoneerd door:\n"
+"Daisuke Yabuki <dxy@acm.org>"
+
+#: ../src/gui.c:816
+msgid ""
+"Windows system dependent code was contributed by:\n"
+"Bill Nalen <bill@nalens.com>\n"
+"Stefan Gehn <metz81@web.de>\n"
+msgstr ""
+
+#: ../src/gui.c:984
+msgid "<h>Krells\n"
+msgstr "<h>Krells\n"
+
+#: ../src/gui.c:985
+msgid ""
+"Krells are the horizontally moving indicators below each chart and\n"
+"on meter style monitors.  Depending on the monitor, they show fast\n"
+"response data rates, a percentage of some capacity, or something else.\n"
+msgstr ""
+"Krells zijn horizontaal bewegende indicatoren onder een grafiek en\n"
+"onder meter stijl monitoren. Afhankelijk van de monitor, laten ze snelle\n"
+"data verplaatsing, een percentage van een capaciteit, of iets anders zien.\n"
+
+#: ../src/gui.c:989
+msgid "<h>Charts\n"
+msgstr "<h>Grafieken\n"
+
+#: ../src/gui.c:990
+msgid ""
+"The default for most charts is to automatically adjust the number of\n"
+"grid lines drawn and the resolution per grid so drawn data will be\n"
+"nicely visible.  You may change this to fixed grids of 1-5 and/or\n"
+"fixed grid resolutions in the chart config windows.  However,\n"
+"some combination of the auto scaling modes may give best results.\n"
+msgstr ""
+"De standaard voor de meeste grafieken is het automatisch aanpassen van\n"
+"het aantal rooster lijnen en de resolutie per rooster zodat de getekende\n"
+"data goed zichtbaar is. U kunt dit veranderen zodat de roosters vast staan\n"
+"op 1-5 en/of gefixeerde rooster resoluties in de grafiek configuratie\n"
+"vensters. Maar een combinatie van de automatisch schalende modes kan het\n"
+"beste resultaat geven\n"
+
+#: ../src/gui.c:996 ../src/gui.c:1022
+msgid "See the README or do a \"man gkrellm\" for more information.\n"
+msgstr ""
+"Zie het README bestand of doe een \"man gkrellm\" voor meer informatie.\n"
+
+#: ../src/gui.c:999
+msgid "Chart label format strings place text on charts using position codes:\n"
+msgstr ""
+"Grafiek label weergave tekst plaatst tekst op grafieken d.m.v. positie "
+"codes:\n"
+
+#: ../src/gui.c:1000
+msgid "\t\\t    top left\n"
+msgstr "\t\\t    links boven\n"
+
+#: ../src/gui.c:1001
+msgid "\t\\b    bottom left\n"
+msgstr "\t\\b    links onder\n"
+
+#: ../src/gui.c:1002
+msgid "\t\\n    next line\n"
+msgstr "\t\\n    volgende lijn\n"
+
+#: ../src/gui.c:1003
+msgid "\t\\N    next line only if last string had visible characters\n"
+msgstr ""
+"\t\\N    volgende lijn enkel als de laatste tekst weergeefbare karakters "
+"had.\n"
+
+#: ../src/gui.c:1004
+msgid "\t\\p    previous line\n"
+msgstr "\t\\p    vorige lijn\n"
+
+#: ../src/gui.c:1005
+msgid "\t\\c    center the text\n"
+msgstr "\t\\c    centreer de tekst\n"
+
+#: ../src/gui.c:1006
+msgid "\t\\C    begin drawing text at the center\n"
+msgstr "\t\\C    begin in het centrum te tekenen\n"
+
+#: ../src/gui.c:1007
+msgid "\t\\r    right justify\n"
+msgstr "\t\\r    rechts uitlijnen\n"
+
+#: ../src/gui.c:1008
+msgid "\t\\f    use alternate font for the next string\n"
+msgstr "\t\\f    gebruik alternatief lettertype voor de volgende tekst\n"
+
+#: ../src/gui.c:1009
+msgid "\t\\w    use the following string to define a field width\n"
+msgstr ""
+"\t\\w    gebruik de volgende tekst voor het definieren van de breedte van "
+"het veld\n"
+
+#: ../src/gui.c:1010
+msgid "\t\\a    draw left justified in the defined field width\n"
+msgstr "\t\\a    teken links uitgelijnd in de gedefinieerde veld breedte\n"
+
+#: ../src/gui.c:1011
+msgid "\t\\e    draw right justified in the defined field width\n"
+msgstr "\t\\e    teken rechts uitgelijnd in de gedefinieerde veld breedte\n"
+
+#: ../src/gui.c:1012
+msgid "\t\\.     no-op.  Used to break a string into two strings.\n"
+msgstr "\t\\.     geen optie. Gebruikt om een tekst in tweeën te breken.\n"
+
+#: ../src/gui.c:1013
+msgid ""
+"\t\\D0   bottom of charts first data view (D2 for second data view ...)\n"
+msgstr ""
+"\t\\D0   beneden de grafiek van de eerste data (D2 voor de tweede ...)\n"
+
+#: ../src/gui.c:1014
+msgid "\t\\D1   top of charts first data view (D3 for second data view ...)\n"
+msgstr "\t\\D1   boven de grafiek van de eerste data (D3 voor de tweede ...)\n"
+
+#: ../src/gui.c:1016
+msgid ""
+"<h>\n"
+"Commands\n"
+msgstr ""
+"<h>\n"
+"Commando's\n"
+
+#: ../src/gui.c:1017
+msgid ""
+"\tMany monitors can be configured to launch commands.  Just enter the\n"
+"\tcommand where you see a \"command\" entry and also a comment if you\n"
+"\twant a tooltip to appear for the command.  After a command is entered,\n"
+"\tfor a monitor, a button for launching it will become visible when you\n"
+"\tmove the mouse into the panel area of the monitor.\n"
+"\n"
+msgstr ""
+"\tVeel monitoren kunnen zo worden ingesteld dat ze commando's kunne "
+"uitvoeren.\n"
+"\tVoer daarvoor het \"commando\" invoervak in en ook het commentaar als u\n"
+"\ter ook een tooltip bij wilt zien. Nadat het commando is ingevoerd zal\n"
+"\ter een knop voor het uitvoeren hiervan verschijnen wanneer u met uw muis\n"
+"\tover het paneel van de monitor gaat.\n"
+"\n"
+
+#: ../src/gui.c:1025 ../src/mail.c:3723
+msgid ""
+"<h>\n"
+"Mouse Button Actions:\n"
+msgstr ""
+"<h>\n"
+"Muisknop Acties:\n"
+
+#: ../src/gui.c:1027
+msgid "clicking on charts will toggle a display of some extra info.\n"
+msgstr "klikken op een grafiek zal extra informatie doen verschijnen.\n"
+
+#: ../src/gui.c:1028 ../src/gui.c:1030
+msgid "<b>\tRight "
+msgstr "<b>\tRechts "
+
+#: ../src/gui.c:1029
+msgid "clicking on charts brings up a chart configuration window.\n"
+msgstr "klikken op een grafiek zal een configuratie scherm doen verschijnen.\n"
+
+#: ../src/gui.c:1031
+msgid "clicking on many panels opens its monitor configuration window.\n"
+msgstr ""
+"klikken op veer panelen opent het bijpassende monitor configuratie venster.\n"
+
+#: ../src/gui.c:1060
+msgid "Hostname display"
+msgstr "Systeemnaam weergeven"
+
+#: ../src/gui.c:1066
+msgid "Short hostname"
+msgstr "Korte systeemnaam"
+
+#: ../src/gui.c:1071
+msgid "System name display"
+msgstr "Besturingssysteemnaam weergeven"
+
+#: ../src/gui.c:1076
+msgid "Remember screen location at exit and move to it at next startup"
+msgstr ""
+"Onthoud scherm lokatie bij het afsluiten en ga er bij het opstarten weer "
+"naar toe"
+
+#: ../src/gui.c:1082
+msgid "Allow multiple instances"
+msgstr "Meerdere instanties toestaan"
+
+#: ../src/gui.c:1089
+msgid ""
+"Make gkrellm a topmost window (restart gkrellm for this to take effect)."
+msgstr "Maak gkrellm een bovenliggend venster (opnieuw starten vereist)."
+
+#: ../src/gui.c:1098 ../src/hostname.c:387
+msgid "gkrellmd server disconnect"
+msgstr "gkrellmd server verbroken"
+
+#: ../src/gui.c:1106
+msgid "Krell and LED updates per second."
+msgstr "Krell en LED vernieuwingen per seconde."
+
+#: ../src/gui.c:1112
+msgid "GKrellM width"
+msgstr "GKrellM breedte"
+
+#: ../src/gui.c:1116
+msgid "Properties"
+msgstr "Eigenschappen"
+
+#: ../src/gui.c:1119
+msgid "Set sticky state"
+msgstr "Stel plakkerig in"
+
+#: ../src/gui.c:1122
+msgid "Set on top of other windows of the same type"
+msgstr "Zet boven andere vensters van het zelfde type"
+
+#: ../src/gui.c:1125
+msgid "Set below other windows of the same type"
+msgstr "Zet onder andere vensters van het zelfde type"
+
+#: ../src/gui.c:1132
+msgid "Set window type to be a dock or panel"
+msgstr "Zet venster type tot een dock of paneel"
+
+#: ../src/gui.c:1137
+msgid "Use window manager decorations"
+msgstr "Gebruik de decoraties van de window manager"
+
+#: ../src/gui.c:1141
+msgid "Do not include on a taskbar"
+msgstr "Laat niet op de taakbalk zien"
+
+#: ../src/gui.c:1145
+msgid "Do not include on a pager"
+msgstr "Laat niet op een pager zien"
+
+#: ../src/gui.c:1155
+msgid ""
+"Some of these properties require a standards compliant window manager.\n"
+"You may have to restart gkrellm for them to take effect.\n"
+msgstr ""
+"Sommige van deze instellingen vereisen een window manager die aan de "
+"standaarden voldoet.\n"
+"Het is mogelijk dat u gkrellm moet starten om het effect te zien.\n"
+
+#: ../src/gui.c:1541
+#, c-format
+msgid "%d total theme alternatives"
+msgstr "%d totaal thema alternatieven"
+
+#: ../src/gui.c:1842 ../src/gui.c:1874
+msgid "Theme"
+msgstr "Thema"
+
+#: ../src/gui.c:1846
+msgid "Theme:"
+msgstr "Thema:"
+
+#: ../src/gui.c:1856
+msgid "Author:"
+msgstr "Auteur:"
+
+#: ../src/gui.c:1902
+msgid "Track Gtk theme changes for similarly named themes"
+msgstr "Volg Gtk thema veranderingen voor thema's met de zelfde naam"
+
+#: ../src/gui.c:1909
+msgid "Default"
+msgstr "Standaard"
+
+#: ../src/gui.c:1924
+msgid "Scale"
+msgstr "Schaal"
+
+#: ../src/gui.c:1930
+msgid "Fonts"
+msgstr "Lettertype"
+
+#: ../src/gui.c:1933
+msgid "Large font"
+msgstr "Groot lettertype"
+
+#: ../src/gui.c:1945 ../src/gui.c:1959 ../src/gui.c:1972
+msgid "Browse"
+msgstr "Bladeren"
+
+#: ../src/gui.c:1947
+msgid "Normal font"
+msgstr "Normaal lettertype"
+
+#: ../src/gui.c:1961
+msgid "Small font"
+msgstr "Klein lettertype"
+
+#: ../src/gui.c:1976
+#, c-format
+msgid "Untar your theme tar files in %s/%s"
+msgstr "Untar uw thema tar bestanden in %s/%s"
+
+#: ../src/gui.c:1985
+msgid "Download themes from the GKrellM theme site at www.muhri.net"
+msgstr "Download thema's van de GKrellM thema site op www.muhri.net"
+
+#: ../src/gui.c:2281
+msgid "Configuration"
+msgstr "Configuratie"
+
+#: ../src/gui.c:2309
+msgid "General"
+msgstr "Algemeen"
+
+#: ../src/gui.c:2314
+msgid "Builtins"
+msgstr "Ingebouwd"
+
+#: ../src/gui.c:2334 ../src/plugins.c:1699
+msgid "Plugins"
+msgstr "Plugins"
+
+#: ../src/gui.c:2339
+msgid "Themes"
+msgstr "Thema's"
+
+#: ../src/gui.c:2344
+msgid "About"
+msgstr "Over"
+
+#: ../src/gui.c:2369
+msgid "Monitors"
+msgstr "Monitoren"
+
+#: ../src/gui.c:2441 ../src/gui.c:2452
+msgid "/Quit"
+msgstr "/Afsluiten"
+
+#: ../src/gui.c:2448
+msgid "/Configuration"
+msgstr "/Configuratie"
+
+#: ../src/gui.c:2449
+msgid "/Theme/Prev"
+msgstr "/Thema/Vorige"
+
+#: ../src/gui.c:2450
+msgid "/Theme/Next"
+msgstr "/Thema/Volgende"
+
+#: ../src/gui.c:2459
+msgid "/Theme prev"
+msgstr "/Thema vorige"
+
+#: ../src/gui.c:2460
+msgid "/Theme next"
+msgstr "/Thema volgende"
+
+#: ../src/inet.c:616
+#, c-format
+msgid "%s Connections"
+msgstr "%s Verbindingen"
+
+#: ../src/inet.c:706
+msgid "No current connections."
+msgstr "Geen huidige verbindingen"
+
+#: ../src/inet.c:933
+#, c-format
+msgid "inet%d"
+msgstr "inet%d"
+
+#: ../src/inet.c:945
+msgid "TCP hits per minute"
+msgstr "TCP hits per minuut"
+
+#: ../src/inet.c:948
+msgid "TCP hits per hour"
+msgstr "TCP hits per uur"
+
+#: ../src/inet.c:1775
+msgid ""
+"Inet charts show historical TCP port hits on a minute or hourly\n"
+"chart. Below the chart there is a strip where marks are drawn for\n"
+"port hits in second intervals.   The inet krell has a full scale\n"
+"value of 5 hits and samples once per second.  The extra info\n"
+"display shows current TCP port connections.\n"
+"\n"
+"For each internet monitor, you can specify two labeled data sets with\n"
+"one or two non-zero port numbers entered for each data set.  Two\n"
+"ports are allowed because some internet ports are related and you\n"
+"might want to group them.  Check /etc/services for port numbers.\n"
+"\n"
+"For example, if you created an inet monitor:\n"
+msgstr ""
+"Inet grafieken laat de TCP port hits per minuut en per uur zien\n"
+"in een grafiek. Onder de grafiek is een strip waar merkjes worden\n"
+"getekend voor hits per seconde.   De inet krell heeft een volle schaal\n"
+"waarde van 5 hits en monsters per seconde. De extra informatie\n"
+"laat de huidige TCP poort verbindingen zien.\n"
+"\n"
+"Voor elke internet monitor kan je twee gelabelde data sets kiezen\n"
+"met een of twee niet-nul poort nummers voor elke data set.  Twee\n"
+"poorten zijn toegestaan omdat sommige poorten gerelateerd zijn en u\n"
+"ze zou kunnen groeperen. Zie /etc/services voor poort nummers.\n"
+"\n"
+"Als voorbeeld, als u een inet monitor maakte:\n"
+
+#: ../src/inet.c:1786
+msgid "<i>\thttp 80 8080   ftp 21\n"
+msgstr "<i>\thttp 80 8080   ftp 21\n"
+
+#: ../src/inet.c:1788
+msgid ""
+"Http hits on the standard http port 80 and www web caching service\n"
+"on port 8080 are combined and plotted in the one color.  Ftp hits\n"
+"on the single ftp port 21 are plotted in another color.\n"
+"\n"
+msgstr ""
+"Http hits zijn op de http port 80 en www web caching service op poort\n"
+"8080 zijn gecombineerd en worden in een kleur geplot. Ftp hits op\n"
+"de enkele ftp port 21 wordt in een andere kleur geplot.\n"
+"\n"
+
+#: ../src/inet.c:1792
+msgid ""
+"If the range button is checked, then all port numbers between Port0 and\n"
+"Port1 are monitored and included in the plot.\n"
+"\n"
+msgstr ""
+"Als de bereik knop is aangevinkt, dan worden alle poort nummers tussen\n"
+"Poort0 en Poort1 gemonitord en geplot.\n"
+
+#: ../src/inet.c:1798
+msgid "\t$a    current active connections for Data0\n"
+msgstr "\t$a    actueel actieve verbindingen voor Data0\n"
+
+#: ../src/inet.c:1799
+msgid "\t$cN   total connections in last N minutes (or hours) for Data0\n"
+msgstr "\t$cN   totaal connecties in de laatste N minuten voor Data0\n"
+
+#: ../src/inet.c:1800
+msgid "\t$l    label for Data0\n"
+msgstr "\t$l    label voor Data0\n"
+
+#: ../src/inet.c:1801
+msgid "\t$A    current active connections for Data1\n"
+msgstr "\t$A    actueel actieve verbindingen voor Data1\n"
+
+#: ../src/inet.c:1802
+msgid "\t$CN   total connections in last N minutes (or hours) for Data1\n"
+msgstr ""
+"\t$CN   totaal aantal connecties in de de laatste N minuten voor Data1\n"
+
+#: ../src/inet.c:1803
+msgid "\t$L    label for Data1\n"
+msgstr "\t$L    label voor Data1\n"
+
+#: ../src/inet.c:1808
+msgid ""
+"click on an inet chart to toggle the extra info display of\n"
+"\t\tcurrent TCP port connections.\n"
+msgstr ""
+"klik op een inet grafiek om te switchen tussen extra info of\n"
+"\t\tactuele TCP poort verbindingen.\n"
+
+#: ../src/inet.c:1811
+msgid "click on an inet chart to toggle hour/minute charts.\n"
+msgstr ""
+"klik op een inet grafiek om te switchen tussen uur en minuut grafieken.\n"
+
+#: ../src/inet.c:1838
+msgid "Ports"
+msgstr "Poorten"
+
+#: ../src/inet.c:1844
+msgid "Data0"
+msgstr "Data0"
+
+#: ../src/inet.c:1848
+msgid "Data1"
+msgstr "Data1"
+
+#: ../src/inet.c:1858 ../src/inet.c:1864 ../src/inet.c:1952 ../src/inet.c:1972
+msgid "Port0"
+msgstr "Poort0"
+
+#: ../src/inet.c:1860 ../src/inet.c:1866 ../src/inet.c:1957 ../src/inet.c:1977
+msgid "Port1"
+msgstr "Poort1"
+
+#: ../src/inet.c:1898 ../src/inet.c:1903
+msgid "Port0 - Port1 is a range"
+msgstr "Poort0 - Poort1 is een bereik"
+
+#: ../src/inet.c:2052
+msgid "Internet"
+msgstr "Internet"
+
+#: ../src/krell.c:949
+#, c-format
+msgid "create_krell: NULL image or style\n"
+msgstr "create_krell: NULL afbeelding of stijl\n"
+
+#: ../src/mail.c:642
+msgid "Bad response after connect."
+msgstr "Slechte respons na maken van connectie"
+
+#: ../src/mail.c:643
+msgid "Bad response after username."
+msgstr "Slechte respons na gebruikersnaam"
+
+#: ../src/mail.c:644
+msgid "Bad response after password."
+msgstr "Slechte respons na wachtwoord"
+
+#: ../src/mail.c:645
+msgid "Bad response after STAT or STATUS."
+msgstr "Slechte respons na STAT of STATUS."
+
+#: ../src/mail.c:646
+msgid "Bad response after UIDL."
+msgstr "Slechte respons na UIDL."
+
+#: ../src/mail.c:647
+msgid "Bad APOP response after connect."
+msgstr "Slechte APOP respons na maken van verbinding."
+
+#: ../src/mail.c:648
+msgid "Bad CRAM_MD5 response after connect."
+msgstr "Slechte CRAM_MD5 respons na maken van verbinding"
+
+#: ../src/mail.c:696
+#, c-format
+msgid "Mail TCP Error: %s - %s\n"
+msgstr "Mail TCP Fout: %s - %s\n"
+
+#: ../src/mail.c:730
+msgid "Cannot initialize SSL method."
+msgstr "Kan SSL methode niet initialiseren"
+
+#: ../src/mail.c:734
+msgid "Cannot initialize SSL server certificate handler."
+msgstr "Kan SSL server certificaat handler niet initialiseren"
+
+#: ../src/mail.c:740
+msgid "Cannot initialize SSL handler."
+msgstr "Kan SSL certificaat handler niet initialiseren"
+
+#: ../src/mail.c:867 ../src/mail.c:940
+msgid "could not decode BASE64 challenge\n"
+msgstr "kon BASE64 vraag niet decoderen\n"
+
+#: ../src/mail.c:875
+#, c-format
+msgid "decoded as %s\n"
+msgstr "gedecodeerd als %s\n"
+
+#: ../src/mail.c:991
+msgid "Bad response after STLS."
+msgstr "Slechte respons na STLS."
+
+#: ../src/mail.c:1131
+msgid "Bad response after STARTTLS."
+msgstr "Slechte respons na STARTTLS."
+
+#: ../src/mail.c:1202
+#, c-format
+msgid ""
+"Messages: %d\n"
+"Unseen: %d\n"
+msgstr ""
+"Berichten: %d\n"
+"Ongelezen: %d\n"
+
+#: ../src/mail.c:1690
+#, c-format
+msgid "mute"
+msgstr "mute"
+
+#: ../src/mail.c:1965
+msgid "seen"
+msgstr ""
+
+#: ../src/mail.c:3408
+msgid "GKrellM Config Error"
+msgstr "GKrellM Configuratie Fout"
+
+#: ../src/mail.c:3409
+msgid "Incomplete mailbox entries"
+msgstr "Mailbox inschrijvingen niet compleet"
+
+#: ../src/mail.c:3673
+msgid "<h>Mailboxes\n"
+msgstr "<h>Mailboxen\n"
+
+#: ../src/mail.c:3675
+msgid "Mailboxes to monitor can be local or remote mailbox types.\n"
+msgstr ""
+"Mailboxen die gemonitord moeten worden kunne lokaal en op afstand zijn.\n"
+
+#: ../src/mail.c:3676
+msgid ""
+"For local mailboxes, the path name may be a mbox file or it may be\n"
+"a Maildir or MH mail style directory.\n"
+msgstr ""
+"Voor lokale mailboxen, de pad naam mag een bestand zijn of ht mag\n"
+"een Maildir of MH mail stijl directory zijn.\n"
+
+#: ../src/mail.c:3684
+msgid "<b>Mail reading program\n"
+msgstr "<b>Mail lees programma\n"
+
+#: ../src/mail.c:3685
+msgid ""
+"If you enter a mail reading program (your mail user agent or MUA)\n"
+"it can be launched by clicking on the mail monitor message count button.\n"
+msgstr ""
+"Als u een mail lees programma invoert kan dit opgestart worden door\n"
+"op de mail monitor totaal knop te klikken.\n"
+
+#: ../src/mail.c:3688
+msgid "<b>Sound notify program\n"
+msgstr "<b>Geluidsmelding programma\n"
+
+#: ../src/mail.c:3689
+msgid ""
+"If you enter a notify (sound) command, it will be run when new mail\n"
+"is detected.\n"
+msgstr ""
+"Als u een (geluids)meldings commando invoert wordt dit uitgevoerd\n"
+"als er nieuwe mail is.\n"
+
+#: ../src/mail.c:3696
+msgid "<b>fetch/check Program\n"
+msgstr "<b>ophaal/nakijk Programma\n"
+
+#: ../src/mail.c:3697
+msgid ""
+"If you want to download remote mail or check for remote mail without\n"
+"using the builtin POP3 or IMAP mail checking which is set up in the\n"
+msgstr ""
+"Als u wilt dat de mail wordt gedownload of niet gebruik wilt maken van\n"
+"de ingebouwde POP3 of IMAP mail nakijk functie welke kan worden ingesteld\n"
+"in het\n"
+
+#: ../src/mail.c:3699 ../src/mail.c:3717
+msgid "<i>Mailboxes"
+msgstr "<i>Mailboxen"
+
+#: ../src/mail.c:3700
+msgid ""
+" tab, then do this by entering a mail fetch/check command.\n"
+"For example, fetchmail can be run periodically to download mail\n"
+"messages from a remote server to your local mailboxes where GKrellM\n"
+"can count them.\n"
+"\n"
+"Or, GKrellM can read the output and report the results from some mail\n"
+"checking programs which count remote or local messages.  If you enter\n"
+"a command like this that checks mail without downloading, then you\n"
+"must tell GKrellM this is the expected behaviour by selecting in the\n"
+"Options tab:\n"
+msgstr ""
+" tabblad, dan kunt u hier uw mail ophaal/nakijk commando invoeren.\n"
+"Als voor beeld, fetchmail kan periodiek mail downloaden van een server\n"
+"op afstand en in een lokale mailbox plaatsen waak GKrellM de mail kan\n"
+"tellen.\n"
+"\n"
+"Of, GKrellM kan de uitvoer inlezen en reporteren van het resultaat van\n"
+"nakijk programma's welke mail in lokale of op afstand zijnde mailboxen\n"
+"telt. Als u een commando zoals dit invoert moet u dat kenbaar maken door\n"
+"het in de Opties tab selecteren van:\n"
+
+#: ../src/mail.c:3710
+msgid "<i>\tFetch/check program checks messages only\n"
+msgstr "<i>\tOphaal/nakijk programma kijken enkel berichten na\n"
+
+#: ../src/mail.c:3711
+msgid ""
+"For checking messages on a remote server, GKrellM can read the\n"
+"output of the program "
+msgstr ""
+"Voor het nakijken van berichten op een server op afstand, GKrellM kan de\n"
+"uitvoer lezen van het programma "
+
+#: ../src/mail.c:3713
+msgid "<i>fetchmail -c"
+msgstr "<i>fetchmail -c"
+
+#: ../src/mail.c:3714
+msgid " (you must append the -c).\n"
+msgstr " (u moet de -c toevoegen).\n"
+
+#: ../src/mail.c:3715
+msgid ""
+"But, do not combine these methods for the same mailbox!  If you enter a\n"
+"POP3 mailbox in the "
+msgstr ""
+"Maar, combineer deze methodes niet voor de zelfde mailbox! Als u een\n"
+"POP3 mailbox toegevoegd in de "
+
+#: ../src/mail.c:3718
+msgid " tab, then don't check it again with fetchmail.\n"
+msgstr " tab, dan moet u het niet nog een keer met fetchmail nakijken.\n"
+
+#: ../src/mail.c:3725
+msgid "click the mail count button to launch the mail reading program.\n"
+msgstr "klik op de mail tel knop om het mail lees programma te starten.\n"
+
+#: ../src/mail.c:3726
+msgid "\t\tIf options permit, also stop animations and reset remote counts.\n"
+msgstr ""
+"\t\tAls de optie het toestaat, stop de animatie en stel het tellen opnieuw "
+"in.\n"
+
+#: ../src/mail.c:3728
+msgid ""
+"click the envelope decal to force a mail check regardless of\n"
+"\t\tany mute mode or inhibit mail checking option settings.\n"
+msgstr ""
+"klik op de envelop om een mailcheck te forceren onafhankelijk of\n"
+"\t\telke mute mode of de instellingen in de opties tab.\n"
+
+#: ../src/mail.c:3731
+msgid ""
+"click the mail panel to toggle a mute mode which inhibits\n"
+"\t\tthe sound notify program and optionally inhibits all mail\n"
+"\t\tchecking.\n"
+msgstr ""
+"klik het mail paneel aan om te switchen tussen de mute mode\n"
+"\t\twelke het geluidswaarschuwings programma en optioneel het\n"
+"\t\tnakijken op nieuwe mail uitschakelt.\n"
+
+#: ../src/mail.c:3772
+msgid "Enable Mailcheck"
+msgstr "Mail Nakijken Inschakelen"
+
+#: ../src/mail.c:3784
+msgid "Mail reading program:"
+msgstr "Mail lees programma:"
+
+#: ../src/mail.c:3799
+msgid "Notify (sound) program:"
+msgstr "Geluids waarschuwings programma:"
+
+#: ../src/mail.c:3816
+msgid "Mail fetch/check program:"
+msgstr "Mail ophaal/nakijk programma:"
+
+#: ../src/mail.c:3835
+msgid "Run fetch/check program at local interval"
+msgstr ""
+
+#: ../src/mail.c:3845
+msgid "Check local mailboxes every"
+msgstr "Test lokale mailboxen elke"
+
+#: ../src/mail.c:3852
+msgid "seconds"
+msgstr "secondes"
+
+#: ../src/mail.c:3858
+msgid "Do remote checks every"
+msgstr "Test op afstand elke"
+
+#: ../src/mail.c:3860
+msgid "Check mail every"
+msgstr "Check mail elke"
+
+#: ../src/mail.c:3867
+msgid "minutes"
+msgstr "minuten"
+
+#: ../src/mail.c:3870
+msgid "Mailboxes"
+msgstr "Mailboxen"
+
+#: ../src/mail.c:3886
+msgid "Path name:"
+msgstr "Pad naam:"
+
+#: ../src/mail.c:3904
+msgid "Server"
+msgstr "Server"
+
+#: ../src/mail.c:3911
+msgid "User name"
+msgstr "Gebruikers naam"
+
+#: ../src/mail.c:3918
+msgid "Password"
+msgstr "Wachtwoord"
+
+#: ../src/mail.c:3926 ../src/mail.c:4017
+msgid "Protocol"
+msgstr "Protocol"
+
+#: ../src/mail.c:3941
+msgid "Use SSL"
+msgstr "Gebruik SSL"
+
+#: ../src/mail.c:3949
+msgid "No"
+msgstr "Nee"
+
+#: ../src/mail.c:3957
+msgid "IMAP folder"
+msgstr "IMAP map"
+
+#: ../src/mail.c:3967
+msgid "Specify port"
+msgstr "Specificeer poort"
+
+#: ../src/mail.c:3986
+msgid "Local mailbox"
+msgstr "Lokale mailbox"
+
+#: ../src/mail.c:3991
+msgid "Remote mailbox"
+msgstr "Mailbox op afstand"
+
+#: ../src/mail.c:4027
+msgid "Mailbox"
+msgstr "Mailbox"
+
+#: ../src/mail.c:4038
+msgid "Animation"
+msgstr "Animatie"
+
+#: ../src/mail.c:4041
+msgid "Animation Select"
+msgstr "Animatie Selectie"
+
+#: ../src/mail.c:4046
+msgid "None"
+msgstr "Geen"
+
+#: ../src/mail.c:4049
+msgid "Envelope"
+msgstr "Envelop"
+
+#: ../src/mail.c:4054
+msgid "Daemon"
+msgstr "Daemon"
+
+#: ../src/mail.c:4056
+msgid "Penguin"
+msgstr "Penguin"
+
+#: ../src/mail.c:4060
+msgid "Both"
+msgstr "Beide"
+
+#: ../src/mail.c:4073
+msgid "Run animation continuously as long as there is a new mail count"
+msgstr "Laat animatie continu zien als er nieuwe mail is"
+
+#: ../src/mail.c:4080
+msgid "Message Counting"
+msgstr "Berichten Tellen"
+
+#: ../src/mail.c:4085
+msgid "new/total"
+msgstr "nieuw/totaal"
+
+#: ../src/mail.c:4089
+msgid "new"
+msgstr "nieuw"
+
+#: ../src/mail.c:4093
+msgid "do not count"
+msgstr "tel niet"
+
+#: ../src/mail.c:4106
+msgid "Fetch/check program checks messages only (see Mail Info tab)"
+msgstr "Ophaal/nakijk programma kijkt enkel na (zie Mail Info tab)"
+
+#: ../src/mail.c:4111
+msgid "Reset remote message counts when message count button is pressed."
+msgstr ""
+"Stel teller op nieuw in voor mailboxen op afstand als op de knop wordt "
+"gedrukt"
+
+#: ../src/mail.c:4116
+msgid "Count accessed but unseen mail as new (if this status is available)"
+msgstr ""
+"Tel bereikte maar ongeziene mail als nieuw (als deze status beschikbaar is)"
+
+#: ../src/mail.c:4121
+msgid "Mute mode inhibits all mail checking, not just notify (sound) program"
+msgstr "Mute mode stopt het checken van mail, niet enkel het geluids programma"
+
+#: ../src/mail.c:4126
+msgid "Inhibit all mail checking while the mail reader is running"
+msgstr "Stop met het nakijken van mail als het mail programma draait"
+
+#: ../src/mail.c:4131
+msgid "Allow multiple launches of the mail reader program"
+msgstr "Sta meerdere instanties van het mail programma toe"
+
+#: ../src/mail.c:4136
+msgid "List mailboxes containing new mail in a tooltip"
+msgstr "Laat mailboxen met nieuwe mail in de tooltip zien"
+
+#: ../src/mail.c:4142
+msgid "Ignore .mh_sequences when checking MH mail."
+msgstr "Negeer .mh_sequences bij het nakijken van MH mail."
+
+#: ../src/mail.c:4165
+msgid "Mail"
+msgstr "Mail"
+
+#: ../src/main.c:121
+msgid ""
+"You can configure your monitors by right clicking on\n"
+"the top frame of GKrellM or by hitting the F1 key\n"
+"with the mouse in the GKrellM window.\n"
+"\n"
+"Read the Info pages in the config for setup help."
+msgstr ""
+"U kunt uw de monitoren instellen door rechts te klikken\n"
+"op de top va het GKrellM frame of door op de F1 toets\n"
+"te drukken als uw muis in het GKrellM venster is.\n"
+"\n"
+"Lees de Info pagina's in de configuratie voor setup hulp."
+
+#: ../src/main.c:162
+msgid "Error: Could not load all fonts.\n"
+msgstr "Fout: Kon niet all lettertypen laden.\n"
+
+#: ../src/main.c:1689
+msgid "GKrellM Introduction"
+msgstr "GKrellM Introductie"
+
+#: ../src/main.c:1767
+msgid ""
+"usage: gkrellm [options]\n"
+"options:\n"
+msgstr ""
+
+#: ../src/main.c:1769
+msgid "   -t, --theme theme_dir    Select a theme directory.\n"
+msgstr ""
+
+#: ../src/main.c:1770
+msgid "   -g, --geometry +x+y      Position the window on the screen.\n"
+msgstr ""
+
+#: ../src/main.c:1771
+msgid "       --wm                 Allow window manager decorations.\n"
+msgstr ""
+
+#: ../src/main.c:1772
+msgid ""
+"       --m2                 Left button side frame shading (for 2 btn "
+"mice).\n"
+msgstr ""
+
+#: ../src/main.c:1773
+msgid "       --nt                 No transparency.\n"
+msgstr ""
+
+#: ../src/main.c:1774
+msgid "   -w, --withdrawn          Draw GKrellM in withdrawn mode.\n"
+msgstr ""
+
+#: ../src/main.c:1775
+msgid ""
+"   -c, --config suffix      Use alternate config files generated by\n"
+"                            appending \"suffix\" to config file names.\n"
+msgstr ""
+
+#: ../src/main.c:1777
+msgid ""
+"   -f, --force-host-config  Creates config files generated by appending the\n"
+"                            hostname to config file names.  Subsequent runs\n"
+"                            automatically will use these configs unless a\n"
+"                            specific config is specified with --config.\n"
+"                            This is a convenience for allowing remote runs\n"
+"                            with independent configs in a shared home dir\n"
+"                            and for the hostname to be in the window title.\n"
+"                            This option has no effect in client mode.\n"
+msgstr ""
+
+#: ../src/main.c:1785
+msgid ""
+"   -s, --server hostname    Run in client mode: connect to \"hostname\" and\n"
+"                            read monitor data from a gkrellmd server.\n"
+msgstr ""
+
+#: ../src/main.c:1787
+msgid ""
+"   -P, --port server_port   Use \"server_port\" for the server connection.\n"
+msgstr ""
+
+#: ../src/main.c:1788
+msgid ""
+"       --nc                 No config mode prevents configuration changes.\n"
+msgstr ""
+
+#: ../src/main.c:1789
+msgid "       --config-clean       Clean out unused configs on config write.\n"
+msgstr ""
+
+#: ../src/main.c:1790
+msgid "       --nolock             Allow multiple gkrellm instances.\n"
+msgstr ""
+
+#: ../src/main.c:1791
+msgid ""
+"   -p, --plugin plugin.so   While developing, load your plugin under test.\n"
+msgstr ""
+
+#: ../src/main.c:1792
+msgid ""
+"       --demo               Force enabling of many monitors so themers can\n"
+"                            see everything. All config saving is inhibited.\n"
+msgstr ""
+
+#: ../src/main.c:1794
+msgid "   -v, --version            Print GKrellM version number and exit.\n"
+msgstr ""
+
+#: ../src/main.c:1795
+msgid ""
+"   -d, --debug-level n      Turn debugging on for selective code sections.\n"
+msgstr ""
+
+#: ../src/main.c:1797
+msgid ""
+"\n"
+"debug-level numbers are (bitwise OR to debug multiple sections):\n"
+"     0x10    mail\n"
+"     0x20    net\n"
+"     0x40    timer button\n"
+"     0x80    sensors\n"
+"     0x800   inet\n"
+"     0x1000  dump gkrellmd server data\n"
+"     0x2000  GUI\n"
+"     0x8000  battery\n"
+"     0x20000 plugin \n"
+"\n"
+msgstr ""
+
+#: ../src/main.c:1998
+msgid "segmentation fault"
+msgstr "segmentatie fout"
+
+#: ../src/main.c:2000
+msgid "floating point exception"
+msgstr "probleem met drijvende komma"
+
+#: ../src/main.c:2002
+msgid "aborted"
+msgstr "afgebroken"
+
+#: ../src/main.c:2005
+msgid "initializing"
+msgstr "initialiseren"
+
+#: ../src/main.c:2165
+#, c-format
+msgid "Bad arg: %s\n"
+msgstr "Fout arg: %s\n"
+
+#: ../src/mem.c:51
+msgid "$t - $f free"
+msgstr "$t - $f vrij"
+
+#: ../src/mem.c:696
+msgid "Swap Out"
+msgstr "Swat Uit"
+
+#: ../src/mem.c:697
+msgid "Swap In"
+msgstr "Swat In"
+
+#: ../src/mem.c:706
+msgid "Swap in/out pages per sec"
+msgstr "Swap in/uit pagina's per sec"
+
+#: ../src/mem.c:815 ../src/mem.c:1373 ../src/mem.c:1404
+msgid "Mem"
+msgstr "Mem"
+
+#: ../src/mem.c:891 ../src/mem.c:984 ../src/mem.c:1293 ../src/mem.c:1394
+#: ../src/mem.c:1411
+msgid "Swap"
+msgstr "Swap"
+
+#: ../src/mem.c:982 ../src/mem.c:1311 ../src/mem.c:1434
+msgid "Memory"
+msgstr "Geheugen"
+
+#: ../src/mem.c:1229
+msgid "<h>Used and Free\n"
+msgstr "<h>Gebruikt en Vrij\n"
+
+#: ../src/mem.c:1230
+msgid ""
+"The used and free memory here are calculated from the kernel reported\n"
+"used and free by subtracting or adding the buffers and cache memory.  See\n"
+"the README and compare to the \"-/+ buffers/cache:\" line from the free\n"
+"command.  If you show three memory krells, the kernel \"raw free\" is\n"
+"the space after the rightmost krell.\n"
+msgstr ""
+"Het gebruikte en vrije geheugen hier is berekent van het door de kernel\n"
+"gereporteerde gebruikte en vrije geheugen waar dan weer de buffers en cache\n"
+"van af worden getrokken. Zie het README bestanden vergelijk de\n"
+"\"-/+ buffers/cache:\" lijn van het free commando. Als u drie geheugen "
+"krells\n"
+"laat zien dan is de kernel \"ruw vrij\" de ruimte na de meest rechtse "
+"krell.\n"
+
+#: ../src/mem.c:1239
+msgid "\t$T    total swap in blocks + swap out blocks\n"
+msgstr "\t$T    totaal swap in blokken + swap uit blokken\n"
+
+#: ../src/mem.c:1240
+msgid "\t$i    swap in blocks\n"
+msgstr "\t$i    swap in blokken\n"
+
+#: ../src/mem.c:1241
+msgid "\t$o    swap out blocks\n"
+msgstr "\t$o    swap uit blokken\n"
+
+#: ../src/mem.c:1244
+msgid ""
+"Substitution variables for the format string for the Mem and Swap\n"
+"panels (a MiB is a binary megabyte - 2^20):\n"
+msgstr ""
+"Vervang variabelen voor de weergave tekst voor de Mem en Swap\n"
+"panelen (een MiB is een binaire megabyte - 2^20):\n"
+
+#: ../src/mem.c:1247
+msgid "For memory and swap:\n"
+msgstr "Voor geheugen en swap:\n"
+
+#: ../src/mem.c:1248
+msgid "\t$t    total MiB\n"
+msgstr "\t$t    totaal MiB\n"
+
+#: ../src/mem.c:1249
+msgid "\t$u    used MiB\n"
+msgstr "\t$u    gebruikt MiB\n"
+
+#: ../src/mem.c:1250
+msgid "\t$f    free MiB\n"
+msgstr "\t$f    vrij MiB\n"
+
+#: ../src/mem.c:1251
+msgid "\t$U    used %\n"
+msgstr "\t$U    gebruikt %\n"
+
+#: ../src/mem.c:1253
+msgid "\t$l    the panel label"
+msgstr "\t$l    het paneel label"
+
+#: ../src/mem.c:1255
+msgid "For memory only:\n"
+msgstr "Enkel voor geheugen:\n"
+
+#: ../src/mem.c:1256
+msgid "\t$s    shared MiB\n"
+msgstr "\t$s    gedeeld MiB\n"
+
+#: ../src/mem.c:1257
+msgid "\t$b    buffered MiB\n"
+msgstr "\t$b    gebufferd MiB\n"
+
+#: ../src/mem.c:1258
+msgid "\t$c    cached MiB\n"
+msgstr "\t$c    gecachet MiB\n"
+
+#: ../src/mem.c:1260
+msgid ""
+"The free and used variables may have a 'r' qualifier for printing\n"
+"raw free and raw used values.  For example: $fr for raw free.\n"
+msgstr ""
+
+#: ../src/mem.c:1268
+msgid ""
+"click on a panel to scroll a programmable display of\n"
+"\t\tof memory or swap usage.\n"
+msgstr ""
+"klik op een paneel om te scrollen tussen een programmeerbaar\n"
+"\t\tdisplay of geheugen en swap gebruik.\n"
+
+#: ../src/mem.c:1298
+msgid "Enable swap pages in/out chart"
+msgstr "Schakel swap in/uit grafiek in"
+
+#: ../src/mem.c:1304
+msgid "Enable swap meter"
+msgstr "Schakel swap meter in"
+
+#: ../src/mem.c:1318
+msgid "Enable memory meter"
+msgstr "Schakel geheugen meter in"
+
+#: ../src/mem.c:1326
+msgid "Show three memory krells:   [used | buffers | cache | raw free]"
+msgstr ""
+"Laat drie geheugen krells zien:  [gebruikt | buffers | cache | ruw vrij ]"
+
+#: ../src/mem.c:1365
+msgid "$t - $u used  $s sh  $b bf  $c ca"
+msgstr "$t - $u gebruikt  $s sh  $b bf  $c ca"
+
+#: ../src/net.c:668
+msgid "Received"
+msgstr ""
+
+#: ../src/net.c:672
+msgid "Transmitted"
+msgstr ""
+
+#: ../src/net.c:676
+msgid "Total"
+msgstr "Totaal"
+
+#: ../src/net.c:684
+msgid "Connect Time"
+msgstr "Connectie Timer"
+
+#: ../src/net.c:701
+#, c-format
+msgid "%s Statistics"
+msgstr ""
+
+#: ../src/net.c:721
+msgid "Daily"
+msgstr ""
+
+#: ../src/net.c:722
+msgid "Date"
+msgstr ""
+
+#: ../src/net.c:724
+msgid "Weekly"
+msgstr ""
+
+#: ../src/net.c:726
+msgid "Week Ending"
+msgstr ""
+
+#: ../src/net.c:728
+msgid "Monthly"
+msgstr ""
+
+#: ../src/net.c:730
+msgid "Month"
+msgstr "Maand"
+
+#: ../src/net.c:787
+#, c-format
+msgid "get_connect_state changed from %d to %d  (check=%d)\n"
+msgstr "get_connect_state veranderde van %d naar %d  (check=%d)\n"
+
+#: ../src/net.c:830
+#, c-format
+msgid "set_timer_button_state from %d to %d (check=%d)\n"
+msgstr "set_timer_button_state van %d naar %d (check=%d)\n"
+
+#: ../src/net.c:843
+#, c-format
+msgid "update_timer_button net_timed old_state=%d new_state=%d\n"
+msgstr "update_timer_button net_timed old_state=%d new_state=%d\n"
+
+#: ../src/net.c:904
+msgid "  **** Stale pppd pppX.pid file detected!\n"
+msgstr "  **** Stalen pppd pppX.pid bestand gedetecteerd!\n"
+
+#: ../src/net.c:1507 ../src/net.c:2734
+msgid "tx bytes"
+msgstr "tx bytes"
+
+#: ../src/net.c:1508 ../src/net.c:2731
+msgid "rx bytes"
+msgstr "rx bytes"
+
+#: ../src/net.c:1519
+msgid "rx/tx bytes per sec"
+msgstr "rx/tx bytes per sec"
+
+#: ../src/net.c:2863
+msgid "<h>Timer Button\n"
+msgstr "<h>Timer Knop\n"
+
+#: ../src/net.c:2864
+msgid ""
+"\tThe timer button may be used as a stand alone timer with start and\n"
+"\tstop commands, but it is usually linked to a dial up net interface\n"
+"\twhere the commands can control the interface and different timer\n"
+"\tbutton colors can show connect states:\n"
+msgstr ""
+"\tDe timer knop kan gebruikt worden als stand alone timer met start en\n"
+"\tstop commando's, maar het is meestal gelinkt aan de inbel interface\n"
+"\twaar de commando's de interface beheren en de verschillende kleuren\n"
+"\tvan de knop laten de status van de verbinding zien:\n"
+
+#: ../src/net.c:2874
+msgid ""
+"Standby state is while the modem phone line is locked while\n"
+"\tppp is connecting, and the on state is the ppp link connected.\n"
+"\tThe phone line lock is determined by the existence of the modem\n"
+"\tlock file /var/lock/LCK..modem.  If your pppd setup does not\n"
+"\tuse /dev/modem, then you can configure an alternative with:\n"
+msgstr ""
+"Standby status is wanneer de modem telefoon lijn is gelockt tijdens\n"
+"\tdat ppp verbinding aan het maken is, en de aan status is wanneer\n"
+"\tppp een verbinding heeft. De telefoonlijn lock is gerelateerd aan\n"
+"\thet bestaan van het lock bestand /var/lock/LCK..modem. Als uw pppd\n"
+"\tsetup /dev/modem niet gebruikt kunt u dit configureren met:\n"
+
+#: ../src/net.c:2879
+msgid "<i>\t\tln -s /var/lock/LCK..ttySx ~/.gkrellm2/LCK..modem\n"
+msgstr "<i>\t\tln -s /var/lock/LCK..ttySx ~/.gkrellm2/LCK..modem\n"
+
+#: ../src/net.c:2880
+msgid ""
+"\twhere ttySx is the tty device your modem uses.  The ppp on\n"
+"\tstate is detected by the existence of /var/run/pppX.pid and\n"
+"\tthe time stamp of this file is the base for the on line time.\n"
+msgstr ""
+"\twaar ttySx de tty is die uw modem gebruikt. De ppp aan staat\n"
+"\twordt gedetecteerd door het bestaan van /var/run/pppX.pid en\n"
+"\tde tijd stempel van dit bestand de basis is voor de online tijd.\n"
+
+#: ../src/net.c:2886
+msgid ""
+"The timer button standby state is not applicable to isdn\n"
+"\tinterfaces that are always routed. The on state is isdn on line\n"
+"\twhile the ippp interface is routed.  The on line timer is reset\n"
+"\twhen the isdn interface transitions from a hangup to an on line\n"
+"\tstate\n"
+msgstr ""
+"De timer knop standby stand is niet van toepassing op isdn\n"
+"\tverbindingen die altijd gerouteerd worden. De aan staat is isdn\n"
+"\taan lijn wanneer de ippp interface wordt gerouteerd. de online\n"
+"\ttimer wordt gereset wanneer de isdn verbinding veranderd van\n"
+"\topgehangen naar online status.\n"
+
+#: ../src/net.c:2901
+msgid "\t$T    receive + transmit bytes\n"
+msgstr "\t$T    ontvangen + verzonden bytes\n"
+
+#: ../src/net.c:2902
+msgid "\t$r    receive bytes\n"
+msgstr "\t$r    ontvangen bytes\n"
+
+#: ../src/net.c:2903
+msgid "\t$t    transmit bytes\n"
+msgstr "\t$t    verzonden bytes\n"
+
+#: ../src/net.c:2904
+msgid "\t$O    cumulative receive + transmit bytes\n"
+msgstr "\t$O    cumulatief ontvangen + verzonden bytes\n"
+
+#: ../src/net.c:2905
+msgid "\t$i    cumulative receive bytes\n"
+msgstr "\t$i    cumulatief ontvangen bytes\n"
+
+#: ../src/net.c:2906
+msgid "\t$o    cumulative transmit bytes\n"
+msgstr "\t$o    cumulatief verzonden bytes\n"
+
+#: ../src/net.c:2907
+msgid "\t$L    the optional chart label\n"
+msgstr "\t$L    de optionele grafiek label\n"
+
+#: ../src/net.c:2908
+msgid "\t$I    the net interface name\n"
+msgstr "\t$I    de net interface naam\n"
+
+#: ../src/net.c:2910
+msgid ""
+"The cumulative variables may have a 'd', 'w', or 'm' qualifier for\n"
+"daily, weekly, or monthly totals.  For example:  $Ow for a\n"
+"cumulative weekly receive + transmit bytes.\n"
+msgstr ""
+"De cumulatieve variabelen moeten een 'd', 'w', of 'm' waarde voor\n"
+"dag, week of maandelijkse totalen hebben.  Bijvoorbeeld:  $Ow voor een\n"
+"cumulatieve wekelijkse ontvang + verstuur bytes.\n"
+
+#: ../src/net.c:2936
+msgid "Timer Button"
+msgstr "Timer Knop"
+
+#: ../src/net.c:2942
+msgid "Enable timer button"
+msgstr "Schakel timer knop in"
+
+#: ../src/net.c:2947
+msgid "Show seconds"
+msgstr "Laat secondes"
+
+#: ../src/net.c:2957
+msgid "none"
+msgstr "geen"
+
+#: ../src/net.c:2971
+msgid "Interface to link to the timer button"
+msgstr "Interface die met de timer knop verbonden moet worden"
+
+#: ../src/net.c:2982
+msgid "Start Command"
+msgstr "Start Commando"
+
+#: ../src/net.c:2993
+msgid "Stop Command"
+msgstr "Stop Commando"
+
+#: ../src/net.c:3007
+#, c-format
+msgid "Enable %s"
+msgstr "Inschakelen %s"
+
+#: ../src/net.c:3024
+msgid "Force chart to be always shown even if interface is not routed."
+msgstr ""
+"Forceer weergave van grafiek zelfs als de interface niet gerouteerd wordt."
+
+#: ../src/net.c:3037
+msgid "Optional label for this interface."
+msgstr "Optioneel label voor deze verbinding"
+
+#: ../src/net.c:3068
+msgid "\\f\\ww\\c\\f$M\\n\\f\\at\\.$t\\n\\f\\ar\\.$r\\b\\c\\f$L"
+msgstr "\\f\\ww\\c\\f$M\\n\\f\\at\\.$t\\n\\f\\ar\\.$r\\b\\c\\f$L"
+
+#: ../src/net.c:3070
+msgid "\\f\\ww\\c\\f$M\\n\\f\\at\\.$o\\n\\f\\ar\\.$i\\b\\c\\f$L"
+msgstr "\\f\\ww\\c\\f$M\\n\\f\\at\\.$o\\n\\f\\ar\\.$i\\b\\c\\f$L"
+
+#: ../src/net.c:3072
+msgid "\\f\\ww\\c\\f$M\\D2\\f\\ar\\.$r\\D1\\f\\at\\.$t\\b\\c\\f$L"
+msgstr "\\f\\ww\\c\\f$M\\D2\\f\\ar\\.$r\\D1\\f\\at\\.$t\\b\\c\\f$L"
+
+#: ../src/net.c:3084
+msgid "Start day for cumulative monthly transmit and receive bytes"
+msgstr "Start dag voor cumulatieve maandelijkse verstuur en ontvang bytes"
+
+#: ../src/net.c:3103
+msgid "Net"
+msgstr "Net"
+
+#: ../src/net.c:3164
+msgid "Net Timer"
+msgstr "Net Timer"
+
+#: ../src/plugins.c:822
+#, c-format
+msgid "\t%s: placement is %s %s  G:%d\n"
+msgstr "\t%s: plaatsing is %s %s  G:%d\n"
+
+#: ../src/plugins.c:824
+msgid "after"
+msgstr "na"
+
+#: ../src/plugins.c:824
+msgid "before"
+msgstr "voor"
+
+#: ../src/plugins.c:884 ../src/plugins.c:891 ../src/plugins.c:907
+#, c-format
+msgid "\tError: %s\n"
+msgstr "\tFout: %s\n"
+
+#: ../src/plugins.c:926
+msgid "\tOoops! plugin returned NULL, aborting\n"
+msgstr "\tOoops! plugin gaf NULL terug, afbreken\n"
+
+#: ../src/plugins.c:938
+msgid "\tWarning: style name \""
+msgstr "\tWaarschuwing: stijl naam \""
+
+#: ../src/plugins.c:939 ../src/plugins.c:949
+msgid ""
+"\" already used by:\n"
+"\t\t"
+msgstr ""
+"\" wordt al gebruikt door:\n"
+"\t\t"
+
+#: ../src/plugins.c:948
+msgid "\tWarning: config keyword \""
+msgstr "\tWaarschuwing: config sleutelwoord \""
+
+#: ../src/plugins.c:1206
+msgid "Ignoring duplicate plugin "
+msgstr "Negeer dubbele plugin "
+
+#: ../src/plugins.c:1238
+msgid "*** Command line plugin:\n"
+msgstr "*** Commando lijn plugin:\n"
+
+#: ../src/plugins.c:1492
+msgid "GKrellM Place Plugin"
+msgstr "GKrellM Plaats Plugin"
+
+#: ../src/plugins.c:1503
+msgid "Builtin Monitors"
+msgstr "Ingebouwde Monitoren"
+
+#: ../src/plugins.c:1533
+msgid "Place Plugin"
+msgstr "Plaats Plugin"
+
+#: ../src/plugins.c:1539
+msgid "Before selected builtin monitor"
+msgstr "Voor geselecteerde ingebouwde monitor"
+
+#: ../src/plugins.c:1546
+msgid "With gravity"
+msgstr "Met zwaartekracht"
+
+#: ../src/plugins.c:1551
+msgid "After selected builtin monitor"
+msgstr "Na geselecteerde ingebouwde monitor"
+
+#: ../src/plugins.c:1559
+msgid "Plugin Defaults"
+msgstr "Plugin Standaarden"
+
+#: ../src/plugins.c:1662
+msgid "from command line"
+msgstr "van commando lijn"
+
+#: ../src/plugins.c:1719
+msgid "Plugin"
+msgstr "Plugin"
+
+#: ../src/plugins.c:1740
+msgid "Place"
+msgstr "Plaats"
+
+#: ../src/plugins.c:1747
+msgid "Install Log"
+msgstr "Installatie Log"
+
+#: ../src/plugins.c:1755
+msgid "No plugins found."
+msgstr "Geen plugins gevonden."
+
+#: ../src/proc.c:544 ../src/proc.c:644 ../src/proc.c:935
+msgid "Load"
+msgstr "Laad"
+
+#: ../src/proc.c:547
+msgid "Forks"
+msgstr "Vorken"
+
+#: ../src/proc.c:556
+msgid "Average process load per minute"
+msgstr "Gemiddelde process lading per minuut"
+
+#: ../src/proc.c:658 ../src/proc.c:928
+msgid "Users"
+msgstr "Gebruikers"
+
+#: ../src/proc.c:670 ../src/proc.c:921
+msgid "Processes"
+msgstr "Processen"
+
+#: ../src/proc.c:873
+msgid "<h>Proc Chart"
+msgstr "<h>Proc Grafiek"
+
+#: ../src/proc.c:875
+msgid "The krell shows process forks with a full scale value of 10 forks.\n"
+msgstr ""
+"De krell laat process vorken zien met een volledige schaal van 10 vorken.\n"
+
+#: ../src/proc.c:876
+msgid ""
+"While both load and fork data are drawn on the chart, the grid\n"
+"resolution can be set for load only.  The resolution per grid for forks is\n"
+"fixed at 10 when using the auto number of grids mode, and at 50 divided by\n"
+"the number of grids when using a fixed number of grids mode.\n"
+msgstr ""
+"Als en de fork data en de load worden getekend in de grafiek, dan\n"
+"kan de resolutie enkel voor de lading ingesteld worden. De resolutie per\n"
+"rooster lijn voor vork is gefixeerd op 10 wanneer de automatische nummering\n"
+"van roosterlijnen actief is, en op 50 gedeeld door het aantal lijnen als\n"
+"er een gefixeerd aantal lijnen wordt gebruikt.\n"
+
+#: ../src/proc.c:883
+msgid "\t$L    maximum chart value (load)\n"
+msgstr "\t$L    maximum grafiek waarde (lading)\n"
+
+#: ../src/proc.c:884
+msgid "\t$F    maximum chart value (forks)\n"
+msgstr "\t$F    maximum grafiek waarde (vorken)\n"
+
+#: ../src/proc.c:885
+msgid "\t$l    load\n"
+msgstr "\t$l    lading\n"
+
+#: ../src/proc.c:886
+msgid "\t$f    forks\n"
+msgstr "\t$f    vorken\n"
+
+#: ../src/proc.c:887
+msgid "\t$p    processes\n"
+msgstr "\t$p    processen\n"
+
+#: ../src/proc.c:888
+msgid "\t$u    users\n"
+msgstr "\t$u    gebruikers\n"
+
+#: ../src/proc.c:909
+msgid "Enable Proc chart"
+msgstr "Proc grafiek inschakelen"
+
+#: ../src/proc.c:957
+msgid "\\f$L\\r\\f$F \\w88\\b\\p\\a$p\\f procs\\n\\e$u\\f users"
+msgstr "\\f$L\\r\\f$F \\w88\\b\\p\\a$p\\f procs\\n\\e$u\\f gebruikers"
+
+#: ../src/proc.c:972 ../src/proc.c:1001 ../src/proc.c:1028
+msgid "Proc"
+msgstr "Proc"
+
+#: ../src/sensors.c:715
+#, c-format
+msgid "Can't find a %s panel to relocate sensor to."
+msgstr ""
+
+#: ../src/sensors.c:1599 ../src/sensors.c:2889
+msgid "Sensors"
+msgstr "Sensors"
+
+#: ../src/sensors.c:1671
+msgid "Sensor Volt Limits"
+msgstr "Sensor Voltage Limieten"
+
+#: ../src/sensors.c:1675
+msgid "Sensor Temperature Limits (in displayed degree units)"
+msgstr "Sensor Temperatuur Limieten (in weergegeven graden eenheid)"
+
+#: ../src/sensors.c:1679
+msgid "Sensor Fan RPM Limits"
+msgstr "Sensor Fan RPM Limieten"
+
+#: ../src/sensors.c:2011 ../src/sensors.c:2798
+msgid "Temperatures"
+msgstr "Temperaturen"
+
+#: ../src/sensors.c:2018
+msgid "Fans"
+msgstr "Fans"
+
+#: ../src/sensors.c:2025 ../src/sensors.c:2807
+msgid "Voltages"
+msgstr "Voltages"
+
+#: ../src/sensors.c:2620
+msgid ""
+"Can't read sensor data from mbmon daemon.\n"
+"Check mbmon port number and '-r' option.\n"
+"Run gkrellm -d 0x80 for debug output.\n"
+msgstr ""
+
+#: ../src/sensors.c:2642
+msgid "<b>No sensors detected.\n"
+msgstr "<b>Geen sensoren gedetecteerd.\n"
+
+#: ../src/sensors.c:2649
+msgid ""
+"Enter data scaling factors and offsets for the sensors if the default\n"
+"values are not correct for your motherboard.  Do a man gkrellm or\n"
+"see the GKrellM README for more information.\n"
+msgstr ""
+"Voer data schaal factoren en verplaatsing in voor de sensoren als de\n"
+"standaard waardes niet goed worden weergegeven voor uw moederbord. Doe een\n"
+"man gkrellm of kijk in de GKrellM README voor meer informatie.\n"
+
+#: ../src/sensors.c:2652
+msgid "Enter a zero factor and a blank label to restore default values.\n"
+msgstr "Een factor nul of een blank label stelt de standaard weer in.\n"
+
+#: ../src/sensors.c:2654
+msgid "Drag and drop sensor rows to change the displayed order.\n"
+msgstr "Sleep de sensor rijen om de weergave volgorde te wijzigen.\n"
+
+#: ../src/sensors.c:2656
+msgid "Temperature offset values must be in centigrade units.\n"
+msgstr ""
+"Temperatuur verplaatsing waardes moeten in centigraden ingevoerd worden.\n"
+
+#: ../src/sensors.c:2659
+msgid "\t$s    current sensor value.\n"
+msgstr "\t$A    actuele sensor waarde\n"
+
+#: ../src/sensors.c:2660
+msgid "\t$l    sensor label.\n"
+msgstr "\t$l    sensor label\n"
+
+#: ../src/sensors.c:2722
+msgid "Sensor"
+msgstr "Sensor"
+
+#: ../src/sensors.c:2760
+msgid "Factor"
+msgstr "Factor"
+
+#: ../src/sensors.c:2765
+msgid "Offset"
+msgstr "Verplaatsing"
+
+#: ../src/sensors.c:2770
+msgid "Location"
+msgstr "Locatie"
+
+#: ../src/sensors.c:2802
+msgid "Display fahrenheit"
+msgstr "Weergeven in fahrenheit"
+
+#: ../src/sensors.c:2809
+msgid "Normal with labels"
+msgstr "Normaal met labels"
+
+#: ../src/sensors.c:2819
+msgid "Compact with no labels"
+msgstr "Compact zonder labels"
+
+#: ../src/sensors.c:2844
+msgid "MBmon Daemon Port"
+msgstr ""
+
+#: ../src/sensors.c:2849
+msgid ""
+"<small>Daemon command must be: <b>mbmon -r -P port</b>\n"
+"where 'port' must match the port number entered here:</small>"
+msgstr ""
+
+#: ../src/uptime.c:270
+msgid "Enable Uptime"
+msgstr "Uptime inschakelen"
+
+#: ../src/uptime.c:277 ../src/uptime.c:287
+msgid "Uptime"
+msgstr "Uptime"
+
+#: ../src/utils.c:105
+#, c-format
+msgid "Unterminated quote\n"
+msgstr "Niet getermineerde quote\n"
+
+#: ../src/utils.c:225
+#, c-format
+msgid "Cannot create directory: %s\n"
+msgstr "Kan directory niet creëren: %s\n"
+
+#: ../src/winops-win32.c:80
+msgid "GKrellM for Windows"
+msgstr ""
+
+#: ../src/winops-x11.c:375
+msgid "Exiting because multiple instances option is off.\n"
+msgstr "Afsluiten omdat meerdere instanties optie uit staat.\n"
+
+#: ../src/winops-x11.c:446
+msgid "Warning: -w flag is ignored when the window dock type is set"
+msgstr ""
+"Waarschuwing: -w vlag wordt genegeerd wanneer window dock type is ingesteld"
+
+#: ../src/sysdeps/linux.c:3391
+msgid "Use nvclock for NVIDIA GPU temperatures"
+msgstr ""
+
+#~ msgid "Display 24 hour instead of 12 hour time"
+#~ msgstr "Toon in 24 uurs mode in plaats van 12 uurs mode"
+
+#~ msgid "Show seconds instead of am/pm in 12 hour time mode"
+#~ msgstr "Laat seconden zien in plaats van am/pm in 12 uurs mode"
+
+#~ msgid "Show seconds in 24 hour time mode"
+#~ msgstr "Laat secondes zien in 24 uurs mode"
+
+#~ msgid "Format string for FS data display"
+#~ msgstr "Weergave tekst voor FS data weergave"
+
+#~ msgid ""
+#~ "usage: gkrellm [options]\n"
+#~ "options:\n"
+#~ "   -t, --theme theme_dir    Select a theme directory.\n"
+#~ "   -g, --geometry +x+y      Position the window on the screen.\n"
+#~ "       --wm                 Allow window manager decorations.\n"
+#~ "       --m2                 Left button side frame shading (for 2 btn "
+#~ "mice).\n"
+#~ "       --nt                 No transparency.\n"
+#~ "   -w, --withdrawn          Draw GKrellM in withdrawn mode.\n"
+#~ "   -c, --config suffix      Use alternate config files generated by\n"
+#~ "                            appending \"suffix\" to config file names.\n"
+#~ "   -f, --force-host-config  Creates config files generated by appending "
+#~ "the\n"
+#~ "                            hostname to config file names.  Subsequent "
+#~ "runs\n"
+#~ "                            automatically will use these configs unless "
+#~ "a\n"
+#~ "                            specific config is specified with --config.\n"
+#~ "                            This is a convenience for allowing remote "
+#~ "runs\n"
+#~ "                            with independent configs in a shared home "
+#~ "dir\n"
+#~ "                            and for the hostname to be in the window "
+#~ "title.\n"
+#~ "                            This option has no effect in client mode.\n"
+#~ "   -s, --server hostname    Run in client mode: connect to \"hostname\" "
+#~ "and\n"
+#~ "                            read monitor data from a gkrellmd server.\n"
+#~ "   -P, --port server_port   Use \"server_port\" for the server "
+#~ "connection.\n"
+#~ "       --nc                 No config mode prevents configuration "
+#~ "changes.\n"
+#~ "   -p, --plugin plugin.so   While developing, load your plugin under "
+#~ "test.\n"
+#~ "       --demo               Force enabling of many monitors so themers "
+#~ "can\n"
+#~ "                            see everything. All config saving is "
+#~ "inhibited.\n"
+#~ "   -v, --version            Print GKrellM version number and exit.\n"
+#~ "   -d, --debug-level n      Turn debugging on for selective code "
+#~ "sections.\n"
+#~ "\n"
+#~ "debug-level numbers are (bitwise OR to debug multiple sections):\n"
+#~ "     0x10  mail\n"
+#~ "     0x20  net\n"
+#~ "     0x40  timer button\n"
+#~ "     0x80  sensors\n"
+#~ "\n"
+#~ msgstr ""
+#~ "gebruik: gkrellm [opties]\n"
+#~ "opties:\n"
+#~ "   -t, --theme thema_dir    Selecteer een thema directory.\n"
+#~ "   -g, --geometry +x+y      Positioneer het venster op het scherm.\n"
+#~ "       --wm                 Sta decoraties van de window manager toe.\n"
+#~ "       --m2                 Linker knop frame opbouw (voor 2 knops "
+#~ "muis).\n"
+#~ "       --nt                 Geen transparantie.\n"
+#~ "   -w, --withdrawn          Teken GKrellM in withdrawn modus.\n"
+#~ "   -c, --config navoegsel   Gebruik alternatieve configuratie bestanden\n"
+#~ "                            generereed door navolgend \"navoegsel\" voor\n"
+#~ "                            configuratie bestands namen.\n"
+#~ "   -f, --force-host-config  Maakt configuratie bestand met als toevoegsel "
+#~ "de\n"
+#~ "                            systeemnaam.  Daarna worden deze bestanden\n"
+#~ "                            automatische gebruikt tenzij er een andere\n"
+#~ "                            --config optie wordt opgegeven.\n"
+#~ "                            Dit is voor als de home directory gedeeld "
+#~ "wordt\n"
+#~ "                            op meerdere systemen en er voor elk systeem "
+#~ "een\n"
+#~ "                            apart configuratie nodig is.\n"
+#~ "                            Deze optie heeft geen effect op de client "
+#~ "modus.\n"
+#~ "   -s, --server systeemnaam Start in client mode: verbind met "
+#~ "\"systeemnaam\"\n"
+#~ "                            en lees de monitor data van de gkrellmd "
+#~ "server.\n"
+#~ "   -P, --port server_poort  Gebruik \"server_poort\" voor de server "
+#~ "connectie.\n"
+#~ "       --nc                 No config mode voorkomt veranderingen in de\n"
+#~ "                            configuratie.\n"
+#~ "   -p, --plugin plugin.so   Tijdens ontwikkeling, laad uw test plugin.\n"
+#~ "       --demo               Forceer het inschakelen van veel monitoren "
+#~ "zodat\n"
+#~ "                            thema maker alles kunnen zien. Configuratie "
+#~ "wordt\n"
+#~ "                            niet opgeslagen.\n"
+#~ "   -v, --version            Toon GKrellM versie nummer en sluit af.\n"
+#~ "   -d, --debug-level n      Zet debugging aan voor selectieve code "
+#~ "secties.\n"
+#~ "\n"
+#~ "debug-level nummers zijn (bitwise OR om meerdere secties te debuggen):\n"
+#~ "     0x10  mail\n"
+#~ "     0x20  net\n"
+#~ "     0x40  timer knop\n"
+#~ "     0x80  sensoren\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Windows system dependent code was contributed by:\n"
+#~ "Bill Nalen <bill@nalens.com>"
+#~ msgstr ""
+#~ "Windows systeem afhankelijke code is gedoneerd door:\n"
+#~ "Bill Nalen <bill@nalens.com>"
+
+#~ msgid "Receive"
+#~ msgstr "Ontvangen"
+
+#~ msgid "Transmit"
+#~ msgstr "Versturen"
+
+#~ msgid "Today"
+#~ msgstr "Vandaag"
+
+#~ msgid "Week"
+#~ msgstr "Week"
+
+#~ msgid "Use above alternate fonts instead of theme specified fonts"
+#~ msgstr ""
+#~ "Gebruik bovenstaande alternatieve lettertypes in plaats van de thema "
+#~ "lettertypen"
+
+#~ msgid "mdir %s total=%d old=%d new=%d\n"
+#~ msgstr "mdir %s totaal=%d oud=%d nieuw=%d\n"
+
+#~ msgid "Draw mail: new=%d count=%d "
+#~ msgstr "Teken mail: nieuw=%d aantal=%d "
+
+#~ msgid "string=<%s>\n"
+#~ msgstr "tekst=<%s>\n"
+
+#~ msgid "mail pipe_command: old command <%s> still running.\n"
+#~ msgstr "mail pijp_commando: oud commando <%s> nog bezig.\n"
+
+#~ msgid "mail launching pipe_command <%s>\n"
+#~ msgstr "mail uitvoer pijp_commando <%s>\n"
+
+#~ msgid "Mail user agent is already running.\n"
+#~ msgstr "Mail programma wordt al uitgevoerd.\n"
+
+# I don't know what this means...
+#~ msgid "Ay8"
+#~ msgstr "Ay8"
+
+#~ msgid "Load fonts as fontsets"
+#~ msgstr "Laad lettertypes als lettertypeverzamelingen"
+
+#~ msgid "mail could not run pipe_command <%s>\n"
+#~ msgstr "mail kon pijp_commando niet uitvoeren <%s>\n"

@@ -1,0 +1,2874 @@
+# Bulgarian translation of gkrellm po file
+# This file is distributed under the same license as the gkrellm package.
+# Vasil Vasilev <Ekspert@mbox.contact.bg>, 2006.
+msgid ""
+msgstr ""
+"Project-Id-Version: Bg1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-11-27 18:25-0600\n"
+"PO-Revision-Date: 2006-03-11 14:03+0200\n"
+"Last-Translator: Vasil Vasilev <Ekspert@mbox.contact.bg>\n"
+"Language-Team:  Bulgarian <dict@fsa-bg.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#: ../src/alerts.c:1153
+msgid "GKrellM Set Alerts"
+msgstr "Настройка на датчиците на GKrellM"
+
+#: ../src/alerts.c:1165 ../src/battery.c:1122 ../src/gui.c:555
+#: ../src/sensors.c:2780
+msgid "Alerts"
+msgstr "Сигнали за тревога"
+
+#: ../src/alerts.c:1188
+msgid "High Limits"
+msgstr "Горна граница"
+
+#: ../src/alerts.c:1195
+msgid "High alarm limit"
+msgstr "Тревога"
+
+#: ../src/alerts.c:1201
+msgid "High warn limit"
+msgstr "Предупреждение"
+
+#: ../src/alerts.c:1208
+msgid "Low Limits"
+msgstr "Долна граница"
+
+#: ../src/alerts.c:1214
+msgid "Low warn limit"
+msgstr "Предупреждение"
+
+#: ../src/alerts.c:1219
+msgid "Low alarm limit"
+msgstr "Тревога"
+
+#: ../src/alerts.c:1229
+msgid "Seconds limit conditions must exist to have an alert"
+msgstr "За да заработи сигнала, е нужно да се укаже интервал от секунди"
+
+#: ../src/alerts.c:1241
+msgid "Commands - with repeat intervals in seconds"
+msgstr "Команди - с интервали за повторение в секунди"
+
+#: ../src/alerts.c:1251
+msgid "Alarm command:"
+msgstr "Команда-тревога:"
+
+#: ../src/alerts.c:1271
+msgid "Warn command:"
+msgstr "Предупреждение:"
+
+#: ../src/alerts.c:1295
+msgid "A repeat of zero seconds executes the command once per alert."
+msgstr ""
+"Интервал от 0 секунди означава еднократно изпълнение\n"
+"на командата."
+
+#: ../src/battery.c:566 ../src/battery.c:964 ../src/battery.c:997
+msgid "GKrellM Battery"
+msgstr "Батерия GKrellM"
+
+#: ../src/battery.c:567
+msgid ""
+"Battery times are unavailable.  You\n"
+"could select the Estimated Time option."
+msgstr ""
+"Показанията на батериите са недостъпни. Можете\n"
+"да включите опция „Разчет на време“."
+
+#: ../src/battery.c:800 ../src/battery.c:806 ../src/battery.c:1217
+#: ../src/battery.c:1248
+msgid "Battery"
+msgstr "Батерии"
+
+#: ../src/battery.c:801
+msgid "Battery Percent Limits"
+msgstr "Лимит на батериите в %"
+
+#: ../src/battery.c:807
+msgid "Battery Minutes Remaining Limits"
+msgstr "Оставащо време на работа на батериите в минути"
+
+#: ../src/battery.c:965 ../src/battery.c:998
+msgid ""
+"The Battery alert units are changed\n"
+"and the alert must be reconfigured."
+msgstr ""
+"Единиците за  измерване на батериите са изменени,\n"
+"предупрежденията и тревогите трябва да се пренастроят."
+
+#: ../src/battery.c:1105 ../src/mail.c:3683 ../src/sensors.c:2648
+msgid "<h>Setup\n"
+msgstr "<h>Настройка\n"
+
+#: ../src/battery.c:1106
+msgid "<b>Display Estimated Time\n"
+msgstr "<b>Показване на приблизително оставащо време\n"
+
+#: ../src/battery.c:1107
+msgid ""
+"If battery times are not reported by the BIOS or if the reported times\n"
+"are inaccurate, select this option to display a battery time remaining or\n"
+"time to charge which is calculated based on the current battery percentage\n"
+"level, user supplied total battery times, and a linear extrapolation model.\n"
+msgstr ""
+"Ако показанията за зареждане на батерията не се актуализират\n"
+"от BIOS-а или тези показания са недостатъчно точни, включете \n"
+"тази опция. Тогава заряда на батерията и времето на зареждане\n"
+"ще се измерва с отчитане на текущото състояние на батерията и\n"
+"указаните от потребителя стойности за пълно \n"
+"зареждане/разреждане с помощта на линейна екстраполация.\n"
+
+#: ../src/battery.c:1112
+msgid "<b>Total Battery Times\n"
+msgstr "<b>Време за зареждане/разреждане на батерията\n"
+
+#: ../src/battery.c:1113
+msgid ""
+"Enter the typical total run time and total charge time in hours for your\n"
+"battery.\n"
+msgstr ""
+"Укажете типичните времена на работа и\n"
+"пълно зареждане на Вашата батерия.\n"
+
+#: ../src/battery.c:1116
+msgid "<b>Exponential Charge Model\n"
+msgstr "<b>Експоненциален модел на зареждане\n"
+
+#: ../src/battery.c:1117
+#, no-c-format
+msgid ""
+"For some charging systems battery capacity rises exponentially, which\n"
+"means the simple linear model will grossly underestimate the time to 100%.\n"
+"Select the exponential model for more accuracy in this case.\n"
+msgstr ""
+"В някои системи зарядът на батерията нараства експоненциално,\n"
+"затова обикновения линеен метод силно ще занижава времето на\n"
+"зареждане. В такива случаи експоненциалния метод ще даде\n"
+"по-точен резултат\n"
+
+#: ../src/battery.c:1124 ../src/cpu.c:1269 ../src/disk.c:1330 ../src/fs.c:2474
+#: ../src/mem.c:1263 ../src/net.c:2914 ../src/proc.c:890 ../src/sensors.c:2658
+msgid "Substitution variables may be used in alert commands.\n"
+msgstr ""
+"Променливите може да се използват за формат\n"
+"на командните.\n"
+
+#: ../src/battery.c:1125
+msgid "\t$p    battery percent level.\n"
+msgstr "\t$p    заряд на батерията в проценти.\n"
+
+#: ../src/battery.c:1126
+msgid "\t$t    battery time left.\n"
+msgstr "\t$t    оставащо време на батерията.\n"
+
+#: ../src/battery.c:1127
+msgid "\t$n    battery number.\n"
+msgstr "\t$n    брой батерии.\n"
+
+#: ../src/battery.c:1128
+msgid "\t$o    online state (boolean).\n"
+msgstr "\t$o    режим онлайн (да/не).\n"
+
+#: ../src/battery.c:1129
+msgid "\t$c    charging state (boolean).\n"
+msgstr "\t$c    режим на зареждане (да/не).\n"
+
+#: ../src/battery.c:1131 ../src/fs.c:2476 ../src/inet.c:1806 ../src/mem.c:1266
+msgid "<h>Mouse Button Actions:\n"
+msgstr "<h>Действия на бутоните на мишката:\n"
+
+#: ../src/battery.c:1132 ../src/fs.c:2477 ../src/gui.c:1026 ../src/inet.c:1807
+#: ../src/mail.c:3724 ../src/mail.c:3727 ../src/mem.c:1267
+msgid "<b>\tLeft "
+msgstr "<b>\tЛяв "
+
+#: ../src/battery.c:1133
+msgid ""
+" click on the charging state decal to toggle the display mode\n"
+"\t\tbetween a minutes, percentage, or charging rate display.\n"
+msgstr ""
+"     бутонът превключва режим между минути, проценти\n"
+"\t\t и скоростта на зареждане, ако натиснете\n"
+"\t\t иконката на батерията.\n"
+
+#: ../src/battery.c:1135 ../src/inet.c:1810 ../src/mail.c:3730
+msgid "<b>\tMiddle "
+msgstr "<b>\tСреден"
+
+#: ../src/battery.c:1136
+msgid ""
+" clicking anywhere on the Battery panel also toggles the display mode.\n"
+msgstr ""
+"      бутонът също превключва режимите при натискане, където\n"
+"\t\t  и да е в панела на\n"
+"\t\t  батерията.\n"
+
+#: ../src/battery.c:1152 ../src/clock.c:674 ../src/cpu.c:1292
+#: ../src/disk.c:1355 ../src/fs.c:2513 ../src/gui.c:1051 ../src/gui.c:1894
+#: ../src/mail.c:4077 ../src/mem.c:1290 ../src/proc.c:905
+#: ../src/sensors.c:2796 ../src/sensors.c:2827 ../src/uptime.c:265
+msgid "Options"
+msgstr "Избор"
+
+#: ../src/battery.c:1157 ../src/clock.c:680 ../src/clock.c:707
+#: ../src/disk.c:1368 ../src/plugins.c:1712 ../src/sensors.c:2728
+msgid "Enable"
+msgstr "Включване"
+
+#: ../src/battery.c:1162
+msgid "Composite Battery"
+msgstr "Комбинирана батерия"
+
+#: ../src/battery.c:1166
+msgid "Real Batteries"
+msgstr "Реална батерия"
+
+#: ../src/battery.c:1172
+msgid "Enable Battery"
+msgstr "Вкл. на батерията"
+
+#: ../src/battery.c:1181
+msgid "Display estimated time remaining and time to charge"
+msgstr "Прогнозно време за зареждане/разреждане на батерията"
+
+#: ../src/battery.c:1189
+msgid "Total battery run time in hours"
+msgstr "Реално време за работа на батерията в часове"
+
+#: ../src/battery.c:1193
+msgid "Total battery charge time in hours"
+msgstr "Време за пълно зареждане на батерията в часове"
+
+#: ../src/battery.c:1198
+msgid "Exponential charge model"
+msgstr "Експоненциален модел на зареждане"
+
+#: ../src/battery.c:1206 ../src/inet.c:2000
+msgid "Seconds between updates"
+msgstr "Секунди между обновяванията"
+
+#: ../src/battery.c:1210 ../src/clock.c:731 ../src/cpu.c:1343
+#: ../src/disk.c:1401 ../src/fs.c:2510 ../src/inet.c:1994 ../src/mail.c:3767
+#: ../src/mem.c:1329 ../src/net.c:3055 ../src/proc.c:945 ../src/sensors.c:2697
+#: ../src/uptime.c:262
+msgid "Setup"
+msgstr "Настройки"
+
+#: ../src/battery.c:1213 ../src/clock.c:758 ../src/cpu.c:1371
+#: ../src/disk.c:1424 ../src/inet.c:2026 ../src/mem.c:1400 ../src/net.c:3043
+#: ../src/proc.c:967 ../src/uptime.c:273
+msgid "Launch Commands"
+msgstr "Стартови команди"
+
+#: ../src/battery.c:1234
+msgid "Alerts check for percent capacity remaining."
+msgstr ""
+
+#: ../src/battery.c:1239 ../src/clock.c:766 ../src/cpu.c:1394
+#: ../src/disk.c:1438 ../src/fs.c:2560 ../src/gui.c:1161 ../src/gui.c:1975
+#: ../src/inet.c:2039 ../src/mail.c:4145 ../src/mem.c:1418 ../src/net.c:3087
+#: ../src/proc.c:979 ../src/sensors.c:2865
+msgid "Info"
+msgstr "Информация"
+
+#: ../src/chart.c:1021
+msgid "Ag8"
+msgstr "Ag8"
+
+#: ../src/chart.c:2292 ../src/chart.c:2449
+msgid "/Control/Auto mode sticks at peak value"
+msgstr "/Контрол/Придържане към максимални значения"
+
+#: ../src/chart.c:2296 ../src/chart.c:2447
+msgid "/Control/Auto mode recalibrate"
+msgstr "/Контрол/Пресмятане автоматичен-режим"
+
+#: ../src/chart.c:2445
+msgid "/Control"
+msgstr "/Настройка"
+
+#: ../src/chart.c:2446 ../src/chart.c:2451 ../src/chart.c:2457
+msgid "/Control/-"
+msgstr "/Регулиране/-"
+
+#: ../src/chart.c:2452 ../src/chart.c:2456 ../src/chart.c:2483
+msgid "/Control/Sequence.../1 2 5"
+msgstr "/Регулиране/Последователност/1 2 5"
+
+#: ../src/chart.c:2454 ../src/chart.c:2485
+msgid "/Control/Sequence.../1 1.5 2 3 5 7"
+msgstr "/Регулиране/Последователност/1 1.5 2 3 5 7"
+
+#: ../src/chart.c:2520
+msgid "GKrellM Chart Config"
+msgstr "Конфигурация на диаграмите на GKrellM"
+
+#: ../src/chart.c:2541
+msgid "Line style"
+msgstr "Контур"
+
+#: ../src/chart.c:2548
+msgid "Inverted"
+msgstr "Отгоре"
+
+#: ../src/chart.c:2556
+msgid "Split view"
+msgstr "Разделяне на изгледа"
+
+#: ../src/chart.c:2568
+msgid "Hide"
+msgstr "Скриване"
+
+#: ../src/chart.c:2583
+msgid "Resolution per Grid"
+msgstr "Разделителна способност на линиите"
+
+#: ../src/chart.c:2603
+msgid "Auto"
+msgstr "Автоматично"
+
+#: ../src/chart.c:2615
+msgid "Number of Grids"
+msgstr "Количество на линиите"
+
+#: ../src/chart.c:2620
+msgid "0: Auto    1-5: Constant"
+msgstr "0: Автоматично    1-5: Постоянно"
+
+#: ../src/chart.c:2629
+msgid "Chart height"
+msgstr "Височина на диаграмата"
+
+#: ../src/client.c:1862 ../src/mail.c:641
+msgid "Unable to connect."
+msgstr "Невъзможно свързване."
+
+#: ../src/clock.c:647
+msgid "<h>Clock/Calendar Format Strings\n"
+msgstr ""
+
+#: ../src/clock.c:648
+msgid ""
+"The display format strings should contain strftime conversion\n"
+"characters and Pango text attribute markup strings.\n"
+msgstr ""
+
+#: ../src/clock.c:651
+msgid ""
+"For the clock, the provided default strings will display a 12 hour\n"
+"clock with seconds, a 12 hour clock with AM/PM indicator, or a 24 hour\n"
+"clock with seconds.\n"
+msgstr ""
+
+#: ../src/clock.c:655
+msgid ""
+"The special $A substitution variable expands to the current theme\n"
+"alternate color and is for use with the Pango \"foreground\" attribute.\n"
+msgstr ""
+
+#: ../src/clock.c:676 ../src/clock.c:763 ../src/clock.c:828
+msgid "Calendar"
+msgstr "Календар"
+
+#: ../src/clock.c:683 ../src/clock.c:710
+msgid "Display format string:"
+msgstr ""
+
+#: ../src/clock.c:703 ../src/clock.c:779 ../src/clock.c:789
+msgid "Clock"
+msgstr "Часовник"
+
+#: ../src/clock.c:733
+msgid "Clock Chime Commands"
+msgstr "Команди на алармата"
+
+#: ../src/clock.c:738
+msgid "Hour"
+msgstr "Час"
+
+#: ../src/clock.c:746
+msgid "Quarter hour"
+msgstr "Четвърт-час"
+
+#: ../src/clock.c:756
+msgid "Loop hour chime command"
+msgstr "Повтаряне на мелодията"
+
+#: ../src/config.c:260
+#, c-format
+msgid "Bad textcolor line %s\n"
+msgstr "Неверен ред за цвета %s\n"
+
+#: ../src/config.c:1040 ../src/config.c:1071
+#, c-format
+msgid "  Cannot load file image: %s\n"
+msgstr "  Не може да се зареди картинката: %s\n"
+
+#: ../src/config.c:1046
+#, c-format
+msgid "  Cannot load GdkPixbuf inline data.\n"
+msgstr " Невъзможно зареждането на вградения GdkPixbuf.\n"
+
+#: ../src/config.c:1077
+#, c-format
+msgid "  Cannot load xpm: %s\n"
+msgstr "  Невъзможно зареждането на xpm: %s\n"
+
+#: ../src/config.c:1741
+#, c-format
+msgid ""
+"Incomplete config line:\n"
+"    %s\n"
+msgstr ""
+"Некоректен ред на настройката:\n"
+"    %s\n"
+
+#: ../src/config.c:2425
+#, c-format
+msgid "Cannot open config file %s for writing.\n"
+msgstr "Невъзможно e да се отвори файл с настройки %s.\n"
+
+#: ../src/cpu.c:175
+#, c-format
+msgid "CPU%s"
+msgstr "Процесор%s"
+
+#: ../src/cpu.c:843
+msgid "sys time"
+msgstr "системно време"
+
+#: ../src/cpu.c:844
+msgid "user time"
+msgstr "потребителско време"
+
+#: ../src/cpu.c:853 ../src/cpu.c:857 ../src/cpu.c:1104
+msgid "nice time"
+msgstr "оптимално време"
+
+#: ../src/cpu.c:964 ../src/cpu.c:1426
+msgid "CPU"
+msgstr "Процесор"
+
+#: ../src/cpu.c:965 ../src/fs.c:1289 ../src/mem.c:986
+msgid "Percent Usage"
+msgstr "Процент на натоварване"
+
+#: ../src/cpu.c:1261 ../src/disk.c:1322 ../src/gui.c:998 ../src/inet.c:1795
+#: ../src/mem.c:1236 ../src/net.c:2898 ../src/proc.c:881
+msgid "<h>Chart Labels\n"
+msgstr "<h>Етикети на диаграми\n"
+
+#: ../src/cpu.c:1262 ../src/disk.c:1323 ../src/inet.c:1796 ../src/mem.c:1237
+#: ../src/net.c:2899 ../src/proc.c:882
+msgid "Substitution variables for the format string for chart labels:\n"
+msgstr "Променливи показващи формата на диаграмата:\n"
+
+#: ../src/cpu.c:1263
+msgid "\t$L    the CPU label\n"
+msgstr "\t$L    Заглавие процесор\n"
+
+#: ../src/cpu.c:1264
+msgid "\t$T    total CPU time percent usage\n"
+msgstr "\t$T    общо натоварване на процесора в %\n"
+
+#: ../src/cpu.c:1265
+msgid "\t$s    sys time percent usage\n"
+msgstr "\t$s    използвано системно време в %\n"
+
+#: ../src/cpu.c:1266
+msgid "\t$u    user time percent usage\n"
+msgstr "\t$u    използвано потребителско време в %\n"
+
+#: ../src/cpu.c:1267
+msgid "\t$n    nice time percent usage\n"
+msgstr "\t$n    оптимално време в %\n"
+
+#: ../src/cpu.c:1296
+msgid "Enable CPU"
+msgstr "Показване на процесор"
+
+#: ../src/cpu.c:1301
+msgid "Exclude nice CPU time from krell even if nice is shown on chart"
+msgstr "Премахване на оптимално време от krell дори да е указан на диаграмата"
+
+#: ../src/cpu.c:1306 ../src/proc.c:915
+msgid "Draw fan and temperature values separately (not alternating)."
+msgstr "Показване на температурата и оборотите на вентилатора поотделно."
+
+#: ../src/cpu.c:1313
+msgid "Apply any CPU chart config height change to all CPU charts"
+msgstr ""
+"Използване на височината на диаграмата на процесора\n"
+"към другите диаграми на процесори"
+
+#: ../src/cpu.c:1316
+msgid "SMP Charts Select"
+msgstr "Избор на диаграми SMP"
+
+#: ../src/cpu.c:1319
+msgid "Real CPUs."
+msgstr "Реални процесори"
+
+#: ../src/cpu.c:1324
+msgid "Composite CPU."
+msgstr "Комбиниран процесор."
+
+#: ../src/cpu.c:1330
+msgid "Composite and real"
+msgstr "Комбинирани и реални"
+
+#: ../src/cpu.c:1346 ../src/disk.c:1404 ../src/inet.c:2006 ../src/mem.c:1332
+#: ../src/net.c:3058 ../src/proc.c:948
+msgid "Format String for Chart Labels"
+msgstr "Ред за форматиране на изгледа на диаграмата"
+
+#: ../src/cpu.c:1356
+msgid "\\fu \\.$u\\n\\fs \\.$s"
+msgstr "\\fu \\.$u\\n\\fs \\.$s"
+
+#: ../src/cpu.c:1357
+msgid "\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s"
+msgstr "\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s"
+
+#: ../src/cpu.c:1358
+msgid "\\ww\\D3\\f\\au\\.$u\\D0\\f\\as\\.$s"
+msgstr "\\ww\\D3\\f\\au\\.$u\\D0\\f\\as\\.$s"
+
+#: ../src/cpu.c:1379
+#, c-format
+msgid "%s"
+msgstr "%s"
+
+#: ../src/disk.c:297 ../src/disk.c:1376 ../src/disk.c:1447 ../src/disk.c:1475
+#: ../src/sensors.c:2272 ../src/sensors.c:2350 ../src/sysdeps/openbsd.c:398
+msgid "Disk"
+msgstr "Дискове"
+
+#: ../src/disk.c:738 ../src/disk.c:1200
+msgid "Write bytes"
+msgstr "Записани байтове"
+
+#: ../src/disk.c:739 ../src/disk.c:1197
+msgid "Read bytes"
+msgstr "Прочетени байтове"
+
+#: ../src/disk.c:750
+msgid "Disk I/O blocks per sec"
+msgstr "Входящи/изходящи пакети в секунда "
+
+#: ../src/disk.c:750
+msgid "Disk I/O bytes per sec"
+msgstr "Входящи/изходящи байтове в секунда"
+
+#: ../src/disk.c:866 ../src/net.c:2402
+msgid "Bytes per second"
+msgstr "Байта в секунда"
+
+#: ../src/disk.c:1064
+msgid "Composite chart combines data for all disks"
+msgstr "Обща диаграма с данни от дисковете"
+
+#: ../src/disk.c:1324
+msgid "\t$L    the Disk label\n"
+msgstr ""
+
+#: ../src/disk.c:1325 ../src/inet.c:1797 ../src/mem.c:1238 ../src/net.c:2900
+msgid "\t$M    maximum chart value\n"
+msgstr "\t$M    максимална стойност на диаграмата\n"
+
+#: ../src/disk.c:1326
+msgid "\t$T    total read bytes + write bytes\n"
+msgstr "\t$T    Всичко прочетени + записани байта\n"
+
+#: ../src/disk.c:1327
+msgid "\t$r    read bytes\n"
+msgstr "\t$r    прочетени байта\n"
+
+#: ../src/disk.c:1328
+msgid "\t$w    write bytes\n"
+msgstr "\t$w    записани байта\n"
+
+#: ../src/disk.c:1414
+msgid "\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"
+msgstr "\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"
+
+#: ../src/fs.c:868
+msgid "GKrellM Mount Error"
+msgstr "GKrellM: Грешка при монтиране"
+
+#: ../src/fs.c:1556
+msgid "Primary"
+msgstr "Първичен"
+
+#: ../src/fs.c:1570 ../src/fs.c:2289
+msgid "Secondary"
+msgstr "Вторичен"
+
+#: ../src/fs.c:1909 ../src/fs.c:2003 ../src/fs.c:2015 ../src/fs.c:2023
+msgid "Entry Error"
+msgstr "Неправилно влизане"
+
+#: ../src/fs.c:1910
+msgid ""
+"At least one primary fs monitor must exist to click on in order to show\n"
+"secondary ones.\n"
+msgstr ""
+"В крайна сметка трябва да има един основен датчик,\n"
+"за да може да се покаже с допълнително щракване на\n"
+"мишката\n"
+
+#: ../src/fs.c:2005
+msgid "Both a label and a mount point must be entered."
+msgstr "Трябва да се въведе етикет и точка на монтиране."
+
+#: ../src/fs.c:2016
+msgid "Both mount and umount commands must be entered."
+msgstr "Трябва да се укажат команди за монтиране и демонтиране."
+
+#: ../src/fs.c:2024
+msgid "Missing ejectable device entry."
+msgstr "Липсващо устройство (CD/DVD/-ROM,FDD)"
+
+#: ../src/fs.c:2254 ../src/fs.c:2378 ../src/inet.c:1856 ../src/inet.c:1862
+#: ../src/inet.c:1947 ../src/inet.c:1967 ../src/sensors.c:2737
+msgid "Label"
+msgstr "Етикет"
+
+#: ../src/fs.c:2263 ../src/fs.c:2382
+msgid "Mount Point"
+msgstr "Точка на монтиране:"
+
+#: ../src/fs.c:2296
+msgid "Show if mounted"
+msgstr "Показване, ако е монтирано"
+
+#: ../src/fs.c:2302
+msgid "Enable /etc/fstab mounting"
+msgstr "Вземане от /etc/fstab"
+
+#: ../src/fs.c:2316
+msgid "Ejectable"
+msgstr "Свалящо"
+
+#: ../src/fs.c:2322
+msgid "Device"
+msgstr "Устройство"
+
+#: ../src/fs.c:2337
+msgid "mount"
+msgstr "монтиране"
+
+#: ../src/fs.c:2339
+msgid "umount"
+msgstr "демонтиране"
+
+#: ../src/fs.c:2405
+msgid "<h>Mounting\n"
+msgstr "<h>Монтиране\n"
+
+#: ../src/fs.c:2406
+msgid ""
+"Enter file system mount points to monitor and enter a label to describe\n"
+"the mount point.  The krell shows the ratio of blocks used to total blocks\n"
+"available.  Mounting commands can be enabled for mount points in one\n"
+"of two ways:\n"
+"\n"
+msgstr ""
+"Укажете точката на монтиране и етикет за описването и\n"
+" показва съотношението на използуваните и достъпни блокове.\n"
+"Командите за монтиране за всяка точка могат да се укажат с\n"
+"един от тези способи:\n"
+"\n"
+
+#: ../src/fs.c:2411
+msgid "<b>\t1) Mounting using /etc/fstab: "
+msgstr "<b>\t1) С помощта на /etc/fstab: "
+
+#: ../src/fs.c:2413
+msgid ""
+"If a mount point is in your\n"
+"\t/etc/fstab and you have mount permission then mount and umount\n"
+"\tcommands can be enabled and executed for that mount point simply\n"
+"\tby checking the \"Enable /etc/fstab mounting\" option.\n"
+"\tMount table entries in /etc/fstab need the \"user\" or \"owner\" option\n"
+"\tset to grant this permission unless GKrellM is run as root.\n"
+"\tFor example, if you run GKrellM as a normal user and you want\n"
+"\tto be able to mount your floppy, your /etc/fstab could have\n"
+"\teither of:\n"
+msgstr ""
+"\tАко точката на монтиране присъства в  \n"
+"/etc/fstab,и имате права за монтиране и демонтиране,\n"
+"\tтогава командите за монтиране и демонтиране\n"
+"\tна дадена точка могат да се укажат и\n"
+"\tизпълнят с поставяне на опция „Вземане от\n"
+"\t/etc/fstab“. Записът в /etc/fstab трябва да има параметър \n"
+"\t„потребител user“ или „собственик owner“,\n"
+"\tза да се осигурят такива права (изключение когато GKrellM е\n"
+"\tстартиран от Root).\n"
+"<b>Например\n"
+"\tако сте стартирали GKrellM като обикновен потребител\n"
+"\tи искате възможност за монтиране на флопи, в /etc/fstab\n"
+"\tтрябва да има или\n"
+
+#: ../src/fs.c:2423
+msgid "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,noauto,rw,exec 0 0\n"
+msgstr "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,noauto,rw,exec 0 0\n"
+
+#: ../src/fs.c:2424
+msgid "\tor\n"
+msgstr "\tили\n"
+
+#: ../src/fs.c:2425
+msgid ""
+"<i>\t\t/dev/fd0 /mnt/floppy ext2 user,defaults 0 0\n"
+"\n"
+msgstr ""
+"<i>\t\t/dev/fd0 /mnt/floppy ext2 user,defaults 0 0\n"
+"\n"
+
+#: ../src/fs.c:2427
+msgid "<b>\t2) Mounting using custom commands: "
+msgstr "<b>\t2) Монтиране със собствени команди:"
+
+#: ../src/fs.c:2428
+msgid ""
+"If GKrellM is run as root or if\n"
+"\tyou have sudo permission to run the mount commands, then a custom\n"
+"\tmount command can be entered into the \"mount command\" entry\n"
+"\tbox.  A umount command must also be entered if you choose this\n"
+"\tmethod.  Example mount and umount entries using sudo:\n"
+msgstr ""
+"\tАко GKrellM е стартиран от\n"
+"\tсистемния администратор (root) или имате права чрез\n"
+"\tsudo за  mount, командата за монтиране може да\n"
+"\tбъде записана в полето„mount command“.Ако използвате\n"
+"\tтози метод, тогава редактирайте и полето\n"
+"\t„umount command“. Пример за монтиране и\n"
+"\tдемонтиране с помощта на sudo:\n"
+
+#: ../src/fs.c:2434
+msgid "<i>\t\tsudo /bin/mount -t msdos /dev/fd0 /mnt/A\n"
+msgstr "<i>\t\tsudo /bin/mount -t msdos /dev/fd0 /mnt/A\n"
+
+#: ../src/fs.c:2435
+msgid "<i>\t\tsudo /bin/umount /mnt/A\n"
+msgstr "<i>\t\tsudo /bin/umount /mnt/A\n"
+
+#: ../src/fs.c:2437
+msgid ""
+"\tNotes: the mount point specified in a custom mount command\n"
+"\t(/mnt/A in this example) must be the same as entered in the\n"
+"\t\"Mount Point\" entry.  You should have the NOPASSWD option set\n"
+"\tin /etc/sudoers if using sudo.\n"
+"\n"
+msgstr ""
+"\tЗабележка: точката на монтиране,указана в полето „mount comand“\n"
+"\t(в примера е /mnt/A), трябва да съвпада с указаното в полето „Къде:“\n"
+"\tТрябва да зададете опция NOPASSWD в /etc/sudoers, ако използвате\n"
+"\tsudo.\n"
+"\n"
+
+#: ../src/fs.c:2442
+msgid "<h>Primary and Secondary Monitors\n"
+msgstr "<h>Основни и допълнителни датчици\n"
+
+#: ../src/fs.c:2443
+#, no-c-format
+msgid ""
+"File system monitors can be created as primary (always visible)\n"
+"or secondary which can be hidden and then shown when they are of\n"
+"interest.  For example, you might make primary file system monitors\n"
+"for root, home, or user so they will be always visible, but make\n"
+"secondary monitors for less frequently used mount points such as\n"
+"floppy, zip, backup partitions, foreign file system types, etc.\n"
+"Secondary FS monitors can also be configured to always be visible if they\n"
+"are mounted by checking the \"Show if mounted\" option.   Using this\n"
+"feature you can show the secondary group, mount a file system, and have\n"
+"that FS monitor remain visible even when the secondary group is hidden.\n"
+"A standard cdrom mount will show as 100% full but a monitor for it\n"
+"could be created with mounting enabled just to have the\n"
+"mount/umount convenience.\n"
+"\n"
+msgstr ""
+"Датчиците на файловата система могат да бъдат зададени като основни (винаги\n"
+"видими) и допълнителни, които могат да се скрият и после да се покажат\n"
+"в случай на необходимост. Например може да направите основни датчици за\n"
+"root, home или user,така че те да са винаги видими, и допълнителни \n"
+"датчици за по-малко използваните точки на монтиране като\n"
+"floppy, zip, дял за backup, експортирани файлови системи и т.н.\n"
+"Допълнителните датчици също така могат да се настроят така че да бъдат\n"
+"винаги видими след монтирането с отмятане на опцията„Покажи ако е "
+"монтирано“.\n"
+"Чрез тази възможност можете да покажете група допълнителни\n"
+"датчици, да монтирате файлова система и да оставите нейния датчик видим\n"
+"даже ако скриете другите допълнителни датчици монтирания\n"
+"CD-ROM винаги ще е показан като 100% зает, датчик за него може да се "
+"създаде \n"
+"просто за удобство при монтиране/демонтиране.\n"
+"\n"
+
+#: ../src/fs.c:2460 ../src/mem.c:1243
+msgid "<h>Panel Labels\n"
+msgstr "<h>Етикети на панелите\n"
+
+#: ../src/fs.c:2461
+msgid "Substitution variables for the format string for file system panels:\n"
+msgstr "Променливи за поставяне в името на панела на файловата система:\n"
+
+#: ../src/fs.c:2462
+msgid "\t$t    total capacity\n"
+msgstr "\t$t    общ обем\n"
+
+#: ../src/fs.c:2463
+msgid "\t$u    used space\n"
+msgstr "\t$u    заети\n"
+
+#: ../src/fs.c:2464
+msgid "\t$f    free space\n"
+msgstr "\t$f    свободни\n"
+
+#: ../src/fs.c:2465
+msgid "\t$U    used %,\n"
+msgstr "\t$U    заети %,\n"
+
+#: ../src/fs.c:2466 ../src/mem.c:1252
+msgid "\t$F    free %\n"
+msgstr "\t$F    свободни %\n"
+
+#: ../src/fs.c:2467
+msgid "\t$l    the panel label\n"
+msgstr "\t$l    етикет на панела\n"
+
+#: ../src/fs.c:2469
+msgid "\t$D    the mount point\n"
+msgstr "\t$D    точка на монтиране\n"
+
+#: ../src/fs.c:2471
+msgid "\t$D    the disk\n"
+msgstr "\t$D    диск\n"
+
+#: ../src/fs.c:2478
+msgid "click on a panel to scroll a programmable display\n"
+msgstr "щракнете на панела за да включите прелистването на дадения ред\n"
+
+#: ../src/fs.c:2479
+msgid "\t\tof file system capacities (default is total and free space).\n"
+msgstr ""
+"\t\tтекста за вместимостта на файловата система (по подразбиране - целия "
+"обем\n"
+"\t\tи свободното място).\n"
+"\n"
+
+#: ../src/fs.c:2480
+msgid "<b>\tWheel "
+msgstr "<b>\tКолелце "
+
+#: ../src/fs.c:2481
+msgid "Shows and hides the secondary file system monitors.\n"
+msgstr "Скриване/показване на допълнителните датчици.\n"
+
+#: ../src/fs.c:2500
+msgid "Panels"
+msgstr "Панели"
+
+#: ../src/fs.c:2518
+msgid "Use binary units (MiB, GiG) for reporting disk capacities."
+msgstr "Използване на двоични еквиваленти (MiB, GiG) за размер на дисковете."
+
+#: ../src/fs.c:2524
+msgid "Auto eject when ejectable devices are unmounted"
+msgstr "Изваждане при демонтиране"
+
+#: ../src/fs.c:2533
+msgid "Seconds between data updates for local mounted file systems"
+msgstr "Секунди между проверките на локални файлови системи"
+
+#: ../src/fs.c:2538
+msgid "Seconds between data updates for remote mounted file systems"
+msgstr "Секунди между проверките на мрежови файлови системи"
+
+#: ../src/fs.c:2542 ../src/mem.c:1354
+msgid "Format String for Panel Labels"
+msgstr "Показване на информация за:"
+
+#: ../src/fs.c:2549 ../src/mem.c:1363 ../src/mem.c:1385
+msgid "$t - $u used"
+msgstr "$t - $u заето"
+
+#: ../src/fs.c:2550 ../src/mem.c:1364 ../src/mem.c:1386
+msgid "$t - $U"
+msgstr "$t - $U"
+
+#: ../src/fs.c:2574
+msgid "File System"
+msgstr "Файлова система"
+
+#: ../src/gui.c:391
+#, c-format
+msgid "%s command"
+msgstr "Команда %s:"
+
+#: ../src/gui.c:409
+msgid "comment"
+msgstr "Коментар"
+
+#: ../src/gui.c:758
+#, c-format
+msgid ""
+"GKrellM %d.%d.%d%s\n"
+"GNU Krell Monitors\n"
+"\n"
+"Copyright (c) 1999-2007 by Bill Wilson\n"
+"billw@gkrellm.net\n"
+"http://gkrellm.net\n"
+"\n"
+"Released under the GNU General Public License"
+msgstr ""
+"GKrellM %d.%d.%d%s\n"
+"GNU Krell Monitors\n"
+"\n"
+"Copyright (c) 1999-2007 by Bill Wilson\n"
+"billw@gkrellm.net\n"
+"http://gkrellm.net\n"
+"\n"
+"Разпространява се под GNU General Public License"
+
+#: ../src/gui.c:774
+msgid ""
+"Mac OS X code was contributed by:\n"
+"Ben Hines <bhines@alumni.ucsd.edu>\n"
+"and\n"
+"Hajimu UMEMOTO <ume@mahoroba.org>"
+msgstr ""
+"Код за Mac OS X написан\n"
+"Ben Hines <bhines@alumni.ucsd.edu>\n"
+"и\n"
+"Hajimu UMEMOTO <ume@mahoroba.org>"
+
+#: ../src/gui.c:784
+msgid ""
+"FreeBSD system dependent code was contributed by:\n"
+"Hajimu UMEMOTO <ume@mahoroba.org>"
+msgstr ""
+"Системо-зависимият код за FreeBSD е написан\n"
+"Hajimu UMEMOTO <ume@mahoroba.org>"
+
+#: ../src/gui.c:792
+msgid ""
+"DragonFly system dependent code was contributed by:\n"
+"Joerg Sonnenberger <joerg@bec.de>"
+msgstr ""
+
+#: ../src/gui.c:800
+msgid ""
+"NetBSD system dependent code was contributed by:\n"
+"Anthony Mallet <anthony.mallet@useless-ficus.net>"
+msgstr ""
+"Системо-зависимият код за NetBSD е написан\n"
+"Anthony Mallet <anthony.mallet@useless-ficus.net>"
+
+#: ../src/gui.c:808
+msgid ""
+"Solaris system dependent code was contributed by:\n"
+"Daisuke Yabuki <dxy@acm.org>"
+msgstr ""
+"Системо-зависимият код за Solaris е написан\n"
+"Daisuke Yabuki <dxy@acm.org>"
+
+#: ../src/gui.c:816
+msgid ""
+"Windows system dependent code was contributed by:\n"
+"Bill Nalen <bill@nalens.com>\n"
+"Stefan Gehn <metz81@web.de>\n"
+msgstr ""
+
+#: ../src/gui.c:984
+msgid "<h>Krells\n"
+msgstr "<h>Крели\n"
+
+#: ../src/gui.c:985
+msgid ""
+"Krells are the horizontally moving indicators below each chart and\n"
+"on meter style monitors.  Depending on the monitor, they show fast\n"
+"response data rates, a percentage of some capacity, or something else.\n"
+msgstr ""
+"Крелите са хоризонталните индикатори под всяка диаграма и на\n"
+"измерващите датчици. В зависимост от датчика те показват\n"
+"скоростта на обновяване, процент от някакъв обем или нещо друго.\n"
+
+#: ../src/gui.c:989
+msgid "<h>Charts\n"
+msgstr "<h>Диаграми\n"
+
+#: ../src/gui.c:990
+msgid ""
+"The default for most charts is to automatically adjust the number of\n"
+"grid lines drawn and the resolution per grid so drawn data will be\n"
+"nicely visible.  You may change this to fixed grids of 1-5 and/or\n"
+"fixed grid resolutions in the chart config windows.  However,\n"
+"some combination of the auto scaling modes may give best results.\n"
+msgstr ""
+"По подразбиране повечето диаграми автоматично променят количеството на\n"
+"линиите и разделителната им способност за по-добро показване на данните\n"
+"Можете да поставите фиксирано количество линии от 1 до 5\n"
+"и/или фиксирана резолюция в прозореца за настройка на диаграмата. Но\n"
+"някои комбинации с автоматичен режим могат да дадат по-добър резултат.\n"
+
+#: ../src/gui.c:996 ../src/gui.c:1022
+msgid "See the README or do a \"man gkrellm\" for more information.\n"
+msgstr "За подробности вижте е README или в „man gkrellm“.\n"
+
+#: ../src/gui.c:999
+msgid "Chart label format strings place text on charts using position codes:\n"
+msgstr ""
+"Реда на формат помества текста на диаграмата чрез код на\n"
+"позициите:\n"
+
+#: ../src/gui.c:1000
+msgid "\t\\t    top left\n"
+msgstr "\t\\t    горе в ляво\n"
+
+#: ../src/gui.c:1001
+msgid "\t\\b    bottom left\n"
+msgstr "\t\\b    долу в ляво\n"
+
+#: ../src/gui.c:1002
+msgid "\t\\n    next line\n"
+msgstr "\t\\n    нов ред\n"
+
+#: ../src/gui.c:1003
+msgid "\t\\N    next line only if last string had visible characters\n"
+msgstr "\t\\N    нов ред ако в предишния са били видими символи\n"
+
+#: ../src/gui.c:1004
+msgid "\t\\p    previous line\n"
+msgstr "\t\\p    предишен ред\n"
+
+#: ../src/gui.c:1005
+msgid "\t\\c    center the text\n"
+msgstr "\t\\c    центриране\n"
+
+#: ../src/gui.c:1006
+msgid "\t\\C    begin drawing text at the center\n"
+msgstr "\t\\C    започни текста от центъра\n"
+
+#: ../src/gui.c:1007
+msgid "\t\\r    right justify\n"
+msgstr "\t\\r    подравняване отдясно\n"
+
+#: ../src/gui.c:1008
+msgid "\t\\f    use alternate font for the next string\n"
+msgstr "\t\\f    използване на алтернативен шрифт за текста\n"
+
+#: ../src/gui.c:1009
+msgid "\t\\w    use the following string to define a field width\n"
+msgstr "\t\\w    определяне широчината на полето чрез текста\n"
+
+#: ../src/gui.c:1010
+msgid "\t\\a    draw left justified in the defined field width\n"
+msgstr "\t\\a    подравняване отляво по указаната ширина на полето\n"
+
+#: ../src/gui.c:1011
+msgid "\t\\e    draw right justified in the defined field width\n"
+msgstr "\t\\e    подравняване отдясно по указаната ширина на полето\n"
+
+#: ../src/gui.c:1012
+msgid "\t\\.     no-op.  Used to break a string into two strings.\n"
+msgstr "\t\\.     нищо, използва се за разделяне на реда на две части.\n"
+
+#: ../src/gui.c:1013
+msgid ""
+"\t\\D0   bottom of charts first data view (D2 for second data view ...)\n"
+msgstr "\t\\D0   първите данни се показват отдолу (D2 - следващите данни...)\n"
+
+#: ../src/gui.c:1014
+msgid "\t\\D1   top of charts first data view (D3 for second data view ...)\n"
+msgstr "\t\\D1   първите данни се показват отгоре (D3 - следващите данни...)\n"
+
+#: ../src/gui.c:1016
+msgid ""
+"<h>\n"
+"Commands\n"
+msgstr ""
+"<h>\n"
+"Команди\n"
+
+#: ../src/gui.c:1017
+msgid ""
+"\tMany monitors can be configured to launch commands.  Just enter the\n"
+"\tcommand where you see a \"command\" entry and also a comment if you\n"
+"\twant a tooltip to appear for the command.  After a command is entered,\n"
+"\tfor a monitor, a button for launching it will become visible when you\n"
+"\tmove the mouse into the panel area of the monitor.\n"
+"\n"
+msgstr ""
+"Много от датчиците може да се настроят за стартиране на команди.\n"
+"Въведете командата в полето „команда“ и коментар за нея, ако искате\n"
+"да има подсказка за нея. След като командата за датчика е въведена\n"
+"бутона за нея става активен при преместване на мишката в областта на \n"
+"датчика\n"
+
+#: ../src/gui.c:1025 ../src/mail.c:3723
+msgid ""
+"<h>\n"
+"Mouse Button Actions:\n"
+msgstr ""
+"<h>\n"
+"Действия на бутоните на мишката:\n"
+
+#: ../src/gui.c:1027
+msgid "clicking on charts will toggle a display of some extra info.\n"
+msgstr ""
+"Бутонът включва допълнителна\n"
+"\t\t\tинформация от датчика.\n"
+
+#: ../src/gui.c:1028 ../src/gui.c:1030
+msgid "<b>\tRight "
+msgstr "<b>\tДесен "
+
+#: ../src/gui.c:1029
+msgid "clicking on charts brings up a chart configuration window.\n"
+msgstr ""
+"  бутон при натискане върху диаграма изважда диалог\n"
+"\t\t\tконфигурация на диаграма.\n"
+
+#: ../src/gui.c:1031
+msgid "clicking on many panels opens its monitor configuration window.\n"
+msgstr ""
+"  бутон при натискане на панела на датчика отваря прозорец\n"
+"\t\t\tконфигурации на датчика.\n"
+
+#: ../src/gui.c:1060
+msgid "Hostname display"
+msgstr "Показване на името на хоста"
+
+#: ../src/gui.c:1066
+msgid "Short hostname"
+msgstr "Съкратено име на машината"
+
+#: ../src/gui.c:1071
+msgid "System name display"
+msgstr "Показване на името на ОС и използваното ядро"
+
+#: ../src/gui.c:1076
+msgid "Remember screen location at exit and move to it at next startup"
+msgstr "Запомняне на положението на екрана при изход"
+
+#: ../src/gui.c:1082
+msgid "Allow multiple instances"
+msgstr "Разрешаване на няколко копия"
+
+#: ../src/gui.c:1089
+msgid ""
+"Make gkrellm a topmost window (restart gkrellm for this to take effect)."
+msgstr "Винаги да е на преден план (нужно е да се рестартира gkrellm)."
+
+#: ../src/gui.c:1098 ../src/hostname.c:387
+msgid "gkrellmd server disconnect"
+msgstr "Прекъсване на връзка с gkrellmd"
+
+#: ../src/gui.c:1106
+msgid "Krell and LED updates per second."
+msgstr "Обновявания на крелите и индикаторите в сек."
+
+#: ../src/gui.c:1112
+msgid "GKrellM width"
+msgstr "Ширина на GKrellM"
+
+#: ../src/gui.c:1116
+msgid "Properties"
+msgstr "Свойства"
+
+#: ../src/gui.c:1119
+msgid "Set sticky state"
+msgstr "Присъства навсякъде"
+
+#: ../src/gui.c:1122
+msgid "Set on top of other windows of the same type"
+msgstr "Над всички прозорци"
+
+#: ../src/gui.c:1125
+msgid "Set below other windows of the same type"
+msgstr "На заден план"
+
+#: ../src/gui.c:1132
+msgid "Set window type to be a dock or panel"
+msgstr "Задай тип на прозореца dock или panel"
+
+#: ../src/gui.c:1137
+msgid "Use window manager decorations"
+msgstr "Използвай декорацията на прозорците"
+
+#: ../src/gui.c:1141
+msgid "Do not include on a taskbar"
+msgstr "Не показвай в панела за задачите"
+
+#: ../src/gui.c:1145
+msgid "Do not include on a pager"
+msgstr "Не показвай на пейджера"
+
+#: ../src/gui.c:1155
+msgid ""
+"Some of these properties require a standards compliant window manager.\n"
+"You may have to restart gkrellm for them to take effect.\n"
+msgstr ""
+"Някои от тези опции изискват съвместимост със стандартния\n"
+"изглед на прозорците. Може да се наложи рестартиране на gkrellm,\n"
+"за да влязат в сила промените\n"
+
+#: ../src/gui.c:1541
+#, c-format
+msgid "%d total theme alternatives"
+msgstr "%d други теми"
+
+#: ../src/gui.c:1842 ../src/gui.c:1874
+msgid "Theme"
+msgstr "Тема"
+
+#: ../src/gui.c:1846
+msgid "Theme:"
+msgstr "Тема:"
+
+#: ../src/gui.c:1856
+msgid "Author:"
+msgstr "Автор:"
+
+#: ../src/gui.c:1902
+msgid "Track Gtk theme changes for similarly named themes"
+msgstr "Проследяване смяната на темите на Gtk"
+
+#: ../src/gui.c:1909
+msgid "Default"
+msgstr "По подразбиране"
+
+#: ../src/gui.c:1924
+msgid "Scale"
+msgstr "Мащаб"
+
+#: ../src/gui.c:1930
+msgid "Fonts"
+msgstr "Шрифтове"
+
+#: ../src/gui.c:1933
+msgid "Large font"
+msgstr "Голям шрифт"
+
+#: ../src/gui.c:1945 ../src/gui.c:1959 ../src/gui.c:1972
+msgid "Browse"
+msgstr "Показване"
+
+#: ../src/gui.c:1947
+msgid "Normal font"
+msgstr "Нормален шрифт"
+
+#: ../src/gui.c:1961
+msgid "Small font"
+msgstr "Дребен шрифт"
+
+#: ../src/gui.c:1976
+#, c-format
+msgid "Untar your theme tar files in %s/%s"
+msgstr "Разархивирайте архива с темата в %s/%s"
+
+#: ../src/gui.c:1985
+msgid "Download themes from the GKrellM theme site at www.muhri.net"
+msgstr "Други теми могат да се изтеглят от сайта на GKrellM www.muhri.net"
+
+#: ../src/gui.c:2281
+msgid "Configuration"
+msgstr "Конфигурация"
+
+#: ../src/gui.c:2309
+msgid "General"
+msgstr "Общи"
+
+#: ../src/gui.c:2314
+msgid "Builtins"
+msgstr "Вградени"
+
+#: ../src/gui.c:2334 ../src/plugins.c:1699
+msgid "Plugins"
+msgstr "Приставки"
+
+#: ../src/gui.c:2339
+msgid "Themes"
+msgstr "Теми"
+
+#: ../src/gui.c:2344
+msgid "About"
+msgstr "За програмата"
+
+#: ../src/gui.c:2369
+msgid "Monitors"
+msgstr "Датчици"
+
+#: ../src/gui.c:2441 ../src/gui.c:2452
+msgid "/Quit"
+msgstr "/Спиране на програмата"
+
+#: ../src/gui.c:2448
+msgid "/Configuration"
+msgstr "/Конфигурация"
+
+#: ../src/gui.c:2449
+msgid "/Theme/Prev"
+msgstr "/Тема/Предишна"
+
+#: ../src/gui.c:2450
+msgid "/Theme/Next"
+msgstr "/Тема/Следваща"
+
+#: ../src/gui.c:2459
+msgid "/Theme prev"
+msgstr "/Тема/Предишна"
+
+#: ../src/gui.c:2460
+msgid "/Theme next"
+msgstr "/Тема/Следваща"
+
+#: ../src/inet.c:616
+#, c-format
+msgid "%s Connections"
+msgstr "%s връзки"
+
+#: ../src/inet.c:706
+msgid "No current connections."
+msgstr "Няма други връзки"
+
+#: ../src/inet.c:933
+#, c-format
+msgid "inet%d"
+msgstr "inet%d"
+
+#: ../src/inet.c:945
+msgid "TCP hits per minute"
+msgstr "TCP-опита в минута"
+
+#: ../src/inet.c:948
+msgid "TCP hits per hour"
+msgstr "TCP-опита в час"
+
+#: ../src/inet.c:1775
+msgid ""
+"Inet charts show historical TCP port hits on a minute or hourly\n"
+"chart. Below the chart there is a strip where marks are drawn for\n"
+"port hits in second intervals.   The inet krell has a full scale\n"
+"value of 5 hits and samples once per second.  The extra info\n"
+"display shows current TCP port connections.\n"
+"\n"
+"For each internet monitor, you can specify two labeled data sets with\n"
+"one or two non-zero port numbers entered for each data set.  Two\n"
+"ports are allowed because some internet ports are related and you\n"
+"might want to group them.  Check /etc/services for port numbers.\n"
+"\n"
+"For example, if you created an inet monitor:\n"
+msgstr ""
+"Графиките за Интернет показват историята на опитите на TCP по портове на\n"
+"минутен или часов график. Под графика има лента, на която\n"
+"се показват исканията с интервал през една секунда. Krell има\n"
+"максимално значение 5 запитвания и събира данните веднъж в секунда.\n"
+"Допълнителната информация показва текущите TCP-съединения.\n"
+"\n"
+"За всеки датчик можете да укажете два типа на съединения, с един или\n"
+"два ненулеви порта за всеки тип. Може да се укажат два порта понеже някои\n"
+"портове са взаимно свързани, и вие да ги групирате. Номерата на портовете\n"
+"вижте в /etc/services.\n"
+"\n"
+"Да предположим, че сте създали датчик:\n"
+
+#: ../src/inet.c:1786
+msgid "<i>\thttp 80 8080   ftp 21\n"
+msgstr "<i>\thttp 80 8080   ftp 21\n"
+
+#: ../src/inet.c:1788
+msgid ""
+"Http hits on the standard http port 80 and www web caching service\n"
+"on port 8080 are combined and plotted in the one color.  Ftp hits\n"
+"on the single ftp port 21 are plotted in another color.\n"
+"\n"
+msgstr ""
+"Http-заявките по стандартния http-порт 80 и кеша\n"
+"на 8080-я порт се събират и показват с един цвят\n"
+"Ftп-заявките по единичния порт 21 се показват с друг цвят\n"
+"\n"
+
+#: ../src/inet.c:1792
+msgid ""
+"If the range button is checked, then all port numbers between Port0 and\n"
+"Port1 are monitored and included in the plot.\n"
+"\n"
+msgstr ""
+"Ако е отметната точката „диапазон“, то всички портове с номера между\n"
+"Порт 0 и Порт 1 се проверяват и изобразяват на графиката\n"
+
+#: ../src/inet.c:1798
+msgid "\t$a    current active connections for Data0\n"
+msgstr "\t$a    други активни връзки за данни-0\n"
+
+#: ../src/inet.c:1799
+msgid "\t$cN   total connections in last N minutes (or hours) for Data0\n"
+msgstr "\t$cN   връзки за последните N минути (или часове) за данни-0\n"
+
+#: ../src/inet.c:1800
+msgid "\t$l    label for Data0\n"
+msgstr "\t$l     Етикет на данни-0\n"
+
+#: ../src/inet.c:1801
+msgid "\t$A    current active connections for Data1\n"
+msgstr "\t$A    активни връзки за данни-1\n"
+
+#: ../src/inet.c:1802
+msgid "\t$CN   total connections in last N minutes (or hours) for Data1\n"
+msgstr "\t$CN   връзки за последните N минути (или часове) за данни-1\n"
+
+#: ../src/inet.c:1803
+msgid "\t$L    label for Data1\n"
+msgstr "\t$L     Етикет на данни-1\n"
+
+#: ../src/inet.c:1808
+msgid ""
+"click on an inet chart to toggle the extra info display of\n"
+"\t\tcurrent TCP port connections.\n"
+msgstr ""
+"бутона включва/изключва допълнителна информация за\n"
+"\t\tтекущи ТСР-връзки\n"
+
+#: ../src/inet.c:1811
+msgid "click on an inet chart to toggle hour/minute charts.\n"
+msgstr ""
+"бутона превключва минутна и часова\n"
+"\t\tграфика\n"
+
+#: ../src/inet.c:1838
+msgid "Ports"
+msgstr "Портове"
+
+#: ../src/inet.c:1844
+msgid "Data0"
+msgstr "Данни-0"
+
+#: ../src/inet.c:1848
+msgid "Data1"
+msgstr "Данни-1"
+
+#: ../src/inet.c:1858 ../src/inet.c:1864 ../src/inet.c:1952 ../src/inet.c:1972
+msgid "Port0"
+msgstr "Порт 0"
+
+#: ../src/inet.c:1860 ../src/inet.c:1866 ../src/inet.c:1957 ../src/inet.c:1977
+msgid "Port1"
+msgstr "Порт 1"
+
+#: ../src/inet.c:1898 ../src/inet.c:1903
+msgid "Port0 - Port1 is a range"
+msgstr "Порт0 - Порт1 - това е диапазон"
+
+#: ../src/inet.c:2052
+msgid "Internet"
+msgstr "Интернет"
+
+#: ../src/krell.c:949
+#, c-format
+msgid "create_krell: NULL image or style\n"
+msgstr "създай_krell: празна (NULL) картинка или стил\n"
+
+#: ../src/mail.c:642
+msgid "Bad response after connect."
+msgstr "Лош отговор след „свързване“."
+
+#: ../src/mail.c:643
+msgid "Bad response after username."
+msgstr "Лош отговор след „потребител“."
+
+#: ../src/mail.c:644
+msgid "Bad response after password."
+msgstr "Лош отговор след „парола“."
+
+#: ../src/mail.c:645
+msgid "Bad response after STAT or STATUS."
+msgstr "Лош отговор след STAT или STATUS."
+
+#: ../src/mail.c:646
+msgid "Bad response after UIDL."
+msgstr "Лош отговор след UIDL."
+
+#: ../src/mail.c:647
+msgid "Bad APOP response after connect."
+msgstr "Лош отговор APOP след свързване."
+
+#: ../src/mail.c:648
+msgid "Bad CRAM_MD5 response after connect."
+msgstr "Лош отговор CRAM_MD5 след свързване."
+
+#: ../src/mail.c:696
+#, c-format
+msgid "Mail TCP Error: %s - %s\n"
+msgstr "Грешка по TCP в поща: %s - %s\n"
+
+#: ../src/mail.c:730
+msgid "Cannot initialize SSL method."
+msgstr "Невъзможно инициализиране през SSH"
+
+#: ../src/mail.c:734
+msgid "Cannot initialize SSL server certificate handler."
+msgstr "Инициализацията на сертификат за SSL е невъзможна"
+
+#: ../src/mail.c:740
+msgid "Cannot initialize SSL handler."
+msgstr "Инициализацията на обработката на SSL е невъзможна."
+
+#: ../src/mail.c:867 ../src/mail.c:940
+msgid "could not decode BASE64 challenge\n"
+msgstr "не се разшифрова отговор в BASE64\n"
+
+#: ../src/mail.c:875
+#, c-format
+msgid "decoded as %s\n"
+msgstr "дешифрирано като %s\n"
+
+#: ../src/mail.c:991
+msgid "Bad response after STLS."
+msgstr "Лош отговор след STLS."
+
+#: ../src/mail.c:1131
+msgid "Bad response after STARTTLS."
+msgstr "Лош отговор след STARTTLS."
+
+#: ../src/mail.c:1202
+#, c-format
+msgid ""
+"Messages: %d\n"
+"Unseen: %d\n"
+msgstr ""
+"Съобщения: %d\n"
+"Нови: %d\n"
+
+#: ../src/mail.c:1690
+#, c-format
+msgid "mute"
+msgstr "без звук"
+
+#: ../src/mail.c:1965
+msgid "seen"
+msgstr "търси"
+
+#: ../src/mail.c:3408
+msgid "GKrellM Config Error"
+msgstr "Грешка в конфигурацията на GKrellM"
+
+#: ../src/mail.c:3409
+msgid "Incomplete mailbox entries"
+msgstr "Не попълнени полета за поща !!!"
+
+#: ../src/mail.c:3673
+msgid "<h>Mailboxes\n"
+msgstr "<h>Пощенски кутии\n"
+
+#: ../src/mail.c:3675
+msgid "Mailboxes to monitor can be local or remote mailbox types.\n"
+msgstr "Пощите могат да са локални или отдалечени.\n"
+
+#: ../src/mail.c:3676
+msgid ""
+"For local mailboxes, the path name may be a mbox file or it may be\n"
+"a Maildir or MH mail style directory.\n"
+msgstr ""
+"За локалните пощи пътя може да бъде в mbox-файл или Maildir-\n"
+"или MH-директория.\n"
+
+#: ../src/mail.c:3684
+msgid "<b>Mail reading program\n"
+msgstr "<b>Програма за поща\n"
+
+#: ../src/mail.c:3685
+msgid ""
+"If you enter a mail reading program (your mail user agent or MUA)\n"
+"it can be launched by clicking on the mail monitor message count button.\n"
+msgstr ""
+"Ако Вие укажете програма за поща (Ваша поща или MUA),\n"
+"тя може да се пуска с щракване на мишката по брояча на писма.\n"
+
+#: ../src/mail.c:3688
+msgid "<b>Sound notify program\n"
+msgstr "<b>Програма за звуково известяване\n"
+
+#: ../src/mail.c:3689
+msgid ""
+"If you enter a notify (sound) command, it will be run when new mail\n"
+"is detected.\n"
+msgstr ""
+"Ако впишете команда за звуково известяване, то тя ще се стартира\n"
+"при наличие на нова поща.\n"
+
+#: ../src/mail.c:3696
+msgid "<b>fetch/check Program\n"
+msgstr "<b>програма за проверка на поща\n"
+
+#: ../src/mail.c:3697
+msgid ""
+"If you want to download remote mail or check for remote mail without\n"
+"using the builtin POP3 or IMAP mail checking which is set up in the\n"
+msgstr ""
+"Ако искате да изтегляте поща или да проверявате за нова, без да използвате\n"
+"вградения POP3- или IMAP-агент, което се настройва в\n"
+
+#: ../src/mail.c:3699 ../src/mail.c:3717
+msgid "<i>Mailboxes"
+msgstr "<i>Пощенски кутии"
+
+#: ../src/mail.c:3700
+msgid ""
+" tab, then do this by entering a mail fetch/check command.\n"
+"For example, fetchmail can be run periodically to download mail\n"
+"messages from a remote server to your local mailboxes where GKrellM\n"
+"can count them.\n"
+"\n"
+"Or, GKrellM can read the output and report the results from some mail\n"
+"checking programs which count remote or local messages.  If you enter\n"
+"a command like this that checks mail without downloading, then you\n"
+"must tell GKrellM this is the expected behaviour by selecting in the\n"
+"Options tab:\n"
+msgstr ""
+" направете това указвайки програма за поща. Например може\n"
+"периодично да се изтеглят писма от сървър с fetchmail и да\n"
+"се поставят в локална пощенска кутия където GKrellM ще може\n"
+"да проверява и преброява писмата.\n"
+"\n"
+"Също така GKrellM може да взима данни от някоя друга програма\n"
+"проверяваща за поща и да извежда данните \n"
+"Ако вие използувате команди подобни на тази, която проверява\n"
+"за поща без да я изтегля,то трябва да поставите отметка в\n"
+"подменю „Настройки“ на съответното място\n"
+
+#: ../src/mail.c:3710
+msgid "<i>\tFetch/check program checks messages only\n"
+msgstr "<i>\tПрограмата за проверка на поща  НЕ изтегля писма\n"
+
+#: ../src/mail.c:3711
+msgid ""
+"For checking messages on a remote server, GKrellM can read the\n"
+"output of the program "
+msgstr ""
+"За проверка за писма на отдалечен сървър GKrellM може\n"
+"да използва данни от програмата "
+
+#: ../src/mail.c:3713
+msgid "<i>fetchmail -c"
+msgstr "<b>fetchmail -c"
+
+#: ../src/mail.c:3714
+msgid " (you must append the -c).\n"
+msgstr " (Трябва да добавите -c).\n"
+
+#: ../src/mail.c:3715
+msgid ""
+"But, do not combine these methods for the same mailbox!  If you enter a\n"
+"POP3 mailbox in the "
+msgstr ""
+"Но не използвайте заедно тези методи за една поща!\n"
+"Ако сте настроили POP3 във отметките "
+
+#: ../src/mail.c:3718
+msgid " tab, then don't check it again with fetchmail.\n"
+msgstr ", не го проверявай отново с  fetchmail.\n"
+
+#: ../src/mail.c:3725
+msgid "click the mail count button to launch the mail reading program.\n"
+msgstr "щракнете по брояча на писмата за да пуснете пощенската програма\n"
+
+#: ../src/mail.c:3726
+msgid "\t\tIf options permit, also stop animations and reset remote counts.\n"
+msgstr ""
+"\t\tпрограмата. Ако е указано в Опциите, прекъсва анимацията\n"
+"\t\tи нулира броячите.\n"
+
+#: ../src/mail.c:3728
+msgid ""
+"click the envelope decal to force a mail check regardless of\n"
+"\t\tany mute mode or inhibit mail checking option settings.\n"
+msgstr ""
+"щракнете на плика за да пуснете проверка за поща независимо \n"
+"\t\tот режима „изкл.“ или опцията „Не проверявай поща“.\n"
+
+#: ../src/mail.c:3731
+msgid ""
+"click the mail panel to toggle a mute mode which inhibits\n"
+"\t\tthe sound notify program and optionally inhibits all mail\n"
+"\t\tchecking.\n"
+msgstr ""
+"щракнете по панела на датчика, за да\n"
+"\t\tвключите/изключите програмата за звуково известяване и,\n"
+"\t\tако е указано в опциите, проверка на пощата.\n"
+
+#: ../src/mail.c:3772
+msgid "Enable Mailcheck"
+msgstr "Включване на проверка за поща"
+
+#: ../src/mail.c:3784
+msgid "Mail reading program:"
+msgstr "Програма за е-поща"
+
+#: ../src/mail.c:3799
+msgid "Notify (sound) program:"
+msgstr "Програма за звуково известяване"
+
+#: ../src/mail.c:3816
+msgid "Mail fetch/check program:"
+msgstr "Програма за проверка на е-поща:"
+
+#: ../src/mail.c:3835
+msgid "Run fetch/check program at local interval"
+msgstr "Стартиране на проверка за е-поща на интервал от:"
+
+#: ../src/mail.c:3845
+msgid "Check local mailboxes every"
+msgstr "Проверява локално на всеки"
+
+#: ../src/mail.c:3852
+msgid "seconds"
+msgstr "секунди"
+
+#: ../src/mail.c:3858
+msgid "Do remote checks every"
+msgstr "Проверява на сървъра на всеки"
+
+#: ../src/mail.c:3860
+msgid "Check mail every"
+msgstr "Проверява пощата на всеки"
+
+#: ../src/mail.c:3867
+msgid "minutes"
+msgstr "минути"
+
+#: ../src/mail.c:3870
+msgid "Mailboxes"
+msgstr "Пощенски кутии"
+
+#: ../src/mail.c:3886
+msgid "Path name:"
+msgstr "Път"
+
+#: ../src/mail.c:3904
+msgid "Server"
+msgstr "Сървър"
+
+#: ../src/mail.c:3911
+msgid "User name"
+msgstr "Потребителско име"
+
+#: ../src/mail.c:3918
+msgid "Password"
+msgstr "Парола"
+
+#: ../src/mail.c:3926 ../src/mail.c:4017
+msgid "Protocol"
+msgstr "Протокол"
+
+#: ../src/mail.c:3941
+msgid "Use SSL"
+msgstr "използване на SSL"
+
+#: ../src/mail.c:3949
+msgid "No"
+msgstr "Не"
+
+#: ../src/mail.c:3957
+msgid "IMAP folder"
+msgstr "Каталог на сървъра IMAP"
+
+#: ../src/mail.c:3967
+msgid "Specify port"
+msgstr "Порт"
+
+#: ../src/mail.c:3986
+msgid "Local mailbox"
+msgstr "Локална пощенска кутия"
+
+#: ../src/mail.c:3991
+msgid "Remote mailbox"
+msgstr "Отдалечена пощенска кутия"
+
+#: ../src/mail.c:4027
+msgid "Mailbox"
+msgstr "Поща - кутия"
+
+#: ../src/mail.c:4038
+msgid "Animation"
+msgstr "Анимация"
+
+#: ../src/mail.c:4041
+msgid "Animation Select"
+msgstr "Избор на анимация"
+
+#: ../src/mail.c:4046
+msgid "None"
+msgstr "Без анимация"
+
+#: ../src/mail.c:4049
+msgid "Envelope"
+msgstr "Плик"
+
+#: ../src/mail.c:4054
+msgid "Daemon"
+msgstr "Демон"
+
+#: ../src/mail.c:4056
+msgid "Penguin"
+msgstr "Пингвин"
+
+#: ../src/mail.c:4060
+msgid "Both"
+msgstr "И двете"
+
+#: ../src/mail.c:4073
+msgid "Run animation continuously as long as there is a new mail count"
+msgstr "Показване на анимация докато има нови писма"
+
+#: ../src/mail.c:4080
+msgid "Message Counting"
+msgstr "Брояч на писма"
+
+#: ../src/mail.c:4085
+msgid "new/total"
+msgstr "нови/всичко"
+
+#: ../src/mail.c:4089
+msgid "new"
+msgstr "нови"
+
+#: ../src/mail.c:4093
+msgid "do not count"
+msgstr "не преброява"
+
+#: ../src/mail.c:4106
+msgid "Fetch/check program checks messages only (see Mail Info tab)"
+msgstr "Програмата за проверка на поща не изтегля писма (виж. Инфо)"
+
+#: ../src/mail.c:4111
+msgid "Reset remote message counts when message count button is pressed."
+msgstr "Нулиране брояча на писмата при натискане на бутона на брояча"
+
+#: ../src/mail.c:4116
+msgid "Count accessed but unseen mail as new (if this status is available)"
+msgstr "Приемане на стара, но непрочетена поща като нова (ако е възможно)"
+
+#: ../src/mail.c:4121
+msgid "Mute mode inhibits all mail checking, not just notify (sound) program"
+msgstr ""
+"Режимът 'тихо' прекратява проверката за поща, а не само (звуковото) "
+"известяване"
+
+#: ../src/mail.c:4126
+msgid "Inhibit all mail checking while the mail reader is running"
+msgstr "Не проверява за поща при стартирана пощенска програма"
+
+#: ../src/mail.c:4131
+msgid "Allow multiple launches of the mail reader program"
+msgstr "Разрешаване на пускането на няколко пощенски програми"
+
+#: ../src/mail.c:4136
+msgid "List mailboxes containing new mail in a tooltip"
+msgstr "Показване на новите писма като подсказки"
+
+#: ../src/mail.c:4142
+msgid "Ignore .mh_sequences when checking MH mail."
+msgstr "Игнориране на .mh_sequences при проверка на MH-поща"
+
+#: ../src/mail.c:4165
+msgid "Mail"
+msgstr "Поща"
+
+#: ../src/main.c:121
+msgid ""
+"You can configure your monitors by right clicking on\n"
+"the top frame of GKrellM or by hitting the F1 key\n"
+"with the mouse in the GKrellM window.\n"
+"\n"
+"Read the Info pages in the config for setup help."
+msgstr ""
+"Вие можете да влезете в Настройка на програмата с щракване на десния бутон\n"
+"на мишката по рамката на  GKrellM или с натискане на клавиша F1,\n"
+"когато курсора на мишката е в прозореца на GKrellM.\n"
+"\n"
+"Търсете помощ в раздела Информация."
+
+#: ../src/main.c:162
+msgid "Error: Could not load all fonts.\n"
+msgstr "Грешка: Не може да се зареди никакъв шрифт.\n"
+
+#: ../src/main.c:1689
+msgid "GKrellM Introduction"
+msgstr "Въвеждане в GKrellM"
+
+#: ../src/main.c:1767
+msgid ""
+"usage: gkrellm [options]\n"
+"options:\n"
+msgstr ""
+
+#: ../src/main.c:1769
+msgid "   -t, --theme theme_dir    Select a theme directory.\n"
+msgstr ""
+
+#: ../src/main.c:1770
+msgid "   -g, --geometry +x+y      Position the window on the screen.\n"
+msgstr ""
+
+#: ../src/main.c:1771
+msgid "       --wm                 Allow window manager decorations.\n"
+msgstr ""
+
+#: ../src/main.c:1772
+msgid ""
+"       --m2                 Left button side frame shading (for 2 btn "
+"mice).\n"
+msgstr ""
+
+#: ../src/main.c:1773
+msgid "       --nt                 No transparency.\n"
+msgstr ""
+
+#: ../src/main.c:1774
+msgid "   -w, --withdrawn          Draw GKrellM in withdrawn mode.\n"
+msgstr ""
+
+#: ../src/main.c:1775
+msgid ""
+"   -c, --config suffix      Use alternate config files generated by\n"
+"                            appending \"suffix\" to config file names.\n"
+msgstr ""
+
+#: ../src/main.c:1777
+msgid ""
+"   -f, --force-host-config  Creates config files generated by appending the\n"
+"                            hostname to config file names.  Subsequent runs\n"
+"                            automatically will use these configs unless a\n"
+"                            specific config is specified with --config.\n"
+"                            This is a convenience for allowing remote runs\n"
+"                            with independent configs in a shared home dir\n"
+"                            and for the hostname to be in the window title.\n"
+"                            This option has no effect in client mode.\n"
+msgstr ""
+
+#: ../src/main.c:1785
+msgid ""
+"   -s, --server hostname    Run in client mode: connect to \"hostname\" and\n"
+"                            read monitor data from a gkrellmd server.\n"
+msgstr ""
+
+#: ../src/main.c:1787
+msgid ""
+"   -P, --port server_port   Use \"server_port\" for the server connection.\n"
+msgstr ""
+
+#: ../src/main.c:1788
+msgid ""
+"       --nc                 No config mode prevents configuration changes.\n"
+msgstr ""
+
+#: ../src/main.c:1789
+msgid "       --config-clean       Clean out unused configs on config write.\n"
+msgstr ""
+
+#: ../src/main.c:1790
+msgid "       --nolock             Allow multiple gkrellm instances.\n"
+msgstr ""
+
+#: ../src/main.c:1791
+msgid ""
+"   -p, --plugin plugin.so   While developing, load your plugin under test.\n"
+msgstr ""
+
+#: ../src/main.c:1792
+msgid ""
+"       --demo               Force enabling of many monitors so themers can\n"
+"                            see everything. All config saving is inhibited.\n"
+msgstr ""
+
+#: ../src/main.c:1794
+msgid "   -v, --version            Print GKrellM version number and exit.\n"
+msgstr ""
+
+#: ../src/main.c:1795
+msgid ""
+"   -d, --debug-level n      Turn debugging on for selective code sections.\n"
+msgstr ""
+
+#: ../src/main.c:1797
+msgid ""
+"\n"
+"debug-level numbers are (bitwise OR to debug multiple sections):\n"
+"     0x10    mail\n"
+"     0x20    net\n"
+"     0x40    timer button\n"
+"     0x80    sensors\n"
+"     0x800   inet\n"
+"     0x1000  dump gkrellmd server data\n"
+"     0x2000  GUI\n"
+"     0x8000  battery\n"
+"     0x20000 plugin \n"
+"\n"
+msgstr ""
+
+#: ../src/main.c:1998
+msgid "segmentation fault"
+msgstr "грешка в сегментирането"
+
+#: ../src/main.c:2000
+msgid "floating point exception"
+msgstr "изключение при работа с плаваща запетая"
+
+#: ../src/main.c:2002
+msgid "aborted"
+msgstr "Отказано"
+
+#: ../src/main.c:2005
+msgid "initializing"
+msgstr "инициализиране"
+
+#: ../src/main.c:2165
+#, c-format
+msgid "Bad arg: %s\n"
+msgstr "Неверен аргумент: %s\n"
+
+#: ../src/mem.c:51
+msgid "$t - $f free"
+msgstr "$t - $f свободни"
+
+#: ../src/mem.c:696
+msgid "Swap Out"
+msgstr "От временната памет"
+
+#: ../src/mem.c:697
+msgid "Swap In"
+msgstr "Във временната памет"
+
+#: ../src/mem.c:706
+msgid "Swap in/out pages per sec"
+msgstr "Входящи/изходящи страници в сек"
+
+#: ../src/mem.c:815 ../src/mem.c:1373 ../src/mem.c:1404
+msgid "Mem"
+msgstr "Оперативна памет"
+
+#: ../src/mem.c:891 ../src/mem.c:984 ../src/mem.c:1293 ../src/mem.c:1394
+#: ../src/mem.c:1411
+msgid "Swap"
+msgstr "Временна памет"
+
+#: ../src/mem.c:982 ../src/mem.c:1311 ../src/mem.c:1434
+msgid "Memory"
+msgstr "Оперативна памет"
+
+#: ../src/mem.c:1229
+msgid "<h>Used and Free\n"
+msgstr "<h>Заета/свободна\n"
+
+#: ../src/mem.c:1230
+msgid ""
+"The used and free memory here are calculated from the kernel reported\n"
+"used and free by subtracting or adding the buffers and cache memory.  See\n"
+"the README and compare to the \"-/+ buffers/cache:\" line from the free\n"
+"command.  If you show three memory krells, the kernel \"raw free\" is\n"
+"the space after the rightmost krell.\n"
+msgstr ""
+"Заетата и свободна памет се изчислява от ядрото от стойностите\n"
+"на изваждане или добавяне на памет в буфера и кеша.\n"
+"Виж README и сравни с реда „-/+ buffers/cache:“\n"
+"командата free. Ако имате три крела Оперативна Памет (RAM),\n"
+"то данните от ядрото „raw free“ (свободно)\n"
+"- това разстояние за най-вярно от крелите.\n"
+
+#: ../src/mem.c:1239
+msgid "\t$T    total swap in blocks + swap out blocks\n"
+msgstr "\t$T    всичко блокове във временната + ОТ временната памет\n"
+
+#: ../src/mem.c:1240
+msgid "\t$i    swap in blocks\n"
+msgstr "\t$i    блокове във временната памет\n"
+
+#: ../src/mem.c:1241
+msgid "\t$o    swap out blocks\n"
+msgstr "\t$o    блокове от временната памет\n"
+
+#: ../src/mem.c:1244
+msgid ""
+"Substitution variables for the format string for the Mem and Swap\n"
+"panels (a MiB is a binary megabyte - 2^20):\n"
+msgstr ""
+"Променливи за поставяне в реда за формат на панела на Оперативната и\n"
+"Временната памет (MiB - това е двоичен мегабайт, 2^20):\n"
+
+#: ../src/mem.c:1247
+msgid "For memory and swap:\n"
+msgstr "За оперативна и временна памет:\n"
+
+#: ../src/mem.c:1248
+msgid "\t$t    total MiB\n"
+msgstr "\t$t    всичко MiB\n"
+
+#: ../src/mem.c:1249
+msgid "\t$u    used MiB\n"
+msgstr "\t$u    заети MiB\n"
+
+#: ../src/mem.c:1250
+msgid "\t$f    free MiB\n"
+msgstr "\t$f    свободни MiB\n"
+
+#: ../src/mem.c:1251
+msgid "\t$U    used %\n"
+msgstr "\t$U    заети %\n"
+
+#: ../src/mem.c:1253
+msgid "\t$l    the panel label"
+msgstr "\t$l    етикет на панела"
+
+#: ../src/mem.c:1255
+msgid "For memory only:\n"
+msgstr "Само за Памет:\n"
+
+#: ../src/mem.c:1256
+msgid "\t$s    shared MiB\n"
+msgstr "\t$s    предоставени MiB\n"
+
+#: ../src/mem.c:1257
+msgid "\t$b    buffered MiB\n"
+msgstr "\t$b    буферирано MiB\n"
+
+#: ../src/mem.c:1258
+msgid "\t$c    cached MiB\n"
+msgstr "\t$c    кеширано MiB\n"
+
+#: ../src/mem.c:1260
+msgid ""
+"The free and used variables may have a 'r' qualifier for printing\n"
+"raw free and raw used values.  For example: $fr for raw free.\n"
+msgstr ""
+
+#: ../src/mem.c:1268
+msgid ""
+"click on a panel to scroll a programmable display of\n"
+"\t\tof memory or swap usage.\n"
+msgstr ""
+"бутона включва/изключва превъртането на информация за\n"
+"\t\tИзползваната RAM или SWAP памет.\n"
+
+#: ../src/mem.c:1298
+msgid "Enable swap pages in/out chart"
+msgstr "Включване на диаграма на страницата за временна памет"
+
+#: ../src/mem.c:1304
+msgid "Enable swap meter"
+msgstr "Включване на датчик на временна памет"
+
+#: ../src/mem.c:1318
+msgid "Enable memory meter"
+msgstr "Включване на датчик на оперативна памет"
+
+#: ../src/mem.c:1326
+msgid "Show three memory krells:   [used | buffers | cache | raw free]"
+msgstr "Показване на три крела за памет: [заета | буфери | кеш | свободна]"
+
+#: ../src/mem.c:1365
+msgid "$t - $u used  $s sh  $b bf  $c ca"
+msgstr "$t - $u заето  $s предоставена  $b буфер  $c кеш"
+
+#: ../src/net.c:668
+msgid "Received"
+msgstr "Приети"
+
+#: ../src/net.c:672
+msgid "Transmitted"
+msgstr "Изпратени"
+
+#: ../src/net.c:676
+msgid "Total"
+msgstr "Всичко"
+
+#: ../src/net.c:684
+msgid "Connect Time"
+msgstr "Време на връзка"
+
+#: ../src/net.c:701
+#, c-format
+msgid "%s Statistics"
+msgstr "%sСтатистика"
+
+#: ../src/net.c:721
+msgid "Daily"
+msgstr "За деня"
+
+#: ../src/net.c:722
+msgid "Date"
+msgstr "Дата"
+
+#: ../src/net.c:724
+msgid "Weekly"
+msgstr "За седмица"
+
+#: ../src/net.c:726
+msgid "Week Ending"
+msgstr "Край на седмица"
+
+#: ../src/net.c:728
+msgid "Monthly"
+msgstr "За месец"
+
+#: ../src/net.c:730
+msgid "Month"
+msgstr "Месец"
+
+#: ../src/net.c:787
+#, c-format
+msgid "get_connect_state changed from %d to %d  (check=%d)\n"
+msgstr "get_connect_state се промени от %d на %d (проверка=%d)\n"
+
+#: ../src/net.c:830
+#, c-format
+msgid "set_timer_button_state from %d to %d (check=%d)\n"
+msgstr "set_timer_button_state се промени от %d на %d (проверка=%d)\n"
+
+#: ../src/net.c:843
+#, c-format
+msgid "update_timer_button net_timed old_state=%d new_state=%d\n"
+msgstr "update_timer_button net_timed старо_състояние=%d ново_състояние=%d\n"
+
+#: ../src/net.c:904
+msgid "  **** Stale pppd pppX.pid file detected!\n"
+msgstr "  **** Намерен е стар файл pppX.pid!\n"
+
+#: ../src/net.c:1507 ../src/net.c:2734
+msgid "tx bytes"
+msgstr "Изпратени байта"
+
+#: ../src/net.c:1508 ../src/net.c:2731
+msgid "rx bytes"
+msgstr "Приети байта"
+
+#: ../src/net.c:1519
+msgid "rx/tx bytes per sec"
+msgstr "Приети/предадени байта в секунда"
+
+#: ../src/net.c:2863
+msgid "<h>Timer Button\n"
+msgstr "<h>Бутон на брояча\n"
+
+#: ../src/net.c:2864
+msgid ""
+"\tThe timer button may be used as a stand alone timer with start and\n"
+"\tstop commands, but it is usually linked to a dial up net interface\n"
+"\twhere the commands can control the interface and different timer\n"
+"\tbutton colors can show connect states:\n"
+msgstr ""
+"\tБутонът може да се използува като самостоятелен брояч\n"
+"\tс командите старт и стоп, макар че обикновено го свързват с\n"
+"\tкомутируем мрежов интерфейс. Командите могат да управляват\n"
+"\tинтерфейса, а различните цветове на бутона означават състояние\n"
+"\tна връзката:\n"
+
+#: ../src/net.c:2874
+msgid ""
+"Standby state is while the modem phone line is locked while\n"
+"\tppp is connecting, and the on state is the ppp link connected.\n"
+"\tThe phone line lock is determined by the existence of the modem\n"
+"\tlock file /var/lock/LCK..modem.  If your pppd setup does not\n"
+"\tuse /dev/modem, then you can configure an alternative with:\n"
+msgstr ""
+"Режим Очакване - когато телефонната линия\n"
+"\tе блокирана при свързване с ppp, режим\n"
+"\t„включено“ - когато ppp-съединение е установено. Блокировка\n"
+"\tна телефонната линия се определя от наличието на lock-файла на модема\n"
+"\t/var/lock/LCK..modem. Ако вашия pppd-демон не използва\n"
+"\t/dev/modem, Вие можете да настроите алтернативен вариант:\n"
+
+#: ../src/net.c:2879
+msgid "<i>\t\tln -s /var/lock/LCK..ttySx ~/.gkrellm2/LCK..modem\n"
+msgstr "<i>\t\tln -s /var/lock/LCK..ttySx ~/.gkrellm2/LCK..modem\n"
+
+#: ../src/net.c:2880
+msgid ""
+"\twhere ttySx is the tty device your modem uses.  The ppp on\n"
+"\tstate is detected by the existence of /var/run/pppX.pid and\n"
+"\tthe time stamp of this file is the base for the on line time.\n"
+msgstr ""
+"\tкъдето ttySx - това е tty-устройство, използувано от Вашия модем.\n"
+"\tРежим „включено“ се определя от наличието на файла\n"
+"\t/var/run/pppX.pid, а времето на създаването му се явява начало на\n"
+"\tотброяването на времето онлайн.\n"
+
+#: ../src/net.c:2886
+msgid ""
+"The timer button standby state is not applicable to isdn\n"
+"\tinterfaces that are always routed. The on state is isdn on line\n"
+"\twhile the ippp interface is routed.  The on line timer is reset\n"
+"\twhen the isdn interface transitions from a hangup to an on line\n"
+"\tstate\n"
+msgstr ""
+"Режим изчакване на бутона на брояча не е приложим за isdn-\n"
+"\tинтерфейси, които винаги се маршрутизират. Режим\n"
+"\t„включено“ - това е isdn онлайн при маршрутизиран\n"
+"\tippp-интерфейс. Броячът онлайн се нулира при преход\n"
+"\tна интерфейса от състояние hangup в състояние онлайн.\n"
+"\n"
+
+#: ../src/net.c:2901
+msgid "\t$T    receive + transmit bytes\n"
+msgstr "\t$T    приети + изпратени байта\n"
+
+#: ../src/net.c:2902
+msgid "\t$r    receive bytes\n"
+msgstr "\t$r    приети байта\n"
+
+#: ../src/net.c:2903
+msgid "\t$t    transmit bytes\n"
+msgstr "\t$t    изпратени байта\n"
+
+#: ../src/net.c:2904
+msgid "\t$O    cumulative receive + transmit bytes\n"
+msgstr "\t$O    всичко приети + предадени байта\n"
+
+#: ../src/net.c:2905
+msgid "\t$i    cumulative receive bytes\n"
+msgstr "\t$i    всичко приети байта\n"
+
+#: ../src/net.c:2906
+msgid "\t$o    cumulative transmit bytes\n"
+msgstr "\t$o    всичко предадени байта\n"
+
+#: ../src/net.c:2907
+msgid "\t$L    the optional chart label\n"
+msgstr "\t$L    незадължително име за диаграма\n"
+
+#: ../src/net.c:2908
+msgid "\t$I    the net interface name\n"
+msgstr "\t$I    Име на мрежовия интерфейс\n"
+
+#: ../src/net.c:2910
+msgid ""
+"The cumulative variables may have a 'd', 'w', or 'm' qualifier for\n"
+"daily, weekly, or monthly totals.  For example:  $Ow for a\n"
+"cumulative weekly receive + transmit bytes.\n"
+msgstr ""
+"Сумиращите променливи могат да се допълнят със суфикса 'd', 'w'\n"
+"или 'm' за дневните, седмичните или месечните сумарни значения.\n"
+"Например: $Ow - сумарно количество приети и предадени байта\n"
+"за седмица.\n"
+
+#: ../src/net.c:2936
+msgid "Timer Button"
+msgstr "Бутон на брояча"
+
+#: ../src/net.c:2942
+msgid "Enable timer button"
+msgstr "Включване на бутона на брояча"
+
+#: ../src/net.c:2947
+msgid "Show seconds"
+msgstr "Показване на секунди"
+
+#: ../src/net.c:2957
+msgid "none"
+msgstr "липсва"
+
+#: ../src/net.c:2971
+msgid "Interface to link to the timer button"
+msgstr "Свързване на бутона на брояча с интерфейса"
+
+#: ../src/net.c:2982
+msgid "Start Command"
+msgstr "Стартираща команда"
+
+#: ../src/net.c:2993
+msgid "Stop Command"
+msgstr "Спираща команда"
+
+#: ../src/net.c:3007
+#, c-format
+msgid "Enable %s"
+msgstr "Включи %s"
+
+#: ../src/net.c:3024
+msgid "Force chart to be always shown even if interface is not routed."
+msgstr ""
+"Винаги да се показва диаграмата, даже ако интерфейсът не се маршрутизира."
+
+#: ../src/net.c:3037
+msgid "Optional label for this interface."
+msgstr "Незадължителен подпис на интерфейса."
+
+#: ../src/net.c:3068
+msgid "\\f\\ww\\c\\f$M\\n\\f\\at\\.$t\\n\\f\\ar\\.$r\\b\\c\\f$L"
+msgstr "\\f\\ww\\c\\f$M\\n\\f\\at\\.$t\\n\\f\\ar\\.$r\\b\\c\\f$L"
+
+#: ../src/net.c:3070
+msgid "\\f\\ww\\c\\f$M\\n\\f\\at\\.$o\\n\\f\\ar\\.$i\\b\\c\\f$L"
+msgstr "\\f\\ww\\c\\f$M\\n\\f\\at\\.$o\\n\\f\\ar\\.$i\\b\\c\\f$L"
+
+#: ../src/net.c:3072
+msgid "\\f\\ww\\c\\f$M\\D2\\f\\ar\\.$r\\D1\\f\\at\\.$t\\b\\c\\f$L"
+msgstr "\\f\\ww\\c\\f$M\\D2\\f\\ar\\.$r\\D1\\f\\at\\.$t\\b\\c\\f$L"
+
+#: ../src/net.c:3084
+msgid "Start day for cumulative monthly transmit and receive bytes"
+msgstr "Начален ден за месечните сумарни стойности"
+
+#: ../src/net.c:3103
+msgid "Net"
+msgstr "Мрежа"
+
+#: ../src/net.c:3164
+msgid "Net Timer"
+msgstr "Мрежов брояч"
+
+#: ../src/plugins.c:822
+#, c-format
+msgid "\t%s: placement is %s %s  G:%d\n"
+msgstr "\t%s: разположен %s %s  G:%d\n"
+
+#: ../src/plugins.c:824
+msgid "after"
+msgstr "след"
+
+#: ../src/plugins.c:824
+msgid "before"
+msgstr "преди"
+
+#: ../src/plugins.c:884 ../src/plugins.c:891 ../src/plugins.c:907
+#, c-format
+msgid "\tError: %s\n"
+msgstr "\tГрешка: %s\n"
+
+#: ../src/plugins.c:926
+msgid "\tOoops! plugin returned NULL, aborting\n"
+msgstr "\tОпа! Приставката върна NULL, отмяна\n"
+
+#: ../src/plugins.c:938
+msgid "\tWarning: style name \""
+msgstr "\tВнимание: стил с име „"
+
+#: ../src/plugins.c:939 ../src/plugins.c:949
+msgid ""
+"\" already used by:\n"
+"\t\t"
+msgstr ""
+"“ вече се използува:\n"
+"\t\t"
+
+#: ../src/plugins.c:948
+msgid "\tWarning: config keyword \""
+msgstr "\tВнимание: параметър на конфигурацията „"
+
+#: ../src/plugins.c:1206
+msgid "Ignoring duplicate plugin "
+msgstr "Игнориране на повтаряща се приставка "
+
+#: ../src/plugins.c:1238
+msgid "*** Command line plugin:\n"
+msgstr "*** Приставка в команден ред:\n"
+
+#: ../src/plugins.c:1492
+msgid "GKrellM Place Plugin"
+msgstr "Място на приставката на GKrellM"
+
+#: ../src/plugins.c:1503
+msgid "Builtin Monitors"
+msgstr "Вградени датчици"
+
+#: ../src/plugins.c:1533
+msgid "Place Plugin"
+msgstr "Преместване на приставка"
+
+#: ../src/plugins.c:1539
+msgid "Before selected builtin monitor"
+msgstr "Пред указаната вградена приставка"
+
+#: ../src/plugins.c:1546
+msgid "With gravity"
+msgstr "С гравитация"
+
+#: ../src/plugins.c:1551
+msgid "After selected builtin monitor"
+msgstr "След указаната вградена приставка"
+
+#: ../src/plugins.c:1559
+msgid "Plugin Defaults"
+msgstr "Приставка по подразбиране "
+
+#: ../src/plugins.c:1662
+msgid "from command line"
+msgstr "от команден ред"
+
+#: ../src/plugins.c:1719
+msgid "Plugin"
+msgstr "Приставка"
+
+#: ../src/plugins.c:1740
+msgid "Place"
+msgstr "На Място"
+
+#: ../src/plugins.c:1747
+msgid "Install Log"
+msgstr "Дневник на инсталацията"
+
+#: ../src/plugins.c:1755
+msgid "No plugins found."
+msgstr "Не са намерени приставки."
+
+#: ../src/proc.c:544 ../src/proc.c:644 ../src/proc.c:935
+msgid "Load"
+msgstr "Зареждане"
+
+#: ../src/proc.c:547
+msgid "Forks"
+msgstr "Разклонения"
+
+#: ../src/proc.c:556
+msgid "Average process load per minute"
+msgstr "Средно заредени процеси в минута"
+
+#: ../src/proc.c:658 ../src/proc.c:928
+msgid "Users"
+msgstr "Потребители"
+
+#: ../src/proc.c:670 ../src/proc.c:921
+msgid "Processes"
+msgstr "Процеси"
+
+#: ../src/proc.c:873
+msgid "<h>Proc Chart"
+msgstr "<h>Диаграма на процесите"
+
+#: ../src/proc.c:875
+msgid "The krell shows process forks with a full scale value of 10 forks.\n"
+msgstr ""
+"Крелът показва разклоненията на процесите с максимални значения\n"
+"10 разклонения.\n"
+
+#: ../src/proc.c:876
+msgid ""
+"While both load and fork data are drawn on the chart, the grid\n"
+"resolution can be set for load only.  The resolution per grid for forks is\n"
+"fixed at 10 when using the auto number of grids mode, and at 50 divided by\n"
+"the number of grids when using a fixed number of grids mode.\n"
+msgstr ""
+"Когато данните от зареждане и разклоненията се показват на диаграмата\n"
+"разделителната способност може да се настрои само за зареждането.\n"
+"Разделителната способност на разклоненията се настройва в 10 режим -на\n"
+"автоматична настройка и 50 делено на числото на линиите \n"
+"в режим на фиксирано количество линии\n"
+"\n"
+
+#: ../src/proc.c:883
+msgid "\t$L    maximum chart value (load)\n"
+msgstr "\t$L    максимум на диаграмата (зареждане)\n"
+
+#: ../src/proc.c:884
+msgid "\t$F    maximum chart value (forks)\n"
+msgstr "\t$F    максимум на диаграмата (разклонения)\n"
+
+#: ../src/proc.c:885
+msgid "\t$l    load\n"
+msgstr "\t$l    зареждане\n"
+
+#: ../src/proc.c:886
+msgid "\t$f    forks\n"
+msgstr "\t$f    разклонения\n"
+
+#: ../src/proc.c:887
+msgid "\t$p    processes\n"
+msgstr "\t$p    процеси\n"
+
+#: ../src/proc.c:888
+msgid "\t$u    users\n"
+msgstr "\t$u    потребители\n"
+
+#: ../src/proc.c:909
+msgid "Enable Proc chart"
+msgstr "Включи диаграма на процесите"
+
+#: ../src/proc.c:957
+msgid "\\f$L\\r\\f$F \\w88\\b\\p\\a$p\\f procs\\n\\e$u\\f users"
+msgstr "\\f$L\\r\\f$F \\w88\\b\\p\\a$p\\f процеса\\n\\e$u\\f потребители"
+
+#: ../src/proc.c:972 ../src/proc.c:1001 ../src/proc.c:1028
+msgid "Proc"
+msgstr "Процеси"
+
+#: ../src/sensors.c:715
+#, c-format
+msgid "Can't find a %s panel to relocate sensor to."
+msgstr "Панелът %s, към който да се премести датчикът, не може да се открие."
+
+#: ../src/sensors.c:1599 ../src/sensors.c:2889
+msgid "Sensors"
+msgstr "Сензори"
+
+#: ../src/sensors.c:1671
+msgid "Sensor Volt Limits"
+msgstr "Граници на датчика за напрежение"
+
+#: ../src/sensors.c:1675
+msgid "Sensor Temperature Limits (in displayed degree units)"
+msgstr "Граници на датчика за температура (в градуси)"
+
+#: ../src/sensors.c:1679
+msgid "Sensor Fan RPM Limits"
+msgstr "Граници на датчика за обороти"
+
+#: ../src/sensors.c:2011 ../src/sensors.c:2798
+msgid "Temperatures"
+msgstr "Температура"
+
+#: ../src/sensors.c:2018
+msgid "Fans"
+msgstr "Вентилатори"
+
+#: ../src/sensors.c:2025 ../src/sensors.c:2807
+msgid "Voltages"
+msgstr "Напрежения"
+
+#: ../src/sensors.c:2620
+msgid ""
+"Can't read sensor data from mbmon daemon.\n"
+"Check mbmon port number and '-r' option.\n"
+"Run gkrellm -d 0x80 for debug output.\n"
+msgstr ""
+"Данните за датчика не могат да бъдат прочетени от\n"
+"демона mbmon. Проверете порта на mbmon и порта „-r“.\n"
+"За повече информация стартирайте програмата така:\n"
+"gkrellm -d 0x80\n"
+
+#: ../src/sensors.c:2642
+msgid "<b>No sensors detected.\n"
+msgstr "<b>Няма открити сензори.\n"
+
+#: ../src/sensors.c:2649
+msgid ""
+"Enter data scaling factors and offsets for the sensors if the default\n"
+"values are not correct for your motherboard.  Do a man gkrellm or\n"
+"see the GKrellM README for more information.\n"
+msgstr ""
+"Укажете мащаб и отместването на показанията на датчика, ако значенията по\n"
+"подразбиране не съответстват на вашето дъно. За подробности\n"
+"вижте в „man gkrellm“ или във файла README\n"
+
+#: ../src/sensors.c:2652
+msgid "Enter a zero factor and a blank label to restore default values.\n"
+msgstr ""
+"За да възстановите значенията по подразбиране , въведете нулев\n"
+"множител и празен етикет.\n"
+
+#: ../src/sensors.c:2654
+msgid "Drag and drop sensor rows to change the displayed order.\n"
+msgstr ""
+"За да измените реда на показване на сензор,\n"
+"влачете реда на сензора с мишката в настройките.\n"
+
+#: ../src/sensors.c:2656
+msgid "Temperature offset values must be in centigrade units.\n"
+msgstr "Температурната стойност се отчита по Целзий.\n"
+
+#: ../src/sensors.c:2659
+msgid "\t$s    current sensor value.\n"
+msgstr "\t$s    текущо значение на датчика.\n"
+
+#: ../src/sensors.c:2660
+msgid "\t$l    sensor label.\n"
+msgstr "\t$l    име на датчика.\n"
+
+#: ../src/sensors.c:2722
+msgid "Sensor"
+msgstr "Датчик"
+
+#: ../src/sensors.c:2760
+msgid "Factor"
+msgstr "Стойност"
+
+#: ../src/sensors.c:2765
+msgid "Offset"
+msgstr "Начало"
+
+#: ../src/sensors.c:2770
+msgid "Location"
+msgstr "Положение"
+
+#: ../src/sensors.c:2802
+msgid "Display fahrenheit"
+msgstr "По Фаренхайт"
+
+#: ../src/sensors.c:2809
+msgid "Normal with labels"
+msgstr "Обикновени заедно с етикети"
+
+#: ../src/sensors.c:2819
+msgid "Compact with no labels"
+msgstr "Компактно без етикети"
+
+#: ../src/sensors.c:2844
+msgid "MBmon Daemon Port"
+msgstr "Порт за демона MBmon"
+
+#: ../src/sensors.c:2849
+msgid ""
+"<small>Daemon command must be: <b>mbmon -r -P port</b>\n"
+"where 'port' must match the port number entered here:</small>"
+msgstr ""
+"<small>Командата за демона трябва да е: <b>mbmon -r -P ПОРТ</b>\n"
+"където „ПОРТ“ трябва да съвпада с номера на порта тук:</small>"
+
+#: ../src/uptime.c:270
+msgid "Enable Uptime"
+msgstr "Включи време на работа"
+
+#: ../src/uptime.c:277 ../src/uptime.c:287
+msgid "Uptime"
+msgstr "Време на работа"
+
+#: ../src/utils.c:105
+#, c-format
+msgid "Unterminated quote\n"
+msgstr "Незатворени кавички\n"
+
+#: ../src/utils.c:225
+#, c-format
+msgid "Cannot create directory: %s\n"
+msgstr "Невъзможно създаване на директория: %s\n"
+
+#: ../src/winops-win32.c:80
+msgid "GKrellM for Windows"
+msgstr ""
+
+#: ../src/winops-x11.c:375
+msgid "Exiting because multiple instances option is off.\n"
+msgstr "Изход, понеже не са разрешени няколко копия.\n"
+
+#: ../src/winops-x11.c:446
+msgid "Warning: -w flag is ignored when the window dock type is set"
+msgstr "Внимание: флаг -w се игнорира при използване на тип прозорец „dock“"
+
+#: ../src/sysdeps/linux.c:3391
+msgid "Use nvclock for NVIDIA GPU temperatures"
+msgstr ""
+
+#~ msgid "Display 24 hour instead of 12 hour time"
+#~ msgstr "Показване на 24 часа вместо 12 am/pm"
+
+#~ msgid "Show seconds instead of am/pm in 12 hour time mode"
+#~ msgstr "В режим 12 часа показване на секунди вместо am/pm"
+
+#~ msgid "Show seconds in 24 hour time mode"
+#~ msgstr "Показване на секунди в режим 24 часа"
+
+#~ msgid "Format string for FS data display"
+#~ msgstr " Ред за форматиране на показаните данни"
+
+#~ msgid ""
+#~ "usage: gkrellm [options]\n"
+#~ "options:\n"
+#~ "   -t, --theme theme_dir    Select a theme directory.\n"
+#~ "   -g, --geometry +x+y      Position the window on the screen.\n"
+#~ "       --wm                 Allow window manager decorations.\n"
+#~ "       --m2                 Left button side frame shading (for 2 btn "
+#~ "mice).\n"
+#~ "       --nt                 No transparency.\n"
+#~ "   -w, --withdrawn          Draw GKrellM in withdrawn mode.\n"
+#~ "   -c, --config suffix      Use alternate config files generated by\n"
+#~ "                            appending \"suffix\" to config file names.\n"
+#~ "   -f, --force-host-config  Creates config files generated by appending "
+#~ "the\n"
+#~ "                            hostname to config file names.  Subsequent "
+#~ "runs\n"
+#~ "                            automatically will use these configs unless "
+#~ "a\n"
+#~ "                            specific config is specified with --config.\n"
+#~ "                            This is a convenience for allowing remote "
+#~ "runs\n"
+#~ "                            with independent configs in a shared home "
+#~ "dir\n"
+#~ "                            and for the hostname to be in the window "
+#~ "title.\n"
+#~ "                            This option has no effect in client mode.\n"
+#~ "   -s, --server hostname    Run in client mode: connect to \"hostname\" "
+#~ "and\n"
+#~ "                            read monitor data from a gkrellmd server.\n"
+#~ "   -P, --port server_port   Use \"server_port\" for the server "
+#~ "connection.\n"
+#~ "       --nc                 No config mode prevents configuration "
+#~ "changes.\n"
+#~ "   -p, --plugin plugin.so   While developing, load your plugin under "
+#~ "test.\n"
+#~ "       --demo               Force enabling of many monitors so themers "
+#~ "can\n"
+#~ "                            see everything. All config saving is "
+#~ "inhibited.\n"
+#~ "   -v, --version            Print GKrellM version number and exit.\n"
+#~ "   -d, --debug-level n      Turn debugging on for selective code "
+#~ "sections.\n"
+#~ "\n"
+#~ "debug-level numbers are (bitwise OR to debug multiple sections):\n"
+#~ "     0x10  mail\n"
+#~ "     0x20  net\n"
+#~ "     0x40  timer button\n"
+#~ "     0x80  sensors\n"
+#~ "\n"
+#~ msgstr ""
+#~ "използване: gkrellm [опции]\n"
+#~ "опции:\n"
+#~ "   -t, --theme theme_dir    Директория с теми.\n"
+#~ "   -g, --geometry +x+y      Положение на прозореца на екрана.\n"
+#~ "       --wm                 Декорации на прозорците.\n"
+#~ "       --m2                 Сгъване на прозореца с ляв бутон на мишката "
+#~ "по\n"
+#~ "                            рамката (за двубутонни мишки).\n"
+#~ "       --nt                 Без прозрачност.\n"
+#~ "   -w, --withdrawn          Стартиране на GKrellM в скрит режим.\n"
+#~ "   -c, --config РАЗШИР.     Използване на алтернативни файлове за\n"
+#~ "                            конфигурация, получавани с добавяне „РАЗШИР“ "
+#~ "към\n"
+#~ "                            имената на файловете.\n"
+#~ "   -f, --force-host-config  Създаване на конфигурационни файлове с "
+#~ "добавяне на\n"
+#~ "                            името на машината към имената на файловете.\n"
+#~ "                            Следващите стартирания ще използват "
+#~ "автоматично\n"
+#~ "                            файловете, ако не е указано с опцията --"
+#~ "config.\n"
+#~ "                            Това е удобно за отдалечено стартиране на "
+#~ "различни\n"
+#~ "                            машини в една домашна директория, името на\n"
+#~ "                            машината се показва в заглавието.\n"
+#~ "   -s, --server ХОСТ        Стартиране в клиентски режим, включване към "
+#~ "„ХОСТ“\n"
+#~ "                            и получаване на данните от сървъра gkrellmd.\n"
+#~ "   -P, --port ПОРТ          Използване на „ПОРТ“ за свързване със "
+#~ "сървъра.\n"
+#~ "       --nc                 Без възможност за промени по конфигурацията.\n"
+#~ "   -p, --plugin plugin.so   За разработка - зареждане на приставка за "
+#~ "тест.\n"
+#~ "       --demo               Включване на множество датчици, така че\n"
+#~ "                            разработчиците им могат да ги видят. "
+#~ "Съхраняването\n"
+#~ "                            на конфигурацията е невъзможно.\n"
+#~ "   -v, --version            Извеждане версията на GKrellM и изход.\n"
+#~ "   -d, --debug-level n      Изключване на грешките от определени на части "
+#~ "кода.\n"
+#~ "\n"
+#~ "номера debug-level (използувайте побитово „ИЛИ“ за множествен избор):\n"
+#~ "     0x10  поща\n"
+#~ "     0x20  мрежа\n"
+#~ "     0x40  бутон на брояча\n"
+#~ "     0x80  сензори\n"
+#~ "\n"
+
+#~ msgid ""
+#~ "Windows system dependent code was contributed by:\n"
+#~ "Bill Nalen <bill@nalens.com>"
+#~ msgstr ""
+#~ "Системо-зависимият код за Windows е написан\n"
+#~ "Bill Nalen <bill@nalens.com>"

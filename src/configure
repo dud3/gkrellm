@@ -1,0 +1,161 @@
+#!/bin/sh
+
+# Configure some things for GKrellM when make is run.
+# This configure is run automatically so no need to run it by hand.
+#
+# Copyright (C) 2003  Bill Wilson
+
+for i
+do
+	if [ "$i" = "--without-gnutls" ]
+	then
+		without_gnutls=yes
+	fi
+	if [ "$i" = "--without-ssl" ]
+	then
+		without_ssl=yes
+	fi
+	if [ "$i" = "--without-libsensors" ]
+	then
+		without_libsensors=yes
+	fi
+done
+
+PKG_INCLUDE=`pkg-config gtk+-2.0 --cflags`
+PKG_LIBS=`pkg-config gtk+-2.0 --libs`
+
+rm -f configure.h configure.log test test.o test.c
+
+touch configure.h
+
+CC=${CC-gcc}
+
+exec 5>./configure.log
+
+rm -f test test.exe test.o test.c
+
+if [ "$without_gnutls" != "yes" ]
+then
+# echo "Checking for gnutls... " 1>& 2
+echo "Checking for gnutls... " 1>& 5
+
+cat << EOF > test.c
+#include <gnutls/openssl.h>
+#include <gcrypt.h>
+#include <errno.h>
+#include <pthread.h>
+
+GCRY_THREAD_OPTION_PTHREAD_IMPL;
+
+int main()
+	{
+	SSL_METHOD	*ssl_method  = NULL;
+
+	gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
+	gnutls_global_init();
+
+	SSLeay_add_ssl_algorithms();
+	SSL_load_error_strings();
+	if ((ssl_method = SSLv23_client_method()) == NULL)
+		return 1;
+	return 0;
+	}
+EOF
+
+$CC ${CFLAGS} ${PKG_INCLUDE} -c test.c -o test.o 2>& 5
+$CC test.o -o test ${LINK_FLAGS} ${PKG_LIBS} -lgnutls-openssl 2>& 5
+
+if [ -x ./test ] && ./test
+then
+#	echo 'Defining HAVE_GNUTLS' 1>& 2
+	echo 'Defining HAVE_GNUTLS' 1>& 5
+	echo '#define HAVE_GNUTLS 1' >> configure.h
+	echo '#define HAVE_SSL 1' >> configure.h
+	without_ssl=yes
+else
+#	echo "Not found, mail check will not have gnutls support..." 1>& 2
+	echo "Not found, mail check will not have gnutls support..." 1>& 5
+fi
+fi
+# end of gnutls check
+
+rm -f test test.exe test.o test.c
+
+
+if [ "$without_ssl" != "yes" ]
+then
+# echo "Checking for ssl... " 1>& 2
+echo "Checking for ssl... " 1>& 5
+
+cat << EOF > test.c
+#include <openssl/ssl.h>
+
+int main()
+	{
+	SSL_METHOD	*ssl_method  = NULL;
+
+	SSLeay_add_ssl_algorithms();
+	SSL_load_error_strings();
+	if ((ssl_method = SSLv23_client_method()) == NULL)
+		return 1;
+	return 0;
+	}
+EOF
+
+$CC ${CFLAGS} ${PKG_INCLUDE} -c test.c -o test.o 2>& 5
+$CC test.o -o test ${LINK_FLAGS} ${PKG_LIBS} -lssl -lcrypto 2>& 5
+
+if [ -x ./test ] && ./test
+then
+#	echo 'Defining HAVE_SSL' 1>& 2
+	echo 'Defining HAVE_SSL' 1>& 5
+	echo '#define HAVE_SSL 1' >> configure.h
+else
+#	echo "Not found, mail check will not have ssl support..." 1>& 2
+	echo "Not found, mail check will not have ssl support..." 1>& 5
+fi
+fi
+# end of ssl check
+
+
+rm -f test test.exe test.o test.c
+
+if [ "$without_libsensors" != "yes" ]
+then
+echo "Checking for libsensors... " 1>& 5
+
+cat << EOF > test.c
+#include <stdio.h>
+#include <sensors/sensors.h>
+
+int main()
+	{
+	FILE	*f;
+
+	f = fopen("/etc/sensors.conf", "r");
+	if (!f)
+		return 1;
+	if (sensors_init(f) != 0)
+		return 1;
+	fclose(f);
+	return 0;
+	}
+EOF
+
+$CC ${CFLAGS} ${PKG_INCLUDE} -c test.c -o test.o 2>& 5
+$CC test.o -o test ${LINK_FLAGS} ${PKG_LIBS} -lsensors 2>& 5
+
+if [ -x ./test ] && ./test
+then
+	echo 'Defining HAVE_LIBSENSORS' 1>& 5
+	echo '#define HAVE_LIBSENSORS 1' >> configure.h
+else
+	echo "Not found, sensors will not have libsensors support..." 1>& 5
+fi
+fi
+# end of libsensors check
+
+
+rm -f test test.exe test.o test.c
+
+exit 0

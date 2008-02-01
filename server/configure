@@ -1,0 +1,65 @@
+#!/bin/sh
+
+# Configure some things for gkrellmd when make is run.
+# This configure is run automatically so no need to run it by hand.
+#
+# Copyright (C) 2006  Bill Wilson
+
+for i
+do
+	if [ "$i" = "--without-libsensors" ]
+	then
+		without_libsensors=yes
+	fi
+done
+
+PKG_INCLUDE=`pkg-config gtk+-2.0 --cflags`
+PKG_LIB=`pkg-config gtk+-2.0 --libs`
+
+rm -f configure.h configure.log test test.o test.c
+
+touch configure.h
+
+CC=${CC-gcc}
+
+exec 5>./configure.log
+
+if [ "$without_libsensors" != "yes" ]
+then
+echo "Checking for libsensors... " 1>& 5
+
+cat << EOF > test.c
+#include <stdio.h>
+#include <sensors/sensors.h>
+
+int main()
+	{
+	FILE	*f;
+
+	f = fopen("/etc/sensors.conf", "r");
+	if (!f)
+		return 1;
+	if (sensors_init(f) != 0)
+		return 1;
+	fclose(f);
+	return 0;
+	}
+EOF
+
+$CC ${PKG_INCLUDE} -c test.c -o test.o 2>& 5
+$CC test.o -o test ${PKG_LIBS} -lsensors 2>& 5
+
+if [ -x ./test ] && ./test
+then
+	echo 'Defining HAVE_LIBSENSORS' 1>& 5
+	echo '#define HAVE_LIBSENSORS 1' >> configure.h
+else
+	echo "Not found, sensors will not have libsensors support..." 1>& 5
+fi
+fi
+# end of libsensors check
+
+
+rm -f test test.o test.c
+
+exit 0

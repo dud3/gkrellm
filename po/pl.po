@@ -1,0 +1,2764 @@
+# translation of pl.po to Polish
+# Polish Translation of GKrellM. Copyright Przemys³aw Su³ek
+#
+# <pbs@linux.net.pl>, 2001. Released under the GPL.
+# Micha³ Smoczyk <msmoczyk@wp.pl>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: pl\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-11-27 18:25-0600\n"
+"PO-Revision-Date: 2007-09-17 18:12+0200\n"
+"Last-Translator: Micha³ Smoczyk <msmoczyk@wp.pl>\n"
+"Language-Team: Polish <pl@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ISO-8859-2\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.2\n"
+
+#: ../src/alerts.c:1153
+msgid "GKrellM Set Alerts"
+msgstr "GKrellM Ustawienia alarmów"
+
+#: ../src/alerts.c:1165 ../src/battery.c:1122 ../src/gui.c:555
+#: ../src/sensors.c:2780
+msgid "Alerts"
+msgstr "Alarmy"
+
+#: ../src/alerts.c:1188
+msgid "High Limits"
+msgstr "Górne granice"
+
+#: ../src/alerts.c:1195
+msgid "High alarm limit"
+msgstr "Górna granica alarmu"
+
+#: ../src/alerts.c:1201
+msgid "High warn limit"
+msgstr "Górna granica ostrze¿enia"
+
+#: ../src/alerts.c:1208
+msgid "Low Limits"
+msgstr "Dolne granice"
+
+#: ../src/alerts.c:1214
+msgid "Low warn limit"
+msgstr "Dolna granica ostrze¿enia"
+
+#: ../src/alerts.c:1219
+msgid "Low alarm limit"
+msgstr "Dolna granica alarmu"
+
+#: ../src/alerts.c:1229
+msgid "Seconds limit conditions must exist to have an alert"
+msgstr "Warunki ograniczeñ sekundowych musz± istnieæ by ustawiæ alarm"
+
+#: ../src/alerts.c:1241
+msgid "Commands - with repeat intervals in seconds"
+msgstr "Polecenia - z okresem powtarzania w sekundach"
+
+#: ../src/alerts.c:1251
+msgid "Alarm command:"
+msgstr "Polecenie Alarm:"
+
+#: ../src/alerts.c:1271
+msgid "Warn command:"
+msgstr "Polecenie Ostrze¿enie:"
+
+#: ../src/alerts.c:1295
+msgid "A repeat of zero seconds executes the command once per alert."
+msgstr "Warto¶æ powtarzania zero sekund uruchamia polecenie raz na alarm."
+
+#: ../src/battery.c:566 ../src/battery.c:964 ../src/battery.c:997
+msgid "GKrellM Battery"
+msgstr "GKrellM Bateria"
+
+#: ../src/battery.c:567
+msgid ""
+"Battery times are unavailable.  You\n"
+"could select the Estimated Time option."
+msgstr ""
+"Czasy baterii nie s± dostêpne. Mo¿esz\n"
+"wybraæ opcjê Przybli¿ony Czas."
+
+#: ../src/battery.c:800 ../src/battery.c:806 ../src/battery.c:1217
+#: ../src/battery.c:1248
+msgid "Battery"
+msgstr "Bateria"
+
+#: ../src/battery.c:801
+msgid "Battery Percent Limits"
+msgstr "Procentowe ograniczenia baterii"
+
+#: ../src/battery.c:807
+msgid "Battery Minutes Remaining Limits"
+msgstr "Granice pozosta³ych minut baterii"
+
+#: ../src/battery.c:965 ../src/battery.c:998
+msgid ""
+"The Battery alert units are changed\n"
+"and the alert must be reconfigured."
+msgstr ""
+"Jednostki alarmu baterii zosta³y zmienione,\n"
+"nale¿y ponownie skonfigurowaæ alarm."
+
+#: ../src/battery.c:1105 ../src/mail.c:3683 ../src/sensors.c:2648
+msgid "<h>Setup\n"
+msgstr "<h>Ustawienia\n"
+
+#: ../src/battery.c:1106
+msgid "<b>Display Estimated Time\n"
+msgstr "<b>Wy¶wietl przybli¿ony czas\n"
+
+#: ../src/battery.c:1107
+msgid ""
+"If battery times are not reported by the BIOS or if the reported times\n"
+"are inaccurate, select this option to display a battery time remaining or\n"
+"time to charge which is calculated based on the current battery percentage\n"
+"level, user supplied total battery times, and a linear extrapolation model.\n"
+msgstr ""
+"Je¶li czasy baterii nie s± podawane przez BIOS lub je¶li s± one niedo-\n"
+"k³adne, wybierz tê opcjê by wy¶wietliæ pozosta³y czas baterii lub czas do\n"
+"na³adowania. Jest on wyliczany jest w oparciu o bie¿±cy procentowy poziom\n"
+"na³adowania baterii, podane przez u¿ytkownika ca³kowite czasy baterii oraz\n"
+"model liniowego przybli¿ania.\n"
+
+#: ../src/battery.c:1112
+msgid "<b>Total Battery Times\n"
+msgstr "<b>Ca³kowite czasy baterii\n"
+
+#: ../src/battery.c:1113
+msgid ""
+"Enter the typical total run time and total charge time in hours for your\n"
+"battery.\n"
+msgstr ""
+"Wprowad¼ typowy ca³kowity czas pracy i ca³kowity czas ³adowania swojej\n"
+"baterii w godzinach.\n"
+
+#: ../src/battery.c:1116
+msgid "<b>Exponential Charge Model\n"
+msgstr "<b>Wyk³adniczy model ³adowania\n"
+
+#: ../src/battery.c:1117
+#, no-c-format
+msgid ""
+"For some charging systems battery capacity rises exponentially, which\n"
+"means the simple linear model will grossly underestimate the time to 100%.\n"
+"Select the exponential model for more accuracy in this case.\n"
+msgstr ""
+"W niektórych systemach ³adowania pojemno¶æ baterii wzrasta wyk³adniczo,\n"
+"co oznacza, ¿e prosty liniowy model mocno niedoszacuje czas do 100%.\n"
+"W tym przypadku wybierz model wyk³adniczy dla wiêkszej dok³adno¶ci.\n"
+
+#: ../src/battery.c:1124 ../src/cpu.c:1269 ../src/disk.c:1330 ../src/fs.c:2474
+#: ../src/mem.c:1263 ../src/net.c:2914 ../src/proc.c:890 ../src/sensors.c:2658
+msgid "Substitution variables may be used in alert commands.\n"
+msgstr "Zmienne zastêpcze mog± byæ u¿yte w poleceniach alarmu.\n"
+
+#: ../src/battery.c:1125
+msgid "\t$p    battery percent level.\n"
+msgstr "\t$p    procentowe zu¿ycie baterii.\n"
+
+#: ../src/battery.c:1126
+msgid "\t$t    battery time left.\n"
+msgstr "\t\\t    pozosta³y czas baterii.\n"
+
+#: ../src/battery.c:1127
+msgid "\t$n    battery number.\n"
+msgstr "\t$n \tnumer baterii.\n"
+
+#: ../src/battery.c:1128
+msgid "\t$o    online state (boolean).\n"
+msgstr "\t$o    stan on-line (boolean).\n"
+
+#: ../src/battery.c:1129
+msgid "\t$c    charging state (boolean).\n"
+msgstr "\t$c \tstan ³adowania (boolean).\n"
+
+#: ../src/battery.c:1131 ../src/fs.c:2476 ../src/inet.c:1806 ../src/mem.c:1266
+msgid "<h>Mouse Button Actions:\n"
+msgstr "<h>Dzia³anie przycisków myszy:\n"
+
+#: ../src/battery.c:1132 ../src/fs.c:2477 ../src/gui.c:1026 ../src/inet.c:1807
+#: ../src/mail.c:3724 ../src/mail.c:3727 ../src/mem.c:1267
+msgid "<b>\tLeft "
+msgstr "<b>\tLewy "
+
+#: ../src/battery.c:1133
+msgid ""
+" click on the charging state decal to toggle the display mode\n"
+"\t\tbetween a minutes, percentage, or charging rate display.\n"
+msgstr ""
+" kliknij stan na³adowania aby prze³±czyæ tryb wy¶wietlania\n"
+"\t\tpomiêdzy wielko¶ciami w minutach, procentach lub na³adowania.\n"
+
+#: ../src/battery.c:1135 ../src/inet.c:1810 ../src/mail.c:3730
+msgid "<b>\tMiddle "
+msgstr "<b>\t¦rodkowy "
+
+#: ../src/battery.c:1136
+msgid ""
+" clicking anywhere on the Battery panel also toggles the display mode.\n"
+msgstr ""
+" klikniêcie gdziekolwiek na panelu baterii równie¿ prze³±czy tryb "
+"wy¶wietlania.\n"
+
+#: ../src/battery.c:1152 ../src/clock.c:674 ../src/cpu.c:1292
+#: ../src/disk.c:1355 ../src/fs.c:2513 ../src/gui.c:1051 ../src/gui.c:1894
+#: ../src/mail.c:4077 ../src/mem.c:1290 ../src/proc.c:905
+#: ../src/sensors.c:2796 ../src/sensors.c:2827 ../src/uptime.c:265
+msgid "Options"
+msgstr "Opcje"
+
+#: ../src/battery.c:1157 ../src/clock.c:680 ../src/clock.c:707
+#: ../src/disk.c:1368 ../src/plugins.c:1712 ../src/sensors.c:2728
+msgid "Enable"
+msgstr "W³±cz"
+
+#: ../src/battery.c:1162
+msgid "Composite Battery"
+msgstr "Z³o¿enie baterii"
+
+#: ../src/battery.c:1166
+msgid "Real Batteries"
+msgstr "Rzeczywiste baterie"
+
+#: ../src/battery.c:1172
+msgid "Enable Battery"
+msgstr "Bateria w³±czona"
+
+#: ../src/battery.c:1181
+msgid "Display estimated time remaining and time to charge"
+msgstr "Wy¶wietlanie przybli¿onego pozosta³ego czasu i czasu do na³adowania"
+
+#: ../src/battery.c:1189
+msgid "Total battery run time in hours"
+msgstr "Ca³kowity czas pracy baterii w godzinach"
+
+#: ../src/battery.c:1193
+msgid "Total battery charge time in hours"
+msgstr "Ca³kowity czas ³adowania baterii w godzinach"
+
+#: ../src/battery.c:1198
+msgid "Exponential charge model"
+msgstr "Wyk³adniczy model ³adowania"
+
+#: ../src/battery.c:1206 ../src/inet.c:2000
+msgid "Seconds between updates"
+msgstr "Sekundy pomiêdzy od¶wie¿aniem"
+
+#: ../src/battery.c:1210 ../src/clock.c:731 ../src/cpu.c:1343
+#: ../src/disk.c:1401 ../src/fs.c:2510 ../src/inet.c:1994 ../src/mail.c:3767
+#: ../src/mem.c:1329 ../src/net.c:3055 ../src/proc.c:945 ../src/sensors.c:2697
+#: ../src/uptime.c:262
+msgid "Setup"
+msgstr "Ustawienia"
+
+#: ../src/battery.c:1213 ../src/clock.c:758 ../src/cpu.c:1371
+#: ../src/disk.c:1424 ../src/inet.c:2026 ../src/mem.c:1400 ../src/net.c:3043
+#: ../src/proc.c:967 ../src/uptime.c:273
+msgid "Launch Commands"
+msgstr "Uruchom polecenia"
+
+#: ../src/battery.c:1234
+msgid "Alerts check for percent capacity remaining."
+msgstr ""
+
+#: ../src/battery.c:1239 ../src/clock.c:766 ../src/cpu.c:1394
+#: ../src/disk.c:1438 ../src/fs.c:2560 ../src/gui.c:1161 ../src/gui.c:1975
+#: ../src/inet.c:2039 ../src/mail.c:4145 ../src/mem.c:1418 ../src/net.c:3087
+#: ../src/proc.c:979 ../src/sensors.c:2865
+msgid "Info"
+msgstr "Info"
+
+#: ../src/chart.c:1021
+msgid "Ag8"
+msgstr ""
+
+#: ../src/chart.c:2292 ../src/chart.c:2449
+#, fuzzy
+msgid "/Control/Auto mode sticks at peak value"
+msgstr "/Kontrola/Tryb auto-pa³ki przy warto¶ci szczytowej"
+
+#: ../src/chart.c:2296 ../src/chart.c:2447
+msgid "/Control/Auto mode recalibrate"
+msgstr "/Kontrola/Ponowna kalibracja trybu automatycznego"
+
+#: ../src/chart.c:2445
+msgid "/Control"
+msgstr "/Kontrola"
+
+#: ../src/chart.c:2446 ../src/chart.c:2451 ../src/chart.c:2457
+msgid "/Control/-"
+msgstr "/Kontrola/-"
+
+#: ../src/chart.c:2452 ../src/chart.c:2456 ../src/chart.c:2483
+msgid "/Control/Sequence.../1 2 5"
+msgstr "/Kontrola/Sekwencja.../1 2 5"
+
+#: ../src/chart.c:2454 ../src/chart.c:2485
+msgid "/Control/Sequence.../1 1.5 2 3 5 7"
+msgstr "/Kontrola/Sekwencja.../1 1.5 2 3 5 7"
+
+#: ../src/chart.c:2520
+msgid "GKrellM Chart Config"
+msgstr "GKrellM Konfiguracja wykresu"
+
+#: ../src/chart.c:2541
+msgid "Line style"
+msgstr "Styl linii"
+
+#: ../src/chart.c:2548
+msgid "Inverted"
+msgstr "Odwrócony"
+
+#: ../src/chart.c:2556
+msgid "Split view"
+msgstr "Widok podzielony"
+
+#: ../src/chart.c:2568
+msgid "Hide"
+msgstr "Ukryj"
+
+#: ../src/chart.c:2583
+msgid "Resolution per Grid"
+msgstr "Rozdzielczo¶æ na liniê siatki"
+
+#: ../src/chart.c:2603
+msgid "Auto"
+msgstr "Auto"
+
+#: ../src/chart.c:2615
+msgid "Number of Grids"
+msgstr "Liczba linii siatki"
+
+#: ../src/chart.c:2620
+msgid "0: Auto    1-5: Constant"
+msgstr "0: Auto    1-5: Sta³e"
+
+#: ../src/chart.c:2629
+msgid "Chart height"
+msgstr "Wysoko¶æ wykresu"
+
+#: ../src/client.c:1862 ../src/mail.c:641
+msgid "Unable to connect."
+msgstr "Nie mo¿na siê po³±czyæ."
+
+#: ../src/clock.c:647
+msgid "<h>Clock/Calendar Format Strings\n"
+msgstr ""
+
+#: ../src/clock.c:648
+msgid ""
+"The display format strings should contain strftime conversion\n"
+"characters and Pango text attribute markup strings.\n"
+msgstr ""
+
+#: ../src/clock.c:651
+msgid ""
+"For the clock, the provided default strings will display a 12 hour\n"
+"clock with seconds, a 12 hour clock with AM/PM indicator, or a 24 hour\n"
+"clock with seconds.\n"
+msgstr ""
+
+#: ../src/clock.c:655
+msgid ""
+"The special $A substitution variable expands to the current theme\n"
+"alternate color and is for use with the Pango \"foreground\" attribute.\n"
+msgstr ""
+
+#: ../src/clock.c:676 ../src/clock.c:763 ../src/clock.c:828
+msgid "Calendar"
+msgstr "Kalendarz"
+
+#: ../src/clock.c:683 ../src/clock.c:710
+msgid "Display format string:"
+msgstr ""
+
+#: ../src/clock.c:703 ../src/clock.c:779 ../src/clock.c:789
+msgid "Clock"
+msgstr "Zegar"
+
+#: ../src/clock.c:733
+msgid "Clock Chime Commands"
+msgstr "Polecenia d¼wiêków zegara"
+
+#: ../src/clock.c:738
+msgid "Hour"
+msgstr "Godzina"
+
+#: ../src/clock.c:746
+msgid "Quarter hour"
+msgstr "Kwadrans"
+
+#: ../src/clock.c:756
+msgid "Loop hour chime command"
+msgstr "Zagraj X razy dla godziny X"
+
+#: ../src/config.c:260
+#, c-format
+msgid "Bad textcolor line %s\n"
+msgstr "Niepoprawna linia textcolor %s\n"
+
+#: ../src/config.c:1040 ../src/config.c:1071
+#, c-format
+msgid "  Cannot load file image: %s\n"
+msgstr "  Nie mo¿na wczytaæ pliku obrazu: %s \n"
+
+#: ../src/config.c:1046
+#, c-format
+msgid "  Cannot load GdkPixbuf inline data.\n"
+msgstr "  Nie mo¿na wczytaæ danych GdkPixbuf.\n"
+
+#: ../src/config.c:1077
+#, c-format
+msgid "  Cannot load xpm: %s\n"
+msgstr "  Nie mo¿na wczytaæ xpm: %s\n"
+
+#: ../src/config.c:1741
+#, c-format
+msgid ""
+"Incomplete config line:\n"
+"    %s\n"
+msgstr ""
+"Niekompletna linia konfiguracji:\n"
+"    %s\n"
+
+#: ../src/config.c:2425
+#, c-format
+msgid "Cannot open config file %s for writing.\n"
+msgstr "Nie mo¿na otworzyæ pliku konfiguracyjnego %s do zapisu.\n"
+
+#: ../src/cpu.c:175
+#, c-format
+msgid "CPU%s"
+msgstr "CPU%s"
+
+#: ../src/cpu.c:843
+msgid "sys time"
+msgstr "czas sys"
+
+#: ../src/cpu.c:844
+msgid "user time"
+msgstr "czas user"
+
+#: ../src/cpu.c:853 ../src/cpu.c:857 ../src/cpu.c:1104
+msgid "nice time"
+msgstr "czas nice"
+
+#: ../src/cpu.c:964 ../src/cpu.c:1426
+msgid "CPU"
+msgstr "CPU"
+
+#: ../src/cpu.c:965 ../src/fs.c:1289 ../src/mem.c:986
+msgid "Percent Usage"
+msgstr "Zajêto¶æ procentowa"
+
+#: ../src/cpu.c:1261 ../src/disk.c:1322 ../src/gui.c:998 ../src/inet.c:1795
+#: ../src/mem.c:1236 ../src/net.c:2898 ../src/proc.c:881
+msgid "<h>Chart Labels\n"
+msgstr "<h>Etykiety wykresu\n"
+
+#: ../src/cpu.c:1262 ../src/disk.c:1323 ../src/inet.c:1796 ../src/mem.c:1237
+#: ../src/net.c:2899 ../src/proc.c:882
+msgid "Substitution variables for the format string for chart labels:\n"
+msgstr "Zmienne zastêpcze w ³añcuchu formatu etykiet wykresu:\n"
+
+#: ../src/cpu.c:1263
+msgid "\t$L    the CPU label\n"
+msgstr "\t$L    etykieta CPU\n"
+
+#: ../src/cpu.c:1264
+msgid "\t$T    total CPU time percent usage\n"
+msgstr "\t$T    ca³kowite u¿ycie czasu CPU w procentach\n"
+
+#: ../src/cpu.c:1265
+msgid "\t$s    sys time percent usage\n"
+msgstr "\t$s    procentowe zu¿ycie czasu sys\n"
+
+#: ../src/cpu.c:1266
+msgid "\t$u    user time percent usage\n"
+msgstr "\t$u    procentowe zu¿ycie czasu user\n"
+
+#: ../src/cpu.c:1267
+msgid "\t$n    nice time percent usage\n"
+msgstr "\t$n    procentowe zu¿ycie czasu nice\n"
+
+#: ../src/cpu.c:1296
+msgid "Enable CPU"
+msgstr "CPU w³±czona"
+
+#: ../src/cpu.c:1301
+msgid "Exclude nice CPU time from krell even if nice is shown on chart"
+msgstr "Nawet je¶li czas nice jest na wykresie jest on roz³±czany z krell"
+
+#: ../src/cpu.c:1306 ../src/proc.c:915
+msgid "Draw fan and temperature values separately (not alternating)."
+msgstr ""
+"Oddzielne rysowanie warto¶ci wentylatora i temperatury (nie zamiennie)."
+
+#: ../src/cpu.c:1313
+msgid "Apply any CPU chart config height change to all CPU charts"
+msgstr ""
+"Zastosuj zmianê konfiguracji wysoko¶ci wykresu CPU do wszystkich wykresów CPU"
+
+#: ../src/cpu.c:1316
+msgid "SMP Charts Select"
+msgstr "Wybór wykresów SMP"
+
+#: ../src/cpu.c:1319
+msgid "Real CPUs."
+msgstr "Rzeczywiste CPUs"
+
+#: ../src/cpu.c:1324
+msgid "Composite CPU."
+msgstr "Z³o¿ony CPU."
+
+#: ../src/cpu.c:1330
+msgid "Composite and real"
+msgstr "Z³o¿ony i rzeczywisty"
+
+#: ../src/cpu.c:1346 ../src/disk.c:1404 ../src/inet.c:2006 ../src/mem.c:1332
+#: ../src/net.c:3058 ../src/proc.c:948
+msgid "Format String for Chart Labels"
+msgstr "£añcuch formatowania etykiet wykresów"
+
+#: ../src/cpu.c:1356
+msgid "\\fu \\.$u\\n\\fs \\.$s"
+msgstr "\\fu \\.$u\\n\\fs \\.$s"
+
+#: ../src/cpu.c:1357
+msgid "\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s"
+msgstr "\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s"
+
+#: ../src/cpu.c:1358
+msgid "\\ww\\D3\\f\\au\\.$u\\D0\\f\\as\\.$s"
+msgstr "\\ww\\D3\\f\\au\\.$u\\D0\\f\\as\\.$s"
+
+#: ../src/cpu.c:1379
+#, c-format
+msgid "%s"
+msgstr "%s"
+
+#: ../src/disk.c:297 ../src/disk.c:1376 ../src/disk.c:1447 ../src/disk.c:1475
+#: ../src/sensors.c:2272 ../src/sensors.c:2350 ../src/sysdeps/openbsd.c:398
+msgid "Disk"
+msgstr "Dysk"
+
+#: ../src/disk.c:738 ../src/disk.c:1200
+msgid "Write bytes"
+msgstr "Bajty zapisu"
+
+#: ../src/disk.c:739 ../src/disk.c:1197
+msgid "Read bytes"
+msgstr "Bajty odczytu"
+
+#: ../src/disk.c:750
+msgid "Disk I/O blocks per sec"
+msgstr "Bloki dyskowe I/O na sekundê"
+
+#: ../src/disk.c:750
+msgid "Disk I/O bytes per sec"
+msgstr "I/O dysku w bajtach na sekundê"
+
+#: ../src/disk.c:866 ../src/net.c:2402
+msgid "Bytes per second"
+msgstr "Bajty na sekundê"
+
+#: ../src/disk.c:1064
+msgid "Composite chart combines data for all disks"
+msgstr "Wykres z³o¿ony sk³ada dane dla wszystkich dysków"
+
+#: ../src/disk.c:1324
+msgid "\t$L    the Disk label\n"
+msgstr ""
+
+#: ../src/disk.c:1325 ../src/inet.c:1797 ../src/mem.c:1238 ../src/net.c:2900
+msgid "\t$M    maximum chart value\n"
+msgstr "\t$M    maksymalna warto¶æ wykresu\n"
+
+#: ../src/disk.c:1326
+msgid "\t$T    total read bytes + write bytes\n"
+msgstr "\t$T    wszystkie bajty przeczytane + zapisane\n"
+
+#: ../src/disk.c:1327
+msgid "\t$r    read bytes\n"
+msgstr "\t$r    odebrane bajty\n"
+
+#: ../src/disk.c:1328
+msgid "\t$w    write bytes\n"
+msgstr "\t$w    zapisane bajty\n"
+
+#: ../src/disk.c:1414
+msgid "\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"
+msgstr "\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"
+
+#: ../src/fs.c:868
+msgid "GKrellM Mount Error"
+msgstr "B³±d montowania GKrellM"
+
+#: ../src/fs.c:1556
+msgid "Primary"
+msgstr "Podstawowy"
+
+#: ../src/fs.c:1570 ../src/fs.c:2289
+msgid "Secondary"
+msgstr "Dodatkowy"
+
+#: ../src/fs.c:1909 ../src/fs.c:2003 ../src/fs.c:2015 ../src/fs.c:2023
+msgid "Entry Error"
+msgstr "B³±d pozycji"
+
+#: ../src/fs.c:1910
+msgid ""
+"At least one primary fs monitor must exist to click on in order to show\n"
+"secondary ones.\n"
+msgstr ""
+"Wymagany jest co najmniej jeden podstawowy monitor fs by klikn±æ w celu\n"
+"wy¶wietlenia dodatkowych.\n"
+
+#: ../src/fs.c:2005
+msgid "Both a label and a mount point must be entered."
+msgstr "Nale¿y okre¶liæ etykietê i punkt montowania."
+
+#: ../src/fs.c:2016
+msgid "Both mount and umount commands must be entered."
+msgstr "Nale¿y podaæ polecenia montowania i odmontowania."
+
+#: ../src/fs.c:2024
+msgid "Missing ejectable device entry."
+msgstr "Brakuj±cy wpis wysuwalnego urz±dzenia."
+
+#: ../src/fs.c:2254 ../src/fs.c:2378 ../src/inet.c:1856 ../src/inet.c:1862
+#: ../src/inet.c:1947 ../src/inet.c:1967 ../src/sensors.c:2737
+msgid "Label"
+msgstr "Etykieta"
+
+#: ../src/fs.c:2263 ../src/fs.c:2382
+msgid "Mount Point"
+msgstr "Punkt montowania"
+
+#: ../src/fs.c:2296
+msgid "Show if mounted"
+msgstr "Wy¶wietlanie po zamontowaniu"
+
+#: ../src/fs.c:2302
+msgid "Enable /etc/fstab mounting"
+msgstr "W³±czone montowanie z /etc/fstab"
+
+#: ../src/fs.c:2316
+msgid "Ejectable"
+msgstr "Wysuwalne"
+
+#: ../src/fs.c:2322
+msgid "Device"
+msgstr "Urz±dzenie"
+
+#: ../src/fs.c:2337
+msgid "mount"
+msgstr "montuj"
+
+#: ../src/fs.c:2339
+msgid "umount"
+msgstr "odmontuj"
+
+#: ../src/fs.c:2405
+msgid "<h>Mounting\n"
+msgstr "<h>Montowania\n"
+
+#: ../src/fs.c:2406
+msgid ""
+"Enter file system mount points to monitor and enter a label to describe\n"
+"the mount point.  The krell shows the ratio of blocks used to total blocks\n"
+"available.  Mounting commands can be enabled for mount points in one\n"
+"of two ways:\n"
+"\n"
+msgstr ""
+"Wprowad¼ punkty montowania systemu plików dla monitora i etykietê opisuj±c±\n"
+"punkt montowania. Krell pokazuje stosunek bloków u¿ytych do wszystkich\n"
+"dostêpnych bloków. Polecenia montowania dla punktów montowania mog± zostaæ\n"
+"wykonane na jeden z dwóch sposobów:\n"
+"\n"
+
+#: ../src/fs.c:2411
+msgid "<b>\t1) Mounting using /etc/fstab: "
+msgstr "<b>\t1) Montowanie z wykorzystaniem /etc/fstab: "
+
+#: ../src/fs.c:2413
+msgid ""
+"If a mount point is in your\n"
+"\t/etc/fstab and you have mount permission then mount and umount\n"
+"\tcommands can be enabled and executed for that mount point simply\n"
+"\tby checking the \"Enable /etc/fstab mounting\" option.\n"
+"\tMount table entries in /etc/fstab need the \"user\" or \"owner\" option\n"
+"\tset to grant this permission unless GKrellM is run as root.\n"
+"\tFor example, if you run GKrellM as a normal user and you want\n"
+"\tto be able to mount your floppy, your /etc/fstab could have\n"
+"\teither of:\n"
+msgstr ""
+"Je¶li punkt montowania jest w Twoim\n"
+"\t/etc/fstab i masz prawo do montowania to polecenia montowania i\n"
+"\todmontowania mog± byæ w³±czane po prostu poprzez zaznaczenie\n"
+"\topcji \"Za³±cz montowanie wg /etc/fstab\". Je¿eli nie uruchamiasz\n"
+"\tGKrellM jako root, wpisy montowania w tabeli /etc/fstab musz± mieæ\n"
+"\tustawion± opcjê \"user\" by nadaæ prawo montowania u¿ytkownikom.\n"
+"\tDla przyk³adu: je¶li uruchamiasz GKrellM z konta zwyk³ego u¿ytkownika\n"
+"\ti chcesz mieæ mo¿liwo¶æ montowania stacji dysków, Twój /etc/fstab\n"
+"\tpowinien mieæ wpis podobny do jednego z poni¿szych:\n"
+
+#: ../src/fs.c:2423
+msgid "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,noauto,rw,exec 0 0\n"
+msgstr "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,noauto,rw,exec 0 0\n"
+
+#: ../src/fs.c:2424
+msgid "\tor\n"
+msgstr "\tlub\n"
+
+#: ../src/fs.c:2425
+msgid ""
+"<i>\t\t/dev/fd0 /mnt/floppy ext2 user,defaults 0 0\n"
+"\n"
+msgstr ""
+"<i>\t\t/dev/fd0 /mnt/floppy ext2 user,defaults 0 0\n"
+"\n"
+
+#: ../src/fs.c:2427
+msgid "<b>\t2) Mounting using custom commands: "
+msgstr "<b>\t2) Montowanie z u¿yciem poleceñ u¿ytkownika: "
+
+#: ../src/fs.c:2428
+msgid ""
+"If GKrellM is run as root or if\n"
+"\tyou have sudo permission to run the mount commands, then a custom\n"
+"\tmount command can be entered into the \"mount command\" entry\n"
+"\tbox.  A umount command must also be entered if you choose this\n"
+"\tmethod.  Example mount and umount entries using sudo:\n"
+msgstr ""
+"Je¶li GKrellM jest uruchamiany z konta root lub je¿eli\n"
+"\tmasz prawa sudo by uruchomiæ polecenia montowania to mo¿esz\n"
+"\twprowadziæ w³asne polecenia montowania w pole \"polecenie montowania\".\n"
+"\tJe¿eli wybierasz ten sposób musisz równie¿ wprowadziæ polecenie\n"
+"\todmontowania. Przyk³adowe wpisy montowania i odmontowania z\n"
+"\tu¿yciem sudo:\n"
+
+#: ../src/fs.c:2434
+msgid "<i>\t\tsudo /bin/mount -t msdos /dev/fd0 /mnt/A\n"
+msgstr "<i>\t\tsudo /bin/mount -t msdos /dev/fd0 /mnt/A\n"
+
+#: ../src/fs.c:2435
+msgid "<i>\t\tsudo /bin/umount /mnt/A\n"
+msgstr "<i>\t\tsudo /bin/umount /mnt/A\n"
+
+#: ../src/fs.c:2437
+msgid ""
+"\tNotes: the mount point specified in a custom mount command\n"
+"\t(/mnt/A in this example) must be the same as entered in the\n"
+"\t\"Mount Point\" entry.  You should have the NOPASSWD option set\n"
+"\tin /etc/sudoers if using sudo.\n"
+"\n"
+msgstr ""
+"\tUwaga: punkt montowania ustalony w poleceniu montowania\n"
+"\tu¿ytkownika (np. /mnt/A) musi byæ taki sam jak w polu\n"
+"\t\"Punkt montowania\". Je¿eli u¿ywasz sudo nale¿y podaæ\n"
+"opcjê NOPASSWD w /etc/sudoers\n"
+"\n"
+
+#: ../src/fs.c:2442
+msgid "<h>Primary and Secondary Monitors\n"
+msgstr "<h>Podstawowe i dodatkowe monitory\n"
+
+#: ../src/fs.c:2443
+#, no-c-format
+msgid ""
+"File system monitors can be created as primary (always visible)\n"
+"or secondary which can be hidden and then shown when they are of\n"
+"interest.  For example, you might make primary file system monitors\n"
+"for root, home, or user so they will be always visible, but make\n"
+"secondary monitors for less frequently used mount points such as\n"
+"floppy, zip, backup partitions, foreign file system types, etc.\n"
+"Secondary FS monitors can also be configured to always be visible if they\n"
+"are mounted by checking the \"Show if mounted\" option.   Using this\n"
+"feature you can show the secondary group, mount a file system, and have\n"
+"that FS monitor remain visible even when the secondary group is hidden.\n"
+"A standard cdrom mount will show as 100% full but a monitor for it\n"
+"could be created with mounting enabled just to have the\n"
+"mount/umount convenience.\n"
+"\n"
+msgstr ""
+"Monitory systemu plików mog± zostaæ utworzone jako podstawowe (zawsze\n"
+"widoczne) lub dodatkowe, które mog± byæ ukryte a wy¶wietl± siê bêd±\n"
+"gdy stan± siê interesuj±ce. Na przyk³ad mo¿na utworzyæ monitory\n"
+"podstawowe dla root, home lub user, które bêd± zawsze widoczne oraz\n"
+"dodatkowe monitory dla rzadziej u¿ywanych punktów montowania, takich\n"
+"jak stacja dysków, zip, partycje z kopiami zapasowymi itp. Dodatkowe\n"
+"monitory FS mo¿na równie¿ ustawiæ tak, by by³y zawsze widoczne gdy\n"
+"s± zamontowane poprzez zaznaczenie opcji \"Wy¶wietlaj po zamontowaniu\".\n"
+"Za pomoc± tej w³a¶ciwo¶ci mo¿na zaprezentowaæ dodatkow± grupê, zamontowany\n"
+"system plików i mieæ monitor widoczny nawet wówczas, gdy dodatkowa grupa\n"
+"jest ukryta. Standardowy punkt montowania cdrom bêdzie zawsze mia³ 100%\n"
+"zajêtego miejsca, a monitor dla niego zrobisz u¿ywaj±c z³o¿onej metody\n"
+"montowania/odmontowania.\n"
+"\n"
+
+#: ../src/fs.c:2460 ../src/mem.c:1243
+msgid "<h>Panel Labels\n"
+msgstr "<h>Etykiety paneli\n"
+
+#: ../src/fs.c:2461
+msgid "Substitution variables for the format string for file system panels:\n"
+msgstr "Zmienne zastêpcze ³añcucha formatowania dla paneli systemu plików:\n"
+
+#: ../src/fs.c:2462
+msgid "\t$t    total capacity\n"
+msgstr "\t$t    ca³kowita pojemno¶æ\n"
+
+#: ../src/fs.c:2463
+msgid "\t$u    used space\n"
+msgstr "\t$u    zajête miejsce\n"
+
+#: ../src/fs.c:2464
+msgid "\t$f    free space\n"
+msgstr "\t$f    wolne miejsce\n"
+
+#: ../src/fs.c:2465
+msgid "\t$U    used %,\n"
+msgstr "\t$U    zajête %,\n"
+
+#: ../src/fs.c:2466 ../src/mem.c:1252
+msgid "\t$F    free %\n"
+msgstr "\t$F    wolne %\n"
+
+#: ../src/fs.c:2467
+msgid "\t$l    the panel label\n"
+msgstr "\t$l    etykieta panelu\n"
+
+#: ../src/fs.c:2469
+msgid "\t$D    the mount point\n"
+msgstr "\t$D    punkt montowania\n"
+
+#: ../src/fs.c:2471
+msgid "\t$D    the disk\n"
+msgstr "\t$D    dysk\n"
+
+#: ../src/fs.c:2478
+msgid "click on a panel to scroll a programmable display\n"
+msgstr "kliknij na panelu by przewin±æ programowalny wy¶wietlacz\n"
+
+#: ../src/fs.c:2479
+msgid "\t\tof file system capacities (default is total and free space).\n"
+msgstr ""
+"\t\tpojemno¶ci systemu plików (standardowo ca³kowite i wolne miejsce).\n"
+
+#: ../src/fs.c:2480
+msgid "<b>\tWheel "
+msgstr "<b>\tKó³ko  "
+
+#: ../src/fs.c:2481
+msgid "Shows and hides the secondary file system monitors.\n"
+msgstr "Wy¶wietla i ukrywa dodatkowe monitory systemu plików.\n"
+
+#: ../src/fs.c:2500
+msgid "Panels"
+msgstr "Panele"
+
+#: ../src/fs.c:2518
+msgid "Use binary units (MiB, GiG) for reporting disk capacities."
+msgstr ""
+"U¿ycie jednostek binarnych (MiB, GiB) przy wy¶wietlaniu pojemno¶ci dysku."
+
+#: ../src/fs.c:2524
+msgid "Auto eject when ejectable devices are unmounted"
+msgstr "Automatyczne wysuwanie gdy urz±dzenia wysuwalne s± odmontowywane"
+
+#: ../src/fs.c:2533
+msgid "Seconds between data updates for local mounted file systems"
+msgstr "Czas [s] od¶wie¿ania danych dla lokalnie zamontowanych fs"
+
+#: ../src/fs.c:2538
+msgid "Seconds between data updates for remote mounted file systems"
+msgstr "Czas [s] od¶wie¿ania danych dla zdalnie zamontowanych fs"
+
+#: ../src/fs.c:2542 ../src/mem.c:1354
+msgid "Format String for Panel Labels"
+msgstr "£añcuch formatowania dla etykiet panelu"
+
+#: ../src/fs.c:2549 ../src/mem.c:1363 ../src/mem.c:1385
+msgid "$t - $u used"
+msgstr "$t - $u zajête"
+
+#: ../src/fs.c:2550 ../src/mem.c:1364 ../src/mem.c:1386
+msgid "$t - $U"
+msgstr "$t - $U"
+
+#: ../src/fs.c:2574
+msgid "File System"
+msgstr "System plików"
+
+#: ../src/gui.c:391
+#, c-format
+msgid "%s command"
+msgstr "polecenie %s"
+
+#: ../src/gui.c:409
+msgid "comment"
+msgstr "komentarz"
+
+#: ../src/gui.c:758
+#, c-format
+msgid ""
+"GKrellM %d.%d.%d%s\n"
+"GNU Krell Monitors\n"
+"\n"
+"Copyright (c) 1999-2007 by Bill Wilson\n"
+"billw@gkrellm.net\n"
+"http://gkrellm.net\n"
+"\n"
+"Released under the GNU General Public License"
+msgstr ""
+"GKrellM %d.%d.%d%s\n"
+"Monitory GNU Krell\n"
+"\n"
+"Copyright (c) 1999-2007 by Bill Wilson\n"
+"billw@gkrellm.net\n"
+"http://gkrellm.net\n"
+"\n"
+"Wydany na licencji GNU General Public License"
+
+#: ../src/gui.c:774
+msgid ""
+"Mac OS X code was contributed by:\n"
+"Ben Hines <bhines@alumni.ucsd.edu>\n"
+"and\n"
+"Hajimu UMEMOTO <ume@mahoroba.org>"
+msgstr ""
+"Kod MAC OS X przy wspó³pracy:\n"
+"Ben Hines <bhines@alumni.ucsd.edu>\n"
+"i\n"
+"Hajimu UMEMOTO <ume@mahoroba.org>"
+
+#: ../src/gui.c:784
+msgid ""
+"FreeBSD system dependent code was contributed by:\n"
+"Hajimu UMEMOTO <ume@mahoroba.org>"
+msgstr ""
+"Kod FreeBSD zale¿ny od systemu przy wspó³pracy:\n"
+"Hajimu UMEMOTO <ume@mahoroba.org>"
+
+#: ../src/gui.c:792
+#, fuzzy
+msgid ""
+"DragonFly system dependent code was contributed by:\n"
+"Joerg Sonnenberger <joerg@bec.de>"
+msgstr ""
+"Kod zale¿ny dla systemu DragonFly zosta³ dostarczony przez:\n"
+"Joerg Sonnenberger <joerg@bec.de>"
+
+#: ../src/gui.c:800
+msgid ""
+"NetBSD system dependent code was contributed by:\n"
+"Anthony Mallet <anthony.mallet@useless-ficus.net>"
+msgstr ""
+"Kod NetBSD zale¿ny od systemu przy wspó³pracy:\n"
+"Anthony Mallet <anthony.mallet@useless-ficus.net>"
+
+#: ../src/gui.c:808
+msgid ""
+"Solaris system dependent code was contributed by:\n"
+"Daisuke Yabuki <dxy@acm.org>"
+msgstr ""
+"Kod Solaris zale¿ny od systemu przy wspó³pracy:\n"
+"Daisuke Yabuki <dxy@acm.org>"
+
+#: ../src/gui.c:816
+#, fuzzy
+msgid ""
+"Windows system dependent code was contributed by:\n"
+"Bill Nalen <bill@nalens.com>\n"
+"Stefan Gehn <metz81@web.de>\n"
+msgstr ""
+"Kod zale¿ny dla systemu Windows zosta³ dostarczony przez:\n"
+"Bill Nalen <bill@nalens.com>\n"
+"Stefan Gehn <metz81@web.de>\n"
+
+#: ../src/gui.c:984
+msgid "<h>Krells\n"
+msgstr "<h>Krells\n"
+
+#: ../src/gui.c:985
+msgid ""
+"Krells are the horizontally moving indicators below each chart and\n"
+"on meter style monitors.  Depending on the monitor, they show fast\n"
+"response data rates, a percentage of some capacity, or something else.\n"
+msgstr ""
+"Krells to wska¼niki poziomo przesuwaj±ce siê poni¿ej wykresu i na\n"
+"monitorach w stylu miernika. W zale¿no¶ci od monitora pokazuj± one\n"
+"wska¼niki danych, procentowe pojemno¶ci i inne.\n"
+
+#: ../src/gui.c:989
+msgid "<h>Charts\n"
+msgstr "<h>Wykresy\n"
+
+#: ../src/gui.c:990
+msgid ""
+"The default for most charts is to automatically adjust the number of\n"
+"grid lines drawn and the resolution per grid so drawn data will be\n"
+"nicely visible.  You may change this to fixed grids of 1-5 and/or\n"
+"fixed grid resolutions in the chart config windows.  However,\n"
+"some combination of the auto scaling modes may give best results.\n"
+msgstr ""
+"Domy¶lnie ustawione jest dla wiêkszo¶ci wykresów automatyczny dobór\n"
+"liczby linii siatki i rozdzielczo¶ci na liniê tak, by dane by³y dobrze\n"
+"widoczne. Mo¿esz to zmieniæ i ustawiæ liczbê linii od 1-5 i/lub roz-\n"
+"dzielczo¶æ linii w oknach konfiguracyjnych wykresu. Jakkolwiek, pewne\n"
+"ustawienia automatyczne mog± daæ najlepszy efekt.\n"
+
+#: ../src/gui.c:996 ../src/gui.c:1022
+msgid "See the README or do a \"man gkrellm\" for more information.\n"
+msgstr "Zajrzyj do README lub do \"man gkrellm\" po wiêcej informacji.\n"
+
+#: ../src/gui.c:999
+msgid "Chart label format strings place text on charts using position codes:\n"
+msgstr ""
+"£añcuchy formatowania pozycji etykiety na wykresie u¿ywaj± kodów pozycji:\n"
+
+#: ../src/gui.c:1000
+msgid "\t\\t    top left\n"
+msgstr "\t\\t    lewo góra\n"
+
+#: ../src/gui.c:1001
+msgid "\t\\b    bottom left\n"
+msgstr "\t\\b    lewo dó³\n"
+
+#: ../src/gui.c:1002
+msgid "\t\\n    next line\n"
+msgstr "\t\\n    nastêpna linia\n"
+
+#: ../src/gui.c:1003
+msgid "\t\\N    next line only if last string had visible characters\n"
+msgstr ""
+"\t\\N    nastêpna linia tylko wtedy, gdy ostatni ³añcuch mia³ widzialne "
+"znaki\n"
+
+#: ../src/gui.c:1004
+msgid "\t\\p    previous line\n"
+msgstr "\t\\p    poprzednia linia\n"
+
+#: ../src/gui.c:1005
+msgid "\t\\c    center the text\n"
+msgstr "\t\\c    wy¶rodkowanie tekstu\n"
+
+#: ../src/gui.c:1006
+msgid "\t\\C    begin drawing text at the center\n"
+msgstr "\t\\C    pocz±tek tekstu na ¶rodku\n"
+
+#: ../src/gui.c:1007
+msgid "\t\\r    right justify\n"
+msgstr "\t\\r    wyrównanie do prawej\n"
+
+#: ../src/gui.c:1008
+msgid "\t\\f    use alternate font for the next string\n"
+msgstr "\t\\f    u¿yj zastêpczej czcionki w nastêpnym ³añcuchu\n"
+
+#: ../src/gui.c:1009
+msgid "\t\\w    use the following string to define a field width\n"
+msgstr ""
+"\t\\w    u¿yj nastêpuj±cego ³añcucha do zdefiniowania szeroko¶ci pola\n"
+
+#: ../src/gui.c:1010
+msgid "\t\\a    draw left justified in the defined field width\n"
+msgstr "\t\\a    rysuj wyrównany do lewej w zdefiniowanej szeroko¶ci pola\n"
+
+#: ../src/gui.c:1011
+msgid "\t\\e    draw right justified in the defined field width\n"
+msgstr "\t\\e    rysuj wyrównany do prawej w zdefiniowanej szeroko¶ci pola\n"
+
+#: ../src/gui.c:1012
+msgid "\t\\.     no-op.  Used to break a string into two strings.\n"
+msgstr "\t\\.     bez skutku. U¿ywany do dzielenia ³añcucha na dwa.\n"
+
+#: ../src/gui.c:1013
+msgid ""
+"\t\\D0   bottom of charts first data view (D2 for second data view ...)\n"
+msgstr "\t\\DO   dó³ pierwszego widoku danych wykresu (D2 dla drugiego...)\n"
+
+#: ../src/gui.c:1014
+msgid "\t\\D1   top of charts first data view (D3 for second data view ...)\n"
+msgstr ""
+"\t\\D1   góra wykresów pierwszego widoku danych wykresu (D2 dla "
+"drugiego...)\n"
+
+#: ../src/gui.c:1016
+msgid ""
+"<h>\n"
+"Commands\n"
+msgstr ""
+"<h>\n"
+"Polecenia\n"
+
+#: ../src/gui.c:1017
+msgid ""
+"\tMany monitors can be configured to launch commands.  Just enter the\n"
+"\tcommand where you see a \"command\" entry and also a comment if you\n"
+"\twant a tooltip to appear for the command.  After a command is entered,\n"
+"\tfor a monitor, a button for launching it will become visible when you\n"
+"\tmove the mouse into the panel area of the monitor.\n"
+"\n"
+msgstr ""
+"\tWiele monitorów mo¿na skonfigurowaæ tak, by uruchamia³y polecenia. Po\n"
+"\tprostu wprowad¼ polecenie tam, gdzie widzisz pozycjê \"command\", jak\n"
+"\trównie¿ podpowied¼ tego polecenia. Po wprowadzeniu polecenia monitora\n"
+"\tprzycisk uruchomienia stanie siê widoczny gdy przesuniesz myszkê nad\n"
+"\tobszar panelu monitora.\n"
+
+#: ../src/gui.c:1025 ../src/mail.c:3723
+msgid ""
+"<h>\n"
+"Mouse Button Actions:\n"
+msgstr ""
+"<h>\n"
+"Dzia³ania przycisków myszy:\n"
+
+#: ../src/gui.c:1027
+msgid "clicking on charts will toggle a display of some extra info.\n"
+msgstr ""
+"klikniêcie na wykresach prze³±czy na wy¶wietlanie dodatkowych informacji.\n"
+
+#: ../src/gui.c:1028 ../src/gui.c:1030
+msgid "<b>\tRight "
+msgstr "<b>\tPrawy "
+
+#: ../src/gui.c:1029
+msgid "clicking on charts brings up a chart configuration window.\n"
+msgstr "klikniêcie na wykresie wy¶wietla okno konfiguracji wykresu.\n"
+
+#: ../src/gui.c:1031
+msgid "clicking on many panels opens its monitor configuration window.\n"
+msgstr "klikniêcie na wielu panelach otwiera okno konfiguracji monitora.\n"
+
+#: ../src/gui.c:1060
+msgid "Hostname display"
+msgstr "Wy¶wietlana nazwa komputera"
+
+#: ../src/gui.c:1066
+msgid "Short hostname"
+msgstr "Krótka nazwa komputera"
+
+#: ../src/gui.c:1071
+msgid "System name display"
+msgstr "Wy¶wietlana nazwa systemu"
+
+#: ../src/gui.c:1076
+msgid "Remember screen location at exit and move to it at next startup"
+msgstr "Pamiêtanie pozycji ekranu przy wyj¶ciu i przenoszenie tam przy starcie"
+
+#: ../src/gui.c:1082
+msgid "Allow multiple instances"
+msgstr "Dopuszczenie wielokrotnych instancji"
+
+#: ../src/gui.c:1089
+msgid ""
+"Make gkrellm a topmost window (restart gkrellm for this to take effect)."
+msgstr ""
+"Okno gkrellm ma byæ najwy¿ej (uruchom ponownie gkrellm by zastosowaæ zmianê)."
+
+#: ../src/gui.c:1098 ../src/hostname.c:387
+msgid "gkrellmd server disconnect"
+msgstr "serwer gkrellmd roz³±czony"
+
+#: ../src/gui.c:1106
+msgid "Krell and LED updates per second."
+msgstr "Okres od¶wie¿ania w sekundach dla Krell i LED"
+
+#: ../src/gui.c:1112
+msgid "GKrellM width"
+msgstr "Szeroko¶æ GKrellM"
+
+#: ../src/gui.c:1116
+msgid "Properties"
+msgstr "W³a¶ciwo¶ci"
+
+#: ../src/gui.c:1119
+msgid "Set sticky state"
+msgstr "Ustaw stan \"lepki\""
+
+#: ../src/gui.c:1122
+msgid "Set on top of other windows of the same type"
+msgstr "Ustaw na górze innego okna tego samego typu"
+
+#: ../src/gui.c:1125
+msgid "Set below other windows of the same type"
+msgstr "Ustaw poni¿ej innych okien tego samego typu"
+
+#: ../src/gui.c:1132
+msgid "Set window type to be a dock or panel"
+msgstr "Ustaw typ okna, jaki ma byæ dokowany lub na panelu"
+
+#: ../src/gui.c:1137
+msgid "Use window manager decorations"
+msgstr "U¿ywaj dekoracji mened¿era okien"
+
+#: ../src/gui.c:1141
+msgid "Do not include on a taskbar"
+msgstr "Nie do³±czaj do paska zadañ"
+
+#: ../src/gui.c:1145
+msgid "Do not include on a pager"
+msgstr "Nie do³±czaj do pagera"
+
+#: ../src/gui.c:1155
+msgid ""
+"Some of these properties require a standards compliant window manager.\n"
+"You may have to restart gkrellm for them to take effect.\n"
+msgstr ""
+"Niektóre z tych w³a¶ciwo¶ci wymagaj± standardowo podatnego mened¿era \n"
+"okien. Mo¿esz musieæ zrestartowaæ gkrellm by zmiany odnios³y skutek.\n"
+
+#: ../src/gui.c:1541
+#, c-format
+msgid "%d total theme alternatives"
+msgstr "%d - ilo¶æ alternatywnych wystrojów"
+
+#: ../src/gui.c:1842 ../src/gui.c:1874
+msgid "Theme"
+msgstr "Wystrój"
+
+#: ../src/gui.c:1846
+msgid "Theme:"
+msgstr "Wystrój:"
+
+#: ../src/gui.c:1856
+msgid "Author:"
+msgstr "Autor"
+
+#: ../src/gui.c:1902
+msgid "Track Gtk theme changes for similarly named themes"
+msgstr "¦ledzenie zmian wystroju GTK dla podobnie nazywaj±cych siê wystrojów"
+
+#: ../src/gui.c:1909
+msgid "Default"
+msgstr "Domy¶lnie"
+
+#: ../src/gui.c:1924
+msgid "Scale"
+msgstr "Skala"
+
+#: ../src/gui.c:1930
+msgid "Fonts"
+msgstr "Czcionki:"
+
+#: ../src/gui.c:1933
+msgid "Large font"
+msgstr "Du¿a czcionka"
+
+#: ../src/gui.c:1945 ../src/gui.c:1959 ../src/gui.c:1972
+msgid "Browse"
+msgstr "Przegl±daj"
+
+#: ../src/gui.c:1947
+msgid "Normal font"
+msgstr "Normalna czcionka"
+
+#: ../src/gui.c:1961
+msgid "Small font"
+msgstr "Ma³a czcionka"
+
+#: ../src/gui.c:1976
+#, c-format
+msgid "Untar your theme tar files in %s/%s"
+msgstr "Rozpakuj wystrój w plikach tar do katalogu: %s/%s"
+
+#: ../src/gui.c:1985
+msgid "Download themes from the GKrellM theme site at www.muhri.net"
+msgstr "Pobierz wystroje ze strony GKrellM www.muhri.net"
+
+#: ../src/gui.c:2281
+msgid "Configuration"
+msgstr "Ustawienia"
+
+#: ../src/gui.c:2309
+msgid "General"
+msgstr "Ogólne"
+
+#: ../src/gui.c:2314
+msgid "Builtins"
+msgstr "Wbudowane funkcje"
+
+#: ../src/gui.c:2334 ../src/plugins.c:1699
+msgid "Plugins"
+msgstr "Wtyczki"
+
+#: ../src/gui.c:2339
+msgid "Themes"
+msgstr "Wystroje"
+
+#: ../src/gui.c:2344
+msgid "About"
+msgstr "O"
+
+#: ../src/gui.c:2369
+msgid "Monitors"
+msgstr "Monitory"
+
+#: ../src/gui.c:2441 ../src/gui.c:2452
+msgid "/Quit"
+msgstr "/Wyj¶cie"
+
+#: ../src/gui.c:2448
+msgid "/Configuration"
+msgstr "/Ustawienia"
+
+#: ../src/gui.c:2449
+msgid "/Theme/Prev"
+msgstr "/Wystrój/Poprzedni"
+
+#: ../src/gui.c:2450
+msgid "/Theme/Next"
+msgstr "/Wystrój/Nastêpny"
+
+#: ../src/gui.c:2459
+msgid "/Theme prev"
+msgstr "/Wystrój poprzedni"
+
+#: ../src/gui.c:2460
+msgid "/Theme next"
+msgstr "/Wystrój nastêpny"
+
+#: ../src/inet.c:616
+#, c-format
+msgid "%s Connections"
+msgstr "%s Po³±czenia"
+
+#: ../src/inet.c:706
+msgid "No current connections."
+msgstr "Brak bie¿±cych po³±czeñ."
+
+#: ../src/inet.c:933
+#, c-format
+msgid "inet%d"
+msgstr "inet%d"
+
+#: ../src/inet.c:945
+msgid "TCP hits per minute"
+msgstr "Trafienia TCP na minutê"
+
+#: ../src/inet.c:948
+msgid "TCP hits per hour"
+msgstr "Trafienia TCP na godzinê"
+
+#: ../src/inet.c:1775
+msgid ""
+"Inet charts show historical TCP port hits on a minute or hourly\n"
+"chart. Below the chart there is a strip where marks are drawn for\n"
+"port hits in second intervals.   The inet krell has a full scale\n"
+"value of 5 hits and samples once per second.  The extra info\n"
+"display shows current TCP port connections.\n"
+"\n"
+"For each internet monitor, you can specify two labeled data sets with\n"
+"one or two non-zero port numbers entered for each data set.  Two\n"
+"ports are allowed because some internet ports are related and you\n"
+"might want to group them.  Check /etc/services for port numbers.\n"
+"\n"
+"For example, if you created an inet monitor:\n"
+msgstr ""
+"Wykresy internetu pokazuj± historiê trafieñ portu TCP na minutê\n"
+"lub godzinê. Poni¿ej wykresu umieszczono pasek, na którym zaznaczone\n"
+"s± trafienia w odstêpach sekundowych. Pe³na warto¶æ skali krell internetu\n"
+"to 5 trafieñ i próbki jedna na sekundê. Dodatkowe informacje to \n"
+"bie¿±ce po³±czenia na porcie TCP.\n"
+"\n"
+"Mo¿esz ustawiæ dwa zestawy danych wraz z etykietami z jendym lub dwoma\n"
+"niezerowymi numerami portów dla ka¿dego monitora internetu. Dopuszczalne\n"
+"s± dwa porty poniewa¿ niektóre porty s± powi±zane i mo¿esz chcieæ je\n"
+"pogrupowaæ. Spójrz do /etc/services by sprawdziæ numery portów.\n"
+"\n"
+"Dla przyk³adu, je¿eli stworzy³e¶ monitor internetu:\n"
+
+#: ../src/inet.c:1786
+msgid "<i>\thttp 80 8080   ftp 21\n"
+msgstr "<i>\thttp 80 8080   ftp 21\n"
+
+#: ../src/inet.c:1788
+msgid ""
+"Http hits on the standard http port 80 and www web caching service\n"
+"on port 8080 are combined and plotted in the one color.  Ftp hits\n"
+"on the single ftp port 21 are plotted in another color.\n"
+"\n"
+msgstr ""
+"Trafienia HTTP na standardowym porcie 80 oraz serwisy cache www na \n"
+"porcie 8080 s± ³±czone i rysowane jednym kolorem. Trafienia ftp na\n"
+"pojedynczym porcie 21 s± rysowane innym kolorem.\n"
+
+#: ../src/inet.c:1792
+msgid ""
+"If the range button is checked, then all port numbers between Port0 and\n"
+"Port1 are monitored and included in the plot.\n"
+"\n"
+msgstr ""
+"Je¶li zaznaczony jest przycisk zakresu to wszystkie numery portów pomiê-\n"
+"dzy Port0 i Port1 s± monitorowane i zawarte na wykresie.\n"
+
+#: ../src/inet.c:1798
+msgid "\t$a    current active connections for Data0\n"
+msgstr "\t$a    aktywne w tej chwili po³±czenia dla Data0\n"
+
+#: ../src/inet.c:1799
+msgid "\t$cN   total connections in last N minutes (or hours) for Data0\n"
+msgstr ""
+"\t$cN   razem po³±czeñ w ci±gu ostatnich N minut (lub godzin) dla Data0\n"
+
+#: ../src/inet.c:1800
+msgid "\t$l    label for Data0\n"
+msgstr "\t$l    etykieta dla Data0\n"
+
+#: ../src/inet.c:1801
+msgid "\t$A    current active connections for Data1\n"
+msgstr "\t$A    aktywne w tej chwili po³±czenia dla Data1\n"
+
+#: ../src/inet.c:1802
+msgid "\t$CN   total connections in last N minutes (or hours) for Data1\n"
+msgstr ""
+"\t$CN   razem po³±czeñ w ci±gu ostatnich N minut (lub godzin) dla Data1\n"
+
+#: ../src/inet.c:1803
+msgid "\t$L    label for Data1\n"
+msgstr "\t$L    etykieta dla Data1\n"
+
+#: ../src/inet.c:1808
+msgid ""
+"click on an inet chart to toggle the extra info display of\n"
+"\t\tcurrent TCP port connections.\n"
+msgstr ""
+"kliknij na wykresie internetu by prze³±czyæ na dodatkowe\n"
+"\t\tinformacje o bie¿±cych po³±czeniach portu TCP.\n"
+
+#: ../src/inet.c:1811
+msgid "click on an inet chart to toggle hour/minute charts.\n"
+msgstr ""
+"kliknij na wykresie internetu by prze³±czyæ pomiêdzy \n"
+"\t\twykresami minutowymi i godzinowymi.\n"
+
+#: ../src/inet.c:1838
+msgid "Ports"
+msgstr "Porty"
+
+#: ../src/inet.c:1844
+msgid "Data0"
+msgstr "Data0"
+
+#: ../src/inet.c:1848
+msgid "Data1"
+msgstr "Data1"
+
+#: ../src/inet.c:1858 ../src/inet.c:1864 ../src/inet.c:1952 ../src/inet.c:1972
+msgid "Port0"
+msgstr "Port0"
+
+#: ../src/inet.c:1860 ../src/inet.c:1866 ../src/inet.c:1957 ../src/inet.c:1977
+msgid "Port1"
+msgstr "Port1"
+
+#: ../src/inet.c:1898 ../src/inet.c:1903
+msgid "Port0 - Port1 is a range"
+msgstr "Port0 - Port1 jest zakresem"
+
+#: ../src/inet.c:2052
+msgid "Internet"
+msgstr "Internet"
+
+#: ../src/krell.c:949
+#, c-format
+msgid "create_krell: NULL image or style\n"
+msgstr "create_krell: obraz lub styl NULL\n"
+
+#: ../src/mail.c:642
+msgid "Bad response after connect."
+msgstr "Z³a odpowied¼ po po³±czeniu."
+
+#: ../src/mail.c:643
+msgid "Bad response after username."
+msgstr "Z³a odpowied¼ po nazwie u¿ytkownika."
+
+#: ../src/mail.c:644
+msgid "Bad response after password."
+msgstr "Z³a odpowied¼ po ha¶le."
+
+#: ../src/mail.c:645
+msgid "Bad response after STAT or STATUS."
+msgstr "Z³a odpowied¼ po STAT lub STATUS."
+
+#: ../src/mail.c:646
+msgid "Bad response after UIDL."
+msgstr "Z³a odpowied¼ po UIDL."
+
+#: ../src/mail.c:647
+msgid "Bad APOP response after connect."
+msgstr "Z³a odpowied¼ APOP po po³±czeniu."
+
+#: ../src/mail.c:648
+msgid "Bad CRAM_MD5 response after connect."
+msgstr "Z³a odpowied¼ CRAM_MD5 po po³±czeniu."
+
+#: ../src/mail.c:696
+#, c-format
+msgid "Mail TCP Error: %s - %s\n"
+msgstr "B³±d TCP: %s - %s\n"
+
+#: ../src/mail.c:730
+msgid "Cannot initialize SSL method."
+msgstr "Nie mo¿na zainicjalizowaæ metody SSL."
+
+#: ../src/mail.c:734
+msgid "Cannot initialize SSL server certificate handler."
+msgstr "Nie mo¿na zainicjalizowaæ certyfikatu serwera SSL."
+
+#: ../src/mail.c:740
+#, fuzzy
+msgid "Cannot initialize SSL handler."
+msgstr "Nie mo¿na zainicjalizowaæ SSL."
+
+#: ../src/mail.c:867 ../src/mail.c:940
+msgid "could not decode BASE64 challenge\n"
+msgstr "nie mo¿na zdekodowaæ wezwania BASE64\n"
+
+#: ../src/mail.c:875
+#, c-format
+msgid "decoded as %s\n"
+msgstr "zdekodowano jako %s\n"
+
+#: ../src/mail.c:991
+msgid "Bad response after STLS."
+msgstr "Z³a odpowied¼ po STLS."
+
+#: ../src/mail.c:1131
+msgid "Bad response after STARTTLS."
+msgstr "Z³a odpowied¼ po STARTTLS."
+
+#: ../src/mail.c:1202
+#, c-format
+msgid ""
+"Messages: %d\n"
+"Unseen: %d\n"
+msgstr ""
+"Wiadomo¶ci: %d\n"
+"Nieprzeczytanych: %d\n"
+
+#: ../src/mail.c:1690
+#, c-format
+msgid "mute"
+msgstr "wycisz"
+
+#: ../src/mail.c:1965
+msgid "seen"
+msgstr ""
+
+#: ../src/mail.c:3408
+msgid "GKrellM Config Error"
+msgstr "GKrellM B³±d konfiguracji"
+
+#: ../src/mail.c:3409
+msgid "Incomplete mailbox entries"
+msgstr "Niekompletne wpisy skrzynki pocztowej"
+
+#: ../src/mail.c:3673
+msgid "<h>Mailboxes\n"
+msgstr "<h>Skrzynki pocztowe\n"
+
+#: ../src/mail.c:3675
+msgid "Mailboxes to monitor can be local or remote mailbox types.\n"
+msgstr "Monitorowane skrzynki mog± byæ skrzynkami lokalnymi lub zdalnymi.\n"
+
+#: ../src/mail.c:3676
+msgid ""
+"For local mailboxes, the path name may be a mbox file or it may be\n"
+"a Maildir or MH mail style directory.\n"
+msgstr ""
+"Dla skrzynek lokalnych ¶cie¿ka mo¿e prowadziæ do pliku mbox lub do\n"
+"katalogu w stylu Maildir lub MH.\n"
+
+#: ../src/mail.c:3684
+msgid "<b>Mail reading program\n"
+msgstr "<b>Program do czytania poczty\n"
+
+#: ../src/mail.c:3685
+msgid ""
+"If you enter a mail reading program (your mail user agent or MUA)\n"
+"it can be launched by clicking on the mail monitor message count button.\n"
+msgstr ""
+"Je¶li wprowadzisz program pocztowy (swój MUA) to bêdzie on uruchamiany\n"
+"klikniêciem w przycisk liczby monitorowanych wiadomo¶ci.\n"
+
+#: ../src/mail.c:3688
+msgid "<b>Sound notify program\n"
+msgstr "<b>Program powiadamiania d¼wiêkiem\n"
+
+#: ../src/mail.c:3689
+msgid ""
+"If you enter a notify (sound) command, it will be run when new mail\n"
+"is detected.\n"
+msgstr ""
+"Je¶li wprowadzisz polecenie powiadamiania (d¼wiêkiem), zostanie ono\n"
+"uruchomione, gdy przyjdzie nowa poczta.\n"
+
+#: ../src/mail.c:3696
+msgid "<b>fetch/check Program\n"
+msgstr "<b>Program pobieraj±cy/sprawdzaj±cy\n"
+
+#: ../src/mail.c:3697
+msgid ""
+"If you want to download remote mail or check for remote mail without\n"
+"using the builtin POP3 or IMAP mail checking which is set up in the\n"
+msgstr ""
+"Je¶li chcesz odebraæ pocztê lub sprawdziæ j± dla zdalnych kont bez\n"
+"u¿ywania wbudowanego sprawdzania poczty POP3 lub IMAP ustawionych w "
+"zak³adce\n"
+
+#: ../src/mail.c:3699 ../src/mail.c:3717
+msgid "<i>Mailboxes"
+msgstr "<i>Skrzynki pocztowe"
+
+#: ../src/mail.c:3700
+msgid ""
+" tab, then do this by entering a mail fetch/check command.\n"
+"For example, fetchmail can be run periodically to download mail\n"
+"messages from a remote server to your local mailboxes where GKrellM\n"
+"can count them.\n"
+"\n"
+"Or, GKrellM can read the output and report the results from some mail\n"
+"checking programs which count remote or local messages.  If you enter\n"
+"a command like this that checks mail without downloading, then you\n"
+"must tell GKrellM this is the expected behaviour by selecting in the\n"
+"Options tab:\n"
+msgstr ""
+" to mo¿esz to zrobiæ poprzez wprowadzenie polecenia pobierania/sprawdzania\n"
+"poczty. Przyk³adowo, co jaki¶ czas mo¿e byæ uruchamiany fetchmail, który\n"
+"pobierze wiadomo¶ci ze zdalnego serwera do Twojej skrzynki lokalnej, gdzie\n"
+"GKrellM mo¿e je zliczyæ\n"
+"\n"
+"GKrellM mo¿e tak¿e odczytaæ dane wyj¶ciowe programów sprawdzaj±cych pocztê\n"
+"i mog±cych zliczaæ wiadomo¶ci na zdalnych serwerach. Je¶li wprowadzisz\n"
+"polecenie takie, które sprawdza pocztê bez pobierania jej, to musisz to\n"
+"powiedzieæ GKrellMowi dok³adnie, jak siê zachowuje, poprzez wybór w\n"
+"zak³adce Opcje:\n"
+
+#: ../src/mail.c:3710
+msgid "<i>\tFetch/check program checks messages only\n"
+msgstr "<i>\tTylko program odbieraj±cy/sprawdzaj±cy pocztê\n"
+
+#: ../src/mail.c:3711
+msgid ""
+"For checking messages on a remote server, GKrellM can read the\n"
+"output of the program "
+msgstr ""
+"By sprawdziæ wiadomo¶ci na zdalnym serwerze, GKrellM mo¿e\n"
+"odczytaæ wyj¶cie programu "
+
+#: ../src/mail.c:3713
+msgid "<i>fetchmail -c"
+msgstr "<i>fetchmail -c"
+
+#: ../src/mail.c:3714
+msgid " (you must append the -c).\n"
+msgstr " (musisz do³±czyæ -c)\n"
+
+#: ../src/mail.c:3715
+msgid ""
+"But, do not combine these methods for the same mailbox!  If you enter a\n"
+"POP3 mailbox in the "
+msgstr ""
+"Tylko nie ³±cz tych metod dla tych samych skrzynek! Je¶li wprowadzisz\n"
+"skrzynkê POP3 w zak³adce "
+
+#: ../src/mail.c:3718
+msgid " tab, then don't check it again with fetchmail.\n"
+msgstr " nie sprawdzaj jej ponownie fetchmailem.\n"
+
+#: ../src/mail.c:3725
+msgid "click the mail count button to launch the mail reading program.\n"
+msgstr ""
+"klikaj±c przycisk liczonych wiadomo¶ci pocztowych by uruchomiæ\n"
+"program do czytania poczty.\n"
+
+#: ../src/mail.c:3726
+msgid "\t\tIf options permit, also stop animations and reset remote counts.\n"
+msgstr ""
+"\t\tJe¿eli opcje zezwalaj±, równie¿ zatrzymaj± animacje i wyzeruj± zdalne "
+"liczniki\n"
+
+#: ../src/mail.c:3728
+msgid ""
+"click the envelope decal to force a mail check regardless of\n"
+"\t\tany mute mode or inhibit mail checking option settings.\n"
+msgstr ""
+"kliknij kopertê by wymusiæ sprawdzanie poczty bez wzglêdu na\n"
+"\t\ttryb wyciszenia czy zakaz z ustawieñ opcji sprawdzania.\n"
+
+#: ../src/mail.c:3731
+msgid ""
+"click the mail panel to toggle a mute mode which inhibits\n"
+"\t\tthe sound notify program and optionally inhibits all mail\n"
+"\t\tchecking.\n"
+msgstr ""
+"kliknij panel poczty by prze³±czyæ tryb wyciszenia, który\n"
+"\t\tzakazuje uruchomienie powiadomienia d¼wiêkiem i sprawdzenia\n"
+"\t\tpoczty.\n"
+
+#: ../src/mail.c:3772
+msgid "Enable Mailcheck"
+msgstr "Sprawdzanie poczty w³±czone"
+
+#: ../src/mail.c:3784
+msgid "Mail reading program:"
+msgstr "Program do czytania poczty:"
+
+#: ../src/mail.c:3799
+msgid "Notify (sound) program:"
+msgstr "Program powiadamiania d¼wiêkiem:"
+
+#: ../src/mail.c:3816
+msgid "Mail fetch/check program:"
+msgstr "Program odbieraj±cy/sprawdzaj±cy pocztê:"
+
+#: ../src/mail.c:3835
+msgid "Run fetch/check program at local interval"
+msgstr ""
+
+#: ../src/mail.c:3845
+msgid "Check local mailboxes every"
+msgstr "Sprawd¼ lokalne skrzynki co"
+
+#: ../src/mail.c:3852
+msgid "seconds"
+msgstr "sekund"
+
+#: ../src/mail.c:3858
+msgid "Do remote checks every"
+msgstr "Sprawd¼ zdalne konta co"
+
+#: ../src/mail.c:3860
+msgid "Check mail every"
+msgstr "Sprawd¼ pocztê co"
+
+#: ../src/mail.c:3867
+msgid "minutes"
+msgstr "minut"
+
+#: ../src/mail.c:3870
+msgid "Mailboxes"
+msgstr "Skrzynki pocztowe"
+
+#: ../src/mail.c:3886
+msgid "Path name:"
+msgstr "¦cie¿ka:"
+
+#: ../src/mail.c:3904
+msgid "Server"
+msgstr "Serwer"
+
+#: ../src/mail.c:3911
+msgid "User name"
+msgstr "Identyfikator u¿ytkownika"
+
+#: ../src/mail.c:3918
+msgid "Password"
+msgstr "Has³o"
+
+#: ../src/mail.c:3926 ../src/mail.c:4017
+msgid "Protocol"
+msgstr "Protokó³"
+
+#: ../src/mail.c:3941
+msgid "Use SSL"
+msgstr "U¿yj SSL"
+
+#: ../src/mail.c:3949
+msgid "No"
+msgstr "Nie"
+
+#: ../src/mail.c:3957
+msgid "IMAP folder"
+msgstr "Katalog IMAP"
+
+#: ../src/mail.c:3967
+msgid "Specify port"
+msgstr "Okre¶l port"
+
+#: ../src/mail.c:3986
+msgid "Local mailbox"
+msgstr "Skrzynka lokalna"
+
+#: ../src/mail.c:3991
+msgid "Remote mailbox"
+msgstr "Skrzynka zdalna"
+
+#: ../src/mail.c:4027
+msgid "Mailbox"
+msgstr "Skrzynka pocztowa"
+
+#: ../src/mail.c:4038
+msgid "Animation"
+msgstr "Animacja"
+
+#: ../src/mail.c:4041
+msgid "Animation Select"
+msgstr "Wybór animacji"
+
+#: ../src/mail.c:4046
+msgid "None"
+msgstr "¯adna"
+
+#: ../src/mail.c:4049
+msgid "Envelope"
+msgstr "Koperta"
+
+#: ../src/mail.c:4054
+msgid "Daemon"
+msgstr "Demon"
+
+#: ../src/mail.c:4056
+msgid "Penguin"
+msgstr "Pingwin"
+
+#: ../src/mail.c:4060
+msgid "Both"
+msgstr "Obie"
+
+#: ../src/mail.c:4073
+msgid "Run animation continuously as long as there is a new mail count"
+msgstr "Uruchom ci±g³± animacjê na tak d³ugo, dopóki jest nowa poczta"
+
+#: ../src/mail.c:4080
+msgid "Message Counting"
+msgstr "Zliczanie wiadomo¶ci"
+
+#: ../src/mail.c:4085
+msgid "new/total"
+msgstr "nowe/razem"
+
+#: ../src/mail.c:4089
+msgid "new"
+msgstr "nowe"
+
+#: ../src/mail.c:4093
+msgid "do not count"
+msgstr "nie licz"
+
+#: ../src/mail.c:4106
+msgid "Fetch/check program checks messages only (see Mail Info tab)"
+msgstr ""
+"Program odbieraj±cy/sprawdzaj±cy pocztê tylko sprawdza (zajrzyj \n"
+"\tna zak³adkê Informacje o poczcie)"
+
+#: ../src/mail.c:4111
+msgid "Reset remote message counts when message count button is pressed."
+msgstr "Wyzeruj liczbê zdalnych wiadomo¶ci gdy naci¶niêty przycisk licznika"
+
+#: ../src/mail.c:4116
+msgid "Count accessed but unseen mail as new (if this status is available)"
+msgstr ""
+"Ilo¶æ dostêpnych ale nieprzeczytanych (jako nowe) wiadomo¶ci (je¶li dostêpny "
+"jest ich stan)"
+
+#: ../src/mail.c:4121
+msgid "Mute mode inhibits all mail checking, not just notify (sound) program"
+msgstr "Tryb wyciszenia zabrania sprawdzania poczty, ale nie powiadamiania"
+
+#: ../src/mail.c:4126
+msgid "Inhibit all mail checking while the mail reader is running"
+msgstr "Zabroñ sprawdzania ca³ej poczty gdy uruchomiony program pocztowy"
+
+#: ../src/mail.c:4131
+msgid "Allow multiple launches of the mail reader program"
+msgstr "Dopuszczaj wielokrotne uruchamianie programu pocztowego"
+
+#: ../src/mail.c:4136
+msgid "List mailboxes containing new mail in a tooltip"
+msgstr "Lista skrzynek zawieraj±cych now± pocztê w podpowiedzi"
+
+#: ../src/mail.c:4142
+msgid "Ignore .mh_sequences when checking MH mail."
+msgstr "Ignoruj .mh_sequences sprawdzaj±c pocztê MH."
+
+#: ../src/mail.c:4165
+msgid "Mail"
+msgstr "Poczta"
+
+#: ../src/main.c:121
+msgid ""
+"You can configure your monitors by right clicking on\n"
+"the top frame of GKrellM or by hitting the F1 key\n"
+"with the mouse in the GKrellM window.\n"
+"\n"
+"Read the Info pages in the config for setup help."
+msgstr ""
+"Mo¿esz skonfigurowaæ monitory poprzez klikniêcie prawym przyciskiem\n"
+"myszy na górnej krawêdzi GKrellM lub przez naci¶niêcie klawisza\n"
+"F1 gdy kursor myszy jest w oknie GKrellM.\n"
+"\n"
+"Przeczytaj strony Info w pomocy konfiguracji."
+
+#: ../src/main.c:162
+msgid "Error: Could not load all fonts.\n"
+msgstr "B³±d: nie mogê za³adowaæ wszystkich czcionek.\n"
+
+#: ../src/main.c:1689
+msgid "GKrellM Introduction"
+msgstr "GKrellM Wprowadzenie"
+
+#: ../src/main.c:1767
+msgid ""
+"usage: gkrellm [options]\n"
+"options:\n"
+msgstr ""
+"u¿ycie: gkrellm [opcje]\n"
+"opcje:\n"
+
+#: ../src/main.c:1769
+msgid "   -t, --theme theme_dir    Select a theme directory.\n"
+msgstr ""
+
+#: ../src/main.c:1770
+msgid "   -g, --geometry +x+y      Position the window on the screen.\n"
+msgstr ""
+
+#: ../src/main.c:1771
+msgid "       --wm                 Allow window manager decorations.\n"
+msgstr ""
+
+#: ../src/main.c:1772
+msgid ""
+"       --m2                 Left button side frame shading (for 2 btn "
+"mice).\n"
+msgstr ""
+
+#: ../src/main.c:1773
+msgid "       --nt                 No transparency.\n"
+msgstr ""
+
+#: ../src/main.c:1774
+msgid "   -w, --withdrawn          Draw GKrellM in withdrawn mode.\n"
+msgstr ""
+
+#: ../src/main.c:1775
+msgid ""
+"   -c, --config suffix      Use alternate config files generated by\n"
+"                            appending \"suffix\" to config file names.\n"
+msgstr ""
+
+#: ../src/main.c:1777
+msgid ""
+"   -f, --force-host-config  Creates config files generated by appending the\n"
+"                            hostname to config file names.  Subsequent runs\n"
+"                            automatically will use these configs unless a\n"
+"                            specific config is specified with --config.\n"
+"                            This is a convenience for allowing remote runs\n"
+"                            with independent configs in a shared home dir\n"
+"                            and for the hostname to be in the window title.\n"
+"                            This option has no effect in client mode.\n"
+msgstr ""
+
+#: ../src/main.c:1785
+msgid ""
+"   -s, --server hostname    Run in client mode: connect to \"hostname\" and\n"
+"                            read monitor data from a gkrellmd server.\n"
+msgstr ""
+
+#: ../src/main.c:1787
+msgid ""
+"   -P, --port server_port   Use \"server_port\" for the server connection.\n"
+msgstr ""
+
+#: ../src/main.c:1788
+msgid ""
+"       --nc                 No config mode prevents configuration changes.\n"
+msgstr ""
+
+#: ../src/main.c:1789
+msgid "       --config-clean       Clean out unused configs on config write.\n"
+msgstr ""
+
+#: ../src/main.c:1790
+msgid "       --nolock             Allow multiple gkrellm instances.\n"
+msgstr ""
+
+#: ../src/main.c:1791
+msgid ""
+"   -p, --plugin plugin.so   While developing, load your plugin under test.\n"
+msgstr ""
+
+#: ../src/main.c:1792
+msgid ""
+"       --demo               Force enabling of many monitors so themers can\n"
+"                            see everything. All config saving is inhibited.\n"
+msgstr ""
+
+#: ../src/main.c:1794
+msgid "   -v, --version            Print GKrellM version number and exit.\n"
+msgstr ""
+
+#: ../src/main.c:1795
+msgid ""
+"   -d, --debug-level n      Turn debugging on for selective code sections.\n"
+msgstr ""
+
+#: ../src/main.c:1797
+msgid ""
+"\n"
+"debug-level numbers are (bitwise OR to debug multiple sections):\n"
+"     0x10    mail\n"
+"     0x20    net\n"
+"     0x40    timer button\n"
+"     0x80    sensors\n"
+"     0x800   inet\n"
+"     0x1000  dump gkrellmd server data\n"
+"     0x2000  GUI\n"
+"     0x8000  battery\n"
+"     0x20000 plugin \n"
+"\n"
+msgstr ""
+
+#: ../src/main.c:1998
+msgid "segmentation fault"
+msgstr ""
+
+#: ../src/main.c:2000
+msgid "floating point exception"
+msgstr ""
+
+#: ../src/main.c:2002
+#, fuzzy
+msgid "aborted"
+msgstr "przerwano"
+
+#: ../src/main.c:2005
+msgid "initializing"
+msgstr "rozpoczynanie"
+
+#: ../src/main.c:2165
+#, c-format
+msgid "Bad arg: %s\n"
+msgstr "Z³y argument: %s\n"
+
+#: ../src/mem.c:51
+msgid "$t - $f free"
+msgstr "$t - $f wolne"
+
+#: ../src/mem.c:696
+msgid "Swap Out"
+msgstr "Swap Wy"
+
+#: ../src/mem.c:697
+msgid "Swap In"
+msgstr "Swap We"
+
+#: ../src/mem.c:706
+msgid "Swap in/out pages per sec"
+msgstr "Swap wej/wyj stron na sekundê"
+
+#: ../src/mem.c:815 ../src/mem.c:1373 ../src/mem.c:1404
+msgid "Mem"
+msgstr "Pamiêæ"
+
+#: ../src/mem.c:891 ../src/mem.c:984 ../src/mem.c:1293 ../src/mem.c:1394
+#: ../src/mem.c:1411
+msgid "Swap"
+msgstr "Swap"
+
+#: ../src/mem.c:982 ../src/mem.c:1311 ../src/mem.c:1434
+msgid "Memory"
+msgstr "Pamiêæ"
+
+#: ../src/mem.c:1229
+msgid "<h>Used and Free\n"
+msgstr "<h>Zajête i wolne\n"
+
+#: ../src/mem.c:1230
+msgid ""
+"The used and free memory here are calculated from the kernel reported\n"
+"used and free by subtracting or adding the buffers and cache memory.  See\n"
+"the README and compare to the \"-/+ buffers/cache:\" line from the free\n"
+"command.  If you show three memory krells, the kernel \"raw free\" is\n"
+"the space after the rightmost krell.\n"
+msgstr ""
+"Zajêta i wolna pamiêæ wyliczone s± z danych raportowanych przez kernel\n"
+"poprzez odjêcie lub dodanie buforów i pamiêci podrêcznej. Zajrzyj do pliku "
+"README\n"
+"i porównaj liniê \"-/+ buffers/cache:\" polecenia free. Je¶li pokazujesz\n"
+"trzy krelle pamiêci, \"raw free\" kernela jest miejscem po krellu wysu-\n"
+"niêtym najbardziej na prawo.\n"
+
+#: ../src/mem.c:1239
+msgid "\t$T    total swap in blocks + swap out blocks\n"
+msgstr "\t$T    razem bloki swap wej¶ciowe + wyj¶ciowe\n"
+
+#: ../src/mem.c:1240
+msgid "\t$i    swap in blocks\n"
+msgstr "\t$i    wej¶ciowe bloki swap\n"
+
+#: ../src/mem.c:1241
+msgid "\t$o    swap out blocks\n"
+msgstr "\t$o    wyj¶ciowe bloki swap\n"
+
+#: ../src/mem.c:1244
+msgid ""
+"Substitution variables for the format string for the Mem and Swap\n"
+"panels (a MiB is a binary megabyte - 2^20):\n"
+msgstr ""
+"Zmienne zastêpcze la ³añcucha formatowania paneli pamiêci i swap\n"
+"(MiB to binarny megabajt - 2^20):\n"
+
+#: ../src/mem.c:1247
+msgid "For memory and swap:\n"
+msgstr "Dla pamiêci i swap:\n"
+
+#: ../src/mem.c:1248
+msgid "\t$t    total MiB\n"
+msgstr "\t$t    razem MiB\n"
+
+#: ../src/mem.c:1249
+msgid "\t$u    used MiB\n"
+msgstr "\t$u    zajête MiB\n"
+
+#: ../src/mem.c:1250
+msgid "\t$f    free MiB\n"
+msgstr "\t$f    wolne MiB\n"
+
+#: ../src/mem.c:1251
+msgid "\t$U    used %\n"
+msgstr "\t$U    zajête %\n"
+
+#: ../src/mem.c:1253
+msgid "\t$l    the panel label"
+msgstr "\t$l    etykieta panelu"
+
+#: ../src/mem.c:1255
+msgid "For memory only:\n"
+msgstr "Tylko dla pamiêci:\n"
+
+#: ../src/mem.c:1256
+msgid "\t$s    shared MiB\n"
+msgstr "\t$s    dzielone MiB\n"
+
+#: ../src/mem.c:1257
+msgid "\t$b    buffered MiB\n"
+msgstr "\t$b    buforowane MiB\n"
+
+#: ../src/mem.c:1258
+msgid "\t$c    cached MiB\n"
+msgstr "\t$c    MiB w pamiêci podrêcznej\n"
+
+#: ../src/mem.c:1260
+msgid ""
+"The free and used variables may have a 'r' qualifier for printing\n"
+"raw free and raw used values.  For example: $fr for raw free.\n"
+msgstr ""
+
+#: ../src/mem.c:1268
+msgid ""
+"click on a panel to scroll a programmable display of\n"
+"\t\tof memory or swap usage.\n"
+msgstr ""
+"kliknij na panelu by przewin±æ programowany wy¶wiet-\n"
+"lacz u¿ycia pamiêci lub swapa.\n"
+
+#: ../src/mem.c:1298
+msgid "Enable swap pages in/out chart"
+msgstr "Strony swap na wykresie wej./wyj. w³±czone"
+
+#: ../src/mem.c:1304
+msgid "Enable swap meter"
+msgstr "Miernik swap w³±czony"
+
+#: ../src/mem.c:1318
+msgid "Enable memory meter"
+msgstr "Miernik pamiêci w³±czony"
+
+#: ../src/mem.c:1326
+msgid "Show three memory krells:   [used | buffers | cache | raw free]"
+msgstr ""
+"Wy¶wietlanie drzewa krelli pamiêci: [u¿ywana | bufory | cache | czysta]"
+
+#: ../src/mem.c:1365
+msgid "$t - $u used  $s sh  $b bf  $c ca"
+msgstr "$t - $u u¿yte $s sh $b bf $c ca"
+
+#: ../src/net.c:668
+msgid "Received"
+msgstr "Odebrano"
+
+#: ../src/net.c:672
+msgid "Transmitted"
+msgstr "Wys³ano"
+
+#: ../src/net.c:676
+msgid "Total"
+msgstr "Razem"
+
+#: ../src/net.c:684
+msgid "Connect Time"
+msgstr "Czas po³±czenia"
+
+#: ../src/net.c:701
+#, c-format
+msgid "%s Statistics"
+msgstr "Statystyki %s"
+
+#: ../src/net.c:721
+msgid "Daily"
+msgstr "Dzienne"
+
+#: ../src/net.c:722
+msgid "Date"
+msgstr "Data"
+
+#: ../src/net.c:724
+msgid "Weekly"
+msgstr "Tygodniowe"
+
+#: ../src/net.c:726
+msgid "Week Ending"
+msgstr "Koniec tygodnia"
+
+#: ../src/net.c:728
+msgid "Monthly"
+msgstr "Miesiêczne"
+
+#: ../src/net.c:730
+msgid "Month"
+msgstr "Miesi±c"
+
+#: ../src/net.c:787
+#, c-format
+msgid "get_connect_state changed from %d to %d  (check=%d)\n"
+msgstr "get_connect_state zmieniono z %d na %d (check=%d)\n"
+
+#: ../src/net.c:830
+#, c-format
+msgid "set_timer_button_state from %d to %d (check=%d)\n"
+msgstr "set_timer_button_state z %d na %d (check=%d)\n"
+
+#: ../src/net.c:843
+#, c-format
+msgid "update_timer_button net_timed old_state=%d new_state=%d\n"
+msgstr "update_timer_button net_timed stary_stan=%d nowy_stan=%d\n"
+
+#: ../src/net.c:904
+msgid "  **** Stale pppd pppX.pid file detected!\n"
+msgstr "  **** Wykryto plik pppX.pid uruchomionego pppd!\n"
+
+#: ../src/net.c:1507 ../src/net.c:2734
+msgid "tx bytes"
+msgstr "tx bajty"
+
+#: ../src/net.c:1508 ../src/net.c:2731
+msgid "rx bytes"
+msgstr "rx bajty"
+
+#: ../src/net.c:1519
+msgid "rx/tx bytes per sec"
+msgstr "rx/tx bajtów na sekundê"
+
+#: ../src/net.c:2863
+msgid "<h>Timer Button\n"
+msgstr "<h>Przycisk licznika czasu\n"
+
+#: ../src/net.c:2864
+msgid ""
+"\tThe timer button may be used as a stand alone timer with start and\n"
+"\tstop commands, but it is usually linked to a dial up net interface\n"
+"\twhere the commands can control the interface and different timer\n"
+"\tbutton colors can show connect states:\n"
+msgstr ""
+"\tPrzycisk licznika czasu mo¿e zostaæ u¿yty jako samodzielny timer z \n"
+"\tpoleceniami start/stop, u¿yteczny w powi±zaniu z interfejsem dial-up,\n"
+"\tgdzie polecenia te mog± kontrolowaæ interfejs a inne kolory przycisków \n"
+"\ttimera mog± pokazywaæ stany po³±czenia:\n"
+
+#: ../src/net.c:2874
+msgid ""
+"Standby state is while the modem phone line is locked while\n"
+"\tppp is connecting, and the on state is the ppp link connected.\n"
+"\tThe phone line lock is determined by the existence of the modem\n"
+"\tlock file /var/lock/LCK..modem.  If your pppd setup does not\n"
+"\tuse /dev/modem, then you can configure an alternative with:\n"
+msgstr ""
+"Stan oczekiwania to stan, gdy ustanowione jest po³±czenie modemem\n"
+"\tpoprzez ppp. Zablokowanie linii telefonicznej jest okre¶lone\n"
+"\tobecno¶ci± pliku blokuj±cego /var/lock/LCK..modem. Je¶li Twoje\n"
+"\tpo³±czenia pppd nie u¿ywaj± /dev/modem mo¿esz ustawiæ to tak:\n"
+
+#: ../src/net.c:2879
+msgid "<i>\t\tln -s /var/lock/LCK..ttySx ~/.gkrellm2/LCK..modem\n"
+msgstr "<i>\t\tln -s /var/lock/LCK..ttySx ~/.gkrellm2/LCK..modem\n"
+
+#: ../src/net.c:2880
+msgid ""
+"\twhere ttySx is the tty device your modem uses.  The ppp on\n"
+"\tstate is detected by the existence of /var/run/pppX.pid and\n"
+"\tthe time stamp of this file is the base for the on line time.\n"
+msgstr ""
+"\tgdzie ttySx jest nazw± urz±dzenia tty, którego u¿ywa Twój modem.\n"
+"\tStan uruchomienia ppp wykrywany jest poprzez obecno¶æ pliku \n"
+"\t/var/run/pppX.pid a znacznik czasowy tego pliku jest podstaw±\n"
+"\tokre¶lenia czasu po³±czenia.\n"
+
+#: ../src/net.c:2886
+msgid ""
+"The timer button standby state is not applicable to isdn\n"
+"\tinterfaces that are always routed. The on state is isdn on line\n"
+"\twhile the ippp interface is routed.  The on line timer is reset\n"
+"\twhen the isdn interface transitions from a hangup to an on line\n"
+"\tstate\n"
+msgstr ""
+"Przycisk licznika czasu stanu gotowo¶ci nie ma zastosowania do\n"
+"\tinterfejsów ISDN, które zawsze s± rutowane. Stan gotowy jest w\n"
+"\tprzypadku ISDN wtedy, gdy interfejs ippp jest rutowany. Licznik\n"
+"\tczasu po³±czenia jest zerowany gdy interfejs ISDN przechodzi ze\n"
+"\tstanu od³o¿onej s³uchawki do \"on-line\"\n"
+
+#: ../src/net.c:2901
+msgid "\t$T    receive + transmit bytes\n"
+msgstr "\t$T     odebrane + przes³ane bajty\n"
+
+#: ../src/net.c:2902
+msgid "\t$r    receive bytes\n"
+msgstr "\t$r    odbierane bajty\n"
+
+#: ../src/net.c:2903
+msgid "\t$t    transmit bytes\n"
+msgstr "\t$t    przesy³ane bajty\n"
+
+#: ../src/net.c:2904
+msgid "\t$O    cumulative receive + transmit bytes\n"
+msgstr "\t$O    skumulowane odbierane + przesy³ane bajty\n"
+
+#: ../src/net.c:2905
+msgid "\t$i    cumulative receive bytes\n"
+msgstr "\t$i    skumulowane odbierane bajty\n"
+
+#: ../src/net.c:2906
+msgid "\t$o    cumulative transmit bytes\n"
+msgstr "\t$o    skumulowane przesy³ane bajty\n"
+
+#: ../src/net.c:2907
+msgid "\t$L    the optional chart label\n"
+msgstr "\t$L    opcjonalna etykieta wykresu\n"
+
+#: ../src/net.c:2908
+msgid "\t$I    the net interface name\n"
+msgstr "\t$I    nazwa interfejsu sieciowego\n"
+
+#: ../src/net.c:2910
+msgid ""
+"The cumulative variables may have a 'd', 'w', or 'm' qualifier for\n"
+"daily, weekly, or monthly totals.  For example:  $Ow for a\n"
+"cumulative weekly receive + transmit bytes.\n"
+msgstr ""
+"Zmienne skumulowane mog± mieæ znacznik \"d\", \"w\" lub \"m\" dla "
+"dziennych,\n"
+"tygodniowych i miesiêcznych podsumowañ. Na przyk³ad: $0w dla ³±cznych\n"
+"tygodniowych bajtów wys³anych i odebranych.\n"
+
+#: ../src/net.c:2936
+msgid "Timer Button"
+msgstr "Przycisk licznika czasu"
+
+#: ../src/net.c:2942
+msgid "Enable timer button"
+msgstr "Przycisk licznika czasu w³±czony"
+
+#: ../src/net.c:2947
+msgid "Show seconds"
+msgstr "Poka¿ sekundy"
+
+#: ../src/net.c:2957
+msgid "none"
+msgstr "brak"
+
+#: ../src/net.c:2971
+msgid "Interface to link to the timer button"
+msgstr "Interfejs pod³±czony do przycisku licznika czasu"
+
+#: ../src/net.c:2982
+msgid "Start Command"
+msgstr "Polecenie uruchomienia"
+
+#: ../src/net.c:2993
+msgid "Stop Command"
+msgstr "Polecenie zatrzymania"
+
+#: ../src/net.c:3007
+#, c-format
+msgid "Enable %s"
+msgstr "%s w³±czony"
+
+#: ../src/net.c:3024
+msgid "Force chart to be always shown even if interface is not routed."
+msgstr "Wymu¶, by wykres by³ widoczny nawet gdy interfejs nie jest rutowany."
+
+#: ../src/net.c:3037
+msgid "Optional label for this interface."
+msgstr "Dodatkowa etykieta dla tego interfejsu."
+
+#: ../src/net.c:3068
+msgid "\\f\\ww\\c\\f$M\\n\\f\\at\\.$t\\n\\f\\ar\\.$r\\b\\c\\f$L"
+msgstr "\\f\\ww\\c\\f$M\\n\\f\\at\\.$t\\n\\f\\ar\\.$r\\b\\c\\f$L"
+
+#: ../src/net.c:3070
+msgid "\\f\\ww\\c\\f$M\\n\\f\\at\\.$o\\n\\f\\ar\\.$i\\b\\c\\f$L"
+msgstr "\\f\\ww\\c\\f$M\\n\\f\\at\\.$o\\n\\f\\ar\\.$i\\b\\c\\f$L"
+
+#: ../src/net.c:3072
+msgid "\\f\\ww\\c\\f$M\\D2\\f\\ar\\.$r\\D1\\f\\at\\.$t\\b\\c\\f$L"
+msgstr "\\f\\ww\\c\\f$M\\D2\\f\\ar\\.$r\\D1\\f\\at\\.$t\\b\\c\\f$L"
+
+#: ../src/net.c:3084
+msgid "Start day for cumulative monthly transmit and receive bytes"
+msgstr ""
+"Dzieñ pocz±tkowy dla skumulowanych miesiêcznych bajtów wys³anych i odebranych"
+
+#: ../src/net.c:3103
+msgid "Net"
+msgstr "Sieæ"
+
+#: ../src/net.c:3164
+msgid "Net Timer"
+msgstr "Zegar Sieci"
+
+#: ../src/plugins.c:822
+#, c-format
+msgid "\t%s: placement is %s %s  G:%d\n"
+msgstr "\t%s: umiejscowienie to %s %s G:%d\n"
+
+#: ../src/plugins.c:824
+msgid "after"
+msgstr "po"
+
+#: ../src/plugins.c:824
+msgid "before"
+msgstr "przed"
+
+#: ../src/plugins.c:884 ../src/plugins.c:891 ../src/plugins.c:907
+#, c-format
+msgid "\tError: %s\n"
+msgstr "\tB³±d: %s\n"
+
+#: ../src/plugins.c:926
+msgid "\tOoops! plugin returned NULL, aborting\n"
+msgstr "\tO kurde! wtyczka zwróci³a NULL, przerywanie\n"
+
+#: ../src/plugins.c:938
+msgid "\tWarning: style name \""
+msgstr "\tUwaga: nazwa stylu \""
+
+#: ../src/plugins.c:939 ../src/plugins.c:949
+msgid ""
+"\" already used by:\n"
+"\t\t"
+msgstr ""
+"\" ju¿ u¿ywane przez:\n"
+"\t\t"
+
+#: ../src/plugins.c:948
+msgid "\tWarning: config keyword \""
+msgstr "\tUwaga: s³owo kluczowe konfiguracji \""
+
+#: ../src/plugins.c:1206
+msgid "Ignoring duplicate plugin "
+msgstr "Ignorowanie tych samych wtyczek "
+
+#: ../src/plugins.c:1238
+msgid "*** Command line plugin:\n"
+msgstr "*** Wtyczka linii poleceñ:\n"
+
+#: ../src/plugins.c:1492
+msgid "GKrellM Place Plugin"
+msgstr "GKrellM Miejsce wtyczki"
+
+#: ../src/plugins.c:1503
+msgid "Builtin Monitors"
+msgstr "Wbudowane monitory"
+
+#: ../src/plugins.c:1533
+msgid "Place Plugin"
+msgstr "Miejsce wtyczki"
+
+#: ../src/plugins.c:1539
+msgid "Before selected builtin monitor"
+msgstr "Przed wybranym wbudowanym monitorem"
+
+#: ../src/plugins.c:1546
+msgid "With gravity"
+msgstr "Z ciê¿arem"
+
+#: ../src/plugins.c:1551
+msgid "After selected builtin monitor"
+msgstr "Po wybranym wbudowanym monitorze"
+
+#: ../src/plugins.c:1559
+msgid "Plugin Defaults"
+msgstr "Domy¶lne warto¶ci wtyczek"
+
+#: ../src/plugins.c:1662
+msgid "from command line"
+msgstr "z linii poleceñ"
+
+#: ../src/plugins.c:1719
+msgid "Plugin"
+msgstr "Wtyczka"
+
+#: ../src/plugins.c:1740
+msgid "Place"
+msgstr "Miejsce"
+
+#: ../src/plugins.c:1747
+msgid "Install Log"
+msgstr "Log instalacji"
+
+#: ../src/plugins.c:1755
+msgid "No plugins found."
+msgstr "Nie znaleziono wtyczek."
+
+#: ../src/proc.c:544 ../src/proc.c:644 ../src/proc.c:935
+msgid "Load"
+msgstr "Obci±¿enie"
+
+#: ../src/proc.c:547
+msgid "Forks"
+msgstr "Rozwidlenia"
+
+#: ../src/proc.c:556
+msgid "Average process load per minute"
+msgstr "¦rednie obci±¿enie procesami na minutê"
+
+#: ../src/proc.c:658 ../src/proc.c:928
+msgid "Users"
+msgstr "U¿ytkownicy"
+
+#: ../src/proc.c:670 ../src/proc.c:921
+msgid "Processes"
+msgstr "Procesy"
+
+#: ../src/proc.c:873
+msgid "<h>Proc Chart"
+msgstr "<h>Wykres procesów"
+
+#: ../src/proc.c:875
+msgid "The krell shows process forks with a full scale value of 10 forks.\n"
+msgstr ""
+"Krell pokazuje rozwidlenia procesu z warto¶ci± skali równ± 10 rozwidleñ\n"
+
+#: ../src/proc.c:876
+msgid ""
+"While both load and fork data are drawn on the chart, the grid\n"
+"resolution can be set for load only.  The resolution per grid for forks is\n"
+"fixed at 10 when using the auto number of grids mode, and at 50 divided by\n"
+"the number of grids when using a fixed number of grids mode.\n"
+msgstr ""
+"Dopóki dane obci±¿enia i rozwidlenia rysowane s± na wykresie,\n"
+"rozdzielczo¶æ siatki mo¿na ustawiæ tylko dla obci±¿enia. Rozdzielczo¶æ na\n"
+"liniê dla rozwidleñ jest sta³a i ma warto¶æ 10 w trybie automatycznego\n"
+"skalowania oraz 50 dzielone przez liczbê linii gdy u¿ywana jest sta³a\n"
+"ilo¶æ linii.\n"
+
+#: ../src/proc.c:883
+msgid "\t$L    maximum chart value (load)\n"
+msgstr "\t$L    maksymalna warto¶æ wykresu (obci±¿enie)\n"
+
+#: ../src/proc.c:884
+msgid "\t$F    maximum chart value (forks)\n"
+msgstr "\t$F    maksymalna warto¶æ wykresu (rozwidlenia)\n"
+
+#: ../src/proc.c:885
+msgid "\t$l    load\n"
+msgstr "\t$l    obci±¿enie\n"
+
+#: ../src/proc.c:886
+msgid "\t$f    forks\n"
+msgstr "\t$f    rozwidlenia\n"
+
+#: ../src/proc.c:887
+msgid "\t$p    processes\n"
+msgstr "\t$p    procesy\n"
+
+#: ../src/proc.c:888
+msgid "\t$u    users\n"
+msgstr "\t$u    u¿ytkownicy\n"
+
+#: ../src/proc.c:909
+msgid "Enable Proc chart"
+msgstr "Wykres Proc w³±czony"
+
+#: ../src/proc.c:957
+msgid "\\f$L\\r\\f$F \\w88\\b\\p\\a$p\\f procs\\n\\e$u\\f users"
+msgstr "\\f$L\\r\\f$F \\w88\\b\\p\\a$p\\f procs\\n\\e$u\\f users"
+
+#: ../src/proc.c:972 ../src/proc.c:1001 ../src/proc.c:1028
+msgid "Proc"
+msgstr "Procesy"
+
+#: ../src/sensors.c:715
+#, fuzzy, c-format
+msgid "Can't find a %s panel to relocate sensor to."
+msgstr "Nie mo¿na znale¼æ panelu %s dla przeniesienia sensora."
+
+#: ../src/sensors.c:1599 ../src/sensors.c:2889
+msgid "Sensors"
+msgstr "Czujniki"
+
+#: ../src/sensors.c:1671
+msgid "Sensor Volt Limits"
+msgstr "Ograniczenia czujnika napiêcia"
+
+#: ../src/sensors.c:1675
+msgid "Sensor Temperature Limits (in displayed degree units)"
+msgstr "Ograniczenia czujnika temperatury (w wy¶wietlanych jednostkach)"
+
+#: ../src/sensors.c:1679
+msgid "Sensor Fan RPM Limits"
+msgstr "Ograniczenia czujnika obrotów wentylatora"
+
+#: ../src/sensors.c:2011 ../src/sensors.c:2798
+msgid "Temperatures"
+msgstr "Temperatury"
+
+#: ../src/sensors.c:2018
+msgid "Fans"
+msgstr "Wentylatory"
+
+#: ../src/sensors.c:2025 ../src/sensors.c:2807
+msgid "Voltages"
+msgstr "Napiêcia"
+
+#: ../src/sensors.c:2620
+msgid ""
+"Can't read sensor data from mbmon daemon.\n"
+"Check mbmon port number and '-r' option.\n"
+"Run gkrellm -d 0x80 for debug output.\n"
+msgstr ""
+"Nie mo¿na odczytaæ danych z demona mbmon.\n"
+"Sprawd¼ numer portu mbmon i opcjê \"-r\".\n"
+"Uruchom gkrellm -d 0x80 w celu debugowania.\n"
+
+#: ../src/sensors.c:2642
+msgid "<b>No sensors detected.\n"
+msgstr "<b>Nie wykryto czujników.\n"
+
+#: ../src/sensors.c:2649
+msgid ""
+"Enter data scaling factors and offsets for the sensors if the default\n"
+"values are not correct for your motherboard.  Do a man gkrellm or\n"
+"see the GKrellM README for more information.\n"
+msgstr ""
+"Wprowad¼ wspó³czynniki skalowania i przesuniêcia dla czujników, je¶li \n"
+"standardowe ustawienia nie s± poprawne dla Twojej p³yty. Zajrzyj do \"man \n"
+"gkrellm\" lub pliku README by uzyskaæ wiêcej informacji.\n"
+
+#: ../src/sensors.c:2652
+msgid "Enter a zero factor and a blank label to restore default values.\n"
+msgstr ""
+"Wprowad¼ zerowy wspó³czynnik i pust± etykietê by przywróciæ standardowe "
+"warto¶ci.\n"
+
+#: ../src/sensors.c:2654
+msgid "Drag and drop sensor rows to change the displayed order.\n"
+msgstr ""
+"Przeci±gnij i upu¶æ wiersze czujnika by zmieniæ kolejno¶æ ich wy¶wietlania.\n"
+
+#: ../src/sensors.c:2656
+msgid "Temperature offset values must be in centigrade units.\n"
+msgstr ""
+"Przesuniêcie warto¶ci temperatury musi byæ podane w stopniach Celsjusza.\n"
+
+#: ../src/sensors.c:2659
+msgid "\t$s    current sensor value.\n"
+msgstr "\t$s    warto¶æ aktywnego czujnika.\n"
+
+#: ../src/sensors.c:2660
+msgid "\t$l    sensor label.\n"
+msgstr "\t$l    etykieta czujnika.\n"
+
+#: ../src/sensors.c:2722
+msgid "Sensor"
+msgstr "Czujnik"
+
+#: ../src/sensors.c:2760
+msgid "Factor"
+msgstr "Wspó³czynnik"
+
+#: ../src/sensors.c:2765
+msgid "Offset"
+msgstr "Przesuniêcie"
+
+#: ../src/sensors.c:2770
+msgid "Location"
+msgstr "Po³o¿enie"
+
+#: ../src/sensors.c:2802
+msgid "Display fahrenheit"
+msgstr "Poka¿ w stopniach Fahrenheita"
+
+#: ../src/sensors.c:2809
+msgid "Normal with labels"
+msgstr "Zwyk³y z etykietami"
+
+#: ../src/sensors.c:2819
+msgid "Compact with no labels"
+msgstr "Zagêszczony (bez etykiet)"
+
+#: ../src/sensors.c:2844
+msgid "MBmon Daemon Port"
+msgstr "Port demona MBmon"
+
+#: ../src/sensors.c:2849
+msgid ""
+"<small>Daemon command must be: <b>mbmon -r -P port</b>\n"
+"where 'port' must match the port number entered here:</small>"
+msgstr ""
+"<small>Polecenie demona musi mieæ postaæ: <b>mbmon -r -P port</b>\n"
+"gdzie \"port\" musi odpowiadaæ numerowi portu:</small>"
+
+#: ../src/uptime.c:270
+msgid "Enable Uptime"
+msgstr "Czas pracy w³±czony"
+
+#: ../src/uptime.c:277 ../src/uptime.c:287
+msgid "Uptime"
+msgstr "Czas pracy"
+
+#: ../src/utils.c:105
+#, c-format
+msgid "Unterminated quote\n"
+msgstr "Niezakoñczony cudzys³ów\n"
+
+#: ../src/utils.c:225
+#, c-format
+msgid "Cannot create directory: %s\n"
+msgstr "Nie mogê utworzyæ katalogu: %s\n"
+
+#: ../src/winops-win32.c:80
+msgid "GKrellM for Windows"
+msgstr "GKrellM dla Windows"
+
+#: ../src/winops-x11.c:375
+msgid "Exiting because multiple instances option is off.\n"
+msgstr "Wyj¶cie poniewa¿ opcja wielu instancji jest wy³±czona.\n"
+
+#: ../src/winops-x11.c:446
+msgid "Warning: -w flag is ignored when the window dock type is set"
+msgstr "Uwaga: flaga -w jest ignorowana, gdy ustawiony jest typ dokowania okna"
+
+#: ../src/sysdeps/linux.c:3391
+msgid "Use nvclock for NVIDIA GPU temperatures"
+msgstr "U¿ycie nvclock dla temperatur procesora karty graficznej NVIDIA"
+
+#~ msgid "Display 24 hour instead of 12 hour time"
+#~ msgstr "Wy¶wietlanie 24-godzinnego czasu zamiast 12-godzinnego"
+
+#~ msgid "Show seconds instead of am/pm in 12 hour time mode"
+#~ msgstr "W trybie 12-godzinnym sekundy zamiast am/pm"
+
+#~ msgid "Show seconds in 24 hour time mode"
+#~ msgstr "Wy¶wietlanie sekund w trybie 24-godzinnym"
+
+#~ msgid "Format string for FS data display"
+#~ msgstr "£añcuch formatowania wy¶wietlania danych FS"

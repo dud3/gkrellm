@@ -1,0 +1,283 @@
+
+Debian package installation:
+============================
+GKrellM is in the Debian archives, you can install using apt-get:
+
+  apt-get update
+  apt-get install gkrellm
+
+
+
+RedHat package installation:
+============================
+Fresh install:
+  rpm -i gkrellm-X.Y.Z-1.i386.rpm
+or, upgrade
+  rpm -U gkrellm-X.Y.Z-1.i386.rpm
+
+
+
+Installation from source:
+=========================
+First untar the tarball:
+------------------------
+  tar -xvjf gkrellm-X.Y.Z.tar.bz2
+  cd gkrellm-X.Y.Z
+
+Next compile and install GKrellM for your target system.
+BSD systems need to use gmake (GNU make) instead of the BSD make.
+See below for custom gkrellmd server installs and for installs
+into specific directories.
+--------------------------------------------------------
+
+Linux
+-----
+  make
+  make install
+
+
+FreeBSD 2.x
+-----------
+  make freebsd2
+  make install_freebsd
+
+
+FreeBSD 3.x and 4.x or later
+----------------------------
+  make freebsd
+  make install_freebsd
+
+
+NetBSD 2.X, 3.X and later
+---------------------------------
+  make netbsd2
+  make install_netbsd
+
+
+NetBSD 1.5 - 1.6.X
+---------------------------------
+  make netbsd1
+  make install_netbsd
+
+
+OpenBSD
+---------------------------------
+  make openbsd
+  make install_openbsd
+
+Note: install_openbsd makes gkrellm setgid kmem so it can be run non-root, ie:
+  chgrp kmem /usr/local/bin/gkrellm
+  chmod g+sx /usr/local/bin/gkrellm
+
+
+Solaris 2.x (8 tested so far)
+-----------------------------
+  make solaris
+  make install_solaris
+
+Note: install_solaris makes gkrellm setgid sys so it can be run non-root, ie:
+  chgrp sys /usr/local/bin/gkrellm
+  chmod g+s /usr/local/bin/gkrellm
+  (see below for additional Solaris install notes)
+
+
+Windows 2000/XP (Vista is untested)
+-----------------------------
+  make windows
+  make INSTALLROOT=C:\gkrellm install_windows
+
+Needed software for building gkrellm on win32 systems:
+  - MinGW
+  - MSYS (gkrellm Makefiles are NOT compatible with cmd.exe)
+  - GTK >= 2.4 Development files (see http://www.gimp.org/~tml/gimp/win32/)
+  - OpenSSL (optional), GnuTLS is not recommended on win32
+
+Note: Installing gkrellm on windows needs INSTALLROOT set, the default path
+      (/usr/local) probably won't work
+
+
+BSD make Problems
+-----------------
+On BSD systems, errors like:
+    "Makefile", line 21: Missing dependency operator
+result from using BSD make.  You need to use gmake.
+
+If you get the error:
+    ld: invalid command option `-E'
+re-run the make without any link flags, eg:
+    gmake openbsd LINK_FLAGS=
+
+
+==========================================================================
+Customizing the install directory locations
+-------------------------------------------
+The default install is under the INSTALLROOT /usr/local, and this is the
+default directory install tree:
+
+/usr/local                        INSTALLROOT
+          /bin/                    both gkrellm and gkrellmd
+          /include/gkrellm2/       development include files
+          /share/locale/XX/        LC_MESSAGES/gkrellm.mo (XX is cs, de, ...)
+          /man/man1/               gkrellm.1 and gkrellmd.1
+          /lib/pkgconfig/          gkrellm.pc
+
+The INSTALLROOT and/or individual install directory locations may be changed.
+For example, use INSTALLROOT to install everything under /usr:
+
+    make install INSTALLROOT=/usr
+
+For package maintainers convenience, INSTALLROOT may be constructed from
+DESTDIR and PREFIX.  So if INSTALLROOT is not specified, you can then
+set either or both of DESTDIR and PREFIX to construct your effective
+INSTALLROOT.  For example, a /foo/usr INSTALLROOT would result from:
+
+    make install DESTDIR=/foo PREFIX=/usr
+
+For finer grained control of individual install directories, use INSTALLDIR
+(for gkrellm), INCLUDEDIR, MANDIR (for gkrellm.1), LOCALEDIR, SINSTALLDIR
+(for gkrellmd), and SMANDIR (for gkrellmd.1).  When a DIR variable is given,
+INSTALLROOT is ignored for that directory and the complete directory path
+must be given.
+
+For example, this command installs under /usr for all except the gkrellmd
+server which is put in /opt/sbin:
+
+    make install INSTALLROOT=/usr SINSTALLDIR=/opt/sbin
+
+The install of i18n translation files is additionally sensitive to the
+environment variable LOCALEDIR if it set.  A command line LOCALEDIR takes
+precedence over an environment variable LOCALEDIR. See the po/README file
+for examples.  Also, the install of translation files may be omitted with:
+
+    make install enable_nls=0
+
+
+==========================================================================
+Custom gkrellmd server installs:
+--------------------------------
+1) The default top level make will compile a gkrellmd server using glib2.
+   However, a gkrellmd server using glib-1.2 can be compiled for systems
+   without the glib2 version with:
+
+      make glib12=1
+
+2) If the target server has glib installed but no gtk or Xlibs, then gkrellmd
+   may be built on the target server by working in the gkrellmd server
+   directory:
+
+      cd gkrellm-2.x.y/server
+
+      make
+   or
+      make glib12=1
+
+      make install
+
+   If not on Linux, remember to specify a make target as for a top level
+   make.  That is, use "make freebsd", etc and "make install_freebsd", etc.
+   This installs gkrellmd into /usr/local/bin and gkrellmd.1 into
+   /usr/local/share/man/man1, but if you want to install somewhere else,
+   do for example:
+
+      make SMANDIR=/usr/share/man/man1 SINSTALLDIR=/usr/bin install
+or
+      make INSTALLROOT=/usr install
+
+
+==========================================================================
+Other make flags:
+-----------------
+To compile a binary with debugging symbols (-g compiler option):
+
+	make debug=1
+
+
+
+============================================================================
+Making a RPM package from the source tarball:
+---------------------------------------------
+
+Copy the gkrellm.spec file from inside the tarball to:
+
+    /usr/src/RPM_DIR/SPECS
+
+where you should substitute for "RPM_DIR" something like "redhat", "RPMS", or
+whatever is appropriate for your distribution.
+Make this "RPM_DIR" substitution in the steps below.
+Also, it's possible some distributions will require an edit of the
+gkrellm.spec "Requires" line.  For example, on Mandrake you may have
+to change it to:
+Requires:	gtk+2.0 >= 2.0, glib2 >= 2.0
+
+If your rpm can't handle tar.bz2 files, you need to convert the source tarball
+gkrellm-X.Y.Z.tar.bz2 into a gkrellm-X.Y.Z.tar.gz with an untar and tar.
+
+Copy the gkrellm source tarball to:
+
+    /usr/src/RPM_DIR/SOURCES
+
+Then make the RPMs:
+
+    cd /usr/src/RPM_DIR/SPECS
+    rpm -ba --clean gkrellm.spec
+
+Then you should have for a GKrellM version X.Y.Z the RPM packages:
+
+    /usr/src/RPM_DIR/RPMS/$ARCH/gkrellm-X.Y.Z-1.rpm
+    /usr/src/RPM_DIR/SRPMS/gkrellm-X.Y.Z-1.src.rpm
+
+
+
+
+==========================================================================
+==========================================================================
+Solaris install notes:
+----------------------
+Tested to be built as 32bit application with gcc on UltraSPARC only.
+It should work on both 32bit and 64bit kernel. The Solaris port currently
+utilizes kvm to get a value for proc.n_forks. It imposes a few restrictions: 
+
+1) gkrellm for Solaris should be setgid sys as mentioned above. 
+
+2) On Solaris, 32bit binary of gkrellm cannot run on 64bit kernel while 
+   maintaining its full functionality and vice versa. 
+
+   a) It cannot acquire "number of forks" on a different data model of 
+      the kernel image from its own origin (i.e. binary incompatibility 
+      between 32bit and 64bit). This is caused by restriction of kvm just
+      as mentioned above. For more details, refer to kvm_open(3kvm).
+   b) Since a single driver called 'sd' takes control over both hard drives 
+      and cdroms, "Disks" monitor includes not just i/o activity of hard 
+      drives but of CDROM or CD-RW's. I don't like this, so a function 
+      called isharddisk() is implemented in order to exclude i/o activity 
+      of removable media. If you don't use "composite disk" for monitoring 
+      and pick drives of your interest, this wouldn't bother you anyway.
+
+   Failure of these functions is silently ignored and it proceeds without
+   the failed functionalities. Separate executable should be built for each 
+   data models (32bit and 64bit kernel) to enjoy full functionality 
+   including ones described above. 
+
+Functionalities not supported currently are: Battery, CPU/Motherboard 
+sensor, Net Timer (PPP) and swap in/out chart.
+
+
+==========================================================================
+libgtop install notes:
+----------------------
+If you have libgtop (plus development libs) installed, you can make
+a version that uses libgtop to read system data.   A libgtop version
+will not have a disk, internet, or battery monitor because libgtop does not
+report these stats.
+
+--If you have gnome (plus libgnome-dev) and either libgtop 1.1.x or 1.0.x:
+	make gnome-gtop
+	make install
+
+--If you have libgtop 1.1.x:
+	make gtop
+	make install
+
+--If you have libgtop 1.0.x edit the top level Makefile to uncomment GTOP lines
+	make gtop1.0
+	make install

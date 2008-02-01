@@ -1,0 +1,14 @@
+Thanks to all who have submitted patches and translations for GKrellM.
+
+Credits for the patches and the translations are in the Changelog under
+the version for which the submissions were made.
+
+GKrellM was originally written to run under Linux, but OS dependent code
+has been contributed to allow GKrellM to run under other systems:
+
+	Darwin: Ben Hines <bhines--at--alumni.ucsd.edu>
+	FreeBSD: Hajimu UMEMOTO <ume--at--FreeBSD.org>
+	NetBSD/OpenBSD: Anthony Mallet <anthony.mallet--at--useless-ficus.net>
+	Solaris: Daisuke Yabuki <dxy--at--acm.org>
+	Windows: Bill Nalen <bill--at--nalens.com>
+	         Stefan Gehn <metz81--at--web.de>

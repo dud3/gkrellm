@@ -1,0 +1,1162 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<head>
+    <title>GKrellM Themes Reference</title>
+</head>
+
+<body background="paper1.gif">
+
+<h2 align=center>GKrellM Themes Reference</h2>
+
+<a href="Changelog-themes.html"
+	name="Changelog-themes.html">Changelog-themes</a> <br>
+
+<h3>Intro</h3>
+<blockquote>
+The GKrellM structure is a framed stack of monitors and there are two
+monitor types, Charts and Meters, which have background images applied
+to drawing areas.  Charts have two drawing areas, the chart area and the
+panel area.  Meters have one drawing area, the meter area.
+Most theme images and options are applied at this level and many can
+be specified to apply to a particular Chart or Meter monitor.
+
+<pre>
+      _______________________
+      |_____________________|<- frame
+      | |                 | |
+       .                   .
+      | |-----------------| |
+      | |                 | |  Chart Monitor
+      | |   chart area    | |
+      | |                 | |
+      | |-----------------| |
+      | |   panel area    | |
+      | |-----------------| |
+       .                   .
+       .                   .
+      | |-----------------| |
+      | |   meter area    | |  Meter Monitor
+      | |-----------------| |
+       .                   .
+      |_|_________________|_|
+      |_____________________|
+</pre>
+
+A theme is a directory containing theme images.  A theme directory may be
+any of several locations:
+<pre>
+	~/.gkrellm2/themes/THEME_NAME/
+	/usr/local/share/gkrellm2/themes/THEME_NAME/
+	/usr/share/gkrellm2/themes/THEME_NAME/
+	/usr/share/themes/THEME_NAME/gkrellm2/
+	~/.themes/THEME_NAME/gkrellm2/
+</pre>
+The last two locations require gkrellm >= 2.1.16 and are compatible with gtk2
+theme locations.  They are
+convenient for installation when making a meta theme including gtk2, gkrellm2,
+and possibly other themes.  The <i>/usr/share/themes/</i> directory component
+may actually be something different depending on how gtk2 was installed.
+<p>
+If a
+"<b>gkrellmrc</b>" file exists in a theme directory, it is parsed for theme
+specific settings such as borders, margins, colors, and krell parameters.
+The theme directory also has images for the frame, background images for
+each of the drawing areas, and detail images (decals and krells) which
+are drawn on panel and meter areas.
+</blockquote>
+
+
+<h3>Terminology</h3>
+<blockquote>
+
+Chart monitor -  A monitor type which has two background areas - a
+chart area with a bg_chart image as a background, and a panel area
+with a bg_panel image as a background.  Labels, decals, and krells
+are drawn in panel areas.
+<p>
+Meter monitor -  A monitor type which has a single background area type - a
+meter area with a bg_meter image as a background.  Labels, decals,
+and krells are also drawn in meter areas.  A meter monitor may have multiple
+meter areas vertically stacked.
+<p>
+Decals are pixmap graphics or text elements such as LEDs, button images,
+toggling labels, etc. usually placed in fixed locations in panel or meter
+areas.  These may have transparency and may overlap.
+<p>
+Krells are pixmap graphics which are programatically moved horizontally
+across the face of a panel or meter area.  They implement meter indicator
+movements, moving animations, and slider controls.  Krells may have
+transparency and they usually move over decals.
+</blockquote>
+
+<h3>Image Structure</h3>
+<blockquote>
+All theme images are either base level images which are in the toplevel
+of the theme directory, or monitor specific theme images which are placed
+in subdirectories of the toplevel.  All base level images have a default
+which will be used if it is not provided in a theme.
+<p>
+Excluding detail and optional images (see below), here is the base set of
+images required for a theme change in GKrellM (.png used as an example).
+<pre>
+	F : frame_top.png
+	f : frame_bottom.png
+	  : frame_left.png
+	  : frame_right.png
+	c : bg_chart.png           a chart area background
+	p : bg_panel.png           a panel area background
+	m : bg_meter.png           a meter area background
+	  : bg_grid.png            a chart area background grid line
+	  : bg_separator.png       a chart area data view separator
+</pre>
+This is a side section view showing how these images are used to build
+GKrellM.  frame_left/right and bg_grid are not shown and not all
+monitors are shown.
+<pre>
+
+   |<--Meters->|<--------Charts----------|<--------Meters---------->|
+ | | Cal | Clk | CPU Chart  |  PPP Chart |Timer|  Mem | Swap |  FS  | |
+ | |     |     |        |   |        |   |     |      |      |      | |
+ o-o\___/-\___/-\______/-----\______/-----\___/-\____/-\____/-\____/o-o
+ | |     |     |        |   |        |   |     |      |      |      | |
+  F   m     m      c      p     c      p    m      m      m      m   f
+</pre>
+The last row shows where background images are applied to the monitors.
+</blockquote>
+
+
+<h3>Theme Image Names</h3>
+<blockquote>
+The background areas, krells, or some monitor detail images can have
+a monitor specific custom image substituted for the base level default
+image.  For a custom image to take effect, it only has to exist in the
+monitor specific subdirectory.
+<p>
+Here is a list showing the image naming structure in a theme directory. 
+Images may be .png as shown or .jpg or .xpm.
+
+<h4>Base level images in the top level of the theme directory</h4>
+<pre>
+frame_top.png
+frame_bottom.png
+frame_left.png
+frame_right.png
+--------------------
+bg_chart.png
+bg_grid.png
+bg_separator.png
+bg_panel.png
+bg_meter.png
+--------------------
+button_panel_in.png
+button_panel_out.png
+button_meter_in.png
+button_meter_out.png
+--------------------
+krell_panel.png
+krell_meter.png
+krell_slider.png
+--------------------
+decal_misc.png
+decal_button.png
+--------------------
+   (optional images for plotting data)
+data_in.png
+data_in_grid.png
+data_out.png
+data_out_grid.png
+--------------------
+   (optional images separating monitors)
+   (Spacer images in the top level dir is new in GKrellM 2.1.0 and 1.3.0)
+spacer_top.png
+spacer_bottom.png
+spacer_top_chart.png
+spacer_bottom_chart.png
+spacer_top_meter.png
+spacer_bottom_meter.png
+--------------------
+   (optional frame images aligned with the top and bottom of monitors)
+   (These are new in GKrellM version 2.1.0 and 1.3.0)
+cap_top_left_chart.png
+cap_bottom_left_chart.png
+cap_top_right_chart.png
+cap_bottom_right_chart.png
+cap_top_left_meter.png
+cap_bottom_left_meter.png
+cap_top_right_meter.png
+cap_bottom_right_meter.png
+</pre>
+
+<h4>Custom images in the theme subdirectories</h4>
+
+Builtin Chart monitor theme subdirectories are:<br>
+&nbsp &nbsp &nbsp &nbsp <i>cpu, disk, inet, net, proc</i><br>
+
+Builtin Meter monitor theme subdirectories are:<br>
+&nbsp &nbsp &nbsp &nbsp <i>apm, cal, clock, fs, host, mail,
+mem, timer, uptime </i> <br>
+The Battery monitor was originally named APM and the theme subdirectory
+for it remains "apm" to avoid breaking themes.
+<p>
+Plugins will each have their own theme subdirectory which can be
+determined from the plugin documentation.
+<p>
+All builtin or plugin Chart monitor theme subdirectories may have the
+custom images:
+<pre>
+	bg_chart.png
+	bg_grid.png
+	bg_panel.png
+	krell.png
+	spacer_top.png
+	spacer_bottom.png
+</pre>
+
+All builtin or plugin Meter monitor theme subdirectories may have the
+custom images (however, not all may use the krell.png):
+<pre>
+	bg_meter.png	(bg_panel.png is accepted for convenience)
+	krell.png
+	spacer_top.png
+	spacer_bottom.png
+</pre>
+
+In addition to the above custom images, each builtin or plugin may
+have additional images which are extension to the theme.  And they
+may also accept custom Style, integer, string, or image border settings
+in the gkrellmrc.  Plugins should document what these images and
+custom settings are and how they are used.  The builtin theme gkrellmrc
+settings will be listed later in the gkrellmrc section, while the builtin
+image extensions are listed here:
+<pre>
+cpu:
+	cpu/nice.png
+	cpu/nice_grid.png
+
+net:
+	net/decal_net_leds.png
+
+mail:
+	mail/decal_mail.png
+	mail/krell_penguin.png
+
+mem:
+	mem/krell_buffers.png
+	mem/krell_cache.png
+
+sensors:
+	sensors/bg_volt.png
+
+timer:
+	timer/decal_timer_button.png
+	timer/bg_timer.png
+</pre>
+</blockquote>
+
+<h3>Theme Image Descriptions</h3>
+<blockquote>
+
+<h4>Background images</h4>
+<ul>
+<li>
+frame_top.png<br>
+	The rendered height can be set with frame_top_height and a border
+	specified with frame_top_border in gkrellmrc.
+	Transparency is allowed.
+</li>
+<li>
+frame_bottom.png<br>
+	The rendered height can be set with frame_bottom_height and a border
+	specified with frame_bottom_border in gkrellmrc.
+	Transparency is allowed.
+</li>
+<li>
+frame_left.png<br>
+	The rendered width can be set with frame_left_width and a border
+	specified with frame_left_border in gkrellmrc.
+	Transparency is allowed.
+</li>
+<li>
+frame_right.png<br>
+	The rendered width can be set with frame_right_width and a border
+	specified with frame_right_border in gkrellmrc.
+	Transparency is allowed.
+</li>
+<li>
+bg_chart.png<br>
+	The background image for the chart area of a chart monitor.
+	A border for this image can be set in the gkrellmrc.
+	To provide custom backgrounds for specific chart monitors,
+	theme subdirectories may have a custom version of this image.
+</li>
+<li>
+bg_grid.png<br>
+	This is a 1 or 2 pixel high image which is pasted onto a bg_chart
+	background image to show grid lines.  Use it to get nice etched
+	grid lines.  It should balance the requirement that it be visible
+	yet not distract the eye from the data that is plotted on the
+	chart.
+	Monitor subdirectories may have a custom version of this image.
+</li>
+<li>
+bg_separator<br>
+	The user may optionally split Charts into data views.   Data views
+	on a chart will be separated by this image.  It will be rendered to
+	bg_separator_height (specified in the gkrellmrc), which should
+	probably be	2 pixels high.
+</li>
+<li>
+bg_panel.png<br>
+	The background image for the panel area of a chart monitor.
+	A border for this image can be set in the gkrellmrc.
+	Monitor subdirectories may have a custom version of this image.
+</li>
+<li>
+bg_meter.png<br>
+	The background image for the meter areas of meter monitors.
+	A border for this image can be set in the gkrellmrc.
+	Meter monitor subdirectories may have a custom version of this image
+	which for convenience may be named bg_panel.png.
+</li>
+</ul>
+<h4>Detail images</h4>
+
+The default theme images will be used for any of these which do not
+exist in your theme directory.
+<ul>
+<li>
+button_panel_out.png</li><li>
+button_panel_in.png<br>
+	These are images for a button type where the images for it are
+	displayed only when the panel area where they exist has the mouse.
+	When this button appears, it is an overlay on a label (or decal)
+	to emphasize that the label has been assigned button status
+	for launching a command.  Since the button is an overlay, it ideally
+	should be a 1 - 3 pixel highlighting border surrounding a transparent
+	interior (see the default theme implementation), but it could be a
+	semi-transparent special effect image depending on the theme. 
+	If these images do not exist in your theme then the button overlay
+	will be constructed with a default gray color and may or may not
+	look good with your theme.
+	Set the border sizes for these images in the gkrellmrc with the
+	button_panel_border option.
+</li>
+<li>
+button_meter_out.png</li><li>
+button_meter_in.png<br>
+	Same as for button_panel except for overlay buttons in a meter area.
+	Set the border with the button_meter_border option in the gkrellmrc.
+	If your bg_meter is similar to bg_panel, then these can be copies of
+	the button_panel_in/out images.
+</li>
+<li>
+krell_panel.png<br>
+	A vertical stack of krell frames.  See the Tips and Comments below.
+	These are used in the bg_panel areas and are intended to be used
+	as fast response indicators on chart monitors.  The default depth
+	is 4, although the middle two frames are identical.  If you make
+	a custom krell_panel, you must tell GKrellM the depth in the
+	gkrellmrc file if it is different from the default.
+	Chart monitor subdirectories may have a custom version of this image,
+	which should be named krell.png
+</li>
+<li>
+krell_meter.png<br>
+	A vertical stack (default depth 1) of krells used in the bg_meter
+	area of meter monitors.  If you make a custom krell_meter, you must
+	tell GKrellM the depth in the gkrellmrc file if it is different
+	from the default.
+	Meter monitor subdirectories may have a custom version of this image,
+	which should be named krell.png
+</li>
+<li>
+krell_slider.png<br>
+	A vertical stack (default depth 7) of krells used in the bg_panel
+	or bg_meter areas of chart or meter monitors.  If you make a custom
+	krell_slider, you must tell GKrellM the depth in the gkrellmrc
+	file if it is different from the default.
+</li>
+<li>
+decal_alarm.png<br>
+	A vertical stack of images that are cycled through when an alarm
+	is triggered.  These images are usually placed behind a text decal
+	to highlight the value that has triggered the alarm.  If you don't
+	have sensor voltage monitoring or the Battery monitor to play with,
+	run "gkrellm -demo" and you will be able to set Battery alerts and
+	see the decal_alarm and decal_warn in action.  Set the number
+	of frames this image has in the gkrellmrc:<br>
+&nbsp &nbsp &nbsp  decal_alarm_frames n
+</li>
+<li>
+decal_warn.png<br>
+	Same as decal_alarm.png, except it is triggered by a less serious
+	warning event.  Set the number of frames for this image in the gkrellmrc:
+&nbsp &nbsp &nbsp  decal_warn_frames n
+</li>
+<li>
+decal_misc.png<br>
+	A vertical stack of decals used for various monitors.  I have tried
+	to make these theme generic, but you could touch them up to better
+	match your theme.
+</li>
+<li>
+decal_button.png<br>
+	A general purpose button image which monitors may scale to different
+	sizes.  There are two vertically stacked button image frames with the
+	button out image on top of the button pressed image.  This image is not
+	used in GKrellM version 1.x.
+</li>
+</ul>
+<h4>Optional data plotting images</h4>
+<ul>
+<li>
+data_in.png</li><li>
+data_in_grid.png</li><li>
+data_out.png</li><li>
+data_out_grid.png<br>
+	If these images exist they are used to plot data on the charts.
+	You can have textured or 3D plotted data to go with your bg_chart.
+	The data_in_grid and data_out_grid should be 1 or 2 pixel high
+	images and are drawn where the plotted data crosses a chart grid line.
+	If any of these do not exist data plotting falls back to using the
+	in_color and out_color specified in gkrellmrc.  Any shading effect you
+	put into a data image should probably track shading on your bg_chart.
+	Shading effects are not very apparent on low data density charts,
+	so get a big compile or net download going to see the effects.
+</li>
+</ul>
+
+<h4>Optional spacer images </h4>
+<ul>
+<li>
+spacer_top.png</li><li>
+spacer_bottom.png</li><li>
+spacer_top_chart.png</li><li>
+spacer_bottom_chart.png</li><li>
+spacer_top_meter.png</li><li>
+spacer_bottom_meter.png<br>
+	Spacer images form a visual separator between monitors.  Spacers are
+	rendered to a default height of 3 pixels unless set otherwise in the
+	gkrellmrc.  Borders for these images are set in the gkrellmrc with
+	spacer_top_border and spacer_bottom_border lines.  Spacer images can
+	be set for all monitors, chart styled monitors only, meter styled only,
+	Theme subdirectories may have a custom version of this image.
+	For example, a meter monitor with two panels can be either of:
+<pre>
+	    without spacers:              with spacers:
+	---------------------         ---------------------    spacer_top
+	|                   |         ---------------------
+	|                   |         |                   |    bg_meter
+	---------------------         ---------------------
+	|                   |         |                   |    bg_meter
+	|                   |         ---------------------
+	---------------------         ---------------------    spacer_bottom
+</pre>
+</li>
+</ul>
+
+<h4>Optional cap images </h4>
+<ul>
+<li>
+cap_top_left_chart.png</li><li>
+cap_bottom_left_chart.png</li><li>
+cap_top_right_chart.png</li><li>
+cap_bottom_right_chart.png</li><li>
+cap_top_left_meter.png</li><li>
+cap_bottom_left_meter.png</li><li>
+cap_top_right_meter.png</li><li>
+cap_bottom_right_meter.png<br>
+	Cap images are drawn on the left and right frames aligned to the
+	top and bottom of each monitor.  Left cap images are left adjusted
+	in the left frame and right cap images are right adjusted in the right
+	frame.  They can be turned off for specific monitors.  Meter monitors
+	can be a single panel so it's probably difficult to design a theme with
+	both top and bottom meter cap images.  These images are not scaled.
+	</li>
+</ul>
+
+<h4>Builtin monitor custom images</h4>
+<ul>
+<li>
+cpu/nice.png</li><li>
+cpu/nice_grid.png<br>
+	Used to plot the cpu nice time data in a color different from either
+	the data_in or data_out colors.  If these images don't exist and the
+	cpu_nice_color and cpu_nice_grid_color strings are not
+	set in the gkrellmrc, cpu nice time will use the data_in color.
+</li><li>
+mail/krell_penguin.png<br>
+	This is the multi frame penguin animation for new mail notification.
+	However, it does not have to be a penguin - any alternative will do.
+	Frame 0 is displayed when there is no new mail to announce and so
+	should be left blank.  When the penguin animation is enabled, new
+	mail to announce triggers the display of frames 1 through depth-2
+	as an animation moving across the width of the mail monitor panel. 
+	Since frame depth-1 is not fully visible, it is not displayed and
+	is left blank.  The depth must be specified in the gkrellmrc:
+&nbsp &nbsp &nbsp StyleMeter mail.krell_depth = d
+</li><li>
+mail/decal_mail.png<br>
+	This is the stationary envelope animation in the mailcheck panel.
+	If envelope animation is enabled, frame 1 is shown by default and
+	a new mail count increase triggers frames 1 through depth-1 to be
+	shown as an animation.
+	If envelope animation is disabled, frame 1 is shown by default and
+	frame 0 is shown when a new mail count increase is detected.
+	This image is applied by default to all themes.
+	The number of frames is specified in the gkrellmrc file:
+&nbsp &nbsp &nbsp decal_mail_frames n
+</li><li>
+mem/krell_buffers.png<br>
+	An extra krell in the mem panel which shows kernel buffers usage.  It
+	should probably be de-emphasized with respect to the main panel krell.
+	Offset and depth parameters for it can be set in the gkrellmrc
+	(see "Notes on making a GKrellM theme" for expand-mode options):
+<pre>
+	    set_integer mem_krell_buffers_yoff y
+	    set_integer mem_krell_buffers_depth d
+	    set_integer mem_krell_buffers_x_hot x
+	    set_string  mem_krell_buffers_expand expand-mode
+</pre>
+</li><li>
+mem/krell_cache.png<br>
+	An extra krell in the mem panel which shows kernel buffers usage.  It
+	should probably be de-emphasized with respect to the main panel krell.
+	Offset and depth parameters for it can be set in the gkrellmrc
+	(see "Notes on making a GKrellM theme" for expand-mode options):
+<pre>
+	    set_integer mem_krell_cache_yoff y
+	    set_integer mem_krell_cache_depth d
+	    set_integer mem_krell_cache_x_hot x
+	    set_string  mem_krell_cache_expand expand-mode
+</pre>
+</li><li>
+net/decal_net_leds.png<br>
+	A vertical stack of 4 leds in the order:<br>
+<pre>
+			rx_off, rx_on, tx_off, tx_on
+</pre>
+	The net LEDs are stenciled onto the bg_panel backgrounds of Net
+	chart monitors.  They may have non rectangular shapes with
+	transparency.  The rx and tx LEDs may overlap in complex ways
+	because they are individually stenciled onto the net bg_panels.
+</li><li>
+timer/bg_timer.png<br>
+	This is a background for the timer part of the TimerButton meter
+	monitor and is superimposed on top of its bg_meter.
+	It can be used to highlight the timer and visually separate it
+	from the button.  A border can be set for it in the gkrellmrc:
+<pre>
+		set_image_border timer_bg_timer l,r,t,b
+</pre>
+</li><li>
+sensors/bg_volt.png<br>
+	A framing background for the voltage values of the voltage sensor
+	monitor.  Run "gkrellm -demo" using the default theme to see it if
+	you don't have hardware sensor monitoring.  You can also set a border
+	for this image in the gkrellmrc:
+<pre>
+		set_image_border sensors_bg_volt l,r,t,b
+</pre>
+	Probably the top and bottom border should be only 1 or 2.
+</li><li>
+timer/decal_timer_button.png<br>
+	This is a vertical stack of button images for the button in the
+	TimerButton monitor.  There are 4 frames in the order:
+<pre>
+		off, pressed, standby, on
+</pre>
+</li>
+</ul>
+</blockquote>
+
+
+<h3>Notes on making a GKrellM theme</h3>
+<blockquote>
+<ol>
+<li>
+	A theme directory can exist anywhere for development purposes and can be
+	specified on the command line:
+<pre>
+       gkrellm -t theme_dir
+</pre>
+   Hit the F5 key to reload a theme as you make changes.
+</li><li>
+	Detail images are drawn on bg_panel or bg_meter backgrounds as
+   layers and each image may have transparency.
+</li><li>
+Krells have several style parameters which you can set in the gkrellmrc.
+   But note: it is possible for a plugin coder to write code such that his
+   krell will not honor these settings.
+<ul>
+<li>
+  krell_yoff<br>
+	Adjusts a krell's vertical offset into a panel or meter area.
+</li><li>
+  krell_depth<br>
+	To build a krell with depth, vertically stack krell images
+     in a krell_panel or krell_meter image and specify the number of frames
+     in a krell_depth line in the gkrellmrc.  The frame displayed will
+     be a function of the depth and horizontal x position of the krell:
+<pre>
+       Depth 1: One frame displayed at all positions.
+             2: Display frame 0 at x = 0, frame 1 at all other positions.
+         n > 2: Display frame 0 at x = 0, frame n-1 at x = full_scale, and
+                remaining frames at positions proportional to x/full_scale.
+</pre>
+</li><li>
+	krell_x_hot<br>
+	This is an offset in pixels from the left edge of a krell image.
+     Krell images are drawn so that the krell x_hot spot is drawn at the
+     current krell position in a panel or meter area (except for bar-mode
+     krells, see below).
+</li><li>
+	krell_left_margin & krell_right_margin<br>
+     The range of krell motion across a panel width may be constrained
+     between a left and right margin where the margins are number of pixels
+     from the left or right panel edge respectively.  These style setings are
+     new in GKrellM version 1.2.9.
+</li><li>
+	krell_expand<br>
+	The default is for a krell to be drawn at the same size
+     as its original image.  But, if a krell_expand value is set, the krell
+     width will be rendered to match the width of the GKrellM window.
+     The krell_expand values are:
+<ul>
+<li>left<br>
+			The krell image area from the left edge to the x_hot spot is
+           rendered to fit the GKrellM monitor width.  Look at the
+           GKrellMSS plugin's VU meter krells for examples of this krell type.
+</li><li>
+	right<br>
+			The krell image area from the x_hot spot to the right edge is
+           rendered to fit the GKrellM monitor width.  This may not be useful.
+</li><li>
+	bar-mode<br>
+			The total krell image width is rendered to fit the GKrellM
+           monitor width.  Additionally, the krell x_hot spot is ignored.
+           Instead, the krell position is indicated by drawing only the portion
+           of the rendered krell image from its left edge to the current
+           krell position.  The visual appearance is then a static "bar"
+           across the panel width with only the left portion up to
+           the current krell position visible.  This is new in version 1.2.5.
+</li><li>
+left-scaled, right-scaled, bar-mode-scaled<br>
+           Same as above except the rendering of the krell width is scaled
+           to fit the width between the krell left and right margins.  If both
+           krell_left_margin and krell_right_margin are zero, these modes are
+           equivalent to left, right, and bar-mode respectively.  These are
+           new in version 1.2.9
+</li><li>
+     To sumarize the difference between a bar-mode and left expanded krell:<br>
+        The bar-mode krell position is fixed on a panel and only a
+          fractional part of its width is drawn.  The draw is from the krell
+          left margin to a right position between the left and right margins
+          that corresponds to the current krell value.
+        The left expanded krell position is moved so its x_hot spot is
+          placed on a panel at a position corresponding to its current krell
+          value.  The entire krell width is drawn but will be clipped at the
+          krell left and right margins.
+</li>
+</ul>
+</ul>
+<li>Run "gkrellm -demo" to see some less frequently used features you may
+   not have available or enabled, such as cpu temps or the battery monitor.
+</li>
+</ol>
+</blockquote>
+
+
+<h3>Theme Alternatives</h3>
+<blockquote>
+
+If there is a line in your gkrellmrc:
+<pre>
+    theme_alternatives = N
+</pre>
+then you can have 1 to N different gkrellmrc and image alternatives
+that can be selected in the Themes tab.  For each alternative N,
+you can have an optional gkrellmrc_N whose options will override any
+set in the base level gkrellmrc.  If any image_N.png exists, it will
+be used in place of the base image.png.  This can be used to give
+some flexibility to your theme.  You could have more than one frame
+style or different font colors and sizes.  For example if you have
+<pre>
+    theme_alternatives = 2
+</pre>
+Then you would have 3 gkrellmrc files:
+<pre>
+	gkrellmrc        (always applied)
+	gkrellmrc_1      (applied after gkrellmrc for theme alternative 1)
+	gkrellmrc_2      (applied after gkrellmrc for theme alternative 2)
+</pre>
+And you can have alternative images selectively applied depending on
+the alternative selected.  If you had these images:
+<pre>
+	bg_meter.png
+	krell.png
+	krell_1.png
+	fs/krell.png
+	fs/bg_meter_2.png
+</pre>
+then, these images would be used:
+<pre>
+Default Alternative 0:
+	Base images: bg_meter krell    fs monitor images: fs/krell bg_meter
+Alternative 1:
+	Base images: bg_meter krell_1  fs monitor images: fs/krell bg_meter
+Alternative 2:
+	Base images: bg_meter krell    fs monitor images: fs/krell fs/bg_meter_2
+</pre>
+</blockquote>
+
+
+<h3>The gkrellmrc file</h3>
+<blockquote>
+
+Adjustments to label positions, margins, label colors/fonts, image borders,
+krell parameters, frame rendering, etc  are made in the gkrellmrc file.
+Setting these values may have a variable effect on different monitors
+because the programmer may use the values to differing degrees.  For
+example, margins may affect a label or some text decal but not affect
+other text decals because the programmer explicitely centers the decal.
+<p>
+The possible gkrellmrc lines are listed here.
+<p>
+The author line credits the theme maker.  This will appear in the Themes
+configuration window.
+<pre>
+	author = "yourname  email address"
+</pre>
+Theme alternatives are possible, see above.
+<pre>
+    theme_alternatives = N
+</pre>
+
+If allow_scaling is true, then net LED position and size is scaled according
+to the chart_width/chart_width_ref ratio.  chart_width_ref is the width
+you use for designing images and placing LEDs.
+<pre>
+	chart_width_ref  = w
+	allow_scaling    = {true | false}
+</pre>
+
+<h4>Frames</h4>
+Frames can be rendered to heights and widths different from the
+drawn image sizes.  0 means use the drawn image width or height.
+<pre>
+	frame_top_height  = h
+	frame_bottom_height  = h
+	frame_left_width  = w
+	frame_right_width  = w
+</pre>
+
+Regions of the bg_chart, bg_panel, or bg_meter images may be overlapped onto
+the left and right frames.  A simple use would be to overlap some bg_chart
+pixels so a chart can have a surrounding bevel outside of the active chart
+drawing area.  This would be used in conjunction with giving the chart a
+top and bottom margin (with StyleChart *.margins) since a top and bottom chart
+margin is converted to a spacer that is also outside the active drawing area.
+The panel overlap values are used for bg_panel, bg_meter, space_top, and
+spacer_bottom images.  These are new in GKrellM version 2.1.0 and 1.3.0.
+<pre>
+	frame_left_chart_overlap = n
+	frame_right_chart_overlap = n
+	frame_left_panel_overlap = n
+	frame_right_panel_overlap = n
+</pre>
+
+Spacers can also overlap the left and right frames.  The overlap values
+are applied to all spacers, but overlapping can be turned off for
+specific monitors.  These are new in GKrellM version 2.1.0 and 1.3.0.
+<pre>
+	frame_left_spacer_overlap = l
+	frame_right_spacer_overlap = r
+	spacer_overlap_off monitor-name
+</pre>
+
+Cap images drawn in the left and right frames can be turned off for
+specific monitors.  This is new in GKrellM version 2.1.0 and 1.3.0.
+<pre>
+	cap_images_off monitor-name
+</pre>
+
+<h4>Borders</h4>
+
+Borders for images are specified with comma separated numbers in the order:<br>
+&nbsp &nbsp &nbsp  <i>left border, right border, top border, bottom border</i>
+<p>
+Borders for the main GKrellM window frame images.
+<pre>
+	frame_top_border = l,r,t,b
+	frame_bottom_border = l,r,t,b
+	frame_left_border = l,r,t,b
+	frame_right_border = l,r,t,b
+</pre>
+Borders for the spacer images.  Only the left and right values are used.
+These are new in GKrellM version 2.1.0 and 1.3.0.
+<pre>
+	spacer_top_border = l,r,x,x
+	spacer_bottom_border = l,r,x,x
+</pre>
+Borders for the frame overlap areas.  Only the top and bottom values are used.
+These are new in GKrellM version 2.1.0 and 1.3.0.
+<pre>
+	frame_left_chart_border = x,x,t,b
+	frame_right_chart_border = x,x,t,b
+	frame_left_panel_border = x,x,t,b
+	frame_right_panel_border = x,x,t,b
+</pre>
+
+<h4>Chart data colors</h4>
+The data colors plotted on the charts are plotted in two different ways.
+If the images data_in.xxx, data_in_grid.xxx, data_out.xxx, and
+data_out_grid.xxx exist in the theme dir, they are used to plot data.
+If they do not exist, then the colors set here are used.
+Grid colors are drawn where the plotted data crosses a grid line.
+This allows grid lines to "show through" on high density charts.
+Colors are hex triplets ( #rrggbb ) or rgb.txt color names.  Put quotes
+around two word rgb_color_names.
+<pre>
+	chart_in_color       = { #rrggbb | rgb_color_name }
+	chart_in_color_grid  = { #rrggbb | rgb_color_name }
+	chart_out_color      = { #rrggbb | rgb_color_name }
+	chart_out_color_grid = { #rrggbb | rgb_color_name }
+</pre>
+
+<h4>Chart view and grid</h4>
+The height of the bg_separator image that separates chart data views.
+<pre>
+	bg_separator_height = 2
+</pre>
+
+Some tweaking on drawing the background grid lines.  0 is normal and 1
+inhibits grid line drawing at the top and bottom of charts.
+This is useful for bg_chart pixmaps that have 3D shading at the top and
+bottom and is a cosmetic effect.
+<pre>
+	bg_grid_mode = {0,1}
+</pre>
+
+The default is to fill chart text rectangle extents with the chart
+background so the text will be more readable on top of data.  Set this
+to draw chart text without first filling (this will also prevent chart
+text caching so there will be slightly increased CPU usage.
+<pre>
+        chart_text_no_fill = {true,false}
+</pre>
+
+<h4>Net monitor LEDS</h4>
+Negative x values here mean justify |x| pixels from right frame.
+Positive x values mean justify x pixels from left frame.
+Where to put the LEDs of each net interface monitor in its panel:
+<pre>
+	rx_led_x = x
+	rx_led_y = y
+	tx_led_x = -x
+	tx_led_y = y
+</pre>
+
+<h4>Animated mail decal</h4>
+Number of frames in the stationary animated mail decal.  Delay is
+number of update ticks between each frame.  Set these if you replace
+the default mail decal envelope animation.
+<pre>
+	decal_mail_frames = 18
+	decal_mail_delay = 1
+</pre>
+
+<h4>Alert decals</h4>
+Number of frames in the alarm and warn decal animation.  Set these if you
+have custom decal_alarm.png or decal_warn.png images.
+<pre>
+	decal_alarm_frames = 10
+	decal_warn_frames = 10
+</pre>
+
+<h4>Slider krell</h4>
+There is a krell image used as a slider control.  Set its depth and x_hot
+if you replace the default.  You can have a bar mode krell slider if you
+set krell_slider_expand to "bar-mode" (for this depth should be 1).
+There is one slider krell for all meter areas and panel areas, so
+positioning style settings can be applied only if a monitor has programmed
+the ability and this would be documented elsewhere.
+<pre>
+	krell_slider_depth = d
+	krell_slider_x_hot = x
+	krell_slider_expand = {left | right | bar-mode}  # New in 1.2.5
+</pre>
+
+<h4>Panel buttons</h4>
+Borders for the panel and meter buttons.
+<pre>
+	button_panel_border = l,r,t,b
+	button_meter_border = l,r,t,b
+</pre>
+
+<h4>Fonts</h4>
+In gkrellm versions prior to 2.2.0 default fonts could be set in the gkrellmrc,
+but this is no longer recognized and users will just config their
+own font preferences if they don't like the built in default.
+
+
+<h4>Spacer height</h4>
+If you use any top or bottom spacer images for monitors you can set something
+other than the default 3 pixel height.
+The height of the spacers may be set for all monitors, or independently
+for chart and meter monitor types, or specifically for individual monitors.
+"mon" is a chart or meter monitor
+style name as listed below for styles (eg, clock, fs, gkrellmms, etc).
+
+<pre>
+	spacer_top_height = h               # set for all monitors
+	spacer_bottom_height = h
+
+	spacer_top_height_chart = h         # set for chart type monitors
+	spacer_bottom_height_chart = h
+
+	spacer_top_height_meter = h         # set for meter type monitors
+	spacer_bottom_height_meter = h
+
+	spacer_top_height mon = h           # set only for monitor "mon"
+	spacer_bottom_height mon = h
+</pre>
+
+<h4>Extension hooks</h4>
+These are ways to get options set for image or feature extensions which
+plugins will use.  Builtins may also use these hooks to set parameters.
+<p>
+If a monitor uses a background image in addition to the standard bg_panel
+or bg_chart and its code allows for the image to be themed,
+a hook to set the border for that image may have been provided.
+It will be necessary to check plugin documentation to find the names, but for
+example, say a plugin "frump" uses an additional background image
+"bg_special.png" and for setting its border has added an image border
+hook "frump_bg_special".  Then if you have made a theme image
+frump/bg_special.png for this plugin, you can set the image border with:
+<pre>
+	set_image_border  frump_bg_special = l,r,t,b
+</pre>
+
+Plugins also have a way to request integer or string initialization
+values from the gkrellmrc.  Again, check for plugin Theme file documentation.
+There could be options like:
+<pre>
+	set_integer frump_some_integer = n
+	set_string  frump_some_color_string = "deep sky blue"
+</pre>
+
+New in version 1.2.9, monitors may also define custom styles by adding
+a custom style name field to the StyleMeter or StylePanel lines.   These are
+probably most useful when a monitor has additional krells.  If these exist
+they should be documented in a plugin's Themes or README file.  For example,
+if the frump plugin has a standard default krell and one extension krell
+which the plugin writer has named "gas-gauge", then the gkrellmrc can first
+set values for the standard krell:
+<pre>
+    StyleMeter  frump.krell_depth = 5
+    StyleMeter  frump.krell_yoff = 2
+    StyleMeter  frump.krell_expand = bar-mode-scaled
+</pre>
+
+The extension gas-gauge krell will use plugin defaults if you do not set
+any of its style values.  But when you set its first style value, it will
+be initialized to the currently set standard krell values.  So you only
+need to specify values that are different from the standard krell, eg:
+<pre>
+    StyleMeter  frump.gas-gauge.krell_yoff = 10
+    StyleMeter  frump.gas-gauge.krell_expand = none
+</pre>
+
+*Note: if you theme a plugin, it is a good idea to include all of its themable
+parameters in your gkrellmrc in case the plugin's default values change and
+break your theme.  Do not rely on the default values.
+
+
+<h4>Builtin monitor extension hooks</h4>
+CPU monitor nice data color (both must be set and they won't be recognized
+if there are theme 	cpu/nice.png images):
+<pre>
+	set_string cpu_nice_color color_string
+	set_string cpu_nice_grid_color color_string
+</pre>
+
+Net timer monitor border for the optional bg_timer.png image.  If bg_timer.png
+exists, it will be placed inside the top margin and bottom margin and at
+the left margin of the timer panel.  The timer display will be placed
+inside of the borders.
+<pre>
+	set_image_border timer_bg_timer 1,1,2,2
+</pre>
+
+Memory monitor krell_buffers optional image:
+<pre>
+	set_integer mem_krell_buffers_yoff 0
+	set_integer mem_krell_buffers_depth 1
+	set_integer mem_krell_buffers_x_hot -1
+	set_string  mem_krell_buffers_expand none   # New in 1.2.5
+</pre>
+Memory monitor krell_cache optional image:
+<pre>
+	set_integer mem_krell_cache_yoff 0
+	set_integer mem_krell_cache_depth 1
+	set_integer mem_krell_cache_x_hot -1
+	set_string  mem_krell_cache_expand none     # New in 1.2.5
+</pre>
+
+
+<h4>Style settings for the monitors</h4>
+Some options can be set to apply globally to areas of all similar monitors,
+or can be set to individually apply only to an area of a specific monitor.
+This is done with Style lines which can have a global '*' scope name or a 
+specific monitor name.  Since these theme specifications begin at
+the monitor drawing area level, there are Style lines for each area.
+There are StyleChart and StylePanel lines for the chart and panel
+areas in the Chart monitors, and a StyleMeter line for the
+meter areas in the Meter monitors.
+<p>
+The builtin Chart monitors are: <i>cpu, proc, disk, inet, net</i>.<br>
+To apply a setting to a particular monitor, replace the '*' with
+the monitor name.  Plugin Chart monitor style names may be available
+which can also be used in place of the '*'.
+<p>
+The builtin Meter monitors are: <i>apm, cal, clock, fs, host, mail, mem,
+   swap, timer, sensors, uptime.</i><br>
+Where for backward compatibility, "apm" is used for the Battery monitor.
+To apply a setting to a particular monitor, replace the '*' with
+the monitor name.  Plugin Meter monitor style names may be available
+which can also be used in place of the '*'.
+<p>
+Notes about Style settings for chart, panel, and meter areas:
+<ul>
+<li>textcolor line settings are:
+<pre>
+	       color shadow_color drawing_effect
+</pre>
+       color or shadow_color may be hex #rrggbb or text rgb_color_names, with
+       two word rgb_color_names enclosed in quotes.
+</li><li>
+	transparency settings are:
+<ul><li> 1 - Forces a totally transparent chart, panel, or meter area.</li>
+     <li>2 - For a partially transparent chart, panel, or meter area.</li>
+</ul>
+</li><li>
+	For charts only: if top and bottom margins are set, the margin regions
+       are converted to spacers and are excluded from the active drawing area.
+</li>
+</ul>
+<p>
+Notes about Style settings for panel or meter areas only:
+<ul>
+<li>label_position is a percent of chart width, so a position of 50
+       would horizontally center a label.
+</li><li>
+<li>label_yoff (new in 2.2.2) is a pixel offset for labels from the top of
+	a panel.  If label_yoff is <= 0 (the default), labels are placed at the
+	panel top margin.  Use this if for some reason you want to control a
+	label's y postion independent of the panel top margin setting.
+	Not all panels use labels, so this may be of special case usefulness.
+</li><li>
+		margins may be used to set all margins at once, or you may individually
+       set left_margin, right_margin, top_margin, bottom_margin.  They are used
+       for positioning of labels and decal.  margins, left_margin, and
+       right_margin are new in 1.2.9.  The old "margin" (no 's') which sets
+       both left and right margin to the same value may still be used.
+       Krell margins are set independently of panel margins with
+       krell_left_margin and krell_right_margin.  Krell vertical positioning
+       uses krell_yoff and there are no top or bottom krell margins.
+</li><li>
+   	krell_depth is the number of frames in the krell image.
+</li><li>
+   	krell_x_hot is an offset into a krell frame. Set to -1 to set x_hot
+	   to center.
+</li><li>
+	krell_yoff is an offset from a panel or meter area top for krell
+       drawing.
+</li><li>
+	scroll_text_cache_off is a boolean that will prevent use of a scroll text
+		decal pixmap for scrolling.  Set this to "yes" if the background
+		of scrolling text does not blend well with your panel background on
+		monitors such as host, fs, mem, and swap.
+		This is new for version
+	    2.2.0 and keep in mind there can be an increased CPU usage tradeoff
+		when this is set.   Various plugins will probably be updated to use
+		scrolling text decals.
+</li><li>A theme can assume the <i>large_font, normal_font, small_font</i>
+		strings used in font settings will be relatively sized as implied
+		by their names even though a user is free to select any font
+		he likes for each.
+</li>
+</ul>
+
+<h4>Style settings applicable to the chart areas of Chart monitors</h4>
+<pre>
+	StyleChart	*.border = l,r,t,b
+	StyleChart	*.margins = x,x,t,b
+	StyleChart	*.textcolor = #rrggbb #rrggbb {shadow | none}
+	StyleChart	*.alt_textcolor = #rrggbb #rrggbb {shadow | none}
+	StyleChart	*.font = {large_font | normal_font | small_font}
+	StyleChart	*.transparency = { 1 | 2 }
+</pre>
+
+<h4>Style settings applicable to the panel areas of Chart monitors</h4>
+<pre>
+	StylePanel	*.border = l,r,t,b
+	StylePanel	*.label_position = { 0-100 | center | none }
+	StylePanel	*.label_yoff = n
+	StylePanel	*.margins = l,r,t,b
+	StylePanel	*.left_margin = m
+	StylePanel	*.right_margin = m
+	StylePanel	*.top_margin = m
+	StylePanel	*.bottom_margin = m
+	StylePanel	*.textcolor = #rrggbb #rrggbb {shadow | none}
+	StylePanel	*.alt_textcolor = #rrggbb #rrggbb {shadow | none}
+	StylePanel	*.font = {large_font | normal_font | small_font}
+	StylePanel	*.alt_font = {large_font | normal_font | small_font}
+	StylePanel	*.krell_depth  = d
+	StylePanel	*.krell_x_hot  = x
+	StylePanel	*.krell_yoff  = y
+	StylePanel	*.krell_expand  = none
+	StylePanel	*.krell_left_margin  = 0
+	StylePanel	*.krell_right_margin  = 0
+	StylePanel	*.transparency = { 1 | 2 }
+</pre>
+
+<h4>Style settings applicable to the meter areas of Meter monitors</h4>
+<pre>
+	StyleMeter	*.border = l,r,t,b
+	StyleMeter	*.label_position = { 0-100 | center | none }
+	StyleMeter	*.label_yoff = n
+	StyleMeter	*.margins = l,r,t,b
+	StyleMeter	*.left_margin = m
+	StyleMeter	*.right_margin = m
+	StyleMeter	*.top_margin = m
+	StyleMeter	*.bottom_margin = m
+	StyleMeter	*.textcolor = #rrggbb #rrggbb {shadow | none}
+	StyleMeter	*.alt_textcolor = #rrggbb #rrggbb {shadow | none}
+	StyleMeter	*.font = {large_font | normal_font | small_font}
+	StyleMeter	*.alt_font = {large_font | normal_font | small_font}
+	StyleMeter	*.krell_depth  = d
+	StyleMeter	*.krell_x_hot  = x
+	StyleMeter	*.krell_yoff  = y
+	StyleMeter	*.krell_expand  = none
+	StyleMeter	*.krell_left_margin  = 0
+	StyleMeter	*.krell_right_margin  = 0
+	StyleMeter	*.transparency = { 1 | 2 }
+	StyleMeter	*.scroll_text_cache_off = { yes | no }
+</pre>
+</blockquote>
+
+
+<hr>
+	<address>
+	<p align=center>
+	<a href="http://www.gkrellm.net" name="www.gkrellm.net">GKrellM Home</a>
+	<br>
+	Bill Wilson <A HREF="mailto:bill--at--gkrellm.net">bill--at--gkrellm.net</A>
+	<br>
+	</p>
+	</address>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+#  -------- gkrellmrc_1 for the GKrellM Default Theme Reference--------
+# These settings override those in the base gkrellmrc when the first theme
+# alternative is selected.
+# Theme alternatives are selected in the Themes configuration page or they
+# can by cycled to by hittin the keys 'n' for next or 'p' for previous
+# when the mouse is in the gkrellm window.
+#
+
+StyleChart *.textcolor #efd097 #000000 shadow
+StyleChart *.alt_textcolor #e4e4e2 #000000 shadow
+
+StylePanel *.textcolor white #000000 shadow
+StylePanel *.alt_textcolor #f0f080 #000000 shadow
+
+StyleMeter *.textcolor = #f2f4d8 #000000 shadow
+StyleMeter *.alt_textcolor #e8e4b2 #000000 shadow
+
+StyleMeter cal.textcolor #f2f4d8 #000000 shadow
+StyleMeter clock.textcolor #e8e4b2 #000000 shadow
+StyleMeter clock.alt_textcolor #f2f4d8 #000000 shadow
+
+StyleMeter fs.alt_textcolor = #f2f4d8 #000000 shadow
+
+StyleMeter host.textcolor #b8c4c2 #000000 shadow
+
+StyleMeter mail.alt_textcolor #e0c0c0 #000000 shadow
+
+StyleMeter mem.alt_textcolor = #f2f4d8 #000000 shadow
+StyleMeter swap.alt_textcolor = #f2f4d8 #000000 shadow
+
+StyleMeter sensors.textcolor = #f0f080 #000000 shadow
+StyleMeter sensors.alt_textcolor = #f2f4d8 #000000 shadow
+
+StyleMeter timer.textcolor #e8e4b2 #000000 shadow
+StyleMeter timer.alt_textcolor #f2f4d8 #000000 shadow
+
+StyleMeter uptime.textcolor #e8e4b2 #000000 shadow
+
+
+StyleMeter gkrellmms.alt_textcolor = black #dcdccc shadow
+
+StyleMeter timers.textcolor #d2d8c0 #000000 shadow
+StyleMeter timers.alt_textcolor = #f2f4d8 #000000 shadow
+
+
+
+#StyleMeter mem.textcolor #282828 #a0b0a0 shadow
+#StyleMeter swap.textcolor #282828 #a0b0a0 shadow

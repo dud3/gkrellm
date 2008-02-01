@@ -1,0 +1,502 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN">
+<html>
+<head>
+    <title>GKrellM Themes Changelog</title>
+</head>
+
+<body background="paper1.gif">
+
+<h2 align=center>GKrellM Themes Changelog</h2>
+
+<pre>
+
+Changes in 2.2.3 - 2.3.1
+------------------------
+None
+
+Changes in 2.2.2
+----------------
+	* Added label_yoff gkrellmrc style variable to control y offset of labels
+	  in case there's a need to control that indepedent of top margin.  Not all
+	  panels use labels, so this may be of special case usefulness.
+	    StylePanel *.label_yoff n
+	    StyleMeter *.label_yoff n
+
+	* Added chart_text_no_fill gkrellmrc variable.
+	  The default is to fill chart text rectangle extents with the chart
+	  background so the text will be more readable on top of data.  Set this
+	  to draw chart text without first filling (this will also prevent chart
+	  text caching so there will be slightly increased CPU usage.
+	    chart_text_no_fill true
+
+
+Changes in 2.2.1
+----------------
+None
+
+Changes in 2.2.0
+----------------
+	* The Pango text drawing now used is slower than GdkFont and to prevent
+	  a noticeable overall increase in gkrellm cpu usage, there's a new
+	  scroll text decal variation for scrolling text applications where Pango
+	  text is drawn onto a pixmap which is then scrolled across the extents
+	  of the decal.
+	  The limitation here is that this scroll text pixmap must have a
+	  background (which is derived from the panel background image) and for
+	  all themes, the pixmap background can't exactly blend with the panel
+	  background as the decal pixmap is scrolled.
+
+	  For most themes this will be at worst only slightly noticeable, but it
+	  might be a problem for some themes with high gradient panel backgrounds.
+	  For these problem cases a theme can turn off use of the scrolling pixmap
+	  with a new gkrellmrc StyleMeter line.  Some example lines:
+
+	      StyleMeter fs.scroll_text_cache_off = yes
+	      StyleMeter gkrellmms.scroll_text_cache_off = yes
+	      StyleMeter *.scroll_text_cache_off = yes
+
+	  The builtin monitors which use scroll text decals are: host, fs,
+	  mem, and swap.
+	  Plugins must be modified to use the scroll text feature, but will
+	  probably include plugins like gkrellmms, gkrellmwho2, ...
+	  The scroll text cache is automatically turned off for themes having
+	  transparent panel backgrounds.
+	* Fonts are no longer set from a theme gkrellmrc file and users will
+	  config their own font preferences as they would likely have to do anyway
+	  since existing gkrellmrc font settings are tailored for GdkFont and
+	  don't display well under Pango.
+
+
+Changes in 2.1.17 - 2.1.28
+--------------------------
+None
+
+Changes in 2.1.16
+----------------------------------------------------------------------
+	* Themes can be installed as /usr/share/themes/THEME_NAME/gkrellm2
+	  and ~/.themes/THEME_NAME/gkrellm2 as an install convenience if
+	  making a gtk2, gkrellm2, ... meta theme.
+
+
+Changes in 2.1.1 - 2.1.15
+-------------------------
+None
+
+Changes in 2.1.0
+----------------------------------------------------------------------
+	* bg_chart and bg_panel/bg_meter images can have left and right areas
+	  which overlap onto the left and right frames.  This allows the frames
+	  to have structures aligned with charts and panels.
+	  The frame_{left|right}_panel_overlap values are applied to the bg_panel
+	  images of chart monitors, and the bg_meter images of meter monitors.
+	  The frame_{left|right}_chart_overlap values are applied to bg_chart
+	  images.  Top/bottom borders can be set for the overlap areas.
+	  New gkrellmrc settings for these ('x' values are ignored):
+	      frame_left_chart_overlap = l
+	      frame_right_chart_overlap = r
+	      frame_left_panel_overlap = l
+	      frame_right_panel_overlap = r
+	      frame_left_chart_border = x,x,t,b
+	      frame_right_chart_border = x,x,t,b
+	      frame_left_panel_border = x,x,t,b
+	      frame_right_panel_border = x,x,t,b
+
+	* Spacer images can now be set for all monitors, for chart styled
+	  monitors only, or for meter styled monitors only. They may still be
+	  set for specific monitors in monitor subdirectories.
+	  Spacers may also have left and right overlap areas and left/right
+	  borders can be set for them.  The overlapping can be turned off at
+	  the monitor level.  The height of the spacers may be set for
+	  all monitors, or independently for chart and meter monitor types, or
+	  specifically for individual monitors.  A spacer for a specific monitor
+	  can be turned off by setting its spacer height to zero. The
+	  spacer_{top|bottom}_border values are used for all spacers and can't
+	  be set individually.
+	  New images:
+	      spacer_top.png              # can now be in top level dir
+	      spacer_bottom.png
+	      spacer_top_chart.png
+	      spacer_bottom_chart.png
+	      spacer_top_meter.png
+	      spacer_bottom_meter.png
+
+	  New gkrellmrc settings for these:
+	      frame_left_spacer_overlap = l
+	      frame_right_spacer_overlap = r
+	      spacer_overlap_off monitor-name
+	      spacer_top_height = h
+	      spacer_bottom_height = h
+	      spacer_top_height_chart = h
+	      spacer_bottom_height_chart = h
+	      spacer_top_height_meter = h
+	      spacer_bottom_height_meter = h
+	      spacer_top_height monitor-name h
+
+	      spacer_bottom_height monitor-name h
+	      spacer_top_border = l,r,x,x
+	      spacer_bottom_border = l,r,x,x
+
+	* Chart top and bottom margins are now used.  If set, margin regions are
+	  converted to spacers which excludes them from the active chart drawing
+	  area.  This in combination with chart frame overlaps can put bezels
+	  around charts.  Set these in the gkrellmrc with:
+
+	      StyleChart *.margins  x,x,t,b
+
+	* New cap images can be drawn on the left and right frames aligned to
+	  the top and bottom of each monitor.  Left cap images are left adjusted
+	  in the left frame and right cap images are right adjusted in the right
+	  frame.  They can be turned off for specific monitors.  Meter monitors
+	  can be a single panel so it's probably difficult to design a theme with
+	  both top and bottom meter cap images.
+	  These images are not scaled and are:
+	      cap_top_left_chart.png
+	      cap_bottom_left_chart.png
+	      cap_top_right_chart.png
+	      cap_bottom_right_chart.png
+	      cap_top_left_meter.png
+	      cap_bottom_left_meter.png
+	      cap_top_right_meter.png
+	      cap_bottom_right_meter.png
+
+	  New gkrellmrc setting:
+	      cap_images_off monitor-name
+
+
+Changes in 2.0.1 - 2.0.4
+----------------------------------------------------------------------
+None
+
+Changes for version 2.0.0
+----------------------------------------------------------------------
+* New image decal_button.xpm for general purpose scaled buttons.
+
+
+
+Changes in 1.3.0
+----------------------------------------------------------------------
+	* Theme changes for version 2.1.0 are backported to version 1.3.0.
+
+Changes in 1.2.10 - 1.2.13
+----------------------------------------------------------------------
+None
+
+Changes in 1.2.9
+----------------------------------------------------------------------
+* Better fine tuning control of object placements in a panel are possible:
+  1) "krell_left_margin" and "krell_right_margin" style values can be set
+     independently of the panel margins used for decals and labels.
+  2) Panel left and right margins can be set to different values with new
+     "left_margin" and "right_margin" style values.  Or, set all panel margins
+     at once with new "margins" style value.  The old "margin" style value
+     still sets left and right margins to the same value.
+* A monitor can define custom styles which are themed by adding a custom
+  style name field to the StyleMeter and StylePanel lines.  For example, there
+  can be things like "StyleMeter monitor.gorn.krell_yoff n" if a monitor
+  codes in a custom style "gorn".  When I release GKrellMSS 0.4, look at its
+  "Themes" file for a working example of these.
+* New set of krell expand modes (left-scaled, right-scaled, and
+  bar-mode-scaled) which scales the krell expand to fit between the
+  krell left and right margins instead of the full monitor width.
+* bar-mode krells use multi frames just like any krell (previously they were
+  limited to one frame).
+
+Search in the Themes doc for "1.2.9" for more information.
+
+
+Changes in 1.2.6 - 1.2.8
+----------------------------------------------------------------------
+None
+
+Changes in 1.2.5
+----------------------------------------------------------------------
+Added a "bar-mode" to the previously undocumented set of krell expand
+modes.  Krell expands are now documented.
+
+Changes in 1.2.1 - 1.2.4
+----------------------------------------------------------------------
+None
+
+
+Changes in 1.2.0
+----------------------------------------------------------------------
+New images:
+	bg_separator.png
+	decal_alarm.png
+	decal_warn.png
+
+	mem/krell_buffers.png
+	mem/krell_cache.png
+
+	cpu/nice_data.png
+	cpu/nice_data_grid.png
+
+or, instead of the cpu/ images, set in the gkrellmrc:
+    set_string cpu_nice_color color_string
+    set_string cpu_nice_grid_color color_string
+
+see the Themes doc.
+
+The theme format introduced a year ago in 0.10.0 is now the only format
+recognized.  There is no longer backward compatibility with themes based
+on the 0.9.x format.
+
+
+Changes in 1.0.8
+----------------------------------------------------------------------
+From Anthony Mallet: "XFree > 4.0.2 introduced a new "iso-10646" encoding
+which gets selected by default when using *-* for the last two fields of the
+font spec, leading to strange glyphs in gkrellm..."
+
+If you have specified fonts in the gkrellmrc this way, you might need
+to change the ending of font strings from "...-*-*"  to "...-iso8859-*"
+
+Changes in 1.0.7
+----------------------------------------------------------------------
+None
+
+Theme changes in 1.0.6
+----------------------------------------------------------------------
+None
+
+
+Theme changes in 1.0.5
+----------------------------------------------------------------------
+* Timer fixed to use margins, so timer_time_x and timer_button_x in gkrellmrc
+  are defunct.  Now all builtins correctly use top_margin and bottom_margin.
+
+
+Theme changes in 1.0.4
+----------------------------------------------------------------------
+None
+
+
+Theme changes in 1.0.3
+----------------------------------------------------------------------
+There are new top_margin and bottom_margin values that can be specified
+for panels and they are to replace the overloaded usage of the top
+and bottom border values of the background image.  Now you can
+(and should) totally decouple margin settings from image border settings.
+The previous "margin" value is unchanged and is still used for both
+the left and right margins.  So, now there is:
+
+StylePanel *.top_margin = m
+StylePanel *.bottom_margin = m
+StyleMeter *.top_margin = m
+StyleMeter *.bottom_margin = m
+
+and so on.  Count on it taking until GKrellM 1.1.0 is released for all
+monitors/plugins to complete the transition to using these new margin
+settings.  So, do this:
+	a) Upgrade to at least GKrellM 1.0.3 and start using top_margin
+	   and bottom_margin for all panels and meters in the gkrellmrc.
+    b) If a particular monitor/plugin does not respond to these margin
+       settings, it is still using the old top/bottom border settings for
+       margins.  So, resort to the old way of adjusting the top/bottom
+       border, but be sure you keep a top/bottom margin setting to match
+       so things will work the same when the monitor/plugin is fixed.
+
+
+Theme changes in 1.0.0 - 1.0.2
+----------------------------------------------------------------------
+1.0.2 adds a voltage monitor which can be themed in a "sensors" subdirectory.
+It has a custom bg_volt.png image.  Search the Themes doc for bg_volt and run
+"gkrellm -demo" to see it if you don't have motherboard sensors.
+
+
+Theme changes in 0.10.1 - 0.10.5
+----------------------------------------------------------------------
+Not much, 0.10.4 fixes a couple of bugs, and 0.10.5 adds set_integer
+and set_string options for plugins to the gkrellmrc.
+
+
+Theme changes in 0.10.0
+----------------------------------------------------------------------
+Plugins are now themeable the same as builtins.  You can put custom bg_panel
+images in plugin subdirectories.  See the Themes.html doc.  This has
+evolved a new theme format.
+
+The change is not dramatic, just rename monitor specific images into
+appropriate subdirectories.
+
+Other new stuff: spacer images, charts and panels can have transparency.
+
+
+0.10.0
+----------------------------------------------------------------
+* Added set_image_border option which gives a way to specify a border for
+  an image extension a monitor may add.  The standard backgrounds bg_panel.png
+  and bg_chart.png have borders set with Style lines.  But if a monitor adds
+  an extension background image (eg. GKrellMMS has an additional background
+  bg_scroll.png for its scrolling title panel) it can add a hook so the image
+  border can be set (GKrellMMS adds the hook 'gkrellmms_bg_scroll').  So
+  if you added the extension image gkrellmms/bg_scroll.png to your theme, you
+  could set the border for it with:
+      set_image_border  gkrellmms_bg_scroll  l,r,t,b
+* Chart, panel, and meter areas can have total or partial transparency.
+  Just add lines to the gkrellmrc.  To get total transparency:
+	StyleChart  *.transparency 1
+  For partial transparency, the root pixmap will show through transparent
+  parts of backgrounds if you put in lines like:
+	StyleMeter  *.transparency 2
+  Since this is not backwards compatible, any theme using this should
+  be submitted in the new 0.10.0 format (no few weeks exception - see
+  next item).
+  Also, any theme which adds plugin theming should not mix formats.  The
+  whole thing should be in the new 0.10.0 format.
+
+* Revised theme code to enable plugins to have monitor specific theme
+  images and gkrellmrc Style settings just like the builtins.
+  So, a new theme organization has evolved, but at least all old themes
+  are still handled so there should be a quiet and painless transition
+  to the new format over time - nothing like the changes for 0.9.x, I'm
+  not doing that again!!
+  A few weeks after this release Maher and I will probably start asking
+  all themes submitted to the theme site to use the new format, but I
+  expect the program will continue to handle 0.9.x formats for a
+  reasonably long time.
+  It's all pretty simple, monitor specific images are now in subdirectories
+  rather than having name qualification.  Just move images to subdirs,
+  Eg, a simple 0.9.x theme:
+		bg_chart.png
+		bg_panel.png
+		bg_meter.png
+		bg_meter_fs.png
+		krell_meter_fs.png
+		krell_meter_mem.png
+  Becomes in 0.10.0:
+		bg_chart.png
+		bg_panel.png
+		bg_meter.png
+		fs/bg_meter.png
+		fs/krell.png
+		mem/krell.png
+  The Themes doc is updated, so take a look.
+
+* New optional monitor specific images: spacer_top.png and spacer_bottom.png
+  and spacer_top_height / spacer_bottom_height lines in gkrellmrc.
+
+0.9.8 - 0.9.10
+------------------------------
+None I can think off.
+
+0.9.7
+----------------------
+* Theme alternatives are possible.   Put a line in your gkrellmrc:
+      theme_alternatives = N
+  and then you can have 1 - N different gkrellmrc and image alternatives
+  that can be selected in the Themes tab.  For each alternative N,
+  you can have an optional gkrellmrc_N whose options will override any
+  set in the base level gkrellmrc.  If any image_N.png exists, it will
+  be used in place of the base image.png.  This can be used to give
+  some flexibility to your theme.  You could have more than one frame
+  style or different font colors and sizes.
+
+0.9.0 - 0.9.3
+------------------------------
+* Run "gkrellm -demo" to force visibility of some less frequently used
+  features: cpu temps, apm monitor, demo of slider in meter and panel...
+* Image name changes and gkrellmrc changes makes this GKrellM version
+  incompatible with themes for previous versions.
+* Themes now loaded without restarting.  Apply button applies.
+* New images: button_meter_in/out and button_panel_in/out
+              bg_slider_panel, bg_slider_meter, krell_slider,
+              decal_timer_button
+* Obsolete images: bg_bordered, bg_spacer, ppp_button, frame_side, and
+  frame_horizontal.
+* Keyboard shortcut aids:
+	F5  Reload current theme
+	F6  Toggle theme image loading debugging
+	f7  Toggle theme gkrellmrc parsing debugging
+# margin Style option for left/right justified labels and decals.  These
+  positions are now decoupled from left/right borders.  Labels are still
+  placed vertically within top/bottom borders.
+
+
+0.8.0	Fri Jan 14, 2000
+----------------------------------------
+* Theme directory is changed from ~/.gkrellm to ~/.gkrellm/themes
+* Use of images frame_horizontal.xxx and frame_side.xxx are deprecated.
+  New themes should not use them and old themes should be converted.  I
+  would like for them to go away.
+* In the gkrellmrc:
+  -> Frame_side_border is replaced with frame_left_border and
+     frame_right_border.  Frame_width is replaced with frame_left_width
+     and frame_right_width.
+  -> New options frame_top_height and frame_bottom_height to allow rendering
+     to dimensions different from the drawn frame_top/bottom images.
+  -> label, meter, time, alt1, alt2 text can have a shadow color specified.
+  -> Colors for individual panel labels can be specified with style lines to
+     override the general colors.
+* Frame images can have transparency.
+* Additional background panel images: bg_meter_uptime, bg_meter_cal,
+  bg_meter_clock, bg_meter_host.
+* As originally intended, decals (net LEDs) can now really overlap.
+------
+Some ideas now possible:
+1) Make a custom bg_meter_host to integrate with  a transparent frame_top
+   for a more impressive top frame.  Likewise with bg_meter_uptime
+   and frame_bottom.
+2) You can create a single combined clock/calendar background by making
+   the larger image and then splitting it into bg_meter_clock and
+   bg_meter_cal.  This could also be done with bg_meter_mem / bg_meter_swap.
+3) Set a panel label_shadow_color bright and label_color dim to get
+   an etched in look for the label.
+4) Overlap net LEDs in various ways:  concentric circles, tri-color LED,
+   some kind of intertwined pattern.
+
+0.7.4
+------------------------------
+* Added frame_side_border to gkrellmrc.
+
+0.7.1 - 0.7.3
+------------------------------
+* None
+
+0.7.0
+----------------------
+* New gkrellmrc author line so theme authors can be credited in the Themes
+  configuration tab.  Just add a line to your gkrellmrc like:
+    author = "yourname  email address"
+
+* Added optional images data_in.xxx, data_in_etch.xxx, data_out.xxx,
+  and data_out_etch.xxx.  If these images exist in the theme directory
+  they will be used to plot data.  Otherwise use the colors specified in
+  gkrellmrc.  Textured or 3D plotted data to go with your bg_chart.xxx
+  is now possible (but is not noticeable with sparse data).
+
+0.6.8
+----------------------
+* I should have made a notice of this for release 0.6.7, but
+  Maher Awamy has put up a GKrellM theme site at www.muhri.net.
+  Check it out, there are some nice themes showing up.
+* String values in gkrellmrc can have quotes around them.  So, font names
+  can have spaces.
+* New options in gkrellmrc: chart_width_ref, allow_scaling.
+* Monitor label midpoint positions can now be specified as a percent
+  of chart_width.
+
+The above allows label positions to be offset to the left (right) of
+center to make room to put both LED's to the right (left) of the label.
+And the LED's size and position can be scaled as chart sizes are changed.
+
+0.6.5
+----------------------
+* Added a large font for the clock/calendar digits.  It uses time_color.
+
+0.6.1
+----------------------
+* I have warned that chart_labels.xxx is subject to change.  It has been
+  done.  It no longer exists (likewise with meter_labels and digits).
+  I draw with X fonts so you can specify fonts and label colors now.
+* Two new optional images: frame_left.xxx and frame_right.xxx
+* The gkrellmrc file is no longer overloaded to handle user preferences
+  and theme settings.  Now user prefs are done in a gui popup and the
+  gkrellmrc file is only for theme stuff.  For this reason, the
+  ~/.gkrellm/gkrellmrc file is no longer read.  A gkrellmrc file is read
+  only from theme directories specified in gkrellm_theme.cfg or on the
+  command line.
+* Some new settings in the gkrellmrc template.
+
+</body>
+</html>

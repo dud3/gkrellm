@@ -1,0 +1,103 @@
+                  Adding a translation to GKrellM
+                  -------------------------------
+
+
+1) Extract the strings from the source
+--------------------------------------
+In the gkrellm po directory, create the .po template (.pot):
+
+	xgettext -k_ -kN_  ../src/*.c  ../src/sysdeps/*.c -o po/gkrellm.pot
+or
+	make enable_nls=1 messages
+
+
+2) Update or create .po files
+-----------------------------
+If there are any existing translations, XX.po files, then merge them:
+
+	msgmerge --no-fuzzy-matching XX.po  gkrellm.pot > XX.po.new
+	mv XX.po.new XX.po
+or
+	make enable_nls=1 merge
+
+or, if this is a new translation, copy the template:
+
+	cp gkrellm.pot XX.po
+
+Note: after you've created your initial .po file, these xgettext and
+msgmerge operations can be done automatically from the top level
+gkrellm directory with the command:
+
+    make msgmerge
+
+
+3) Add translations
+-------------------
+Edit XX.po to add translations for new strings, fix broken translations,
+and touch up fuzzy translations.
+
+
+4) Make and install GKrellM with i18n enabled
+---------------------------------------------
+If make is run from this directory instead of the top level dir, you must
+explicitely enable i18n in all the below examples by adding enable_nls=1
+to the make command:
+
+	make enable_nls=1
+
+And for the install step:
+
+	make install enable_nls=1
+
+i18n will be automatically enabled when make is run from the top level dir.
+
+
+In either case, a make install will for each XX.po file create a XX.mo file
+and copy it to:
+
+	$LOCALEDIR/XX/LC_MESSAGES/gkrellm.mo
+
+If there is no LOCALEDIR environment variable, then the default install
+will be to:
+1) make run from the po directory:
+
+	/usr/share/locale/XX/LC_MESSAGES/gkrellm.mo
+
+2) make run from the top level directory:
+
+	$INSTALLROOT/share/locale/XX/LC_MESSAGES/gkrellm.mo
+
+where the default $INSTALLROOT is /usr.  See the top level Makefile.
+
+
+But, if you want a different explicit install directory, do for example:
+
+	make install LOCALEDIR=/usr/local/share/locale
+
+or (for bash)
+	export LOCALEDIR=/usr/local/share/locale
+	make install
+
+Other export lines:
+	sh:  export LOCALEDIR; LOCALEDIR=/usr/local/share/locale
+	csh: setenv LOCALEDIR /usr/local/share/locale
+
+You can also specify the textdomain package name.  From bash:
+   make install PACKAGE=gkrellm2
+
+============================================================================
+Using a translation
+-------------------
+
+A user must have localizations enabled for a translation to be used.
+To enable a localization, the LANG environment variable should be set
+via the command line or the shell login startup files.
+
+For example, to see the French translation, a user should be able to:
+
+From bash:
+	export LANG=fr_FR
+or from csh
+	setenv LANG fr_FR
+
+If fr_FR does not work, try fr_FR.ISO_8859-1
