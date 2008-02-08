@@ -49,6 +49,14 @@
 
 #include <ntdef.h>
 
+#if defined(UNICODE) ^ defined(_UNICODE)
+#error Inconsistent UNICODE and _UNICODE definition
+#endif
+
+#if !defined(ARRAYSIZE)
+#define ARRAYSIZE(x) (sizeof(x) / sizeof(x[0]))
+#endif
+
 // ***************************************************************************
 // Needed to determine pagefile usage
 // definitions were taken from MinGW include/ddk/ntapi.h because you cannot
@@ -102,8 +110,8 @@ typedef enum PerfKey_T
 
 static gint		numCPUs;
 //static gulong	swapin, swapout;
-static TCHAR netName[MAX_NET_ADAPTERS + 1][MAX_NET_NAME + 1];
-static TCHAR diskName[MAX_DISKS + 1][MAX_DISK_NAME + 1];
+static char netName[MAX_NET_ADAPTERS + 1][MAX_NET_NAME + 1];
+static char diskName[MAX_DISKS + 1][MAX_DISK_NAME + 1];
 static gint numAdapters = 0;
 static int rx[MAX_NET_ADAPTERS + 1];
 static int tx[MAX_NET_ADAPTERS + 1];
@@ -127,6 +135,35 @@ static HCOUNTER netRecCounter[MAX_NET_ADAPTERS + 1];
 static HCOUNTER netSendCounter[MAX_NET_ADAPTERS + 1];
 static PDH_STATUS status;
 
+
+
+/* TODO: group static globals in structs
+typedef struct _GK_DISC
+	{
+	gchar    name[MAX_DISK_NAME + 1];
+	gulong   read;
+	gulong   written;
+	HCOUNTER read_counter;
+	HCOUNTER diskWriteCounter;
+	} GK_DISC;
+
+static GK_DISC s_disk[MAX_DISKS + 1];
+static guint   s_disk_cnt = 0;
+
+
+typedef struct _GK_NET
+	{
+	gchar    name[MAX_NET_NAME + 1];
+	gulong   rx, tx;
+	HCOUNTER recv_counter, send_counter;
+	} GK_NET;
+
+static GK_NET s_net[MAX_NET_ADAPTERS + 1];
+static guint  s_net_cnt = 0;
+*/
+
+
+
 // *****************************************************************
 
 // local function protos
@@ -149,21 +186,21 @@ void gkrellm_sys_main_init(void)
 	int err;
 
 	if (_GK.debug_level & DEBUG_SYSDEP)
-		printf("Starting Winsock\n");
+		_tprintf(_T("Starting Winsock\n"));
 	err = WSAStartup(MAKEWORD(1,1), &wsdata);
 	if (err != 0)
 		{ 
-		printf("Starting Winsock failed with error code %i\n", err);
+		_tprintf(_T("Starting Winsock failed with error code %i\n"), err);
 		return;
 		}
 
 	if (_GK.debug_level & DEBUG_SYSDEP)
-		printf("Opening Pdh\n");
+		_tprintf(_T("Opening pdh-query\n"));
 	status = PdhOpenQuery(NULL, 0, &pdhQueryHandle);
 	if (status != ERROR_SUCCESS || pdhQueryHandle == 0)
 		{
 		if (_GK.debug_level & DEBUG_SYSDEP)
-			printf("Opening Pdh failed with error code %ld\n", status);
+			_tprintf(_T("Opening pdh-query failed with error code %lu\n"), status);
 		pdhQueryHandle = 0;
 		}
 	// get perflib localized key names
@@ -194,7 +231,7 @@ void gkrellm_sys_main_cleanup(void)
 #endif // WIN32_CLIENT
 
     if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Waiting for mail checking thread to end.\n");
+        _tprintf(_T("Waiting for mail checking thread to end.\n"));
 
     while (gkrellm_mail_get_active_thread() != NULL)
     {
@@ -205,7 +242,7 @@ void gkrellm_sys_main_cleanup(void)
 
     // Close PDH query-handle
     if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Closing Pdh\n");
+        _tprintf(_T("Closing Pdh\n"));
     PdhCloseQuery(pdhQueryHandle);
 
     // free up these strings
@@ -217,7 +254,7 @@ void gkrellm_sys_main_cleanup(void)
 
     // stop winsock
     if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Closing Winsock\n");
+        _tprintf(_T("Closing Winsock\n"));
     WSACleanup();
 }
 
@@ -233,14 +270,13 @@ static void win32_read_proc_stat(void)
 
 	if (_GK.debug_level & DEBUG_SYSDEP)
 		{
-		printf("Collecting PDH query data\n");
+		_tprintf(_T("Collecting PDH query data\n"));
 		}
 
 	status = PdhCollectQueryData(pdhQueryHandle);
 	if (status != ERROR_SUCCESS)
 		{
-		printf("Collecting PDH query data failed with status %ld\n",
-		       status);
+		_tprintf(_T("Collecting PDH query data failed with status %lu\n"), status);
 		}
 	}
 
@@ -370,7 +406,7 @@ static gboolean ReadSharedData(void)
 	sens_data_read_tick = gkrellm_get_timer_ticks();
 
 	if (_GK.debug_level & DEBUG_SYSDEP)
-		printf("Reading MBM or SpeedFan data\n");
+		_tprintf(_T("Reading MBM or SpeedFan data\n"));
 
 	// Try getting data from MBM
 	sens_data_valid = ReadMBMSharedData();
@@ -391,7 +427,7 @@ static gboolean ReadMBMSharedData(void)
 	int i, j;
 	int totalCount;
 
-	hSData=OpenFileMapping(FILE_MAP_READ, FALSE, "$M$B$M$5$S$D$");
+	hSData=OpenFileMapping(FILE_MAP_READ, FALSE, _T("$M$B$M$5$S$D$"));
 	if (hSData == 0) 
 		return FALSE;
 
@@ -543,7 +579,7 @@ gboolean gkrellm_sys_sensors_init(void)
 	int i;
 
 	if (_GK.debug_level & DEBUG_SYSDEP)
-		printf("Initializing sensors.\n");
+		_tprintf(_T("INIT sensors\n"));
 
 	//TODO: determine number of sensors at startup? This could cause
 	//      user confusion in case mbm/speedfan is started after gkrellm
@@ -617,7 +653,7 @@ void gkrellm_sys_cpu_read_data(void)
 		status = PdhGetFormattedCounterValue(cpuUserCounter[i], PDH_FMT_LONG, &type, &value);
 		if (status != ERROR_SUCCESS)
 			{
-			printf("Getting PDH-counter (cpu user time) failed with status %ld\n", status);
+			_tprintf(_T("Getting PDH-counter (cpu user time) failed with status %lu\n"), status);
 			return;
 			}
 		else
@@ -628,7 +664,7 @@ void gkrellm_sys_cpu_read_data(void)
 		status = PdhGetFormattedCounterValue(cpuSysCounter[i], PDH_FMT_LONG, &type, &value);
 		if (status != ERROR_SUCCESS)
 			{
-			printf("Getting PDH-counter (cpu sys time) failed with status %ld\n", status);
+			_tprintf(_T("Getting PDH-counter (cpu sys time) failed with status %lu\n"), status);
 			return;
 			}
 		else
@@ -652,49 +688,49 @@ void gkrellm_sys_cpu_read_data(void)
 
 gboolean gkrellm_sys_cpu_init(void)
 	{
-    SYSTEM_INFO sysInfo;
-    int i;
+	SYSTEM_INFO sysInfo;
+	int i;
 	TCHAR buf[PDH_MAX_COUNTER_PATH];
-    TCHAR buf2[10];
+	TCHAR buf2[10];
 
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Initializing CPU monitor.\n");
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		_tprintf(_T("INIT cpu monitoring\n"));
 
-    gkrellm_cpu_nice_time_unsupported();
+	gkrellm_cpu_nice_time_unsupported();
 
-    GetSystemInfo(&sysInfo);
-    numCPUs = sysInfo.dwNumberOfProcessors;
+	GetSystemInfo(&sysInfo);
+	numCPUs = sysInfo.dwNumberOfProcessors;
 
 	if (numCPUs < 1)
-        numCPUs = 1;
+		numCPUs = 1;
 	if (numCPUs > MAX_CPU)
-        numCPUs = MAX_CPU;
+		numCPUs = MAX_CPU;
 
 	if (pdhQueryHandle != 0 && perfKeyList[CpuStart] != NULL && perfKeyList[CpuTime] != NULL)
-	{
-		for (i = 0; i < numCPUs; i++)
 		{
-            _tcscpy(buf, perfKeyList[CpuStart]);
-            _itot(i, buf2, 10);
-            _tcscat(buf, buf2);
-            _tcscat(buf, perfKeyList[CpuTime]);
+		for (i = 0; i < numCPUs; i++)
+			{
+			_tcscpy(buf, perfKeyList[CpuStart]);
+			_itot(i, buf2, 10);
+			_tcscat(buf, buf2);
+			_tcscat(buf, perfKeyList[CpuTime]);
+			status = PdhAddCounter(pdhQueryHandle, buf, 0, &cpuUserCounter[i]);
+			if (status != ERROR_SUCCESS)
+				_tprintf(_T("Failed adding cpu user-time pdh-counter for path '%s', status %ld\n"), buf, status);
+			else if (_GK.debug_level & DEBUG_SYSDEP)
+				_tprintf(_T("Added cpu user-time pdh-counter for path '%s'\n"), buf);
 
-            status = PdhAddCounter(pdhQueryHandle, buf, 0, &cpuUserCounter[i]);
-
-            if (_GK.debug_level & DEBUG_SYSDEP)
-				printf("Initialized cpu %i user portion (%s) with error code %ld\n", i, buf, status);
-
-            _tcscpy(buf, perfKeyList[CpuStart]);
-            _itot(i, buf2, 10);
-            _tcscat(buf, buf2);
-            _tcscat(buf, perfKeyList[CpuSysTime]);
-
-            status = PdhAddCounter(pdhQueryHandle, buf, 0, &cpuSysCounter[i]);
-
-            if (_GK.debug_level & DEBUG_SYSDEP)
-				printf("Initialized cpu %i system portion (%s) with error code %ld\n", i, buf, status);
-        }
-    }
+			_tcscpy(buf, perfKeyList[CpuStart]);
+			_itot(i, buf2, 10);
+			_tcscat(buf, buf2);
+			_tcscat(buf, perfKeyList[CpuSysTime]);
+			status = PdhAddCounter(pdhQueryHandle, buf, 0, &cpuSysCounter[i]);
+			if (status != ERROR_SUCCESS)
+				_tprintf(_T("Failed adding cpu sys-time pdh-counter for path '%s', status %ld\n"), buf, status);
+			else if (_GK.debug_level & DEBUG_SYSDEP)
+				_tprintf(_T("Added cpu sys-time pdh-counter for path '%s'\n"), buf);
+			}
+		}
 
 	gkrellm_cpu_set_number_of_cpus(numCPUs);
 
@@ -723,7 +759,7 @@ void gkrellm_sys_net_read_data(void)
 		status = PdhGetFormattedCounterValue(netRecCounter[i], PDH_FMT_LONG, &type, &value);
 		if (status != ERROR_SUCCESS)
 			{
-			printf("Getting PDH-counter (net recv counter) failed with status %ld\n", status);
+			_tprintf(_T("Getting pdh-counter (net recv counter) failed with status %lu\n"), status);
 			return;
 			}
 		else
@@ -734,7 +770,7 @@ void gkrellm_sys_net_read_data(void)
 		status = PdhGetFormattedCounterValue(netSendCounter[i], PDH_FMT_LONG, &type, &value);
 		if (status != ERROR_SUCCESS)
 			{
-			printf("Getting PDH-counter (net send counter) failed with status %ld\n", status);
+			_tprintf(_T("Getting pdh-counter (net send counter) failed with status %lu\n"), status);
 			return;
 			}
 		else
@@ -759,111 +795,109 @@ gboolean gkrellm_sys_net_isdn_online(void)
 
 
 gboolean gkrellm_sys_net_init(void)
-{
-    DWORD size = 0;
-    DWORD isize = 0;
-    LPTSTR objects = NULL;
-    LPTSTR instances = NULL;
-    LPTSTR instance = NULL;
-    TCHAR buf[1024];
-    int strSize;
-    int i;
-    int adapter = -1;
+	{
+	DWORD objectSize = 0;
+	DWORD instanceSize = 0;
+	int strSize;
+	int i;
+	int adapter = -1;
 
-    // turn off for now
-//	gkrellm_net_add_timer_type_ppp("ppp0");
-//	gkrellm_net_add_timer_type_ippp("ippp0");
+	numAdapters = 0;
 
-    numAdapters = 0;
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Initializing network monitor.\n");
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		_tprintf(_T("INIT network monitoring\n"));
 
 	if (pdhQueryHandle != 0)
-	{
+		{
 		TCHAR pdhIface[128];
 		DWORD pdhIfaceSz = 128;
 		PDH_STATUS stat;
 
 		stat = PdhLookupPerfNameByIndex(NULL, 510, pdhIface, &pdhIfaceSz);
 		if (stat != ERROR_SUCCESS) // fall back to non-translated pdh string
-			_tcscpy(pdhIface, TEXT("Network Interface"));
+			_tcscpy(pdhIface, _T("Network Interface"));
 
-		PdhEnumObjectItems(NULL, NULL, pdhIface, NULL, &size, NULL, &isize, PERF_DETAIL_WIZARD, 0);
-		if (_GK.debug_level & DEBUG_SYSDEP)
-		{
-			printf("Found %ld network objects and %ld network instances.\n", size, isize);
-        }
+		stat = PdhEnumObjectItems(NULL, NULL, pdhIface, NULL, &objectSize, NULL,
+		                          &instanceSize, PERF_DETAIL_WIZARD, 0);
+		if (stat != PDH_MORE_DATA && stat != ERROR_SUCCESS)
+			{
+			_tprintf(_T("Could not enumerate net pdh-counters for path '%s', error %lu\n"), pdhIface, stat);
+			}
+		else if (instanceSize > 0)
+			{
+			TCHAR buf[1024];
+			LPTSTR objects = NULL;
+			LPTSTR instances = NULL;
+			LPTSTR instance = NULL;
 
-		if (size > 0)
-		{
-            ++isize;
-            ++size;
+			++instanceSize;
+			++objectSize;
 
-            objects = (LPTSTR) malloc(sizeof(TCHAR) * size);
-            instances = (LPTSTR) malloc(sizeof(TCHAR) * isize);
+			objects = (LPTSTR) malloc(sizeof(TCHAR) * objectSize);
+			instances = (LPTSTR) malloc(sizeof(TCHAR) * instanceSize);
 
-            PdhEnumObjectItems(NULL, NULL, pdhIface, objects, &size, instances, &isize, PERF_DETAIL_WIZARD, 0);
-            if (_GK.debug_level & DEBUG_SYSDEP)
+			PdhEnumObjectItems(NULL, NULL, pdhIface, objects, &objectSize,
+			                   instances, &instanceSize, PERF_DETAIL_WIZARD, 0);
+
+			for (instance = instances; *instance != 0; instance += lstrlen(instance) + 1)
 				{
-                printf("Enumerated %ld network objects and %ld network instances.\n", size, isize);
-            }
+				++adapter;
+				if (adapter >= MAX_NET_ADAPTERS)
+					{
+					if (_GK.debug_level & DEBUG_SYSDEP)
+						_tprintf(_T("Hit maximum number of network adapters.\n"));
+					break;
+					}
 
-            for (instance = instances; *instance != 0; instance += lstrlen(instance) + 1)
-				{
-                ++adapter;
-                if (adapter >= MAX_NET_ADAPTERS)
-					 {
-                    if (_GK.debug_level & DEBUG_SYSDEP)
-                        printf("Hit maximum number of network adapters.\n");
-                    break;
-                }
+				strSize = MAX_NET_NAME;
+				if (_tcslen(instance) < MAX_NET_NAME)
+					{
+					strSize = _tcslen(instance);
+					}
 
-                strSize = MAX_NET_NAME;
-                if (_tcslen(instance) < MAX_NET_NAME)
-					 {
-                    strSize = _tcslen(instance);
-                }
+				for (i = 0; i < strSize; i++)
+					{
+					if (instance[i] == _T(' ')) 
+						netName[adapter][i] = _T('_');
+					else
+						netName[adapter][i] = instance[i];
+					}
 
-                for (i = 0; i < strSize; i++)
-					 {
-                    if (instance[i] == _T(' ')) 
-                        netName[adapter][i] = _T('_');
-                    else
-                        netName[adapter][i] = instance[i];
-                }
+				netName[adapter][strSize] = _T('\0');
+				/* TODO: determine network type */
+				gkrellm_net_add_timer_type_ppp(netName[adapter]);
 
-                netName[adapter][strSize] = _T('\0');
+				_tcscpy(buf, perfKeyList[NetDevStart]);
+				_tcscat(buf, instance);
+				_tcscat(buf, perfKeyList[NetDevRecv]);
+				status = PdhAddCounter(pdhQueryHandle, buf, 0, &(netRecCounter[adapter]));
+				if (status != ERROR_SUCCESS)
+					_tprintf(_T("Failed adding net recv pdh-counter for path '%s', status %ld\n"), buf, status);
+				else if (_GK.debug_level & DEBUG_SYSDEP)
+					_tprintf(_T("Added net recv pdh-counter for path '%s'\n"), buf);
+				rx[adapter] = 0;
 
-                gkrellm_net_add_timer_type_ppp(netName[adapter]);
+				_tcscpy(buf, perfKeyList[NetDevStart]);
+				_tcscat(buf, instance);
+				_tcscat(buf, perfKeyList[NetDevSend]);
+				status = PdhAddCounter(pdhQueryHandle, buf, 0, &(netSendCounter[adapter]));
+				if (status != ERROR_SUCCESS)
+					_tprintf(_T("Failed adding net send pdh-counter for path '%s', status %ld\n"), buf, status);
+				else if (_GK.debug_level & DEBUG_SYSDEP)
+					_tprintf(_T("Added net send pdh-counter for path '%s'\n"), buf);
+				tx[adapter] = 0;
+				}
 
-                _tcscpy(buf, perfKeyList[NetDevStart]);
-                _tcscat(buf, instance);
-                _tcscat(buf, perfKeyList[NetDevRecv]);
-                rx[adapter] = 0;
-                status = PdhAddCounter(pdhQueryHandle, buf, 0, &(netRecCounter[adapter]));
-                if (_GK.debug_level & DEBUG_SYSDEP)
-                    printf("Added network receive for '%s' interface with status %ld.\n", buf, status);
+			/* Final number of network adapters */
+			numAdapters = adapter + 1;
 
-                _tcscpy(buf, perfKeyList[NetDevStart]);
-                _tcscat(buf, instance);
-                _tcscat(buf, perfKeyList[NetDevSend]);
-                status = PdhAddCounter(pdhQueryHandle, buf, 0, &(netSendCounter[adapter]));
-                tx[adapter] = 0;
-                if (_GK.debug_level & DEBUG_SYSDEP)
-                    printf("Added network transmit for '%s' interface with status %ld.\n", buf, status);
-            } 
+			free(objects);
+			free(instances);
+			}
+		}
 
-            numAdapters = adapter + 1;
-        }
-
-        if (objects != NULL)
-            free(objects);
-        if (instances != NULL)
-            free(instances);
-    }
-
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Found %i interfaces for monitoring.\n", numAdapters);
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		_tprintf(_T("Found %i interfaces for monitoring.\n"), numAdapters);
 
 	return (numAdapters == 0 ? FALSE : TRUE);
 	}
@@ -882,7 +916,7 @@ gchar * gkrellm_sys_disk_name_from_device(gint device_number, gint unit_number,
 	static gchar name[32];
 
 	//TODO: i18n?
-	sprintf(name, "Disk%s", diskName[device_number]);
+	snprintf(name, sizeof(name), "Disk%s", diskName[device_number]);
 	*order = device_number;
 	return name;
 }
@@ -913,7 +947,7 @@ void gkrellm_sys_disk_read_data(void)
 		status = PdhGetFormattedCounterValue(diskReadCounter[i], PDH_FMT_DOUBLE, &type, &value);
 		if (status != ERROR_SUCCESS)
 			{
-			printf("Getting PDH-counter (disk read cnt) failed with status %ld\n", status);
+			_tprintf(_T("Getting PDH-counter (disk read cnt) failed with status %lu\n"), status);
 			return;
 			}
 		readInt = value.doubleValue / _GK.update_HZ;
@@ -921,7 +955,7 @@ void gkrellm_sys_disk_read_data(void)
 		status = PdhGetFormattedCounterValue(diskWriteCounter[i], PDH_FMT_DOUBLE, &type, &value);
 		if (status != ERROR_SUCCESS)
 			{
-			printf("Getting PDH-counter (disk write cnt) failed with status %ld\n", status);
+			_tprintf(_T("Getting PDH-counter (disk write cnt) failed with status %lu\n"), status);
 			return;
 			}
 		writeInt = value.doubleValue / _GK.update_HZ;
@@ -940,94 +974,103 @@ void gkrellm_sys_disk_read_data(void)
 
 gboolean gkrellm_sys_disk_init(void)
 	{
-    DWORD size = 0;
-    DWORD isize = 0;
-    TCHAR buf[1024];
-    int strSize;
-    int i;
-    int disk = -1;
+	DWORD size = 0;
+	DWORD isize = 0;
+	TCHAR buf[1024];
+	int strSize;
+	int i;
+	int diskIndex = -1;
 
-    numDisks = 0;
+	numDisks = 0;
 
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Initializing disk monitor.\n");
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		_tprintf(_T("INIT disk monitoring\n"));
 
 	if (pdhQueryHandle != 0)
-	{
+		{
 		TCHAR pdhDisk[128];
 		DWORD pdhDiskSz = 128;
 		PDH_STATUS stat;
-	    
+		
 		stat = PdhLookupPerfNameByIndex(NULL, 234, pdhDisk, &pdhDiskSz);
-		if (stat != ERROR_SUCCESS) // fall back to non-translated pdh string
-		   _tcscpy(pdhDisk, TEXT("PhysicalDisk"));
+		if (stat != ERROR_SUCCESS) // Fall back to non-translated pdh string
+			_tcscpy(pdhDisk, TEXT("PhysicalDisk"));
 
-        // get number of disks that can be queried
-		PdhEnumObjectItems(NULL, NULL, pdhDisk, NULL, &size, NULL, &isize, PERF_DETAIL_WIZARD, 0);
-		if (size > 0)
-		{
-            LPTSTR objects   = NULL;
-            LPTSTR instances = NULL;
-            LPTSTR instance  = NULL;
+		// Get number of disks that can be queried
+		stat = PdhEnumObjectItems(NULL, NULL, pdhDisk, NULL, &size, NULL, &isize, PERF_DETAIL_WIZARD, 0);
+		if (stat != PDH_MORE_DATA && stat != ERROR_SUCCESS)
+			{
+			_tprintf(_T("Could not enumerate disk pdh-counters for path '%s', error %lu\n"), pdhDisk, stat);
+			}
+		else if (size > 0)
+			{
+			LPTSTR objects   = NULL;
+			LPTSTR instances = NULL;
+			LPTSTR instance  = NULL;
 
-            ++isize;
-            ++size;
+			++isize;
+			++size;
 
-            objects = (LPTSTR) malloc(sizeof(TCHAR) * size);
-            instances = (LPTSTR) malloc(sizeof(TCHAR) * isize);
+			objects = (LPTSTR) malloc(sizeof(TCHAR) * size);
+			instances = (LPTSTR) malloc(sizeof(TCHAR) * isize);
 
-            // get information about disks
-            PdhEnumObjectItems(NULL, NULL, pdhDisk, objects, &size, instances, &isize, PERF_DETAIL_WIZARD, 0);
-
-            for (instance = instances; *instance != 0; instance += lstrlen(instance) + 1)
+			// get information about disks
+			PdhEnumObjectItems(NULL, NULL, pdhDisk, objects, &size, instances, &isize, PERF_DETAIL_WIZARD, 0);
+			for (instance = instances; *instance != 0; instance += lstrlen(instance) + 1)
 				{
-                ++disk;
-                if (disk >= MAX_DISKS)
-                    break;
+				// Ignore total counter, gkrellm provides that functionality
+				if (_strnicmp(_T("_Total"), instance, 6) == 0)
+					continue;
 
-                strSize = min(_tcsclen(instance), MAX_DISK_NAME);
+				++diskIndex;
+				if (diskIndex >= MAX_DISKS)
+					break;
 
-                for (i = 0; i < strSize; i++)
-                {
-                    if (instance[i] == _T(' ')) 
-                        diskName[disk][i] = _T('_');
-                    else
-                        diskName[disk][i] = instance[i];
-                }
-                diskName[disk][strSize] = _T('\0');
+				strSize = min(_tcsclen(instance), MAX_DISK_NAME);
 
-                // assemble object name to pdhQueryHandle
-                _tcscpy(buf, perfKeyList[DiskStart]);
-                _tcscat(buf, instance);
-                _tcscat(buf, perfKeyList[DiskRead]);
-                status = PdhAddCounter(pdhQueryHandle, buf, 0, &(diskReadCounter[disk]));
-                diskread[disk] = 0;
-                if (_GK.debug_level & DEBUG_SYSDEP)
-                    printf("Adding disk %s for read monitoring with status code %ld\n", buf, status);
+				for (i = 0; i < strSize; i++)
+					{
+					if (instance[i] == _T(' ')) 
+						diskName[diskIndex][i] = _T('_');
+					else
+						diskName[diskIndex][i] = instance[i];
+					}
+				diskName[diskIndex][strSize] = _T('\0');
 
-                _tcscpy(buf, perfKeyList[DiskStart]);
-                _tcscat(buf, instance);
-                _tcscat(buf, perfKeyList[DiskWrite]);
-                status = PdhAddCounter(pdhQueryHandle, buf, 0, &(diskWriteCounter[disk]));
-                diskwrite[disk] = 0;
-                if (_GK.debug_level & DEBUG_SYSDEP)
-                    printf("Adding disk %s for write monitoring with status code %ld\n", buf, status);
-            }
+				// assemble object name to pdhQueryHandle
+				_tcscpy(buf, perfKeyList[DiskStart]);
+				_tcscat(buf, instance);
+				_tcscat(buf, perfKeyList[DiskRead]);
+				status = PdhAddCounter(pdhQueryHandle, buf, 0, &(diskReadCounter[diskIndex]));
+				if (status != ERROR_SUCCESS)
+					_tprintf(_T("Failed adding disk read pdh-counter for path '%s', status %ld\n"), buf, status);
+				else if (_GK.debug_level & DEBUG_SYSDEP)
+					_tprintf(_T("Added disk read pdh-counter for path '%s'\n"), buf);
+				diskread[diskIndex] = 0;
 
-            numDisks = disk + 1;
+				_tcscpy(buf, perfKeyList[DiskStart]);
+				_tcscat(buf, instance);
+				_tcscat(buf, perfKeyList[DiskWrite]);
+				status = PdhAddCounter(pdhQueryHandle, buf, 0, &(diskWriteCounter[diskIndex]));
+				if (status != ERROR_SUCCESS)
+					_tprintf(_T("Failed adding disk write pdh-counter for path '%s', status %ld\n"), buf, status);
+				else if (_GK.debug_level & DEBUG_SYSDEP)
+					_tprintf(_T("Added disk write pdh-counter for path '%s'\n"), buf);
+				diskwrite[diskIndex] = 0;
+				}
+			numDisks = diskIndex + 1;
 
-        if (objects != NULL)
-            free(objects);
-        if (instances != NULL)
-            free(instances);
-    }
-    }
+			free(objects);
+			free(instances);
+			}
+		}
 
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Found %i disks for monitoring.\n", numDisks);
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		_tprintf(_T("Found %i disks for monitoring\n"), numDisks);
 
 	return (numDisks == 0 ? FALSE : TRUE);
-}
+	}
+
 
 /* ===================================================================== */
 /* Proc monitor interface */
@@ -1053,7 +1096,7 @@ void gkrellm_sys_proc_read_data(void)
 	status = PdhGetFormattedCounterValue(processCounter, PDH_FMT_LONG, &type, &value);
 	if (status != ERROR_SUCCESS)
 		{
-		printf("Getting PDH-counter (process cnt) failed with status %ld\n", status);
+		_tprintf(_T("Getting PDH-counter (process cnt) failed with status %ld\n"), status);
 		return;
 		}
 	n_processes = value.longValue;
@@ -1061,7 +1104,7 @@ void gkrellm_sys_proc_read_data(void)
 	status = PdhGetFormattedCounterValue(threadCounter, PDH_FMT_LONG, &type, &value);
 		if (status != ERROR_SUCCESS)
 			{
-			printf("Getting PDH-counter (thread cnt) failed with status %ld\n", status);
+			_tprintf(_T("Getting PDH-counter (thread cnt) failed with status %ld\n"), status);
 			return;
 			}
 	n_forks = value.longValue;
@@ -1103,7 +1146,7 @@ void gkrellm_sys_proc_read_users(void)
 	NET_API_STATUS nerr;
 
 	if (_GK.debug_level & DEBUG_SYSDEP)
-		printf("Getting number of logged in users.\n");
+		_tprintf(_T("Getting number of logged in users.\n"));
 
 	nerr = NetWkstaUserEnum(NULL, 0, &ptr, MAX_PREFERRED_LENGTH, &entriesRead,
 	                        &totalEntries, NULL);
@@ -1119,18 +1162,22 @@ void gkrellm_sys_proc_read_users(void)
 gboolean gkrellm_sys_proc_init(void)
 	{
 	if (_GK.debug_level & DEBUG_SYSDEP)
-		printf("Initializing process monitor.\n");
+		_tprintf(_T("INIT process monitoring\n"));
 
 	if (pdhQueryHandle == 0)
 		return FALSE;
 
-	if (_GK.debug_level & DEBUG_SYSDEP)
-		printf("Adding '%s' as process monitor.\n", perfKeyList[NumProcesses]);
 	status = PdhAddCounter(pdhQueryHandle, perfKeyList[NumProcesses], 0, &processCounter);
+	if (status != ERROR_SUCCESS)
+		_tprintf(_T("Failed adding process pdh-counter for path '%s', status %ld\n"), perfKeyList[NumProcesses], status);
+	else if (_GK.debug_level & DEBUG_SYSDEP)
+		_tprintf(_T("Added process pdh-counter for path '%s'\n"), perfKeyList[NumProcesses]);
 
-	if (_GK.debug_level & DEBUG_SYSDEP)
-		printf("Adding '%s' as thread monitor.\n", perfKeyList[NumThreads]);
 	status = PdhAddCounter(pdhQueryHandle, perfKeyList[NumThreads], 0, &threadCounter);
+	if (status != ERROR_SUCCESS)
+		_tprintf(_T("Failed adding thread pdh-counter for path '%s', status %ld\n"), perfKeyList[NumThreads], status);
+	else if (_GK.debug_level & DEBUG_SYSDEP)
+		_tprintf(_T("Added thread pdh-counter for path '%s'\n"), perfKeyList[NumThreads]);
 
 	return TRUE;
 	}
@@ -1228,7 +1275,7 @@ void gkrellm_sys_swap_read_data(void)
 gboolean gkrellm_sys_mem_init(void)
 	{
 	if (_GK.debug_level & DEBUG_SYSDEP)
-		printf("Initialized Memory monitor.\n");
+		_tprintf(_T("INIT memory monitoring\n"));
 	return TRUE;
 	}
 
@@ -1273,7 +1320,7 @@ void gkrellm_sys_battery_read_data(void)
 gboolean gkrellm_sys_battery_init()
 	{
 	if (_GK.debug_level & DEBUG_SYSDEP)
-		printf("Initialized Battery monitor.\n");
+		_tprintf(_T("INIT battery monitoring\n"));
 	return TRUE;
 	}
 
@@ -1283,27 +1330,33 @@ gboolean gkrellm_sys_battery_init()
 /* ===================================================================== */
 
 gboolean gkrellm_sys_fs_fstab_modified(void)
-{
-    return FALSE;
-}
+	{
+	return FALSE;
+	}
+
 
 void eject_win32_cdrom(gchar *device)
-{
-    HANDLE hFile;
-    BOOL err;
-    char buf[25];
-    DWORD numBytes;
+	{
+	HANDLE hFile;
+	BOOL err;
+	TCHAR devPath[MAX_PATH];
+	DWORD numBytes;
 
-	if (!device || strlen(device) == 0)
+	if (!device || device[0] == 0)
 		return;
 
-	sprintf(buf, "\\\\.\\%c:", device[0]);
-	hFile = CreateFile(buf, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0, NULL);
+	/* FIXME: This assumes device names like "D:" */
+	_sntprintf(devPath, ARRAYSIZE(devPath), _T("\\\\.\\%c:"), device[0]);
+	devPath[ARRAYSIZE(devPath) - 1] = 0;
+
+	hFile = CreateFile(devPath, GENERIC_READ,
+	                   FILE_SHARE_READ | FILE_SHARE_WRITE, 0, OPEN_EXISTING, 0,
+	                   NULL);
 	if (hFile != 0 && hFile != INVALID_HANDLE_VALUE)
 		{
 		// this should be safe for non-removable drives
 		err = DeviceIoControl(hFile, FSCTL_DISMOUNT_VOLUME, NULL, 0, NULL, 0,
-			&numBytes, NULL);
+		                      &numBytes, NULL);
 		if (!err)
 			{
 			err = DeviceIoControl(hFile, IOCTL_STORAGE_EJECT_MEDIA, NULL, 0,
@@ -1317,7 +1370,7 @@ void eject_win32_cdrom(gchar *device)
 gboolean gkrellm_sys_fs_init(void) 
 	{
 	if (_GK.debug_level & DEBUG_SYSDEP)
-		printf("Initializing file system monitor.\n");
+		_tprintf(_T("INIT filesystem monitoring\n"));
 	gkrellm_fs_mounting_unsupported();
 	gkrellm_fs_setup_eject(NULL, NULL, eject_win32_cdrom, NULL);
 	return TRUE;
@@ -1328,7 +1381,7 @@ void gkrellm_sys_fs_get_fsusage(gpointer fs, gchar *dir)
 	{
 	BOOL err = 0;
 
-	if (!dir || strlen(dir) <= 0)
+	if (!dir || dir[0] == 0)
 		return;
 
 	ULARGE_INTEGER freeAvailableToCaller;
@@ -1336,7 +1389,8 @@ void gkrellm_sys_fs_get_fsusage(gpointer fs, gchar *dir)
 	ULARGE_INTEGER freeBytes;
 	gulong total, freeCaller, free;
 
-	err = GetDiskFreeSpaceEx(dir, &freeAvailableToCaller, &totalBytes, &freeBytes);
+	/* TODO: Unicode support? */
+	err = GetDiskFreeSpaceExA(dir, &freeAvailableToCaller, &totalBytes, &freeBytes);
 	if (err != 0)
 		{
 		total = EnlargedUnsignedDivide(totalBytes, 1024, 0);
@@ -1347,24 +1401,34 @@ void gkrellm_sys_fs_get_fsusage(gpointer fs, gchar *dir)
 		}
 	else
 		{
-		// may happen on cd/dvd drives, ignore for now
-		//printf("GetDiskFreeSpaceEx() failed on drive %c:, error %d\n", *dir, err);
+		/* TODO: This may happen on cd/dvd drives, ignore for now */
+		/*
+		_tprintf(_T("GetDiskFreeSpaceEx() failed on drive %c:, error %d\n"),
+		         *dir, err);
+		*/
 		}
 	}
 
 
 void gkrellm_sys_fs_get_mounts_list(void)
 	{
-	char buf[1024];
-	char* drive;
-	GetLogicalDriveStrings(1024, buf);
-	for (drive = buf; *drive != 0; drive += lstrlen(drive) + 1)
+	char driveStrings[512];
+	char *drive;
+	DWORD ret;
+	/* TODO: Unicode support? */
+	ret = GetLogicalDriveStringsA(ARRAYSIZE(driveStrings) - 1, driveStrings);
+	if (ret > 0)
 		{
-		if (strcmp("A:\\", drive) != 0 && strcmp("a:\\", drive) != 0 &&
-		    strcmp("B:\\", drive) != 0 && strcmp("b:\\", drive) != 0
-		   )
+		for (drive = driveStrings; *drive != 0; drive += lstrlenA(drive) + 1)
 			{
-			gkrellm_fs_add_to_mounts_list(drive, drive, "");
+			if (_strnicmp("A:\\", drive, 3) != 0
+			    && _strnicmp("B:\\", drive, 3) != 0
+			   )
+				{
+				if (_GK.debug_level & DEBUG_SYSDEP)
+					printf(("Found mounted drive '%s'\n"), drive);
+				gkrellm_fs_add_to_mounts_list(drive, drive, "");
+				}
 			}
 		}
 	}
@@ -1372,21 +1436,27 @@ void gkrellm_sys_fs_get_mounts_list(void)
 
 void gkrellm_sys_fs_get_fstab_list(void)
 	{
-	char buf[1024];
-	char* drive;
-	GetLogicalDriveStrings(1024, buf);
-	for (drive = buf; *drive != 0; drive += lstrlen(drive) + 1)
+	char driveStrings[512];
+	char *drive;
+	DWORD ret;
+	/* TODO: Unicode support? */
+	ret = GetLogicalDriveStringsA(ARRAYSIZE(driveStrings) - 1, driveStrings);
+	if (ret > 0)
 		{
-		if (strcmp("A:\\", drive) != 0 && strcmp("a:\\", drive) != 0 &&
-		    strcmp("B:\\", drive) != 0 && strcmp("b:\\", drive) != 0
-		   )
+		for (drive = driveStrings; *drive != 0; drive += lstrlenA(drive) + 1)
 			{
-			if (_GK.debug_level & DEBUG_SYSDEP)
-				printf("Adding fstab %s\n", drive);
-			gkrellm_fs_add_to_fstab_list(drive, drive, "", "");
+			if (_strnicmp("A:\\", drive, 3) != 0
+			    && _strnicmp("B:\\", drive, 3) != 0
+			   )
+				{
+				if (_GK.debug_level & DEBUG_SYSDEP)
+					printf(("Found fstab drive '%s'\n"), drive);
+				gkrellm_fs_add_to_fstab_list(drive, drive, "", "");
+				}
 			}
 		}
 	}
+
 
 /* ===================================================================== */
 /* INET monitor interfaces */
@@ -1394,6 +1464,8 @@ void gkrellm_sys_fs_get_fstab_list(void)
 
 gboolean gkrellm_sys_inet_init(void)
 {
+	if (_GK.debug_level & DEBUG_SYSDEP)
+		_tprintf(_T("INIT inet port monitoring\n"));
 	return TRUE;
 }
 
@@ -1454,7 +1526,7 @@ time_t gkrellm_sys_uptime_read_uptime(void)
 		status = PdhGetFormattedCounterValue(uptimeCounter, PDH_FMT_LONG, &type, &value);
 		if (status != ERROR_SUCCESS)
 			{
-			printf("Getting PDH-counter (uptime) failed with status %ld\n", status);
+			_tprintf(_T("Getting uptime pdh-counter failed, status %ld\n"), status);
 			return (time_t)0;
 			}
 		l = value.longValue;
@@ -1467,19 +1539,18 @@ time_t gkrellm_sys_uptime_read_uptime(void)
 gboolean gkrellm_sys_uptime_init(void)
 	{
 	if (_GK.debug_level & DEBUG_SYSDEP)
-		printf("Initializing uptime monitor.\n");
+		_tprintf(_T("INIT uptime monitoring\n"));
 
 	if (pdhQueryHandle == 0)
 		return FALSE;
 		
 	status = PdhAddCounter(pdhQueryHandle, perfKeyList[Uptime], 0, &uptimeCounter);
 	if (status != ERROR_SUCCESS)
-		{
-		printf("Adding PDH-counter (uptime) failed with status %ld\n", status);
-		return FALSE;
-		}
+		_tprintf(_T("Failed adding uptime pdh-counter for path '%s', status %ld\n"), perfKeyList[Uptime], status);
+	else if (_GK.debug_level & DEBUG_SYSDEP)
+		_tprintf(_T("Added uptime pdh-counter for path '%s'\n"), perfKeyList[Uptime]);
 
-	return TRUE;
+	return (status == ERROR_SUCCESS ? TRUE : FALSE);
 	}
 
 
@@ -1497,10 +1568,11 @@ gchar *gkrellm_sys_get_host_name(void)
 		int err;
 
 		if (_GK.debug_level & DEBUG_SYSDEP)
-			printf("Retrieving host name.\n");
+			_tprintf(_T("Retrieving host name.\n"));
 
 		err = gethostname(buf, sizeof(buf));
 
+		/* TODO: i18n */
 		if (err != 0)
 			hostname = g_strdup("Unknown");
 		else
@@ -1517,53 +1589,49 @@ gchar *gkrellm_sys_get_host_name(void)
 /* ===================================================================== */
 
 gchar *gkrellm_sys_get_system_name(void)
-{
-	static gboolean	have_it = FALSE;
+	{
+	static gboolean	system_name_fetched = FALSE;
 	char osName[64];
 
-	if (!have_it)
-	{
-    if (_GK.debug_level & DEBUG_SYSDEP)
-        printf("Retrieving system name.\n");
-
-        strcpy(osName, "Unknown");
-
-		if (info.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
+	if (!system_name_fetched)
 		{
+		if (_GK.debug_level & DEBUG_SYSDEP)
+			_tprintf(_T("Retrieving system name.\n"));
+		strcpy(osName, "Unknown");
+		if (info.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS)
+			{
 			if (info.dwMinorVersion == 0)
 				strcpy(osName, "Windows 95");
 			else if (info.dwMinorVersion == 10)
 				strcpy(osName, "Windows 98");
 			else if (info.dwMinorVersion == 90)
 				strcpy(osName, "Windows Me");
-                }
+			}
 		else if (info.dwPlatformId == VER_PLATFORM_WIN32_NT)
-		{
-			if (info.dwMinorVersion == 0)
 			{
+			if (info.dwMinorVersion == 0)
+				{
 				if (info.dwMajorVersion == 6)
 					strcpy(osName, "Windows Vista");
 				else if (info.dwMajorVersion == 5)
 					strcpy(osName, "Windows 2000");
 				else if (info.dwMajorVersion == 4)
 					strcpy(osName, "Windows NT 4.0");
-                }
+				}
 			else if (info.dwMinorVersion == 51)
-			{
+				{
 				strcpy(osName, "Windows NT 3.51");
-                }
+				}
 			else if (info.dwMinorVersion == 1)
-			{
+				{
 				strcpy(osName, "Windows XP");
-            }
-        }
-
-        sname = g_strdup(osName);
-        have_it = TRUE;
-    }
-
-    return sname;
-}
+				}
+			}
+		sname = g_strdup(osName);
+		system_name_fetched = TRUE;
+		}
+	return sname;
+	}
 
 
 /* ===================================================================== */
@@ -1586,8 +1654,9 @@ gboolean gkrellm_sys_sensors_mbmon_supported(void)
 /* ===================================================================== */
 
 
-static void initPerfKeyList(void)
-{
+static void
+initPerfKeyList(void)
+	{
 	int i;
 	for (i = 0; i < PerfKeysSize; i++)
 		{
@@ -1610,10 +1679,11 @@ static void initPerfKeyList(void)
 	placePerfKeyFromReg(DiskStart     , 234, _T("\\") , _T("("));
 	placePerfKeyFromReg(DiskRead      , 220, _T(")\\"), NULL);
 	placePerfKeyFromReg(DiskWrite     , 222, _T(")\\"), NULL);
-}
+	}
 
 
-static void placePerfKeysFromReg(const PerfKey key, unsigned int index1, unsigned int index2)
+static void
+placePerfKeysFromReg(const PerfKey key, unsigned int index1, unsigned int index2)
 	{
 	TCHAR buf[512];
 	TCHAR perfName[512];
@@ -1636,19 +1706,21 @@ static void placePerfKeysFromReg(const PerfKey key, unsigned int index1, unsigne
 			}
 		else
 			{
-			printf("could not find perflib index %d in registry\n", index2);
+			_tprintf(_T("could not find perflib index %d in registry\n"), index2);
 			placePerfKey(key, NULL);
 			}
 		}
 	else
 		{
-		printf("Could not find perflib index %d in registry\n", index1);
+		_tprintf(_T("Could not find perflib index %d in registry\n"), index1);
 		placePerfKey(key, NULL);
 		}
 	}
 
-static void placePerfKeyFromReg(const PerfKey key, unsigned int index,
-	const TCHAR* prefix, const TCHAR* suffix)
+
+static void
+placePerfKeyFromReg(const PerfKey key, unsigned int index, const TCHAR* prefix,
+                    const TCHAR* suffix)
 	{
 	TCHAR buf[512];
 	TCHAR perfName[512];
@@ -1676,13 +1748,14 @@ static void placePerfKeyFromReg(const PerfKey key, unsigned int index,
 		}
 	else
 		{
-		printf("could not find index %d in registry\n", index);
+		_tprintf(_T("could not find index %d in registry\n"), index);
 		placePerfKey(key, NULL);
 		}
 	}
 
 
-static void placePerfKey(const PerfKey key, const TCHAR* value)
+static void
+placePerfKey(const PerfKey key, const TCHAR* value)
 	{
 	size_t strSize;
 	if (((int)key > -1) && ((int)key < PerfKeysSize))
@@ -1698,11 +1771,11 @@ static void placePerfKey(const PerfKey key, const TCHAR* value)
 			{
 			perfKeyList[key] = NULL;
 			}
-		//printf("perfKeyList[ %d ] = '%s'\n", key, perfKeyList[key]);
+		//_tprintf(_T("perfKeyList[ %d ] = '%s'\n"), key, perfKeyList[key]);
 		}
 	else
 		{
-		printf("Invalid placement for key %d; value was '%s'\n", key, value);
+		_tprintf(_T("Invalid placement for key %d; value was '%s'\n"), key, value);
 		}
 	}
 
