@@ -142,6 +142,15 @@ else
 		gkrellm
 endif
 
+macosx: 
+	$(MAKE) STRIP= HAVE_GETADDRINFO=1 \
+		EXTRAOBJS="winops-gtk-mac.o sysdeps-unix.o" \
+		LINK_FLAGS="-Wl,-bind_at_load -framework CoreFoundation" \
+		SYS_LIBS="-lkvm -framework IOKit" \
+		SMC_LIBS="" \
+		UNIXOBJS="" \
+ 		gkrellm
+
 netbsd1:
 	$(MAKE) EXTRAOBJS= SYS_LIBS="-lkvm" \
 		SMC_LIBS="-L/usr/X11R6/lib -lSM -lICE -Wl,-R/usr/X11R6/lib" \
@@ -188,7 +197,7 @@ uninstall:
 	$(RM) $(MANDIR)/$(PACKAGE).1
 	$(RM) $(LIBDIR)/libgkrellm.a
 
-install_darwin:
+install_darwin install_macosx:
 	$(MAKE) install STRIP=
 
 install_freebsd:
@@ -310,6 +319,7 @@ client.o:    client.c $(GKRELLM_H)
 utils.o:     utils.c $(GKRELLM_H)
 sysdeps-unix.o: sysdeps-unix.c $(GKRELLM_H_SYS) $(SYSDEPS_SRC)
 winops-x11.o: winops-x11.c $(GKRELLM_H)
+winops-gtk-mac.o: winops-gtk-mac.c $(GKRELLM_H)
 deprecated.o: deprecated.c $(GKRELLM_H)
 sysdeps/win32.o: sysdeps/win32.c $(GKRELLM_H_SYS)
 winops-win32.o:  winops-win32.c $(GKRELLM_H)

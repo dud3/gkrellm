@@ -131,6 +131,12 @@ darwin:
 		EXTRAOBJS= SYS_LIBS="-lkvm -lmd5" \
 		LINK_FLAGS="-flat_namespace -undefined warning" gkrellmd
 
+macosx: 
+	$(MAKE) STRIP= HAVE_GETADDRINFO=1 \
+		EXTRAOBJS= SYS_LIBS="-lkvm" \
+		LINK_FLAGS="-flat_namespace -undefined warning" \
+		gkrellmd
+
 netbsd1:
 	$(MAKE) EXTRAOBJS= SYS_LIBS="-lkvm" gkrellmd
 
@@ -177,7 +183,7 @@ uninstall:
 	rm -f $(SINSTALLDIR)/$(PACKAGE_D)
 	rm -f $(SMANDIR)/$(PACKAGE_D).1
 
-install_darwin:
+install_darwin install_macosx:
 	$(MAKE) install STRIP=
 
 install_freebsd:

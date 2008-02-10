@@ -161,7 +161,7 @@ install_gkrellm.pc:
 	$(INSTALL) -d $(PKGCONFIGDIR)
 	$(INSTALL) -m $(INCLUDEMODE) -c gkrellm.pc $(PKGCONFIGDIR)
 
-install_darwin: install_gkrellm.pc
+install_darwin install_macosx: install_gkrellm.pc
 	(cd po && ${MAKE} install)
 	(cd src && ${MAKE} install STRIP="")
 	(cd server && ${MAKE} install STRIP="")
@@ -226,6 +226,11 @@ darwin: gkrellm.pc
 		EXTRAOBJS= SYS_LIBS="-lkvm -framework IOKit" \
 		LINK_FLAGS="-prebind -Wl,-bind_at_load -framework CoreFoundation" \
 		gkrellmd )
+
+macosx: gkrellm.pc
+	(cd po && ${MAKE} all)
+	(cd src && ${MAKE} macosx)
+	(cd server && ${MAKE} macosx)
 
 netbsd1: gkrellm.pc
 	(cd po && ${MAKE} all)
