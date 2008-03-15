@@ -674,6 +674,33 @@ read_config(void)
 static void
 usage(void)
 	{
+#if defined(WIN32)
+
+	printf(_("usage: gkrellmd command [options]\n"));
+	printf(_("commands:\n"));
+	printf(_("       --console             run gkrellmd on console (not as a service)\n"));
+	printf(_("       --install             install gkrellmd service and exit\n"));
+	printf(_("       --uninstall           uninstall gkrellmd service and exit\n"));
+	printf(_("   -h, --help                display this help and exit\n"));
+	printf(_("   -v, --version             output version information and exit\n"));
+	printf(_("options (only for command '--console'):\n"));
+	printf(_("   -u, --update-hz F         Monitor update frequency\n"));
+	printf(_("   -m, --max-clients N       Number of simultaneous clients\n"));
+	printf(_("   -A, --address A           Address of network interface to listen on\n"));
+	printf(_("   -P, --port P              Server port to listen on\n"));
+	printf(_("   -a, --allow-host host     Allow connections from specified hosts\n"));
+	printf(_("   -c, --clear-hosts         Clears the current list of allowed hosts\n"));
+	printf(_("       --io-timeout N        Close connection after N seconds of no I/O\n"));
+	printf(_("       --reconnect-timeout N Try to connect every N seconds after\n"
+	         "                             a disconnect\n"));
+	printf(_("   -p,  --plugin name        Enable a command line plugin\n"));
+	printf(_("   -pe, --plugin-enable name Enable an installed plugin\n"));
+	printf(_("       --plist               List plugins and exit\n"));
+	printf(_("       --plog                Print plugin install log\n"));
+	printf(_("   -V, --verbose             increases the verbosity of gkrellmd\n"));
+
+#else
+
 	printf(_("usage: gkrellmd [options]\n"));
 	printf(_("options:\n"));
 	printf(_("   -u, --update-hz F         Monitor update frequency\n"));
@@ -685,27 +712,20 @@ usage(void)
 	printf(_("       --io-timeout N        Close connection after N seconds of no I/O\n"));
 	printf(_("       --reconnect-timeout N Try to connect every N seconds after\n"
 	         "                             a disconnect\n"));
-#if !defined(WIN32)
 	printf(_("       --mailbox path        Send local mailbox counts to gkrellm clients.\n"));
 	printf(_("   -d, --detach              Run in background and detach from terminal\n"));
 	printf(_("   -U, --user username       Change to this username after startup\n"));
 	printf(_("   -G, --group groupname     Change to this group after startup\n"));
-#endif
 	printf(_("   -p,  --plugin name        Enable a command line plugin\n"));
 	printf(_("   -pe, --plugin-enable name Enable an installed plugin\n"));
 	printf(_("       --plist               List plugins and exit\n"));
 	printf(_("       --plog                Print plugin install log\n"));
-#if !defined(WIN32)
 	printf(_("       --pidfile path        Create a PID file\n"));
-#endif
 	printf(_("   -V, --verbose             increases the verbosity of gkrellmd\n"));
-#if defined(WIN32)
-	printf(_("       --install             install gkrellmd service and exit\n"));
-	printf(_("       --uninstall           uninstall gkrellmd service and exit\n"));
-	printf(_("       --console             run gkrellmd on console (not as a service)\n"));
-#endif
 	printf(_("   -h, --help                display this help and exit\n"));
 	printf(_("   -v, --version             output version information and exit\n"));
+
+#endif
 	}
 
 static void
@@ -739,11 +759,13 @@ get_args(gint argc, gchar **argv)
 			_GK.log_plugins = TRUE;
 			continue;
 			}
+#if !defined(WIN32)
 		if (!strcmp(opt, "without-libsensors"))
 			{
 			_GK.without_libsensors = TRUE;
 			continue;
 			}
+#endif /* !WIN32 */
 		else if (   i < argc
 				 && ((r = parse_config(opt, (i < argc - 1) ? arg : NULL)) >= 0)
 				)
@@ -1337,7 +1359,27 @@ int main(int argc, char* argv[])
 
 #ifdef ENABLE_NLS
 #ifdef LOCALEDIR
+#if defined(WIN32)
+	/*
+	Prepend app install path to relative locale dir, don't rely on CWD being correct
+	*/
+	if (!G_IS_DIR_SEPARATOR(LOCALEDIR[0]))
+		{
+ 		gchar* locale_dir;
+		locale_dir = g_win32_get_package_installation_subdirectory(NULL, NULL, LOCALEDIR);
+		if (locale_dir != NULL)
+			{
+			bindtextdomain(PACKAGE_D, locale_dir);
+			g_free(locale_dir);
+			}
+		}
+	else
+		{
+		bindtextdomain(PACKAGE_D, LOCALEDIR);
+		}
+#else
 	bindtextdomain(PACKAGE_D, LOCALEDIR);
+#endif /* !WIN32 */
 #endif /* LOCALEDIR */
 	textdomain(PACKAGE_D);
 	bind_textdomain_codeset(PACKAGE_D, "UTF-8");
