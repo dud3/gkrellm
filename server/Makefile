@@ -1,6 +1,7 @@
 PACKAGE_D ?= gkrellmd
 PKG_CONFIG ?= pkg-config
 BINMODE ?= 755
+BINEXT ?=
 
 INSTALLROOT ?= $(DESTDIR)$(PREFIX)
 ifeq ($(INSTALLROOT),)
@@ -169,7 +170,7 @@ install: install_bin install_inc install_man
 
 install_bin:
 	$(INSTALL) -d -m $(INSTALLDIRMODE) $(SINSTALLDIR)
-	$(INSTALL) -c $(STRIP) -m $(BINMODE) gkrellmd $(SINSTALLDIR)/$(PACKAGE_D)
+	$(INSTALL) -c $(STRIP) -m $(BINMODE) $(PACKAGE_D)$(BINEXT) $(SINSTALLDIR)/$(PACKAGE_D)$(BINEXT)
 
 install_inc:
 	$(INSTALL) -d -m $(INCLUDEDIRMODE) $(INCLUDEDIR)/gkrellm2
@@ -204,7 +205,8 @@ install_solaris:
 	chgrp sys $(SINSTALLDIR)/$(PACKAGE_D)
 	chmod g+s $(SINSTALLDIR)/$(PACKAGE_D)  
 
-install_windows: install_bin install_inc
+install_windows:
+	$(MAKE) BINEXT=".exe" install_bin install_inc
 	$(INSTALL) -d -m $(LIBDIRMODE) $(LIBDIR)
 	$(INSTALL) -c -m $(BINMODE) libgkrellmd.a $(LIBDIR)
 

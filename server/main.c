@@ -21,6 +21,9 @@
 
 #include "gkrellmd.h"
 #include "gkrellmd-private.h"
+#if defined(WIN32)
+#include <tchar.h>
+#endif
 
 // we do have addrinfo on win32 but do not have getaddrinfo(), doh
 #if !defined(HAVE_GETADDRINFO) && !defined(WIN32)
@@ -676,28 +679,28 @@ usage(void)
 	{
 #if defined(WIN32)
 
-	printf(_("usage: gkrellmd command [options]\n"));
-	printf(_("commands:\n"));
-	printf(_("       --console             run gkrellmd on console (not as a service)\n"));
-	printf(_("       --install             install gkrellmd service and exit\n"));
-	printf(_("       --uninstall           uninstall gkrellmd service and exit\n"));
-	printf(_("   -h, --help                display this help and exit\n"));
-	printf(_("   -v, --version             output version information and exit\n"));
-	printf(_("options (only for command '--console'):\n"));
-	printf(_("   -u, --update-hz F         Monitor update frequency\n"));
-	printf(_("   -m, --max-clients N       Number of simultaneous clients\n"));
-	printf(_("   -A, --address A           Address of network interface to listen on\n"));
-	printf(_("   -P, --port P              Server port to listen on\n"));
-	printf(_("   -a, --allow-host host     Allow connections from specified hosts\n"));
-	printf(_("   -c, --clear-hosts         Clears the current list of allowed hosts\n"));
-	printf(_("       --io-timeout N        Close connection after N seconds of no I/O\n"));
-	printf(_("       --reconnect-timeout N Try to connect every N seconds after\n"
-	         "                             a disconnect\n"));
-	printf(_("   -p,  --plugin name        Enable a command line plugin\n"));
-	printf(_("   -pe, --plugin-enable name Enable an installed plugin\n"));
-	printf(_("       --plist               List plugins and exit\n"));
-	printf(_("       --plog                Print plugin install log\n"));
-	printf(_("   -V, --verbose             increases the verbosity of gkrellmd\n"));
+	_tprintf(_("usage: gkrellmd command [options]\n"));
+	_tprintf(_("commands:\n"));
+	_tprintf(_("       --console             run gkrellmd on console (not as a service)\n"));
+	_tprintf(_("       --install             install gkrellmd service and exit\n"));
+	_tprintf(_("       --uninstall           uninstall gkrellmd service and exit\n"));
+	_tprintf(_("   -h, --help                display this help and exit\n"));
+	_tprintf(_("   -v, --version             output version information and exit\n"));
+	_tprintf(_("options (only for command '--console'):\n"));
+	_tprintf(_("   -u, --update-hz F         Monitor update frequency\n"));
+	_tprintf(_("   -m, --max-clients N       Number of simultaneous clients\n"));
+	_tprintf(_("   -A, --address A           Address of network interface to listen on\n"));
+	_tprintf(_("   -P, --port P              Server port to listen on\n"));
+	_tprintf(_("   -a, --allow-host host     Allow connections from specified hosts\n"));
+	_tprintf(_("   -c, --clear-hosts         Clears the current list of allowed hosts\n"));
+	_tprintf(_("       --io-timeout N        Close connection after N seconds of no I/O\n"));
+	_tprintf(_("       --reconnect-timeout N Try to connect every N seconds after\n"
+	           "                             a disconnect\n"));
+	_tprintf(_("   -p,  --plugin name        Enable a command line plugin\n"));
+	_tprintf(_("   -pe, --plugin-enable name Enable an installed plugin\n"));
+	_tprintf(_("       --plist               List plugins and exit\n"));
+	_tprintf(_("       --plog                Print plugin install log\n"));
+	_tprintf(_("   -V, --verbose             increases the verbosity of gkrellmd\n"));
 
 #else
 
@@ -1260,81 +1263,174 @@ void service_run()
 	}
 
 
-static void service_install()
+static gboolean service_wait_for_stop(SC_HANDLE serviceHandle)
 	{
-	SC_HANDLE scm = OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
-	if (scm)
+	static const gulong waitTimeoutSec = 30;
+	SERVICE_STATUS status;
+	GTimer *waitTimer = NULL;
+	gboolean ret = FALSE;
+
+	if (!QueryServiceStatus(serviceHandle, &status))
 		{
-		TCHAR path[_MAX_PATH + 1];
-		if (GetModuleFileName(0, path, sizeof(path)/sizeof(path[0])) > 0)
+		_tprintf("Could not query status of %s (%d)\n", service_display_name, GetLastError()); 
+		return FALSE;
+		}
+	waitTimer = g_timer_new(); /* create and start */
+	while (status.dwCurrentState == SERVICE_STOP_PENDING)
+		{
+		g_usleep(status.dwWaitHint * 1000);
+		if (!QueryServiceStatus(serviceHandle, &status))
 			{
-			SC_HANDLE sh;
-			sh = CreateService(scm, service_name, service_display_name,
-			                   SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS,
-			                   SERVICE_AUTO_START, SERVICE_ERROR_NORMAL, path,
-			                   0, 0, 0, 0, 0);
-			if (sh)
-				{
-				printf(_("Gkrellmd service was installed successfully.\n"));
-				CloseServiceHandle(sh);
-				}
-			else
-				{
-				printf(_("Failed installing gkrellmd service.\n"));
-				}
+			_tprintf("Could not query status of %s (%d)\n", service_display_name, GetLastError()); 
+			ret = FALSE;
+			break;
 			}
-		CloseServiceHandle(scm);
-		}
-	else
-		{
-			printf(_("Failed installing gkrellmd service, could not connect to service manager.\n"));
-		}
-	} /* install_service() */
+		if (status.dwCurrentState == SERVICE_STOPPED)
+			{
+			ret = TRUE;
+			break;
+			}
+		if (g_timer_elapsed(waitTimer, NULL) > waitTimeoutSec)
+			{
+			_tprintf(_("Stopping %s timed out\n"), service_display_name);
+			ret = FALSE;
+			break;
+			}
+		} /*while*/
+	g_timer_destroy(waitTimer);
+	return ret;
+	}
 
 
-static void service_uninstall()
+static gboolean service_stop(SC_HANDLE serviceHandle)
 	{
-	SC_HANDLE scm = OpenSCManager(NULL, NULL, SC_MANAGER_CONNECT);
-	if (scm)
+	SERVICE_STATUS svcStatus;
+	if (!QueryServiceStatus(serviceHandle, &svcStatus))
 		{
-		SC_HANDLE sh;
-		sh = OpenService(scm, service_name, SERVICE_QUERY_STATUS | DELETE);
-		if (sh)
-			{
-			SERVICE_STATUS serviceStatus;
-			if (QueryServiceStatus(sh, &serviceStatus))
-				{
-				if (serviceStatus.dwCurrentState == SERVICE_STOPPED)
-					{
-					BOOL delRet;
-					delRet = DeleteService(sh);
-					if (delRet != 0)
-						{
-						printf(_("Gkrellmd service was uninstalled successfully.\n"));
-						}
-					else
-						{
-						printf(_("Failed uninstalling gkrellmd service.\n"));
-						}
-					}
-				else
-					{
-					printf(_("Failed uninstalling gkrellmd service, service is still running.\n"));
-					}
-				}
-			CloseServiceHandle(sh);
-			}
+		_tprintf("Could not query status of %s (%d)\n", service_display_name, GetLastError()); 
+		return FALSE;
+		}
+	/* service not running at all, just return that stopping worked out */
+	if (svcStatus.dwCurrentState == SERVICE_STOPPED)
+		{
+		_tprintf(_("%s already stopped\n"), service_display_name);
+		return TRUE;
+		}
+	/* service already stopping, just wait for its exit */
+	if (svcStatus.dwCurrentState == SERVICE_STOP_PENDING)
+		{
+		return service_wait_for_stop(serviceHandle);
+		}
+	/* Service is running, let's stop it */
+	if (!ControlService(serviceHandle, SERVICE_CONTROL_STOP, &svcStatus))
+		{
+		_tprintf(_("Could not stop %s (%d)\n"), service_display_name, GetLastError());
+		return FALSE;
+		}
+	// Wait for the service to stop.
+	if (svcStatus.dwCurrentState == SERVICE_STOP_PENDING)
+		{
+		return service_wait_for_stop(serviceHandle);
+		}
+	return TRUE;
+	}
+
+
+static gboolean service_install()
+	{
+	TCHAR path[_MAX_PATH + 1];
+	SC_HANDLE scmHandle;
+	SC_HANDLE svcHandle;
+	DWORD err;
+
+	if (GetModuleFileName(0, path, sizeof(path)/sizeof(path[0])) < 1)
+	{
+		_tprintf(_("Could not determine path to gkrellmd service binary (%d)\n"), GetLastError());
+		return FALSE;
+	}
+
+	scmHandle = OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
+	if (!scmHandle)
+		{
+		err = GetLastError();
+		if (err == ERROR_ACCESS_DENIED)
+			_tprintf(_("Could not connect to service manager, access denied\n"));
 		else
-			{
-				printf(_("Failed uninstalling gkrellmd service, could not open gkrellmd service.\n"));
-			}
-		CloseServiceHandle(scm);
+			_tprintf(_("Could not connect to service manager (%d)\n"), err);
+		return FALSE;
 		}
-	else
+
+	svcHandle = CreateService(scmHandle, service_name, service_display_name,
+			SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START,
+			SERVICE_ERROR_NORMAL, path, 0, 0, 0, 0, 0);
+	if (!svcHandle)
 		{
-			printf(_("Failed uninstalling gkrellmd service, could not connect to service manager.\n"));
+		err = GetLastError();
+		if (err == ERROR_ACCESS_DENIED)
+			_tprintf(_("Could not create %s, access denied\n"), service_display_name);
+		else if (err == ERROR_SERVICE_EXISTS || err == ERROR_DUPLICATE_SERVICE_NAME)
+			_tprintf(_("Could not create %s, a service of the same name already exists\n"), service_display_name);
+		else
+			_tprintf(_("Could not create %s, error %d\n"), service_display_name, err);
+		CloseServiceHandle(scmHandle);
+		return FALSE;
 		}
-	} /* uninstall_service */
+
+	if (!StartService(svcHandle, 0, NULL))
+		{
+		err = GetLastError();
+		if (err == ERROR_ACCESS_DENIED)
+			_tprintf(_("Could not start %s, access denied\n"), service_display_name);
+		else
+			_tprintf(_("Could not start %s (%d)\n"), service_display_name, GetLastError());
+		}
+
+	CloseServiceHandle(svcHandle);
+	CloseServiceHandle(scmHandle);
+	return TRUE;
+	} /* service_install() */
+
+
+static gboolean service_uninstall()
+	{
+	SC_HANDLE scmHandle;
+	SC_HANDLE svcHandle;
+	BOOL delRet;
+	DWORD err;
+
+	scmHandle = OpenSCManager(NULL, NULL, SC_MANAGER_CONNECT);
+	if (!scmHandle)
+		{
+		_tprintf(_("Could not connect to service manager (%d)\n"), GetLastError());
+		return FALSE;
+		}
+	svcHandle = OpenService(scmHandle, service_name, SERVICE_STOP | SERVICE_QUERY_STATUS | DELETE);
+	if (!svcHandle)
+		{
+		err = GetLastError();
+		if (err == ERROR_ACCESS_DENIED)
+			_tprintf(_("Access to %s denied\n"), service_display_name);
+		else if (err == ERROR_SERVICE_DOES_NOT_EXIST)
+			_tprintf(_("%s is not installed\n"), service_display_name);
+		else
+			_tprintf(_("Could not open %s, error %d\n"), service_display_name, GetLastError());
+		CloseServiceHandle(scmHandle);
+		return FALSE;
+		}
+
+	if (!service_stop(svcHandle))
+		{
+		CloseServiceHandle(svcHandle);
+		CloseServiceHandle(scmHandle);
+		return FALSE;
+		}
+
+	delRet = DeleteService(svcHandle);
+	CloseServiceHandle(svcHandle);
+	CloseServiceHandle(scmHandle);
+
+	return delRet ? TRUE : FALSE;
+	} /* service_uninstall() */
 #endif /* defined(WIN32) */
 
 
@@ -1411,12 +1507,18 @@ int main(int argc, char* argv[])
 #if defined(WIN32)
 		else if (!strcmp(opt, "install"))
 			{
-			service_install();
+			_tprintf(_("Installing %s...\n"), service_display_name);
+			if (!service_install())
+				return 1;
+			_tprintf(_("%s has been installed.\n"), service_display_name);
 			return 0;
 			}
 		else if (!strcmp(opt, "uninstall"))
 			{
-			service_uninstall();
+			_tprintf(_("Uninstalling %s...\n"), service_display_name);
+			if (!service_uninstall())
+				return 1;
+			_tprintf(_("%s has been uninstalled.\n"), service_display_name);
 			return 0;
 			}
 		else if (!strcmp(opt, "console"))
