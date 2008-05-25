@@ -143,6 +143,8 @@ gkrellmd_string_suffix(gchar *string, gchar *suffix)
 	{
 	gchar	*dot;
 
+	if (string == NULL || suffix == NULL)
+		return NULL;
 	dot = strrchr(string, '.');
 	if (dot && !strcmp(dot + 1, suffix))
 		return dot + 1;
@@ -180,14 +182,14 @@ gkrellmd_plugin_scan(gchar *path)
 	gchar			*s;
 	gboolean		exists;
 	
+	/*if (path != NULL)
+		g_print("Searching for plugins in '%s'\n", path);*/
+	
 	if (!path || !*path || (dir = g_dir_open(path, 0, NULL)) == NULL)
 		return;
 	while ((name = (gchar *) g_dir_read_name(dir)) != NULL)
 		{
-		if (   !gkrellmd_string_suffix(name, "so")
-			&& !gkrellmd_string_suffix(name, "la")
-			&& !gkrellmd_string_suffix(name, "dll")
-		   )
+		if (!gkrellmd_string_suffix(name, G_MODULE_SUFFIX))
 			continue;
 
 		/* If there's a libtool .la archive, won't want to load this .so
@@ -264,10 +266,30 @@ gkrellmd_plugins_load(void)
 		gkrellmd_plugin_log("\n", NULL);
 		}
 
-	path = g_strconcat(_GK.homedir, G_DIR_SEPARATOR_S,
-				GKRELLMD_PLUGINS_DIR, NULL);
+	path = g_build_filename(_GK.homedir, GKRELLMD_PLUGINS_DIR, NULL);
 	gkrellmd_plugin_scan(path);
 	g_free(path);
+
+#if defined(WIN32)
+	path = NULL;
+#if GLIB_CHECK_VERSION(2,16,0)
+	gchar *install_path;
+	install_path = g_win32_get_package_installation_directory_of_module(NULL);
+	if (install_path != NULL)
+		{
+		path = g_build_filename(install_path, "plugins-gkrellmd", NULL);
+		g_free(install_path);
+		}
+#else
+	// deprecated since glib 2.16.0
+	path = g_win32_get_package_installation_subdirectory(NULL, NULL, "plugins-gkrellmd");
+#endif
+	if (path)
+		{
+		gkrellmd_plugin_scan(path);
+		g_free(path);
+		}
+#endif
 
 #if defined(GKRELLMD_LOCAL_PLUGINS_DIR)
 	gkrellmd_plugin_scan(GKRELLMD_LOCAL_PLUGINS_DIR);

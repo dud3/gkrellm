@@ -102,26 +102,22 @@
 GKRELLMD_VERSION_REV >= (rev)))
 
 #define GKRELLMD_CONFIG				"gkrellmd.conf"
-#define GKRELLMD_PLUGINS_DIR		".gkrellm2/plugins-gkrellmd"
-
 #if defined(WIN32)
-#define GKRELLMD_LOCAL_PLUGINS_DIR	"./plugins-gkrellmd"
-#undef GKRELLMD_SYSTEM_PLUGINS_DIR
+	// no dot in front of config-filename on win32
+	#define GKRELLMD_USER_CONFIG  GKRELLMD_CONFIG
 #else
-#define GKRELLMD_LOCAL_PLUGINS_DIR	"/usr/local/lib/gkrellm2/plugins-gkrellmd"
-#if !defined(GKRELLMD_SYSTEM_PLUGINS_DIR)
-#define GKRELLMD_SYSTEM_PLUGINS_DIR	"/usr/lib/gkrellm2/plugins-gkrellmd"
+	#define GKRELLMD_USER_CONFIG	".gkrellmd.conf"
 #endif
-#endif // defined(WIN32)
-
-
-#if defined(WIN32)
-#undef GKRELLMD_SYS_ETC
-#define GKRELLMD_LOCAL_ETC	"./etc"
-#else
-#define GKRELLMD_SYS_ETC	"/etc"
-#define GKRELLMD_LOCAL_ETC	"/usr/local/etc"
-#endif // defined(WIN32)
+ 
+#define GKRELLMD_PLUGINS_DIR		".gkrellm2/plugins-gkrellmd"
+#if !defined(WIN32)
+	#define GKRELLMD_LOCAL_PLUGINS_DIR	"/usr/local/lib/gkrellm2/plugins-gkrellmd"
+	#if !defined(GKRELLMD_SYSTEM_PLUGINS_DIR)
+		#define GKRELLMD_SYSTEM_PLUGINS_DIR	"/usr/lib/gkrellm2/plugins-gkrellmd"
+	#endif
+	#define GKRELLMD_SYS_ETC	"/etc"
+	#define GKRELLMD_LOCAL_ETC	"/usr/local/etc"
+#endif // !defined(WIN32)
 
 
 typedef struct _GkrellmdClient
