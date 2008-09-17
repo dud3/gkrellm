@@ -1,10 +1,5 @@
-#include "win32-resource.h"
+//#include "win32-resource.h"
 #include "windows.h"
-
-//
-// Icon resources
-//
-IDI_ICON3           ICON          "gkrellm.ico"
 
 //
 // Version Information resources
@@ -22,7 +17,7 @@ BEGIN
             VALUE "FileDescription", "GKrellM Daemon"
             VALUE "FileVersion", "2.3.1"
             VALUE "InternalName", "gkrellmd"
-            VALUE "LegalCopyright", "Copyright (C) 1999-2007 Bill Wilson"
+            VALUE "LegalCopyright", "Copyright (C) 1999-2008 Bill Wilson"
             VALUE "OriginalFilename", "gkrellmd.exe"
             VALUE "ProductName", "GKrellM"
             VALUE "ProductVersion", "2.3.1"
