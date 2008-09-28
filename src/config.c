@@ -257,7 +257,7 @@ assign_textcolor(GkrellmStyle *style, gchar *arg, gint AorB)
 	effect = gkrellm_cut_quoted_string(s, &s);
 	if (*color == '\0' || *shadowcolor == '\0' || *effect == '\0')
 		{
-		printf(_("Bad textcolor line %s\n"), arg);
+		g_warning(_("Bad textcolor line %s\n"), arg);
 		g_free(values);
 		return;
 		}
@@ -499,7 +499,7 @@ assign_style(gchar *debug_name, GList *style_list, gint index,
 	if (index++ == 0)		/* style == style_list */
 		{
 		if (override)
-			printf("Bad override on DEFAULT: %s %s %d\n",
+			g_warning(_("Bad override on DEFAULT: %s %s %d\n"),
 					debug_name, arg, entry_flag);
 		for (list = style_list->next; list; list = list->next, ++index)
 			{
@@ -632,7 +632,7 @@ assign_gkrellmrc_style(gchar *source_line, gchar *area, gchar *string)
 		}
 	if (!mon_name || !entry || !*entry || !arg)
 		{
-		printf("StyleXXX ?: %s\n", source_line);
+		g_warning(_("StyleXXX ?: %s\n"), source_line);
 		g_free(custom_name);
 		return;
 		}
@@ -655,7 +655,7 @@ assign_gkrellmrc_style(gchar *source_line, gchar *area, gchar *string)
 		}
 	else
 		{
-		printf("StyleXXX ?: %s\n", source_line);
+		g_warning(_("StyleXXX ?: %s\n"), source_line);
 		g_free(custom_name);
 		return;
 		}
@@ -1037,13 +1037,13 @@ gkrellm_load_piximage_from_inline(gchar *name, const guint8 *data,
 		name = fname;
 		im = gkrellm_piximage_new_from_file(fname);
 		if (im == NULL)
-			printf(_("  Cannot load file image: %s\n"), fname);
+			g_warning(_("  Cannot load file image: %s\n"), fname);
 		}
 	if (im == NULL && data)
 		{
 		im = gkrellm_piximage_new_from_inline(data, copy_pixels);
 		if (im == NULL)
-			printf(_("  Cannot load GdkPixbuf inline data.\n"));
+			g_warning(_("  Cannot load GdkPixbuf inline data.\n"));
 		}
 	if (im && image)
 		{
@@ -1068,13 +1068,13 @@ gkrellm_load_piximage(gchar *name, gchar **xpm, GkrellmPiximage **image,
 		name = fname;
 		im = gkrellm_piximage_new_from_file(fname);
 		if (im == NULL)
-			printf(_("  Cannot load file image: %s\n"), fname);
+			g_warning(_("  Cannot load file image: %s\n"), fname);
 		}
 	if (im == NULL && xpm)
 		{
 		im = gkrellm_piximage_new_from_xpm_data(xpm);
 		if (im == NULL)
-			printf(_("  Cannot load xpm: %s\n"), name);
+			g_warning(_("  Cannot load xpm: %s\n"), name);
 		}
 	if (im && image)
 		{
@@ -1100,7 +1100,7 @@ load_from_piximage_list(gchar *name, GList *image_list,
 		list->data = (gpointer) im;
 		}
 	else
-		printf("Bad index %d for image list (meter/panel problem?)\n", index);
+		g_warning("Bad index %d for image list (meter/panel problem?)\n", index);
 	}
 
 static void
@@ -1738,7 +1738,7 @@ parse_config_line(gchar *line, struct _config *cf, gint size)
 			++s;
 		if (!*s || *s == '\n')
 			{
-			printf(_("Incomplete config line:\n    %s\n"), line);
+			g_warning(_("Incomplete config line:\n    %s\n"), line);
 			continue;
 			}
 		if (conf->value)
@@ -2237,9 +2237,10 @@ gkrellm_theme_config(void)
 	/* Warn theme developers!
 	*/
 	if (!_GK.use_top_bottom_margins && _GK.command_line_theme)
-		fprintf(stderr,
-				"Warning: Top and bottom meter/panel margins are not set.\n"
-				"         Do not depend on borders!!\n");
+		{
+		g_warning(_("Top and bottom meter/panel margins are not set.\n" \
+				" Do not depend on borders!\n"));
+		}
 	}
 
 
@@ -2422,7 +2423,7 @@ gkrellm_save_user_config(void)
 	f = fopen(config_new, "w");
 	if (f == NULL)
 		{
-		printf(_("Cannot open config file %s for writing.\n"), config_new);
+		g_warning(_("Cannot open config file %s for writing.\n"), config_new);
 		g_free(config_new);
 		g_free(config);
 		return;
@@ -2508,9 +2509,10 @@ gkrellm_save_user_config(void)
 	i = rename(config_new, config);
 	if (i != 0)
 		{
-		printf(_("Cannot rename new config file %s to %s.\n"), config_new, config);
+		g_warning(_("Cannot rename new config file %s to %s.\n"), config_new, config);
 		g_free(config);
 		g_free(config_new);
+		// NOTE: _GK.config_modified will stay true because saving failed
 		return;
 		}
 
