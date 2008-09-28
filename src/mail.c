@@ -253,7 +253,9 @@ static gboolean	fetch_check_is_local;
 
 static GkrellmPanel	*mail;
 
+#if !GTK_CHECK_VERSION(2,12,0)
 static GtkTooltips	*tooltip;
+#endif
 
 static GkrellmDecalbutton	*mua_button;
 
@@ -405,13 +407,25 @@ update_tooltip(void)
  				}
 			}
 		}
+
 	if (show_tooltip && mboxes && mboxes->len > 0)
 		{
+#if GTK_CHECK_VERSION(2,12,0)
+		gtk_widget_set_tooltip_text(mail->drawing_area, mboxes->str); 
+#else
 		gtk_tooltips_set_tip(tooltip, mail->drawing_area, mboxes->str, "");
 		gtk_tooltips_enable(tooltip);
+#endif
 		}
 	else
+		{
+#if GTK_CHECK_VERSION(2,12,0)
+		gtk_widget_set_has_tooltip(mail->drawing_area, FALSE);
+#else
 		gtk_tooltips_disable(tooltip);
+#endif
+		}
+
 	if (mboxes)
 		g_string_free(mboxes, TRUE);
 	}
@@ -1807,8 +1821,9 @@ pipe_command(Mailproc *mp)
 		mp->read_gstring = g_string_truncate(mp->read_gstring, 0);
 	else
 		mp->read_gstring = g_string_new("");
-#ifndef WIN32
-	fcntl(mp->pipe, F_SETFL, O_NONBLOCK);
+#if !defined(WIN32)
+	if (mp->pipe != -1)
+		fcntl(mp->pipe, F_SETFL, O_NONBLOCK);
 #endif
 	g_strfreev(argv);
 	}
@@ -2302,10 +2317,17 @@ update_mail(void)
 				total_mail_count, new_mail_count, run_animation,
 				local_check, remote_check, fetch_check);
 
+		// Update tooltip if mail count changed or no tooltip has been set yet
 		if (   prev_new_mail_count != new_mail_count
+#if GTK_CHECK_VERSION(2,12,0)
+			|| gtk_widget_get_has_tooltip(mail->drawing_area) == FALSE
+#else
 			|| tooltip->active_tips_data == NULL
+#endif
 		   )
+			{
 			update_tooltip();
+			}
 
 		/* Run the notify (sound) command if the new mail count goes up,
 		|  and if the various modes permit.  Ensure a sound command is
@@ -2392,8 +2414,10 @@ set_mua_button_sensitivity(void)
 static void
 cb_mail_button(GkrellmDecalbutton *button)
 	{
-	GList	*list;
-	Mailbox	*mbox;
+	GList		*list;
+	Mailbox		*mbox;
+	GError		*err = NULL;
+	gboolean	res;
 
 	if (reset_remote_mode)
 		{
@@ -2423,18 +2447,27 @@ cb_mail_button(GkrellmDecalbutton *button)
 			}
 		run_animation = FALSE;
 		}
+
 	if (enable_multimua)
 		{
 		if (mail_user_agent.command && *mail_user_agent.command != '\0')
-			g_spawn_command_line_async(mail_user_agent.command, NULL);
+			{
+			res = g_spawn_command_line_async(mail_user_agent.command, &err);
+			if (!res && err)
+				{
+				gkrellm_message_dialog(NULL, err->message);
+				g_error_free(err);
+				}
+			}
 		}
-	else if (!mua_is_launched()) 
+	else if (!mua_is_launched())
+		{
 		pipe_command(&mail_user_agent);
+		}
 	else
 		{
 		check_timeout = 0;
-		if (_GK.debug_level & DEBUG_MAIL)
-			g_print("Mail user agent is already running.\n");
+		gkrellm_debug(DEBUG_MAIL, "Mail user agent is already running.\n");
 		}
 	}
 
@@ -2748,7 +2781,9 @@ create_mail(GtkWidget *vbox, gint first_create)
 				G_CALLBACK(mail_expose_event), NULL);
 		g_signal_connect(G_OBJECT(p->drawing_area),"button_press_event",
 				G_CALLBACK(cb_panel_press), NULL);
-		tooltip=gtk_tooltips_new();
+#if !GTK_CHECK_VERSION(2,12,0)
+		tooltip = gtk_tooltips_new();
+#endif
 		}
 	}
 
@@ -3987,6 +4022,7 @@ create_mail_tab(GtkWidget *tab_vbox)
 		gtk_box_pack_start(GTK_BOX(hbox1), local_button, FALSE, FALSE, 5);
 		g_signal_connect(G_OBJECT(local_button), "clicked",
 					G_CALLBACK(cb_mailbox_group), GINT_TO_POINTER(0));
+
 		remote_button = gtk_radio_button_new_with_label_from_widget(
 					GTK_RADIO_BUTTON(local_button), _("Remote mailbox"));
 		gtk_box_pack_start(GTK_BOX(hbox1), remote_button, FALSE, FALSE, 0);
@@ -4189,7 +4225,14 @@ gkrellm_init_mail_monitor(void)
 	monitor_mail.name = _(monitor_mail.name);
 	enable_mail = TRUE;
 	show_tooltip = TRUE;
+#if defined(WIN32)
+	// Defaulting to TRUE makes sense on windows as most MUAs will raise their
+	// window if they're started a second time (i.e. clicking the button in
+	// gkrellm will raise an existing mail-window)
+	enable_multimua = TRUE;
+#else
 	enable_multimua = FALSE;
+#endif
 	cont_animation_mode = FALSE;
 	super_mute_mode = FALSE;
 	mua_inhibit_mode = FALSE;
