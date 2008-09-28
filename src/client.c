@@ -34,8 +34,8 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #else
-#define uint32_t u_long
 #include <winsock2.h>
+#include <ws2tcpip.h>
 #endif
 
 #include <errno.h>
@@ -1512,7 +1512,7 @@ client_plugin_initial_update(ClientPlugin *plug)
 			}
 		else if (func)
 			(*func)(line);
-		}	
+		}
 	g_free(serve_name);
 	}
 
