@@ -87,7 +87,7 @@ BINMODE = 755
 #GTOP_LIBS_D = -L$(GTOP_PREFIX)/lib -lgtop -lgtop_common -lgtop_sysdeps
 #export GTOP_INCLUDE GTOP_LIBS GTOP_LIBS_D
 
-VERSION = 2.3.0
+VERSION = 2.3.2
 
 INSTALLROOT ?= $(DESTDIR)$(PREFIX)
 
@@ -161,7 +161,7 @@ install_gkrellm.pc:
 	$(INSTALL) -d $(PKGCONFIGDIR)
 	$(INSTALL) -m $(INCLUDEMODE) -c gkrellm.pc $(PKGCONFIGDIR)
 
-install_darwin install_macosx: install_gkrellm.pc
+install_darwin install_darwin9 install_macosx: install_gkrellm.pc
 	(cd po && ${MAKE} install)
 	(cd src && ${MAKE} install STRIP="")
 	(cd server && ${MAKE} install STRIP="")
@@ -224,6 +224,17 @@ darwin: gkrellm.pc
 		gkrellm )
 	(cd server && ${MAKE} GTK_CONFIG=gtk-config STRIP= HAVE_GETADDRINFO=1 \
 		EXTRAOBJS= SYS_LIBS="-lkvm -framework IOKit" \
+		LINK_FLAGS="-prebind -Wl,-bind_at_load -framework CoreFoundation" \
+		gkrellmd )
+
+darwin9: gkrellm.pc
+	(cd po && ${MAKE} all)
+	(cd src && ${MAKE} GTK_CONFIG=gtk-config STRIP= HAVE_GETADDRINFO=1 \
+		EXTRAOBJS= SYS_LIBS="-framework IOKit" \
+		LINK_FLAGS="-prebind -Wl,-bind_at_load -framework CoreFoundation -lX11" \
+		gkrellm )
+	(cd server && ${MAKE} GTK_CONFIG=gtk-config STRIP= HAVE_GETADDRINFO=1 \
+		EXTRAOBJS= SYS_LIBS="-framework IOKit" \
 		LINK_FLAGS="-prebind -Wl,-bind_at_load -framework CoreFoundation" \
 		gkrellmd )
 

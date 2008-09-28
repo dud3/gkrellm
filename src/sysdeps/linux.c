@@ -1363,13 +1363,18 @@ void
 gkrellm_sys_fs_get_mounts_list(void)
 	{
 	FILE		*f;
-	gchar		*s, buf[512], dev[256], dir[256], type[64];
+	gchar		*s, buf[1024], dev[512], dir[512], type[128];
 
 	if ((f = fopen(PROC_MOUNTS_FILE, "r")) == NULL)
 		return;
 	while (fgets(buf, sizeof(buf), f))
 		{
-		sscanf(buf, "%255s %255s %63s", dev, dir, type);
+		dev[0] = dir[0] = type[0] = '\0';
+		sscanf(buf, "%512s %512s %127s", dev, dir, type);
+		fix_fstab_name(dev);
+		fix_fstab_name(dir);
+		fix_fstab_name(type);
+
 		if (   !strcmp(type, "devpts")
 			|| !strcmp(type, "proc")
 			|| !strcmp(type, "usbdevfs")
@@ -1429,8 +1434,8 @@ gkrellm_sys_fs_init(void)
 	n = system("eject -d > /dev/null 2>&1");
 	if (WEXITSTATUS(n) == 0)
 		{
-		eject_command = "eject %s";
-		close_command = "eject -t %s";
+		eject_command = "eject '%s'";
+		close_command = "eject -t '%s'";
 		}
 #endif
 	gkrellm_fs_setup_eject(eject_command, close_command,
@@ -1441,11 +1446,12 @@ gkrellm_sys_fs_init(void)
 /* ===================================================================== */
 /* Battery monitor interface	*/
 
-/* ---------------------------- */
-/* ACPI battery interface		*/
+/* ---------------------- */
+/* ACPI battery interface */
 
 #define	ACPI_BATTERY_DIR			"/proc/acpi/battery/"
 #define	ACPI_AC_ADAPTOR_DIR			"/proc/acpi/ac_adapter/"
+
 
 typedef struct
 	{
@@ -1556,6 +1562,7 @@ acpi_setup(void)
 		closedir(d);
 		}
 	}
+
 
 static gboolean
 fgets_lower_case(gchar *buf, gint len, FILE *f)
@@ -1727,6 +1734,328 @@ acpi_battery_data(BatteryFile *bf)
 	return TRUE;
 	}
 
+
+/* ---------------------------- */
+/* sysfs power interface		*/
+#define	SYSFS_POWER_SUPPLIES		"/sys/class/power_supply/"
+#define	SYSFS_TYPE_BATTERY			"battery"
+#define	SYSFS_TYPE_AC_ADAPTER		"mains"
+
+
+typedef struct syspower
+	{
+	gint		type;
+	gint		id;
+	gint		charge_units;
+	gchar const	*sysdir;
+	gchar const	*sys_charge_full;
+	gchar const	*sys_charge_now;
+	gboolean	present;
+	gboolean	ac_present;
+	gboolean	charging;
+	}
+	syspower;
+#define	PWRTYPE_BATTERY		0
+#define	PWRTYPE_UPS			1
+#define	PWRTYPE_MAINS		2
+#define	PWRTYPE_USB			3
+
+#define	CHGUNITS_INVALID	0
+#define	CHGUNITS_PERCENT	1	/*  'capacity'  */
+#define	CHGUNITS_uWH		2	/*  'energy'	*/
+#define	CHGUNITS_uAH		3	/*  'charge'	*/
+
+/*
+ * Ordering in this list is significant:  Mains power sources appear before
+ * battery sources.
+ */
+static GList	*g_sysfs_power_list;
+static gint		g_on_line;
+static gint		g_pwr_id;
+
+
+static gboolean
+read_sysfs_entry (gchar *buf, gint buflen, gchar const *sysentry)
+	{
+	FILE *f;
+
+	if ((f = fopen (sysentry, "r")))
+		{
+		if (fgets (buf, buflen, f))
+			{
+			gchar *nl;
+
+			/*  Squash trailing newline if present.  */
+			nl = buf + strlen (buf) - 1;
+			if (*nl == '\n')
+				*nl = '\0';
+			fclose (f);
+			return TRUE;
+			}
+		fclose (f);
+		}
+	return FALSE;
+	}
+
+static gboolean
+sysfs_power_data (struct syspower *sp)
+	{
+	uint64_t	charge_full, charge_now;
+	gint		time_left;
+	gint		present;
+	gint		percent;
+	gchar		sysentry[128];
+	gchar		buf[128];
+	gchar		*syszap;
+	gboolean	charging;
+	gboolean	stat_full;
+
+	time_left = -1;
+	charge_full = charge_now = 0;
+	present = 0;
+	percent = 0;
+	charging = FALSE;
+
+	strcpy (sysentry, sp->sysdir);
+	syszap = sysentry + strlen (sysentry);
+
+	/*  What type of entry is this?  */
+	if (sp->type == PWRTYPE_MAINS)
+		{
+		/*  Get the 'on-line' status.  */
+		*syszap = '\0';
+		strcat (sysentry, "/online");
+		if (read_sysfs_entry (buf, sizeof (buf), sysentry))
+			g_on_line = strtol (buf, NULL, 0);
+		return TRUE;
+		}
+	
+	/*
+	 * The rest of this code doesn't know how to handle anything other than
+	 * a battery.
+	 */
+	if (sp->type != PWRTYPE_BATTERY)
+		return FALSE;
+
+	/*  Is the battery still there?  */
+	*syszap = '\0';
+	strcat (sysentry, "/present");
+	if (read_sysfs_entry (buf, sizeof (buf), sysentry))
+		present = strtol (buf, NULL, 0);
+
+	if (present)
+		{
+		if (read_sysfs_entry (buf, sizeof (buf), sp->sys_charge_full))
+			{
+			charge_full = strtoll (buf, NULL, 0);
+			}
+		if (read_sysfs_entry (buf, sizeof (buf), sp->sys_charge_now))
+			{
+			charge_now = strtoll (buf, NULL, 0);
+			}
+		if (sp->charge_units == CHGUNITS_PERCENT)
+			{
+			percent = charge_now;
+			}
+		else
+			{
+			percent = charge_now * 100 / charge_full;
+			}
+
+		/*  Get charging status.  */
+		*syszap = '\0';
+		strcat (sysentry, "/status");
+		if (read_sysfs_entry (buf, sizeof (buf), sysentry))
+			{
+			charging = !strcasecmp (buf, "charging");
+			stat_full = !strcasecmp (buf, "full");
+			}
+		}
+
+	gkrellm_battery_assign_data (sp->id, present, g_on_line, charging,
+	                             percent, time_left);
+	return TRUE;
+	}
+
+
+static gboolean
+setup_sysfs_ac_power (gchar const *sysdir)
+	{
+	syspower	*sp;
+
+	if (_GK.debug_level & DEBUG_BATTERY)
+		printf ("setup_sysfs_ac_power: %s\n", sysdir);
+	sp = g_new0 (syspower, 1);
+	sp->type			= PWRTYPE_MAINS;
+	sp->id				= g_pwr_id++;
+	sp->charge_units	= CHGUNITS_INVALID;
+	sp->sysdir			= g_strdup (sysdir);
+	sp->sys_charge_full	=
+	sp->sys_charge_now	= NULL;
+
+	/*  Add mains power sources to head of list.  */
+	g_sysfs_power_list = g_list_prepend (g_sysfs_power_list, sp);
+
+	return TRUE;
+	}
+
+static gboolean
+setup_sysfs_battery (gchar const *sysdir)
+	{
+	syspower	*sp;
+	gchar		*sys_charge_full = NULL,
+				*sys_charge_now = NULL;
+	gint		units;
+	gboolean	retval = FALSE;
+
+	/*
+	 * There are three flavors of reporting:  'energy', 'charge', and
+	 * 'capacity'.  Check for them in that order.  (Apologies for the
+	 * ugliness; you try coding an unrolled 'if ((A || B) && C)' and make it
+	 * pretty.)
+	 */
+	if (_GK.debug_level & DEBUG_BATTERY)
+		printf ("setup_sysfs_battery: %s\n", sysdir);
+	units = CHGUNITS_uWH;
+	sys_charge_full = g_strconcat (sysdir, "/energy_full", NULL);
+	if (access (sys_charge_full, F_OK | R_OK))
+		{
+		g_free (sys_charge_full);
+		sys_charge_full = g_strconcat (sysdir, "/energy_full_design", NULL);
+		if (access (sys_charge_full, F_OK | R_OK))
+			{
+			goto try_charge;	/*  Look down  */
+			}
+		}
+	sys_charge_now = g_strconcat (sysdir, "/energy_now", NULL);
+	if (!access (sys_charge_now, F_OK | R_OK))
+		goto done;	/*  Look down  */
+
+try_charge:
+	if (sys_charge_full)	g_free (sys_charge_full), sys_charge_full = NULL;
+	if (sys_charge_now)		g_free (sys_charge_now), sys_charge_now = NULL;
+
+	units = CHGUNITS_uAH;
+	sys_charge_full = g_strconcat (sysdir, "/charge_full", NULL);
+	if (access (sys_charge_full, F_OK | R_OK))
+		{
+		g_free (sys_charge_full);
+		sys_charge_full = g_strconcat (sysdir, "/charge_full_design", NULL);
+		if (access (sys_charge_full, F_OK | R_OK))
+			{
+			goto try_capacity;	/*  Look down  */
+			}
+		}
+	sys_charge_now = g_strconcat (sysdir, "/charge_now", NULL);
+	if (!access (sys_charge_now, F_OK | R_OK))
+		goto done;	/*  Look down  */
+
+try_capacity:
+	if (sys_charge_full)	g_free (sys_charge_full), sys_charge_full = NULL;
+	if (sys_charge_now)		g_free (sys_charge_now), sys_charge_now = NULL;
+
+	/*  This one's a little simpler...  */
+	units = CHGUNITS_PERCENT;
+	/*
+	 * FIXME: I have no idea if 'capacity_full' actually shows up, since
+	 * 'capacity' always defines "full" as always 100%
+	 */
+	sys_charge_full = g_strconcat (sysdir, "/capacity_full", NULL);
+	if (access (sys_charge_full, F_OK | R_OK))
+		goto ackphft;	/*  Look down  */
+
+	sys_charge_now = g_strconcat (sysdir, "/capacity_now", NULL);
+	if (access (sys_charge_now, F_OK | R_OK))
+		goto ackphft;	/*  Look down  */
+
+done:
+	sp = g_new0 (syspower, 1);
+	sp->type			= PWRTYPE_BATTERY;
+	sp->id				= g_pwr_id++;
+	sp->charge_units	= units;
+	sp->sysdir			= g_strdup (sysdir);
+	sp->sys_charge_full	= sys_charge_full;
+	sp->sys_charge_now	= sys_charge_now;
+
+	/*  Battery power sources are appended to the end of the list.  */
+	g_sysfs_power_list = g_list_append (g_sysfs_power_list, sp);
+	if (_GK.debug_level & DEBUG_BATTERY)
+		printf ("setup_sysfs_battery: %s, %s\n",
+		        sys_charge_full, sys_charge_now);
+	retval = TRUE;
+
+	if (0)
+		{
+ackphft:
+		if (sys_charge_full)	g_free (sys_charge_full);
+		if (sys_charge_now)		g_free (sys_charge_now);
+		}
+	return retval;
+	}
+
+static gboolean
+setup_sysfs_power_entry (gchar const *sysentry)
+	{
+	gchar		*sysdir;
+	gboolean	retval = FALSE;
+
+	sysdir = g_strconcat (SYSFS_POWER_SUPPLIES, sysentry, NULL);
+	if (!access (sysdir, F_OK | R_OK))
+		{
+		/*
+		 * Read the type of this power source, and setup the appropriate
+		 * entry for it.
+		 */
+		gchar *type;
+		gchar buf[64];
+
+		type = g_strconcat (sysdir, "/type", NULL);
+		if (_GK.debug_level & DEBUG_BATTERY)
+			printf ("setup_sysfs_power_entry: checking %s\n", type);
+		if (read_sysfs_entry (buf, sizeof (buf), type))
+			{
+			if (!strcasecmp (buf, SYSFS_TYPE_AC_ADAPTER))
+				retval = setup_sysfs_ac_power (sysdir);
+			else if (!strcasecmp (buf, SYSFS_TYPE_BATTERY))
+				retval = setup_sysfs_battery (sysdir);
+			else if (_GK.debug_level & DEBUG_BATTERY)
+				printf ("setup_sysfs_power_entry: unknown power type: %s\n",
+						buf);
+			}
+		g_free (type);
+		}
+	g_free (sysdir);
+
+	return retval;
+	}
+
+static gboolean
+sysfs_power_setup (void)
+	{
+	DIR				*d;
+	struct dirent	*de;
+	gboolean		retval = FALSE;
+
+	if (_GK.debug_level & DEBUG_BATTERY)
+		printf ("sysfs_power_setup() entry\n");
+	if ((d = opendir (SYSFS_POWER_SUPPLIES)) == NULL)
+		return retval;
+
+	while ((de = readdir (d)) != NULL)
+		{
+		if (    !strcmp (de->d_name, ".")
+		    ||  !strcmp (de->d_name, ".."))
+			{
+			continue;
+			}
+		retval |= setup_sysfs_power_entry (de->d_name);
+		}
+	closedir (d);
+
+	return retval;
+	}
+
+
 /* ---------------------------- */
 /* APM battery interface		*/
 
@@ -1871,9 +2200,16 @@ gkrellm_sys_battery_read_data(void)
 	{
 	GList	*list;
 
-	if (acpi_battery_list)
-		for (list = acpi_battery_list; list; list = list->next)
+	if (g_sysfs_power_list)
+		{
+		for (list = g_sysfs_power_list;  list;  list = list->next)
+			sysfs_power_data ((syspower *) (list->data));
+		}
+	else if (acpi_battery_list)
+		{
+		for (list = acpi_battery_list;  list;  list = list->next)
 			acpi_battery_data((BatteryFile *)(list->data));
+		}
 	else
 		apm_battery_data();
 	}
@@ -1881,7 +2217,9 @@ gkrellm_sys_battery_read_data(void)
 gboolean
 gkrellm_sys_battery_init()
 	{
-	acpi_setup();
+	/*  Prefer sysfs power data to /proc/acpi (which is deprecated).  */
+	if (!sysfs_power_setup ())
+		acpi_setup();
 	return TRUE;
 	}
 

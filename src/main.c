@@ -2036,8 +2036,6 @@ main(gint argc, gchar **argv)
 	gint		i;
 	gchar		*s;
 
-	//gkrellm_sys_main_init();
-
 #ifdef ENABLE_NLS
 	gtk_set_locale();
 #endif

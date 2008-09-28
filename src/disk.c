@@ -1354,13 +1354,11 @@ create_disk_tab(GtkWidget *tab_vbox)
 	gtk_box_pack_start(GTK_BOX(tab_vbox), tabs, TRUE, TRUE, 0);
 
 /* -- Options tab */
-	vbox = gkrellm_gtk_notebook_page(tabs, _("Options"));
+	vbox = gkrellm_gtk_framed_notebook_page(tabs, _("Options"));
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 				GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled),
-			GTK_SHADOW_IN);
 	gtk_box_pack_start(GTK_BOX(vbox), scrolled, TRUE, TRUE, 0);
 
 	model = create_model();
@@ -1428,6 +1426,8 @@ create_disk_tab(GtkWidget *tab_vbox)
 				4, 0, TRUE);
 	launch_vbox = gkrellm_gtk_scrolled_vbox(vbox, NULL,
 						GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_widget_show(launch_vbox);
+	gtk_widget_realize(launch_vbox);
 	for (i = 0, list = disk_mon_list; list; list = list->next, ++i)
 		{
 		disk = (DiskMon *) list->data;

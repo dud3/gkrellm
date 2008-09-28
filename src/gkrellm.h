@@ -95,7 +95,7 @@
 */
 #define	GKRELLM_VERSION_MAJOR	2
 #define	GKRELLM_VERSION_MINOR	3
-#define	GKRELLM_VERSION_REV		1
+#define	GKRELLM_VERSION_REV		2
 #define	GKRELLM_EXTRAVERSION	""
 
 #define GKRELLM_CHECK_VERSION(major,minor,rev)    \

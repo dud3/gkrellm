@@ -152,9 +152,20 @@ else
 		gkrellm
 endif
 
+darwin9: 
+ifeq ($(HAVE_SSL),1)
+	$(MAKE) GTK_CONFIG=gtk-config STRIP= \
+		EXTRAOBJS= SYS_LIBS="" \
+		gkrellm
+else
+	$(MAKE) GTK_CONFIG=gtk-config STRIP= \
+		EXTRAOBJS= SYS_LIBS="-lmd5" \
+		gkrellm
+endif
+
 macosx: 
 	$(MAKE) STRIP= HAVE_GETADDRINFO=1 \
-		EXTRAOBJS="winops-gtk-mac.o sysdeps-unix.o" \
+		EXTRAOBJS="winops-gtk-mac.o" \
 		LINK_FLAGS="-Wl,-bind_at_load -framework CoreFoundation" \
 		SYS_LIBS="-lkvm -framework IOKit" \
 		SMC_LIBS="" \
@@ -207,7 +218,7 @@ uninstall:
 	$(RM) $(MANDIR)/$(PACKAGE).1
 	$(RM) $(LIBDIR)/libgkrellm.a
 
-install_darwin install_macosx:
+install_darwin install_darwin9 install_macosx:
 	$(MAKE) install STRIP=
 
 install_freebsd:

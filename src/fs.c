@@ -599,7 +599,7 @@ mount_command(FSmon *fs)
 	if (fs->is_mounted)
 		{
 		if (fs->fstab_mounting)
-			snprintf(cmd, sizeof(cmd), "umount %s", fs->mount.directory);
+			snprintf(cmd, sizeof(cmd), "umount '%s'", fs->mount.directory);
 		else
 			snprintf(cmd, sizeof(cmd), "%s", fs->launch_umount.command);
 		fs->label_is_data = FALSE;
@@ -613,7 +613,7 @@ mount_command(FSmon *fs)
 		if (fs->ejectable)
 			close_tray(fs);
 		if (fs->fstab_mounting)
-			snprintf(cmd, sizeof(cmd), "mount %s", fs->mount.directory);
+			snprintf(cmd, sizeof(cmd), "mount '%s'", fs->mount.directory);
 		else
 			snprintf(cmd, sizeof(cmd), "%s", fs->launch_mount.command);
 		fs->blocks = fs->bfree = fs->bavail = fs->bsize = 0;
@@ -1299,14 +1299,15 @@ fs_config_save(FILE *f)
 	{
 	GList	*list;
 	FSmon	*fs;
-	gchar	quoted_label[64];
+	gchar	quoted_label[64], quoted_dir[512];
 
 	for (list = fs_mon_list; list; list = list->next)
 		{
 		fs = (FSmon *) list->data;
 		snprintf(quoted_label, sizeof(quoted_label), "\"%s\"", fs->label);
+		snprintf(quoted_dir, sizeof(quoted_dir), "\"%s\"",fs->mount.directory);
 		fprintf(f, "%s %s %s %d %d %d %d %d\n", FS_CONFIG_KEYWORD,
-				quoted_label, fs->mount.directory,
+				quoted_label, quoted_dir,
 				fs->fstab_mounting, fs->secondary,
 				fs->show_if_mounted, fs->label_is_data, fs->ejectable);
 		if (*(fs->launch_mount.command))
@@ -1387,8 +1388,8 @@ fs_config_load(gchar *arg)
 	{
 	static FSmon	*fs_prev;
 	FSmon			*fs;
-	gchar			*label;
-	gchar			config[32], item[CFG_BUFSIZE], dir[CFG_BUFSIZE];
+	gchar			*cut_label, *cut_dir;
+	gchar			config[32], item[CFG_BUFSIZE];
 	gchar			name[64], item1[CFG_BUFSIZE];
 	gint 			n;
 
@@ -1435,13 +1436,14 @@ fs_config_load(gchar *arg)
 		}
 	else
 		{
-		if ((label = gkrellm_cut_quoted_string(arg, &arg)) != NULL)
+		if (   (cut_label = gkrellm_cut_quoted_string(arg, &arg)) != NULL
+			&& (cut_dir = gkrellm_cut_quoted_string(arg, &arg)) != NULL
+	       )
 			{
 			fs = g_new0(FSmon, 1);
-			gkrellm_locale_dup_string(&fs->label, label, &fs->label_shadow);
-			dir[0] = '\0';
+			gkrellm_locale_dup_string(&fs->label, cut_label,&fs->label_shadow);
 
-			sscanf(arg, "%s %d %d %d %d %d",  dir, &fs->fstab_mounting,
+			sscanf(arg, "%d %d %d %d %d", &fs->fstab_mounting,
 					&fs->secondary, &fs->show_if_mounted,
 					&fs->label_is_data, &fs->ejectable);
 			if (fs->fstab_mounting > 1)		/* pre 2.0.0 config fix */
@@ -1452,7 +1454,7 @@ fs_config_load(gchar *arg)
 				fs->fstab_mounting = fs->show_if_mounted = FALSE;
 			if (fs->secondary)
 				have_secondary_panels = TRUE;
-			fs->mount.directory = g_strdup(dir);
+			fs->mount.directory = g_strdup(cut_dir);
 			fs->restore_label = fs->label_is_data;
 
 			fix_fstab_mountable_changed(fs);

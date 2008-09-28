@@ -1,5 +1,28 @@
 GKrellM Changelog
 -----------------
+2.3.2 - Not released
+------------------------
+	* Add OpenSSL license exception (TODO).
+	  Make OpenSSL the default to avoid gnutls symbol conflict crash.
+	* Patch from Takao Fujiwara: Pass clock/calendar strings to strftime in
+	  current locale.  Bump default width up to 100.
+	* Patch from Leo Schwab: add linux sysfs battery interface.  Use
+	  preferencially over deprecated /proc/acpi interface.
+	* Patch from Lycestra:
+	    - Mac OS X support:
+	        "darwin9" build mode for Leopard, which lacks libkvm
+	        add inet monitor interface
+			add buffers and cache data to memory monitor
+	    - don't client connect to server in the case read_server_setup() fails
+	* Bugfixes
+	  o Allow spaces in file system monitor directories.
+	  o Andrey Rahmatullin and Ravi Pinjal both sent a patch to fix:
+	    some memleaks in clock monitor.
+	  o Ken Milmore patch: fix configure script to work for lm_sensors >= 3.1
+	  o NULL serve_name segfault
+	* Translation updates
+	  o pl.po from Michal Smoczyk
+
 2.3.1 - Sun Dec 2, 2007
 ------------------------
 	* Clock/Calendar monitor rewritten to use user configurable display

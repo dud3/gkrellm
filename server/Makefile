@@ -136,6 +136,11 @@ darwin:
 		EXTRAOBJS= SYS_LIBS="-lkvm -lmd5" \
 		LINK_FLAGS="-flat_namespace -undefined warning" gkrellmd
 
+darwin9: 
+	$(MAKE) GTK_CONFIG=gtk-config STRIP= \
+		EXTRAOBJS= SYS_LIBS="-lmd5" \
+		LINK_FLAGS="-flat_namespace -undefined warning" gkrellmd
+
 macosx: 
 	$(MAKE) STRIP= HAVE_GETADDRINFO=1 \
 		EXTRAOBJS= SYS_LIBS="-lkvm" \
@@ -192,7 +197,7 @@ uninstall:
 	rm -f $(SINSTALLDIR)/$(PACKAGE_D)
 	rm -f $(SMANDIR)/$(PACKAGE_D).1
 
-install_darwin install_macosx:
+install_darwin install_darwin9 install_macosx:
 	$(MAKE) install STRIP=
 
 install_freebsd:

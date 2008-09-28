@@ -2291,7 +2291,7 @@ gkrellm_load_user_config(GkrellmMonitor *mon_only, gboolean monitor_values)
 		_GK.enable_hostname = TRUE;
 		_GK.hostname_short = FALSE;
 		_GK.enable_system_name = FALSE;
-		_GK.chart_width = 60;
+		_GK.chart_width = 100;
 		_GK.update_HZ = 10;
 		_GK.theme_scale = 100;
 		_GK.float_factor = 1.0;

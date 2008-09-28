@@ -21,19 +21,23 @@
 |  along with this program. If not, see http://www.gnu.org/licenses/
 */
 
+#ifdef HAVE_KVM_H
 #include <kvm.h>
+#endif
 
 #include <mach/mach_init.h>
 #include <mach/mach_host.h>
 #include <mach/vm_map.h>
 
+#ifdef HAVE_KVM_H
 kvm_t	*kvmd = NULL;
 char	errbuf[_POSIX2_LINE_MAX];
-
+#endif
 
 void
 gkrellm_sys_main_init(void)
 	{
+#ifdef HAVE_KVM_H
 	/* We just ignore error, here.  Even if GKrellM doesn't have
 	|  kmem privilege, it runs with available information.
 	*/
@@ -43,6 +47,7 @@ gkrellm_sys_main_init(void)
 		fprintf(stderr, "Can't drop setgid privileges.");
 		exit(1);
 		}
+#endif
 	}
 
 void
@@ -53,7 +58,7 @@ gkrellm_sys_main_cleanup(void)
 /* ===================================================================== */
 /* CPU monitor interface */
 
-static gint		n_cpus;
+static guint		n_cpus;
 
 void
 gkrellm_sys_cpu_read_data(void)
@@ -107,7 +112,9 @@ gkrellm_sys_cpu_init(void)
 #include <sys/user.h>
 #define	PID_MAX		30000
 
+#ifdef HAVE_KVM_H
 #include <kvm.h>
+#endif
 #include <limits.h>
 #include <paths.h>
 #include <utmp.h>
@@ -154,13 +161,14 @@ gkrellm_sys_proc_read_data(void)
 	u_int		n_vforks, n_rforks;
 	gint		r_forks, r_vforks, r_rforks;
 	size_t		len;
+#ifdef HAVE_KVM_H
 	gint		nextpid, nforked;
 	static struct nlist nl[] = {
 #define N_NEXTPID	0
 		{ "_nextpid" },
 		{ "" }
 	};
-
+#endif
 
 	if (getloadavg(&avenrun, 1) <= 0)
 		avenrun = 0;
@@ -181,6 +189,7 @@ gkrellm_sys_proc_read_data(void)
 		if (r_forks >= 0 && r_vforks >= 0 && r_rforks >= 0)
 			n_forks = n_forks + n_vforks + n_rforks;
 		}
+#ifdef HAVE_KVM_H
 	else
 		{
 		/* workaround: Can I get total number of processes? */
@@ -203,7 +212,8 @@ gkrellm_sys_proc_read_data(void)
 				}
 			}
 		}
-
+#endif
+        
 	if (sysctl(oid_proc, 3, NULL, &len, NULL, 0) >= 0)
 		n_processes = len / sizeof(struct kinfo_proc);
 
@@ -395,19 +405,117 @@ gkrellm_sys_disk_init(void)
 }
 
 
-/* ===================================================================== */
-/* Inet monitor interface - not implemented */
+#include "../inet.h"
 
-void
-gkrellm_sys_inet_read_tcp_data(void)
-	{
-	}
+#include <net/route.h>
+#include <netinet/in.h>
+#include <netinet/in_systm.h>
+#include <netinet/ip.h>
+#ifdef INET6
+#include <netinet/ip6.h>
+#endif /* INET6 */
+#include <netinet/in_pcb.h>
+#include <netinet/ip_icmp.h>
+#include <netinet/icmp_var.h>
+#include <netinet/igmp_var.h>
+#include <netinet/ip_var.h>
+#include <netinet/tcp.h>
+#include <netinet/tcpip.h>
+#include <netinet/tcp_seq.h>
+#define TCPSTATES
+#include <netinet/tcp_fsm.h>
+#include <netinet/tcp_var.h>
+#include <netinet/udp.h>
+#include <netinet/udp_var.h>
+#include <sys/types.h>
 
-gboolean
-gkrellm_sys_inet_init(void)
-	{
-	return FALSE;
+#define warn(x...) fprintf(stderr,x)
+ 
+ void
+ gkrellm_sys_inet_read_tcp_data(void)
+{
+	ActiveTCP	tcp;
+    const char *mibvar="net.inet.tcp.pcblist";
+	char *buf;
+	struct tcpcb *tp = NULL;
+	struct inpcb *inp;
+	struct xinpgen *xig, *oxig;
+	struct xsocket *so;
+	size_t len=0;
+	if (sysctlbyname(mibvar, 0, &len, 0, 0) < 0) {
+		if (errno != ENOENT)
+			warn("sysctl: %s", mibvar);
+		return;
+	}        
+	if ((buf = malloc(len)) == 0) {
+		warn("malloc %lu bytes", (u_long)len);
+		return;
+ 	}
+	if (sysctlbyname(mibvar, buf, &len, 0, 0) < 0) {
+		warn("sysctl: %s", mibvar);
+		free(buf);
+		return;
 	}
+     /*
+         * Bail-out to avoid logic error in the loop below when
+         * there is in fact no more control block to process
+         */
+        if (len <= sizeof(struct xinpgen)) {
+            free(buf);
+            return;
+        }
+ 	oxig = xig = (struct xinpgen *)buf;
+	for (xig = (struct xinpgen *)((char *)xig + xig->xig_len);
+	     xig->xig_len > sizeof(struct xinpgen);
+	     xig = (struct xinpgen *)((char *)xig + xig->xig_len)) {
+    	tp = &((struct xtcpcb *)xig)->xt_tp;
+	   	inp = &((struct xtcpcb *)xig)->xt_inp;
+		so = &((struct xtcpcb *)xig)->xt_socket;
+    if (so->xso_protocol != IPPROTO_TCP)
+ 			continue;
+		/* Ignore PCBs which were freed during copyout. */
+		if (inp->inp_gencnt > oxig->xig_gen)
+			continue;
+	if ((inp->inp_vflag & INP_IPV4) == 0
+#ifdef INET6
+		    && (inp->inp_vflag & INP_IPV6) == 0
+#endif /* INET6 */
+			)
+			continue;
+                /*
+                 * Local address is not an indication of listening socket or
+                 * server sockey but just rather the socket has been bound.
+                 * That why many UDP sockets were not displayed in the original code.
+                 */
+                if (tp->t_state <= TCPS_LISTEN){
+                    continue;
+                    }
+			if (inp->inp_vflag & INP_IPV4) {
+			     tcp.local_port=ntohs(inp->inp_lport);
+			     tcp.remote_addr.s_addr=(uint32_t)inp->inp_faddr.s_addr;
+			     tcp.remote_port=ntohs(inp->inp_fport);
+			     tcp.family=AF_INET;
+			     gkrellm_inet_log_tcp_port_data(&tcp);
+            }
+#ifdef INET6
+			else if (inp->inp_vflag & INP_IPV6) {
+			     tcp.local_port=ntohs(inp->inp_lport);
+    			 memcpy(&(tcp.remote_addr6),&(inp->in6p_faddr),sizeof(struct in6_addr));
+			     tcp.remote_port=ntohs(inp->inp_fport);
+			     tcp.family=AF_INET6;
+			     gkrellm_inet_log_tcp_port_data(&tcp);
+			} /* else nothing printed now */
+#endif /* INET6 */
+}  
+free(buf);
+}
+ 
+ gboolean
+ gkrellm_sys_inet_init(void)
+ 	{
+	return TRUE;
+ 	}
+ 
 
 
 /* ===================================================================== */
@@ -453,12 +561,12 @@ gkrellm_sys_mem_read_data(void)
 			pshift++;
 	}
 	
-	used = (natural_t)(vm_info.active_count + vm_info.inactive_count + vm_info.wire_count) << pshift;
-	free = (natural_t)vm_info.free_count << pshift;	
-	total = (natural_t)(vm_info.active_count + vm_info.inactive_count + vm_info.free_count + vm_info.wire_count) << pshift;
+	used = (guint64)(vm_info.active_count) << pshift;
+	free = (guint64)vm_info.free_count << pshift;	
+	total = (guint64)(vm_info.active_count + vm_info.inactive_count + vm_info.free_count + vm_info.wire_count) << pshift;
 	/* Don't know how to get cached or buffers. */
-	buffers = 0;
-	cached = 0;
+	buffers =  (guint64) (vm_info.wire_count) << pshift;
+	cached = (guint64) (vm_info.inactive_count) << pshift;
 	/* shared  0 for now, shared is a PITA */
         shared = 0;	
 	gkrellm_mem_assign_data(total, used, free, shared, buffers, cached);

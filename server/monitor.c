@@ -965,7 +965,7 @@ gkrellm_net_routed_event(gchar *name, gboolean routed)
 void
 gkrellm_net_add_timer_type_ppp(gchar *name)
 	{
-	if (!_GK.net_timer)
+	if (!_GK.net_timer || !name)
 		return;
 	if (name && !strncmp(_GK.net_timer, name, strlen(name) - 1))
 		net_timer_type = TIMER_TYPE_PPP;
@@ -974,7 +974,7 @@ gkrellm_net_add_timer_type_ppp(gchar *name)
 void
 gkrellm_net_add_timer_type_ippp(gchar *name)
 	{
-	if (!_GK.net_timer)
+	if (!_GK.net_timer || !name)
 		return;
 	if (name && !strncmp(_GK.net_timer, name, strlen(name) - 1))
 		net_timer_type = TIMER_TYPE_IPPP;
@@ -2328,6 +2328,8 @@ gkrellmd_client_read(gint fd, gint nbytes)
 				{
 				mon = (GkrellmdMonitor *) list->data;
 				mp = mon->privat;
+				if (!mp->serve_name)
+					continue;
 				n = strlen(mp->serve_name);
 				e = s + n;
 				if (*e == '>' && !strncmp(mp->serve_name, s, n))

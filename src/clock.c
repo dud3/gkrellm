@@ -144,6 +144,7 @@ get_color_name(GdkColor *color, gchar **color_string)
 			(color->green >> 8) & 0xff,
 			(color->blue >> 8) & 0xff );
 	gkrellm_dup_string(color_string, cstring);
+	g_free(cstring);
 	}
 
 static void
@@ -192,6 +193,7 @@ static gchar *
 strftime_format(gchar *format, gchar *alt_color)
 	{
 	struct tm	*t;
+	gchar		*locale_format = NULL;
 	gchar		buf1[512], buf2[512];
 
 	if (_GK.client_mode)
@@ -199,12 +201,14 @@ strftime_format(gchar *format, gchar *alt_color)
 	else
 		t = &gkrellm_current_tm;
 
-	strftime(buf1, sizeof(buf1), format, t);
+	locale_format = g_locale_from_utf8 (format, -1, NULL, NULL, NULL);
+	strftime(buf1, sizeof(buf1), locale_format, t);
+	g_free (locale_format);
 	format_alt_color(buf1, buf2, sizeof(buf2), alt_color);
 
 // printf("%s\n", buf2);
 
-	return g_strdup(buf2);
+	return g_locale_to_utf8 (buf2, -1, NULL, NULL, NULL);
 	}
 
 static gint

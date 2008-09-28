@@ -1481,6 +1481,8 @@ client_plugin_func(gchar *line)
 	for (list = client_plugin_serve_data_list; list; list = list->next)
 		{
 		plug = (ClientPlugin *) list->data;
+		if (!plug->key_name)
+			continue;
 		n = strlen(plug->key_name);
 		s = line + n;
 		if (*s == '>' && !strncmp(plug->key_name, line, n))
@@ -1539,7 +1541,7 @@ client_send_to_server(gchar *buf)
 	{
 	gint	n;
 
-	if (!server_alive || client_fd < 0)
+	if (!server_alive || client_fd < 0 || !buf)
 		return FALSE;
 #if defined(MSG_NOSIGNAL)
 	n = send(client_fd, buf, strlen(buf), MSG_NOSIGNAL);
@@ -1681,7 +1683,7 @@ process_server_line(KeyTable *table, gint table_size, gchar *line)
   /* Read setup info from gkrellmd server.  Stuff needed before the
   |  client_init calls must be read here.
   */
-static void
+static gboolean
 read_server_setup(gint fd)
 	{
 	gchar			buf[256];
@@ -1696,9 +1698,13 @@ read_server_setup(gint fd)
 
 	gkrellm_free_glist_and_data(&client_plugin_setup_line_list);
 
+    gint rs;
+    
 	while (1)
 		{
-		getline(fd, buf, sizeof(buf));
+		rs=getline(fd, buf, sizeof(buf));
+        if(rs<0)
+            return FALSE;
 		if (!strcmp(buf, "</gkrellmd_setup>"))
 			break;
 		process_server_line(&setup_table[0], table_size, buf);
@@ -1714,12 +1720,15 @@ read_server_setup(gint fd)
 	table_size = sizeof(update_table) / sizeof(KeyTable);
 	while (1)
 		{
-		getline(fd, buf, sizeof(buf));
+		rs=getline(fd, buf, sizeof(buf));
+        if(rs<0)
+            return FALSE;
 		if (!strcmp(buf, "</initial_update>"))
 			break;
 		process_server_line(&update_table[0], table_size, buf);
 		}
 	setup_done = TRUE;
+    return TRUE;
 	}
 
 void
@@ -1870,7 +1879,10 @@ gkrellm_client_mode_connect(void)
 
 	/* Initial setup lines from server are read in blocking mode.
 	*/
-	read_server_setup(client_fd);
+	if(!read_server_setup(client_fd)){
+        close(client_fd);
+        return FALSE;
+    }
 
 	/* Extra stuff not handled in read_server_setup()
 	*/
