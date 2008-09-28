@@ -910,10 +910,11 @@ create_cpu(GtkWidget *vbox, gint first_create)
 /* ------------------------------------------------------------------ */
 #define	CPU_CONFIG_KEYWORD	"cpu"
 
-static GtkWidget	*text_format_combo;
+static GtkWidget	*text_format_combo_box;
 static GtkWidget	*smp_button[3];
+#if !defined(WIN32)
 static GtkWidget	*alert_config_nice_button;
-
+#endif
 
 static void
 cb_alert_trigger(GkrellmAlert *alert, CpuMon *cpu)
@@ -1169,8 +1170,10 @@ cb_text_format(GtkWidget *widget, gpointer data)
 	GList	*list;
 	CpuMon	*cpu;
 	gchar	*s;
+	GtkWidget *entry;
 
-	s = gkrellm_gtk_entry_get_text(&(GTK_COMBO(text_format_combo)->entry));
+	entry = gtk_bin_get_child(GTK_BIN(text_format_combo_box));
+	s = gkrellm_gtk_entry_get_text(&entry);
 	gkrellm_locale_dup_string(&text_format, s, &text_format_locale);
 	for (list = cpu_mon_list; list; list = list->next)
 		{
@@ -1345,26 +1348,29 @@ create_cpu_tab(GtkWidget *tab_vbox)
 	vbox1 = gkrellm_gtk_category_vbox(vbox,
 				_("Format String for Chart Labels"),
 				4, 0, TRUE);
+
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox1), hbox, FALSE, FALSE, 0);
 
-	text_format_combo = gtk_combo_new();
-	gtk_box_pack_start(GTK_BOX(hbox), text_format_combo, TRUE, TRUE, 0);
-	list = NULL;
-	list = g_list_append(list, text_format);
-	list = g_list_append(list, DEFAULT_TEXT_FORMAT);
-	list = g_list_append(list, _("\\fu \\.$u\\n\\fs \\.$s"));
-	list = g_list_append(list, _("\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s"));
-	list = g_list_append(list, _("\\ww\\D3\\f\\au\\.$u\\D0\\f\\as\\.$s"));
+	text_format_combo_box = gtk_combo_box_entry_new_text();
+	gtk_box_pack_start(GTK_BOX(hbox), text_format_combo_box, TRUE, TRUE, 0);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		text_format);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		DEFAULT_TEXT_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		_("\\fu \\.$u\\n\\fs \\.$s"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		_("\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		_("\\ww\\D3\\f\\au\\.$u\\D0\\f\\as\\.$s"));
 	if (!nice_time_unsupported)
-		list = g_list_append(list,
+		{
+		gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
 			"\\ww\\C\\f$L\\D5\\f\\an\\.$n\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s");
-	gtk_combo_set_popdown_strings(GTK_COMBO(text_format_combo), list);
-	gtk_combo_set_case_sensitive(GTK_COMBO(text_format_combo), TRUE);
-	g_list_free(list);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(text_format_combo)->entry),
-			text_format);
-	g_signal_connect(G_OBJECT(GTK_COMBO(text_format_combo)->entry), "changed",
+		}
+	gtk_combo_box_set_active(GTK_COMBO_BOX(text_format_combo_box), 0);
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(text_format_combo_box)), "changed",
 			G_CALLBACK(cb_text_format), NULL);
 
 	vbox1 = gkrellm_gtk_category_vbox(vbox,
