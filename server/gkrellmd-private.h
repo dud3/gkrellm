@@ -77,6 +77,7 @@
 #endif
 
 #define DEBUG_SYSDEP		0x1
+#define DEBUG_SERVER		0x2
 #define DEBUG_MAIL			0x10
 #define DEBUG_NET			0x20
 #define DEBUG_TIMER			0x40

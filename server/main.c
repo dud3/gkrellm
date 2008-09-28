@@ -1196,6 +1196,7 @@ gkrellmd_run(gint argc, gchar **argv)
 
 	interval = 1000000 / _GK.update_HZ;
 
+	gkrellm_debug(DEBUG_SERVER, "Entering main event loop\n");
 	// main event loop
 #if defined(WIN32)
 	/* endless loop if:
@@ -1249,6 +1250,7 @@ gkrellmd_run(gint argc, gchar **argv)
 				}
 			if (server_fd >= 0)
 				{
+				gkrellm_debug(DEBUG_SERVER, "Calling accept() for new client connection\n");
 				client_fd = accept(server_fd,
 						(struct sockaddr *) &client_addr,
 						(socklen_t *) (void *)&addr_len);
@@ -1277,6 +1279,7 @@ gkrellmd_run(gint argc, gchar **argv)
 				}
 			else
 				{
+				gkrellm_debug(DEBUG_SERVER, "Reading data from client connection\n");
 #if defined(WIN32)
 				ioctlsocket(fd, FIONREAD, &nbytes);
 #else
