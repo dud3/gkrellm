@@ -263,6 +263,7 @@ create_calendar_panel(GtkWidget *vbox, gint first_create)
 	cal_string = strftime_format(cal_format, cal_alt_color_string);
 	d_cal = gkrellm_create_decal_text_markup(pcal, cal_string,
 				gkrellm_meter_textstyle(cal_style_id), style, -1, -1, -1);
+	g_free(cal_string);
 
 	gkrellm_panel_configure(pcal, NULL, style);
 	gkrellm_panel_create(vbox, mon_cal, pcal);
@@ -325,6 +326,7 @@ draw_cal(void)
 	gkrellm_decal_text_set_offset(d_cal, (d_cal->w - w) / 2, 0);
 	
 	gkrellm_draw_panel_layers(pcal);
+	g_free(cal_string);
 	}
 
 static void
@@ -367,6 +369,7 @@ create_clock_panel(GtkWidget *vbox, gint first_create)
 	clock_string = strftime_format(clock_format, clock_alt_color_string);
 	d_clock = gkrellm_create_decal_text_markup(pclock, clock_string,
 				gkrellm_meter_textstyle(clock_style_id), style, -1, -1, -1);
+	g_free(clock_string);
 
 	gkrellm_panel_configure(pclock, NULL, style);
 	gkrellm_panel_create(vbox, mon_clock, pclock);
@@ -422,6 +425,7 @@ draw_clock(gboolean check_size)
 		}
 	gkrellm_draw_decal_markup(pclock, d_clock, clock_string);
 	gkrellm_draw_panel_layers(pclock);
+	g_free(clock_string);
 	}
 
 
@@ -779,8 +783,6 @@ create_clock_tab(GtkWidget *tab_vbox)
 				GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	for (i = 0; i < sizeof(clock_info_text)/sizeof(gchar *); ++i)
 		gkrellm_gtk_text_view_append(text, _(clock_info_text[i]));
-
-
 	g_signal_connect(G_OBJECT(cal_launch_entry), "changed",
 			G_CALLBACK(cb_launch_entry), GINT_TO_POINTER(1));
 	g_signal_connect(G_OBJECT(cal_tooltip_entry), "changed",
