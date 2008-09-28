@@ -22,6 +22,7 @@
 #include "gkrellm.h"
 #include "gkrellm-private.h"
 #include "gkrellm-sysdeps.h"
+#include "log-private.h"
 
 #if GTK_CHECK_VERSION(2,4,0)
 #include "icon.xpm"
@@ -133,17 +134,15 @@ load_font(gchar *font_string, PangoFontDescription **gk_font,
 
 	if (font_string)
 		font_desc = pango_font_description_from_string(font_string);
-	if (_GK.debug_level & DEBUG_GUI)
-		printf("load_font: %s %p\n", font_string, font_desc);
+	gkrellm_debug(DEBUG_GUI, "load_font: %s %p\n", font_string, font_desc);
 
 	if (!font_desc)
 		{
 		for (i = 0; !font_desc && i < N_FALLBACK_FONTS; ++i)
 			{
 			font_desc = pango_font_description_from_string(fallback_fonts[i]);
-			if (_GK.debug_level & DEBUG_GUI)
-				printf("load_font trying fallback: %s\n",
-							fallback_fonts[i]);
+			gkrellm_debug(DEBUG_GUI, "load_font trying fallback: %s\n",
+						fallback_fonts[i]);
 			}
 		}
 	if (*gk_font)
@@ -222,7 +221,7 @@ setup_colors()
 
 	/* Set up the depth 1 GCs
 	*/
-	/* printf("white pixel = %ld\n", _GK.white_color.pixel); */
+	/* g_print("white pixel = %ld\n", _GK.white_color.pixel); */
 	if (_GK.bit1_GC == NULL)
 		{
 		GdkBitmap	*dummy_bitmap;
@@ -274,8 +273,7 @@ set_or_save_position(gint save)
 			y_last = _GK.y_position;
 			fprintf(f, "%d %d\n", _GK.x_position, _GK.y_position);
 			fclose(f);
-			if (_GK.debug_level & DEBUG_POSITION)
-				printf("save_position: %d %d\n", x_last, y_last);
+			gkrellm_debug(DEBUG_POSITION, "save_position: %d %d\n", x_last, y_last);
 			}
 		save_position_countdown = 0;
 		}
@@ -295,8 +293,7 @@ set_or_save_position(gint save)
 				_GK.y_position = y_last = y;
 				_GK.position_valid = TRUE;
 				gdk_window_move(gtree.window->window, x, y);
-				if (_GK.debug_level & DEBUG_POSITION)
-					printf("startup_position moveto %d %d (valid)\n", x, y);
+				gkrellm_debug(DEBUG_POSITION, "startup_position moveto %d %d (valid)\n", x, y);
 				}
 			}
 		}
@@ -602,8 +599,7 @@ top_frame_button_release(GtkWidget *widget, GdkEventButton *ev, gpointer data)
 	if (!no_transparency)
 		gkrellm_winop_apply_rootpixmap_transparency();
 	moving_gkrellm = FALSE;
-	if (_GK.debug_level & DEBUG_POSITION)
-		printf("gkrellm moveto: x_pos=%d y_pos=%d\n",
+	gkrellm_debug(DEBUG_POSITION, "gkrellm moveto: x_pos=%d y_pos=%d\n",
 				_GK.x_position, _GK.y_position);
 	}
 
@@ -1179,7 +1175,7 @@ gkrellm_pack_side_frames(void)
 		{
 		rf_image = gtk_image_new_from_pixmap(gtree.frame_right_pixmap, NULL);
 		gtk_box_pack_start(GTK_BOX(gtree.right_vbox), rf_image,
-					FALSE, FALSE, 0);	
+					FALSE, FALSE, 0);
 		gtk_widget_show(rf_image);
 		}
 	else
@@ -1199,9 +1195,9 @@ gkrellm_pack_side_frames(void)
 			{
 			gdk_window_move(gtree.window->window,
 							_GK.x_position, _GK.y_position);
-			if (_GK.debug_level & DEBUG_POSITION)
-				printf("pack moveto %d %d=y_position (y_gkrell=%d y_bot=%d)\n",
-						_GK.x_position, _GK.y_position, y_gkrell, y_bottom);
+			gkrellm_debug(DEBUG_POSITION,
+				"pack moveto %d %d=y_position (y_gkrell=%d y_bot=%d)\n",
+				_GK.x_position, _GK.y_position, y_gkrell, y_bottom);
 			}
 		y_pack = -1;
 		}
@@ -1218,9 +1214,9 @@ gkrellm_pack_side_frames(void)
 			if (_GK.position_valid)
 				{
 				gdk_window_move(gtree.window->window, _GK.x_position, y_pack);
-				if (_GK.debug_level & DEBUG_POSITION)
-					printf("pack moveto %d %d=y_pack (y_gkrell=%d y_bot=%d)\n",
-							_GK.x_position, y_pack, y_gkrell, y_bottom);
+				gkrellm_debug(DEBUG_POSITION,
+					"pack moveto %d %d=y_pack (y_gkrell=%d y_bot=%d)\n",
+					_GK.x_position, y_pack, y_gkrell, y_bottom);
 				}
 			}
 		/* If GKrellM bottom edge was <= screen bottom, then move to make
@@ -1233,9 +1229,9 @@ gkrellm_pack_side_frames(void)
 			if (_GK.position_valid)
 				{
 				gdk_window_move(gtree.window->window, _GK.x_position, y_pack);
-				if (_GK.debug_level & DEBUG_POSITION)
-					printf("pack moveto %d %d=y_pack (y_gkrell=%d on_bottom)\n",
-							_GK.x_position, y_pack, y_gkrell);
+				gkrellm_debug(DEBUG_POSITION,
+					"pack moveto %d %d=y_pack (y_gkrell=%d on_bottom)\n",
+					_GK.x_position, y_pack, y_gkrell);
 				}
 			}
 		}
@@ -1293,8 +1289,8 @@ fix_edges()
 		gdk_window_move(gtree.window->window, x, y);
 		if (y != _GK.y_position)
 			y_pack = y;
-		if (_GK.debug_level & DEBUG_POSITION)
-			printf("fix_edges: %d %d (y_pos=%d)\n", x, y, _GK.y_position);
+		gkrellm_debug(DEBUG_POSITION,
+			"fix_edges: %d %d (y_pos=%d)\n", x, y, _GK.y_position);
 		}
 	}
 
@@ -1319,7 +1315,7 @@ gkrellm_render_spacer(GkrellmSpacer *spacer, gint y_src, gint h_src,
 	   )
 		{
 		if (spacer->height > 0)
-			fprintf(stderr, "Bad image size for spacer or bg_chart.\n");
+			g_warning("Bad image size for spacer or bg_chart.\n");
 		return FALSE;
 		}
 	piximage.border = spacer->piximage->border;
@@ -1573,7 +1569,7 @@ cb_client_event(GtkWidget  *widget, GdkEventClient *event, gpointer data)
 	if (!atom_gkrellm_read_theme)
 		atom_gkrellm_read_theme = gdk_atom_intern("_GKRELLM_READ_THEME",FALSE);
 
-	if (event->message_type == atom_gkrellm_read_theme) 
+	if (event->message_type == atom_gkrellm_read_theme)
 		gkrellm_read_theme_event(NULL);
 	return FALSE;
 	}
@@ -1673,12 +1669,16 @@ cb_configure_notify(GtkWidget *widget, GdkEventConfigure *ev, gpointer data)
 		if (y >= 0 && y < _GK.h_display - 5 && y != y_pack)
 			_GK.y_position = y;
 		_GK.position_valid = TRUE;
-		if (!moving_gkrellm && (_GK.debug_level & DEBUG_POSITION))
-			printf("configure-event: x_pos=%d y_pos=%d x=%d y=%d y_pack=%d\n",
-						_GK.x_position, _GK.y_position, x, y, y_pack);
+		if (!moving_gkrellm)
+			gkrellm_debug(DEBUG_POSITION,
+				"configure-event: x_pos=%d y_pos=%d x=%d y=%d y_pack=%d\n",
+				_GK.x_position, _GK.y_position, x, y, y_pack);
 		}
-	else if (_GK.debug_level & DEBUG_POSITION)
-			printf("locked configure-event: x=%d y=%d\n", x, y);
+	else
+		{
+		gkrellm_debug(DEBUG_POSITION,
+			"locked configure-event: x=%d y=%d\n", x, y);
+		}
 
 	if (size_change || position_change)
 		gkrellm_winop_update_struts();
@@ -1948,26 +1948,11 @@ load_builtin_monitors()
 	add_builtin(gkrellm_init_uptime_monitor());
 	}
 
-
-void
-gkrellm_print(const gchar *string)
-	{
-	gchar	*s;
-
-	s = g_locale_from_utf8(string, -1, NULL, NULL, NULL);
-	if (s)
-		{
-		fputs(s, stdout);
-		g_free(s);
-		}
-	else
-		fputs(string, stdout);
-	}
-
 static void
 gkrellm_exit(gint exit_code)
 	{
 	gkrellm_sys_main_cleanup();
+	gkrellm_log_cleanup();
 	exit(exit_code);
 	}
 
@@ -2051,22 +2036,40 @@ main(gint argc, gchar **argv)
 	gint		i;
 	gchar		*s;
 
-	gkrellm_sys_main_init();
+	//gkrellm_sys_main_init();
 
 #ifdef ENABLE_NLS
 	gtk_set_locale();
 #endif
-
 	g_thread_init(NULL);
-
 	gtk_init(&argc, &argv);		/* Will call gdk_init() */
-
+	gkrellm_log_init();
 	gtk_widget_push_colormap(gdk_rgb_get_colormap());
 
 #ifdef ENABLE_NLS
 #ifdef LOCALEDIR
+#if defined(WIN32)
+	/*
+	Prepend app install path to relative locale dir, don't rely on CWD being correct
+	*/
+	if (!G_IS_DIR_SEPARATOR(LOCALEDIR[0]))
+		{
+ 		gchar* locale_dir;
+		locale_dir = g_win32_get_package_installation_subdirectory(NULL, NULL, LOCALEDIR);
+		if (locale_dir != NULL)
+			{
+			bindtextdomain(PACKAGE, locale_dir);
+			g_free(locale_dir);
+			}
+		}
+	else
+		{
+		bindtextdomain(PACKAGE, LOCALEDIR);
+		}
+#else
 	bindtextdomain(PACKAGE, LOCALEDIR);
-#endif
+#endif /* !WIN32 */
+#endif /* LOCALEDIR */
 	textdomain(PACKAGE);
 	bind_textdomain_codeset(PACKAGE, "UTF-8");
 #endif	/* ENABLE_NLS */
@@ -2079,8 +2082,6 @@ main(gint argc, gchar **argv)
 	signal(SIGFPE, gkrellm_abort);
 	signal(SIGSEGV, gkrellm_abort);
 	signal(SIGABRT, gkrellm_abort);
-
-	g_set_print_handler(gkrellm_print);
 
 	for (i = 1; i < argc; ++i)
 		{
@@ -2128,6 +2129,8 @@ main(gint argc, gchar **argv)
 			_GK.no_config = TRUE;
 		else if ((!strcmp(s, "debug-level") || !strcmp(s, "d")) && i < argc-1)
 			_GK.debug_level = (gint) strtoul(argv[++i], NULL, 0);
+		else if ((!strcmp(s, "logfile") || !strcmp(s, "l")) && i < argc-1)
+			gkrellm_log_set_filename(argv[++i]);
 		else if (!strncmp(s, "debug", 5))
 			{
 			if (s[5] != '\0')
@@ -2150,7 +2153,7 @@ main(gint argc, gchar **argv)
 			_GK.test += 1;
 		else if (!strcmp(s, "version") || !strcmp(s, "v"))
 			{
-			printf("%s %d.%d.%d%s\n", PACKAGE, GKRELLM_VERSION_MAJOR,
+			g_print("%s %d.%d.%d%s\n", PACKAGE, GKRELLM_VERSION_MAJOR,
 					GKRELLM_VERSION_MINOR, GKRELLM_VERSION_REV,
 					GKRELLM_EXTRAVERSION);
 			exit(0);
@@ -2168,17 +2171,19 @@ main(gint argc, gchar **argv)
 			}
 		}
 
+	gkrellm_sys_main_init(); //FIXME: call this later or earlier?
+
 	_GK.w_display = gdk_screen_get_width(gdk_screen_get_default());
 	_GK.h_display = gdk_screen_get_height(gdk_screen_get_default());
 
-	if (_GK.debug_level)
-		printf("--- GKrellM %d.%d.%d ---\n", GKRELLM_VERSION_MAJOR,
-				GKRELLM_VERSION_MINOR, GKRELLM_VERSION_REV);
+	if (_GK.debug_level > 0)
+		g_debug("--- GKrellM %d.%d.%d ---\n", GKRELLM_VERSION_MAJOR,
+			GKRELLM_VERSION_MINOR, GKRELLM_VERSION_REV);
 	if (_GK.server && !gkrellm_client_mode_connect())
 		exit(0);
 
 	check_gkrellm_directories();
-	gkrellm_load_user_config(NULL, FALSE);		
+	gkrellm_load_user_config(NULL, FALSE);
 	decorated = (_GK.command_line_decorated || _GK.decorated);
 	if (   _GK.command_line_plugin || _GK.command_line_theme
 		|| _GK.debug_level > 0 || _GK.debug > 0 || _GK.nolock
@@ -2252,33 +2257,10 @@ main(gint argc, gchar **argv)
 
 	gkrellm_start_timer(_GK.update_HZ);
 	setup_signal_handler();
-	gtk_main ();
+	gtk_main();
+
 	gkrellm_save_all();
 	gkrellm_exit(0);
 
 	return 0;
 	}
-
-
-#if defined(WIN32) && defined(_WINDOWS)
-int APIENTRY WinMain(HINSTANCE	hInstance,
-					HINSTANCE	hPrevInstance,
-					LPSTR		lpCmdLine,
-					int			nCmdShow)
-	{
-	int		argc;
-	gint	i, ret;
-	gchar	*s, *sm;
-	gchar	**argv;
-	gchar	*cmd;
-
-	// need to get exe too
-	cmd = GetCommandLine();
-	g_shell_parse_argv(cmd, &argc, &argv, NULL);
-
-	ret = main(argc, argv);
-    g_strfreev(argv);
-	return ret;
-	}
-#endif
-

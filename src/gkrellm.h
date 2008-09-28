@@ -25,7 +25,8 @@
 
 #if defined(HAVE_CONFIG_H)
 #include "config.h"
-#endif  
+#endif
+#include "log.h"
 
 #if !defined(WIN32)
 #include <sys/param.h>
@@ -84,7 +85,7 @@
 #	define gettext(String) (String)
 #	define dgettext(Domain,String) (String)
 #	define dcgettext(Domain,String,Type) (String)
-#	define bindtextdomain(Domain,Directory) (Domain) 
+#	define bindtextdomain(Domain,Directory) (Domain)
 #endif	/* ENABLE_NLS */
 
 
@@ -269,7 +270,7 @@ typedef struct
 	GdkBitmap	*stencil;
 	gint		y_src;		/* Offset into pixmap if a vertical stack	*/
 	gint		w, h;		/* Size of the decal						*/
-	gint		x, y;		/* Position of decal in a drawable			*/	
+	gint		x, y;		/* Position of decal in a drawable			*/
 	gshort		flags,
 				state;
 	gint		value;		/* Index into stack, text value, etc	*/
@@ -1050,13 +1051,13 @@ typedef struct _GkrellmMonitor
 	void		(*save_user_config)(FILE *);
 	void		(*load_user_config)(gchar *);
 	gchar		*config_keyword;
-	
+
 	void		(*undef2)(void);
 	void		(*undef1)(void);
 	GkrellmMonprivate *privat;
 
 	gint		insert_before_id;		/* If plugin, insert before this mon*/
-	
+
 	void		*handle;				/* If monitor is a plugin.	*/
 	gchar		*path;					/* 	"						*/
 	}

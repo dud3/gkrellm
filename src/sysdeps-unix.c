@@ -68,9 +68,15 @@
 #include "sysdeps/gtop.c"
 #endif
 
-#include <sys/utsname.h>
+#if defined(WIN32)
+#include "sysdeps/win32.c"
+#endif
 
-#ifndef SENSORS_COMMON
+#if !defined(WIN32)
+#include <sys/utsname.h>
+#endif
+
+#if !defined(SENSORS_COMMON) && !defined(WIN32)
 static gboolean (*mbmon_check_func)();
 #endif
 
@@ -86,6 +92,7 @@ gkrellm_sys_get_host_name(void)
 	return buf;
 	}
 
+#if !defined(WIN32)
 gchar *
 gkrellm_sys_get_system_name(void)
 	{
@@ -98,12 +105,13 @@ gkrellm_sys_get_system_name(void)
 		sname = g_strdup("unknown name");
 	return sname;
 	}
+#endif
 
 gboolean
 gkrellm_sys_sensors_mbmon_port_change(gint port)
 	{
 	gboolean	result = FALSE;
-
+#if !defined(WIN32)
 	_GK.mbmon_port = port;
 
 	/* mbmon_check_func will be set if sysdep code has included
@@ -116,11 +124,16 @@ gkrellm_sys_sensors_mbmon_port_change(gint port)
 		gkrellm_sensors_model_update();
 		gkrellm_sensors_rebuild(TRUE, TRUE, TRUE);
 		}
+#endif
 	return result;
 	}
 
 gboolean
 gkrellm_sys_sensors_mbmon_supported(void)
 	{
+#if !defined(WIN32)
 	return mbmon_check_func ? TRUE : FALSE;
+#else
+	return FALSE;
+#endif
 	}

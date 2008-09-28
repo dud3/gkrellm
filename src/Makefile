@@ -22,6 +22,11 @@ INSTALL ?= install
 LINK_FLAGS ?= -Wl,-E
 SMC_LIBS ?= -L/usr/X11R6/lib -lSM -lICE
 
+SHARED_PATH = ../shared
+# Make GNU Make search for sources somewhere else as well
+VPATH = $(SHARED_PATH)
+
+
 ifeq ($(without-gnutls),1)
 	CONFIGURE_ARGS += --without-gnutls
 endif
@@ -40,8 +45,6 @@ endif
 ifeq ($(without-libsensors),1)
 	CONFIGURE_ARGS += --without-libsensors
 endif
-
-
 DUMMY_VAR := $(shell ./configure $(CONFIGURE_ARGS))
 
 HAVE_GNUTLS = $(shell grep -c HAVE_GNUTLS configure.h)
@@ -65,14 +68,13 @@ endif
 CC ?= gcc
 STRIP ?= -s
 
-GKRELLM_INCLUDES = gkrellm.h gkrellm-public-proto.h
+GKRELLM_INCLUDES = gkrellm.h gkrellm-public-proto.h $(SHARED_PATH)/log.h
 
 PKG_INCLUDE = `$(PKG_CONFIG) --cflags gtk+-2.0 gthread-2.0`
-
 PKG_LIB = `$(PKG_CONFIG) --libs gtk+-2.0 gthread-2.0`
 
-FLAGS = -O2 -I.. $(PKG_INCLUDE) $(GTOP_INCLUDE)
-FLAGS+= $(PTHREAD_INC)
+FLAGS = -O2 -I.. -I$(SHARED_PATH) $(PKG_INCLUDE) $(GTOP_INCLUDE) $(PTHREAD_INC) \
+ -DGKRELLM_CLIENT
 
 LIBS = $(PKG_LIB) $(GTOP_LIBS) $(SMC_LIBS) $(SYS_LIBS) $(SSL_LIBS) $(SENSORS_LIBS)
 
@@ -83,6 +85,13 @@ ifeq ($(debug),yes)
     FLAGS += -g
 endif
 
+ifeq ($(profile),1)
+    FLAGS += -g -pg
+endif
+ifeq ($(profile),yes)
+    FLAGS += -g -pg
+endif
+
 ifeq ($(enable_nls),1)
     FLAGS += -DENABLE_NLS -DLOCALEDIR=\"$(LOCALEDIR)\"
 endif
@@ -91,7 +100,7 @@ ifeq ($(enable_nls),yes)
 endif
 
 ifneq ($(PACKAGE),gkrellm)
-	FLAGS += -DPACKAGE=\"$(PACKAGE)\"
+    FLAGS += -DPACKAGE=\"$(PACKAGE)\"
 endif
 
 ifeq ($(HAVE_GETADDRINFO),1)
@@ -105,9 +114,9 @@ OBJS =	main.o alerts.o battery.o base64.o clock.o cpu.o disk.o fs.o \
 	hostname.o inet.o mail.o mem.o net.o proc.o sensors.o uptime.o \
 	chart.o panel.o config.o gui.o krell.o plugins.o pixops.o \
 	smbdes.o smbencrypt.o smbmd4.o smbutil.o \
-	client.o utils.o  deprecated.o
+	client.o utils.o sysdeps-unix.o deprecated.o log.o
 
-UNIXOBJS = winops-x11.o sysdeps-unix.o
+UNIXOBJS = winops-x11.o
 
 all:	gkrellm
 
@@ -170,13 +179,13 @@ solaris:
 
 windows: libgkrellm.a
 	$(MAKE) \
-	CFLAGS="${CFLAGS} -DWIN32_CLIENT -D_WIN32_WINNT=0x0500 -DWINVER=0x0500" \
-	LINK_FLAGS="${LINK_FLAGS} -mwindows" \
-	EXTRAOBJS="${EXTRAOBJS} winops-win32.o sysdeps/win32.o win32-plugin.o win32-resource.o" \
-	SYS_LIBS=" -llargeint -lws2_32 -lpdh -lnetapi32 -liphlpapi -lntdll -lintl" \
-	SMC_LIBS="" \
-	UNIXOBJS="" \
-	gkrellm
+		CFLAGS="${CFLAGS} -D_WIN32_WINNT=0x0500 -DWINVER=0x0500" \
+		LINK_FLAGS="${LINK_FLAGS} -mwindows" \
+		EXTRAOBJS="${EXTRAOBJS} winops-win32.o win32-plugin.o win32-resource.o" \
+		SYS_LIBS=" -llargeint -lws2_32 -lpdh -lnetapi32 -liphlpapi -lntdll -lintl" \
+		SMC_LIBS="" \
+		UNIXOBJS="" \
+		gkrellm
 
 install: install_bin install_inc install_man
 
@@ -320,14 +329,17 @@ pixops.o:    pixops.c $(GKRELLM_H)
 client.o:    client.c $(GKRELLM_H)
 utils.o:     utils.c $(GKRELLM_H)
 sysdeps-unix.o: sysdeps-unix.c $(GKRELLM_H_SYS) $(SYSDEPS_SRC)
+log.o: $(SHARED_PATH)/log.c $(SHARED_PATH)/log.h $(GKRELLM_H)
+deprecated.o: deprecated.c $(GKRELLM_H)
+
 winops-x11.o: winops-x11.c $(GKRELLM_H)
 winops-gtk-mac.o: winops-gtk-mac.c $(GKRELLM_H)
-deprecated.o: deprecated.c $(GKRELLM_H)
-sysdeps/win32.o: sysdeps/win32.c $(GKRELLM_H_SYS)
-winops-win32.o:  winops-win32.c $(GKRELLM_H)
+winops-win32.o: winops-win32.c $(GKRELLM_H)
+
 win32-plugin.o: win32-plugin.c win32-plugin.h
 win32-libgkrellm.o: win32-libgkrellm.c win32-plugin.h
 win32-resource.o: win32-resource.rc win32-resource.h
 	windres -I.. -o win32-resource.o win32-resource.rc
+
 libgkrellm.a: win32-libgkrellm.o
 	ar -cr libgkrellm.a win32-libgkrellm.o
