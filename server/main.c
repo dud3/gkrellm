@@ -23,6 +23,10 @@
 #include "gkrellmd-private.h"
 #include "log-private.h"
 
+#if !defined(WIN32)
+	#include <syslog.h>
+#endif // !WIN32
+
 // win32 defines addrinfo but only supports getaddrinfo call on winxp or newer
 #if !defined(HAVE_GETADDRINFO) && !defined(WIN32)
 struct addrinfo

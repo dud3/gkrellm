@@ -42,9 +42,6 @@ Output should go to:
 #include "log-private.h"
 
 #include <stdio.h>
-#if !defined(WIN32)
-	#include <syslog.h>
-#endif // !WIN32
 
 // Include gkrellm headers to access _GK struct inside gkrellm_debug()
 #if defined(GKRELLM_SERVER)
