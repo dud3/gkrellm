@@ -1036,7 +1036,7 @@ static GtkTreeRowReference	*row_reference;
 static GtkTreeSelection		*selection;
 
 static GtkWidget			*launch_vbox,
-							*text_format_combo;
+							*text_format_combo_box;
 
 static GtkWidget			*alert_button;
 
@@ -1303,8 +1303,10 @@ cb_text_format(GtkWidget *widget, gpointer data)
 	GList	*list;
 	DiskMon	*disk;
 	gchar	*s;
+	GtkWidget *entry;
 
-	s = gkrellm_gtk_entry_get_text(&(GTK_COMBO(text_format_combo)->entry));
+	entry = gtk_bin_get_child(GTK_BIN(text_format_combo_box));
+	s = gkrellm_gtk_entry_get_text(&entry);
 	gkrellm_locale_dup_string(&text_format, s, &text_format_locale);
 	for (list = disk_mon_list; list; list = list->next)
 		{
@@ -1352,11 +1354,13 @@ create_disk_tab(GtkWidget *tab_vbox)
 	gtk_box_pack_start(GTK_BOX(tab_vbox), tabs, TRUE, TRUE, 0);
 
 /* -- Options tab */
-	vbox = gkrellm_gtk_framed_notebook_page(tabs, _("Options"));
+	vbox = gkrellm_gtk_notebook_page(tabs, _("Options"));
 
 	scrolled = gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
 				GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(scrolled),
+			GTK_SHADOW_IN);
 	gtk_box_pack_start(GTK_BOX(vbox), scrolled, TRUE, TRUE, 0);
 
 	model = create_model();
@@ -1402,22 +1406,21 @@ create_disk_tab(GtkWidget *tab_vbox)
 
 	vbox1 = gkrellm_gtk_category_vbox(vbox,
 				_("Format String for Chart Labels"),
-				4, 0, TRUE);
-	text_format_combo = gtk_combo_new();
-	gtk_box_pack_start(GTK_BOX(vbox1), text_format_combo, FALSE, FALSE, 2);
-	list = NULL;
-	list = g_list_append(list, text_format);
-	list = g_list_append(list, DEFAULT_TEXT_FORMAT);
-	list = g_list_append(list, "\\c\\f$M\\n$T");
-	list = g_list_append(list, "\\c\\f$M\\b$T");
-	list = g_list_append(list,
-					_("\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"));
-	gtk_combo_set_popdown_strings(GTK_COMBO(text_format_combo), list);
-	gtk_combo_set_case_sensitive(GTK_COMBO(text_format_combo), TRUE);
-	g_list_free(list);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(text_format_combo)->entry),
-			text_format);
-	g_signal_connect(G_OBJECT(GTK_COMBO(text_format_combo)->entry), "changed",
+				GK_BOX_SPACING, 0, TRUE);
+	text_format_combo_box = gtk_combo_box_entry_new_text();
+	gtk_box_pack_start(GTK_BOX(vbox1), text_format_combo_box, FALSE, FALSE, 0);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		text_format);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		DEFAULT_TEXT_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		"\\c\\f$M\\n$T");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		"\\c\\f$M\\b$T");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		_("\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"));
+	gtk_combo_box_set_active(GTK_COMBO_BOX(text_format_combo_box), 0);
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(text_format_combo_box)), "changed",
 			G_CALLBACK(cb_text_format), NULL);
 
 	vbox1 = gkrellm_gtk_category_vbox(vbox,
@@ -1425,8 +1428,6 @@ create_disk_tab(GtkWidget *tab_vbox)
 				4, 0, TRUE);
 	launch_vbox = gkrellm_gtk_scrolled_vbox(vbox, NULL,
 						GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-	gtk_widget_show(launch_vbox);
-	gtk_widget_realize(launch_vbox);
 	for (i = 0, list = disk_mon_list; list; list = list->next, ++i)
 		{
 		disk = (DiskMon *) list->data;
