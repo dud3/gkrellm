@@ -262,7 +262,7 @@ gkrellm_disk_units_are_blocks(void)
 	{
 	units_are_blocks = TRUE;
 	}
-	
+
 void
 gkrellm_disk_assign_data_by_device(gint device_number, gint unit_number,
 			guint64 rb, guint64 wb, gboolean virtual)
@@ -418,7 +418,7 @@ format_disk_data(DiskMon *disk, gchar *src_string, gchar *buf, gint size)
 		size -= len;
 		buf += len;
 		}
-	*buf = '\0';	
+	*buf = '\0';
 	}
 
 static void
@@ -912,7 +912,7 @@ save_disk_config(FILE *f)
 		|  a disk saved into the config here should be artificially created
 		|  should it not be present at next gkrellm startup.
 		*/
-		have_enabled_subdisks = (disk->subdisk == -1) ? 
+		have_enabled_subdisks = (disk->subdisk == -1) ?
 					any_enabled_subdisks(list->next) : FALSE;
 
 		fprintf(f, "%s device %s %d %d %d %d %d %d %d\n",
@@ -1273,7 +1273,7 @@ cb_enable(GtkCellRendererText *cell, gchar *path_string, gpointer data)
 				DISK_COLUMN, &disk,
 				-1);
 	gtk_tree_store_set(GTK_TREE_STORE(model), &iter,
-				ENABLE_COLUMN, !enabled, 
+				ENABLE_COLUMN, !enabled,
 				-1);
 	if (enabled)
 		{
@@ -1406,7 +1406,7 @@ create_disk_tab(GtkWidget *tab_vbox)
 
 	vbox1 = gkrellm_gtk_category_vbox(vbox,
 				_("Format String for Chart Labels"),
-				GK_BOX_SPACING, 0, TRUE);
+				4, 0, TRUE);
 	text_format_combo_box = gtk_combo_box_entry_new_text();
 	gtk_box_pack_start(GTK_BOX(vbox1), text_format_combo_box, FALSE, FALSE, 0);
 	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
