@@ -937,7 +937,7 @@ cb_timer_button_release(GtkWidget *widget, GdkEventButton *ev)
 
 	if (timer_button_state != TB_PRESSED)
 		return FALSE;
-	set_timer_button_state(save_tb_state);	
+	set_timer_button_state(save_tb_state);
 	if (! in_button(DECAL(timer_panel), ev))
 		return FALSE;
 
@@ -1300,7 +1300,7 @@ format_net_data(NetMon *net, gchar *src_string, gchar *buf, gint size)
 		size -= len;
 		buf += len;
 		}
-	*buf = '\0';	
+	*buf = '\0';
 
 	if ((_GK.debug_level & DEBUG_CHART_TEXT))
 		printf("              : %s\n", result);
@@ -1606,7 +1606,7 @@ days_in_year(gint y)
 
   /* Adjust a tm date structure to reference its next day.
   */
-static void 
+static void
 next_day(struct tm *t)
 	{
 	if ((t->tm_wday += 1) > SATURDAY)
@@ -1860,7 +1860,7 @@ load_net_data(void)
 						&net->week_stats[0].connect_time,
 						&net->month_stats[0].connect_time);
 				}
-			
+
 			}
 		else if (version == NET_DATA_VERSION)
 			{
@@ -1995,7 +1995,7 @@ create_net_timer(GtkWidget *vbox, gint first_create)
 	else
 		{
 		/* time_decal and button_decal are initially at same y = top_margin
-		*/	
+		*/
 		if (time_decal->h > button_decal->h)
 			button_decal->y += (time_decal->h - button_decal->h) / 2;
 		else
@@ -2077,7 +2077,7 @@ update_net(void)
 			if (net->up && !net->up_prev)
 				net->up_event = TRUE;
 			else if (!net->up && net->up_prev)
-				net->down_event = TRUE; 
+				net->down_event = TRUE;
 			}
 		}
 	for (list = net_mon_list; list; list = list->next)
@@ -2275,7 +2275,7 @@ load_net_extra_piximages(void)
 	|      THEME_DIR/timer/bg_timer.png
 	|  and for a border for it from the gkrellmrc in the format:
 	|      set_piximage_border timer_bg_timer l,r,t,b
-	| There is no default for bg_timer, ie it may end up being NULL. 
+	| There is no default for bg_timer, ie it may end up being NULL.
 	*/
 	if (!bg_timer_style)		/* Used just for the bg_timer border */
 		bg_timer_style = gkrellm_style_new0();
@@ -2550,8 +2550,8 @@ load_net_config(gchar *arg)
 
 static GtkWidget	*pon_entry,
 					*poff_entry,
-					*timer_iface_combo,
-					*text_format_combo;
+					*timer_iface_combo_box,
+					*text_format_combo_box;
 
 static GtkWidget	*enable_net_timer_button;
 static GtkWidget	*net_timer_seconds_button;
@@ -2601,9 +2601,8 @@ cb_enable(GtkWidget *button, NetMon *net)
 			}
 		}
 	gtk_widget_set_sensitive(net->alert_button, net->enabled);
-	if (net == net_timed && !net->enabled && timer_iface_combo)
-		gtk_entry_set_text(
-					GTK_ENTRY(GTK_COMBO(timer_iface_combo)->entry), "none");
+	if (net == net_timed && !net->enabled && timer_iface_combo_box)
+		gtk_combo_box_set_active(GTK_COMBO_BOX(timer_iface_combo_box), 0);
 	else
 		sync_chart(net);
 	enable_in_progress = FALSE;
@@ -2624,8 +2623,10 @@ cb_text_format(GtkWidget *widget, gpointer data)
 	GList   *list;
 	NetMon	*net;
 	gchar   *s;
+	GtkWidget *entry;
 
-	s = gkrellm_gtk_entry_get_text(&(GTK_COMBO(text_format_combo)->entry));
+	entry = gtk_bin_get_child(GTK_BIN(text_format_combo_box));
+	s = gkrellm_gtk_entry_get_text(&entry);
 	gkrellm_locale_dup_string(&text_format, s, &text_format_locale);
 	for (list = net_mon_list; list; list = list->next)
 		{
@@ -2646,7 +2647,7 @@ cb_label_entry(GtkWidget *widget, NetMon *net)
 static void
 cb_set_alert(GtkWidget *button, NetMon *net)
 	{
-	
+
 #if 0
 	GtkTreeModel	*model;
 	GtkTreePath		*path;
@@ -2747,12 +2748,12 @@ cb_timer_enable(GtkWidget *button, gpointer data)
 				GTK_TOGGLE_BUTTON(enable_net_timer_button)->active,
 				&timer_button_enabled);
 	gtk_widget_set_sensitive(net_timer_seconds_button, timer_button_enabled);
-	if (timer_iface_combo)
+	if (timer_iface_combo_box)
 		{
+		/* Reset to "none" combo box entry */
 		if (!timer_button_enabled)
-			gtk_entry_set_text(
-					GTK_ENTRY(GTK_COMBO(timer_iface_combo)->entry), "none");
-		gtk_widget_set_sensitive(timer_iface_combo, timer_button_enabled);
+			gtk_combo_box_set_active(GTK_COMBO_BOX(timer_iface_combo_box), 0);
+		gtk_widget_set_sensitive(timer_iface_combo_box, timer_button_enabled);
 		}
 	net_timer_visibility();
 	}
@@ -2770,9 +2771,11 @@ static void
 cb_timer_iface(GtkWidget *widget, gpointer data)
 	{
 	gchar	*s;
+	GtkWidget *entry;
 
-	s = gkrellm_gtk_entry_get_text(&(GTK_COMBO(timer_iface_combo)->entry));
-	if (*s == '\0')
+	entry = gtk_bin_get_child(GTK_BIN(timer_iface_combo_box));
+	s = gkrellm_gtk_entry_get_text(&entry);
+	if (*s == '\0' || strcmp(s, _("none")) == 0)
 		s = "none";
 	if (gkrellm_dup_string(&timer_button_iface, s))
 		{
@@ -2950,28 +2953,28 @@ create_net_tab(GtkWidget *tab_vbox)
 				timer_seconds, FALSE, FALSE, 0,
 				cb_timer_seconds, NULL,
 				_("Show seconds"));
+	gtk_widget_set_sensitive(net_timer_seconds_button, timer_button_enabled);
 	hbox = gtk_hbox_new (FALSE, 3);
 	gtk_container_set_border_width(GTK_CONTAINER(hbox), 0);
 	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 50);
 
 	if (!_GK.client_mode)
 		{
-		timer_iface_combo = gtk_combo_new();
-		gtk_box_pack_start(GTK_BOX(hbox), timer_iface_combo, FALSE, TRUE, 0);
-		list = NULL;
-		list = g_list_append(list, _("none"));
+		timer_iface_combo_box = gtk_combo_box_entry_new_text();
+		gtk_box_pack_start(GTK_BOX(hbox), timer_iface_combo_box, TRUE, TRUE, 0);
+		gtk_widget_set_sensitive(timer_iface_combo_box, timer_button_enabled);
+		gtk_combo_box_append_text(GTK_COMBO_BOX(timer_iface_combo_box),
+			_("none"));
 		for (tlist = timer_defaults_list; tlist; tlist = tlist->next)
 			{
 			tt = (TimerType *) tlist->data;
-			list = g_list_append(list, tt->name);
+			gtk_combo_box_append_text(GTK_COMBO_BOX(timer_iface_combo_box),
+				tt->name);
 			}
-		gtk_combo_set_popdown_strings(GTK_COMBO(timer_iface_combo), list);
-		gtk_combo_set_case_sensitive(GTK_COMBO(timer_iface_combo), TRUE);
-		g_list_free(list);
-		gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(timer_iface_combo)->entry),
-					timer_button_iface);
-		g_signal_connect(G_OBJECT(GTK_COMBO(timer_iface_combo)->entry),
-					"changed", G_CALLBACK(cb_timer_iface), NULL);
+		gtk_entry_set_text(GTK_ENTRY(gtk_bin_get_child(
+			GTK_BIN(timer_iface_combo_box))), timer_button_iface);
+		g_signal_connect(G_OBJECT(timer_iface_combo_box), "changed",
+			G_CALLBACK(cb_timer_iface), NULL);
 
 		label = gtk_label_new(_("Interface to link to the timer button"));
 		gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, TRUE, 0);
@@ -3062,25 +3065,23 @@ create_net_tab(GtkWidget *tab_vbox)
 	vbox1 = gkrellm_gtk_category_vbox(vbox,
 				_("Format String for Chart Labels"),
 				4, 0, TRUE);
-	text_format_combo = gtk_combo_new();
-	gtk_widget_set_size_request (GTK_WIDGET(text_format_combo), 300, -1);
-	gtk_box_pack_start(GTK_BOX(vbox1), text_format_combo, FALSE, FALSE, 2);
-	list = NULL;
-	list = g_list_append(list, text_format);
-	list = g_list_append(list, DEFAULT_TEXT_FORMAT);
-	list = g_list_append(list, "\\c\\f$M\\n$T\\b\\c\\f$L");
-	list = g_list_append(list,
+	text_format_combo_box = gtk_combo_box_entry_new_text();
+	gtk_widget_set_size_request (GTK_WIDGET(text_format_combo_box), 300, -1);
+	gtk_box_pack_start(GTK_BOX(vbox1), text_format_combo_box, FALSE, FALSE, 2);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box), text_format);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		DEFAULT_TEXT_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		"\\c\\f$M\\n$T\\b\\c\\f$L");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
 		_("\\f\\ww\\c\\f$M\\n\\f\\at\\.$t\\n\\f\\ar\\.$r\\b\\c\\f$L"));
-	list = g_list_append(list,
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
 		_("\\f\\ww\\c\\f$M\\n\\f\\at\\.$o\\n\\f\\ar\\.$i\\b\\c\\f$L"));
-	list = g_list_append(list,
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
 		_("\\f\\ww\\c\\f$M\\D2\\f\\ar\\.$r\\D1\\f\\at\\.$t\\b\\c\\f$L"));
-	gtk_combo_set_popdown_strings(GTK_COMBO(text_format_combo), list);
-	gtk_combo_set_case_sensitive(GTK_COMBO(text_format_combo), TRUE);
-	g_list_free(list);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(text_format_combo)->entry),
-			text_format);
-	g_signal_connect(G_OBJECT(GTK_COMBO(text_format_combo)->entry), "changed",
+	gtk_entry_set_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(text_format_combo_box))),
+		text_format);
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(text_format_combo_box)), "changed",
 			G_CALLBACK(cb_text_format), NULL);
 
 	gkrellm_gtk_spin_button(vbox, NULL, (gfloat) reset_mday,
@@ -3172,7 +3173,7 @@ static GkrellmMonitor	monitor_timer =
 	NULL,				/* The update function		*/
 	NULL,				/* The config tab create function	*/
 	NULL,				/* Apply the config function		*/
-	
+
 	NULL,				/* Save user conifg			*/
 	NULL,				/* Load user config			*/
 	NULL,				/* config keyword			*/

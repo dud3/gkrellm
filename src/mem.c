@@ -393,7 +393,7 @@ format_chart_text(MeminfoChart *mc, gchar *buf, gint size)
 		size -= len;
 		buf += len;
 		}
-	*buf = '\0';	
+	*buf = '\0';
 	}
 
 static void
@@ -1092,10 +1092,10 @@ static GtkWidget	*mem_launch_entry,
 					*swap_launch_entry,
 					*swap_tooltip_entry;
 
-static GtkWidget	*mem_format_combo,
-					*swap_format_combo;
+static GtkWidget	*mem_format_combo_box,
+					*swap_format_combo_box;
 
-static GtkWidget	*text_format_combo;
+static GtkWidget	*text_format_combo_box;
 
 static GtkWidget	*mem_alert_button,
 					*swap_alert_button;
@@ -1105,8 +1105,10 @@ static void
 cb_text_format(GtkWidget *widget, gpointer data)
 	{
 	gchar	*s;
+	GtkWidget *entry;
 
-	s = gkrellm_gtk_entry_get_text(&(GTK_COMBO(text_format_combo)->entry));
+	entry = gtk_bin_get_child(GTK_BIN(text_format_combo_box));
+	s = gkrellm_gtk_entry_get_text(&entry);
 	gkrellm_locale_dup_string(&text_format, s, &text_format_locale);
 	refresh_chart(&swap_chart);
 	}
@@ -1181,8 +1183,10 @@ static void
 cb_mem_format(GtkWidget *widget, gpointer data)
 	{
 	gchar	*s;
+	GtkWidget *entry;
 
-	s = gkrellm_gtk_entry_get_text(&(GTK_COMBO(mem_format_combo)->entry));
+	entry = gtk_bin_get_child(GTK_BIN(mem_format_combo_box));
+	s = gkrellm_gtk_entry_get_text(&entry);
 
 	/* In case Pango markup tags, don't accept line unless valid markup.
 	|  Ie, markup like <span ...> xxx </span> or <b> xxx </b>
@@ -1201,8 +1205,10 @@ static void
 cb_swap_format(GtkWidget *widget, gpointer data)
 	{
 	gchar	*s;
+	GtkWidget *entry;
 
-	s = gkrellm_gtk_entry_get_text(&(GTK_COMBO(swap_format_combo)->entry));
+	entry = gtk_bin_get_child(GTK_BIN(swap_format_combo_box));
+	s = gkrellm_gtk_entry_get_text(&entry);
 
 	if (   strchr(s, '<') != NULL
 		&& !pango_parse_markup(s, -1, 0, NULL, NULL, NULL, NULL)
@@ -1279,7 +1285,6 @@ create_meminfo_tab(GtkWidget *tab_vbox)
 	GtkWidget		*table;
 	GtkWidget		*hbox;
 	GtkWidget		*text, *label;
-	GList			*list;
 	gint			i;
 
 	tabs = gtk_notebook_new();
@@ -1331,23 +1336,23 @@ create_meminfo_tab(GtkWidget *tab_vbox)
 	vbox1 = gkrellm_gtk_category_vbox(vbox,
 				_("Format String for Chart Labels"),
 				4, 0, TRUE);
-	text_format_combo = gtk_combo_new();
-	gtk_box_pack_start(GTK_BOX(vbox1), text_format_combo, FALSE, FALSE, 2);
-	list = NULL;
-	list = g_list_append(list, text_format);
-	list = g_list_append(list, DEFAULT_TEXT_FORMAT);
-	list = g_list_append(list, "$T\\C\\f$M");
-	list = g_list_append(list, "\\c\\f$M\\b$T");
-	list = g_list_append(list,
-				"\\ww\\C\\f$M\\D2\\f\\ai\\.$i\\D1\\f\\ao\\.$o");
-	list = g_list_append(list,
-				"\\ww\\C\\f$M\\D3\\f\\ai\\.$i\\D0\\f\\ao\\.$o");
-	gtk_combo_set_popdown_strings(GTK_COMBO(text_format_combo), list);
-	gtk_combo_set_case_sensitive(GTK_COMBO(text_format_combo), TRUE);
-	g_list_free(list);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(text_format_combo)->entry),
-			text_format);
-	g_signal_connect(G_OBJECT(GTK_COMBO(text_format_combo)->entry), "changed",
+	text_format_combo_box = gtk_combo_box_entry_new_text();
+	gtk_box_pack_start(GTK_BOX(vbox1), text_format_combo_box, FALSE, FALSE, 2);
+
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		text_format);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		DEFAULT_TEXT_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		"$T\\C\\f$M");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		"\\c\\f$M\\b$T");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		"\\ww\\C\\f$M\\D2\\f\\ai\\.$i\\D1\\f\\ao\\.$o");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		"\\ww\\C\\f$M\\D3\\f\\ai\\.$i\\D0\\f\\ao\\.$o");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(text_format_combo_box), 0);
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(text_format_combo_box)), "changed",
 			G_CALLBACK(cb_text_format), NULL);
 
 	vbox1 = gkrellm_gtk_category_vbox(vbox,
@@ -1355,20 +1360,21 @@ create_meminfo_tab(GtkWidget *tab_vbox)
 				4, 6, TRUE);
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox1), hbox, FALSE, FALSE, 0);
-	mem_format_combo = gtk_combo_new();
-	gtk_box_pack_start(GTK_BOX(hbox), mem_format_combo, TRUE, TRUE, 0);
-	list = NULL;
-	list = g_list_append(list, mem.data_format);
-	list = g_list_append(list, DEFAULT_FORMAT);
-	list = g_list_append(list, _("$t - $u used"));
-	list = g_list_append(list, _("$t - $U"));
-	list = g_list_append(list, _("$t - $u used  $s sh  $b bf  $c ca"));
-	gtk_combo_set_popdown_strings(GTK_COMBO(mem_format_combo), list);
-	gtk_combo_set_case_sensitive(GTK_COMBO(mem_format_combo), TRUE);
-	g_list_free(list);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(mem_format_combo)->entry),
+	mem_format_combo_box = gtk_combo_box_entry_new_text();
+	gtk_box_pack_start(GTK_BOX(hbox), mem_format_combo_box, TRUE, TRUE, 0);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(mem_format_combo_box),
+		mem.data_format);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(mem_format_combo_box),
+		DEFAULT_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(mem_format_combo_box),
+		_("$t - $u used"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(mem_format_combo_box),
+		_("$t - $U"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(mem_format_combo_box),
+		_("$t - $u used  $s sh  $b bf  $c ca"));
+	gtk_entry_set_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(mem_format_combo_box))),
 			mem.data_format);
-	g_signal_connect(G_OBJECT(GTK_COMBO(mem_format_combo)->entry), "changed",
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(mem_format_combo_box)), "changed",
 			G_CALLBACK(cb_mem_format), NULL);
 	label = gtk_label_new(_("Mem"));
 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
@@ -1377,19 +1383,19 @@ create_meminfo_tab(GtkWidget *tab_vbox)
 
 	hbox = gtk_hbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(vbox1), hbox, FALSE, FALSE, 0);
-	swap_format_combo = gtk_combo_new();
-	gtk_box_pack_start(GTK_BOX(hbox), swap_format_combo, TRUE, TRUE, 0);
-	list = NULL;
-	list = g_list_append(list, swap.data_format);
-	list = g_list_append(list, DEFAULT_FORMAT);
-	list = g_list_append(list, _("$t - $u used"));
-	list = g_list_append(list, _("$t - $U"));
-	gtk_combo_set_popdown_strings(GTK_COMBO(swap_format_combo), list);
-	gtk_combo_set_case_sensitive(GTK_COMBO(swap_format_combo), TRUE);
-	g_list_free(list);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(swap_format_combo)->entry),
+	swap_format_combo_box = gtk_combo_box_entry_new_text();
+	gtk_box_pack_start(GTK_BOX(hbox), swap_format_combo_box, TRUE, TRUE, 0);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(swap_format_combo_box),
+		swap.data_format);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(swap_format_combo_box),
+		DEFAULT_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(swap_format_combo_box),
+		_("$t - $u used"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(swap_format_combo_box),
+		_("$t - $U"));
+	gtk_entry_set_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(swap_format_combo_box))),
 			swap.data_format);
-	g_signal_connect(G_OBJECT(GTK_COMBO(swap_format_combo)->entry), "changed",
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(swap_format_combo_box)), "changed",
 			G_CALLBACK(cb_swap_format), NULL);
 	label = gtk_label_new(_("Swap"));
 	gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
