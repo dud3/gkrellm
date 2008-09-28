@@ -18,6 +18,10 @@ INCLUDEDIRMODE ?= 755
 LIBDIR ?= $(INSTALLROOT)/lib
 LIBDIRMODE ?= 755
 
+CFGDIR ?= $(INSTALLROOT)/etc
+CFGDIRMODE ?= 755
+CFGMODE ?= 644
+
 SMANDIR ?= $(INSTALLROOT)/share/man/man1
 MANMODE ?= 644
 MANDIRMODE ?= 755
@@ -25,6 +29,9 @@ INSTALL ?= install
 LINK_FLAGS ?= -Wl,-E
 EXTRAOBJS =
 
+SHARED_PATH = ../shared
+# Make GNU Make search for sources somewhere else as well
+VPATH = $(SHARED_PATH)
 
 ifeq ($(without-libsensors),yes)
 	CONFIGURE_ARGS += --without-libsensors
@@ -44,7 +51,7 @@ endif
 CC ?= gcc
 STRIP ?= -s
 
-GKRELLMD_INCLUDES = gkrellmd.h
+GKRELLMD_INCLUDES = gkrellmd.h $(SHARED_PATH)/log.h
 
 PKG_INCLUDE = `$(PKG_CONFIG) --cflags glib-2.0 gthread-2.0`
 PKG_LIB = `$(PKG_CONFIG) --libs glib-2.0 gmodule-2.0 gthread-2.0`
@@ -52,24 +59,24 @@ PKG_LIB = `$(PKG_CONFIG) --libs glib-2.0 gmodule-2.0 gthread-2.0`
 GLIB12_INCLUDE = `glib-config --cflags`
 GLIB12_LIB = `glib-config --libs glib gmodule`
 
-FLAGS = -O2 -I.. $(PKG_INCLUDE) $(GTOP_INCLUDE)
-ifeq ($(glib12),1)
-FLAGS = -O2 -I.. $(GLIB12_INCLUDE) $(GTOP_INCLUDE)
-endif
-ifeq ($(glib12),yes)
-FLAGS = -O2 -I.. $(GLIB12_INCLUDE) $(GTOP_INCLUDE)
-endif
-
-FLAGS+= $(PTHREAD_INC)
-
-LIBS = $(PKG_LIB) $(GTOP_LIBS_D) $(SYS_LIBS) $(SENSORS_LIBS)
+FLAGS = -O2 $(PKG_INCLUDE)
 
 ifeq ($(glib12),1)
-LIBS = $(GLIB12_LIB) $(GTOP_LIBS_D) $(SYS_LIBS) $(SENSORS_LIBS)
+    FLAGS = -O2 $(GLIB12_INCLUDE)
 endif
 ifeq ($(glib12),yes)
-LIBS = $(GLIB12_LIB) $(GTOP_LIBS_D) $(SYS_LIBS) $(SENSORS_LIBS)
+    FLAGS = -O2  $(GLIB12_INCLUDE)
 endif
+FLAGS += $(GTOP_INCLUDE) $(PTHREAD_INC) -I.. -I$(SHARED_PATH) -DGKRELLM_SERVER
+
+LIBS = $(PKG_LIB)
+ifeq ($(glib12),1)
+    LIBS = $(GLIB12_LIB)
+endif
+ifeq ($(glib12),yes)
+    LIBS = $(GLIB12_LIB)
+endif
+LIBS += $(GTOP_LIBS_D) $(SYS_LIBS) $(SENSORS_LIBS)
 
 ifeq ($(debug),1)
     FLAGS += -g
@@ -93,22 +100,19 @@ ifeq ($(enable_nls),yes)
 endif
 
 ifneq ($(PACKAGE_D),gkrellmd)
-	FLAGS += -DPACKAGE_D=\"$(PACKAGE_D)\"
+    FLAGS += -DPACKAGE_D=\"$(PACKAGE_D)\"
 endif
 
 ifeq ($(HAVE_GETADDRINFO),1)
     FLAGS += -DHAVE_GETADDRINFO
 endif
 
-
 override CC += -Wall $(FLAGS)
 
 OS_NAME=$(shell uname -s)
 OS_RELEASE=$(shell uname -r)
 
-OBJS =	main.o monitor.o mail.o plugins.o glib.o utils.o sysdeps-unix.o
-
-EXTRAOBJS =
+OBJS = main.o monitor.o mail.o plugins.o glib.o utils.o sysdeps-unix.o log.o
 
 all:	gkrellmd
 
@@ -160,11 +164,11 @@ endif
 
 windows: libgkrellmd.a
 	$(MAKE) \
-	CFLAGS="${CFLAGS} -D_WIN32_WINNT=0x0500 -DWINVER=0x0500" \
-	LINK_FLAGS="${LINK_FLAGS} -mconsole" \
-	EXTRAOBJS="win32-resource.o win32-plugin.o" \
-	SYS_LIBS=" -llargeint -lws2_32 -lpdh -lnetapi32 -liphlpapi -lntdll -lintl" \
-	gkrellmd
+		CFLAGS="${CFLAGS} -D_WIN32_WINNT=0x0500 -DWINVER=0x0500" \
+		LINK_FLAGS="${LINK_FLAGS} -mconsole" \
+		EXTRAOBJS="win32-resource.o win32-plugin.o" \
+		SYS_LIBS=" -llargeint -lws2_32 -lpdh -lnetapi32 -liphlpapi -lntdll -lintl" \
+		gkrellmd
 
 install: install_bin install_inc install_man
 
@@ -179,6 +183,10 @@ install_inc:
 install_man:
 	$(INSTALL) -d -m $(MANDIRMODE) $(SMANDIR)
 	$(INSTALL) -c -m $(MANMODE) ../gkrellmd.1 $(SMANDIR)/$(PACKAGE_D).1
+
+install_cfg:
+	$(INSTALL) -d -m $(CFGDIRMODE) $(CFGDIR)
+	$(INSTALL) -c -m $(CFGMODE) gkrellmd.conf $(CFGDIR)/gkrellmd.conf
 
 uninstall:
 	rm -f $(SINSTALLDIR)/$(PACKAGE_D)
@@ -205,8 +213,8 @@ install_solaris:
 	chgrp sys $(SINSTALLDIR)/$(PACKAGE_D)
 	chmod g+s $(SINSTALLDIR)/$(PACKAGE_D)  
 
-install_windows:
-	$(MAKE) BINEXT=".exe" install_bin install_inc
+install_windows: install_inc install_cfg
+	$(MAKE) BINEXT=".exe" install_bin
 	$(INSTALL) -d -m $(LIBDIRMODE) $(LIBDIR)
 	$(INSTALL) -c -m $(BINMODE) libgkrellmd.a $(LIBDIR)
 
@@ -221,19 +229,20 @@ SYSDEPS = ../src/sysdeps/bsd-common.c ../src/sysdeps/bsd-net-open.c \
 	../src/sysdeps/openbsd.c ../src/sysdeps/sensors-common.c \
 	../src/sysdeps/solaris.c ../src/sysdeps/win32.c 
 
-main.o:		main.c gkrellmd.h
-monitor.o:	monitor.c gkrellmd.h 
-mail.o:		mail.c gkrellmd.h
-plugins.o:	plugins.c gkrellmd.h 
-glib.o:		glib.c gkrellmd.h
-utils.o:	utils.c gkrellmd.h
-sysdeps-unix.o: sysdeps-unix.c gkrellmd.h ../src/gkrellm-sysdeps.h $(SYSDEPS)
+GKRELLMD_H = gkrellmd.h gkrellmd-private.h
+
+main.o:		main.c $(GKRELLMD_H)
+monitor.o:	monitor.c $(GKRELLMD_H) 
+mail.o:		mail.c $(GKRELLMD_H)
+plugins.o:	plugins.c $(GKRELLMD_H) 
+glib.o:		glib.c $(GKRELLMD_H)
+utils.o:	utils.c $(GKRELLMD_H)
+sysdeps-unix.o: sysdeps-unix.c ../src/gkrellm-sysdeps.h $(SYSDEPS) $(GKRELLMD_H)
+log.o: $(SHARED_PATH)/log.c $(SHARED_PATH)/log.h $(GKRELLMD_H)
 win32-gui.o:	win32-gui.c
-win32-plugin.o:	win32-plugin.c win32-plugin.h gkrellmd.h
-
-win32-libgkrellmd.o: win32-libgkrellmd.c win32-plugin.h gkrellmd.h
-libgkrellmd.a: win32-libgkrellmd.o
-	ar -cr libgkrellmd.a win32-libgkrellmd.o
-
-win32-resource.o: win32-resource.rc win32-resource.h
+win32-plugin.o:	win32-plugin.c win32-plugin.h $(GKRELLMD_H)
+win32-resource.o:	win32-resource.rc win32-resource.h
 	windres -I.. -o win32-resource.o win32-resource.rc
+win32-libgkrellmd.o:	win32-libgkrellmd.c win32-plugin.h $(GKRELLMD_H)
+libgkrellmd.a:	win32-libgkrellmd.o
+	ar -cr libgkrellmd.a win32-libgkrellmd.o

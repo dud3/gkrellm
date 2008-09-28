@@ -21,11 +21,9 @@
 
 #include "gkrellmd.h"
 #include "gkrellmd-private.h"
-#if defined(WIN32)
-#include <tchar.h>
-#endif
+#include "log-private.h"
 
-// we do have addrinfo on win32 but do not have getaddrinfo(), doh
+// win32 defines addrinfo but only supports getaddrinfo call on winxp or newer
 #if !defined(HAVE_GETADDRINFO) && !defined(WIN32)
 struct addrinfo
 	{
@@ -38,7 +36,7 @@ struct addrinfo
 	struct	sockaddr *ai_addr;	/* binary address */
 	struct	addrinfo *ai_next;	/* next structure in linked list */
 	};
-#endif // HAVE_GETADDRINFO && !WIN32
+#endif // !HAVE_GETADDRINFO
 
 #if !defined(IPV6_V6ONLY) && defined(IPV6_BINDV6ONLY)
 #define	IPV6_V6ONLY	IPV6_BINDV6ONLY
@@ -65,22 +63,20 @@ struct
 
 
 #if defined(WIN32)
-/* 
+/*
 	Flag that determines if gkrellmd was started as a console app (FALSE)
 	or as a service (TRUE)
-*/ 
+*/
 static gboolean service_is_one = FALSE;
 
-/*
-	Flag that is TRUE while gkrellmd should stay in its main loop
-*/
+// Flag that is TRUE while gkrellmd should stay in its main loop
 static gboolean service_running = FALSE;
 
-/* Name for the installed windows service */
-static TCHAR* service_name = TEXT("gkrellmd");
+// Unique name for the installed windows service (do not translate!)
+static wchar_t* service_name = L"gkrellmd";
 
-/* User visible name for the installed windows service */
-static TCHAR* service_display_name = TEXT("GKrellM Daemon");
+// User visible name for the installed windows service
+static wchar_t* service_display_name = L"GKrellM Daemon";
 
 /*
 	Current service status if running as a service, may be stopped or running
@@ -93,8 +89,91 @@ static SERVICE_STATUS service_status;
 	Main use is to stop the running service.
 */
 static SERVICE_STATUS_HANDLE service_status_handle = 0;
+
+/*
+	Handle to our event log source.
+	The Windows Event Log is used as a replacement for syslog-logging.
+*/
+static HANDLE h_event_log = NULL;
+
 #endif /* defined(WIN32) */
 
+
+static gboolean
+gkrellmd_syslog_init()
+	{
+#if defined(WIN32)
+	h_event_log = RegisterEventSourceW(NULL, service_name);
+	if (h_event_log == NULL)
+		{
+		g_warning("Cannot register event source for logging into Windows Event Log.\n");
+		return FALSE;
+		}
+#else
+	// Unix needs no logging initialization
+#endif
+	return TRUE;
+	}
+
+static gboolean
+gkrellmd_syslog_cleanup()
+	{
+#if defined(WIN32)
+	if (h_event_log)
+		DeregisterEventSource(h_event_log);
+	h_event_log = NULL;
+#else
+	// Unix needs no further logging cleanup
+#endif
+	return TRUE;
+	}
+
+static void gkrellmd_syslog_log(GLogLevelFlags log_level, const gchar *message)
+	{
+#if defined(WIN32)
+	WORD event_type;
+	const char *p_buf[1];
+
+	// Abort if event source is missing
+	if (h_event_log == NULL)
+		return;
+
+	event_type = EVENTLOG_INFORMATION_TYPE;
+	if (log_level & G_LOG_LEVEL_WARNING)
+		event_type = EVENTLOG_WARNING_TYPE;
+	if (log_level & G_LOG_LEVEL_CRITICAL || log_level & G_LOG_LEVEL_ERROR)
+		event_type = EVENTLOG_ERROR_TYPE;
+
+	p_buf[0] = message;
+
+	ReportEventA(
+		h_event_log,  // Event source handle (HANDLE)
+		event_type,   // Event type (WORD)
+		0,            // Event category (WORD)
+		0,            // Event identifier (DWORD)
+		NULL,         // user security identifier (PSID)
+		1,            // Number of substitution strings (WORD)
+		0,            // Data Size (DWORD)
+		p_buf,        // Pointer to strings
+		NULL          // Pointer to Data
+		);
+#else
+	int facility_priority;
+
+	// default to info and override with other states if they are more important
+	facility_priority = LOG_MAKEPRI(LOG_DAEMON, LOG_INFO);
+	if (log_level & G_LOG_LEVEL_DEBUG)
+		facility_priority = LOG_MAKEPRI(LOG_DAEMON, LOG_DEBUG);
+	if (log_level & G_LOG_LEVEL_WARNING)
+		facility_priority = LOG_MAKEPRI(LOG_DAEMON, LOG_WARNING);
+	if (log_level & G_LOG_LEVEL_ERROR)
+		facility_priority = LOG_MAKEPRI(LOG_DAEMON, LOG_ERR);
+	if (log_level & G_LOG_LEVEL_CRITICAL)
+		facility_priority = LOG_MAKEPRI(LOG_DAEMON, LOG_CRIT);
+
+	syslog(facility_priority, message);
+#endif // defined(WIN32)
+	} // gkrellmd_syslog_log()
 
 
 static void
@@ -112,7 +191,7 @@ make_pidfile(void)
 		fclose(f);
 		}
 	else
-		fprintf(stderr, "gkrellmd: Can't create pidfile %s\n", _GK.pidfile);
+		g_warning("Can't create pidfile %s\n", _GK.pidfile);
 #endif
 	}
 
@@ -129,14 +208,16 @@ static void
 gkrellmd_cleanup()
 	{
 	gkrellm_sys_main_cleanup();
+	gkrellm_log_cleanup();
 	remove_pidfile();
 	}
 
 static void
 cb_sigterm(gint sig)
 	{
-	if (_GK.verbose)
-		printf("gkrellmd: Got SIGINT/SIGTERM signal, exiting\n");
+	g_message("GKrellM Daemon %d.%d.%d%s: Exiting normally\n",
+			GKRELLMD_VERSION_MAJOR, GKRELLMD_VERSION_MINOR,
+			GKRELLMD_VERSION_REV, GKRELLMD_EXTRAVERSION);
 	gkrellmd_cleanup();
 	exit(0);
 	}
@@ -156,7 +237,7 @@ gkrellmd_send_to_client(GkrellmdClient *client, gchar *buf)
 	if (n < 0 && errno == EPIPE)
 		{
 		if (_GK.verbose)
-			printf("Write on closed pipe to host %s\n", client->hostname);
+			g_print("Write on closed pipe to host %s\n", client->hostname);
 		client->alive = FALSE;
 		}
 	return n;
@@ -400,7 +481,7 @@ allow_host(GkrellmdClient *client, struct sockaddr *sa, socklen_t salen)
 
 	snprintf(buf, sizeof(buf), _("Connection not allowed from %s\n"),
 			hostname ? hostname : addr);
-	fprintf(stderr, "gkrellmd: %s", buf),
+	g_warning(buf),
 	gkrellmd_send_to_client(client, "<error>\n");
 	gkrellmd_send_to_client(client, buf);
 	return FALSE;
@@ -425,8 +506,7 @@ accept_client(gint fd, struct sockaddr *sa, socklen_t salen)
 		{
 		if (client_limit)
 			{
-			fprintf(stderr, _("gkrellmd: too many clients, rejecting %s\n"),
-					client->hostname);
+			g_message(_("Too many clients, rejecting %s\n"), client->hostname);
 			gkrellmd_send_to_client(client,
 						"<error>\nClient limit exceeded.\n");
 			}
@@ -442,7 +522,7 @@ accept_client(gint fd, struct sockaddr *sa, socklen_t salen)
 	//getline(fd, buf, sizeof(buf));
 
 	if (_GK.verbose)
-		printf(_("connect string from client: %s\n"), buf);
+		g_print(_("connect string from client: %s\n"), buf);
 
 	if (   sscanf(buf, "%31s %d.%d.%d", name, &client->major_version,
 					&client->minor_version, &client->rev_version) == 4
@@ -452,8 +532,7 @@ accept_client(gint fd, struct sockaddr *sa, socklen_t salen)
 		gkrellmd_client_list = g_list_append(gkrellmd_client_list, client);
 		return client;
 		}
-	fprintf(stderr, _("gkrellmd: bad connect line from %s: %s\n"),
-				client->hostname, buf);
+	g_warning(_("Bad connect line from %s: %s\n"), client->hostname, buf);
 	gkrellmd_send_to_client(client, "<error>\nBad connect string!");
 
 	g_free(client->hostname);
@@ -472,8 +551,7 @@ remove_client(gint fd)
 		client = (GkrellmdClient *) list->data;
 		if (client->fd == fd)
 			{
-			if (_GK.verbose)
-				printf("Removing client %s\n", client->hostname);
+			g_message(_("Removing client %s\n"), client->hostname);
 			close(fd);
 			g_free(client->hostname);
 			g_free(client);
@@ -491,6 +569,12 @@ parse_config(gchar *config, gchar *arg)
 		gkrellm_free_glist_and_data(&allow_host_list);
 		return 0;
 		}
+	if (!strcmp(config, "syslog"))
+		{
+		gkrellm_log_register(gkrellmd_syslog_log, gkrellmd_syslog_init,
+			gkrellmd_syslog_cleanup);
+		return 0;
+		}
 #if !defined(WIN32)
 	if (!strcmp(config, "detach") || !strcmp(config, "d"))
 		{
@@ -498,8 +582,11 @@ parse_config(gchar *config, gchar *arg)
 		return 0;
 		}
 #endif
+
+	// All following options take one argument that should be passed in arg
 	if (!arg || !*arg)
 		return -1;
+
 	if (!strcmp(config, "update-hz") || !strcmp(config, "u"))
 		_GK.update_HZ = atoi(arg);
 	else if (!strcmp(config, "port") || !strcmp(config, "P"))
@@ -531,6 +618,8 @@ parse_config(gchar *config, gchar *arg)
 		_GK.net_timer = g_strdup(arg);
 	else if (!strcmp(config, "debug-level") || !strcmp(config, "debug"))
 		_GK.debug_level = (gint) strtoul(arg, NULL, 0);
+	else if (!strcmp(config, "logfile"))
+		gkrellm_log_set_filename(arg);
 #if !defined(WIN32)
 	else if (!strcmp(config, "pidfile"))
 		_GK.pidfile = g_strdup(arg);
@@ -565,8 +654,10 @@ load_config(gchar *path)
 	{
 	FILE			*f;
 	PluginConfigRec	*cfg;
-	gchar			buf[128], config[32], arg[128];
+	gchar			buf[128+32+2], config[32], arg[128];
 	gchar			*s, *plugin_config_block = NULL;
+
+	//g_print("Trying to load config from file '%s'\n", path);
 
 	f = fopen(path, "r");
 	if (!f)
@@ -640,6 +731,9 @@ static void
 read_config(void)
 	{
 	gchar	*path;
+#if defined(WIN32)
+	gchar *install_path;
+#endif
 
 	_GK.update_HZ = 3;
 	_GK.debug_level = 0;
@@ -651,25 +745,37 @@ read_config(void)
 	_GK.inet_interval = 1;
 
 #if defined(GKRELLMD_SYS_ETC)
-	path = g_strdup_printf("%s/%s", GKRELLMD_SYS_ETC, GKRELLMD_CONFIG);
+	path = g_build_filename(GKRELLMD_SYS_ETC, GKRELLMD_CONFIG, NULL);
 	load_config(path);
 	g_free(path);
 #endif
 
 #if defined(GKRELLMD_LOCAL_ETC)
-	path = g_strdup_printf("%s/%s", GKRELLMD_LOCAL_ETC, GKRELLMD_CONFIG);
+	path = g_build_filename(GKRELLMD_LOCAL_ETC, GKRELLMD_CONFIG, NULL);
 	load_config(path);
 	g_free(path);
 #endif
 
-	_GK.homedir = (gchar *) g_get_home_dir();
-	if (!_GK.homedir)
-		_GK.homedir = ".";
-#if !defined(WIN32)
-	path = g_strdup_printf("%s/.%s", _GK.homedir, GKRELLMD_CONFIG);
+// on windows also load config from INSTALLDIR/etc/gkrellmd.conf
+#if defined(WIN32)
+#if GLIB_CHECK_VERSION(2,16,0)
+	install_path = g_win32_get_package_installation_directory_of_module(NULL);
+	path = g_build_filename(install_path, "etc", GKRELLMD_CONFIG, NULL);
 #else
-	path = g_strdup_printf("%s/%s", _GK.homedir, GKRELLMD_CONFIG);
+	// deprecated since glib 2.16
+	install_path = g_win32_get_package_installation_subdirectory(NULL, NULL, "etc");
+	path = g_build_filename(install_path, GKRELLMD_CONFIG, NULL);
 #endif
+	load_config(path);
+	g_free(install_path);
+	g_free(path);
+#endif
+
+	_GK.homedir = (gchar *) g_get_home_dir();
+	if (_GK.homedir == NULL)
+		_GK.homedir = ".";  // FIXME: doesn't look right to me
+
+	path = g_build_filename(_GK.homedir, GKRELLMD_USER_CONFIG, NULL);
 	load_config(path);
 	g_free(path);
 	}
@@ -679,54 +785,55 @@ usage(void)
 	{
 #if defined(WIN32)
 
-	_tprintf(_("usage: gkrellmd command [options]\n"));
-	_tprintf(_("commands:\n"));
-	_tprintf(_("       --console             run gkrellmd on console (not as a service)\n"));
-	_tprintf(_("       --install             install gkrellmd service and exit\n"));
-	_tprintf(_("       --uninstall           uninstall gkrellmd service and exit\n"));
-	_tprintf(_("   -h, --help                display this help and exit\n"));
-	_tprintf(_("   -v, --version             output version information and exit\n"));
-	_tprintf(_("options (only for command '--console'):\n"));
-	_tprintf(_("   -u, --update-hz F         Monitor update frequency\n"));
-	_tprintf(_("   -m, --max-clients N       Number of simultaneous clients\n"));
-	_tprintf(_("   -A, --address A           Address of network interface to listen on\n"));
-	_tprintf(_("   -P, --port P              Server port to listen on\n"));
-	_tprintf(_("   -a, --allow-host host     Allow connections from specified hosts\n"));
-	_tprintf(_("   -c, --clear-hosts         Clears the current list of allowed hosts\n"));
-	_tprintf(_("       --io-timeout N        Close connection after N seconds of no I/O\n"));
-	_tprintf(_("       --reconnect-timeout N Try to connect every N seconds after\n"
+	g_print(_("usage: gkrellmd command [options]\n"));
+	g_print(_("commands:\n"));
+	g_print(_("       --console             run gkrellmd on console (not as a service)\n"));
+	g_print(_("       --install             install gkrellmd service and exit\n"));
+	g_print(_("       --uninstall           uninstall gkrellmd service and exit\n"));
+	g_print(_("   -h, --help                display this help and exit\n"));
+	g_print(_("   -v, --version             output version information and exit\n"));
+	g_print(_("options (only for command '--console'):\n"));
+	g_print(_("   -u, --update-hz F         Monitor update frequency\n"));
+	g_print(_("   -m, --max-clients N       Number of simultaneous clients\n"));
+	g_print(_("   -A, --address A           Address of network interface to listen on\n"));
+	g_print(_("   -P, --port P              Server port to listen on\n"));
+	g_print(_("   -a, --allow-host host     Allow connections from specified hosts\n"));
+	g_print(_("   -c, --clear-hosts         Clears the current list of allowed hosts\n"));
+	g_print(_("       --io-timeout N        Close connection after N seconds of no I/O\n"));
+	g_print(_("       --reconnect-timeout N Try to connect every N seconds after\n"
 	           "                             a disconnect\n"));
-	_tprintf(_("   -p,  --plugin name        Enable a command line plugin\n"));
-	_tprintf(_("   -pe, --plugin-enable name Enable an installed plugin\n"));
-	_tprintf(_("       --plist               List plugins and exit\n"));
-	_tprintf(_("       --plog                Print plugin install log\n"));
-	_tprintf(_("   -V, --verbose             increases the verbosity of gkrellmd\n"));
+	g_print(_("   -p,  --plugin name        Enable a command line plugin\n"));
+	g_print(_("   -pe, --plugin-enable name Enable an installed plugin\n"));
+	g_print(_("       --plist               List plugins and exit\n"));
+	g_print(_("       --plog                Print plugin install log\n"));
+	g_print(_("   -V, --verbose             increases the verbosity of gkrellmd\n"));
+	g_print(_("   -d, --debug-level n       Turn debugging on for selective code sections.\n"));
 
 #else
 
-	printf(_("usage: gkrellmd [options]\n"));
-	printf(_("options:\n"));
-	printf(_("   -u, --update-hz F         Monitor update frequency\n"));
-	printf(_("   -m, --max-clients N       Number of simultaneous clients\n"));
-	printf(_("   -A, --address A           Address of network interface to listen on\n"));
-	printf(_("   -P, --port P              Server port to listen on\n"));
-	printf(_("   -a, --allow-host host     Allow connections from specified hosts\n"));
-	printf(_("   -c, --clear-hosts         Clears the current list of allowed hosts\n"));
-	printf(_("       --io-timeout N        Close connection after N seconds of no I/O\n"));
-	printf(_("       --reconnect-timeout N Try to connect every N seconds after\n"
+	g_print(_("usage: gkrellmd [options]\n"));
+	g_print(_("options:\n"));
+	g_print(_("   -u, --update-hz F         Monitor update frequency\n"));
+	g_print(_("   -m, --max-clients N       Number of simultaneous clients\n"));
+	g_print(_("   -A, --address A           Address of network interface to listen on\n"));
+	g_print(_("   -P, --port P              Server port to listen on\n"));
+	g_print(_("   -a, --allow-host host     Allow connections from specified hosts\n"));
+	g_print(_("   -c, --clear-hosts         Clears the current list of allowed hosts\n"));
+	g_print(_("       --io-timeout N        Close connection after N seconds of no I/O\n"));
+	g_print(_("       --reconnect-timeout N Try to connect every N seconds after\n"
 	         "                             a disconnect\n"));
-	printf(_("       --mailbox path        Send local mailbox counts to gkrellm clients.\n"));
-	printf(_("   -d, --detach              Run in background and detach from terminal\n"));
-	printf(_("   -U, --user username       Change to this username after startup\n"));
-	printf(_("   -G, --group groupname     Change to this group after startup\n"));
-	printf(_("   -p,  --plugin name        Enable a command line plugin\n"));
-	printf(_("   -pe, --plugin-enable name Enable an installed plugin\n"));
-	printf(_("       --plist               List plugins and exit\n"));
-	printf(_("       --plog                Print plugin install log\n"));
-	printf(_("       --pidfile path        Create a PID file\n"));
-	printf(_("   -V, --verbose             increases the verbosity of gkrellmd\n"));
-	printf(_("   -h, --help                display this help and exit\n"));
-	printf(_("   -v, --version             output version information and exit\n"));
+	g_print(_("       --mailbox path        Send local mailbox counts to gkrellm clients.\n"));
+	g_print(_("   -d, --detach              Run in background and detach from terminal\n"));
+	g_print(_("   -U, --user username       Change to this username after startup\n"));
+	g_print(_("   -G, --group groupname     Change to this group after startup\n"));
+	g_print(_("   -p,  --plugin name        Enable a command line plugin\n"));
+	g_print(_("   -pe, --plugin-enable name Enable an installed plugin\n"));
+	g_print(_("       --plist               List plugins and exit\n"));
+	g_print(_("       --plog                Print plugin install log\n"));
+	g_print(_("       --pidfile path        Create a PID file\n"));
+	g_print(_("   -V, --verbose             increases the verbosity of gkrellmd\n"));
+	g_print(_("   -h, --help                display this help and exit\n"));
+	g_print(_("   -v, --version             output version information and exit\n"));
 
 #endif
 	}
@@ -734,53 +841,44 @@ usage(void)
 static void
 get_args(gint argc, gchar **argv)
 	{
-	gchar	*opt, *arg;
+	gchar	*s;
 	gint	i, r;
 
 	for (i = 1; i < argc; ++i)
 		{
-		opt = argv[i];
-		arg = argv[i + 1];
-		if (*opt == '-')
+		s = argv[i];
+		if (*s == '-')
 			{
-			++opt;
-			if (*opt == '-')
-				++opt;
+			++s;
+			if (*s == '-')
+				++s;
 			}
-		if (!strcmp(opt, "verbose") || !strcmp(opt, "V"))
-			{
+
+		if (!strcmp(s, "verbose") || !strcmp(s, "V"))
 			_GK.verbose += 1;
-			continue;
-			}
-		if (!strcmp(opt, "plist"))
-			{
+		else if (!strcmp(s, "plist"))
 			_GK.list_plugins = TRUE;
-			continue;
-			}
-		if (!strcmp(opt, "plog"))
-			{
+		else if (!strcmp(s, "plog"))
 			_GK.log_plugins = TRUE;
-			continue;
-			}
 #if !defined(WIN32)
-		if (!strcmp(opt, "without-libsensors"))
-			{
+		else if (!strcmp(s, "without-libsensors"))
 			_GK.without_libsensors = TRUE;
-			continue;
-			}
 #endif /* !WIN32 */
-		else if (   i < argc
-				 && ((r = parse_config(opt, (i < argc - 1) ? arg : NULL)) >= 0)
+		else if ((!strcmp(s, "debug-level") || !strcmp(s, "d")) && i < argc - 1)
+			_GK.debug_level = (gint) strtoul(argv[++i], NULL, 0);
+		else if ( i < argc
+				 && ((r = parse_config(s, (i < argc - 1) ? argv[i+1] : NULL)) >= 0)
 				)
 			{
 			i += r;
-			continue;
 			}
-
-		printf(_("Bad arg: %s\n"), argv[i]);
-		usage();
-		exit(0);
-		}
+		else
+			{
+			g_print(_("Bad arg: %s\n"), argv[i]);
+			usage();
+			exit(0);
+			}
+		} // for()
 	}
 
 
@@ -812,7 +910,7 @@ socksetup(int af)
 		}
 	if (error)
 		{
-		fprintf(stderr, "gkrellmd %s\n", gai_strerror(error));
+		g_warning("gkrellmd %s\n", gai_strerror(error));
 		return NULL;
 		}
 #else
@@ -842,8 +940,7 @@ socksetup(int af)
 	socks = malloc((maxs + 1) * sizeof(int));
 	if (!socks)
 		{
-		fprintf(stderr,
-			"gkrellmd couldn't allocate memory for sockets\n");
+		g_warning("Could not allocate memory for sockets\n");
 		return NULL;
 		}
 
@@ -866,7 +963,7 @@ socksetup(int af)
 #endif
 			if (setsockopt(*s, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on)) < 0)
 				{
-				fprintf(stderr, "gkrellmd setsockopt (SO_REUSEADDR) failed\n");
+				g_warning("gkrellmd: setsockopt (SO_REUSEADDR) failed\n");
 				close(*s);
 				continue;
 				}
@@ -879,7 +976,7 @@ socksetup(int af)
 
 			if (setsockopt(*s, IPPROTO_IPV6, IPV6_V6ONLY, &on, sizeof(on)) < 0)
 				{
-				fprintf(stderr, "gkrellmd setsockopt (IPV6_V6ONLY) failed\n");
+				g_warning("gkrellmd: setsockopt (IPV6_V6ONLY) failed\n");
 				close(*s);
 				continue;
 				}
@@ -901,7 +998,7 @@ socksetup(int af)
 
 	if (*socks == 0)
 		{
-		fprintf(stderr, "gkrellmd couldn't bind to any socket\n");
+		g_warning("Could not bind to any socket\n");
 		free(socks);
 		return NULL;
 		}
@@ -935,7 +1032,7 @@ detach_from_terminal(void)
 #if defined(HAVE_DAEMON)
 	if (daemon(0, 0))
 		{
-		fprintf(stderr, "gkrellmd detach failed: %s\n", strerror(errno));
+		g_warning("Detach failed: %s\n", strerror(errno));
 		return FALSE;
 		}
 #else
@@ -945,7 +1042,7 @@ detach_from_terminal(void)
 
 	if (i < 0 || setsid() == -1)		/* new session process group */
 		{
-		fprintf(stderr, "gkrellmd detach failed: %s\n", strerror(errno));
+		g_warning("Detach failed: %s\n", strerror(errno));
 		return FALSE;
 		}
 
@@ -1012,8 +1109,13 @@ gkrellmd_run(gint argc, gchar **argv)
 	read_config();
 	get_args(argc, argv);
 
+	// first message that might get logged
+	g_message("Starting GKrellM Daemon %d.%d.%d%s\n", GKRELLMD_VERSION_MAJOR,
+			GKRELLMD_VERSION_MINOR, GKRELLMD_VERSION_REV,
+			GKRELLMD_EXTRAVERSION);
+
 	if (_GK.verbose)
-		printf("update_HZ=%d\n", _GK.update_HZ);
+		g_print("update_HZ=%d\n", _GK.update_HZ);
 
 #if defined(WIN32)
 	if (!service_is_one)
@@ -1039,9 +1141,7 @@ gkrellmd_run(gint argc, gchar **argv)
 #endif /* defined(WIN32) */
 
 	make_pidfile();
-
 	gkrellm_sys_main_init();
-
 	drop_privileges();
 
 #if GLIB_CHECK_VERSION(2,0,0)
@@ -1063,7 +1163,7 @@ gkrellmd_run(gint argc, gchar **argv)
 	_GK.server_fd = socksetup(PF_UNSPEC);
 	if (_GK.server_fd == NULL)
 		{
-		fprintf(stderr, "gkrellmd socket() failed: %s\n", strerror(errno));
+		g_warning("socket() failed: %s\n", strerror(errno));
 		gkrellmd_cleanup();
 		return 1;
 		}
@@ -1085,7 +1185,7 @@ gkrellmd_run(gint argc, gchar **argv)
 		}
 	if (listen_fds <= 0)
 		{
-		fprintf(stderr, "gkrellmd listen() failed: %s\n", strerror(errno));
+		g_warning("listen() failed: %s\n", strerror(errno));
 		gkrellmd_cleanup();
 		return 1;
 		}
@@ -1111,19 +1211,19 @@ gkrellmd_run(gint argc, gchar **argv)
 #endif
 		tv.tv_usec = interval;
 		tv.tv_sec = 0;
-		
+
 		result = select(max_fd + 1, &test_fds, NULL, NULL, &tv);
 		if (result == -1)
 			{
 			if (errno == EINTR)
 				continue;
-			fprintf(stderr, "gkrellmd select() failed: %s\n", strerror(errno));
+			g_warning("select() failed: %s\n", strerror(errno));
 			gkrellmd_cleanup();
 			return 1;
 			}
 
 #if 0	/* BUG, result is 0 when test_fds has a set fd!! */
-		if (result == 0)	
+		if (result == 0)
 			{
 			gkrellmd_update_monitors();
 			continue;
@@ -1150,7 +1250,7 @@ gkrellmd_run(gint argc, gchar **argv)
 						(socklen_t *) (void *)&addr_len);
 				if (client_fd == -1)
 					{
-					fprintf(stderr, "gkrellmd accept() failed: %s\n",
+					g_warning("accept() failed: %s\n",
 							strerror(errno));
 					gkrellmd_cleanup();
 					return 1;
@@ -1166,16 +1266,18 @@ gkrellmd_run(gint argc, gchar **argv)
 					}
 				FD_SET(client_fd, &read_fds);
 				gkrellmd_serve_setup(client);
-				if (_GK.verbose)
-					{
-					printf("gkrellmd accepted client: %s:%u\n",
-						client->hostname,
-						ntohs(((struct sockaddr_in *)&client_addr)->sin_port));
-					}
+
+				g_message(_("Accepted client %s:%u\n"),
+					client->hostname,
+					ntohs(((struct sockaddr_in *)&client_addr)->sin_port));
 				}
 			else
 				{
+#if defined(WIN32)
+				ioctlsocket(fd, FIONREAD, &nbytes);
+#else
 				ioctl(fd, FIONREAD, &nbytes);
+#endif
 				if (nbytes == 0)
 					{
 					remove_client(fd);
@@ -1186,7 +1288,7 @@ gkrellmd_run(gint argc, gchar **argv)
 				}
 			}
 		gkrellmd_update_monitors();
-		} /* while(1) */
+		} // while(1)
 	return 0;
 	} // gkrellmd_main()
 
@@ -1197,7 +1299,6 @@ static void service_update_status(DWORD newState)
 	service_status.dwCurrentState = newState;
 	SetServiceStatus(service_status_handle, &service_status);
 }
-
 
 void WINAPI service_control_handler(DWORD controlCode)
 	{
@@ -1214,9 +1315,11 @@ void WINAPI service_control_handler(DWORD controlCode)
 		}
 	}
 
-
-void WINAPI service_main(DWORD argc, TCHAR* argv[])
+void WINAPI service_main(DWORD argc, WCHAR* argv[])
 	{
+	gchar **argv_utf8;
+	DWORD i;
+
 	/* Init service status */
 	service_status.dwServiceType = SERVICE_WIN32;
 	service_status.dwCurrentState = SERVICE_STOPPED;
@@ -1226,42 +1329,58 @@ void WINAPI service_main(DWORD argc, TCHAR* argv[])
 	service_status.dwCheckPoint = 0;
 	service_status.dwWaitHint = 0;
 
-	service_status_handle = RegisterServiceCtrlHandler(service_name, service_control_handler);
+	service_status_handle = RegisterServiceCtrlHandlerW(service_name, service_control_handler);
 	if (service_status_handle)
 		{
-		/* service is starting */
+		// convert all strings in argv pointer array from utf16 to utf8
+		argv_utf8 = g_malloc(argc * sizeof(gchar *));
+		for (i = 0; i < argc; i++)
+			argv_utf8[i] = g_utf16_to_utf8(argv[i], -1, NULL, NULL, NULL);
+
+		// service is starting
 		service_update_status(SERVICE_START_PENDING);
 
-		/* service is running */
+		// service is running
 		service_status.dwControlsAccepted |= (SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN);
 		service_update_status(SERVICE_RUNNING);
-		
-		service_running = TRUE;
-		/*
-			gkrellmd_main returns on error or as soon as
-			service_running is FALSE (see service_control_handler()) 
-		*/
-		gkrellmd_run(argc, argv);
 
-		/* service was stopped */
+		service_running = TRUE;
+
+		// gkrellmd_main returns on error or as soon as
+		// service_running is FALSE (see service_control_handler())
+		gkrellmd_run(argc, argv_utf8);
+
+		// service was stopped
 		service_update_status(SERVICE_STOP_PENDING);
 
-		/* service is now stopped */
+		// services are not stopped via process signals so we have to
+		// clean up like in cb_sigterm() but without calling exit()!
+		g_message("GKrellM Daemon %d.%d.%d%s: Exiting normally\n",
+				GKRELLMD_VERSION_MAJOR, GKRELLMD_VERSION_MINOR,
+				GKRELLMD_VERSION_REV, GKRELLMD_EXTRAVERSION);
+		gkrellmd_cleanup();
+
+		// free all strings in pointer array and free the array itself
+		for (i = 0; i < argc; i++)
+			g_free(argv_utf8[i]);
+		g_free(argv_utf8);
+
+		// service is now stopped
 		service_status.dwControlsAccepted &= ~(SERVICE_ACCEPT_STOP | SERVICE_ACCEPT_SHUTDOWN);
 		service_update_status(SERVICE_STOPPED);
+
+		// process is automatically terminated by windows now
 		}
 	}
 
-
 void service_run()
 	{
-	SERVICE_TABLE_ENTRY serviceTable[] =
+	SERVICE_TABLE_ENTRYW service_table[] =
 		{ {service_name, service_main}, { 0, 0 } };
 	service_is_one = TRUE;
-	/* Blocking system call, will return if service is not needed anymore */
-	StartServiceCtrlDispatcher(serviceTable);
+	// Blocking system call, will return if service is not needed anymore
+	StartServiceCtrlDispatcherW(service_table);
 	}
-
 
 static gboolean service_wait_for_stop(SC_HANDLE serviceHandle)
 	{
@@ -1272,7 +1391,7 @@ static gboolean service_wait_for_stop(SC_HANDLE serviceHandle)
 
 	if (!QueryServiceStatus(serviceHandle, &status))
 		{
-		_tprintf("Could not query status of %s (%d)\n", service_display_name, GetLastError()); 
+		g_warning("Could not query status of %ls (%ld)\n", service_display_name, GetLastError());
 		return FALSE;
 		}
 	waitTimer = g_timer_new(); /* create and start */
@@ -1281,7 +1400,7 @@ static gboolean service_wait_for_stop(SC_HANDLE serviceHandle)
 		g_usleep(status.dwWaitHint * 1000);
 		if (!QueryServiceStatus(serviceHandle, &status))
 			{
-			_tprintf("Could not query status of %s (%d)\n", service_display_name, GetLastError()); 
+			g_warning("Could not query status of %ls (%ld)\n", service_display_name, GetLastError());
 			ret = FALSE;
 			break;
 			}
@@ -1292,7 +1411,7 @@ static gboolean service_wait_for_stop(SC_HANDLE serviceHandle)
 			}
 		if (g_timer_elapsed(waitTimer, NULL) > waitTimeoutSec)
 			{
-			_tprintf(_("Stopping %s timed out\n"), service_display_name);
+			g_warning("Stopping %ls timed out\n", service_display_name);
 			ret = FALSE;
 			break;
 			}
@@ -1307,13 +1426,13 @@ static gboolean service_stop(SC_HANDLE serviceHandle)
 	SERVICE_STATUS svcStatus;
 	if (!QueryServiceStatus(serviceHandle, &svcStatus))
 		{
-		_tprintf("Could not query status of %s (%d)\n", service_display_name, GetLastError()); 
+		g_warning("Could not query status of %ls (%ld)\n", service_display_name, GetLastError());
 		return FALSE;
 		}
 	/* service not running at all, just return that stopping worked out */
 	if (svcStatus.dwCurrentState == SERVICE_STOPPED)
 		{
-		_tprintf(_("%s already stopped\n"), service_display_name);
+		g_print(_("%ls already stopped\n"), service_display_name);
 		return TRUE;
 		}
 	/* service already stopping, just wait for its exit */
@@ -1324,7 +1443,7 @@ static gboolean service_stop(SC_HANDLE serviceHandle)
 	/* Service is running, let's stop it */
 	if (!ControlService(serviceHandle, SERVICE_CONTROL_STOP, &svcStatus))
 		{
-		_tprintf(_("Could not stop %s (%d)\n"), service_display_name, GetLastError());
+		g_warning(_("Could not stop %ls (%ld)\n"), service_display_name, GetLastError());
 		return FALSE;
 		}
 	// Wait for the service to stop.
@@ -1338,51 +1457,62 @@ static gboolean service_stop(SC_HANDLE serviceHandle)
 
 static gboolean service_install()
 	{
-	TCHAR path[_MAX_PATH + 1];
+	WCHAR path[_MAX_PATH + 1];
 	SC_HANDLE scmHandle;
 	SC_HANDLE svcHandle;
 	DWORD err;
 
-	if (GetModuleFileName(0, path, sizeof(path)/sizeof(path[0])) < 1)
+	g_print(_("Installing %ls...\n"), service_display_name);
+
+	if (GetModuleFileNameW(0, path, sizeof(path)/sizeof(path[0])) < 1)
 	{
-		_tprintf(_("Could not determine path to gkrellmd service binary (%d)\n"), GetLastError());
+		g_warning("Could not determine path to gkrellmd service binary, error 0x%ld\n", GetLastError());
 		return FALSE;
 	}
 
-	scmHandle = OpenSCManager(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
+	scmHandle = OpenSCManagerW(NULL, NULL, SC_MANAGER_CREATE_SERVICE);
 	if (!scmHandle)
 		{
 		err = GetLastError();
 		if (err == ERROR_ACCESS_DENIED)
-			_tprintf(_("Could not connect to service manager, access denied\n"));
+			g_warning("Could not connect to service manager, access denied\n");
 		else
-			_tprintf(_("Could not connect to service manager (%d)\n"), err);
+			g_warning("Could not connect to service manager, error 0x%lXd\n", err);
 		return FALSE;
 		}
 
-	svcHandle = CreateService(scmHandle, service_name, service_display_name,
+	svcHandle = CreateServiceW(scmHandle, service_name, service_display_name,
 			SERVICE_ALL_ACCESS, SERVICE_WIN32_OWN_PROCESS, SERVICE_AUTO_START,
 			SERVICE_ERROR_NORMAL, path, 0, 0, 0, 0, 0);
 	if (!svcHandle)
 		{
 		err = GetLastError();
 		if (err == ERROR_ACCESS_DENIED)
-			_tprintf(_("Could not create %s, access denied\n"), service_display_name);
+			g_warning("Could not install %ls, access denied\n", service_display_name);
 		else if (err == ERROR_SERVICE_EXISTS || err == ERROR_DUPLICATE_SERVICE_NAME)
-			_tprintf(_("Could not create %s, a service of the same name already exists\n"), service_display_name);
+			g_warning("Could not install %ls, a service of the same name already exists\n", service_display_name);
 		else
-			_tprintf(_("Could not create %s, error %d\n"), service_display_name, err);
+			g_warning("Could not install %ls, error 0x%lX\n", service_display_name, err);
 		CloseServiceHandle(scmHandle);
 		return FALSE;
 		}
+	else
+		{
+		g_print(_("%ls has been installed.\n"), service_display_name);
+		}
 
-	if (!StartService(svcHandle, 0, NULL))
+	g_print(_("Starting %ls...\n"), service_display_name);
+	if (!StartServiceW(svcHandle, 0, NULL))
 		{
 		err = GetLastError();
 		if (err == ERROR_ACCESS_DENIED)
-			_tprintf(_("Could not start %s, access denied\n"), service_display_name);
+			g_warning("Could not start %ls, access denied\n", service_display_name);
 		else
-			_tprintf(_("Could not start %s (%d)\n"), service_display_name, GetLastError());
+			g_warning("Could not start %ls, error 0x%lX\n", service_display_name, err);
+		}
+	else
+		{
+		g_print(_("%ls has been started.\n"), service_display_name);
 		}
 
 	CloseServiceHandle(svcHandle);
@@ -1395,38 +1525,49 @@ static gboolean service_uninstall()
 	{
 	SC_HANDLE scmHandle;
 	SC_HANDLE svcHandle;
-	BOOL delRet;
-	DWORD err;
+	BOOL delRet = FALSE;
+	gchar *errmsg;
 
-	scmHandle = OpenSCManager(NULL, NULL, SC_MANAGER_CONNECT);
+	g_print(_("Uninstalling %ls...\n"), service_display_name);
+
+	scmHandle = OpenSCManagerW(NULL, NULL, SC_MANAGER_CONNECT);
 	if (!scmHandle)
 		{
-		_tprintf(_("Could not connect to service manager (%d)\n"), GetLastError());
+		errmsg = g_win32_error_message(GetLastError());
+		g_warning("Could not connect to service manager: %s\n", errmsg);
+		g_free(errmsg);
+
 		return FALSE;
 		}
-	svcHandle = OpenService(scmHandle, service_name, SERVICE_STOP | SERVICE_QUERY_STATUS | DELETE);
+
+	svcHandle = OpenServiceW(scmHandle, service_name,
+			SERVICE_STOP | SERVICE_QUERY_STATUS | DELETE);
 	if (!svcHandle)
 		{
-		err = GetLastError();
-		if (err == ERROR_ACCESS_DENIED)
-			_tprintf(_("Access to %s denied\n"), service_display_name);
-		else if (err == ERROR_SERVICE_DOES_NOT_EXIST)
-			_tprintf(_("%s is not installed\n"), service_display_name);
-		else
-			_tprintf(_("Could not open %s, error %d\n"), service_display_name, GetLastError());
-		CloseServiceHandle(scmHandle);
-		return FALSE;
+		errmsg = g_win32_error_message(GetLastError());
+		g_warning("Could not open %ls: %s\n", service_display_name, errmsg);
+		g_free(errmsg);
 		}
-
-	if (!service_stop(svcHandle))
+	else
 		{
+		// handle to gkrellm service aquired, now stop and uninstall it
+		if (service_stop(svcHandle))
+			{
+			delRet = DeleteService(svcHandle);
+			if (!delRet)
+				{
+				errmsg = g_win32_error_message(GetLastError());
+				g_warning("Could not uninstall %ls: %s\n",
+						service_display_name, errmsg);
+				g_free(errmsg);
+				}
+			else
+				{
+				g_print(_("%ls has been uninstalled.\n"), service_display_name);
+				}
+			}
 		CloseServiceHandle(svcHandle);
-		CloseServiceHandle(scmHandle);
-		return FALSE;
 		}
-
-	delRet = DeleteService(svcHandle);
-	CloseServiceHandle(svcHandle);
 	CloseServiceHandle(scmHandle);
 
 	return delRet ? TRUE : FALSE;
@@ -1481,7 +1622,10 @@ int main(int argc, char* argv[])
 	bind_textdomain_codeset(PACKAGE_D, "UTF-8");
 #endif	/* ENABLE_NLS */
 
-	/* Parse arguments for actions which exit gkrellmd immediately */
+	// Init logging-chain
+	gkrellm_log_init();
+
+	/* Parse arguments for actions that exit gkrellmd immediately */
 	for (i = 1; i < argc; ++i)
 		{
 		opt = argv[i];
@@ -1499,7 +1643,7 @@ int main(int argc, char* argv[])
 			}
 		else if (!strcmp(opt, "version") || !strcmp(opt, "v"))
 			{
-			printf("gkrellmd %d.%d.%d%s\n", GKRELLMD_VERSION_MAJOR,
+			g_print("gkrellmd %d.%d.%d%s\n", GKRELLMD_VERSION_MAJOR,
 					GKRELLMD_VERSION_MINOR, GKRELLMD_VERSION_REV,
 					GKRELLMD_EXTRAVERSION);
 			return 0;
@@ -1507,19 +1651,11 @@ int main(int argc, char* argv[])
 #if defined(WIN32)
 		else if (!strcmp(opt, "install"))
 			{
-			_tprintf(_("Installing %s...\n"), service_display_name);
-			if (!service_install())
-				return 1;
-			_tprintf(_("%s has been installed.\n"), service_display_name);
-			return 0;
+			return (service_install() ? 1 : 0);
 			}
 		else if (!strcmp(opt, "uninstall"))
 			{
-			_tprintf(_("Uninstalling %s...\n"), service_display_name);
-			if (!service_uninstall())
-				return 1;
-			_tprintf(_("%s has been uninstalled.\n"), service_display_name);
-			return 0;
+			return (service_uninstall() ? 1 : 0);
 			}
 		else if (!strcmp(opt, "console"))
 			{
@@ -1529,7 +1665,7 @@ int main(int argc, char* argv[])
 			*/
 			int retVal;
 			int newArgc = 0;
-			char **newArgv = malloc((argc -1) * sizeof(char *));
+			char **newArgv = malloc((argc - 1) * sizeof(char *));
 			int j;
 			for (j = 0; j < argc; ++j)
 			{
@@ -1543,14 +1679,14 @@ int main(int argc, char* argv[])
 			return retVal;
 			}
 #endif /* defined(WIN32) */
-		} /* for() */
+		}
 
 #if defined(WIN32)
-	/* Win: register service and wait for the service to be started/stopped */
+	// win32: register service and wait for the service to be started/stopped
 	service_run();
 	return 0;
 #else
-	/* Unix: just enter main loop */
+	// Unix: just enter main loop
 	return gkrellmd_run(argc, argv);
 #endif
-	} /* main() */
+	}

@@ -76,7 +76,6 @@
 #include <sys/utsname.h>
 #endif
 
-#if !defined(WIN32)
 gchar *
 gkrellm_sys_get_host_name(void)
 	{
@@ -89,6 +88,7 @@ gkrellm_sys_get_host_name(void)
 	return buf;
 	}
 
+#if !defined(WIN32)
 gchar *
 gkrellm_sys_get_system_name(void)
 	{

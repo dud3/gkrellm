@@ -21,6 +21,8 @@
 #ifndef GKRELLMD_H
 #define GKRELLMD_H
 
+#include "log.h"
+
 #include <glib.h>
 
 #include <stdio.h>
@@ -35,26 +37,27 @@
 #endif
 
 #if !defined(WIN32)
-#include <unistd.h>
-#include <utime.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
-#include <sys/ioctl.h>
-#include <pwd.h>
-#include <grp.h>
-#if defined(__solaris__)
-#include <sys/filio.h>
-#endif
-#include <sys/select.h>
-#include <sys/wait.h>
+	#include <unistd.h>
+	#include <utime.h>
+	#include <sys/socket.h>
+	#include <sys/time.h>
+	#include <netinet/in.h>
+	#include <arpa/inet.h>
+	#include <netdb.h>
+	#include <sys/ioctl.h>
+	#include <pwd.h>
+	#include <grp.h>
+	#if defined(__solaris__)
+		#include <sys/filio.h>
+	#endif /* defined(__solaris__) */
+	#include <sys/select.h>
+	#include <sys/wait.h>
 #else
-#define ioctl ioctlsocket
 	#include <winsock2.h>
 	#include <ws2tcpip.h>
-#endif
+	typedef int sa_family_t; // WIN32 uses int for ai_family;
+	#include <stdint.h> // defines uint32_t
+#endif /* !defined(WIN32) */
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -85,7 +88,7 @@
 #   define gettext(String) (String)
 #   define dgettext(Domain,String) (String)
 #   define dcgettext(Domain,String,Type) (String)
-#   define bindtextdomain(Domain,Directory) (Domain) 
+#   define bindtextdomain(Domain,Directory) (Domain)
 #endif  /* ENABLE_NLS */
 
 /* -------------------------------------------------------------------
@@ -108,7 +111,7 @@ GKRELLMD_VERSION_REV >= (rev)))
 #else
 	#define GKRELLMD_USER_CONFIG	".gkrellmd.conf"
 #endif
- 
+
 #define GKRELLMD_PLUGINS_DIR		".gkrellm2/plugins-gkrellmd"
 #if !defined(WIN32)
 	#define GKRELLMD_LOCAL_PLUGINS_DIR	"/usr/local/lib/gkrellm2/plugins-gkrellmd"
