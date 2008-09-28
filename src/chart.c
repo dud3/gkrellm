@@ -914,11 +914,7 @@ gkrellm_store_chartdata(GkrellmChart *cp, gulong total, ...)
 	cp->primed = TRUE;
 	if (need_scan || cp->redraw_all)
 		scan_for_maxval(cp);
-#if defined(WIN32)
-	cp->redraw_all = TRUE;
-#else
 	scroll_chartdata_bitmaps(cp);
-#endif
 	}
 
 
