@@ -1699,7 +1699,7 @@ read_server_setup(gint fd)
 	gkrellm_free_glist_and_data(&client_plugin_setup_line_list);
 
     gint rs;
-    
+
 	while (1)
 		{
 		rs=getline(fd, buf, sizeof(buf));
@@ -1862,13 +1862,21 @@ gboolean
 gkrellm_client_mode_connect(void)
 	{
 	gchar	buf[128];
+	GtkWidget* dlg;
 
 	if (_GK.server_port == 0)
 		_GK.server_port = GKRELLMD_SERVER_PORT;
 
 	client_fd = gkrellm_connect_to(_GK.server, _GK.server_port);
 	if (client_fd < 0) {
-		printf("%s\n", _("Unable to connect."));
+		g_warning("%s\n", _("Unable to connect."));
+
+		dlg = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
+				GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+				"Unable to connect to server '%s:%d'",
+				_GK.server, _GK.server_port);
+		gtk_dialog_run(GTK_DIALOG(dlg));
+		gtk_widget_destroy(dlg);
 		return FALSE;
 	}
 
@@ -1880,7 +1888,15 @@ gkrellm_client_mode_connect(void)
 	/* Initial setup lines from server are read in blocking mode.
 	*/
 	if(!read_server_setup(client_fd)){
-        close(client_fd);
+
+		close(client_fd);
+
+		dlg = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
+				GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+				"Initial setup with server '%s:%d' failed.",
+				_GK.server, _GK.server_port);
+		gtk_dialog_run(GTK_DIALOG(dlg));
+		gtk_widget_destroy(dlg);
         return FALSE;
     }
 

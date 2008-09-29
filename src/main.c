@@ -2169,16 +2169,20 @@ main(gint argc, gchar **argv)
 			}
 		}
 
+	if (_GK.debug_level > 0)
+		g_debug("--- GKrellM %d.%d.%d ---\n", GKRELLM_VERSION_MAJOR,
+			GKRELLM_VERSION_MINOR, GKRELLM_VERSION_REV);
+
 	gkrellm_sys_main_init(); //FIXME: call this later or earlier?
 
 	_GK.w_display = gdk_screen_get_width(gdk_screen_get_default());
 	_GK.h_display = gdk_screen_get_height(gdk_screen_get_default());
 
-	if (_GK.debug_level > 0)
-		g_debug("--- GKrellM %d.%d.%d ---\n", GKRELLM_VERSION_MAJOR,
-			GKRELLM_VERSION_MINOR, GKRELLM_VERSION_REV);
 	if (_GK.server && !gkrellm_client_mode_connect())
-		exit(0);
+		{
+		gkrellm_exit(0);
+		return 0;
+		}
 
 	check_gkrellm_directories();
 	gkrellm_load_user_config(NULL, FALSE);
