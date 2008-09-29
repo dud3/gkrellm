@@ -313,13 +313,15 @@ add_counter_list(guint object_index,
 			_snwprintf(counter_path, sizeof(counter_path) / sizeof(wchar_t),
 					L"\\%ls(%ls)\\%ls",
 					obj_name, inst, c1_name);
-			add_counter(counter_path, &c1);
+			if (!add_counter(counter_path, &c1))
+				continue;
 
 			// "\Disks(DiskOne)\WriteBytes"
 			_snwprintf(counter_path, sizeof(counter_path) / sizeof(wchar_t),
 					L"\\%ls(%ls)\\%ls",
 					obj_name, inst, c2_name);
-			add_counter(counter_path, &c2);
+			if (!add_counter(counter_path, &c2))
+				continue;
 
 			if (c1 && c2)
 				cb(inst, &c1, &c2);
@@ -1154,9 +1156,24 @@ static void
 gkrellm_sys_net_add_cb(wchar_t *name, PDH_HCOUNTER *recv, PDH_HCOUNTER *send)
 {
 	GK_NET *net;
+	guint i;
+	gchar unique = '0';
+	GK_NET *other_net;
 
 	net = gk_net_new();
 	net->name = clean_dev_name(name);
+	for (i = 0; i < s_net_ptr_array->len; i++)
+	{
+		other_net = (GK_NET *)(g_ptr_array_index(s_net_ptr_array, i));
+		while (strncmp(net->name, other_net->name, MAX_DEV_NAME) == 0)
+		{
+			gkrellm_debug(DEBUG_SYSDEP,
+					"net names '%s' and '%s' conflict, renaming new one\n",
+					net->name, other_net->name);
+			net->name[strlen(net->name) - 1] = unique++;
+			break;
+		}
+	}
 	net->recv_pdh_counter = *recv;
 	net->send_pdh_counter = *send;
 
@@ -1196,7 +1213,7 @@ gkrellm_sys_net_cleanup(void)
 	gkrellm_debug(DEBUG_SYSDEP, "Freeing counters for %u network adapter(s)\n",
 		s_net_ptr_array->len);
 	for (i = 0; i < s_net_ptr_array->len; i++)
-		gk_net_free(g_ptr_array_index(s_net_ptr_array, i));
+		gk_net_free((GK_NET *)g_ptr_array_index(s_net_ptr_array, i));
 	g_ptr_array_free(s_net_ptr_array, TRUE);
 	}
 
@@ -1279,9 +1296,24 @@ static
 void gkrellm_sys_disk_add_cb(wchar_t *name, PDH_HCOUNTER *read, PDH_HCOUNTER *write)
 {
 	GK_DISK *disk;
+	GK_DISK *other_disk;
+	guint i;
+	gchar unique = '0';
 
 	disk = gk_disk_new();
 	disk->name = clean_dev_name(name);
+	for (i = 0; i < s_disk_ptr_array->len; i++)
+	{
+		other_disk = (GK_DISK *)(g_ptr_array_index(s_disk_ptr_array, i));
+		while (strncmp(disk->name, other_disk->name, MAX_DEV_NAME) == 0)
+		{
+			gkrellm_debug(DEBUG_SYSDEP,
+					"disk names '%s' and '%s' conflict, renaming new one\n",
+					disk->name, other_disk->name);
+			disk->name[strlen(disk->name) - 1] = unique++;
+			break;
+		}
+	}
 	disk->read_pdh_counter = *read;
 	disk->write_pdh_counter = *write;
 
