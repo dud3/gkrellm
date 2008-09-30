@@ -120,10 +120,10 @@ UNIXOBJS = winops-x11.o
 
 all:	gkrellm
 
-gkrellm: $(OBJS) $(UNIXOBJS) $(EXTRAOBJS)
+gkrellm: check_env $(OBJS) $(UNIXOBJS) $(EXTRAOBJS)
 	$(CC) $(OBJS) $(UNIXOBJS) $(EXTRAOBJS) -o gkrellm $(LIBS) $(LINK_FLAGS)
 
-static: $(OBJS) $(UNIXOBJS) $(EXTRAOBJS)
+static: check_env $(OBJS) $(UNIXOBJS) $(EXTRAOBJS)
 	$(CC) $(OBJS) $(UNIXOBJS) $(EXTRAOBJS) -o gkrellm.static -static \
 		$(LIBS) $(LINK_FLAGS)
 
@@ -354,3 +354,7 @@ win32-resource.o: win32-resource.rc win32-resource.h
 
 libgkrellm.a: win32-libgkrellm.o
 	ar -cr libgkrellm.a win32-libgkrellm.o
+
+# Checks if the build environment is ok
+check_env:
+	$(PKG_CONFIG) --atleast-version=2.6 gtk+-2.0
