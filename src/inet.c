@@ -18,7 +18,7 @@
 |  You should have received a copy of the GNU General Public License
 |  along with this program. If not, see http://www.gnu.org/licenses/
 */
- 
+
 #include "gkrellm.h"
 #include "gkrellm-private.h"
 #include "gkrellm-sysdeps.h"
@@ -325,7 +325,7 @@ format_chart_text(InetMon *in, gchar *src_string, gchar *buf, gint size)
 		size -= len;
 		buf += len;
 		}
-	*buf = '\0';	
+	*buf = '\0';
 	}
 
 static void
@@ -1409,7 +1409,7 @@ static GtkWidget	*launch_vbox;
 static GtkWidget	*data0_range_button,
 					*data1_range_button;
 
-static GtkWidget	*text_format_combo;
+static GtkWidget	*text_format_combo_box;
 
 
 static void
@@ -1704,7 +1704,7 @@ cb_enter(GtkWidget *widget, gpointer data)
 		in->port1_0 = atoi(gkrellm_gtk_entry_get_text(&port1_0_entry));
 		in->port1_1 = atoi(gkrellm_gtk_entry_get_text(&port1_1_entry));
 		}
-	
+
 	/* Validate the values
 	*/
 	if (   (!*(in->label0) && !*(in->label1))
@@ -1757,8 +1757,10 @@ cb_text_format(GtkWidget *widget, gpointer data)
 	{
 	GList   *list;
 	gchar   *s;
+	GtkWidget *entry;
 
-	s = gkrellm_gtk_entry_get_text(&(GTK_COMBO(text_format_combo)->entry));
+	entry = gtk_bin_get_child(GTK_BIN(text_format_combo_box));
+	s = gkrellm_gtk_entry_get_text(&entry);
 	gkrellm_locale_dup_string(&text_format, s, &text_format_locale);
 	for (list = inet_mon_list; list; list = list->next)
 		draw_inet_chart((InetMon *) list->data);
@@ -1828,7 +1830,7 @@ create_inet_tab(GtkWidget *tab_vbox)
 	GList			*list;
 	InetMon			*in;
 	gint			i;
-	
+
 	row_reference = NULL;
 
 	tabs = gtk_notebook_new();
@@ -2005,21 +2007,19 @@ create_inet_tab(GtkWidget *tab_vbox)
 	vbox1 = gkrellm_gtk_category_vbox(vbox,
 				_("Format String for Chart Labels"),
 				4, 0, TRUE);
-	text_format_combo = gtk_combo_new();
-	gtk_box_pack_start(GTK_BOX(vbox1), text_format_combo, FALSE, FALSE, 2);
-	list = NULL;
-	list = g_list_append(list, text_format);
-	list = g_list_append(list, DEFAULT_TEXT_FORMAT);
-	list = g_list_append(list,
-				"\\r\\f $M\\t$a\\f $l\\N$A\\f $L");
-	list = g_list_append(list,
-				"\\r\\f $M\\D1$a\\f $l\\D2$A\\f $L");
-	gtk_combo_set_popdown_strings(GTK_COMBO(text_format_combo), list);
-	gtk_combo_set_case_sensitive(GTK_COMBO(text_format_combo), TRUE);
-	g_list_free(list);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(text_format_combo)->entry),
+
+	text_format_combo_box = gtk_combo_box_entry_new_text();
+	gtk_box_pack_start(GTK_BOX(vbox1), text_format_combo_box, FALSE, FALSE, 2);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
 			text_format);
-	g_signal_connect(G_OBJECT(GTK_COMBO(text_format_combo)->entry), "changed",
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+			DEFAULT_TEXT_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+			"\\r\\f $M\\t$a\\f $l\\N$A\\f $L");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+			"\\r\\f $M\\D1$a\\f $l\\D2$A\\f $L");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(text_format_combo_box), 0);
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(text_format_combo_box)), "changed",
 			G_CALLBACK(cb_text_format), NULL);
 
 	vbox1 = gkrellm_gtk_category_vbox(vbox,

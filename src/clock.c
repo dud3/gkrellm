@@ -22,35 +22,23 @@
 #include "gkrellm.h"
 #include "gkrellm-private.h"
 
-#ifdef WIN32
+#if defined(WIN32)
 
-#define	DEFAULT_CLOCK_FORMAT \
-	"%#I:%M <span foreground=\"$A\"><small>%S</small></span>"
-#define	ALT1_CLOCK_FORMAT \
-	"%#I:%M <span foreground=\"$A\"><small>%p</small></span>"	
-#define ALT2_CLOCK_FORMAT \
-	"%#H:%M <span foreground=\"$A\"><small>%S</small></span>"
-#define	DEFAULT_CAL_FORMAT \
-	"%a <span foreground=\"$A\"><big><big>%#d</big></big></span> %b"
-#define ALT1_CAL_FORMAT \
-	"<big>%a %b <span foreground=\"$A\">%#d</span></big>"
-#define ALT2_CAL_FORMAT \
-	"%a <span foreground=\"cyan2\"><span font_desc=\"16.5\"><i>%#d</i></span></span> %b"
+#define DEFAULT_CLOCK_FORMAT "%#I:%M <span foreground=\"$A\"><small>%S</small></span>"
+#define ALT1_CLOCK_FORMAT "%#I:%M <span foreground=\"$A\"><small>%p</small></span>"
+#define ALT2_CLOCK_FORMAT "%#H:%M <span foreground=\"$A\"><small>%S</small></span>"
+#define DEFAULT_CAL_FORMAT "%a <span foreground=\"$A\"><big><big>%#d</big></big></span> %b"
+#define ALT1_CAL_FORMAT "<big>%a %b <span foreground=\"$A\">%#d</span></big>"
+#define ALT2_CAL_FORMAT "%a <span foreground=\"cyan2\"><span font_desc=\"16.5\"><i>%#d</i></span></span> %b"
 
 #else
 
-#define	DEFAULT_CLOCK_FORMAT \
-	"%l:%M <span foreground=\"$A\"><small>%S</small></span>"
-#define	ALT1_CLOCK_FORMAT \
-	"%l:%M <span foreground=\"$A\"><small>%p</small></span>"	
-#define ALT2_CLOCK_FORMAT \
-	"%k:%M <span foreground=\"$A\"><small>%S</small></span>"
-#define	DEFAULT_CAL_FORMAT \
-	"%a <span foreground=\"$A\"><big><big>%e</big></big></span> %b"
-#define ALT1_CAL_FORMAT \
-	"<big>%a %b <span foreground=\"$A\">%e</span></big>"
-#define ALT2_CAL_FORMAT \
-	"%a <span foreground=\"cyan2\"><span font_desc=\"16.5\"><i>%e</i></span></span> %b"
+#define DEFAULT_CLOCK_FORMAT "%l:%M <span foreground=\"$A\"><small>%S</small></span>"
+#define ALT1_CLOCK_FORMAT "%l:%M <span foreground=\"$A\"><small>%p</small></span>"
+#define ALT2_CLOCK_FORMAT "%k:%M <span foreground=\"$A\"><small>%S</small></span>"
+#define DEFAULT_CAL_FORMAT "%a <span foreground=\"$A\"><big><big>%e</big></big></span> %b"
+#define ALT1_CAL_FORMAT  "<big>%a %b <span foreground=\"$A\">%e</span></big>"
+#define ALT2_CAL_FORMAT "%a <span foreground=\"cyan2\"><span font_desc=\"16.5\"><i>%e</i></span></span> %b"
 
 #endif
 
@@ -120,9 +108,9 @@ chime_func(gpointer data)
 	ChimeData	*chime = (ChimeData *)data;
 	gint		counter;
 
-	if (strlen(chime->command)) 
+	if (strlen(chime->command))
 		{
-		if (chime->count > 12) 
+		if (chime->count > 12)
 			chime->count -= 12;
 
 		for (counter = 0; counter < chime -> count; counter ++)
@@ -328,7 +316,7 @@ draw_cal(void)
 
 	gkrellm_draw_decal_markup(pcal, d_cal, cal_string);
 	gkrellm_decal_text_set_offset(d_cal, (d_cal->w - w) / 2, 0);
-	
+
 	gkrellm_draw_panel_layers(pcal);
 	g_free(cal_string);
 	}
@@ -471,7 +459,7 @@ update_clock(void)
 		draw_cal();
 		if (ptm->tm_hour != hour_prev && hour_prev != -1)
 			{
-			if (!chime_block && hour_chime_command && *hour_chime_command) 
+			if (!chime_block && hour_chime_command && *hour_chime_command)
 				{
 				chime = g_new0(ChimeData, 1);
 				chime -> command = strdup(hour_chime_command);
@@ -483,7 +471,7 @@ update_clock(void)
 			{
 			if (   !chime_block && (ptm->tm_min % 15) == 0
 				&& quarter_chime_command && *quarter_chime_command
-			   ) 
+			   )
 				{
 				chime = g_new0(ChimeData, 1);
 				chime -> command = strdup(quarter_chime_command);
@@ -572,8 +560,8 @@ static GtkWidget	*cal_launch_entry,
 					*cal_enable_button,
 					*loop_chime_button;
 
-static GtkWidget	*cal_format_combo,
-					*clock_format_combo;
+static GtkWidget	*cal_format_combo_box,
+					*clock_format_combo_box;
 
 
 static void
@@ -626,10 +614,10 @@ static void
 cal_format_cb(GtkWidget *widget, gpointer data)
 	{
 	gchar	*s, *check;
+	GtkWidget *entry;
 
-	s = gtk_combo_box_get_active_text(GTK_COMBO_BOX(cal_format_combo));
-	if (s == NULL)
-		return;
+	entry = gtk_bin_get_child(GTK_BIN(cal_format_combo_box));
+	s = gkrellm_gtk_entry_get_text(&entry);
 
 	check = strftime_format(s, cal_alt_color_string);
 
@@ -653,8 +641,10 @@ static void
 clock_format_cb(GtkWidget *widget, gpointer data)
 	{
 	gchar	*s, *check;
+	GtkWidget *entry;
 
-	s = gtk_combo_box_get_active_text(GTK_COMBO_BOX(clock_format_combo));
+	entry = gtk_bin_get_child(GTK_BIN(clock_format_combo_box));
+	s = gkrellm_gtk_entry_get_text(&entry);
 
 	check = strftime_format(s, clock_alt_color_string);
 
@@ -717,14 +707,14 @@ create_clock_tab(GtkWidget *tab_vbox)
 	gtk_box_pack_start(GTK_BOX(vbox1), hbox, FALSE, FALSE, 6);
 	label = gtk_label_new(_("Display format string:"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 2);
-	cal_format_combo = gtk_combo_box_entry_new_text();
-	gtk_box_pack_start(GTK_BOX(vbox1), cal_format_combo, TRUE, TRUE, 0);
-	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo), cal_format);
-	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo), DEFAULT_CAL_FORMAT);
-	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo), ALT1_CAL_FORMAT);
-	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo), ALT2_CAL_FORMAT);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(cal_format_combo), 0);
-	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(cal_format_combo)), "changed",
+	cal_format_combo_box = gtk_combo_box_entry_new_text();
+	gtk_box_pack_start(GTK_BOX(vbox1), cal_format_combo_box, TRUE, TRUE, 0);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo_box), cal_format);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo_box), DEFAULT_CAL_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo_box), ALT1_CAL_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo_box), ALT2_CAL_FORMAT);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(cal_format_combo_box), 0);
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(cal_format_combo_box)), "changed",
 			G_CALLBACK(cal_format_cb), NULL);
 
 	vbox1 = gkrellm_gtk_category_vbox(vbox, _("Clock"), 4, 0, TRUE);
@@ -736,14 +726,14 @@ create_clock_tab(GtkWidget *tab_vbox)
 	gtk_box_pack_start(GTK_BOX(vbox1), hbox, FALSE, FALSE, 6);
 	label = gtk_label_new(_("Display format string:"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 2);
-	clock_format_combo = gtk_combo_box_entry_new_text();
-	gtk_box_pack_start(GTK_BOX(vbox1), clock_format_combo, TRUE, TRUE, 0);
-	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo), clock_format);
-	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo), DEFAULT_CLOCK_FORMAT);
-	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo), ALT1_CLOCK_FORMAT);
-	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo), ALT2_CLOCK_FORMAT);
-	gtk_combo_box_set_active(GTK_COMBO_BOX(clock_format_combo), 0);
-	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(clock_format_combo)), "changed",
+	clock_format_combo_box = gtk_combo_box_entry_new_text();
+	gtk_box_pack_start(GTK_BOX(vbox1), clock_format_combo_box, TRUE, TRUE, 0);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo_box), clock_format);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo_box), DEFAULT_CLOCK_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo_box), ALT1_CLOCK_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo_box), ALT2_CLOCK_FORMAT);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(clock_format_combo_box), 0);
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(clock_format_combo_box)), "changed",
 			G_CALLBACK(clock_format_cb), NULL);
 
 /* -- Setup tab */
@@ -791,7 +781,7 @@ create_clock_tab(GtkWidget *tab_vbox)
 			G_CALLBACK(cb_launch_entry), GINT_TO_POINTER(1));
 	g_signal_connect(G_OBJECT(cal_tooltip_entry), "changed",
 			G_CALLBACK(cb_launch_entry), GINT_TO_POINTER(1));
-	
+
 	gkrellm_gtk_config_launcher(table, 1,  &clock_launch_entry,
 				&clock_tooltip_entry, _("Clock"), &clock_launch);
 	g_signal_connect(G_OBJECT(clock_launch_entry), "changed",

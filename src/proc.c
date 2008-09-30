@@ -161,7 +161,7 @@ format_proc_data(ProcMon *p, gchar *src_string, gchar *buf, gint size)
 		size -= len;
 		buf += len;
 		}
-	*buf = '\0';	
+	*buf = '\0';
 	}
 
 static void
@@ -612,7 +612,7 @@ cb_alert_trigger(GkrellmAlert *alert, gpointer data)
 	GkrellmAlertdecal   *ad;
 	GkrellmDecal        *ds, *df;
 	gint				x, w;
-	
+
 	p = proc.chart->panel;
 	alert->panel = p;
 	ds = proc.sensor_decal;
@@ -756,7 +756,7 @@ load_proc_config(gchar *arg)
 static GtkWidget	*proc_launch_entry,
 					*proc_tooltip_entry;
 
-static GtkWidget	*text_format_combo;
+static GtkWidget	*text_format_combo_box;
 
 static GtkWidget	*load_alert_button,
 					*users_alert_button,
@@ -773,7 +773,7 @@ fix_panel(void)
 	if ((result = adjust_sensors_display(FALSE)) && proc_launch.button)
 		{
 		gkrellm_destroy_button(proc_launch.button);
-		proc_launch.button = 
+		proc_launch.button =
 			gkrellm_put_label_in_panel_button(proc.chart->panel,
 				gkrellm_launch_button_cb, &proc_launch, proc_launch.pad);
 		}
@@ -802,9 +802,11 @@ cb_sensor_separate(GtkWidget *button, gpointer data)
 static void
 cb_text_format(GtkWidget *widget, gpointer data)
 	{
-	gchar	*s;
+	gchar		*s;
+	GtkWidget	*entry;
 
-	s = gkrellm_gtk_entry_get_text(&(GTK_COMBO(text_format_combo)->entry));
+	entry = gtk_bin_get_child(GTK_BIN(text_format_combo_box));
+	s = gkrellm_gtk_entry_get_text(&entry);
 	gkrellm_locale_dup_string(&text_format, s, &text_format_locale);
 	new_text_format = TRUE;
 	refresh_proc_chart(proc.chart);
@@ -894,7 +896,6 @@ static void
 create_proc_tab(GtkWidget *tab_vbox)
 	{
 	GtkWidget	*tabs, *table, *vbox, *vbox1, *hbox, *text, *label;
-	GList		*list;
 	gint		i;
 
 	tabs = gtk_notebook_new();
@@ -947,20 +948,17 @@ create_proc_tab(GtkWidget *tab_vbox)
 	vbox1 = gkrellm_gtk_category_vbox(vbox,
 				_("Format String for Chart Labels"),
 				4, 0, TRUE);
-	text_format_combo = gtk_combo_new();
-	gtk_widget_set_size_request (GTK_WIDGET(text_format_combo), 350, -1);
-	gtk_box_pack_start(GTK_BOX(vbox1), text_format_combo, FALSE, FALSE, 2);
-	list = NULL;
-	list = g_list_append(list, text_format);
-	list = g_list_append(list, _(DEFAULT_TEXT_FORMAT));
-	list = g_list_append(list,
+
+	text_format_combo_box = gtk_combo_box_entry_new_text();
+	gtk_widget_set_size_request (GTK_WIDGET(text_format_combo_box), 350, -1);
+	gtk_box_pack_start(GTK_BOX(vbox1), text_format_combo_box, FALSE, FALSE, 2);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box), text_format);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+			_(DEFAULT_TEXT_FORMAT));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
 			_("\\f$L\\r\\f$F \\w88\\b\\p\\a$p\\f procs\\n\\e$u\\f users"));
-	gtk_combo_set_popdown_strings(GTK_COMBO(text_format_combo), list);
-	gtk_combo_set_case_sensitive(GTK_COMBO(text_format_combo), TRUE);
-	g_list_free(list);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(text_format_combo)->entry),
-			text_format);
-	g_signal_connect(G_OBJECT(GTK_COMBO(text_format_combo)->entry), "changed",
+	gtk_combo_box_set_active(GTK_COMBO_BOX(text_format_combo_box), 0);
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(text_format_combo_box)), "changed",
 			G_CALLBACK(cb_text_format), NULL);
 
 	vbox1 = gkrellm_gtk_category_vbox(vbox,

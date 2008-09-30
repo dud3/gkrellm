@@ -24,7 +24,9 @@
 #include "gkrellm-sysdeps.h"
 
 
-#define	DEFAULT_DATA_FORMAT	("$t - $f free")
+#define	DEFAULT_DATA_FORMAT	(_("$t - $f free"))
+#define	ALT1_DATA_FORMAT (_("$t - $u used"))
+#define	ALT2_DATA_FORMAT (_("$t - $U"))
 
 
   /* Values for force_fs_check	*/
@@ -1339,7 +1341,7 @@ static gboolean
 fstab_user_permission(Mount *m)
 	{
 	struct stat my_stat;
-	
+
 	stat(m->device, &my_stat);
 	if (   strstr(m->options, "user")
 		|| (strstr(m->options, "owner") && my_stat.st_uid == uid)
@@ -1362,7 +1364,7 @@ fix_fstab_mountable_changed(FSmon *fs)
 		{
 		fs->fstab_mounting = FALSE;
 		return TRUE;
-		}		
+		}
 	return FALSE;
 	}
 
@@ -1495,7 +1497,7 @@ static GtkTreeSelection	*selection;
 
 static GtkWidget
 				*label_entry,
-				*dir_combo,
+				*dir_combo_box,
 				*mount_entry,
 				*umount_entry,
 				*mounting_button,
@@ -1508,7 +1510,7 @@ static GtkWidget
 
 static GtkWidget	*alert_button;
 
-static GtkWidget	*data_format_combo;
+static GtkWidget	*data_format_combo_box;
 
 static gboolean	(*original_row_drop_possible)();
 
@@ -1666,14 +1668,17 @@ cb_alert_config(GkrellmAlert *ap, FSmon *fs)
   |  fstab entries and accordingly set sensitivity of the mounting_button.
   */
 static void
-cb_combo_changed(GtkWidget *widget)
+cb_combo_changed(GtkComboBox *widget, gpointer user_data)
 	{
 	Mount	*m;
 	gchar	*s;
+	GtkWidget *entry;
 
 	if (!mounting_supported || _GK.client_mode)
 		return;
-	s = gkrellm_gtk_entry_get_text(&(GTK_COMBO(dir_combo)->entry));
+
+	entry = gtk_bin_get_child(GTK_BIN(dir_combo_box));
+	s = gkrellm_gtk_entry_get_text(&entry);
 	m = in_fstab_list(s);
 	if (m && (fstab_user_permission(m) || uid == 0))
 		{
@@ -1765,7 +1770,7 @@ static void
 reset_entries(gboolean level0)
 	{
 	gtk_entry_set_text(GTK_ENTRY(label_entry), "");
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(dir_combo)->entry), "");
+	gtk_combo_box_set_active(GTK_COMBO_BOX(dir_combo_box), -1);
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(secondary_button), level0);
 	if (mounting_button)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(mounting_button),FALSE);
@@ -1857,8 +1862,8 @@ cb_tree_selection_changed(GtkTreeSelection *selection, gpointer data)
 	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(secondary_button),
 					secondary);
 	gtk_entry_set_text(GTK_ENTRY(label_entry), fs->label);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(dir_combo)->entry),
-				fs->mount.directory);
+	gtk_entry_set_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(dir_combo_box))),
+			fs->mount.directory);
 	if (show_button)
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(show_button),
 					fs->show_if_mounted);
@@ -1980,8 +1985,9 @@ add_cb(GtkWidget *widget)
 
 	label = gkrellm_gtk_entry_get_text(&label_entry);
 	gkrellm_locale_dup_string(&fs->label, label, &fs->label_shadow);
-	fs->mount.directory =
-		g_strdup(gkrellm_gtk_entry_get_text(&(GTK_COMBO(dir_combo)->entry)));
+	fs->mount.directory = gtk_combo_box_get_active_text(
+			GTK_COMBO_BOX(dir_combo_box));
+
 	if (show_button)
 		fs->show_if_mounted = GTK_TOGGLE_BUTTON(show_button)->active;
 	if (mounting_button)
@@ -2102,8 +2108,10 @@ cb_data_format(GtkWidget *widget, gpointer data)
 	GkrellmDecal	*d;
 	gchar			*s, buf[256];
 	gint			h_data, h_label;
+	GtkWidget *entry;
 
-	s = gkrellm_gtk_entry_get_text(&(GTK_COMBO(data_format_combo)->entry));
+	entry = gtk_bin_get_child(GTK_BIN(data_format_combo_box));
+	s = gkrellm_gtk_entry_get_text(&entry);
 
 	/* In case Pango markup tags, don't accept line unless valid markup.
 	|  Ie, markup like <span ...> xxx </span> or <b> xxx </b>
@@ -2243,7 +2251,7 @@ create_fs_panels_page(GtkWidget *vbox)
 	GtkWidget				*scrolled;
 	GtkTreeModel			*model;
 	GtkCellRenderer			*renderer;
-	GList					*list, *combo_list;
+	GList					*list;
 
 
 	hbox = gtk_hbox_new(FALSE, 0);
@@ -2268,18 +2276,16 @@ create_fs_panels_page(GtkWidget *vbox)
 #endif
 	gtk_table_attach(GTK_TABLE(table), label, 0, 1, 1, 2,
 				GTK_SHRINK, GTK_SHRINK, 2, 1);
-	dir_combo = gtk_combo_new();
-	gtk_table_attach_defaults(GTK_TABLE(table), dir_combo, 1, 2, 1, 2);
-	combo_list = NULL;
+	dir_combo_box = gtk_combo_box_entry_new_text();
+	gtk_table_attach_defaults(GTK_TABLE(table), dir_combo_box, 1, 2, 1, 2);
 	for (list = fstab_list; list; list = list->next)
-		combo_list = g_list_append(combo_list,
-					((Mount *)list->data)->directory);
-	gtk_combo_set_popdown_strings( GTK_COMBO(dir_combo), combo_list);
-	gtk_combo_set_case_sensitive(GTK_COMBO(dir_combo), TRUE);
-	g_list_free(combo_list);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(dir_combo)->entry), "");
-	g_signal_connect(G_OBJECT(GTK_COMBO(dir_combo)->entry),
-				"changed", GTK_SIGNAL_FUNC (cb_combo_changed), NULL);
+		{
+		gtk_combo_box_append_text(GTK_COMBO_BOX(dir_combo_box),
+				((Mount *)list->data)->directory);
+		}
+	gtk_combo_box_set_active(GTK_COMBO_BOX(dir_combo_box), -1);
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(dir_combo_box)),
+			"changed", G_CALLBACK(cb_combo_changed), NULL);
 
 	vbox1 = gtk_vbox_new(FALSE, 0);
 	gtk_box_pack_start(GTK_BOX(hbox), vbox1, FALSE, FALSE, 0);
@@ -2489,7 +2495,6 @@ fs_tab_create(GtkWidget *tab_vbox)
 	GtkWidget		*tabs;
 	GtkWidget		*vbox, *vbox1;
 	GtkWidget		*text;
-	GList			*list;
 	gint			i;
 
 	row_reference = NULL;
@@ -2543,19 +2548,14 @@ fs_tab_create(GtkWidget *tab_vbox)
 	vbox1 = gkrellm_gtk_category_vbox(vbox,
 				_("Format String for Panel Labels"),
 				4, 0, TRUE);
-	data_format_combo = gtk_combo_new();
-	gtk_box_pack_start(GTK_BOX(vbox1), data_format_combo, FALSE, FALSE, 2);
-	list = NULL;
-	list = g_list_append(list, data_format);
-	list = g_list_append(list, DEFAULT_DATA_FORMAT);
-	list = g_list_append(list, _("$t - $u used"));
-	list = g_list_append(list, _("$t - $U"));
-	gtk_combo_set_popdown_strings(GTK_COMBO(data_format_combo), list);
-	gtk_combo_set_case_sensitive(GTK_COMBO(data_format_combo), TRUE);
-	g_list_free(list);
-	gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(data_format_combo)->entry),
-			data_format);
-	g_signal_connect(G_OBJECT(GTK_COMBO(data_format_combo)->entry), "changed",
+	data_format_combo_box = gtk_combo_box_entry_new_text();
+	gtk_box_pack_start(GTK_BOX(vbox1), data_format_combo_box, FALSE, FALSE, 2);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(data_format_combo_box), data_format);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(data_format_combo_box), DEFAULT_DATA_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(data_format_combo_box), ALT1_DATA_FORMAT);
+	gtk_combo_box_append_text(GTK_COMBO_BOX(data_format_combo_box), ALT2_DATA_FORMAT);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(data_format_combo_box), 0);
+	g_signal_connect(G_OBJECT(GTK_COMBO_BOX(data_format_combo_box)), "changed",
 			G_CALLBACK(cb_data_format), NULL);
 
 /* --Info tab */
