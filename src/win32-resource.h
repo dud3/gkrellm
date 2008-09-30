@@ -2,4 +2,4 @@
 #define IDC_STATIC (-1)
 #endif
 
-#define IDI_ICON3                       105
+#define IDI_ICON3                               105

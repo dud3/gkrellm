@@ -5,7 +5,7 @@ Author:	Bill Wilson
 Email:  billw--at--gkrellm.net
 Homepage: http://gkrellm.net
 
-Copyright (c) 1999-2006 by Bill Wilson.  This program is free software
+Copyright (c) 1999-2008 by Bill Wilson.  This program is free software
 which I release under the GNU General Public License.
 Read the COPYRIGHT file for more info.
 
@@ -96,7 +96,7 @@ User Interface
 Requirements
 ============
 To use or compile GKrellM, you need:
-	* Gtk+-2.0
+	* Gtk+-2.6
 To compile, you additionally need the development libs.
 
 

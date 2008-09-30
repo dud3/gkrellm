@@ -350,7 +350,7 @@ winops-win32.o: winops-win32.c $(GKRELLM_H)
 win32-plugin.o: win32-plugin.c win32-plugin.h
 win32-libgkrellm.o: win32-libgkrellm.c win32-plugin.h
 win32-resource.o: win32-resource.rc win32-resource.h
-	windres -I.. -o win32-resource.o win32-resource.rc
+	windres -o win32-resource.o win32-resource.rc
 
 libgkrellm.a: win32-libgkrellm.o
 	ar -cr libgkrellm.a win32-libgkrellm.o
