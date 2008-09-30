@@ -239,12 +239,15 @@ gkrellm_make_home_subdir(gchar *subdir, gchar **path)
 gchar *
 gkrellm_gtk_entry_get_text(GtkWidget **entry)
 	{
-	gchar	*s = "";
+	static /*const*/ gchar *def_s = "";
+	gchar *s = def_s;
 
 	if (*entry)
-		s = (gchar *) gtk_entry_get_text(GTK_ENTRY(*entry));
-	while (*s == ' ' || *s == '\t')
-		++s;
+		{
+		s = (gchar *)gtk_entry_get_text(GTK_ENTRY(*entry));
+		while (*s == ' ' || *s == '\t')
+			++s;
+		}
 	return s;
 	}
 
@@ -291,7 +294,7 @@ gkrellm_gdk_text_width(PangoFontDescription *font_desc,
 	pango_layout_set_text(layout, string, len);
 	pango_layout_get_pixel_size(layout, &w, &h);
 	g_object_unref(layout);
-	return w;	
+	return w;
 	}
 
 gint
@@ -306,7 +309,7 @@ gkrellm_gdk_text_markup_width(PangoFontDescription *font_desc,
 	pango_layout_set_markup(layout, string, len);
 	pango_layout_get_pixel_size(layout, &w, &h);
 	g_object_unref(layout);
-	return w;	
+	return w;
 	}
 
 gint
