@@ -53,17 +53,19 @@
 
 NTSTATUS NTAPI ZwQuerySystemInformation(
   /*IN*/ UINT SystemInformationClass,
-  /*IN OUT*/ PVOID SystemInformation,
+  /*IN OUT*/ VOID *SystemInformation,
   /*IN*/ ULONG SystemInformationLength,
-  /*OUT*/ PULONG ReturnLength /*OPTIONAL*/);
+  /*OUT*/ ULONG *ReturnLength /*OPTIONAL*/);
 
-typedef struct _SYSTEM_PAGEFILE_INFORMATION {
+typedef struct _SYSTEM_PAGEFILE_INFORMATION
+	{
 	ULONG  NextEntryOffset;
 	ULONG  CurrentSize;
 	ULONG  TotalUsed;
 	ULONG  PeakUsed;
 	UNICODE_STRING  FileName;
-} SYSTEM_PAGEFILE_INFORMATION, *PSYSTEM_PAGEFILE_INFORMATION;
+	}
+	SYSTEM_PAGEFILE_INFORMATION;
 
 
 // ----------------------------------------------------------------------------
@@ -71,7 +73,8 @@ typedef struct _SYSTEM_PAGEFILE_INFORMATION {
 // These should be in ntsecapi.h but are missing in MinGW currently.
 // Docs: http://msdn.microsoft.com/en-us/library/aa378290(VS.85).aspx
 
-typedef struct _SECURITY_LOGON_SESSION_DATA {
+typedef struct _SECURITY_LOGON_SESSION_DATA
+	{
 	ULONG Size;
 	LUID LogonId;
 	LSA_UNICODE_STRING UserName;
@@ -84,20 +87,23 @@ typedef struct _SECURITY_LOGON_SESSION_DATA {
 	LSA_UNICODE_STRING LogonServer;
 	LSA_UNICODE_STRING DnsDomainName;
 	LSA_UNICODE_STRING Upn;
-} SECURITY_LOGON_SESSION_DATA, *PSECURITY_LOGON_SESSION_DATA;
+	}
+	SECURITY_LOGON_SESSION_DATA;
 
 // Definitions for function pointers (functions resolved manually at runtime)
 typedef NTSTATUS (NTAPI *pfLsaEnumerateLogonSessions)(
-		PULONG LogonSessionCount, PLUID *LogonSessionList);
+		ULONG *LogonSessionCount, LUID **LogonSessionList);
 typedef NTSTATUS (NTAPI *pfLsaGetLogonSessionData)(
-		PLUID LogonId, PSECURITY_LOGON_SESSION_DATA *ppLogonSessionData);
-typedef NTSTATUS (NTAPI *pfLsaFreeReturnBuffer)(PVOID Buffer);
+		LUID *LogonId, SECURITY_LOGON_SESSION_DATA **ppLogonSessionData);
+typedef NTSTATUS (NTAPI *pfLsaFreeReturnBuffer)(VOID *Buffer);
 
 
 // ----------------------------------------------------------------------------
 // Max len of device names returned by clean_dev_name().
 // Value taken from net.c load_net_config() and disk.c load_disk_config().
 #define MAX_DEV_NAME 31
+
+#define ARR_SZ(x) (sizeof(x) / sizeof(x[0]))
 
 static PDH_HQUERY pdhQueryHandle = NULL;
 
@@ -143,6 +149,8 @@ win32_warning(const wchar_t *dll_name, DWORD status, const gchar *format, ...)
 			flags |= FORMAT_MESSAGE_FROM_HMODULE;
 	}
 
+	// NOTE: yes, this call takes a wchar_t **, it's a known flaw in the
+	//       WIN32 API, you can ignore any compiler warning about arg 5
 	if (FormatMessageW(
 		  flags // dwFlags
         , dll_handle // lpSource
@@ -238,15 +246,14 @@ add_counter_list(guint object_index,
 		add_counter_cb cb)
 	{
 	PDH_STATUS  st;
-	wchar_t		obj_name[128];
-	wchar_t		c1_name[128];
-	wchar_t		c2_name[128];
+	wchar_t		obj_name[PDH_MAX_COUNTER_NAME];
+	wchar_t		c1_name[PDH_MAX_COUNTER_NAME];
+	wchar_t		c2_name[PDH_MAX_COUNTER_NAME];
 	wchar_t *	obj_list = NULL;
 	DWORD		obj_list_size = 0;
 	wchar_t *	inst_list = NULL;
 	DWORD		inst_list_size = 0;
-	// Holds counter path, length is 128 + 128 + 4 + strlen(instance)
-	wchar_t		counter_path[768];
+	wchar_t		counter_path[PDH_MAX_COUNTER_PATH];
 	wchar_t *	inst = NULL;
 	PDH_HCOUNTER c1;
 	PDH_HCOUNTER c2;
@@ -256,13 +263,13 @@ add_counter_list(guint object_index,
 		return;
 
 	// Get translated name for object_index
-	if (!lookup_perfname(object_index, obj_name, 128))
+	if (!lookup_perfname(object_index, obj_name, PDH_MAX_COUNTER_NAME))
 		return;
 
-	if (!lookup_perfname(counter_index1, c1_name, 128))
+	if (!lookup_perfname(counter_index1, c1_name, PDH_MAX_COUNTER_NAME))
 		return;
 
-	if (!lookup_perfname(counter_index2, c2_name, 128))
+	if (!lookup_perfname(counter_index2, c2_name, PDH_MAX_COUNTER_NAME))
 		return;
 
 	// Get number of counters/instances that can be queried
@@ -284,12 +291,10 @@ add_counter_list(guint object_index,
 		return;
 
 	// Allocate buffers to hold object and instance names
-	++obj_list_size;
-	obj_list = (wchar_t *)malloc(sizeof(wchar_t) * obj_list_size);
+	obj_list = (wchar_t *)g_malloc(sizeof(wchar_t) * obj_list_size);
+	inst_list = (wchar_t *)g_malloc(sizeof(wchar_t) * inst_list_size);
 
-	++inst_list_size;
-	inst_list = (wchar_t *)malloc(sizeof(wchar_t) * inst_list_size);
-
+	gkrellm_debug(DEBUG_SYSDEP, "Max instance list size: %lu\n", inst_list_size);
 	// Get actual information about counters
 	st = PdhEnumObjectItemsW(NULL, NULL, obj_name,
 			obj_list, &obj_list_size,
@@ -303,22 +308,23 @@ add_counter_list(guint object_index,
 		}
 	else
 		{
+		gkrellm_debug(DEBUG_SYSDEP, "Returned instance list size: %lu\n", inst_list_size);
 		for (inst = inst_list; *inst != 0; inst += wcslen(inst) + 1)
 			{
+			gkrellm_debug(DEBUG_SYSDEP, "instance '%ls' (%u chars)\n", inst, wcslen(inst));
+
 			// Ignore total counter, gkrellm provides that functionality
 			if (wcsnicmp(L"_Total", inst, 6) == 0)
 				continue;
 
 			// "\Disks(DiskOne)\ReadBytes"
-			_snwprintf(counter_path, sizeof(counter_path) / sizeof(wchar_t),
-					L"\\%ls(%ls)\\%ls",
+			_snwprintf(counter_path, ARR_SZ(counter_path), L"\\%ls(%ls)\\%ls",
 					obj_name, inst, c1_name);
 			if (!add_counter(counter_path, &c1))
 				continue;
 
 			// "\Disks(DiskOne)\WriteBytes"
-			_snwprintf(counter_path, sizeof(counter_path) / sizeof(wchar_t),
-					L"\\%ls(%ls)\\%ls",
+			_snwprintf(counter_path, ARR_SZ(counter_path), L"\\%ls(%ls)\\%ls",
 					obj_name, inst, c2_name);
 			if (!add_counter(counter_path, &c2))
 				continue;
@@ -327,8 +333,8 @@ add_counter_list(guint object_index,
 				cb(inst, &c1, &c2);
 			}
 		}
-	free(obj_list);
-	free(inst_list);
+	g_free((gpointer)obj_list);
+	g_free((gpointer)inst_list);
 	}
 
 static
@@ -516,46 +522,54 @@ HANDLE gkrellm_sys_sensors_open_shm_helper(const wchar_t *shm_name,
 //#define stMhz           (char)(4)
 //#define stPercentage    (char)(5)
 
-typedef struct {
-    SensorType  iType;        // type of sensor
-    int         Count;        // number of sensor for that type
-} MBMSharedIndex;
+typedef struct _MBMSharedIndex
+	{
+	SensorType iType; // type of sensor
+	int Count; // number of sensor for that type
+	}
+	MBMSharedIndex;
 
-typedef struct {
-    SensorType ssType;        // type of sensor
-    unsigned char ssName[12]; // name of sensor
-    char sspadding1[3];       // padding of 3 byte
-    double ssCurrent;         // current value
-    double ssLow;             // lowest readout
-    double ssHigh;            // highest readout
-    long ssCount;             // total number of readout
-    char sspadding2[4];       // padding of 4 byte
-    long double ssTotal;      // total amout of all readouts
-    char sspadding3[6];       // padding of 6 byte
-    double ssAlarm1;          // temp & fan: high alarm; voltage: % off;
-    double ssAlarm2;          // temp: low alarm
-} MBMSharedSensor;
+typedef struct _MBMSharedSensor
+	{
+	SensorType ssType;        // type of sensor
+	unsigned char ssName[12]; // name of sensor
+	char sspadding1[3];       // padding of 3 byte
+	double ssCurrent;         // current value
+	double ssLow;             // lowest readout
+	double ssHigh;            // highest readout
+	long ssCount;             // total number of readout
+	char sspadding2[4];       // padding of 4 byte
+	long double ssTotal;      // total amout of all readouts
+	char sspadding3[6];       // padding of 6 byte
+	double ssAlarm1;          // temp & fan: high alarm; voltage: % off;
+	double ssAlarm2;          // temp: low alarm
+	}
+	MBMSharedSensor;
 
-typedef struct {
-    short siSMB_Base;       // SMBus base address
-    BusType siSMB_Type;     // SMBus/Isa bus used to access chip
-    SMBType siSMB_Code;     // SMBus sub type, Intel, AMD or ALi
-    char siSMB_Addr;        // Address of sensor chip on SMBus
-    unsigned char siSMB_Name[41];   // Nice name for SMBus
-    short siISA_Base;       // ISA base address of sensor chip on ISA
-    int siChipType;         // Chip nr, connects with Chipinfo.ini
-    char siVoltageSubType;  // Subvoltage option selected
-} MBMSharedInfo;
+typedef struct _MBMSharedInfo
+	{
+	short siSMB_Base; // SMBus base address
+	BusType siSMB_Type; // SMBus/Isa bus used to access chip
+	SMBType siSMB_Code; // SMBus sub type, Intel, AMD or ALi
+	char siSMB_Addr; // Address of sensor chip on SMBus
+	unsigned char siSMB_Name[41]; // Nice name for SMBus
+	short siISA_Base; // ISA base address of sensor chip on ISA
+	int siChipType; // Chip nr, connects with Chipinfo.ini
+	char siVoltageSubType; // Subvoltage option selected
+	}
+	MBMSharedInfo;
 
-typedef struct {
-    double          sdVersion;     // version number (example: 51090)
-    MBMSharedIndex  sdIndex[10];   // Sensor index
-    MBMSharedSensor sdSensor[100]; // sensor info
-    MBMSharedInfo   sdInfo;        // misc. info
-    unsigned char   sdStart[41];   // start time
-    unsigned char   sdCurrent[41]; // current time
-    unsigned char   sdPath[256];   // MBM path
-} MBMSharedData;
+typedef struct _MBMSharedData
+	{
+	double sdVersion; // version number (example: 51090)
+	MBMSharedIndex sdIndex[10]; // Sensor index
+	MBMSharedSensor sdSensor[100]; // sensor info
+	MBMSharedInfo sdInfo; // misc. info
+	unsigned char sdStart[41]; // start time
+	unsigned char sdCurrent[41]; // current time
+	unsigned char sdPath[256]; // MBM path
+	}
+	MBMSharedData;
 
 static const wchar_t* MBM_SHM_NAME = L"$M$B$M$5$S$D$";
 static const gchar*   MBM_EXE_NAME = "MBM5.exe";
@@ -680,7 +694,7 @@ gkrellm_sys_sensors_mbm_init(void)
 
 // Strucure of the shared block
 #pragma pack(push, 1)
-typedef struct
+typedef struct _SFSharedMemory
 {
 	unsigned short int version;
 	unsigned short int flags;
@@ -824,7 +838,7 @@ gkrellm_sys_sensors_sf_init(void)
  * Information and struct taken from
  * http://www.alcpu.com/CoreTemp/developers.html
 **/
-typedef struct core_temp_shared_data
+typedef struct _CORE_TEMP_SHARED_DATA
 {
 	unsigned int  uiLoad[256];
 	unsigned int  uiTjMax[128];
@@ -1084,7 +1098,7 @@ gkrellm_sys_cpu_cleanup(void)
 /* Net monitor interface */
 /* ===================================================================== */
 
-typedef struct
+typedef struct _GK_NET
 	{
 	PDH_HCOUNTER recv_pdh_counter;
 	PDH_HCOUNTER send_pdh_counter;
@@ -1447,7 +1461,7 @@ gkrellm_sys_proc_read_users(void)
 	ULONG numSessions = 0;
 	PLUID pSessions = NULL;
 	// Argument for LsaGetLogonSessionData()
-	PSECURITY_LOGON_SESSION_DATA pSessionData;
+	SECURITY_LOGON_SESSION_DATA *pSessionData;
 	wchar_t acc_name[256];
 	wchar_t acc_dom[256];
 	DWORD dwSize;
@@ -1527,8 +1541,8 @@ gkrellm_sys_proc_read_users(void)
 gboolean
 gkrellm_sys_proc_init(void)
 	{
-	wchar_t system_name[128];
-	wchar_t counter_name[128];
+	wchar_t system_name[PDH_MAX_COUNTER_NAME];
+	wchar_t counter_name[PDH_MAX_COUNTER_NAME];
 	wchar_t counter_path[128+128+3];
 #if 0
 	OSVERSIONINFOEXW vi;
@@ -1540,14 +1554,13 @@ gkrellm_sys_proc_init(void)
 		return FALSE;
 
 	// Fetch prefix for both counter paths ("System" index is 2)
-	if (!lookup_perfname(2, system_name, 128))
+	if (!lookup_perfname(2, system_name, ARR_SZ(system_name)))
 		return FALSE;
 
 	// Add counter for number of processes (index is 248)
 	if (!lookup_perfname(248, counter_name, 128))
 		return FALSE;
-	_snwprintf(counter_path, sizeof(counter_path) / sizeof(wchar_t),
-			L"\\%ls\\%ls",
+	_snwprintf(counter_path, ARR_SZ(counter_path), L"\\%ls\\%ls",
 			system_name, counter_name);
 	if (!add_counter(counter_path, &processCounter))
 		return FALSE;
@@ -1555,8 +1568,7 @@ gkrellm_sys_proc_init(void)
 	// --- Add counter for waiting queue size (index is 44)
 	if (!lookup_perfname(44, counter_name, 128))
 		return FALSE;
-	_snwprintf(counter_path, sizeof(counter_path) / sizeof(wchar_t),
-			L"\\%ls\\%ls",
+	_snwprintf(counter_path, ARR_SZ(counter_path), L"\\%ls\\%ls",
 			system_name, counter_name);
 	if (!add_counter(counter_path, &waitQueueCounter))
 		return FALSE;
@@ -1635,21 +1647,21 @@ gkrellm_sys_proc_cleanup(void)
 /* Memory/Swap monitor interface */
 /* ===================================================================== */
 
-typedef struct {
-  DWORD cb;
-  SIZE_T CommitTotal;
-  SIZE_T CommitLimit;
-  SIZE_T CommitPeak;
-  SIZE_T PhysicalTotal;
-  SIZE_T PhysicalAvailable;
-  SIZE_T SystemCache;
-  SIZE_T KernelTotal;
-  SIZE_T KernelPaged;
-  SIZE_T KernelNonpaged;
-  SIZE_T PageSize;
-  DWORD HandleCount;
-  DWORD ProcessCount;
-  DWORD ThreadCount;
+typedef struct _PERFORMANCE_INFORMATION {
+	DWORD cb;
+	SIZE_T CommitTotal;
+	SIZE_T CommitLimit;
+	SIZE_T CommitPeak;
+	SIZE_T PhysicalTotal;
+	SIZE_T PhysicalAvailable;
+	SIZE_T SystemCache;
+	SIZE_T KernelTotal;
+	SIZE_T KernelPaged;
+	SIZE_T KernelNonpaged;
+	SIZE_T PageSize;
+	DWORD HandleCount;
+	DWORD ProcessCount;
+	DWORD ThreadCount;
 } PERFORMANCE_INFORMATION;
 
 typedef BOOL (WINAPI *pfGetPerformanceInfo)(PERFORMANCE_INFORMATION *, DWORD);
@@ -1712,6 +1724,7 @@ gkrellm_sys_swap_read_data(void)
 	guint64 swapUsed  = 0;
 	NTSTATUS ntstatus;
 	ULONG  szBuf = 3*sizeof(SYSTEM_PAGEFILE_INFORMATION);
+	SYSTEM_PAGEFILE_INFORMATION *pInfo;
 	LPVOID pBuf = NULL;
 
 	gkrellm_debug(DEBUG_SYSDEP, "Checking swap utilization\n");
@@ -1745,7 +1758,7 @@ gkrellm_sys_swap_read_data(void)
 	if (pBuf != NULL)
 		{
 		// iterate over information for all pagefiles
-		PSYSTEM_PAGEFILE_INFORMATION pInfo = (PSYSTEM_PAGEFILE_INFORMATION)pBuf;
+		pInfo = (SYSTEM_PAGEFILE_INFORMATION *)pBuf;
 		for (;;)
 			{
 			swapTotal += pInfo->CurrentSize * page_size;
@@ -1753,7 +1766,7 @@ gkrellm_sys_swap_read_data(void)
 			if (pInfo->NextEntryOffset == 0)
 				break; // end of list
 			// get pointer to next struct
-			pInfo = (PSYSTEM_PAGEFILE_INFORMATION)((PBYTE)pInfo +
+			pInfo = (SYSTEM_PAGEFILE_INFORMATION *)((BYTE *)pInfo +
 				pInfo->NextEntryOffset);
 			}
 		g_free(pBuf);
@@ -1937,7 +1950,7 @@ void gkrellm_sys_fs_get_mounts_list(void)
 	gkrellm_debug(DEBUG_SYSDEP, "Getting list of mounted drives\n");
 
 	drive_list[0] = '\0';
-	sz = (sizeof(drive_list) / sizeof(wchar_t)) - sizeof(wchar_t);
+	sz = ARR_SZ(drive_list) - sizeof(drive_list[0]);
 	ret = GetLogicalDriveStringsW(sz, drive_list);
 	if (ret == 0 || ret > sz)
 	{
@@ -1974,7 +1987,7 @@ void gkrellm_sys_fs_get_fstab_list(void)
 	gkrellm_debug(DEBUG_SYSDEP, "Getting list of drives in fstab\n");
 
 	drive_list[0] = '\0';
-	sz = (sizeof(drive_list) / sizeof(wchar_t)) - sizeof(wchar_t);
+	sz = ARR_SZ(drive_list) - sizeof(drive_list[0]);
 	ret = GetLogicalDriveStringsW(sz, drive_list);
 	if (ret == 0 || ret > sz)
 	{
@@ -2097,9 +2110,9 @@ time_t gkrellm_sys_uptime_read_uptime(void)
 
 gboolean gkrellm_sys_uptime_init(void)
 	{
-	wchar_t system_name[128];
-	wchar_t uptime_name[128];
-	wchar_t counter_path[128+128+3];
+	wchar_t system_name[PDH_MAX_COUNTER_NAME];
+	wchar_t uptime_name[PDH_MAX_COUNTER_NAME];
+	wchar_t counter_path[PDH_MAX_COUNTER_PATH];
 
 	gkrellm_debug(DEBUG_SYSDEP, "INIT uptime monitoring\n");
 
@@ -2107,15 +2120,14 @@ gboolean gkrellm_sys_uptime_init(void)
 		return FALSE;
 
 	// Fetch prefix for counter ("System" index is 2)
-	if (!lookup_perfname(2, system_name, 128))
+	if (!lookup_perfname(2, system_name, ARR_SZ(system_name)))
 		return FALSE;
 
 	// Fetch name for uptime ("Uptime" index is 674)
-	if (!lookup_perfname(674, uptime_name, 128))
+	if (!lookup_perfname(674, uptime_name, ARR_SZ(uptime_name)))
 		return FALSE;
 
-	_snwprintf(counter_path, sizeof(counter_path) / sizeof(wchar_t),
-			L"\\%ls\\%ls",
+	_snwprintf(counter_path, ARR_SZ(counter_path), L"\\%ls\\%ls",
 			system_name, uptime_name);
 
 	if (!add_counter(counter_path, &uptimeCounter))
