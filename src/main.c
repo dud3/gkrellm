@@ -24,7 +24,8 @@
 #include "gkrellm-sysdeps.h"
 #include "log-private.h"
 
-#if GTK_CHECK_VERSION(2,4,0)
+// GTK+-win32 automatically uses the application-icon
+#if GTK_CHECK_VERSION(2,4,0) && !defined(WIN32)
 #include "icon.xpm"
 #endif
 
@@ -1482,14 +1483,14 @@ static void
 create_widget_tree()
 	{
 	gchar		*title;
-#if GTK_CHECK_VERSION(2,4,0)
+#if GTK_CHECK_VERSION(2,4,0) && !defined(WIN32)
 	GdkPixbuf	*icon;
 #endif
 
 	gtree.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	gtk_widget_set_name(gtree.window, PACKAGE);
 
-#if GTK_CHECK_VERSION(2,4,0)
+#if GTK_CHECK_VERSION(2,4,0) && !defined(WIN32)
 	icon = gdk_pixbuf_new_from_xpm_data((const gchar **) icon_xpm);
 	gtk_window_set_default_icon(icon);
 #endif
