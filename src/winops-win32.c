@@ -21,7 +21,6 @@
 
 #include "gkrellm.h"
 #include "gkrellm-private.h"
-#include "win32-resource.h"
 #include <gdk/gdkwin32.h>
 
 static GdkGC	*trans_gc  = NULL;
