@@ -357,4 +357,4 @@ libgkrellm.a: win32-libgkrellm.o
 
 # Checks if the build environment is ok
 check_env:
-	$(PKG_CONFIG) --atleast-version=2.6 gtk+-2.0
+	$(PKG_CONFIG) --atleast-version=2.4 gtk+-2.0

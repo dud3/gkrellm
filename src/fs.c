@@ -1977,6 +1977,7 @@ add_cb(GtkWidget *widget)
 	gchar			*label;
 	gint			secondary, *indices;
 	gboolean		a, b, err = FALSE;
+	GtkWidget		*entry;
 
 	fs = g_new0(FSmon, 1);
 	fs->launch_mount.command = g_strdup("");
@@ -1985,8 +1986,9 @@ add_cb(GtkWidget *widget)
 
 	label = gkrellm_gtk_entry_get_text(&label_entry);
 	gkrellm_locale_dup_string(&fs->label, label, &fs->label_shadow);
-	fs->mount.directory = gtk_combo_box_get_active_text(
-			GTK_COMBO_BOX(dir_combo_box));
+
+	entry = gtk_bin_get_child(GTK_BIN(dir_combo_box));
+	fs->mount.directory = g_strdup(gkrellm_gtk_entry_get_text(&entry));
 
 	if (show_button)
 		fs->show_if_mounted = GTK_TOGGLE_BUTTON(show_button)->active;
