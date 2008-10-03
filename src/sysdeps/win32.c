@@ -225,15 +225,25 @@ lookup_perfname(DWORD index, wchar_t *perfname, DWORD perfname_max_len)
 	{
 	PDH_STATUS st;
 
+	if (!perfname || perfname_max_len == 0)
+		return FALSE;
+
 	st = PdhLookupPerfNameByIndexW(NULL, index, perfname, &perfname_max_len);
 	if (st != ERROR_SUCCESS)
 		{
-		win32_warning(PDHDLL, st, "Could not lookup perfname for index %d",
+		win32_warning(PDHDLL, st, "Could not lookup perfname for index %lu",
 				index);
 		return FALSE;
 		}
 
-	gkrellm_debug(DEBUG_SYSDEP, "Looked up perfname '%ls' for index %d\n",
+	if (perfname[0] == 0)
+		{
+		g_warning("Got empty perfname for index %lu, performance counters " \
+				"appear to be broken on this system!\n", index);
+		return FALSE;
+		}
+
+	gkrellm_debug(DEBUG_SYSDEP, "Looked up perfname '%ls' for index %lu\n",
 			perfname, index);
 	return TRUE;
 	}
@@ -294,7 +304,7 @@ add_counter_list(guint object_index,
 	obj_list = (wchar_t *)g_malloc(sizeof(wchar_t) * obj_list_size);
 	inst_list = (wchar_t *)g_malloc(sizeof(wchar_t) * inst_list_size);
 
-	gkrellm_debug(DEBUG_SYSDEP, "Max instance list size: %lu\n", inst_list_size);
+	//gkrellm_debug(DEBUG_SYSDEP, "Max instance list size: %lu\n", inst_list_size);
 	// Get actual information about counters
 	st = PdhEnumObjectItemsW(NULL, NULL, obj_name,
 			obj_list, &obj_list_size,
@@ -308,10 +318,11 @@ add_counter_list(guint object_index,
 		}
 	else
 		{
-		gkrellm_debug(DEBUG_SYSDEP, "Returned instance list size: %lu\n", inst_list_size);
+		/*gkrellm_debug(DEBUG_SYSDEP, "Returned instance list size: %lu\n",
+				inst_list_size);*/
 		for (inst = inst_list; *inst != 0; inst += wcslen(inst) + 1)
 			{
-			gkrellm_debug(DEBUG_SYSDEP, "instance '%ls' (%u chars)\n", inst, wcslen(inst));
+			//gkrellm_debug(DEBUG_SYSDEP, "counter instance '%ls'\n", inst);
 
 			// Ignore total counter, gkrellm provides that functionality
 			if (wcsnicmp(L"_Total", inst, 6) == 0)
