@@ -96,7 +96,7 @@ User Interface
 Requirements
 ============
 To use or compile GKrellM, you need:
-	* Gtk+-2.6
+	* Gtk+-2.4
 To compile, you additionally need the development libs.
 
 

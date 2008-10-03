@@ -13,7 +13,7 @@ URL:	http://gkrellm.net
 Source:	http://members.dslextreme.com/users/billw/gkrellm/%{name}-%{version}.tar.bz2
 Vendor:	Bill Wilson <billw--at--gkrellm.net>
 Packager:	Bill Wilson <billw--at--gkrellm.net>
-Requires:	gtk2 >= 2.6, glib2 >= 2.0
+Requires:	gtk2 >= 2.4, glib2 >= 2.0
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 %description

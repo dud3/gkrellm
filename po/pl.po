@@ -2,19 +2,19 @@
 # Polish Translation of GKrellM. Copyright Przemys³aw Su³ek
 #
 # <pbs@linux.net.pl>, 2001. Released under the GPL.
-# Micha³ Smoczyk <msmoczyk@wp.pl>, 2007.
+# Micha³ Smoczyk <msmoczyk@wp.pl>, 2007, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: pl\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-27 18:25-0600\n"
-"PO-Revision-Date: 2007-09-17 18:12+0200\n"
+"PO-Revision-Date: 2008-01-26 16:27+0100\n"
 "Last-Translator: Micha³ Smoczyk <msmoczyk@wp.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.11.2\n"
+"X-Generator: KBabel 1.11.4\n"
 
 #: ../src/alerts.c:1153
 msgid "GKrellM Set Alerts"
@@ -197,8 +197,7 @@ msgid "<b>\tMiddle "
 msgstr "<b>\t¦rodkowy "
 
 #: ../src/battery.c:1136
-msgid ""
-" clicking anywhere on the Battery panel also toggles the display mode.\n"
+msgid " clicking anywhere on the Battery panel also toggles the display mode.\n"
 msgstr ""
 " klikniêcie gdziekolwiek na panelu baterii równie¿ prze³±czy tryb "
 "wy¶wietlania.\n"
@@ -262,18 +261,18 @@ msgstr "Uruchom polecenia"
 
 #: ../src/battery.c:1234
 msgid "Alerts check for percent capacity remaining."
-msgstr ""
+msgstr "Alarmy sprawdzaj± procent pozosta³ego na³adowania."
 
 #: ../src/battery.c:1239 ../src/clock.c:766 ../src/cpu.c:1394
 #: ../src/disk.c:1438 ../src/fs.c:2560 ../src/gui.c:1161 ../src/gui.c:1975
 #: ../src/inet.c:2039 ../src/mail.c:4145 ../src/mem.c:1418 ../src/net.c:3087
 #: ../src/proc.c:979 ../src/sensors.c:2865
 msgid "Info"
-msgstr "Info"
+msgstr "Informacja"
 
 #: ../src/chart.c:1021
 msgid "Ag8"
-msgstr ""
+msgstr "Ag8"
 
 #: ../src/chart.c:2292 ../src/chart.c:2449
 #, fuzzy
@@ -346,13 +345,15 @@ msgstr "Nie mo¿na siê po³±czyæ."
 
 #: ../src/clock.c:647
 msgid "<h>Clock/Calendar Format Strings\n"
-msgstr ""
+msgstr "<h>Formatowanie wy¶wietlania zegara i kalendarza\n"
 
 #: ../src/clock.c:648
 msgid ""
 "The display format strings should contain strftime conversion\n"
 "characters and Pango text attribute markup strings.\n"
 msgstr ""
+"£añcuchy formatowania sposobu wy¶wietlania powinny zawieraæ\n"
+"znaki konwersji strftime oraz znaczniki Pango.\n"
 
 #: ../src/clock.c:651
 msgid ""
@@ -360,12 +361,18 @@ msgid ""
 "clock with seconds, a 12 hour clock with AM/PM indicator, or a 24 hour\n"
 "clock with seconds.\n"
 msgstr ""
+"Ustawienia domy¶lne dla zegara wy¶wietl± czas w formacie 12-godzinnym\n"
+"z sekundami, czas 12-godzinny z oznaczeniem AM/PM (przed po³udniem/po po³udniu)\n"
+"lub czas 24-godzinny z sekundami.\n"
 
 #: ../src/clock.c:655
+#, fuzzy
 msgid ""
 "The special $A substitution variable expands to the current theme\n"
 "alternate color and is for use with the Pango \"foreground\" attribute.\n"
 msgstr ""
+"Zmienna specjalna $A uwypukla kolor alternatywny bie¿±cego\n"
+"wystroju - u¿ywana jest ze znacznikiem \"t³a\" Pango.\n"
 
 #: ../src/clock.c:676 ../src/clock.c:763 ../src/clock.c:828
 msgid "Calendar"
@@ -373,7 +380,7 @@ msgstr "Kalendarz"
 
 #: ../src/clock.c:683 ../src/clock.c:710
 msgid "Display format string:"
-msgstr ""
+msgstr "Format wy¶wietlania:"
 
 #: ../src/clock.c:703 ../src/clock.c:779 ../src/clock.c:789
 msgid "Clock"
@@ -494,13 +501,11 @@ msgstr "Nawet je¶li czas nice jest na wykresie jest on roz³±czany z krell"
 
 #: ../src/cpu.c:1306 ../src/proc.c:915
 msgid "Draw fan and temperature values separately (not alternating)."
-msgstr ""
-"Oddzielne rysowanie warto¶ci wentylatora i temperatury (nie zamiennie)."
+msgstr "Oddzielne rysowanie warto¶ci wentylatora i temperatury (nie zamiennie)."
 
 #: ../src/cpu.c:1313
 msgid "Apply any CPU chart config height change to all CPU charts"
-msgstr ""
-"Zastosuj zmianê konfiguracji wysoko¶ci wykresu CPU do wszystkich wykresów CPU"
+msgstr "Zastosuj zmianê konfiguracji wysoko¶ci wykresu CPU do wszystkich wykresów CPU"
 
 #: ../src/cpu.c:1316
 msgid "SMP Charts Select"
@@ -508,7 +513,7 @@ msgstr "Wybór wykresów SMP"
 
 #: ../src/cpu.c:1319
 msgid "Real CPUs."
-msgstr "Rzeczywiste CPUs"
+msgstr "Rzeczywiste CPU"
 
 #: ../src/cpu.c:1324
 msgid "Composite CPU."
@@ -571,7 +576,7 @@ msgstr "Wykres z³o¿ony sk³ada dane dla wszystkich dysków"
 
 #: ../src/disk.c:1324
 msgid "\t$L    the Disk label\n"
-msgstr ""
+msgstr "\t$L    etykieta dysku\n"
 
 #: ../src/disk.c:1325 ../src/inet.c:1797 ../src/mem.c:1238 ../src/net.c:2900
 msgid "\t$M    maximum chart value\n"
@@ -846,8 +851,7 @@ msgstr "kliknij na panelu by przewin±æ programowalny wy¶wietlacz\n"
 
 #: ../src/fs.c:2479
 msgid "\t\tof file system capacities (default is total and free space).\n"
-msgstr ""
-"\t\tpojemno¶ci systemu plików (standardowo ca³kowite i wolne miejsce).\n"
+msgstr "\t\tpojemno¶ci systemu plików (standardowo ca³kowite i wolne miejsce).\n"
 
 #: ../src/fs.c:2480
 msgid "<b>\tWheel "
@@ -863,8 +867,7 @@ msgstr "Panele"
 
 #: ../src/fs.c:2518
 msgid "Use binary units (MiB, GiG) for reporting disk capacities."
-msgstr ""
-"U¿ycie jednostek binarnych (MiB, GiB) przy wy¶wietlaniu pojemno¶ci dysku."
+msgstr "U¿ycie jednostek binarnych (MiB, GiB) przy wy¶wietlaniu pojemno¶ci dysku."
 
 #: ../src/fs.c:2524
 msgid "Auto eject when ejectable devices are unmounted"
@@ -945,7 +948,6 @@ msgstr ""
 "Hajimu UMEMOTO <ume@mahoroba.org>"
 
 #: ../src/gui.c:792
-#, fuzzy
 msgid ""
 "DragonFly system dependent code was contributed by:\n"
 "Joerg Sonnenberger <joerg@bec.de>"
@@ -970,7 +972,6 @@ msgstr ""
 "Daisuke Yabuki <dxy@acm.org>"
 
 #: ../src/gui.c:816
-#, fuzzy
 msgid ""
 "Windows system dependent code was contributed by:\n"
 "Bill Nalen <bill@nalens.com>\n"
@@ -982,7 +983,7 @@ msgstr ""
 
 #: ../src/gui.c:984
 msgid "<h>Krells\n"
-msgstr "<h>Krells\n"
+msgstr "<h>Krelle\n"
 
 #: ../src/gui.c:985
 msgid ""
@@ -990,7 +991,7 @@ msgid ""
 "on meter style monitors.  Depending on the monitor, they show fast\n"
 "response data rates, a percentage of some capacity, or something else.\n"
 msgstr ""
-"Krells to wska¼niki poziomo przesuwaj±ce siê poni¿ej wykresu i na\n"
+"Krelle to wska¼niki poziomo przesuwaj±ce siê poni¿ej wykresu i na\n"
 "monitorach w stylu miernika. W zale¿no¶ci od monitora pokazuj± one\n"
 "wska¼niki danych, procentowe pojemno¶ci i inne.\n"
 
@@ -1018,8 +1019,7 @@ msgstr "Zajrzyj do README lub do \"man gkrellm\" po wiêcej informacji.\n"
 
 #: ../src/gui.c:999
 msgid "Chart label format strings place text on charts using position codes:\n"
-msgstr ""
-"£añcuchy formatowania pozycji etykiety na wykresie u¿ywaj± kodów pozycji:\n"
+msgstr "£añcuchy formatowania pozycji etykiety na wykresie u¿ywaj± kodów pozycji:\n"
 
 #: ../src/gui.c:1000
 msgid "\t\\t    top left\n"
@@ -1061,8 +1061,7 @@ msgstr "\t\\f    u¿yj zastêpczej czcionki w nastêpnym ³añcuchu\n"
 
 #: ../src/gui.c:1009
 msgid "\t\\w    use the following string to define a field width\n"
-msgstr ""
-"\t\\w    u¿yj nastêpuj±cego ³añcucha do zdefiniowania szeroko¶ci pola\n"
+msgstr "\t\\w    u¿yj nastêpuj±cego ³añcucha do zdefiniowania szeroko¶ci pola\n"
 
 #: ../src/gui.c:1010
 msgid "\t\\a    draw left justified in the defined field width\n"
@@ -1077,8 +1076,7 @@ msgid "\t\\.     no-op.  Used to break a string into two strings.\n"
 msgstr "\t\\.     bez skutku. U¿ywany do dzielenia ³añcucha na dwa.\n"
 
 #: ../src/gui.c:1013
-msgid ""
-"\t\\D0   bottom of charts first data view (D2 for second data view ...)\n"
+msgid "\t\\D0   bottom of charts first data view (D2 for second data view ...)\n"
 msgstr "\t\\DO   dó³ pierwszego widoku danych wykresu (D2 dla drugiego...)\n"
 
 #: ../src/gui.c:1014
@@ -1120,8 +1118,7 @@ msgstr ""
 
 #: ../src/gui.c:1027
 msgid "clicking on charts will toggle a display of some extra info.\n"
-msgstr ""
-"klikniêcie na wykresach prze³±czy na wy¶wietlanie dodatkowych informacji.\n"
+msgstr "klikniêcie na wykresach prze³±czy na wy¶wietlanie dodatkowych informacji.\n"
 
 #: ../src/gui.c:1028 ../src/gui.c:1030
 msgid "<b>\tRight "
@@ -1156,10 +1153,8 @@ msgid "Allow multiple instances"
 msgstr "Dopuszczenie wielokrotnych instancji"
 
 #: ../src/gui.c:1089
-msgid ""
-"Make gkrellm a topmost window (restart gkrellm for this to take effect)."
-msgstr ""
-"Okno gkrellm ma byæ najwy¿ej (uruchom ponownie gkrellm by zastosowaæ zmianê)."
+msgid "Make gkrellm a topmost window (restart gkrellm for this to take effect)."
+msgstr "Okno gkrellm ma byæ najwy¿ej (uruchom ponownie gkrellm by zastosowaæ zmianê)."
 
 #: ../src/gui.c:1098 ../src/hostname.c:387
 msgid "gkrellmd server disconnect"
@@ -1228,7 +1223,7 @@ msgstr "Wystrój:"
 
 #: ../src/gui.c:1856
 msgid "Author:"
-msgstr "Autor"
+msgstr "Autor:"
 
 #: ../src/gui.c:1902
 msgid "Track Gtk theme changes for similarly named themes"
@@ -1244,7 +1239,7 @@ msgstr "Skala"
 
 #: ../src/gui.c:1930
 msgid "Fonts"
-msgstr "Czcionki:"
+msgstr "Czcionki"
 
 #: ../src/gui.c:1933
 msgid "Large font"
@@ -1403,8 +1398,7 @@ msgstr "\t$a    aktywne w tej chwili po³±czenia dla Data0\n"
 
 #: ../src/inet.c:1799
 msgid "\t$cN   total connections in last N minutes (or hours) for Data0\n"
-msgstr ""
-"\t$cN   razem po³±czeñ w ci±gu ostatnich N minut (lub godzin) dla Data0\n"
+msgstr "\t$cN   razem po³±czeñ w ci±gu ostatnich N minut (lub godzin) dla Data0\n"
 
 #: ../src/inet.c:1800
 msgid "\t$l    label for Data0\n"
@@ -1416,8 +1410,7 @@ msgstr "\t$A    aktywne w tej chwili po³±czenia dla Data1\n"
 
 #: ../src/inet.c:1802
 msgid "\t$CN   total connections in last N minutes (or hours) for Data1\n"
-msgstr ""
-"\t$CN   razem po³±czeñ w ci±gu ostatnich N minut (lub godzin) dla Data1\n"
+msgstr "\t$CN   razem po³±czeñ w ci±gu ostatnich N minut (lub godzin) dla Data1\n"
 
 #: ../src/inet.c:1803
 msgid "\t$L    label for Data1\n"
@@ -1429,7 +1422,7 @@ msgid ""
 "\t\tcurrent TCP port connections.\n"
 msgstr ""
 "kliknij na wykresie internetu by prze³±czyæ na dodatkowe\n"
-"\t\tinformacje o bie¿±cych po³±czeniach portu TCP.\n"
+"informacje o bie¿±cych po³±czeniach portu TCP.\n"
 
 #: ../src/inet.c:1811
 msgid "click on an inet chart to toggle hour/minute charts.\n"
@@ -1512,9 +1505,8 @@ msgid "Cannot initialize SSL server certificate handler."
 msgstr "Nie mo¿na zainicjalizowaæ certyfikatu serwera SSL."
 
 #: ../src/mail.c:740
-#, fuzzy
 msgid "Cannot initialize SSL handler."
-msgstr "Nie mo¿na zainicjalizowaæ SSL."
+msgstr "Nie mo¿na zainicjalizowaæ handlera SSL."
 
 #: ../src/mail.c:867 ../src/mail.c:940
 msgid "could not decode BASE64 challenge\n"
@@ -1549,7 +1541,7 @@ msgstr "wycisz"
 
 #: ../src/mail.c:1965
 msgid "seen"
-msgstr ""
+msgstr "widzianych"
 
 #: ../src/mail.c:3408
 msgid "GKrellM Config Error"
@@ -1719,8 +1711,9 @@ msgid "Mail fetch/check program:"
 msgstr "Program odbieraj±cy/sprawdzaj±cy pocztê:"
 
 #: ../src/mail.c:3835
+#, fuzzy
 msgid "Run fetch/check program at local interval"
-msgstr ""
+msgstr "Uruchom lokalny program sprawdzaj±cy/odbieraj±cy pocztê okresowo"
 
 #: ../src/mail.c:3845
 msgid "Check local mailboxes every"
@@ -1846,11 +1839,11 @@ msgstr "nie licz"
 msgid "Fetch/check program checks messages only (see Mail Info tab)"
 msgstr ""
 "Program odbieraj±cy/sprawdzaj±cy pocztê tylko sprawdza (zajrzyj \n"
-"\tna zak³adkê Informacje o poczcie)"
+"na zak³adkê Informacje o poczcie)"
 
 #: ../src/mail.c:4111
 msgid "Reset remote message counts when message count button is pressed."
-msgstr "Wyzeruj liczbê zdalnych wiadomo¶ci gdy naci¶niêty przycisk licznika"
+msgstr "Wyzeruj liczbê zdalnych wiadomo¶ci gdy naci¶niêto przycisk licznika."
 
 #: ../src/mail.c:4116
 msgid "Count accessed but unseen mail as new (if this status is available)"
@@ -1914,15 +1907,15 @@ msgstr ""
 
 #: ../src/main.c:1769
 msgid "   -t, --theme theme_dir    Select a theme directory.\n"
-msgstr ""
+msgstr "   -t, --theme theme_dir    Okre¶lenie katalogu tematów.\n"
 
 #: ../src/main.c:1770
 msgid "   -g, --geometry +x+y      Position the window on the screen.\n"
-msgstr ""
+msgstr "   -g, --geometry +x+y      Pozycja okna na ekranie.\n"
 
 #: ../src/main.c:1771
 msgid "       --wm                 Allow window manager decorations.\n"
-msgstr ""
+msgstr "       --wm                 Zezwól na dekoracje mened¿era okien.\n"
 
 #: ../src/main.c:1772
 msgid ""
@@ -1932,7 +1925,7 @@ msgstr ""
 
 #: ../src/main.c:1773
 msgid "       --nt                 No transparency.\n"
-msgstr ""
+msgstr "       --nt                 Bez przezroczysto¶ci.\n"
 
 #: ../src/main.c:1774
 msgid "   -w, --withdrawn          Draw GKrellM in withdrawn mode.\n"
@@ -1961,46 +1954,47 @@ msgid ""
 "   -s, --server hostname    Run in client mode: connect to \"hostname\" and\n"
 "                            read monitor data from a gkrellmd server.\n"
 msgstr ""
+"   -s, --server nazwa_serwera   Uruchom w trybie klienta: po³±cz siê z \"nazwa_serwera\"\n"
+"                            i czytaj dane z serwera gkrellmd.\n"
 
 #: ../src/main.c:1787
-msgid ""
-"   -P, --port server_port   Use \"server_port\" for the server connection.\n"
-msgstr ""
+msgid "   -P, --port server_port   Use \"server_port\" for the server connection.\n"
+msgstr "   -P, --port server_port   U¿yj \"serwer_port\" dla po³±czeñ zdalnych.\n"
 
 #: ../src/main.c:1788
-msgid ""
-"       --nc                 No config mode prevents configuration changes.\n"
+msgid "       --nc                 No config mode prevents configuration changes.\n"
 msgstr ""
 
 #: ../src/main.c:1789
 msgid "       --config-clean       Clean out unused configs on config write.\n"
-msgstr ""
+msgstr "       --config-clean       Wyczy¶æ nieu¿ywane konfiguracje przy zapisie konfiguracji.\n"
 
 #: ../src/main.c:1790
 msgid "       --nolock             Allow multiple gkrellm instances.\n"
-msgstr ""
+msgstr "       --nolock             Zezwala na wielokrotne uruchomienie gkrellm.\n"
 
 #: ../src/main.c:1791
-msgid ""
-"   -p, --plugin plugin.so   While developing, load your plugin under test.\n"
-msgstr ""
+msgid "   -p, --plugin plugin.so   While developing, load your plugin under test.\n"
+msgstr "   -p, --plugin plugin.so   Pomocne przy rozwijaniu wtyczek, ³aduje twoj± wtyczkê w celu testowania.\n"
 
 #: ../src/main.c:1792
 msgid ""
 "       --demo               Force enabling of many monitors so themers can\n"
 "                            see everything. All config saving is inhibited.\n"
 msgstr ""
+"       --demo               Wymu¶ w³±czenie wielu monitorów aby tworz±cy tematy\n"
+"                            mogli zobaczyæ wszystko. Zapis konfiguracji jest uniemo¿liwiony.\n"
 
 #: ../src/main.c:1794
 msgid "   -v, --version            Print GKrellM version number and exit.\n"
-msgstr ""
+msgstr "   -v, --version            Wy¶wietla numer wersji GKrellM i koñczy program.\n"
 
 #: ../src/main.c:1795
-msgid ""
-"   -d, --debug-level n      Turn debugging on for selective code sections.\n"
-msgstr ""
+msgid "   -d, --debug-level n      Turn debugging on for selective code sections.\n"
+msgstr "   -d, --debug-level n      W³±cz debugowanie dla wybranych sekcji kodu.\n"
 
 #: ../src/main.c:1797
+#, fuzzy
 msgid ""
 "\n"
 "debug-level numbers are (bitwise OR to debug multiple sections):\n"
@@ -2015,6 +2009,18 @@ msgid ""
 "     0x20000 plugin \n"
 "\n"
 msgstr ""
+"\n"
+"poziomy debugowania to (u¿yj operatora OR aby debugowaæ wiele sekcji):\n"
+"     0x10    poczta\n"
+"     0x20    sieæ\n"
+"     0x40    timer button\n"
+"     0x80    czujniki\n"
+"     0x800   inet\n"
+"     0x1000  dump gkrellmd server data\n"
+"     0x2000  GUI\n"
+"     0x8000  bateria\n"
+"     0x20000 wtyczka\n"
+"\n"
 
 #: ../src/main.c:1998
 msgid "segmentation fault"
@@ -2022,10 +2028,9 @@ msgstr ""
 
 #: ../src/main.c:2000
 msgid "floating point exception"
-msgstr ""
+msgstr "wyj±tek obliczeñ zmiennoprzecinkowych"
 
 #: ../src/main.c:2002
-#, fuzzy
 msgid "aborted"
 msgstr "przerwano"
 
@@ -2174,8 +2179,7 @@ msgstr "Miernik pamiêci w³±czony"
 
 #: ../src/mem.c:1326
 msgid "Show three memory krells:   [used | buffers | cache | raw free]"
-msgstr ""
-"Wy¶wietlanie drzewa krelli pamiêci: [u¿ywana | bufory | cache | czysta]"
+msgstr "Wy¶wietlanie drzewa krelli pamiêci: [u¿ywana | bufory | cache | czysta]"
 
 #: ../src/mem.c:1365
 msgid "$t - $u used  $s sh  $b bf  $c ca"
@@ -2413,8 +2417,7 @@ msgstr "\\f\\ww\\c\\f$M\\D2\\f\\ar\\.$r\\D1\\f\\at\\.$t\\b\\c\\f$L"
 
 #: ../src/net.c:3084
 msgid "Start day for cumulative monthly transmit and receive bytes"
-msgstr ""
-"Dzieñ pocz±tkowy dla skumulowanych miesiêcznych bajtów wys³anych i odebranych"
+msgstr "Dzieñ pocz±tkowy dla skumulowanych miesiêcznych bajtów wys³anych i odebranych"
 
 #: ../src/net.c:3103
 msgid "Net"
@@ -2544,8 +2547,7 @@ msgstr "<h>Wykres procesów"
 
 #: ../src/proc.c:875
 msgid "The krell shows process forks with a full scale value of 10 forks.\n"
-msgstr ""
-"Krell pokazuje rozwidlenia procesu z warto¶ci± skali równ± 10 rozwidleñ\n"
+msgstr "Krell pokazuje rozwidlenia procesu z warto¶ci± skali równ± 10 rozwidleñ\n"
 
 #: ../src/proc.c:876
 msgid ""
@@ -2597,7 +2599,7 @@ msgid "Proc"
 msgstr "Procesy"
 
 #: ../src/sensors.c:715
-#, fuzzy, c-format
+#, c-format
 msgid "Can't find a %s panel to relocate sensor to."
 msgstr "Nie mo¿na znale¼æ panelu %s dla przeniesienia sensora."
 
@@ -2661,13 +2663,11 @@ msgstr ""
 
 #: ../src/sensors.c:2654
 msgid "Drag and drop sensor rows to change the displayed order.\n"
-msgstr ""
-"Przeci±gnij i upu¶æ wiersze czujnika by zmieniæ kolejno¶æ ich wy¶wietlania.\n"
+msgstr "Przeci±gnij i upu¶æ wiersze czujnika by zmieniæ kolejno¶æ ich wy¶wietlania.\n"
 
 #: ../src/sensors.c:2656
 msgid "Temperature offset values must be in centigrade units.\n"
-msgstr ""
-"Przesuniêcie warto¶ci temperatury musi byæ podane w stopniach Celsjusza.\n"
+msgstr "Przesuniêcie warto¶ci temperatury musi byæ podane w stopniach Celsjusza.\n"
 
 #: ../src/sensors.c:2659
 msgid "\t$s    current sensor value.\n"
@@ -2751,14 +2751,4 @@ msgstr "Uwaga: flaga -w jest ignorowana, gdy ustawiony jest typ dokowania okna"
 msgid "Use nvclock for NVIDIA GPU temperatures"
 msgstr "U¿ycie nvclock dla temperatur procesora karty graficznej NVIDIA"
 
-#~ msgid "Display 24 hour instead of 12 hour time"
-#~ msgstr "Wy¶wietlanie 24-godzinnego czasu zamiast 12-godzinnego"
 
-#~ msgid "Show seconds instead of am/pm in 12 hour time mode"
-#~ msgstr "W trybie 12-godzinnym sekundy zamiast am/pm"
-
-#~ msgid "Show seconds in 24 hour time mode"
-#~ msgstr "Wy¶wietlanie sekund w trybie 24-godzinnym"
-
-#~ msgid "Format string for FS data display"
-#~ msgstr "£añcuch formatowania wy¶wietlania danych FS"

@@ -89,8 +89,9 @@ Windows 2000/XP (Vista is untested)
 Needed software for building gkrellm on win32 systems:
   - MinGW
   - MSYS (gkrellm Makefiles are NOT compatible with cmd.exe)
-  - GTK >= 2.6 Development files (see http://www.gimp.org/~tml/gimp/win32/)
+  - GTK >= 2.4 Development files (see http://www.gtk.org/download-windows.html)
   - OpenSSL (optional), GnuTLS is not recommended on win32
+  - libntlm (optional)
 
 Note: Installing gkrellm on windows needs INSTALLROOT set, the default path
       (/usr/local) probably won't work
