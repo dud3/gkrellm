@@ -63,7 +63,8 @@ endif
 endif
 
 ifeq ($(HAVE_NTLM),1)
-    NTLM_LIBS ?= -lntlm
+	NTLM_INCLUDES = `$(PKG_CONFIG) --cflags libntlm`
+	NTLM_LIBS = `$(PKG_CONFIG) --libs libntlm`
 endif
 
 ifeq ($(HAVE_LIBSENSORS),1)
@@ -79,9 +80,10 @@ PKG_INCLUDE = `$(PKG_CONFIG) --cflags gtk+-2.0 gthread-2.0`
 PKG_LIB = `$(PKG_CONFIG) --libs gtk+-2.0 gthread-2.0`
 
 FLAGS = -O2 -I.. -I$(SHARED_PATH) $(PKG_INCLUDE) $(GTOP_INCLUDE) $(PTHREAD_INC) \
- -DGKRELLM_CLIENT
+ ${NTLM_INCLUDES} -DGKRELLM_CLIENT
 
-LIBS = $(PKG_LIB) $(GTOP_LIBS) $(SMC_LIBS) $(SYS_LIBS) $(SSL_LIBS) $(NTLM_LIBS) $(SENSORS_LIBS)
+LIBS = $(PKG_LIB) $(GTOP_LIBS) $(SMC_LIBS) $(SYS_LIBS) $(SSL_LIBS) $(SENSORS_LIBS) \
+ $(NTLM_LIBS)
 
 ifeq ($(debug),1)
     FLAGS += -g

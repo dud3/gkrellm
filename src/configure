@@ -124,6 +124,9 @@ rm -f test test.exe test.o test.c
 # echo "Checking for libntlm... " 1>& 2
 echo "Checking for libntlm... " 1>& 5
 
+PKG_NTLM_INCLUDE=`pkg-config libntlm --cflags`
+PKG_NTLM_LIBS=`pkg-config libntlm --libs`
+
 cat << EOF > test.c
 #include <ntlm.h>
 
@@ -136,8 +139,8 @@ int main()
 	}
 EOF
 
-$CC ${CFLAGS} ${PKG_INCLUDE} -c test.c -o test.o 2>& 5
-$CC test.o -o test ${LINK_FLAGS} ${PKG_LIBS} -lntlm 2>& 5
+$CC ${CFLAGS} ${PKG_INCLUDE} ${PKG_NTLM_INCLUDE} -c test.c -o test.o 2>& 5
+$CC test.o -o test ${LINK_FLAGS} ${PKG_LIBS} ${PKG_NTLM_LIBS} -lntlm 2>& 5
 
 if [ -x ./test ] && ./test
 then
