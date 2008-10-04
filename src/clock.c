@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2007 Bill Wilson
+|  Copyright (C) 1999-2008 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -17,6 +17,18 @@
 |
 |  You should have received a copy of the GNU General Public License
 |  along with this program. If not, see http://www.gnu.org/licenses/
+|
+|
+|  Additional permission under GNU GPL version 3 section 7
+|
+|  If you modify this program, or any covered work, by linking or
+|  combining it with the OpenSSL project's OpenSSL library (or a
+|  modified version of that library), containing parts covered by
+|  the terms of the OpenSSL or SSLeay licenses, you are granted
+|  additional permission to convey the resulting work.
+|  Corresponding Source for a non-source form of such a combination
+|  shall include the source code for the parts of OpenSSL used as well
+|  as that of the covered work.
 */
 
 #include "gkrellm.h"
@@ -33,10 +45,13 @@
 
 #else
 
-#define DEFAULT_CLOCK_FORMAT "%l:%M <span foreground=\"$A\"><small>%S</small></span>"
+#define DEFAULT_CLOCK_FORMAT \
+		_("%l:%M <span foreground=\"$A\"><small>%S</small></span>")
 #define ALT1_CLOCK_FORMAT "%l:%M <span foreground=\"$A\"><small>%p</small></span>"
 #define ALT2_CLOCK_FORMAT "%k:%M <span foreground=\"$A\"><small>%S</small></span>"
-#define DEFAULT_CAL_FORMAT "%a <span foreground=\"$A\"><big><big>%e</big></big></span> %b"
+
+#define DEFAULT_CAL_FORMAT \
+		_("%a <span foreground=\"$A\"><big><big>%e</big></big></span> %b")
 #define ALT1_CAL_FORMAT  "<big>%a %b <span foreground=\"$A\">%e</span></big>"
 #define ALT2_CAL_FORMAT "%a <span foreground=\"cyan2\"><span font_desc=\"16.5\"><i>%e</i></span></span> %b"
 

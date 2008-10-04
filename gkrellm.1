@@ -63,6 +63,12 @@ hostname
 .B \-\-port
 server_port
 ]
+[
+.B \-l
+|
+.B \-\-logfile
+path
+]
 
 .SH "DESCRIPTION"
 .PP
@@ -328,6 +334,9 @@ Use
 for the
 .B gkrellmd
 server connection.
+.TP
+.B \-l, \-\-logfile path
+Enable sending error and debugging messages to a log file.
 .TP
 .B \-nc
 No config mode.  The config menu is blocked so no config changes

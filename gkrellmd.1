@@ -64,6 +64,13 @@ name
 [
 .B \-\-plog
 ]
+|
+.B \-\-logfile
+path
+]
+|
+.B \-\-syslog
+]
 [
 .B \-U
 |
@@ -221,6 +228,12 @@ Output a log of the plugin install process.  When requesting a log, the
 .I --detach
 option will have no effect.
 Requires at least gkrellmd version 2.2.0.
+.TP
+.B \-l, \-\-logfile path
+Enable sending error and debugging messages to a log file.
+.TP
+.B \-\-syslog
+Enable sending logging messages to the syslog file.
 
 .TP
 .B \-c, \-\-clear-hosts

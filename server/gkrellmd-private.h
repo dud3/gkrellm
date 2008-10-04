@@ -116,6 +116,7 @@ struct GkrellmdConfig
 				inet_interval;
 
 	gboolean	without_libsensors;
+	gboolean	use_acpi_battery;
 
 	gboolean	list_plugins,
 				log_plugins;

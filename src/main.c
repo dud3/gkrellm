@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2007 Bill Wilson
+|  Copyright (C) 1999-2008 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -17,6 +17,18 @@
 |
 |  You should have received a copy of the GNU General Public License
 |  along with this program. If not, see http://www.gnu.org/licenses/
+|
+|
+|  Additional permission under GNU GPL version 3 section 7
+|
+|  If you modify this program, or any covered work, by linking or
+|  combining it with the OpenSSL project's OpenSSL library (or a
+|  modified version of that library), containing parts covered by
+|  the terms of the OpenSSL or SSLeay licenses, you are granted
+|  additional permission to convey the resulting work.
+|  Corresponding Source for a non-source form of such a combination
+|  shall include the source code for the parts of OpenSSL used as well
+|  as that of the covered work.
 */
 
 #include "gkrellm.h"
@@ -1792,6 +1804,7 @@ N_("       --nolock             Allow multiple gkrellm instances.\n"),
 N_("   -p, --plugin plugin.so   While developing, load your plugin under test.\n"),
 N_("       --demo               Force enabling of many monitors so themers can\n"
    "                            see everything. All config saving is inhibited.\n"),
+   "   -l, --logfile path       Enable error/debugging to a log file.\n",
 N_("   -v, --version            Print GKrellM version number and exit.\n"),
 N_("   -d, --debug-level n      Turn debugging on for selective code sections.\n"),
 
@@ -2139,8 +2152,10 @@ main(gint argc, gchar **argv)
 			}
 		else if (!strcmp(s, "nolock"))
 			_GK.nolock = TRUE;
-		else if (!strcmp(s, "without-libsensors"))
+		else if (!strcmp(s, "without-libsensors"))		/* temporary */
 			_GK.without_libsensors = TRUE;
+		else if (!strcmp(s, "use-acpi-battery"))		/* temporary */
+			_GK.use_acpi_battery = TRUE;
 		else if (!strcmp(s, "config-clean"))
 			{
 			_GK.config_clean = TRUE;

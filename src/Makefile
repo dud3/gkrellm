@@ -49,6 +49,7 @@ DUMMY_VAR := $(shell ./configure $(CONFIGURE_ARGS))
 
 HAVE_GNUTLS = $(shell grep -c HAVE_GNUTLS configure.h)
 HAVE_SSL = $(shell grep -c HAVE_SSL configure.h)
+HAVE_NTLM = $(shell grep -c HAVE_NTLM configure.h)
 HAVE_LIBSENSORS = $(shell grep -c HAVE_LIBSENSORS configure.h)
 
 ifeq ($(HAVE_GNUTLS),1)
@@ -59,6 +60,10 @@ ifeq ($(HAVE_SSL),1)
 else
     EXTRAOBJS ?= md5c.o
 endif
+endif
+
+ifeq ($(HAVE_NTLM),1)
+    NTLM_LIBS ?= -lntlm
 endif
 
 ifeq ($(HAVE_LIBSENSORS),1)
@@ -76,7 +81,7 @@ PKG_LIB = `$(PKG_CONFIG) --libs gtk+-2.0 gthread-2.0`
 FLAGS = -O2 -I.. -I$(SHARED_PATH) $(PKG_INCLUDE) $(GTOP_INCLUDE) $(PTHREAD_INC) \
  -DGKRELLM_CLIENT
 
-LIBS = $(PKG_LIB) $(GTOP_LIBS) $(SMC_LIBS) $(SYS_LIBS) $(SSL_LIBS) $(SENSORS_LIBS)
+LIBS = $(PKG_LIB) $(GTOP_LIBS) $(SMC_LIBS) $(SYS_LIBS) $(SSL_LIBS) $(NTLM_LIBS) $(SENSORS_LIBS)
 
 ifeq ($(debug),1)
     FLAGS += -g
@@ -113,7 +118,6 @@ override CC += -Wall $(FLAGS)
 OBJS =	main.o alerts.o battery.o base64.o clock.o cpu.o disk.o fs.o \
 	hostname.o inet.o mail.o mem.o net.o proc.o sensors.o uptime.o \
 	chart.o panel.o config.o gui.o krell.o plugins.o pixops.o \
-	smbdes.o smbencrypt.o smbmd4.o smbutil.o \
 	client.o utils.o sysdeps-unix.o deprecated.o log.o
 
 UNIXOBJS = winops-x11.o
@@ -319,12 +323,8 @@ disk.o:      disk.c $(GKRELLM_H_SYS)
 fs.o:        fs.c $(GKRELLM_H_SYS)
 hostname.o:  hostname.c $(GKRELLM_H_SYS)
 inet.o:      inet.c $(GKRELLM_H_SYS)
-mail.o:      mail.c md5.h md5global.h ntlm.h $(GKRELLM_H_SYS)
-md5c.o:      md5.h md5global.h
-smbdes.o:    smbdes.h
-smbencrypt.o: smbbyteorder.h smbdes.h smbmd4.h
-smbmd4.o:    smbmd4.h
-smbutil.o:   ntlm.h smbencrypt.h smbbyteorder.h
+mail.o:      mail.c md5.h $(GKRELLM_H_SYS)
+md5c.o:      md5.h
 mem.o:       mem.c  $(GKRELLM_H_SYS)
 net.o:	     net.c  $(GKRELLM_H_SYS)
 proc.o:      proc.c  $(GKRELLM_H_SYS)

@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2007 Bill Wilson
+|  Copyright (C) 1999-2008 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -17,6 +17,18 @@
 |
 |  You should have received a copy of the GNU General Public License
 |  along with this program. If not, see http://www.gnu.org/licenses/
+|
+|
+|  Additional permission under GNU GPL version 3 section 7
+|
+|  If you modify this program, or any covered work, by linking or
+|  combining it with the OpenSSL project's OpenSSL library (or a
+|  modified version of that library), containing parts covered by
+|  the terms of the OpenSSL or SSLeay licenses, you are granted
+|  additional permission to convey the resulting work.
+|  Corresponding Source for a non-source form of such a combination
+|  shall include the source code for the parts of OpenSSL used as well
+|  as that of the covered work.
 */
 
 #include "gkrellm.h"
@@ -56,7 +68,9 @@ GCRY_THREAD_OPTION_PTHREAD_IMPL;
 #endif
 #endif
 
-#include "ntlm.h"
+#if defined(HAVE_NTLM)
+#include <ntlm.h>
+#endif
 
 #define MUTE_FLAG	-1
 
@@ -127,16 +141,16 @@ GCRY_THREAD_OPTION_PTHREAD_IMPL;
 #define	PROTO_POP3		0
 #define	PROTO_IMAP		1
 
-#define	AUTH_PLAINTEXT		0
-#define	AUTH_USER		AUTH_PLAINTEXT		/* POP3 only */
-#define	AUTH_APOP		1			/* POP3 only */
-#define	AUTH_LOGIN		AUTH_PLAINTEXT		/* IMAP4 only */
-#define	AUTH_CRAM_MD5		2
+#define	AUTH_PLAINTEXT	0
+#define	AUTH_USER		AUTH_PLAINTEXT	/* POP3 only */
+#define	AUTH_APOP		1				/* POP3 only */
+#define	AUTH_LOGIN		AUTH_PLAINTEXT	/* IMAP4 only */
+#define	AUTH_CRAM_MD5	2
 #define	AUTH_NTLM		3
 
 #define	SSL_NONE		0
-#define	SSL_TRANSPORT		1
-#define	SSL_STARTTLS		2
+#define	SSL_TRANSPORT	1
+#define	SSL_STARTTLS	2
 
 
   /* Authorization protocol strings to write into the config for remote
@@ -152,14 +166,18 @@ typedef struct
 
 static AuthType	auth_strings[] =
 	{
-	{ "POP3",		PROTO_POP3,	AUTH_USER },
+	{ "POP3",			PROTO_POP3,	AUTH_USER },
 	{ "POP3_(APOP)",	PROTO_POP3,	AUTH_APOP },
-	{ "POP3_(CRAM-MD5)",	PROTO_POP3,	AUTH_CRAM_MD5 },
+	{ "POP3_(CRAM-MD5)",PROTO_POP3,	AUTH_CRAM_MD5 },
+#ifdef HAVE_NTLM
 	{ "POP3_(NTLM)",	PROTO_POP3,	AUTH_NTLM },
-	{ "IMAP",		PROTO_IMAP,	AUTH_LOGIN },
-	{ "IMAP_(CRAM-MD5)",	PROTO_IMAP,	AUTH_CRAM_MD5 },
+#endif
+	{ "IMAP",			PROTO_IMAP,	AUTH_LOGIN },
+	{ "IMAP_(CRAM-MD5)",PROTO_IMAP,	AUTH_CRAM_MD5 },
+#ifdef HAVE_NTLM
 	{ "IMAP_(NTLM)",	PROTO_IMAP,	AUTH_NTLM },
-	{ NULL,			-1,		-1 }
+#endif
+	{ NULL,				-1,			-1 }
 	};
 
 
@@ -916,6 +934,7 @@ do_cram_md5(ConnInfo *conn, char *command, Mailbox  *mbox, char *strip)
 	return TRUE;
 	}
 
+#ifdef HAVE_NTLM
 /* NTLM authentication */
 static int
 do_ntlm(ConnInfo *conn, char *command, Mailbox *mbox)
@@ -971,6 +990,7 @@ do_ntlm(ConnInfo *conn, char *command, Mailbox *mbox)
 	server_command(conn, mbox, msgbuf);
 	return TRUE;
 	}
+#endif // HAVE_NTLM
 
 static gboolean
 check_pop3(Mailbox *mbox)
@@ -1060,6 +1080,7 @@ check_pop3(Mailbox *mbox)
 			return tcp_shutdown(&conn, mbox, tcp_error_message[7], TRUE);
 			}
 		}
+#ifdef HAVE_NTLM
 	else if (account->authmech == AUTH_NTLM)
 		{
 		if (!do_ntlm(&conn, "AUTH", mbox))
@@ -1069,6 +1090,7 @@ check_pop3(Mailbox *mbox)
 			return tcp_shutdown(&conn, mbox, tcp_error_message[7], TRUE);
 			}
 		}
+#endif	// HAVE_NTLM
 	else	/* AUTH_USER */
 		{
 		snprintf (line, sizeof (line), "USER %s\r\n", account->username);
@@ -1159,6 +1181,7 @@ check_imap(Mailbox *mbox)
 			return tcp_shutdown(&conn, mbox, tcp_error_message[7], TRUE);
 			}
 		}
+#ifdef HAVE_NTLM
 	else if (account->authmech == AUTH_NTLM)
 		{
 		snprintf(line, sizeof(line), "a%03d AUTHENTICATE", ++seq);
@@ -1169,6 +1192,7 @@ check_imap(Mailbox *mbox)
 			return tcp_shutdown(&conn, mbox, tcp_error_message[7], TRUE);
 			}
 		}
+#endif	// HAVE_NTLM
 	else	/* AUTH_LOGIN */
 		{
 		snprintf(line, sizeof(line), "a%03d LOGIN \"%s\" \"%s\"\r\n",

@@ -810,6 +810,8 @@ usage(void)
 	g_print(_("   -pe, --plugin-enable name Enable an installed plugin\n"));
 	g_print(_("       --plist               List plugins and exit\n"));
 	g_print(_("       --plog                Print plugin install log\n"));
+	g_print(  "       --logfile path        Enable logging to a file\n");
+	g_print(  "       --syslog              Enable logging to syslog\n");
 	g_print(_("   -V, --verbose             increases the verbosity of gkrellmd\n"));
 	g_print(_("   -d, --debug-level n       Turn debugging on for selective code sections.\n"));
 
@@ -834,6 +836,8 @@ usage(void)
 	g_print(_("   -pe, --plugin-enable name Enable an installed plugin\n"));
 	g_print(_("       --plist               List plugins and exit\n"));
 	g_print(_("       --plog                Print plugin install log\n"));
+	g_print(  "       --logfile path        Enable logging to a file\n");
+	g_print(  "       --syslog              Enable logging to the system syslog file\n");
 	g_print(_("       --pidfile path        Create a PID file\n"));
 	g_print(_("   -V, --verbose             increases the verbosity of gkrellmd\n"));
 	g_print(_("   -h, --help                display this help and exit\n"));
@@ -1069,6 +1073,7 @@ detach_from_terminal(void)
 #if !defined(MSG_NOSIGNAL)
 	signal(SIGPIPE, SIG_IGN);
 #endif /* MSG_NOSIGNAL */
+	return TRUE;
 	}
 #endif /* !defined(WIN32) */
 

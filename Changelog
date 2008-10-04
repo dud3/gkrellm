@@ -1,9 +1,28 @@
 GKrellM Changelog
 -----------------
-2.3.2 - Not released
+2.3.2 - Fri Oct 3, 2008
 ------------------------
-	* Add OpenSSL license exception (TODO).
+	* Patch from Stefan Gehn:
+	    - Add error logging routines so errors and debugging can be routed to
+	      a file or stdout, and gkrellmd can log to the system syslog file.
+	      Begin replacing debug printf() with g_message(), g_warning(), etc
+	      functions to support the logging functions.
+	    - Port gtk_combo functions to gtk_combo_box
+	    - Add client mode server connection error dialog pupups.
+	    - Use GTK 2.12 gtk_widget_xxx_tooltip over gtk_tooltip in mail.c 
+	    - win32 changes:
+	        Use unicode function calls.
+	        Use getaddrinfo() on win32.
+	        Support CoreTemp application for getting cpu temperatures.
+	        Redo sensor-handling to support multipe sensor backends.
+	        Make Proc monitor work and properly count # of logged in users.
+	        Mem monitor displays cache bytes.
+	        System name shows some new windows versions.
+	        Remove trayicon
+	    - Other various cleanups and changes in his quite large patch.
+	* Add OpenSSL license exception.
 	  Make OpenSSL the default to avoid gnutls symbol conflict crash.
+	* Link to libntlm and remove smb* files from gkrellm source distribution.
 	* Patch from Takao Fujiwara: Pass clock/calendar strings to strftime in
 	  current locale.  Bump default width up to 100.
 	* Patch from Leo Schwab: add linux sysfs battery interface.  Use

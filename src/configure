@@ -121,6 +121,38 @@ fi
 
 rm -f test test.exe test.o test.c
 
+# echo "Checking for libntlm... " 1>& 2
+echo "Checking for libntlm... " 1>& 5
+
+cat << EOF > test.c
+#include <ntlm.h>
+
+int main()
+	{
+	tSmbNtlmAuthRequest	request;
+
+	buildSmbNtlmAuthRequest(&request, "username", NULL);
+	return 0;
+	}
+EOF
+
+$CC ${CFLAGS} ${PKG_INCLUDE} -c test.c -o test.o 2>& 5
+$CC test.o -o test ${LINK_FLAGS} ${PKG_LIBS} -lntlm 2>& 5
+
+if [ -x ./test ] && ./test
+then
+#	echo 'Defining HAVE_NTLM' 1>& 2
+	echo 'Defining HAVE_NTLM' 1>& 5
+	echo '#define HAVE_NTLM 1' >> configure.h
+else
+#	echo "Not found, mail check will not have ntlm support..." 1>& 2
+	echo "Not found, mail check will not have ntlm support..." 1>& 5
+fi
+
+
+
+rm -f test test.exe test.o test.c
+
 if [ "$without_libsensors" != "yes" ]
 then
 echo "Checking for libsensors... " 1>& 5

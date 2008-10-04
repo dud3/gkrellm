@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2007 Bill Wilson
+|  Copyright (C) 1999-2008 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -17,6 +17,18 @@
 |
 |  You should have received a copy of the GNU General Public License
 |  along with this program. If not, see http://www.gnu.org/licenses/
+|
+|
+|  Additional permission under GNU GPL version 3 section 7
+|
+|  If you modify this program, or any covered work, by linking or
+|  combining it with the OpenSSL project's OpenSSL library (or a
+|  modified version of that library), containing parts covered by
+|  the terms of the OpenSSL or SSLeay licenses, you are granted
+|  additional permission to convey the resulting work.
+|  Corresponding Source for a non-source form of such a combination
+|  shall include the source code for the parts of OpenSSL used as well
+|  as that of the covered work.
 */
 
 #include "gkrellm.h"
@@ -499,7 +511,7 @@ assign_style(gchar *debug_name, GList *style_list, gint index,
 	if (index++ == 0)		/* style == style_list */
 		{
 		if (override)
-			g_warning(_("Bad override on DEFAULT: %s %s %d\n"),
+			g_warning("Bad override on DEFAULT: %s %s %d\n",
 					debug_name, arg, entry_flag);
 		for (list = style_list->next; list; list = list->next, ++index)
 			{
@@ -632,7 +644,7 @@ assign_gkrellmrc_style(gchar *source_line, gchar *area, gchar *string)
 		}
 	if (!mon_name || !entry || !*entry || !arg)
 		{
-		g_warning(_("StyleXXX ?: %s\n"), source_line);
+		g_warning("StyleXXX ?: %s\n", source_line);
 		g_free(custom_name);
 		return;
 		}
@@ -655,7 +667,7 @@ assign_gkrellmrc_style(gchar *source_line, gchar *area, gchar *string)
 		}
 	else
 		{
-		g_warning(_("StyleXXX ?: %s\n"), source_line);
+		g_warning("StyleXXX ?: %s\n", source_line);
 		g_free(custom_name);
 		return;
 		}
@@ -2238,8 +2250,8 @@ gkrellm_theme_config(void)
 	*/
 	if (!_GK.use_top_bottom_margins && _GK.command_line_theme)
 		{
-		g_warning(_("Top and bottom meter/panel margins are not set.\n" \
-				" Do not depend on borders!\n"));
+		g_warning("Top and bottom meter/panel margins are not set.\n" \
+				" Do not depend on borders!\n");
 		}
 	}
 
@@ -2509,7 +2521,7 @@ gkrellm_save_user_config(void)
 	i = rename(config_new, config);
 	if (i != 0)
 		{
-		g_warning(_("Cannot rename new config file %s to %s.\n"), config_new, config);
+		g_warning("Cannot rename new config file %s to %s.\n", config_new, config);
 		g_free(config);
 		g_free(config_new);
 		// NOTE: _GK.config_modified will stay true because saving failed

@@ -1,14 +1,8 @@
 The code in the GKrellM distribution is Copyright (C) 1999-2007 by Bill Wilson
 except for:
-  md5global.h, base64.c which are Copyright 1997 by Eric S. Raymond and
-  are under the GPL.
+  base64.c which is Copyright 1997 by Eric S. Raymond and is under the GPL.
 and
   md5.h, md5c.c which are public domain.
-and
-  smb.h, smbbyteorder.h, smbdes.c, smbdes.h, smbencrypt.c, smbencrypt.h,
-  smbmd4.c, smbmd4.h, smbutil.c and ntlm.h which are GPL files from
-  fetchmail-6.2.5 and are Copyright Andrew Tridgell as noted in the
-  fetchmail COPYING file.
 and
   some system dependent files which port GKrellM to architectures other
   than Linux are Copyright their authors as indicated in the respective files.
