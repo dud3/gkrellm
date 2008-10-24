@@ -49,8 +49,9 @@ gkrellm_winop_options(gint argc, gchar **argv)
 	{
 	HWND hWnd = GDK_WINDOW_HWND(gkrellm_get_top_window()->window);
 
-    // Get rid of task list icon
-	SetWindowLong(hWnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW);
+	// This essentially hides the taskbar entry on win32, unfortunately
+	// gtk_window_set_skip_taskbar_hint() is broken in GTK+ 2.14
+	gtk_window_set_type_hint(GTK_WINDOW(gkrellm_get_top_window()), GDK_WINDOW_TYPE_HINT_UTILITY);
 
 	// Set stay-on-top flag if requested
 	if (_GK.on_top)
