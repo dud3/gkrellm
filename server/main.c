@@ -1609,23 +1609,20 @@ int main(int argc, char* argv[])
 #ifdef ENABLE_NLS
 #ifdef LOCALEDIR
 #if defined(WIN32)
-	/*
-	Prepend app install path to relative locale dir, don't rely on CWD being correct
-	*/
-	if (!G_IS_DIR_SEPARATOR(LOCALEDIR[0]))
+	gchar *install_path;
+	gchar *locale_dir;
+	// Prepend app install path to locale dir
+	install_path = g_win32_get_package_installation_directory_of_module(NULL);
+	if (install_path != NULL)
+	    {
+	    locale_dir = g_build_filename(install_path, LOCALEDIR, NULL);
+	    if (locale_dir != NULL)
 		{
- 		gchar* locale_dir;
-		locale_dir = g_win32_get_package_installation_subdirectory(NULL, NULL, LOCALEDIR);
-		if (locale_dir != NULL)
-			{
-			bindtextdomain(PACKAGE_D, locale_dir);
-			g_free(locale_dir);
-			}
+		bindtextdomain(PACKAGE_D, locale_dir);
+		g_free(locale_dir);
 		}
-	else
-		{
-		bindtextdomain(PACKAGE_D, LOCALEDIR);
-		}
+	    g_free(install_path);
+	    }
 #else
 	bindtextdomain(PACKAGE_D, LOCALEDIR);
 #endif /* !WIN32 */

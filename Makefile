@@ -104,7 +104,7 @@ MANDIRMODE = 755
 INCLUDEDIR = $(INSTALLROOT)/include
 INCLUDEMODE = 644
 INCLUDEDIRMODE = 755
-INSTALL ?= install
+INSTALL ?= $(shell which install)
 PKGCONFIGDIR ?= $(INSTALLROOT)/lib/pkgconfig
 LOCALEDIR ?= $(INSTALLROOT)/share/locale
 
@@ -134,7 +134,7 @@ gkrellm.pc_win: Makefile
 	echo "Name: GKrellM" >> gkrellm.pc
 	echo "Description: Extensible GTK system monitoring application" >> gkrellm.pc
 	echo "Version: $(VERSION)" >> gkrellm.pc
-	echo "Requires: gtk+-2.0 >= 2.0.0" >> gkrellm.pc
+	echo "Requires: gtk+-2.0 >= 2.4.0" >> gkrellm.pc
 	echo 'Cflags: -I$${prefix}/include' >> gkrellm.pc
 	echo 'Libs: -L$${prefix}/lib -lgkrellm' >> gkrellm.pc
 
@@ -143,7 +143,7 @@ gkrellm.pc: Makefile
 	echo "Name: GKrellM" >> gkrellm.pc
 	echo "Description: Extensible GTK system monitoring application" >> gkrellm.pc
 	echo "Version: $(VERSION)" >> gkrellm.pc
-	echo "Requires: gtk+-2.0 >= 2.0.0" >> gkrellm.pc
+	echo "Requires: gtk+-2.0 >= 2.4.0" >> gkrellm.pc
 	echo "Cflags: -I$(INCLUDEDIR)" >> gkrellm.pc
 
 install: install_gkrellm.pc
@@ -186,17 +186,10 @@ install_solaris: install_gkrellm.pc
 	(cd src && ${MAKE} install_solaris)
 	(cd server && ${MAKE} install_solaris)
 
-install_windows:
-	(${MAKE} INSTALL=/bin/install install_gkrellm.pc)
-	(cd po && ${MAKE} \
-		INSTALL=/bin/install INSTALLDIR=$(INSTALLROOT) LOCALEDIR=$(INSTALLROOT)/share/locale \
-		install)
-	(cd src && ${MAKE} \
-		INSTALL=/bin/install INSTALLDIR=$(INSTALLROOT) LOCALEDIR=$(INSTALLROOT)/share/locale \
-		install_windows)
-	(cd server && ${MAKE} \
-		INSTALL=/bin/install SINSTALLDIR=$(INSTALLROOT) LOCALEDIR=$(INSTALLROOT)/share/locale \
-		install_windows)
+install_windows: install_gkrellm.pc
+	(cd po && ${MAKE} install)
+	(cd src && ${MAKE} install_windows)
+	(cd server && ${MAKE} install_windows)
 
 clean:
 	(cd po && ${MAKE} clean)
