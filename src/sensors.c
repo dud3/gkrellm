@@ -375,7 +375,7 @@ gkrellm_sensor_draw_temperature_decal(GkrellmPanel *p, GkrellmDecal *d,
 		w = gkrellm_gdk_string_width(d->text_style.font, buf)
 				+ d->text_style.effect;
 		}
-	
+
 	d->x_off = d->w - w;
 	if (d->x_off < 0)
 		d->x_off = 0;
@@ -778,7 +778,7 @@ gkrellm_sensors_interface_remove(gint _interface)
 				}
 			}
 		}
-	while (removed_one);		
+	while (removed_one);
 	}
 
 static void
@@ -1036,7 +1036,7 @@ layout_volt_decals(GkrellmPanel *p, GkrellmStyle *style)
 		cols = n;;
 	volt_mon_width = w / cols;		/* spread them out */
 	x = (w - cols * volt_mon_width) / 2 + m->left;
-		
+
 	gkrellm_get_top_bottom_margins(style, &y, NULL);
 	c = 0;
 	for (list = volt_list; list; list = list->next)
@@ -1473,7 +1473,7 @@ make_volt_panel(GtkWidget *vbox, gint first_create)
 	style = gkrellm_meter_style(style_id);
 	make_volt_decals(pVolt, style);
 	layout_volt_decals(pVolt, style);
-	
+
 	gkrellm_panel_configure(pVolt, NULL, style);
 
 	/* Make the bottom margin reference against the bottom volt decals
@@ -1587,7 +1587,7 @@ create_sensors(GtkWidget *vbox, gint first_create)
 	|      THEME_DIR/sensors/bg_volt.png
 	|  and for a border for it from the gkrellmrc in the format:
 	|      set_piximage_border sensors_bg_volt l,r,t,b
-	| There is no default for bg_volt image, ie it may end up being NULL. 
+	| There is no default for bg_volt image, ie it may end up being NULL.
 	*/
 	xpm = gkrellm_using_default_theme() ? bg_volt_xpm : NULL;
 	if (bezel_piximage)
@@ -1724,7 +1724,7 @@ save_sensors_config(FILE *f_not_used)
 		return;
 	sprintf(buf, "%s/%s", GKRELLM_DIR, SENSOR_CONFIG_FILE);
 	config = gkrellm_make_config_file_name(gkrellm_homedir(), buf);
-	f = fopen(config, "w");
+	f = g_fopen(config, "w");
 	g_free(config);
 	if (!f)
 		return;
@@ -1901,14 +1901,14 @@ read_sensors_config(void)
 
 	sprintf(buf, "%s/%s", GKRELLM_DIR, SENSOR_CONFIG_FILE);
 	config = gkrellm_make_config_file_name(gkrellm_homedir(), buf);
-	f = fopen(config, "r");
+	f = g_fopen(config, "r");
 	g_free(config);
 
 	if (!f)
 		{
 		sprintf(buf, "%s/%s", GKRELLM_DIR, SENSOR_2_1_14_CONFIG_FILE);
 		config = gkrellm_make_config_file_name(gkrellm_homedir(), buf);
-		f = fopen(config, "r");
+		f = g_fopen(config, "r");
 		g_free(config);
 		}
 	if (f)
@@ -2526,7 +2526,7 @@ enable_cb(GtkCellRendererText *cell, gchar *path_string, gpointer data)
 				-1);
 	s->enabled = !enabled;
 	gtk_tree_store_set(GTK_TREE_STORE(model), &iter,
-				ENABLE_COLUMN, s->enabled, 
+				ENABLE_COLUMN, s->enabled,
 				-1);
     change_row_reference(model, path);
 	gtk_tree_path_free(path);
@@ -2655,7 +2655,7 @@ static gchar	*sensor_info_text0[] =
 	"\n",
 	};
 
-static gchar	*sensor_info_text1[] = 
+static gchar	*sensor_info_text1[] =
 	{
 N_("<h>Setup\n"),
 N_("Enter data scaling factors and offsets for the sensors if the default\n"

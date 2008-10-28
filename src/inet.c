@@ -1323,7 +1323,7 @@ gkrellm_inet_save_data(void)
 		{
 		in = (InetMon *) list->data;
 		fname = make_inet_data_fname(in);
-		if ((f = fopen(fname, "w")) == NULL)
+		if ((f = g_fopen(fname, "w")) == NULL)
 			continue;
 
 		fputs("minute hour yday width\n", f);
@@ -1357,7 +1357,7 @@ gkrellm_inet_load_data(void)
 		{
 		in = (InetMon *) list->data;
 		fname = make_inet_data_fname(in);
-		if ((f = fopen(fname, "r")) == NULL)
+		if ((f = g_fopen(fname, "r")) == NULL)
 			{
 			gkrellm_reset_chart(in->chart);
 			draw_inet_chart(in);

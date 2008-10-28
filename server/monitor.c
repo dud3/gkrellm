@@ -669,7 +669,7 @@ update_inet(GkrellmdMonitor *mon, gboolean first_update)
 	InetData	*in;
 	static gint	check_tcp;
 
-	
+
 	if (!first_update && !GK.second_tick)
 		return;
 
@@ -1008,7 +1008,7 @@ update_net(GkrellmdMonitor *mon, gboolean first_update)
 			gkrellm_sys_net_check_routes();
 		}
 	gkrellm_sys_net_read_data();
-	
+
 	if (GK.second_tick && !net_use_routed)
 		{
 		for (list = net_list; list; list = list->next)
@@ -1031,7 +1031,7 @@ update_net(GkrellmdMonitor *mon, gboolean first_update)
 			if (net_timer->up_event)
 				{
 				snprintf(buf, sizeof(buf), "/var/run/%s.pid", net_timer->name);
-				if (stat(buf, &st) == 0)
+				if (g_stat(buf, &st) == 0)
 					net_timer0 = st.st_mtime;
 				else
 					time(&net_timer0);
@@ -2184,7 +2184,7 @@ gkrellmd_update_monitors(void)
 			}
 		gkrellmd_send_to_client(client, serve_gstring->str);
 		serve_gstring = g_string_truncate(serve_gstring, 0);
-		
+
 		if (GK.minute_tick || !client->served)
 			send_time(client);
 		else if (GK.second_tick)

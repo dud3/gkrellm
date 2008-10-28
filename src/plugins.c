@@ -1050,7 +1050,7 @@ load_plugins_placement_file(void)
 	gkrellm_free_glist_and_data(&plugins_place_list);
 	path = gkrellm_make_config_file_name(gkrellm_homedir(),
 				PLUGIN_PLACEMENT_FILE);
-	if ((f = fopen(path, "r")) != NULL)
+	if ((f = g_fopen(path, "r")) != NULL)
 		{
 		while ((fgets(buf, sizeof(buf), f)) != NULL)
 			{
@@ -1072,12 +1072,12 @@ save_plugins_placement_file(void)
 	GkrellmMonitor		*builtin, *plugin;
 	GkrellmMonprivate	*mp;
 	gchar				*path;
-	
+
 	if (!plugin_placement_modified || _GK.demo || _GK.no_config)
 		return;
 	path = gkrellm_make_config_file_name(gkrellm_homedir(),
 				PLUGIN_PLACEMENT_FILE);
-	if ((f = fopen(path, "w")) != NULL)
+	if ((f = g_fopen(path, "w")) != NULL)
 		{
 		for (list = plugins_list; list; list = list->next)
 			{
@@ -1111,7 +1111,7 @@ load_plugins_enable_file(void)
 
 	gkrellm_free_glist_and_data(&plugins_enable_list);
 	path = gkrellm_make_config_file_name(gkrellm_homedir(),PLUGIN_ENABLE_FILE);
-	if ((f = fopen(path, "r")) != NULL)
+	if ((f = g_fopen(path, "r")) != NULL)
 		{
 		while ((fgets(buf, sizeof(buf), f)) != NULL)
 			{
@@ -1134,12 +1134,12 @@ save_plugins_enable_file(void)
 	GList			*list;
 	GkrellmMonitor	*m;
 	gchar			*path, *s;
-	
+
 	if (!plugin_enable_list_modified || _GK.demo)
 		return;
 	path = gkrellm_make_config_file_name(gkrellm_homedir(),
 				PLUGIN_ENABLE_FILE);
-	if ((f = fopen(path, "w")) != NULL)
+	if ((f = g_fopen(path, "w")) != NULL)
 		{
 		for (list = plugins_list; list; list = list->next)
 			{
@@ -1177,7 +1177,7 @@ scan_for_plugins(gchar *path)
 	GkrellmMonitor	*m = NULL;
 	gchar			*s;
 	gboolean		exists;
-	
+
 	if (!path || !*path || (dir = g_dir_open(path, 0, NULL)) == NULL)
 		return;
 	while ((name = (gchar *) g_dir_read_name(dir)) != NULL)

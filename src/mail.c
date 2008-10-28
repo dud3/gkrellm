@@ -115,7 +115,7 @@ GCRY_THREAD_OPTION_PTHREAD_IMPL;
   /* Here's the list of all the mailbox types the Mail monitor knows about.
   |  The MBOX_FETCH is a pseudo internal mailbox where the counts read from
   |  the fetch program are kept.  Additionally MBOX_FETCH_TOOLTIP types
-  |  are constructed just so the fetch programs output lines can be 
+  |  are constructed just so the fetch programs output lines can be
   |  reported in a tooltip.  Real mailboxes that GKrellM creates in its
   |  config and knows how to check have MBOX_INTERNAL set.  And
   |  finally there can be external (plugin) mailboxes created which
@@ -390,7 +390,7 @@ update_tooltip(void)
 	MailAccount	*account;
 	GString		*mboxes = NULL;
 	gchar		buf[128];
-   
+
 	if (show_tooltip)
 		{
 		mboxes = g_string_sized_new(512);
@@ -412,10 +412,10 @@ update_tooltip(void)
 				else if (! format_remote_mbox_name(mbox, buf, sizeof(buf)))
 					continue;	/* Can't get a name, so no tooltip for you! */
 
-				if (mboxes->len > 0) 
+				if (mboxes->len > 0)
 					g_string_append_c(mboxes, '\n');
 				g_string_append(mboxes, buf);
-							
+
 				if (count_mode == MSG_NEW_TOTAL_COUNT)
 					snprintf(buf, sizeof(buf), "(%d/%d)",
 						mbox->new_mail_count, mbox->mail_count);
@@ -429,7 +429,7 @@ update_tooltip(void)
 	if (show_tooltip && mboxes && mboxes->len > 0)
 		{
 #if GTK_CHECK_VERSION(2,12,0)
-		gtk_widget_set_tooltip_text(mail->drawing_area, mboxes->str); 
+		gtk_widget_set_tooltip_text(mail->drawing_area, mboxes->str);
 #else
 		gtk_tooltips_set_tip(tooltip, mail->drawing_area, mboxes->str, "");
 		gtk_tooltips_enable(tooltip);
@@ -447,8 +447,8 @@ update_tooltip(void)
 	if (mboxes)
 		g_string_free(mboxes, TRUE);
 	}
-	
-	
+
+
   /* Look at a From line to see if it is valid, lines look like:
   |  From sending_address dayofweek month dayofmonth timeofday year
   |  eg: From billw@gkrellm.net Fri Oct 22 13:52:49 2010
@@ -490,7 +490,7 @@ is_multipart_mail(gchar *buf, gchar *separator)
 	gchar *fieldstart;
 	gchar *sepstart;
 	gint  seplen;
-	
+
 	if (strncmp(buf, "Content-Type: ", 14) != 0)
 		return FALSE;
 	if (strncmp(&buf[14], "multipart/", 10) != 0)
@@ -1228,7 +1228,7 @@ check_imap(Mailbox *mbox)
 				return tcp_shutdown(&conn, mbox, tcp_error_message[4], FALSE);
 			if ((ss = strstr(mbox->tcp_in->str, "MESSAGES")) == NULL)
 				return tcp_shutdown(&conn, mbox, tcp_error_message[4], FALSE);
-			} 
+			}
 		else
 			return tcp_shutdown(&conn, mbox, tcp_error_message[4], FALSE);
 		}
@@ -1263,7 +1263,7 @@ mh_sequences_new_count(Mailbox *mbox)
 
 	path = g_strconcat(mbox->account->path, G_DIR_SEPARATOR_S,
 				".mh_sequences", NULL);
-	f = fopen(path, "r");
+	f = g_fopen(path, "r");
 	g_free(path);
 	if (!f)
 		return FALSE;
@@ -1315,7 +1315,7 @@ sylpheed_mark_new_count(Mailbox *mbox)
 	for (fname = mark_file_names; *fname; fname++) {
 	    path = g_strconcat(mbox->account->path, G_DIR_SEPARATOR_S,
 			       *fname, NULL);
-	    f = fopen(path, "rb");
+	    f = g_fopen(path, "rb");
 	    g_free(path);
 	    if (f)
 		break;
@@ -1323,7 +1323,7 @@ sylpheed_mark_new_count(Mailbox *mbox)
 
 	if (!f)
 	    return FALSE;
-	
+
 	if (   fread(&ver, sizeof(ver), 1, f) == 1
 		&& SYLPHEED_MARK_VERSION == ver
 	   )
@@ -1448,12 +1448,12 @@ check_maildir(Mailbox *mbox)
   |  And Netscape mail does status with X-Mozilla-Status: xxxS
   |    where S is bitwise or of status flags:
   |    1: read  2: replied  4: marked  8: deleted
-  |  
+  |
   |  Evolution uses status with X-Evolution: 00000000-xxxx where xxxx status is
   |  a bitfield in hexadecimal (see enum _CamelMessageFlags in evolution/camel
   |  source) and most importantly CAMEL_MESSAGE_SEEN = 1<<4.
   */
-  /* test if buf is a status for standard mail, mozilla or evolution 
+  /* test if buf is a status for standard mail, mozilla or evolution
   */
 static gboolean
 is_status(gchar *buf)
@@ -1505,7 +1505,7 @@ status_is_old(gchar *buf)
 	return FALSE;
 	}
 
-  /* test if a mail is marked as deleted  
+  /* test if a mail is marked as deleted
   |  Evolution uses status with X-Evolution: 00000000-xxxx where xxxx status is
   |  a bitfield in hexadecimal (see enum _CamelMessageFlags in evolution/camel source)
   |  and most importantly CAMEL_MESSAGE_DELETED = 1<<1.
@@ -1551,7 +1551,7 @@ check_mbox(Mailbox *mbox)
 	gint			is_multipart = FALSE;
 	gint			content_len = 0;
 
-	if (stat(mbox->account->path, &s) != 0)
+	if (g_stat(mbox->account->path, &s) != 0)
 		{
 		mbox->mail_count = mbox->old_mail_count = mbox->new_mail_count = 0;
 		mbox->last_mtime = 0;
@@ -1589,7 +1589,7 @@ check_mbox(Mailbox *mbox)
 		|| force_mail_check
 	   )
 		{
-		if ((f = fopen(mbox->account->path, "r")) == NULL)
+		if ((f = g_fopen(mbox->account->path, "r")) == NULL)
 			{
 			if (_GK.debug_level & DEBUG_MAIL)
 				printf("check_mbox can't fopen(%s): %s\n", mbox->account->path,
@@ -1751,7 +1751,7 @@ draw_mail_text_decal(gint new_mail_count, gint mail_count)
 				strcpy(tbuf, "-");
 			else
 				snprintf(tbuf, sizeof(tbuf), "%d", mail_count);
-			snprintf(buf, sizeof(buf), "%s/%s", nbuf, tbuf); 
+			snprintf(buf, sizeof(buf), "%s/%s", nbuf, tbuf);
 			}
 		}
 	w = gkrellm_gdk_string_width(ts.font, buf);
@@ -2249,7 +2249,7 @@ update_mail(void)
 	if (GK.second_tick && (++second_count % local_check_timeout) == 0)
 		local_check = TRUE;
 	fetch_check = fetch_check_is_local ? local_check : remote_check;
-		
+
 	if (remote_check || local_check)
 		mua_is_launched();		/* update pipe, avoid lingering zombie */
 
@@ -2283,7 +2283,7 @@ update_mail(void)
 					if (fetch_check)
 						(*mbox->check_func)(mbox);
 					break;
-					
+
 				case MBOX_CHECK_INLINE:	/* Local mailbox or maildir check */
 					if (local_check)
 						{
@@ -2525,7 +2525,7 @@ cb_panel_press(GtkWidget *widget, GdkEventButton *ev)
 	if (ev->button == 1 && ev->x >= d->x && ev->x < d->x + d->w)
 		force_mail_check = TRUE;
 	return FALSE;
-	}	
+	}
 
 static void
 dup_account(MailAccount *dst, MailAccount *src)
@@ -3361,7 +3361,7 @@ cb_tree_selection_changed(GtkTreeSelection *selection, gpointer data)
 		active = (account->port == default_port) ? FALSE : TRUE;
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(port_button), active);
 		sprintf(buf, "%d", account->port);
-		gtk_entry_set_text(GTK_ENTRY(port_entry), buf);		
+		gtk_entry_set_text(GTK_ENTRY(port_entry), buf);
 		}
 	else if (local_supported)
 		{
@@ -3950,7 +3950,7 @@ create_mail_tab(GtkWidget *tab_vbox)
 		gtk_box_pack_start(GTK_BOX(hbox), mbox_path_entry, TRUE, TRUE, 2);
 		gtk_entry_set_text(GTK_ENTRY(mbox_path_entry), "");
 		g_signal_connect (G_OBJECT (mbox_path_entry), "activate",
-				G_CALLBACK(mailbox_enter_cb), NULL);			
+				G_CALLBACK(mailbox_enter_cb), NULL);
 		}
 
 	/* Remote mailbox account entry */
@@ -4200,7 +4200,7 @@ create_mail_tab(GtkWidget *tab_vbox)
 			mh_seq_ignore, TRUE, TRUE, 0,
 			multi_toggle_button_cb, NULL,
 			_("Ignore .mh_sequences when checking MH mail."));
-	
+
 /* --Info tab */
 	vbox = gkrellm_gtk_framed_notebook_page(tabs, _("Info"));
 	text = gkrellm_gtk_scrolled_text_view(vbox, NULL,

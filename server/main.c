@@ -663,7 +663,7 @@ load_config(gchar *path)
 
 	//g_print("Trying to load config from file '%s'\n", path);
 
-	f = fopen(path, "r");
+	f = g_fopen(path, "r");
 	if (!f)
 		return;
 	while (fgets(buf, sizeof(buf), f))

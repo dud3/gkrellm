@@ -24,6 +24,7 @@
 #include "log.h"
 
 #include <glib.h>
+#include <glib/gstdio.h>
 
 #include <stdio.h>
 #include <stdlib.h>

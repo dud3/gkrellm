@@ -781,7 +781,7 @@ get_connect_state(void)
 				{
 				snprintf(buf, sizeof(buf),
 					 "%s/%s", lock_directory, PPP_LOCK_FILE);
-				if (stat(buf, &st) == 0)
+				if (g_stat(buf, &st) == 0)
 					state = TB_STANDBY;
 				else
 					{
@@ -790,7 +790,7 @@ get_connect_state(void)
 					*/
 					snprintf(buf, sizeof(buf), "%s/%s/%s",
 								gkrellm_homedir(), GKRELLM_DIR, PPP_LOCK_FILE);
-					if (stat(buf, &st) == 0)
+					if (g_stat(buf, &st) == 0)
 						state = TB_STANDBY;
 					}
 				}
@@ -821,7 +821,7 @@ get_connect_time(void)
 			break;
 		case TIMER_TYPE_PPP:
 			snprintf(buf, sizeof(buf), "/var/run/%s.pid", timer_button_iface);
-			if (stat(buf, &st) == 0)
+			if (g_stat(buf, &st) == 0)
 				t = st.st_mtime;
 			break;
 		case TIMER_TYPE_IPPP:
@@ -917,7 +917,7 @@ stale_pppd_files_debug(void)
 	gchar	buf[256];
 
 	snprintf(buf, sizeof(buf), "/var/run/%s.pid", timer_button_iface);
-	if (stat(buf, &st) == 0 && !net_timed->up)
+	if (g_stat(buf, &st) == 0 && !net_timed->up)
 		g_print(_("  **** Stale pppd pppX.pid file detected!\n"));
 	}
 
@@ -1672,7 +1672,7 @@ gkrellm_net_save_data(void)
 			continue;
 		snprintf(fname, sizeof(fname), "%s%c%s", net_data_dir,
 					G_DIR_SEPARATOR, net->name);
-		if ((f = fopen(fname, "w")) == NULL)
+		if ((f = g_fopen(fname, "w")) == NULL)
 			continue;
 		fprintf(f, "%d\n", NET_DATA_VERSION);
 		fputs("wday mday month yday year\n", f);
@@ -1822,7 +1822,7 @@ load_net_data(void)
 		net = (NetMon *) list->data;
 		snprintf(fname, sizeof(fname), "%s%c%s", net_data_dir,
 					G_DIR_SEPARATOR, net->name);
-		if ((f = fopen(fname, "r")) == NULL)
+		if ((f = g_fopen(fname, "r")) == NULL)
 			continue;
 		fgets(buf, sizeof(buf), f);
 		if (sscanf(buf, "%d\n", &version) != 1)

@@ -279,7 +279,7 @@ set_or_save_position(gint save)
 			}
 		if (   !_GK.no_config
 		    && (_GK.x_position != x_last || _GK.y_position != y_last)
-			&& (f = fopen(path, "w")) != NULL
+			&& (f = g_fopen(path, "w")) != NULL
 		   )
 			{
 			x_last = _GK.x_position;
@@ -292,7 +292,7 @@ set_or_save_position(gint save)
 		}
 	else if (!_GK.withdrawn)  /* In slit conflicts with setting position */
 		{
-		if ((f = fopen(path, "r")) != NULL)
+		if ((f = g_fopen(path, "r")) != NULL)
 			{
 			x = y = 0;
 			fscanf(f, "%d %d", &x, &y);

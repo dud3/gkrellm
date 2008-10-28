@@ -120,7 +120,7 @@ gkrellm_log_set_filename(const gchar* filename)
 	if (filename && filename[0] != '\0')
 		{
 		// Open the file to log into
-		s_gkrellm_logfile = fopen(filename, "at");
+		s_gkrellm_logfile = g_fopen(filename, "at");
 		// Add our callbacks to logging chain
 		if (s_gkrellm_logfile)
 			{

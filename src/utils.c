@@ -216,7 +216,7 @@ gkrellm_homedir(void)
 
 	homedir = (gchar *) g_get_home_dir();
 	if (!homedir)
-		homedir = ".";
+		homedir = "."; // FIXME: This does not look right to me (stefan)
 	return homedir;
 	}
 
@@ -229,11 +229,7 @@ gkrellm_make_home_subdir(gchar *subdir, gchar **path)
 	dir = g_build_path(G_DIR_SEPARATOR_S, gkrellm_homedir(), subdir, NULL);
 	if (!g_file_test(dir, G_FILE_TEST_IS_DIR))
 		{
-#ifdef WIN32
-		if (mkdir(dir) < 0)
-#else
-		if (mkdir(dir, 0755) < 0)
-#endif
+		if (g_mkdir(dir, 0755) < 0)
 			printf(_("Cannot create directory: %s\n"), dir);
 		else
 			result = TRUE;

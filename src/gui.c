@@ -1140,7 +1140,7 @@ _("Make gkrellm a topmost window (restart gkrellm for this to take effect)."));
 	vbox2 = gkrellm_gtk_framed_vbox(vbox1, NULL, 0, FALSE, 0, 0);
 	gkrellm_gtk_check_button_connected(vbox2, &dock_type_button,
 			_GK.dock_type, FALSE, FALSE, 0,
-			cb_dock_type, NULL,			
+			cb_dock_type, NULL,
 			_("Set window type to be a dock or panel"));
 
 	vbox2 = gkrellm_gtk_framed_vbox(vbox1, NULL, 0, FALSE, 0, 0);
@@ -1314,7 +1314,7 @@ get_theme_author(gchar *path)
 	if (!path || *path == '\0')
 		return buf;
 	rcfile = g_strdup_printf("%s/%s", path, GKRELLMRC);
-	f = fopen(rcfile, "r");
+	f = g_fopen(rcfile, "r");
 	g_free(rcfile);
 	if (!f)
 		return buf;
@@ -1570,7 +1570,7 @@ gkrellm_save_theme_config(void)
 	path = gkrellm_make_config_file_name(gkrellm_homedir(),
 					GKRELLM_THEME_CONFIG);
 
-	if ((f = fopen(path, "w")) != NULL)
+	if ((f = g_fopen(path, "w")) != NULL)
 		{
 		fprintf(f, "%s\n", _GK.theme_path);
 		fprintf(f, "%d\n", _GK.theme_alternative);
@@ -1593,7 +1593,7 @@ gkrellm_load_theme_config(void)
 	gint	i;
 
 	/* Need to load the theme from ~/.gkrellm/theme_config only at startup
-	|  or if re-reading because of theme_event - these are only times 
+	|  or if re-reading because of theme_event - these are only times
 	|  _GK.theme_path will be NULL.  Note: _GK.theme_path will not be NULL
 	|  at startup if there is a command line theme, so no theme scaling if
 	|  using command line theme.
@@ -1602,7 +1602,7 @@ gkrellm_load_theme_config(void)
 		{
 		path = gkrellm_make_config_file_name(gkrellm_homedir(),
 					GKRELLM_THEME_CONFIG);
-		f = fopen(path, "r");
+		f = g_fopen(path, "r");
 		g_free(path);
 		if (f && fgets(buf, sizeof(buf), f))
 			{
@@ -2277,7 +2277,7 @@ create_config_window(void)
 	GList				*list;
 	GkrellmMonitor		*mon;
 	gchar				*config_name, *window_title;
-	
+
 	if (config_window)
 		{
 		gtk_window_present(GTK_WINDOW(config_window));
@@ -2298,7 +2298,7 @@ create_config_window(void)
 	gtk_window_set_wmclass(GTK_WINDOW(config_window),
 					"Gkrellm_conf", "Gkrellm");
 	gtk_container_set_border_width(GTK_CONTAINER(config_window), 2);
-	
+
 	config_hbox = gtk_hbox_new(FALSE, 4);
 	gtk_container_add(GTK_CONTAINER(config_window), config_hbox);
 

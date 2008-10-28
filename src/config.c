@@ -168,9 +168,9 @@ gkrellm_theme_file_exists(char *name, gchar *subdir)
 				path = g_strdup_printf("%s/%s_%d%s", _GK.theme_path,
 						name, _GK.theme_alternative, image_type[i]);
 #ifdef WIN32
-			if (stat(path, &st) == 0 && S_ISREG(st.st_mode))
+			if (g_stat(path, &st) == 0 && S_ISREG(st.st_mode))
 #else
-			if (   stat(path, &st) == 0
+			if (   g_stat(path, &st) == 0
 				&& (S_ISREG(st.st_mode) || S_ISLNK(st.st_mode))
 			   )
 #endif
@@ -188,9 +188,9 @@ gkrellm_theme_file_exists(char *name, gchar *subdir)
 			path = g_strdup_printf("%s/%s%s", _GK.theme_path, name,
 					image_type[i]);
 #ifdef WIN32
-			if (stat(path, &st) == 0 && S_ISREG(st.st_mode))
+			if (g_stat(path, &st) == 0 && S_ISREG(st.st_mode))
 #else
-		if (   stat(path, &st) == 0
+		if (   g_stat(path, &st) == 0
 			&& (S_ISREG(st.st_mode) || S_ISLNK(st.st_mode))
 		   )
 #endif
@@ -2202,7 +2202,7 @@ parse_gkrellmrc(gint alternative)
 	if (alternative > 0)
 		snprintf(lbuf, sizeof(lbuf), "_%d", alternative);
 	path = g_strdup_printf("%s/%s%s", _GK.theme_path, GKRELLMRC, lbuf);
-	if ((f = fopen(path, "r")) != NULL)
+	if ((f = g_fopen(path, "r")) != NULL)
 		{
 		while (fgets(buf, sizeof(buf), f))
 			{
@@ -2311,7 +2311,7 @@ gkrellm_load_user_config(GkrellmMonitor *mon_only, gboolean monitor_values)
 		}
 	config = gkrellm_make_config_file_name(gkrellm_homedir(),
 				GKRELLM_USER_CONFIG);
-	f = fopen(config, "r");
+	f = g_fopen(config, "r");
 	g_free(config);
 
 	if (f)
@@ -2432,7 +2432,7 @@ gkrellm_save_user_config(void)
 					GKRELLM_USER_CONFIG);
 	config_new = g_strconcat(config, ".new", NULL);
 
-	f = fopen(config_new, "w");
+	f = g_fopen(config_new, "w");
 	if (f == NULL)
 		{
 		g_warning(_("Cannot open config file %s for writing.\n"), config_new);
@@ -2467,7 +2467,7 @@ gkrellm_save_user_config(void)
 		}
 
 	if (   !_GK.config_clean
-	    && (ff = fopen(config, "r")) != NULL
+	    && (ff = g_fopen(config, "r")) != NULL
 	   )
 		{
 		gchar		buf[CFG_BUFSIZE], *keyword, *ch, tmp;
@@ -2516,9 +2516,9 @@ gkrellm_save_user_config(void)
 	fclose(f);
 #if defined(WIN32)
 	/* windows rename() does not allow overwriting existing files! */
-	unlink(config);
+	g_unlink(config);
 #endif
-	i = rename(config_new, config);
+	i = g_rename(config_new, config);
 	if (i != 0)
 		{
 		g_warning("Cannot rename new config file %s to %s.\n", config_new, config);
@@ -2535,7 +2535,7 @@ gkrellm_save_user_config(void)
 #else
 	mode = 0600;
 #endif
-	chmod(config, mode);
+	g_chmod(config, mode);
 
 	g_free(config);
 	g_free(config_new);

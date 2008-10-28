@@ -1354,7 +1354,7 @@ fstab_user_permission(Mount *m)
 	{
 	struct stat my_stat;
 
-	stat(m->device, &my_stat);
+	g_stat(m->device, &my_stat);
 	if (   strstr(m->options, "user")
 		|| (strstr(m->options, "owner") && my_stat.st_uid == uid)
 	   )
