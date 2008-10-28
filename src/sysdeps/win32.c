@@ -1232,7 +1232,7 @@ gkrellm_sys_net_init(void)
 	add_counter_list(
 			  510 // object_index
 			, 264 // counter_index1
-			, 896 // counter_index2
+			, 506 // counter_index2
 			, gkrellm_sys_net_add_cb);
 
 	gkrellm_debug(DEBUG_SYSDEP, "Found %i network adapters for monitoring.\n",
