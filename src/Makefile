@@ -74,7 +74,7 @@ endif
 CC ?= gcc
 STRIP ?= -s
 
-GKRELLM_INCLUDES = gkrellm.h gkrellm-public-proto.h $(SHARED_PATH)/log.h
+GKRELLM_INCLUDES = gkrellm.h gkrellm-version.h gkrellm-public-proto.h $(SHARED_PATH)/log.h
 
 PKG_INCLUDE = `$(PKG_CONFIG) --cflags gtk+-2.0 gthread-2.0`
 PKG_LIB = `$(PKG_CONFIG) --libs gtk+-2.0 gthread-2.0`
@@ -311,7 +311,7 @@ SYSDEPS_SRC = sysdeps/bsd-common.c sysdeps/bsd-net-open.c sysdeps/freebsd.c \
 	sysdeps/solaris.c sysdeps/darwin.c sysdeps/sensors-common.c \
 	sysdeps/win32.c
 
-GKRELLM_H = gkrellm.h gkrellm-private.h
+GKRELLM_H = gkrellm.h gkrellm-version.h gkrellm-private.h
 GKRELLM_H_SYS = gkrellm.h gkrellm-public-proto.h gkrellm-private.h \
 	gkrellm-sysdeps.h
 
@@ -352,7 +352,7 @@ winops-win32.o: winops-win32.c $(GKRELLM_H)
 win32-plugin.o: win32-plugin.c win32-plugin.h
 win32-libgkrellm.o: win32-libgkrellm.c win32-plugin.h
 win32-resource.o: win32-resource.rc win32-resource.h
-	windres -o win32-resource.o win32-resource.rc
+	windres -v -o win32-resource.o win32-resource.rc
 
 libgkrellm.a: win32-libgkrellm.o
 	ar -cr libgkrellm.a win32-libgkrellm.o

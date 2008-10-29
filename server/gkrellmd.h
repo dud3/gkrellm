@@ -22,6 +22,7 @@
 #define GKRELLMD_H
 
 #include "log.h"
+#include "gkrellmd-version.h"
 
 #include <glib.h>
 #include <glib/gstdio.h>
@@ -91,19 +92,6 @@
 #   define dcgettext(Domain,String,Type) (String)
 #   define bindtextdomain(Domain,Directory) (Domain)
 #endif  /* ENABLE_NLS */
-
-/* -------------------------------------------------------------------
-*/
-#define GKRELLMD_VERSION_MAJOR   2
-#define GKRELLMD_VERSION_MINOR   3
-#define GKRELLMD_VERSION_REV     2
-#define GKRELLMD_EXTRAVERSION    ""
-
-#define GKRELLMD_CHECK_VERSION(major,minor,rev)    \
-(GKRELLMD_VERSION_MAJOR > (major) || \
-(GKRELLMD_VERSION_MAJOR == (major) && GKRELLMD_VERSION_MINOR > (minor)) || \
-(GKRELLMD_VERSION_MAJOR == (major) && GKRELLMD_VERSION_MINOR == (minor) && \
-GKRELLMD_VERSION_REV >= (rev)))
 
 #define GKRELLMD_CONFIG				"gkrellmd.conf"
 #if defined(WIN32)

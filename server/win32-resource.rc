@@ -3,15 +3,20 @@
 // http://www.resedit.net
 
 #include "win32-resource.h"
-#include "windows.h"
+#include "gkrellmd-version.h"
+#include <windows.h>
 
+// you don't really want to know why this looks so ugly :P
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+#define RC_VER_STRING TOSTRING(GKRELLMD_VERSION_MAJOR) "." TOSTRING(GKRELLMD_VERSION_MINOR) "." TOSTRING(GKRELLMD_VERSION_REV) GKRELLMD_EXTRAVERSION
 
 //
 // Version Information resources
 //
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 1 VERSIONINFO
-    FILEVERSION     2,3,2,0
+    FILEVERSION     GKRELLMD_VERSION_MAJOR,GKRELLMD_VERSION_MINOR,GKRELLMD_VERSION_REV,0
     PRODUCTVERSION  0,0,0,0
     FILEOS          VOS_NT_WINDOWS32
     FILETYPE        VFT_APP
@@ -22,12 +27,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", ""
             VALUE "FileDescription", "GKrellM Daemon"
-            VALUE "FileVersion", "2.3.2"
+            VALUE "FileVersion", RC_VER_STRING
             VALUE "InternalName", "gkrellmd"
             VALUE "LegalCopyright", "Copyright (C) 1999-2008 Bill Wilson"
             VALUE "OriginalFilename", "gkrellmd.exe"
             VALUE "ProductName", "GKrellM"
-            VALUE "ProductVersion", "2.3.2"
+            VALUE "ProductVersion", RC_VER_STRING
         END
     END
     BLOCK "VarFileInfo"
