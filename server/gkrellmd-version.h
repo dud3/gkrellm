@@ -24,7 +24,7 @@
 #define GKRELLMD_VERSION_MAJOR   2
 #define GKRELLMD_VERSION_MINOR   3
 #define GKRELLMD_VERSION_REV     2
-#define GKRELLMD_EXTRAVERSION    "-rc1"
+#define GKRELLMD_EXTRAVERSION    ""
 
 #define GKRELLMD_CHECK_VERSION(major,minor,rev)    \
 (GKRELLMD_VERSION_MAJOR > (major) || \
