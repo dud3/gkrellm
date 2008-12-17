@@ -131,9 +131,9 @@
 #else
 
 #undef      LOCAL_THEMES_DIR
-#define     SYSTEM_THEMES_DIR		"./themes"
+#undef      SYSTEM_THEMES_DIR
 #undef      LOCAL_PLUGINS_DIR
-#define     SYSTEM_PLUGINS_DIR		"./plugins"
+#undef      SYSTEM_PLUGINS_DIR
 
 #endif
 
