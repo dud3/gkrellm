@@ -562,10 +562,10 @@ typedef struct
   // new since 2.2.5
 
   gboolean      (*gkrellm_client_send_to_server)(gchar *key_name, gchar *line);
-  
+
   GkrellmDecal *(*gkrellm_create_decal_text_markup)(GkrellmPanel *p, gchar *string, GkrellmTextstyle *ts, GkrellmStyle *style, gint x, gint y, gint w);
   void          (*gkrellm_decal_text_markup_insert)(GkrellmDecal *d, gchar *s, GkrellmTextstyle *ts, gint x_off, gint y_off);
-  
+
   void          (*gkrellm_decal_text_nth_inserted_set_offset)(GkrellmDecal *d, gint n, gint x_off, gint y_off);
   void          (*gkrellm_decal_text_nth_inserted_get_offset)(GkrellmDecal *d, gint n, gint *x_off, gint *y_off);
   void          (*gkrellm_config_instant_apply)(GkrellmMonitor *mon);
@@ -576,12 +576,16 @@ typedef struct
   void          (*gkrellm_gdk_draw_string_markup)(GdkDrawable *drawable, PangoFontDescription *font, GdkGC *gc, gint x, gint y, gchar *string);
   void          (*gkrellm_gdk_draw_text_markup)(GdkDrawable *drawable, PangoFontDescription *font, GdkGC *gc, gint x, gint y, gchar *string, gint len);
 
+  //---------------------------------------------------------------------------
+  // new since 2.3.2
+
+  void (*gkrellm_debug)(guint debug_level, const gchar *format, ...);
 
 } win32_plugin_callbacks;
 
 
 /// part of win32-plugin.c
-/// 
+///
 extern win32_plugin_callbacks gkrellm_callbacks;
 
 
