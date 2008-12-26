@@ -451,7 +451,7 @@ void win32_init_callbacks(void)
     //---------------------------------------------------------------------------
     // new since 2.3.2
 
-    gkrellm_callbacks.gkrellm_debug = gkrellm_debug;
+    gkrellm_callbacks.gkrellm_debugv = gkrellm_debugv;
 
 } // win32_init_callbacks()
 

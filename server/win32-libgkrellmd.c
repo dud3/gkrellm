@@ -85,3 +85,18 @@ GkrellmdTicks * gkrellmd_ticks(void)
 gint           gkrellmd_get_timer_ticks(void)
     {return cb->gkrellmd_get_timer_ticks();}
 
+//---------------------------------------------------------------------------
+// new since 2.3.2
+
+void          gkrellm_debug(guint debug_level, const gchar *format, ...)
+	{
+  va_list arg;
+  va_start(arg, format);
+  cb->gkrellm_debugv(debug_level, format, arg);
+  va_end(arg);
+	}
+
+void          gkrellm_debugv(guint debug_level, const gchar *format, va_list arg)
+	{
+  cb->gkrellm_debugv(debug_level, format, arg);
+	}

@@ -298,3 +298,12 @@ gkrellm_debug(guint debug_level, const gchar *format, ...)
 		va_end(varargs);
 		}
 	}
+
+void
+gkrellm_debugv(guint debug_level, const gchar *format, va_list arg)
+	{
+	if (_GK.debug_level & debug_level)
+		{
+		g_logv(NULL, G_LOG_LEVEL_DEBUG, format, arg);
+		}
+	}

@@ -1519,24 +1519,39 @@ gboolean      gkrellm_client_send_to_server(gchar *key_name, gchar *line)
 GkrellmDecal *gkrellm_create_decal_text_markup(GkrellmPanel *p, gchar *string, GkrellmTextstyle *ts, GkrellmStyle *style, gint x, gint y, gint w)
   {return callbacks->gkrellm_create_decal_text_markup(p,string,ts,style,x,y,w);}
 void          gkrellm_decal_text_markup_insert(GkrellmDecal *d, gchar *s, GkrellmTextstyle *ts, gint x_off, gint y_off)
-  {return callbacks->gkrellm_decal_text_markup_insert(d,s,ts,x_off,y_off);}
+  {callbacks->gkrellm_decal_text_markup_insert(d,s,ts,x_off,y_off);}
 
 void          gkrellm_decal_text_nth_inserted_set_offset(GkrellmDecal *d, gint n, gint x_off, gint y_off)
-  {return callbacks->gkrellm_decal_text_nth_inserted_set_offset(d, n, x_off, y_off);}
+  {callbacks->gkrellm_decal_text_nth_inserted_set_offset(d, n, x_off, y_off);}
 void          gkrellm_decal_text_nth_inserted_get_offset(GkrellmDecal *d, gint n, gint *x_off, gint *y_off)
-  {return callbacks->gkrellm_decal_text_nth_inserted_get_offset(d,n,x_off,y_off);}
+  {callbacks->gkrellm_decal_text_nth_inserted_get_offset(d,n,x_off,y_off);}
 void          gkrellm_config_instant_apply(GkrellmMonitor *mon)
-  {return callbacks->gkrellm_config_instant_apply(mon);}
+  {callbacks->gkrellm_config_instant_apply(mon);}
 GtkTreeSelection *gkrellm_gtk_scrolled_selection(GtkTreeView *treeview, GtkWidget *box, GtkSelectionMode s_mode, GtkPolicyType h_policy, GtkPolicyType v_policy, void (*func_cb)(), gpointer data)
   {return callbacks->gkrellm_gtk_scrolled_selection(treeview, box, s_mode, h_policy, v_policy, func_cb, data);}
 void          gkrellm_text_markup_extents(PangoFontDescription *font_desc, gchar *text, gint len, gint *width, gint *height, gint *baseline, gint *y_ink)
-  {return callbacks->gkrellm_text_markup_extents(font_desc, text, len, width, height, baseline, y_ink);}
+  {callbacks->gkrellm_text_markup_extents(font_desc, text, len, width, height, baseline, y_ink);}
 gint          gkrellm_gdk_string_markup_width(PangoFontDescription *d, gchar *s)
   {return callbacks->gkrellm_gdk_string_markup_width(d,s);}
 gint          gkrellm_gdk_text_markup_width(PangoFontDescription *font_desc, const gchar *string, gint len)
   {return callbacks->gkrellm_gdk_text_markup_width(font_desc, string, len);}
 void          gkrellm_gdk_draw_string_markup(GdkDrawable *drawable, PangoFontDescription *font, GdkGC *gc, gint x, gint y, gchar *string)
-  {return callbacks->gkrellm_gdk_draw_string_markup(drawable, font, gc, x, y, string);}
+  {callbacks->gkrellm_gdk_draw_string_markup(drawable, font, gc, x, y, string);}
 void          gkrellm_gdk_draw_text_markup(GdkDrawable *drawable, PangoFontDescription *font, GdkGC *gc, gint x, gint y, gchar *string, gint len)
-  {return callbacks->gkrellm_gdk_draw_text_markup(drawable, font, gc, x, y, string, len);}
+  {callbacks->gkrellm_gdk_draw_text_markup(drawable, font, gc, x, y, string, len);}
 
+//---------------------------------------------------------------------------
+// new since 2.3.2
+
+void          gkrellm_debug(guint debug_level, const gchar *format, ...)
+	{
+  va_list arg;
+  va_start(arg, format);
+  callbacks->gkrellm_debugv(debug_level, format, arg);
+  va_end(arg);
+	}
+
+void          gkrellm_debugv(guint debug_level, const gchar *format, va_list arg)
+	{
+  callbacks->gkrellm_debugv(debug_level, format, arg);
+	}

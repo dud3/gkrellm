@@ -579,7 +579,8 @@ typedef struct
   //---------------------------------------------------------------------------
   // new since 2.3.2
 
-  void (*gkrellm_debug)(guint debug_level, const gchar *format, ...);
+  // gkrellm_debug is not called from libgkrellm, only gkrellm_debugv
+  void (*gkrellm_debugv)(guint debug_level, const gchar *format, va_list arg);
 
 } win32_plugin_callbacks;
 
