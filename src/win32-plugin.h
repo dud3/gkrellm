@@ -83,7 +83,7 @@ typedef struct
     GkrellmChartdata *(*gkrellm_add_default_chartdata)(GkrellmChart *, gchar *);
     void		(*gkrellm_alloc_chartdata)(GkrellmChart *);
     // gkrellm_store_chartdata is not called from libgkrellm, only gkrellm_store_chartdatav
-    void		(*gkrellm_store_chartdatav)(GkrellmChart *, gulong, ...);
+    void		(*gkrellm_store_chartdatav)(GkrellmChart *, gulong, va_list args);
     void		(*gkrellm_draw_chartdata)(GkrellmChart *);
     void		(*gkrellm_monotonic_chartdata)(GkrellmChartdata *, gboolean);
     gboolean	(*gkrellm_get_chartdata_hide)(GkrellmChartdata *);
