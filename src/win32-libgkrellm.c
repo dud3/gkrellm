@@ -195,12 +195,16 @@ void		gkrellm_alloc_chartdata(GkrellmChart *a)
 {
     (*(callbacks->gkrellm_alloc_chartdata))(a);
 }
-void		gkrellm_store_chartdata(GkrellmChart *a, gulong b, ...)
+void		gkrellm_store_chartdata(GkrellmChart *cp, gulong total, ...)
 {
-    va_list ap;
-    va_start(ap, b);
-    callbacks->gkrellm_store_chartdata(a, b, ap);
-    va_end(ap);
+    va_list args;
+    va_start(args, total);
+    callbacks->gkrellm_store_chartdatav(cp, total, args);
+    va_end(args);
+}
+void		gkrellm_store_chartdatav(GkrellmChart *cp, gulong total, va_list args)
+{
+    callbacks->gkrellm_store_chartdatav(cp, total, args);
 }
 void		gkrellm_draw_chartdata(GkrellmChart *a)
 {

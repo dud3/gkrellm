@@ -93,6 +93,7 @@ GkrellmChartdata *gkrellm_add_chartdata(GkrellmChart *, GdkPixmap **,
 GkrellmChartdata *gkrellm_add_default_chartdata(GkrellmChart *, gchar *);
 void		gkrellm_alloc_chartdata(GkrellmChart *);
 void		gkrellm_store_chartdata(GkrellmChart *, gulong, ...);
+void		gkrellm_store_chartdatav(GkrellmChart *cp, gulong total, va_list args);
 void		gkrellm_draw_chartdata(GkrellmChart *);
 void		gkrellm_monotonic_chartdata(GkrellmChartdata *, gboolean);
 gboolean	gkrellm_get_chartdata_hide(GkrellmChartdata *);
@@ -269,7 +270,7 @@ GkrellmDecalbutton *gkrellm_make_scaled_button(GkrellmPanel *p,
 						gboolean auto_hide, gboolean set_default_border,
 						gint depth, gint cur_index, gint pressed_index,
 						gint x, gint y, gint w, gint h);
- 
+
 GkrellmDecalbutton *gkrellm_decal_is_button(GkrellmDecal *);
 void		gkrellm_set_in_button_callback(GkrellmDecalbutton *,
 						gint (*func)(), gpointer data);
@@ -571,7 +572,7 @@ gboolean	gkrellm_disk_temperature_display(gpointer sr, gchar *disk_name,
 						gfloat t, gchar units);
 void		gkrellm_disk_temperature_remove(gchar *disk_name);
 
- 
+
   /* Functions exported by net.c
   */
 gint		gkrellm_net_routes(void);

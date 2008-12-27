@@ -82,7 +82,7 @@ void win32_init_callbacks(void)
     gkrellm_callbacks.gkrellm_add_chartdata = gkrellm_add_chartdata;
     gkrellm_callbacks.gkrellm_add_default_chartdata = gkrellm_add_default_chartdata;
     gkrellm_callbacks.gkrellm_alloc_chartdata = gkrellm_alloc_chartdata;
-    gkrellm_callbacks.gkrellm_store_chartdata = gkrellm_store_chartdata;
+    gkrellm_callbacks.gkrellm_store_chartdatav = gkrellm_store_chartdatav;
     gkrellm_callbacks.gkrellm_draw_chartdata = gkrellm_draw_chartdata;
     gkrellm_callbacks.gkrellm_monotonic_chartdata = gkrellm_monotonic_chartdata;
     gkrellm_callbacks.gkrellm_get_chartdata_hide = gkrellm_get_chartdata_hide;

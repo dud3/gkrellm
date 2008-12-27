@@ -67,7 +67,7 @@ static gint
 computed_index(GkrellmChart *cp, gint i)
 	{
 	gint	x;
-	
+
 	x = (cp->position + i + 1) % cp->w;
 	return x;
 	}
@@ -272,7 +272,7 @@ chartdata_ycoord(GkrellmChart *cp, GkrellmChartdata *cd, gint yd)
 	{
 	glong	y;
 	guint64	Y;
-	
+
 	if (cp->scale_max <= 0)
 		cp->scale_max = 1;
 
@@ -809,6 +809,17 @@ void
 gkrellm_store_chartdata(GkrellmChart *cp, gulong total, ...)
 	{
 	va_list			args;
+
+	if (!cp)
+		return;
+	va_start(args, total);
+	gkrellm_store_chartdatav(cp, total, args);
+	va_end(args);
+	}
+
+void
+gkrellm_store_chartdatav(GkrellmChart *cp, gulong total, va_list args)
+	{
 	GList			*list;
 	GkrellmChartdata *cd;
 	gulong			range, total_diff;
@@ -818,10 +829,10 @@ gkrellm_store_chartdata(GkrellmChart *cp, gulong total, ...)
 
 	if (!cp)
 		return;
-	va_start(args, total);
 	for (list = cp->cd_list; list; list = list->next)
 		{
 		cd = (GkrellmChartdata *) list->data;
+		//FIXME: missing check for number of passed varargs passed in "args"
 		cd->current = va_arg(args, gulong);
 		if (!cd->monotonic)
 			{
@@ -833,12 +844,11 @@ gkrellm_store_chartdata(GkrellmChart *cp, gulong total, ...)
 		if (cd->current < cd->previous || !cp->primed)
 			cd->previous = cd->current;
 		}
-	va_end(args);
 	if (total < cp->previous_total || !cp->primed)
 		cp->previous_total = total;	  /* Wrap around, this store won't scale */
 	total_diff = total - cp->previous_total;
 	cp->previous_total = total;
-		
+
 	/* Increment position in circular buffer and remember the data
 	|  value to be thrown out.
 	*/
@@ -1163,7 +1173,7 @@ gkrellm_draw_chart_text(GkrellmChart *cp, gint style_id, gchar *str)
 				buf[text_length] = '\0';
 				printf("draw_chart_text: [%s] ", buf);
 				}
-			
+
 			offset = cp->baseline_ref - tr->baseline;	/* align baselines */
 			if (_GK.chart_text_no_fill)
 	    		gkrellm_draw_text(cp->pixmap, ts, x, y + offset, s,
@@ -1834,7 +1844,7 @@ gkrellm_chart_create(GtkWidget *vbox, GkrellmMonitor *mon, GkrellmChart *cp,
 	cp->config->chart_cd_list = &cp->cd_list;
 
 	if (!cp->box)
-		{		
+		{
 		cp->box = gtk_vbox_new(FALSE, 0);	/* not a hbox anymore !! */
 		gtk_box_pack_start(GTK_BOX(vbox), cp->box, FALSE, FALSE, 0);
 
@@ -2015,7 +2025,7 @@ set_grid_resolution_spin_button(GkrellmChart *cp, gint res)
 	if (!cp || !cp->config_window || !cp->config->grid_resolution_spin_button)
 		return;
 	spin = GTK_SPIN_BUTTON(cp->config->grid_resolution_spin_button);
-	gtk_spin_button_set_value(spin, (gfloat) res);	
+	gtk_spin_button_set_value(spin, (gfloat) res);
 	}
 
 static void
