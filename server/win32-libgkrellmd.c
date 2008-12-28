@@ -1,7 +1,10 @@
  /* GKrellM Windows Portion
 |  Copyright (C) 2002 Bill Nalen
+|                2007-2008 Stefan Gehn
 |
-|  Author:  Bill Nalen    bill@nalens.com
+|  Authors:  Bill Nalen     bill@nalens.com
+|            Stefan Gehn    stefan@gkrellm.srcbox.net
+|  Latest versions might be found at:  http://gkrellm.net
 |
 |
 |  GKrellM is free software: you can redistribute it and/or modify it

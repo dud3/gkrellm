@@ -1,11 +1,12 @@
 /* GKrellM
 |  Copyright (C) 1999-2008 Bill Wilson
+|                2002      Bill Nalen
+|                2007-2008 Stefan Gehn
 |
-|  Author:  Bill Wilson    billw@gkrellm.net
+|  Authors:  Bill Wilson    billw@gkrellm.net
+|            Bill Nalen     bill@nalens.com
+|            Stefan Gehn    stefan@gkrellm.srcbox.net
 |  Latest versions might be found at:  http://gkrellm.net
-|
-|  win32.c code is Copyright (C) Bill Nalen    bill@nalens.com
-|                                Stefan Gehn    stefan.gkrellm@srcbox.net
 |
 |
 |  GKrellM is free software: you can redistribute it and/or modify it

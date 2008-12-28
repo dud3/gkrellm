@@ -827,7 +827,7 @@ create_about_tab(GtkWidget *vbox)
 	buf = g_strdup_printf(
 				_("Windows system dependent code was contributed by:\n"
 				"Bill Nalen <bill@nalens.com>\n"
-				"Stefan Gehn <stefan@srcbox.net>\n"));
+				"Stefan Gehn <stefan@gkrellm.srcbox.net>\n"));
 	label = gtk_label_new(buf);
 	g_free(buf);
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);

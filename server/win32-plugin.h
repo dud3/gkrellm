@@ -1,8 +1,10 @@
- /* GKrellM Windows Portion
-|  Copyright (C) 2006 Stefan Gehn
+/* GKrellM
+|  Copyright (C) 1999-2008 Bill Wilson
+|                2007-2008 Stefan Gehn
 |
-|  Author:  Stefan Gehn   metz AT gehn DOT net
-|  Latest versions might be found at:  http://metz.gehn.net
+|  Authors:  Bill Wilson    billw@gkrellm.net
+|            Stefan Gehn    stefan@gkrellm.srcbox.net
+|  Latest versions might be found at:  http://gkrellm.net
 |
 |
 |  GKrellM is free software: you can redistribute it and/or modify it
