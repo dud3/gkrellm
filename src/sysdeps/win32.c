@@ -653,6 +653,7 @@ gkrellm_sys_sensors_mbm_init(void)
 	hData = gkrellm_sys_sensors_open_shm_helper(MBM_SHM_NAME, MBM_EXE_NAME);
 	if (hData == 0)
 		return FALSE;
+	gkrellm_debug(DEBUG_SYSDEP, "Mapping MBM SHM file\n");
 	pData = (MBMSharedData *)MapViewOfFile(hData, FILE_MAP_READ, 0, 0, 0);
 	if (pData != NULL)
 		{
@@ -796,10 +797,24 @@ gkrellm_sys_sensors_sf_init(void)
 	hData = gkrellm_sys_sensors_open_shm_helper(SPEEDFAN_SHM_NAME, SPEEDFAN_EXE_NAME);
 	if (hData == 0)
 		return FALSE;
+
+	gkrellm_debug(DEBUG_SYSDEP, "Mapping SpeedFan SHM file\n");
 	pData = (SFSharedMemory *)MapViewOfFile(hData, FILE_MAP_READ, 0, 0, 0);
 	if (pData != NULL)
 		{
 		ret = TRUE; // Mark SpeedFan as available
+
+		// Wait a bit for a running SpeedFan that has not detected all its sensors yet
+		i = 10;
+		while (i-- > 0)
+			{
+			if ((pData->NumTemps + pData->NumVolts + pData->NumFans) > 0)
+				break;
+			g_usleep(G_USEC_PER_SEC);
+			}
+
+		gkrellm_debug(DEBUG_SYSDEP, "Enumerating %hu temps, %hu voltages and %hu fans\n",
+					pData->NumTemps, pData->NumVolts, pData->NumFans);
 
 		for (i = 0; i < pData->NumTemps; i++)
 			{
@@ -935,6 +950,7 @@ gkrellm_sys_sensors_ct_init(void)
 	hData = gkrellm_sys_sensors_open_shm_helper(CORE_TEMP_SHM_NAME, CORE_TEMP_EXE_NAME);
 	if (hData == 0)
 		return FALSE;
+	gkrellm_debug(DEBUG_SYSDEP, "Mapping CoreTemp SHM file\n");
 	pData = (CORE_TEMP_SHARED_DATA *)MapViewOfFile(hData, FILE_MAP_READ, 0, 0, 0);
 	if (pData != NULL)
 		{
@@ -1013,6 +1029,7 @@ gkrellm_sys_sensors_init(void)
 	init_ok |= gkrellm_sys_sensors_ct_init();
 	init_ok |= gkrellm_sys_sensors_mbm_init();
 
+	gkrellm_debug(DEBUG_SYSDEP, "INIT sensors finished, result is %d\n", init_ok);
 	// returns true if at least one sensors interface has been found
 	return init_ok;
 	}
