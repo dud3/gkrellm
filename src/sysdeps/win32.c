@@ -122,6 +122,7 @@ static PDH_HQUERY pdhQueryHandle = NULL;
 
 static const wchar_t* PDHDLL = L"PDH.DLL";
 static const wchar_t* NTDLL = L"NTDLL.DLL";
+static const wchar_t* WTSAPI32 = L"WTSAPI32.DLL";
 
 
 // ----------------------------------------------------------------------------
@@ -1490,12 +1491,61 @@ gkrellm_sys_proc_read_data(void)
 			num_forks /*n_forks*/, fload);
 	}
 
+
+#if _WIN32_WINNT >= 0x501 // Windows XP or newer
+#include <wtsapi32.h>
+
+typedef struct _WTS_SESSION_INFO {
+  DWORD SessionId;
+  LPTSTR pWinStationName;
+  WTS_CONNECTSTATE_CLASS State;
+} WTS_SESSION_INFO, *PWTS_SESSION_INFO;
+
+BOOL WINAPI WTSEnumerateSessionsW(
+  HANDLE hServer,
+  DWORD Reserved,
+  DWORD Version,
+  PWTS_SESSION_INFO *ppSessionInfo,
+  DWORD *pCount);
+#endif // _WIN32_WINNT >= 0x501
+
 void
 gkrellm_sys_proc_read_users(void)
 	{
 	gint i;
 	// Number of interactive users
 	gint n_users = 0;
+
+#if _WIN32_WINNT >= 0x501 // Windows XP or newer
+	BOOL ret;
+	WTS_SESSION_INFO *pSessionList = NULL;
+	DWORD sessionListCount = 0;
+	WTS_SESSION_INFO *pSession = NULL;
+
+	gkrellm_debug(DEBUG_SYSDEP, "Enumerating terminal sessions...\n");
+	// Returns list of terminal sessions in pSessionInfo[]
+	ret = WTSEnumerateSessionsW(WTS_CURRENT_SERVER_HANDLE, 0, 1, &pSessionList,
+			&sessionListCount);
+	if (!ret)
+		{
+		win32_warning(WTSAPI32,
+				GetLastError(),
+				"Enumerating terminal sessions failed");
+		}
+	else if (pSessionList != NULL)
+		{
+		gkrellm_debug(DEBUG_SYSDEP, "Found %d terminal sessions\n", sessionListCount);
+		for (i = 0; i < sessionListCount; i++)
+			{
+			pSession = &pSessionList[i];
+			gkrellm_debug(DEBUG_SYSDEP, "Session %d (%ls) has state %d\n",
+			    pSession->SessionId, pSession->pWinStationName, pSession->State);
+			if (pSession->State == WTSActive)
+				n_users++;
+			}
+		WTSFreeMemory(pSessionList);
+		}
+#else // TODO: Remove this code-branch if nobody wants win2k-support anymore 
 	// Return value for Lsa functions
 	NTSTATUS ntstatus;
 	// Arguments for LsaEnumerateLogonSessions()
@@ -1575,6 +1625,7 @@ gkrellm_sys_proc_read_users(void)
 
 	// Free LUID list provided by OS, even if function returned an error before
 	pfLFRB(pSessions);
+#endif
 
 	gkrellm_proc_assign_users(n_users);
 	}

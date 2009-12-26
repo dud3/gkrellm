@@ -169,10 +169,10 @@ endif
 
 windows: libgkrellmd.a
 	$(MAKE) \
-		CFLAGS="${CFLAGS} -D_WIN32_WINNT=0x0500 -DWINVER=0x0500" \
+		CFLAGS="${CFLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501" \
 		LINK_FLAGS="${LINK_FLAGS} -mconsole" \
 		EXTRAOBJS="win32-resource.o win32-plugin.o" \
-		SYS_LIBS=" -llargeint -lws2_32 -lpdh -lnetapi32 -liphlpapi -lntdll -lintl" \
+		SYS_LIBS=" -llargeint -lws2_32 -lwtsapi32 -lpdh -lnetapi32 -liphlpapi -lntdll -lintl" \
 		gkrellmd
 
 install: install_bin install_inc install_man
