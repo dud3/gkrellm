@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2008 Bill Wilson
+|  Copyright (C) 1999-2009 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -1354,7 +1354,7 @@ fstab_user_permission(Mount *m)
 	{
 	struct stat my_stat;
 
-	g_stat(m->device, &my_stat);
+	stat(m->device, &my_stat);
 	if (   strstr(m->options, "user")
 		|| (strstr(m->options, "owner") && my_stat.st_uid == uid)
 	   )

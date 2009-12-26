@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2008 Bill Wilson
+|  Copyright (C) 1999-2009 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -1804,10 +1804,15 @@ read_sysfs_entry (gchar *buf, gint buflen, gchar const *sysentry)
 			if (*nl == '\n')
 				*nl = '\0';
 			fclose (f);
+			if (_GK.debug_level & DEBUG_BATTERY)
+				printf ("read_sysfs_entry: %s = %s\n",
+		        	sysentry, buf);
 			return TRUE;
 			}
 		fclose (f);
 		}
+	if (_GK.debug_level & DEBUG_BATTERY)
+		printf ("read_sysfs_entry: cannot read %s\n", sysentry);
 	return FALSE;
 	}
 
@@ -1873,7 +1878,8 @@ sysfs_power_data (struct syspower *sp)
 			}
 		else
 			{
-			percent = charge_now * 100 / charge_full;
+			if (charge_full > 0)
+				percent = charge_now * 100 / charge_full;
 			}
 
 		/*  Get charging status.  */

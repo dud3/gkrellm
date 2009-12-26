@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2007 Bill Wilson
+|  Copyright (C) 1999-2009 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net

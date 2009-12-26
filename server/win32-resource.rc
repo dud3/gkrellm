@@ -29,7 +29,7 @@ BEGIN
             VALUE "FileDescription", "GKrellM Daemon"
             VALUE "FileVersion", RC_VER_STRING
             VALUE "InternalName", "gkrellmd"
-            VALUE "LegalCopyright", "Copyright (C) 1999-2008 Bill Wilson"
+            VALUE "LegalCopyright", "Copyright (C) 1999-2009 Bill Wilson"
             VALUE "OriginalFilename", "gkrellmd.exe"
             VALUE "ProductName", "GKrellM"
             VALUE "ProductVersion", RC_VER_STRING

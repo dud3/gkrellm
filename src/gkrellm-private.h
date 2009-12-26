@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2008 Bill Wilson
+|  Copyright (C) 1999-2009 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -48,6 +48,21 @@
 #define	DEBUG_PLUGIN		0x20000
 
 #define	GKRELLM_FLOAT_FACTOR	1000.0
+
+enum GkrellmConnectResult
+	{
+	GOOD_CONNECT,
+	BAD_CONNECT,
+	BAD_SETUP
+	};
+
+enum GkrellmConnectState
+	{
+	CONNECTING,
+	CONNECTED,
+	DISCONNECTED,
+	NO_CLIENT
+	};
 
 enum GkrellmState
 	{
@@ -488,10 +503,12 @@ void	gkrellm_winop_state_below(gboolean);
 
 /* client */
 gint		gkrellm_connect_to(gchar *, gint);
-gboolean	gkrellm_client_mode_connect(void);
+enum GkrellmConnectResult
+			gkrellm_client_mode_connect(void);
 void		gkrellm_client_mode_disconnect(void);
 struct tm	*gkrellm_client_server_time(void);
-gint		gkrellm_client_server_connect_state(void);
+enum GkrellmConnectState
+			gkrellm_client_server_connect_state(void);
 void		gkrellm_client_mode_connect_thread(void);
 gint		gkrellm_client_server_get_net_timer(void);
 

@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2008 Bill Wilson
+|  Copyright (C) 1999-2009 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -254,11 +254,12 @@ draw_sysname(void)
 void
 update_host(void)
 	{
-	gchar			**parts;
-	gint			connect_state, delta, step, h_scroll;
-	gint			hz = gkrellm_update_HZ();
-	static gint		reconnect_timeout, y_target, asym;
-	static gboolean	recheck_sysname;
+	gchar						**parts;
+	gint						delta, step, h_scroll;
+	gint						hz = gkrellm_update_HZ();
+	static gint					reconnect_timeout, y_target, asym;
+	static gboolean				recheck_sysname;
+	enum GkrellmConnectState	connect_state;
 
 	if (decal_sysname && system_name_mode == 1 && system_dtext.reduced)
 		{
@@ -295,7 +296,7 @@ update_host(void)
 	/* If we loose the server connection, trigger a hardwired alarm.
 	*/
 	connect_state = gkrellm_client_server_connect_state();
-	if (connect_state == 2)		/* thread is trying a reconnect */
+	if (connect_state == CONNECTING)		/* thread is trying a reconnect */
 		{
 		if (_GK.client_server_reconnect_timeout <= 0)
 			{
@@ -303,7 +304,7 @@ update_host(void)
 			draw_sysname();
 			}
 		}
-	else if (connect_state == 0)	/* Lost connection			*/
+	else if (connect_state == DISCONNECTED)	/* Lost connection			*/
 		{
 		gkrellm_check_alert(server_alert, 2.0);		/* Alarm 	*/
 		if (   _GK.client_server_reconnect_timeout > 0

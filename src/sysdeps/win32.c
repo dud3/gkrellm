@@ -805,15 +805,6 @@ gkrellm_sys_sensors_sf_init(void)
 		{
 		ret = TRUE; // Mark SpeedFan as available
 
-		// Wait a bit for a running SpeedFan that has not detected all its sensors yet
-		i = 10;
-		while (i-- > 0)
-			{
-			if ((pData->NumTemps + pData->NumVolts + pData->NumFans) > 0)
-				break;
-			g_usleep(G_USEC_PER_SEC);
-			}
-
 		gkrellm_debug(DEBUG_SYSDEP, "Enumerating %hu temps, %hu voltages and %hu fans\n",
 					pData->NumTemps, pData->NumVolts, pData->NumFans);
 

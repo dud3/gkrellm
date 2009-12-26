@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2008 Bill Wilson
+|  Copyright (C) 1999-2009 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -1620,7 +1620,7 @@ KeyTable	update_table[] =
 
 
 static gint
-getline(gint fd, gchar *buf, gint len)
+gkrellm_getline(gint fd, gchar *buf, gint len)
 	{
 	fd_set			read_fds;
 	struct timeval	tv;
@@ -1714,7 +1714,7 @@ read_server_setup(gint fd)
 
 	while (1)
 		{
-		rs=getline(fd, buf, sizeof(buf));
+		rs=gkrellm_getline(fd, buf, sizeof(buf));
         if(rs<0)
             return FALSE;
 		if (!strcmp(buf, "</gkrellmd_setup>"))
@@ -1732,7 +1732,7 @@ read_server_setup(gint fd)
 	table_size = sizeof(update_table) / sizeof(KeyTable);
 	while (1)
 		{
-		rs=getline(fd, buf, sizeof(buf));
+		rs=gkrellm_getline(fd, buf, sizeof(buf));
         if(rs<0)
             return FALSE;
 		if (!strcmp(buf, "</initial_update>"))
@@ -1870,7 +1870,7 @@ gkrellm_connect_to(gchar *server, gint server_port)
 	return fd;
 	}
 
-gboolean
+enum GkrellmConnectResult
 gkrellm_client_mode_connect(void)
 	{
 	gchar	buf[128];
@@ -1879,10 +1879,8 @@ gkrellm_client_mode_connect(void)
 		_GK.server_port = GKRELLMD_SERVER_PORT;
 
 	client_fd = gkrellm_connect_to(_GK.server, _GK.server_port);
-	if (client_fd < 0) {
-		g_warning("%s\n", _("Unable to connect."));
-		return FALSE;
-	}
+	if (client_fd < 0)
+		return BAD_CONNECT;
 
 	snprintf(buf, sizeof(buf), "gkrellm %d.%d.%d%s\n",
 			GKRELLM_VERSION_MAJOR, GKRELLM_VERSION_MINOR,
@@ -1891,11 +1889,11 @@ gkrellm_client_mode_connect(void)
 
 	/* Initial setup lines from server are read in blocking mode.
 	*/
-	if(!read_server_setup(client_fd)){
-
+	if(!read_server_setup(client_fd))
+		{
 		close(client_fd);
-        return FALSE;
-    }
+        return BAD_SETUP;
+    	}
 
 	/* Extra stuff not handled in read_server_setup()
 	*/
@@ -1911,23 +1909,23 @@ gkrellm_client_mode_connect(void)
 
 	server_alive = TRUE;
 
-	return TRUE;
+	return GOOD_CONNECT;
 	}
 
 
 static gboolean	client_mode_thread_busy;
 
-gint
+enum GkrellmConnectState
 gkrellm_client_server_connect_state(void)
 	{
 	if (client_mode_thread_busy)			/* reconnect in progress? */
-		return 2;
+		return CONNECTING;
 	if (_GK.client_mode && client_input_id > 0)	/* Currently connected? */
-		return 1;
+		return CONNECTED;
 	else if (_GK.client_mode)
-		return 0;
+		return DISCONNECTED;
 	else
-		return -1;
+		return NO_CLIENT;
 	}
 
 static gpointer

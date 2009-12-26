@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2007 Bill Wilson
+|  Copyright (C) 1999-2009 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -17,6 +17,18 @@
 |
 |  You should have received a copy of the GNU General Public License
 |  along with this program. If not, see http://www.gnu.org/licenses/
+|
+|
+|  Additional permission under GNU GPL version 3 section 7
+|
+|  If you modify this program, or any covered work, by linking or
+|  combining it with the OpenSSL project's OpenSSL library (or a
+|  modified version of that library), containing parts covered by
+|  the terms of the OpenSSL or SSLeay licenses, you are granted
+|  additional permission to convey the resulting work.
+|  Corresponding Source for a non-source form of such a combination
+|  shall include the source code for the parts of OpenSSL used as well
+|  as that of the covered work.
 */
 
 #include "gkrellmd.h"
@@ -669,7 +681,7 @@ update_inet(GkrellmdMonitor *mon, gboolean first_update)
 	InetData	*in;
 	static gint	check_tcp;
 
-
+	
 	if (!first_update && !GK.second_tick)
 		return;
 
@@ -1008,7 +1020,7 @@ update_net(GkrellmdMonitor *mon, gboolean first_update)
 			gkrellm_sys_net_check_routes();
 		}
 	gkrellm_sys_net_read_data();
-
+	
 	if (GK.second_tick && !net_use_routed)
 		{
 		for (list = net_list; list; list = list->next)
@@ -2184,7 +2196,7 @@ gkrellmd_update_monitors(void)
 			}
 		gkrellmd_send_to_client(client, serve_gstring->str);
 		serve_gstring = g_string_truncate(serve_gstring, 0);
-
+		
 		if (GK.minute_tick || !client->served)
 			send_time(client);
 		else if (GK.second_tick)

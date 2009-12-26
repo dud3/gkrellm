@@ -3,7 +3,7 @@
 # Configure some things for GKrellM when make is run.
 # This configure is run automatically so no need to run it by hand.
 #
-# Copyright (C) 2003  Bill Wilson
+# Copyright (C) 2003-2009  Bill Wilson
 
 for i
 do
@@ -18,6 +18,10 @@ do
 	if [ "$i" = "--without-libsensors" ]
 	then
 		without_libsensors=yes
+	fi
+	if [ "$i" = "--without-ntlm" ]
+	then
+		without_ntlm=yes
 	fi
 done
 
@@ -121,6 +125,8 @@ fi
 
 rm -f test test.exe test.o test.c
 
+if [ "$without_ntlm" != "yes" ]
+then
 # echo "Checking for libntlm... " 1>& 2
 echo "Checking for libntlm... " 1>& 5
 
@@ -151,7 +157,8 @@ else
 #	echo "Not found, mail check will not have ntlm support..." 1>& 2
 	echo "Not found, mail check will not have ntlm support..." 1>& 5
 fi
-
+fi
+# end of ntlm check
 
 
 rm -f test test.exe test.o test.c

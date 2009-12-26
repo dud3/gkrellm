@@ -1,5 +1,5 @@
 /* GKrellM
-*  Copyright (C) 1999-2008 Bill Wilson
+*  Copyright (C) 1999-2009 Bill Wilson
 *
 *  @author Bill Wilson  <billw@gkrellm.net>
 *

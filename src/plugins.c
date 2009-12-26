@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2008 Bill Wilson
+|  Copyright (C) 1999-2009 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -1072,7 +1072,7 @@ save_plugins_placement_file(void)
 	GkrellmMonitor		*builtin, *plugin;
 	GkrellmMonprivate	*mp;
 	gchar				*path;
-
+	
 	if (!plugin_placement_modified || _GK.demo || _GK.no_config)
 		return;
 	path = gkrellm_make_config_file_name(gkrellm_homedir(),
@@ -1134,7 +1134,7 @@ save_plugins_enable_file(void)
 	GList			*list;
 	GkrellmMonitor	*m;
 	gchar			*path, *s;
-
+	
 	if (!plugin_enable_list_modified || _GK.demo)
 		return;
 	path = gkrellm_make_config_file_name(gkrellm_homedir(),
@@ -1177,7 +1177,7 @@ scan_for_plugins(gchar *path)
 	GkrellmMonitor	*m = NULL;
 	gchar			*s;
 	gboolean		exists;
-
+	
 	if (!path || !*path || (dir = g_dir_open(path, 0, NULL)) == NULL)
 		return;
 	while ((name = (gchar *) g_dir_read_name(dir)) != NULL)

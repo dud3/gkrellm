@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2008 Bill Wilson
+|  Copyright (C) 1999-2009 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -768,7 +768,7 @@ create_about_tab(GtkWidget *vbox)
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
 
 	buf = g_strdup_printf(_("GKrellM %d.%d.%d%s\nGNU Krell Monitors\n\n"
-				"Copyright (c) 1999-2007 by Bill Wilson\n"
+				"Copyright (c) 1999-2009 by Bill Wilson\n"
 				"billw@gkrellm.net\n"
 				"http://gkrellm.net\n\n"
 				"Released under the GNU General Public License"),
@@ -1140,7 +1140,7 @@ _("Make gkrellm a topmost window (restart gkrellm for this to take effect)."));
 	vbox2 = gkrellm_gtk_framed_vbox(vbox1, NULL, 0, FALSE, 0, 0);
 	gkrellm_gtk_check_button_connected(vbox2, &dock_type_button,
 			_GK.dock_type, FALSE, FALSE, 0,
-			cb_dock_type, NULL,
+			cb_dock_type, NULL,			
 			_("Set window type to be a dock or panel"));
 
 	vbox2 = gkrellm_gtk_framed_vbox(vbox1, NULL, 0, FALSE, 0, 0);
@@ -1615,7 +1615,7 @@ gkrellm_load_theme_config(void)
 	gint	i;
 
 	/* Need to load the theme from ~/.gkrellm/theme_config only at startup
-	|  or if re-reading because of theme_event - these are only times
+	|  or if re-reading because of theme_event - these are only times 
 	|  _GK.theme_path will be NULL.  Note: _GK.theme_path will not be NULL
 	|  at startup if there is a command line theme, so no theme scaling if
 	|  using command line theme.
@@ -2299,7 +2299,7 @@ create_config_window(void)
 	GList				*list;
 	GkrellmMonitor		*mon;
 	gchar				*config_name, *window_title;
-
+	
 	if (config_window)
 		{
 		gtk_window_present(GTK_WINDOW(config_window));
@@ -2320,7 +2320,7 @@ create_config_window(void)
 	gtk_window_set_wmclass(GTK_WINDOW(config_window),
 					"Gkrellm_conf", "Gkrellm");
 	gtk_container_set_border_width(GTK_CONTAINER(config_window), 2);
-
+	
 	config_hbox = gtk_hbox_new(FALSE, 4);
 	gtk_container_add(GTK_CONTAINER(config_window), config_hbox);
 

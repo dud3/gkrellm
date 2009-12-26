@@ -45,6 +45,12 @@ endif
 ifeq ($(without-libsensors),1)
 	CONFIGURE_ARGS += --without-libsensors
 endif
+ifeq ($(without-ntlm),yes)
+	CONFIGURE_ARGS += --without-ntlm
+endif
+ifeq ($(without-ntlm),1)
+	CONFIGURE_ARGS += --without-ntlm
+endif
 DUMMY_VAR := $(shell ./configure $(CONFIGURE_ARGS))
 
 HAVE_GNUTLS = $(shell grep -c HAVE_GNUTLS configure.h)

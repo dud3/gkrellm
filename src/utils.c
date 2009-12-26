@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2008 Bill Wilson
+|  Copyright (C) 1999-2009 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -216,7 +216,7 @@ gkrellm_homedir(void)
 
 	homedir = (gchar *) g_get_home_dir();
 	if (!homedir)
-		homedir = "."; // FIXME: This does not look right to me (stefan)
+		homedir = ".";
 	return homedir;
 	}
 

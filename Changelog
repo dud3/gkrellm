@@ -1,5 +1,32 @@
 GKrellM Changelog
 -----------------
+2.3.3 - Mon Dec 21, 2009
+------------------------
+	* gkrellm.spec update from Tim Keller.
+	* Patch from Cyrus Rahman: restore gkrellm_sys_main_init() call to proper
+	  place and fix FreeBSD sensors for amd64 and fix allocate sensor bug.
+	* Patch from Hajimu Umemoto: add --without-ntlm option
+	* Patches from Hajimu Umemoto for FreeBSD:
+	    - Support SMP CPU charts coming in FreeBSD 6.4-RELEASE and 7.1-RELEASE
+	    - Use sysctl for swap info on recent FreeBSD; suppress compile warnings
+	    - Include patch from Pietro Cerutti for coretemp(4) sensor support and
+	      fix bug causing only one instance of a sensor type to be added.
+	    - Include patch from Sven Berkvens-Matthijsse to enable battery support
+	      on amd64 using ACPI.
+	* Patch from Stefan Gehn: Makefile & configure ntlm detect use pkg-config.
+	* Patch from Erik-Jan: sensors monitor option to show temperature units.
+	* Patch from Hans de Goede: rename getline to gkrellm_getline to avoid
+	      conflict with new getline function in recent glibc.
+	* Bugfixes
+	  o Fix a crah by moving "unable to connect" Gtk dialogs outside
+	    of the connect to client thread.
+	  o Divide by zero crash in Linux battery monitor when batteries are dead.
+	  o Patch from Hans de Goede: fix a crash by adding openssl mail check
+	    locking to mail monitor.
+	* Translation updates
+	  o pt_BR.po update from Vinicius Moreira de Oliveira
+
+
 2.3.2 - Fri Oct 3, 2008
 ------------------------
 	* Patch from Stefan Gehn:

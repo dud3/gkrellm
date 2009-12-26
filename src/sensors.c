@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2008 Bill Wilson
+|  Copyright (C) 1999-2009 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -191,7 +191,8 @@ gkrellm_sensors_add_sensor(gint type, gchar *sensor_path, gchar *id_name,
 /* ======================================================================== */
 static gboolean	use_threads,
 				thread_data_valid,
-				units_fahrenheit;
+				units_fahrenheit,
+				show_units = TRUE;
 
 static gboolean thread_busy;
 
@@ -375,7 +376,7 @@ gkrellm_sensor_draw_temperature_decal(GkrellmPanel *p, GkrellmDecal *d,
 		w = gkrellm_gdk_string_width(d->text_style.font, buf)
 				+ d->text_style.effect;
 		}
-
+	
 	d->x_off = d->w - w;
 	if (d->x_off < 0)
 		d->x_off = 0;
@@ -522,7 +523,12 @@ sensor_read_temperature(Sensor *sensor, gfloat *temp, gchar *units)
 	if (temp)
 		*temp = t;
 	if (units)
-		*units = units_fahrenheit ? 'F':'C';
+		{
+		if (show_units)
+			*units = units_fahrenheit ? 'F':'C';
+	   	else
+			*units = '\0';
+		}
 	if ((_GK.debug_level & DEBUG_SENSORS) && sensor)
 		printf("sensor_temp: %s %s t=%.2f\n",
 					sensor->name_locale, sensor->path, sensor->value);
@@ -778,7 +784,7 @@ gkrellm_sensors_interface_remove(gint _interface)
 				}
 			}
 		}
-	while (removed_one);
+	while (removed_one);		
 	}
 
 static void
@@ -1036,7 +1042,7 @@ layout_volt_decals(GkrellmPanel *p, GkrellmStyle *style)
 		cols = n;;
 	volt_mon_width = w / cols;		/* spread them out */
 	x = (w - cols * volt_mon_width) / 2 + m->left;
-
+		
 	gkrellm_get_top_bottom_margins(style, &y, NULL);
 	c = 0;
 	for (list = volt_list; list; list = list->next)
@@ -1362,7 +1368,10 @@ make_temperature_panel(GtkWidget *vbox, gint first_create)
 		return;
 	style = gkrellm_meter_style(style_id);
 	m = gkrellm_get_style_margins(style);
-	format = units_fahrenheit ? "188.8F" : "88.8C";
+	if (show_units)
+		format = units_fahrenheit ? "188.8F" : "88.8C";
+	else
+		format = units_fahrenheit ? "188.8" : "88.8";
 	assign_textstyles(temperature_list, &ts_name, &ts_sensor, format);
 	gkrellm_get_top_bottom_margins(style, &y, NULL);
 	y += bezel_style->border.top;
@@ -1473,7 +1482,7 @@ make_volt_panel(GtkWidget *vbox, gint first_create)
 	style = gkrellm_meter_style(style_id);
 	make_volt_decals(pVolt, style);
 	layout_volt_decals(pVolt, style);
-
+	
 	gkrellm_panel_configure(pVolt, NULL, style);
 
 	/* Make the bottom margin reference against the bottom volt decals
@@ -1587,7 +1596,7 @@ create_sensors(GtkWidget *vbox, gint first_create)
 	|      THEME_DIR/sensors/bg_volt.png
 	|  and for a border for it from the gkrellmrc in the format:
 	|      set_piximage_border sensors_bg_volt l,r,t,b
-	| There is no default for bg_volt image, ie it may end up being NULL.
+	| There is no default for bg_volt image, ie it may end up being NULL. 
 	*/
 	xpm = gkrellm_using_default_theme() ? bg_volt_xpm : NULL;
 	if (bezel_piximage)
@@ -1773,6 +1782,8 @@ save_sensors_config(FILE *f_not_used)
 
 	fprintf(f, "%s units_fahrenheit %d\n", SENSOR_CONFIG_KEYWORD,
 				units_fahrenheit);
+	fprintf(f, "%s show_units %d\n", SENSOR_CONFIG_KEYWORD,
+				show_units);
 	fprintf(f, "%s volt_display_mode %d\n", SENSOR_CONFIG_KEYWORD,
 				display_mode);
 	/* _GK.mbmon_port is handled in config.c so that the port can be
@@ -1807,6 +1818,8 @@ load_sensors_config(gchar *arg)
 		sscanf(item, "%d", &sensor_config_sysdep_private);
 	else if (!strcmp(config, "units_fahrenheit"))
 		sscanf(item, "%d", &units_fahrenheit);
+	else if (!strcmp(config, "show_units"))
+		sscanf(item, "%d", &show_units);
 	else if (!strcmp(config, "volt_display_mode"))
 		sscanf(item, "%d", &display_mode);
 	else if (!strcmp(config, "sensor_float_factor"))
@@ -2526,7 +2539,7 @@ enable_cb(GtkCellRendererText *cell, gchar *path_string, gpointer data)
 				-1);
 	s->enabled = !enabled;
 	gtk_tree_store_set(GTK_TREE_STORE(model), &iter,
-				ENABLE_COLUMN, s->enabled,
+				ENABLE_COLUMN, s->enabled, 
 				-1);
     change_row_reference(model, path);
 	gtk_tree_path_free(path);
@@ -2582,6 +2595,21 @@ cb_temperature_units(GtkWidget *button, gpointer data)
 
 	for (list = sensor_list; list; list = list->next)
 		fix_temp_alert((Sensor *) list->data);
+
+	gkrellm_sensors_rebuild(DO_TEMP, FALSE, FALSE);
+	gkrellm_cpu_draw_sensors(NULL);
+	gkrellm_proc_draw_sensors(NULL);
+	}
+
+static void
+cb_show_units(GtkWidget *button, gpointer data)
+	{
+	gint	show;
+
+	show = GTK_TOGGLE_BUTTON(button)->active;
+	if (show == show_units)
+		return;
+	show_units = show;
 
 	gkrellm_sensors_rebuild(DO_TEMP, FALSE, FALSE);
 	gkrellm_cpu_draw_sensors(NULL);
@@ -2655,7 +2683,7 @@ static gchar	*sensor_info_text0[] =
 	"\n",
 	};
 
-static gchar	*sensor_info_text1[] =
+static gchar	*sensor_info_text1[] = 
 	{
 N_("<h>Setup\n"),
 N_("Enter data scaling factors and offsets for the sensors if the default\n"
@@ -2812,6 +2840,10 @@ create_sensors_tab(GtkWidget *tab_vbox)
 				units_fahrenheit, FALSE, FALSE, 0,
 				cb_temperature_units, NULL,
 				_("Display fahrenheit"));
+	gkrellm_gtk_check_button_connected(box, &button,
+				show_units, FALSE, FALSE, 0,
+				cb_show_units, NULL,
+				_("Show units"));
 	if (!sensor_list)
 		gtk_widget_set_sensitive(button, FALSE);
 

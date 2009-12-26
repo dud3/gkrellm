@@ -1,5 +1,5 @@
 %define name gkrellm
-%define version 2.3.2
+%define version 2.3.3
 %define release 1
 %define prefix /usr
 
@@ -7,7 +7,7 @@ Summary:	Multiple stacked system monitors: 1 process.
 Name:	%{name}
 Version:	%{version}
 Release:	%{release}
-Copyright:	GPL
+License:	GPL
 Group:	X11/Utilities
 URL:	http://gkrellm.net
 Source:	http://members.dslextreme.com/users/billw/gkrellm/%{name}-%{version}.tar.bz2
@@ -55,6 +55,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/gkrellm.1.gz
 %{_mandir}/man1/gkrellmd.1.gz
 %{_includedir}/gkrellm2/gkrellm*
+%{_includedir}/gkrellm2/log*
 %{_libdir}/pkgconfig/gkrellm.pc
 %{_datadir}/locale/*/LC_MESSAGES/gkrellm.mo
 

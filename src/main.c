@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2008 Bill Wilson
+|  Copyright (C) 1999-2009 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -645,7 +645,9 @@ top_frame_button_press(GtkWidget *widget, GdkEventButton *ev, gpointer data)
 		}
 	gtk_window_present(GTK_WINDOW(top_window));
 
-	if (_GK.client_mode && gkrellm_client_server_connect_state() == 0)
+	if (   _GK.client_mode
+	    && gkrellm_client_server_connect_state() == DISCONNECTED
+	   )
 		gkrellm_client_mode_connect_thread();
 
 	if (!_GK.withdrawn)		/* Move window unless in the slit */
@@ -2047,8 +2049,12 @@ setup_signal_handler(void)
 gint
 main(gint argc, gchar **argv)
 	{
-	gint		i;
-	gchar		*s;
+	gint						i;
+	gchar						*s;
+	enum GkrellmConnectResult	connect_result;
+	GtkWidget					*dlg;
+
+	gkrellm_sys_main_init();
 
 #ifdef ENABLE_NLS
 	gtk_set_locale();
@@ -2186,15 +2192,44 @@ main(gint argc, gchar **argv)
 		g_debug("--- GKrellM %d.%d.%d ---\n", GKRELLM_VERSION_MAJOR,
 			GKRELLM_VERSION_MINOR, GKRELLM_VERSION_REV);
 
-	gkrellm_sys_main_init(); //FIXME: call this later or earlier?
-
 	_GK.w_display = gdk_screen_get_width(gdk_screen_get_default());
 	_GK.h_display = gdk_screen_get_height(gdk_screen_get_default());
 
-	if (_GK.server && !gkrellm_client_mode_connect())
+	if (_GK.server)
 		{
-		gkrellm_exit(0);
-		return 0;
+		connect_result = gkrellm_client_mode_connect();
+		while (connect_result == BAD_CONNECT)
+			{
+			gint	result;
+
+			dlg = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
+					GTK_MESSAGE_ERROR, GTK_BUTTONS_YES_NO,
+					"GKrellM cannot connect to server:\n"
+					"\t%s:%d\n\n"
+					"Do you want to retry?",
+					_GK.server, _GK.server_port);
+			result = gtk_dialog_run(GTK_DIALOG(dlg));
+			gtk_widget_destroy(dlg);
+			if (result == GTK_RESPONSE_YES)
+				connect_result = gkrellm_client_mode_connect();
+			else
+				break;
+			}
+		if (connect_result == BAD_SETUP)
+			{
+			dlg = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
+					GTK_MESSAGE_ERROR, GTK_BUTTONS_CLOSE,
+					"GKrellM cannot get initial setup from server:\n"
+					"\t\t%s:%d\n",
+					_GK.server, _GK.server_port);
+			gtk_dialog_run(GTK_DIALOG(dlg));
+			gtk_widget_destroy(dlg);
+			}
+		if (connect_result != GOOD_CONNECT)
+			{
+			gkrellm_exit(0);
+			return 0;
+			}
 		}
 
 	check_gkrellm_directories();
@@ -2272,11 +2307,8 @@ main(gint argc, gchar **argv)
 
 	gkrellm_start_timer(_GK.update_HZ);
 	setup_signal_handler();
-
-	/* Enter main event-loop */
 	gtk_main();
 
-	/* Save settings, positions and inet-monitor history */
 	gkrellm_save_all();
 
 	/* disconnect from gkrellm-server if we're a client */
