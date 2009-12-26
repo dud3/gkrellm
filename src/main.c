@@ -2272,9 +2272,18 @@ main(gint argc, gchar **argv)
 
 	gkrellm_start_timer(_GK.update_HZ);
 	setup_signal_handler();
+
+	/* Enter main event-loop */
 	gtk_main();
 
+	/* Save settings, positions and inet-monitor history */
 	gkrellm_save_all();
+
+	/* disconnect from gkrellm-server if we're a client */
+	if (_GK.server)
+		{
+		gkrellm_client_mode_disconnect();
+		}
 	gkrellm_exit(0);
 
 	return 0;
