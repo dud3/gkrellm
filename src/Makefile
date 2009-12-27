@@ -51,44 +51,28 @@ endif
 ifeq ($(without-ntlm),1)
 	CONFIGURE_ARGS += --without-ntlm
 endif
+# run configure shell script
 DUMMY_VAR := $(shell ./configure $(CONFIGURE_ARGS))
+# pull in variables set by configure script
+include configure.mk
 
-HAVE_GNUTLS = $(shell grep -c HAVE_GNUTLS configure.h)
-HAVE_SSL = $(shell grep -c HAVE_SSL configure.h)
-HAVE_NTLM = $(shell grep -c HAVE_NTLM configure.h)
-HAVE_LIBSENSORS = $(shell grep -c HAVE_LIBSENSORS configure.h)
-
-ifeq ($(HAVE_GNUTLS),1)
-    SSL_LIBS ?= -lgnutls-openssl
-else
-ifeq ($(HAVE_SSL),1)
-    SSL_LIBS ?= -lssl -lcrypto
-else
-    EXTRAOBJS ?= md5c.o
-endif
-endif
-
-ifeq ($(HAVE_NTLM),1)
-	NTLM_INCLUDES = `$(PKG_CONFIG) --cflags libntlm`
-	NTLM_LIBS = `$(PKG_CONFIG) --libs libntlm`
-endif
-
-ifeq ($(HAVE_LIBSENSORS),1)
-    SENSORS_LIBS ?= -lsensors
+# Only use own md5-code if neither OpenSSL nor GnuTLS are present
+ifneq ($(HAVE_SSL),1)
+	EXTRAOBJS ?= md5c.o
 endif
 
 CC ?= gcc
 STRIP ?= -s
 
-GKRELLM_INCLUDES = gkrellm.h gkrellm-version.h gkrellm-public-proto.h $(SHARED_PATH)/log.h
+GKRELLM_INCLUDES = gkrellm.h gkrellm-public-proto.h $(SHARED_PATH)/log.h
 
 PKG_INCLUDE = `$(PKG_CONFIG) --cflags gtk+-2.0 gthread-2.0`
 PKG_LIB = `$(PKG_CONFIG) --libs gtk+-2.0 gthread-2.0`
 
-FLAGS = -O2 -I.. -I$(SHARED_PATH) $(PKG_INCLUDE) $(GTOP_INCLUDE) $(PTHREAD_INC) \
- ${NTLM_INCLUDES} -DGKRELLM_CLIENT
+FLAGS = -O2 -I.. -I$(SHARED_PATH) $(PKG_INCLUDE) $(GTOP_INCLUDE) $(PTHREAD_INC)\
+ ${SSL_INCLUDE} ${NTLM_INCLUDE} -DGKRELLM_CLIENT
 
-LIBS = $(PKG_LIB) $(GTOP_LIBS) $(SMC_LIBS) $(SYS_LIBS) $(SSL_LIBS) $(SENSORS_LIBS) \
+LIBS = $(PKG_LIB) $(GTOP_LIBS) $(SMC_LIBS) $(SYS_LIBS) $(SSL_LIBS) $(SENSORS_LIBS)\
  $(NTLM_LIBS)
 
 ifeq ($(debug),1)
@@ -120,8 +104,6 @@ ifeq ($(HAVE_GETADDRINFO),1)
     FLAGS += -DHAVE_GETADDRINFO
 endif
 
-
-override CC += -Wall $(FLAGS)
 
 OBJS =	main.o alerts.o battery.o base64.o clock.o cpu.o disk.o fs.o \
 	hostname.o inet.o mail.o mem.o net.o proc.o sensors.o uptime.o \
@@ -257,7 +239,7 @@ install_windows:
 	$(INSTALL) -c -m $(BINMODE) libgkrellm.a $(LIBDIR)
 
 clean:
-	$(RM) *.o *~ *.bak configure.h configure.log gkrellm gkrellm.exe \
+	$(RM) *.o *~ *.bak configure.h configure.mk configure.log gkrellm gkrellm.exe \
 		libgkrellm.a sysdeps/*.o core
 
 IMAGES = \
@@ -317,7 +299,7 @@ SYSDEPS_SRC = sysdeps/bsd-common.c sysdeps/bsd-net-open.c sysdeps/freebsd.c \
 	sysdeps/solaris.c sysdeps/darwin.c sysdeps/sensors-common.c \
 	sysdeps/win32.c
 
-GKRELLM_H = gkrellm.h gkrellm-version.h gkrellm-private.h
+GKRELLM_H = gkrellm.h gkrellm-private.h
 GKRELLM_H_SYS = gkrellm.h gkrellm-public-proto.h gkrellm-private.h \
 	gkrellm-sysdeps.h
 
@@ -358,7 +340,7 @@ winops-win32.o: winops-win32.c $(GKRELLM_H)
 win32-plugin.o: win32-plugin.c win32-plugin.h
 win32-libgkrellm.o: win32-libgkrellm.c win32-plugin.h
 win32-resource.o: win32-resource.rc win32-resource.h
-	windres -v -o win32-resource.o win32-resource.rc
+	windres -o win32-resource.o win32-resource.rc
 
 libgkrellm.a: win32-libgkrellm.o
 	ar -cr libgkrellm.a win32-libgkrellm.o
@@ -366,3 +348,6 @@ libgkrellm.a: win32-libgkrellm.o
 # Checks if the build environment is ok
 check_env:
 	$(PKG_CONFIG) --atleast-version=2.4 gtk+-2.0
+
+%.o: %.c
+	$(CC) -c -Wall $(FLAGS) $(CFLAGS) $(CPPFLAGS) $< -o $@

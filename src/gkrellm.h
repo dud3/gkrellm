@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2008 Bill Wilson
+|  Copyright (C) 1999-2009 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -39,7 +39,6 @@
 #include "config.h"
 #endif
 #include "log.h"
-#include "gkrellm-version.h"
 
 #if !defined(WIN32)
 #include <sys/param.h>
@@ -102,6 +101,21 @@
 #	define bindtextdomain(Domain,Directory) (Domain)
 #endif	/* ENABLE_NLS */
 
+
+
+
+/* -------------------------------------------------------------------
+*/
+#define	GKRELLM_VERSION_MAJOR	2
+#define	GKRELLM_VERSION_MINOR	3
+#define	GKRELLM_VERSION_REV		3
+#define	GKRELLM_EXTRAVERSION	""
+
+#define GKRELLM_CHECK_VERSION(major,minor,rev)    \
+	(GKRELLM_VERSION_MAJOR > (major) || \
+	(GKRELLM_VERSION_MAJOR == (major) && GKRELLM_VERSION_MINOR > (minor)) || \
+	(GKRELLM_VERSION_MAJOR == (major) && GKRELLM_VERSION_MINOR == (minor) && \
+	GKRELLM_VERSION_REV >= (rev)))
 
 #define	GKRELLM_DIR				".gkrellm2"
 #define	GKRELLM_USER_CONFIG		".gkrellm2/user-config"

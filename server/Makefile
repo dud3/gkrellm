@@ -51,7 +51,7 @@ endif
 CC ?= gcc
 STRIP ?= -s
 
-GKRELLMD_INCLUDES = gkrellmd.h gkrellmd-version.h $(SHARED_PATH)/log.h
+GKRELLMD_INCLUDES = gkrellmd.h $(SHARED_PATH)/log.h
 
 PKG_INCLUDE = `$(PKG_CONFIG) --cflags glib-2.0 gthread-2.0`
 PKG_LIB = `$(PKG_CONFIG) --libs glib-2.0 gmodule-2.0 gthread-2.0`
@@ -106,8 +106,6 @@ endif
 ifeq ($(HAVE_GETADDRINFO),1)
     FLAGS += -DHAVE_GETADDRINFO
 endif
-
-override CC += -Wall $(FLAGS)
 
 OS_NAME=$(shell uname -s)
 OS_RELEASE=$(shell uname -r)
@@ -234,7 +232,7 @@ SYSDEPS = ../src/sysdeps/bsd-common.c ../src/sysdeps/bsd-net-open.c \
 	../src/sysdeps/openbsd.c ../src/sysdeps/sensors-common.c \
 	../src/sysdeps/solaris.c ../src/sysdeps/win32.c 
 
-GKRELLMD_H = gkrellmd.h gkrellmd-version.h gkrellmd-private.h
+GKRELLMD_H = gkrellmd.h gkrellmd-private.h
 
 main.o:		main.c $(GKRELLMD_H)
 monitor.o:	monitor.c $(GKRELLMD_H) 
@@ -247,7 +245,10 @@ log.o: $(SHARED_PATH)/log.c $(SHARED_PATH)/log.h $(GKRELLMD_H)
 win32-gui.o:	win32-gui.c
 win32-plugin.o:	win32-plugin.c win32-plugin.h $(GKRELLMD_H)
 win32-resource.o:	win32-resource.rc win32-resource.h
-	windres -v -I.. -o win32-resource.o win32-resource.rc
+	windres -I.. -o win32-resource.o win32-resource.rc
 win32-libgkrellmd.o:	win32-libgkrellmd.c win32-plugin.h $(GKRELLMD_H)
 libgkrellmd.a:	win32-libgkrellmd.o
 	ar -cr libgkrellmd.a win32-libgkrellmd.o
+
+%.o: %.c
+	$(CC) -c -Wall $(FLAGS) $(CFLAGS) $(CPPFLAGS) $< -o $@
