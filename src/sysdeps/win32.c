@@ -54,6 +54,10 @@
 #include <ntdef.h>
 #include <ntsecapi.h>
 
+#if _WIN32_WINNT >= 0x501 // Windows XP or newer
+#include <wtsapi32.h>
+#endif // _WIN32_WINNT >= 0x501
+
 
 // ----------------------------------------------------------------------------
 // Needed to determine pagefile usage
@@ -678,7 +682,7 @@ gkrellm_sys_sensors_mbm_init(void)
 					gkrellm_sensors_add_sensor(SENSOR_TEMPERATURE, /*sensor_path*/NULL,
 						/*id_name*/id_name, /*id*/i, /*iodev*/0,
 						/*inter*/MBM_INTERFACE, /*factor*/1, /*offset*/0,
-						/*vref*/NULL, /*default_label*/pSensor->ssName);
+						/*vref*/NULL, /*default_label*/(gchar *)pSensor->ssName);
 
 		            g_free(id_name);
 					++tempCount;
@@ -689,7 +693,7 @@ gkrellm_sys_sensors_mbm_init(void)
 					gkrellm_sensors_add_sensor(SENSOR_VOLTAGE, /*sensor_path*/NULL,
 						/*id_name*/id_name, /*id*/i, /*iodev*/0,
 						/*inter*/MBM_INTERFACE, /*factor*/1, /*offset*/0,
-						/*vref*/NULL, /*default_label*/pSensor->ssName);
+						/*vref*/NULL, /*default_label*/(gchar *)pSensor->ssName);
 
 		            g_free(id_name);
 					++voltCount;
@@ -700,7 +704,7 @@ gkrellm_sys_sensors_mbm_init(void)
 					gkrellm_sensors_add_sensor(SENSOR_FAN, /*sensor_path*/NULL,
 						/*id_name*/id_name, /*id*/i, /*iodev*/0,
 						/*inter*/MBM_INTERFACE, /*factor*/1, /*offset*/0,
-						/*vref*/NULL, /*default_label*/pSensor->ssName);
+						/*vref*/NULL, /*default_label*/(gchar *)pSensor->ssName);
 
 		            g_free(id_name);
 		            fanCount++;
@@ -1483,23 +1487,6 @@ gkrellm_sys_proc_read_data(void)
 	}
 
 
-#if _WIN32_WINNT >= 0x501 // Windows XP or newer
-#include <wtsapi32.h>
-
-typedef struct _WTS_SESSION_INFO {
-  DWORD SessionId;
-  LPTSTR pWinStationName;
-  WTS_CONNECTSTATE_CLASS State;
-} WTS_SESSION_INFO, *PWTS_SESSION_INFO;
-
-BOOL WINAPI WTSEnumerateSessionsW(
-  HANDLE hServer,
-  DWORD Reserved,
-  DWORD Version,
-  PWTS_SESSION_INFO *ppSessionInfo,
-  DWORD *pCount);
-#endif // _WIN32_WINNT >= 0x501
-
 void
 gkrellm_sys_proc_read_users(void)
 	{
@@ -1509,9 +1496,9 @@ gkrellm_sys_proc_read_users(void)
 
 #if _WIN32_WINNT >= 0x501 // Windows XP or newer
 	BOOL ret;
-	WTS_SESSION_INFO *pSessionList = NULL;
+	WTS_SESSION_INFOW *pSessionList = NULL;
 	DWORD sessionListCount = 0;
-	WTS_SESSION_INFO *pSession = NULL;
+	WTS_SESSION_INFOW *pSession = NULL;
 
 	gkrellm_debug(DEBUG_SYSDEP, "Enumerating terminal sessions...\n");
 	// Returns list of terminal sessions in pSessionInfo[]
