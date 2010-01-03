@@ -238,19 +238,13 @@ macosx: gkrellm.pc
 
 netbsd1: gkrellm.pc
 	(cd po && ${MAKE} all)
-	(cd src && ${MAKE} \
-		EXTRAOBJS= SYS_LIBS="-lkvm" \
-		SMC_LIBS="-L/usr/X11R6/lib -lSM -lICE -Wl,-R/usr/X11R6/lib" \
-		gkrellm )
+	(cd src && ${MAKE} netbsd1)
 	(cd server && ${MAKE} \
 		EXTRAOBJS= SYS_LIBS="-lkvm" gkrellmd )
 
 netbsd2: gkrellm.pc
 	(cd po && ${MAKE} all)
-	(cd src && ${MAKE} \
-		EXTRAOBJS= SYS_LIBS="-lkvm -pthread" \
-		SMC_LIBS="-L/usr/X11R6/lib -lSM -lICE -R/usr/X11R6/lib" \
-		gkrellm )
+	(cd src && ${MAKE} netbsd2)
 	(cd server && ${MAKE} \
 		EXTRAOBJS= SYS_LIBS="-lkvm -pthread" gkrellmd )
 

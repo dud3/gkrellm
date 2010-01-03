@@ -20,7 +20,7 @@ MANMODE ?= 644
 MANDIRMODE ?= 755
 INSTALL ?= install
 LINK_FLAGS ?= -Wl,-E
-SMC_LIBS ?= -L/usr/X11R6/lib -lSM -lICE
+X11_LIBS ?= -L/usr/X11R6/lib -lX11 -lSM -lICE
 
 SHARED_PATH = ../shared
 # Make GNU Make search for sources somewhere else as well
@@ -72,7 +72,7 @@ PKG_LIB = `$(PKG_CONFIG) --libs gtk+-2.0 gthread-2.0`
 FLAGS = -O2 -I.. -I$(SHARED_PATH) $(PKG_INCLUDE) $(GTOP_INCLUDE) $(PTHREAD_INC)\
  ${SSL_INCLUDE} ${NTLM_INCLUDE} -DGKRELLM_CLIENT
 
-LIBS = $(PKG_LIB) $(GTOP_LIBS) $(SMC_LIBS) $(SYS_LIBS) $(SSL_LIBS) $(SENSORS_LIBS)\
+LIBS = $(PKG_LIB) $(GTOP_LIBS) $(X11_LIBS) $(SYS_LIBS) $(SSL_LIBS) $(SENSORS_LIBS)\
  $(NTLM_LIBS)
 
 ifeq ($(debug),1)
@@ -162,17 +162,17 @@ macosx:
 		EXTRAOBJS="winops-gtk-mac.o" \
 		LINK_FLAGS="-Wl,-bind_at_load -framework CoreFoundation" \
 		SYS_LIBS="-lkvm -framework IOKit" \
-		SMC_LIBS="" \
+		X11_LIBS="" \
 		UNIXOBJS="" \
  		gkrellm
 
 netbsd1:
 	$(MAKE) EXTRAOBJS= SYS_LIBS="-lkvm" \
-		SMC_LIBS="-L/usr/X11R6/lib -lSM -lICE -Wl,-R/usr/X11R6/lib" \
+		X11_LIBS="-L/usr/X11R6/lib -lX11 -lSM -lICE -Wl,-R/usr/X11R6/lib" \
 		gkrellm
 netbsd2:
 	$(MAKE) EXTRAOBJS= SYS_LIBS="-lkvm -pthread" \
-		SMC_LIBS="-L/usr/X11R6/lib -lSM -lICE -R/usr/X11R6/lib" \
+		X11_LIBS="-L/usr/X11R6/lib -lX11 -lSM -lICE -R/usr/X11R6/lib" \
 		gkrellm
 
 openbsd:
@@ -188,7 +188,7 @@ windows: libgkrellm.a
 		LINK_FLAGS="${LINK_FLAGS} -mwindows" \
 		EXTRAOBJS="${EXTRAOBJS} winops-win32.o win32-plugin.o win32-resource.o" \
 		SYS_LIBS=" -llargeint -lws2_32 -lwtsapi32 -lpdh -lnetapi32 -liphlpapi -lntdll -lintl" \
-		SMC_LIBS="" \
+		X11_LIBS="" \
 		UNIXOBJS="" \
 		gkrellm
 
