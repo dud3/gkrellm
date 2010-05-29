@@ -26,15 +26,15 @@ do
 	fi
 done
 
-GTK_CFLAGS=`pkg-config gtk+-2.0 --cflags`
-GTK_LIBS=`pkg-config gtk+-2.0 --libs`
-CC=${CC-gcc}
-
 rm -f configure.h configure.mk configure.log
 
 touch configure.h
 touch configure.mk
 exec 5>./configure.log
+
+GTK_CFLAGS=$(pkg-config gtk+-2.0 --cflags 2>& 5)
+GTK_LIBS=$(pkg-config gtk+-2.0 --libs 2>& 5)
+CC=${CC-gcc}
 
 echo "CC    : ${CC}" 1>& 5
 echo "CFLAGS: ${CFLAGS}" 1>& 5
@@ -43,11 +43,11 @@ rm -f test test.exe test.o test.c
 
 if [ "$without_ssl" != "yes" ]
 then
-# echo "Checking for ssl... " 1>& 2
-echo "Checking for ssl... " 1>& 5
+echo -n "Checking for OpenSSL... "
+echo "Checking for OpenSSL... " 1>& 5
 
-OPENSSL_INCLUDE=`pkg-config openssl --cflags`
-OPENSSL_LIBS=`pkg-config openssl --libs`
+OPENSSL_INCLUDE="$(pkg-config openssl --cflags 2>& 5 || true)"
+OPENSSL_LIBS="$(pkg-config openssl --libs 2>& 5 || true)"
 if [ -z "$OPENSSL_LIBS" ]
 then
 	echo "OpenSSL not found via pkg-config, using hardcoded library names" 1>& 5
@@ -69,21 +69,21 @@ int main()
 	}
 EOF
 
-$CC ${CFLAGS} ${GTK_INCLUDE} ${OPENSSL_INCLUDE} -c test.c -o test.o 2>& 5
-$CC test.o -o test ${LINK_FLAGS} ${GTK_LIBS} ${OPENSSL_LIBS} 2>& 5
+$CC ${CFLAGS} ${GTK_INCLUDE} ${OPENSSL_INCLUDE} -c test.c -o test.o 2>& 5 || true
+$CC test.o -o test ${LINK_FLAGS} ${GTK_LIBS} ${OPENSSL_LIBS} 2>& 5 || true
 
 if [ -x ./test ] && ./test
 then
-#	echo 'Defining HAVE_SSL' 1>& 2
+	echo "Found"
 	echo 'Defining HAVE_SSL' 1>& 5
 	echo '#define HAVE_SSL 1' >> configure.h
 	echo 'HAVE_SSL=1' >> configure.mk
 	echo "SSL_LIBS=${OPENSSL_LIBS}" >> configure.mk
 	echo "SSL_INCLUDE=${OPENSSL_INCLUDE}" >> configure.mk
-	without_gnutls=yes
+	without_gnutls="yes"
 else
-#	echo "Not found, mail check will not have ssl support..." 1>& 2
-	echo "Not found, mail check will not have ssl support..." 1>& 5
+	echo "Not found"
+	echo "OpenSSL not found..." 1>& 5
 fi
 fi
 # end of ssl check
@@ -92,30 +92,21 @@ rm -f test test.exe test.o test.c
 
 if [ "$without_gnutls" != "yes" ]
 then
-# echo "Checking for gnutls... " 1>& 2
+echo -n "Checking for gnutls... "
 echo "Checking for gnutls... " 1>& 5
 
-GNUTLS_INCLUDE=`pkg-config gnutls --cflags`
-GNUTLS_LIBS=`pkg-config gnutls --libs`
-if [ -z "$GNUTLS_LIBS" ]
-then
-	echo "GnuTLS not found via pkg-config, using hardcoded library names" 1>& 5
-	GNUTLS_LIBS="-lgnutls-openssl"
-fi
+GNUTLS_INCLUDE="$(pkg-config gnutls --cflags 2>& 5 || true)"
+GNUTLS_LIBS="$(pkg-config gnutls --libs 2>& 5 || true) -lgnutls-openssl -lgcrypt"
 
 cat << EOF > test.c
 #include <gnutls/openssl.h>
 #include <gcrypt.h>
 #include <errno.h>
-#include <pthread.h>
-
-GCRY_THREAD_OPTION_PTHREAD_IMPL;
 
 int main()
 	{
 	SSL_METHOD	*ssl_method  = NULL;
 
-	gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
 	gnutls_global_init();
 
 	SSLeay_add_ssl_algorithms();
@@ -126,12 +117,12 @@ int main()
 	}
 EOF
 
-${CC} ${CFLAGS} ${GTK_INCLUDE} ${GNUTLS_INCLUDE} -c test.c -o test.o 2>& 5
-${CC} test.o -o test ${LINK_FLAGS} ${GTK_LIBS} ${GNUTLS_LIBS} 2>& 5
+${CC} ${CFLAGS} ${GTK_INCLUDE} ${GNUTLS_INCLUDE} -c test.c -o test.o 2>& 5 || true
+${CC} test.o -o test ${LINK_FLAGS} ${GTK_LIBS} ${GNUTLS_LIBS} 2>& 5 || true
 
 if [ -x ./test ] && ./test
 then
-#	echo 'Defining HAVE_GNUTLS' 1>& 2
+	echo "Found"
 	echo 'Defining HAVE_GNUTLS' 1>& 5
 	echo '#define HAVE_GNUTLS 1' >> configure.h
 	echo '#define HAVE_SSL 1' >> configure.h
@@ -139,8 +130,8 @@ then
 	echo "SSL_LIBS=${GNUTLS_LIBS}" >> configure.mk
 	echo "SSL_INCLUDE=${GNUTLS_INCLUDE}" >> configure.mk
 else
-#	echo "Not found, mail check will not have gnutls support..." 1>& 2
-	echo "Not found, mail check will not have gnutls support..." 1>& 5
+	echo "Not found"
+	echo "GnuTLS not found..." 1>& 5
 fi
 fi
 # end of gnutls check
@@ -150,11 +141,11 @@ rm -f test test.exe test.o test.c
 
 if [ "$without_ntlm" != "yes" ]
 then
-# echo "Checking for libntlm... " 1>& 2
+echo -n "Checking for libntlm... "
 echo "Checking for libntlm... " 1>& 5
 
-PKG_NTLM_INCLUDE=`pkg-config libntlm --cflags`
-PKG_NTLM_LIBS=`pkg-config libntlm --libs`
+PKG_NTLM_INCLUDE=$(pkg-config libntlm --cflags 2>& 5 || true)
+PKG_NTLM_LIBS=$(pkg-config libntlm --libs 2>& 5 || true)
 
 cat << EOF > test.c
 #include <ntlm.h>
@@ -168,19 +159,19 @@ int main()
 	}
 EOF
 
-${CC} ${CFLAGS} ${GTK_INCLUDE} ${PKG_NTLM_INCLUDE} -c test.c -o test.o 2>& 5
-${CC} test.o -o test ${LINK_FLAGS} ${GTK_LIBS} ${PKG_NTLM_LIBS} -lntlm 2>& 5
+${CC} ${CFLAGS} ${GTK_INCLUDE} ${PKG_NTLM_INCLUDE} -c test.c -o test.o 2>& 5 || true
+${CC} test.o -o test ${LINK_FLAGS} ${GTK_LIBS} ${PKG_NTLM_LIBS} 2>& 5 || true
 
 if [ -x ./test ] && ./test
 then
-#	echo 'Defining HAVE_NTLM' 1>& 2
+	echo "Found"
 	echo 'Defining HAVE_NTLM' 1>& 5
 	echo '#define HAVE_NTLM 1' >> configure.h
 	echo 'HAVE_NTLM=1' >> configure.mk
 	echo "NTLM_LIBS=${PKG_NTLM_LIBS}" >> configure.mk
 	echo "NTLM_INCLUDE=${PKG_NTLM_INCLUDE}" >> configure.mk
 else
-#	echo "Not found, mail check will not have ntlm support..." 1>& 2
+	echo "Not found"
 	echo "Not found, mail check will not have ntlm support..." 1>& 5
 fi
 fi
@@ -191,6 +182,7 @@ rm -f test test.exe test.o test.c
 
 if [ "$without_libsensors" != "yes" ]
 then
+echo -n "Checking for libsensors... "
 echo "Checking for libsensors... " 1>& 5
 
 cat << EOF > test.c
@@ -217,16 +209,18 @@ int main()
 	}
 EOF
 
-${CC} ${CFLAGS} ${GTK_INCLUDE} -c test.c -o test.o 2>& 5
-${CC} test.o -o test ${LINK_FLAGS} ${GTK_LIBS} -lsensors 2>& 5
+${CC} ${CFLAGS} ${GTK_INCLUDE} -c test.c -o test.o 2>& 5 || true
+${CC} test.o -o test ${LINK_FLAGS} ${GTK_LIBS} -lsensors 2>& 5 || true
 
 if [ -x ./test ] && ./test
 then
+	echo "Found"
 	echo 'Defining HAVE_LIBSENSORS' 1>& 5
 	echo '#define HAVE_LIBSENSORS 1' >> configure.h
 	echo 'HAVE_LIBSENSORS=1' >> configure.mk
 	echo 'SENSORS_LIBS="-lsensors"' >> configure.mk
 else
+	echo "Not found"
 	echo "Not found, sensors will not have libsensors support..." 1>& 5
 fi
 fi
