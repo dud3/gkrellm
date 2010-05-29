@@ -52,7 +52,7 @@ ifeq ($(without-ntlm),1)
 	CONFIGURE_ARGS += --without-ntlm
 endif
 # run configure shell script
-DUMMY_VAR := $(shell ./configure $(CONFIGURE_ARGS))
+#DUMMY_VAR := $(shell ./configure $(CONFIGURE_ARGS))
 # pull in variables set by configure script
 include configure.mk
 
