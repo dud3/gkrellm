@@ -1826,10 +1826,36 @@ N_("\ndebug-level numbers are (bitwise OR to debug multiple sections):\n"
 static void
 usage()
 	{
+#ifdef WIN32
+	GtkWidget *dialog, *content_area, *scrolled, *text_view;
+
+	dialog = gtk_dialog_new_with_buttons(_("GKrellM"), NULL, GTK_DIALOG_MODAL,
+		GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+	content_area = gtk_dialog_get_content_area(GTK_DIALOG(dialog));
+
+	scrolled = gtk_scrolled_window_new(NULL, NULL);
+	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(scrolled),
+			GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+	gtk_widget_set_size_request(scrolled, 400, 300);
+	gtk_container_add(GTK_CONTAINER(content_area), scrolled);
+
+	text_view = gtk_text_view_new();
+	gtk_text_view_set_editable(GTK_TEXT_VIEW(text_view), FALSE);
+	gtk_text_view_set_cursor_visible(GTK_TEXT_VIEW(text_view), FALSE);
+	gtk_container_add(GTK_CONTAINER(scrolled), text_view);
+
+	gkrellm_gtk_text_view_append_strings(text_view, usage_string,
+		sizeof(usage_string) / sizeof(gchar *));
+
+	gtk_widget_show_all(dialog);
+	gtk_dialog_run(GTK_DIALOG(dialog));
+	gtk_widget_destroy(dialog);
+#else
 	gint	i;
 
-	for (i = 0; i < sizeof(usage_string) / sizeof(gchar *); ++i)
+	for (i = 0; i < (sizeof(usage_string) / sizeof(gchar *)); ++i)
 		g_print(_(usage_string[i]));
+#endif
 	}
 
 
