@@ -47,12 +47,51 @@
 #if defined(HAVE_GNUTLS)
 #include <gnutls/openssl.h>
 #include <gcrypt.h>
-#include <pthread.h>
 #define MD5Init		MD5_Init
 #define MD5Update	MD5_Update
 #define MD5Final	MD5_Final
-GCRY_THREAD_OPTION_PTHREAD_IMPL;
+
+static int gk_gcry_glib_mutex_init (void **priv) {
+    GMutex *lock = g_mutex_new();
+    if (!lock)
+        return ENOMEM;
+    *priv = lock;
+    return 0;
+}
+
+static int gk_gcry_glib_mutex_destroy (void **lock) {
+    if (!lock || !*lock)
+        return 1; // what to return?
+    g_mutex_free((GMutex *)*lock);
+    return 0;
+}
+
+static int gk_gcry_glib_mutex_lock (void **lock) {
+    if (!lock || !*lock)
+        return 1; // what to return?
+    g_mutex_lock((GMutex*)*lock);
+    return 0;
+}
+
+static int gk_gcry_glib_mutex_unlock (void **lock) {
+    if (!lock || !*lock)
+        return 1; // what to return?
+    g_mutex_unlock((GMutex*)*lock);
+    return 0;
+}
+
+static struct gcry_thread_cbs gk_gcry_threads_glib = {
+  (GCRY_THREAD_OPTION_USER | (GCRY_THREAD_OPTION_VERSION << 8)),
+  NULL /* init() */,
+  gk_gcry_glib_mutex_init,
+  gk_gcry_glib_mutex_destroy,
+  gk_gcry_glib_mutex_lock,
+  gk_gcry_glib_mutex_unlock,
+  NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
+};
+
 #else
+
 #if defined(HAVE_SSL)
 #include <openssl/ssl.h>
 #include <openssl/md5.h>
@@ -546,11 +585,11 @@ is_multipart_mail(gchar *buf, gchar *separator)
   /* Hide a password that is embedded in a string.
   */
 static void
-hide_password(Mailbox *mbox, gchar *line, gint offset)
+hide_password(gchar *line, gint offset, const gchar *pass)
 	{
 	gint    n;
 
-	n = strlen(mbox->account->password);
+	n = strlen(pass);
 	while (n--)
 		line[offset + n] = '*';
 	}
@@ -594,7 +633,7 @@ tcp_getline(ConnInfo *conn, Mailbox *mbox)
 		mbox->tcp_in = g_string_truncate(mbox->tcp_in, 0);
 	else
 		mbox->tcp_in = g_string_new("");
-	s = buf;;
+	s = buf;
 	for (;;)
 		{
 #ifdef HAVE_SSL
@@ -604,7 +643,11 @@ tcp_getline(ConnInfo *conn, Mailbox *mbox)
 #endif
 			n = read_select(conn->fd, s, 1, TCP_TIMEOUT);
 		if (n <= 0)
+			{
+			if (n < 0)
+				g_warning("tcp_getline: %s", g_strerror(errno));
 			break;
+			}
 		*(s+1) = '\0';
 		if (*s++ == '\n')
 			break;
@@ -619,10 +662,8 @@ tcp_getline(ConnInfo *conn, Mailbox *mbox)
 
 	if (_GK.debug_level & DEBUG_MAIL)
 		{
-		if (n < 0)
-			perror("tcp_getline: ");
 		format_remote_mbox_name(mbox, buf, sizeof(buf));
-		printf("server_response( %s )<%d>:%s\n", buf,
+		g_debug("server_response( %s )<%d>:%s", buf,
 			   (gint) mbox->tcp_in->len, mbox->tcp_in->str);
 		}
 	}
@@ -630,18 +671,22 @@ tcp_getline(ConnInfo *conn, Mailbox *mbox)
 static void
 tcp_putline(ConnInfo *conn, gchar *line)
 	{
+	gint	n;
+
 #ifdef HAVE_SSL
 	if (conn->ssl)
-		SSL_write(conn->ssl, line, strlen(line));
+		n = SSL_write(conn->ssl, line, strlen(line));
 	else
 #endif
 		{
 #if defined(WIN32)
-		send(conn->fd, line, strlen(line), 0);
+		n = send(conn->fd, line, strlen(line), 0);
 #else
-		write(conn->fd, line, strlen (line));
+		n = write(conn->fd, line, strlen(line));
 #endif
 		}
+	if (n < 0)
+		g_warning("tcp_putline: %s", g_strerror(errno));
 	}
 
   /* Get a server response line and verify the beginning of the line
@@ -679,7 +724,7 @@ server_command(ConnInfo *conn, Mailbox *mbox, gchar *line)
 	if (_GK.debug_level & DEBUG_MAIL)
 		{
 		format_remote_mbox_name(mbox, buf, sizeof(buf));
-		printf("server_command( %s ):%s", buf, line);
+		g_debug("server_command( %s ):%s", buf, line);
 		}
 	}
 
@@ -740,7 +785,7 @@ tcp_warn(Mailbox *mbox, gchar *message, gboolean warn)
   	if (_GK.debug_level & DEBUG_MAIL)
 		{
 		format_remote_mbox_name(mbox, buf, sizeof(buf));
-		g_print(_("Mail TCP Error: %s - %s\n"), buf, _(message));
+		g_debug(_("Mail TCP Error: %s - %s\n"), buf, _(message));
 		}
 	if (warn && !mbox->warned)
 		{
@@ -806,7 +851,7 @@ tcp_connect(ConnInfo *conn, Mailbox *mbox)
 	if (_GK.debug_level & DEBUG_MAIL)
 		{
 		format_remote_mbox_name(mbox, buf, sizeof(buf));
-		printf("tcp_connect: connecting to %s\n", buf);
+		g_debug("tcp_connect: connecting to %s\n", buf);
 		}
 	conn->fd = gkrellm_connect_to(account->server, account->port);
 	if (conn->fd < 0)
@@ -907,16 +952,14 @@ do_cram_md5(ConnInfo *conn, char *command, Mailbox  *mbox, char *strip)
 
 	if (len < 0)
 		{
-		if (_GK.debug_level & DEBUG_MAIL)
-			g_print(_("could not decode BASE64 challenge\n"));
+		gkrellm_debug(DEBUG_MAIL, _("could not decode BASE64 challenge\n"));
 		return FALSE;
 		}
 	else if (len < sizeof(msg_id))
 		msg_id[len] = 0;
 	else
 		msg_id[sizeof(msg_id) - 1] = 0;
-	if (_GK.debug_level & DEBUG_MAIL)
-		g_print(_("decoded as %s\n"), msg_id);
+	gkrellm_debug(DEBUG_MAIL, _("decoded as %s\n"), msg_id);
 
 	/* The client makes note of the data and then responds with a string
 	 * consisting of the user name, a space, and a 'digest'.  The latter is
@@ -981,8 +1024,7 @@ do_ntlm(ConnInfo *conn, char *command, Mailbox *mbox)
 			   sizeof(challenge));
 	if (len < 0)
 		{
-		if (_GK.debug_level & DEBUG_MAIL)
-			g_print(_("could not decode BASE64 challenge\n"));
+			gkrellm_debug(DEBUG_MAIL, _("could not decode BASE64 challenge\n"));
 		return FALSE;
 		}
 	if (_GK.debug_level & DEBUG_MAIL)
@@ -1009,7 +1051,7 @@ check_pop3(Mailbox *mbox)
 	{
 	MailAccount		*account = mbox->account;
 	ConnInfo		conn;
-	gchar			line[128], buf[128];
+	gchar			line[256], buf[256];
 	gchar			*challenge = NULL;
 
 	if (!tcp_connect(&conn, mbox))
@@ -1115,9 +1157,9 @@ check_pop3(Mailbox *mbox)
 
 		if (_GK.debug_level & DEBUG_MAIL)
 			{
-			hide_password(mbox, line, 5);
+			hide_password(line, 5, account->password);
 			format_remote_mbox_name(mbox, buf, sizeof(buf));
-			printf("server_command( %s ):%s", buf, line);
+			g_debug("server_command( %s ):%s", buf, line);
 			}
 		}
 	if (! server_response(&conn, mbox, "+OK"))
@@ -1149,6 +1191,37 @@ check_pop3(Mailbox *mbox)
 	return TRUE;
 	}
 
+static gchar *imap_strescape(const gchar *source)
+	{
+  const guchar *p; /* running pointer inside source */
+  gchar *dst; /* resulting string */
+  gchar *q; /* running pointer inside dst */
+	/* Each source byte needs at most two destination chars due to escaping */
+	dst = g_malloc (strlen(source) * 2 + 1);
+	p = (guchar *)source;
+	q = dst;
+	while (*p)
+		{
+		switch (*p)
+			{
+			case '\\':
+				*q++ = '\\';
+				*q++ = '\\';
+				break;
+			case '"':
+				*q++ = '\\';
+				*q++ = '"';
+				break;
+			default:
+				*q++ = *p; // copy
+				break;
+			} // switch
+		p++;
+		} // while
+	*q = 0; // final 0-byte
+	return dst;
+}
+
 static gboolean
 check_imap(Mailbox *mbox)
 	{
@@ -1157,8 +1230,9 @@ check_imap(Mailbox *mbox)
 	gint			messages = 0;
 	gint			unseen = 0;
 	gint			seq = 0;
-	gchar			line[128], *ss;
-	gchar			buf[128];
+	gchar			line[256], *ss;
+	gchar			buf[256];
+	gchar			*user_escaped, *pass_escaped, *fold_escaped;
 
 	if (!tcp_connect(&conn, mbox))
 		return FALSE;
@@ -1171,6 +1245,7 @@ check_imap(Mailbox *mbox)
 #ifdef HAVE_SSL
 	if (account->use_ssl == SSL_STARTTLS)
 		{
+		gkrellm_debug(DEBUG_MAIL, "check_imap: Issuing STARTTLS\n");
 		snprintf(line, sizeof(line), "a%03d STARTTLS\r\n", ++seq);
 		server_command(&conn, mbox, line);
 		snprintf(line, sizeof(line), "a%03d OK", seq);
@@ -1180,11 +1255,28 @@ check_imap(Mailbox *mbox)
 					    TRUE);
 		if (!ssl_negotiate(&conn, mbox))
 			return FALSE;
+		gkrellm_debug(DEBUG_MAIL, "check_imap: STARTTLS successful\n");
 		}
 #endif
 
+	/* For debugging purposes we ask for capabilities (helps debugging
+	   authentication problems) */
+	if (_GK.debug_level & DEBUG_MAIL)
+		{
+		gkrellm_debug(DEBUG_MAIL, "check_imap: Asking for capabilities\n");
+		snprintf(line, sizeof(line), "a%03d CAPABILITY\r\n", ++seq);
+		server_command(&conn, mbox, line);
+		snprintf(line, sizeof(line), "a%03d OK", seq);
+		if (!imap_completion_result(&conn, mbox, line))
+			{
+			return tcp_shutdown(&conn, mbox, N_("Bad response after CAPABILITY."),
+				TRUE);
+			}
+		}
+
 	if (account->authmech == AUTH_CRAM_MD5)
 		{
+		gkrellm_debug(DEBUG_MAIL, "check_imap: Using CRAM-MD5 for authentication\n");
 		snprintf(line, sizeof(line), "a%03d AUTHENTICATE", ++seq);
 		if (!do_cram_md5(&conn, line, mbox, NULL))
 			{
@@ -1196,6 +1288,7 @@ check_imap(Mailbox *mbox)
 #ifdef HAVE_NTLM
 	else if (account->authmech == AUTH_NTLM)
 		{
+		gkrellm_debug(DEBUG_MAIL, "check_imap: Using NTLM for authentication\n");
 		snprintf(line, sizeof(line), "a%03d AUTHENTICATE", ++seq);
 		if (!do_ntlm(&conn, line, mbox))
 			{
@@ -1207,17 +1300,20 @@ check_imap(Mailbox *mbox)
 #endif	// HAVE_NTLM
 	else	/* AUTH_LOGIN */
 		{
+		gkrellm_debug(DEBUG_MAIL, "check_imap: Using plaintext LOGIN for authentication\n");
+		user_escaped = imap_strescape(account->username);
+		pass_escaped = imap_strescape(account->password);
 		snprintf(line, sizeof(line), "a%03d LOGIN \"%s\" \"%s\"\r\n",
-			 ++seq, account->username, account->password);
+			 ++seq, user_escaped, pass_escaped);
 		tcp_putline(&conn, line);
-
 		if (_GK.debug_level & DEBUG_MAIL)
 			{
-			line[10 + 2 + strlen(account->username)] = '\0';
-			hide_password(mbox, line, 11 + 2 + strlen(account->username));
+			hide_password(line, 15 + strlen(user_escaped), pass_escaped);
 			format_remote_mbox_name(mbox, buf, sizeof(buf));
-			printf("server_command( %s ):%s", buf, line);
+			g_debug("server_command( %s ):%s", buf, line);
 			}
+		g_free(user_escaped);
+		g_free(pass_escaped);
 		}
 	snprintf(line, sizeof(line), "a%03d OK", seq);
 	if (! imap_completion_result(&conn, mbox, line))
@@ -1225,9 +1321,11 @@ check_imap(Mailbox *mbox)
 
 	/* I expect the only untagged response to STATUS will be "* STATUS ..."
 	*/
+	fold_escaped = imap_strescape(account->imapfolder);
 	snprintf(line, sizeof(line),
 		 "a%03d STATUS \"%s\" (MESSAGES UNSEEN)\r\n",
-		 ++seq, account->imapfolder);
+		 ++seq, fold_escaped);
+	g_free(fold_escaped);
 	server_command(&conn, mbox, line);
 	if (! server_response(&conn, mbox, "*"))
 		return tcp_shutdown(&conn, mbox, tcp_error_message[4], FALSE);
@@ -1248,8 +1346,9 @@ check_imap(Mailbox *mbox)
 		{
 		if ((ss = strstr(mbox->tcp_in->str, "UNSEEN")) != NULL)
 			sscanf(ss, "UNSEEN %d", &unseen);
-		if (_GK.debug_level & DEBUG_MAIL)
-			g_print(_("Messages: %d\nUnseen: %d\n"), messages, unseen);
+
+		gkrellm_debug(DEBUG_MAIL, "check_imap: messages: %d; unseen: %d\n",
+			messages, unseen);
 		}
 	mbox->mail_count = messages;
 	mbox->new_mail_count = unseen;
@@ -1439,10 +1538,9 @@ check_maildir(Mailbox *mbox)
 		g_dir_close(dir);
 		}
 
-	if (_GK.debug_level & DEBUG_MAIL)
-		g_print("check_maildir %s: total=%d old=%d new=%d\n",
-				mbox->account->path, mbox->mail_count,
-				mbox->old_mail_count, mbox->new_mail_count);
+		gkrellm_debug(DEBUG_MAIL, "check_maildir %s: total=%d old=%d new=%d\n",
+			mbox->account->path, mbox->mail_count, mbox->old_mail_count,
+			mbox->new_mail_count);
     return TRUE;
 	}
 
@@ -1568,9 +1666,8 @@ check_mbox(Mailbox *mbox)
 		mbox->mail_count = mbox->old_mail_count = mbox->new_mail_count = 0;
 		mbox->last_mtime = 0;
 		mbox->last_size = 0;
-		if (_GK.debug_level & DEBUG_MAIL)
-			printf("check_mbox can't stat(%s): %s\n", mbox->account->path,
-					g_strerror(errno));
+		gkrellm_debug(DEBUG_MAIL, "check_mbox can't stat(%s): %s\n",
+			mbox->account->path, g_strerror(errno));
 		return FALSE;
 		}
 
@@ -1603,9 +1700,8 @@ check_mbox(Mailbox *mbox)
 		{
 		if ((f = g_fopen(mbox->account->path, "r")) == NULL)
 			{
-			if (_GK.debug_level & DEBUG_MAIL)
-				printf("check_mbox can't fopen(%s): %s\n", mbox->account->path,
-						g_strerror(errno));
+			gkrellm_debug(DEBUG_MAIL, "check_mbox can't fopen(%s): %s\n",
+				mbox->account->path, g_strerror(errno));
 			return FALSE;
 			}
 		mbox->mail_count = 0;
@@ -1699,10 +1795,8 @@ check_mbox(Mailbox *mbox)
 
 		mbox->last_mtime = s.st_mtime;
 		mbox->last_size = s.st_size;
-		if (_GK.debug_level & DEBUG_MAIL)
-			g_print("check_mbox %s: total=%d old=%d\n",
-					mbox->account->path,
-					mbox->mail_count, mbox->old_mail_count);
+		gkrellm_debug(DEBUG_MAIL, "check_mbox %s: total=%d old=%d\n",
+			mbox->account->path, mbox->mail_count, mbox->old_mail_count);
 		}
 	/* Set the animation state when new mail count changes, and override
 	|  the animation to false if mbox has been accessed since last modify
@@ -1830,8 +1924,8 @@ pipe_command(Mailproc *mp)
 
 	if (mp->pipe >= 0)	/* Still running?  */
 		{
-		if (_GK.debug_level & DEBUG_MAIL)
-			g_print("mail pipe_command: <%s> still running.\n", mp->command);
+		gkrellm_debug(DEBUG_MAIL, "mail pipe_command: <%s> still running.\n",
+			mp->command);
 		return;
 		}
 	if (!mp->command || *mp->command == '\0')
@@ -1839,8 +1933,7 @@ pipe_command(Mailproc *mp)
 
 	g_shell_parse_argv(mp->command, NULL, &argv, NULL);
 
-	if (_GK.debug_level & DEBUG_MAIL)
-		g_print("mail pipe_command <%s>\n", mp->command);
+	gkrellm_debug(DEBUG_MAIL, "mail pipe_command <%s>\n", mp->command);
 
 	mp->pipe = -1;
 	res = g_spawn_async_with_pipes(NULL, argv, NULL,
@@ -1894,7 +1987,7 @@ fgets_pipe(gchar *line, gint len, Mailproc *mp)
 			if (err == ERROR_BROKEN_PIPE)
 				mp->pipe = -1;
 			else if (_GK.debug_level & DEBUG_MAIL)
-				g_print("fgets_pipe: PeekNamedPipe() FAILED, error was %lu\n", err);
+				g_debug("fgets_pipe: PeekNamedPipe() FAILED, error was %lu\n", err);
 			return 0;
 			}
 		if (bytesAvailable == 0)
@@ -1995,7 +2088,7 @@ parse_fetch_line(gchar *line, gint *msg, gint *seen)
 		}
 
 	if (_GK.debug_level & DEBUG_MAIL)
-		printf("  parse[");
+		g_debug("  parse[");
 	while (s)
 		{
 		if (++tok_count > 3 && state == 0)	/* need a int within 3 tokens */
@@ -2004,13 +2097,13 @@ parse_fetch_line(gchar *line, gint *msg, gint *seen)
 		if (*p == ' ' || *p == '\t' || *p == '\0' || *p == '\n')
 			{		/* Have an integer, and not a x.y version number */
 			if (_GK.debug_level & DEBUG_MAIL)
-				printf("*<%s>,st=%d,", s, state);
+				g_debug("*<%s>,st=%d,", s, state);
 			if (state == 0)
 				n1 = n;
 			else if (state == 1)
 				n2 = n;
 			if (_GK.debug_level & DEBUG_MAIL)
-				printf("n1=%d,n2=%d state=%d*", n1, n2, state);
+				g_debug("n1=%d,n2=%d state=%d*", n1, n2, state);
 			++state;
 			}
 		else if (!strcmp(s, "seen") || !strcmp(s, _("seen")))
@@ -2032,7 +2125,7 @@ parse_fetch_line(gchar *line, gint *msg, gint *seen)
 	else if (state > 0)			/*     1 message for billw at ... */
 		*msg = n1;				/* or  Fetchmail: 1 message for .... */
 	if (_GK.debug_level & DEBUG_MAIL)
-		printf("]snf=%d sunf=%d msg=%d seen=%d STATE=%d\n",
+		g_debug("]snf=%d sunf=%d msg=%d seen=%d STATE=%d\n",
 				seen_flag, unseen_flag, *msg, *seen, state);
 	g_free(buf);
 	return TRUE;
@@ -2126,7 +2219,7 @@ read_mail_fetch(void)
 	while ((n = fgets_pipe(buf, sizeof(buf), mp)) > 0)	/* non-blocking */
 		{
 		if (_GK.debug_level & DEBUG_MAIL)
-			printf("read_mail_fetch(%d): %s\n", fetch_check_only_mode, buf);
+			g_debug("read_mail_fetch(%d): %s\n", fetch_check_only_mode, buf);
 		if (fetch_check_only_mode)
 			{
 			if (parse_fetch_line(buf, &msg, &seen))
@@ -2217,9 +2310,10 @@ mail_check_thread(void *data)
 	if (_GK.debug_level & DEBUG_MAIL)
 		{
 		format_remote_mbox_name(mbox, buf, sizeof(buf));
-		printf("Start mail_check_thread: %s at %d:%d\n", buf,
-				gkrellm_get_current_time()->tm_min,
-				gkrellm_get_current_time()->tm_sec);
+		g_debug("Start mail_check_thread: %s at %d:%d:%d\n", buf,
+			gkrellm_get_current_time()->tm_hour,
+			gkrellm_get_current_time()->tm_min,
+			gkrellm_get_current_time()->tm_sec);
 		}
 	external = mbox->account->mboxtype & MBOX_EXTERNAL;
 	if ( (*(mbox->check_func))(external ? mbox->data : mbox) == FALSE)
@@ -2231,10 +2325,10 @@ mail_check_thread(void *data)
 	else
 		mbox_set_animation_state(mbox);
 
-	if (_GK.debug_level & DEBUG_MAIL)
-		printf("Stop mail_check_thread: %s at %d:%d\n", buf,
-				gkrellm_get_current_time()->tm_min,
-				gkrellm_get_current_time()->tm_sec);
+	gkrellm_debug(DEBUG_MAIL, "Stop mail_check_thread: %s at %d:%d:%d\n", buf,
+		gkrellm_get_current_time()->tm_hour,
+		gkrellm_get_current_time()->tm_min,
+		gkrellm_get_current_time()->tm_sec);
 
 	mbox->busy = FALSE;
 	mbox->thread = NULL;
@@ -2314,7 +2408,7 @@ update_mail(void)
 					else if (   (_GK.debug_level & DEBUG_MAIL)
 							 && remote_check && mbox->busy
 							)
-						printf("    %s thread busy\n", mbox->account->server);
+						g_debug("    %s thread busy\n", mbox->account->server);
 					break;
 				default:	/* Unknown or pseudo mail box type */
 					continue;
@@ -2349,7 +2443,7 @@ update_mail(void)
 		force_mail_check = FALSE;
 
 		if ((_GK.debug_level & DEBUG_MAIL) && (local_check || remote_check))
-			g_print("Mail check totals: total=%d new=%d anim=%d [%d,%d,%d]\n",
+			g_debug("Mail check totals: total=%d new=%d anim=%d [%d,%d,%d]\n",
 				total_mail_count, new_mail_count, run_animation,
 				local_check, remote_check, fetch_check);
 
@@ -2934,7 +3028,7 @@ load_mail_config(gchar *arg)
 			&& strcmp(mail_config, "password")
 			&& strcmp(mail_config, "mailbox-remote")	/* avoid password */
 		   )
-			printf("%s %s\n", mail_config, item);
+			g_debug("%s %s\n", mail_config, item);
 		if (!strcmp(mail_config, "mailbox"))	/* Old config, pre 1.2.7 */
 			old_add_mailbox(item);
 		else if (!strcmp(mail_config, "mailbox-local"))
@@ -4282,7 +4376,7 @@ gkrellm_init_mail_monitor(void)
 	_GK.decal_mail_delay = 1;
 
 #ifdef HAVE_GNUTLS
-	gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
+	gcry_control (GCRYCTL_SET_THREAD_CBS, &gk_gcry_threads_glib);
 	gnutls_global_init();
 	SSL_load_error_strings();
 	SSL_library_init();
