@@ -2891,16 +2891,24 @@ create_sensors_tab(GtkWidget *tab_vbox)
 		gtk_label_set_use_markup(GTK_LABEL(label), TRUE);
 		gtk_label_set_markup(GTK_LABEL(label),
 			_("<small>Daemon command must be: <b>mbmon -r -P port</b>\n"
-			  "where 'port' must match the port number entered here:</small>"));
+			 "where 'port' must match the port number entered here:</small>"));
 		gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 0);
+		hbox = gtk_hbox_new(FALSE, 2);
+		gtk_box_pack_start(GTK_BOX(box), hbox, TRUE, TRUE, 0);
 		entry = gtk_entry_new();
+		gtk_entry_set_max_length(GTK_ENTRY(entry), 6);
 		mbmon_port_entry = entry;
 		if (_GK.mbmon_port > 0)
 			{
 			snprintf(buf, sizeof(buf), "%d", _GK.mbmon_port);
 			gtk_entry_set_text(GTK_ENTRY(entry), buf);
 			}
-		gtk_box_pack_start(GTK_BOX(box), entry, FALSE, FALSE, 4);
+		gtk_box_pack_start(GTK_BOX(hbox), entry, FALSE, FALSE, 4);
+		label = gtk_label_new(
+			_("See the README or do a \"man gkrellm\" for more information.\n"));
+		gtk_label_set_justify(GTK_LABEL(label), GTK_JUSTIFY_LEFT);
+		gtk_box_pack_start(GTK_BOX(box), label, FALSE, FALSE, 4);
+
 		g_signal_connect(G_OBJECT(mbmon_port_entry), "activate",
 	                G_CALLBACK(mbmon_port_entry_activate_cb), NULL);
 		}

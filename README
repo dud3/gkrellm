@@ -437,22 +437,38 @@ Linux:
 Sensor monitoring requires that either lm_sensors modules are
 installed in your running kernel, that you run a kernel >= 2.6 with sysfs
 sensors configured, or, for i386 architectures, that you have the mbmon
-daemon running when gkrellm is started.  If the mbmon daemon is used, it
-must be started before gkrellm like so:
+daemon running when gkrellm is started (as long as mbmon supports reporting
+sensor values for your motherboard).
+
+For lm_sensors to be used, gkrellm must be compiled with libsensors support.
+It will be if the libsensors development package is installed when gkrellm
+is compiled.
+
+If the mbmon daemon is used, it must be started before gkrellm like so:
 
     mbmon -r -P port-number
 
 where the given "port-number" must be configured to match in the gkrellm
-Sensors->Options config.  Sensor temperatures can also be read from
-/proc/acpi/thermal_zone, /proc/acpi/thermal, /proc/acpi/ibm. the
-PowerMac Windfarm /sysfs interface, and PowerMac PMU /sysfs based
-sensors.
+Sensors->Options config.  If you have mbmon installed from a distribution
+package, you can probably easily set up for mbmon to be started at boot.
+With Debian, for example, you would edit the file /etc/default/mbmon
+to set:
+
+	START_MBMON=1
+
+and you would need to set in the gkrellm Sensors->Option config the
+mbmon port to be "411" to match the default in the /etc/default/mbmon
+file.
+
+Sensor temperatures can also be read from /proc/acpi/thermal_zone,
+/proc/acpi/thermal, /proc/acpi/ibm. the PowerMac Windfarm /sysfs
+interface, and PowerMac PMU /sysfs based sensors.
 
 When using lm_sensors, libsensors will be used if available, but if
 libsensors is not linked into the program, the sensor data will be
 read directly from the /sysfs or /proc file systems.  If running a newer
 Linux kernel sensor module not yet supported by libsensors and libsensors
-is linked, there will also be an automaitc  fallback to using /sysfs as
+is linked, there will also be an automatic  fallback to using /sysfs as
 long as libsensors doesn't detect any sensors.  But if it does detect some
 sensors which does not include the new sensors you need, you can force
 getting /sysfs sensor data either by running:
@@ -466,8 +482,9 @@ or by rebuilding with:
 
 Disk temperatures may also be monitored if you have the hddtemp daemon
 running when gkrellm is started.  Gkrellm uses the default hddtemp port
-of 7634.  Both hddtemp and mbmon are best started in a boot rc script to
-guarantee they will be running when gkrellm is started.
+of 7634.  Like mbmon, hddtemp is best started in a boot script to guarantee
+it will be running when gkrellm is started.
+
 
 Nvidia graphics card GPU temperatures may also be monitored if
 the nvidia-settings command is installed and your Nvidia card supports

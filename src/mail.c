@@ -4284,6 +4284,8 @@ gkrellm_init_mail_monitor(void)
 #ifdef HAVE_GNUTLS
 	gcry_control (GCRYCTL_SET_THREAD_CBS, &gcry_threads_pthread);
 	gnutls_global_init();
+	SSL_load_error_strings();
+	SSL_library_init();
 #else
 #ifdef HAVE_SSL
 	SSL_load_error_strings();

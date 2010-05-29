@@ -2045,6 +2045,11 @@ setup_signal_handler(void)
 	signal(SIGTERM, _signal_quit);
 	}
 
+void
+gkrellm_sys_setup_connect(void (*setup_func)())
+	{
+	_GK.sys_setup_func = setup_func;
+	}
 
 gint
 main(gint argc, gchar **argv)
@@ -2191,6 +2196,9 @@ main(gint argc, gchar **argv)
 	if (_GK.debug_level > 0)
 		g_debug("--- GKrellM %d.%d.%d ---\n", GKRELLM_VERSION_MAJOR,
 			GKRELLM_VERSION_MINOR, GKRELLM_VERSION_REV);
+
+	if (_GK.sys_setup_func)
+		(*_GK.sys_setup_func)(argc, argv);
 
 	_GK.w_display = gdk_screen_get_width(gdk_screen_get_default());
 	_GK.h_display = gdk_screen_get_height(gdk_screen_get_default());

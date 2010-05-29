@@ -108,7 +108,7 @@
 */
 #define GKRELLMD_VERSION_MAJOR   2
 #define GKRELLMD_VERSION_MINOR   3
-#define GKRELLMD_VERSION_REV     3
+#define GKRELLMD_VERSION_REV     4
 #define GKRELLMD_EXTRAVERSION    ""
 
 #define GKRELLMD_CHECK_VERSION(major,minor,rev)    \

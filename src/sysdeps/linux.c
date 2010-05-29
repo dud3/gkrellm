@@ -314,6 +314,9 @@ gkrellm_sys_cpu_init(void)
 #if ! defined (MD_MAJOR)
 #define MD_MAJOR	9
 #endif
+#if !defined(DM_MAJOR)
+#define DM_MAJOR 254
+#endif
 
 #if !defined(IDE4_MAJOR)
 #define IDE4_MAJOR	56
@@ -409,6 +412,7 @@ static struct _disk_name_map
 	{"cc5d", COMPAQ_CISS_MAJOR + 5,		16,	'0' },	/* 109:  c5d0-c5d15 */
 	{"cc6d", COMPAQ_CISS_MAJOR + 6,		16,	'0' },	/* 110:  c6d0-c6d15 */
 	{"cc7d", COMPAQ_CISS_MAJOR + 7,		16,	'0' },	/* 111:  c7d0-c7d15 */
+	{"dm-",  DM_MAJOR,              	256, '0' },	/* 254:  dm-0 - dm-255 */
 
 	{"fd",	FLOPPY_MAJOR,				0,	'0' }	/* 2:  fd0-fd3  */
 	};
@@ -587,6 +591,7 @@ linux_read_proc_diskstats(void)
 			|| (rd == 0 && wr == 0 && !inactivity_override)
 			|| major == LVM_BLK_MAJOR || major == NBD_MAJOR
 			|| major == RAMDISK_MAJOR || major == LOOP_MAJOR
+		    || major == DM_MAJOR
 			|| !disk_get_device_name(major, minor, disk, part)
 		   )
 			continue;

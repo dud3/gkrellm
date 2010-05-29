@@ -1,5 +1,22 @@
 GKrellM Changelog
 -----------------
+2.3.4 - Mon Jan 4, 2010
+------------------------
+	* Add gkrellm_sys_setup_connect() function so sysdep code can register
+	  from gkrellm_sys_main_init() a setup function to call after main()
+	  argument parsing.
+	* Patch from Hajimu Umemoto: add FreeBSD support for the amdtemp
+	  temperature sensor.
+	* Add some mbmon usage help to gkrellm.1 and README.
+	* Bugfixes
+	  o Patch from Sandro Tosi: fix a FTBFS when using gold as linker
+	    (by simply adding -lX11).
+	  o Add SSL library init calls to mail check for gnutls case.
+	  o Patch from Hans de Goede: Fix some crashes - check for NULL GC when
+	    drawing root pixmap on transparent chart or panel.
+	  o Patch from Goswin von Brederlow: Ignore device mapper devices in
+	    Linux disk stats.
+
 2.3.3 - Mon Dec 21, 2009
 ------------------------
 	* gkrellm.spec update from Tim Keller.

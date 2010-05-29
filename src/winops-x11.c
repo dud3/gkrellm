@@ -538,7 +538,7 @@ gkrellm_winop_draw_rootpixmap_onto_transparent_chart(GkrellmChart *cp)
 	GkrellmMargin	*m;
 	gint			x, y;
 
-	if (   root_xpixmap == None || !cp->transparency
+	if (   root_xpixmap == None || trans_gc == NULL || !cp->transparency
 		|| !cp->drawing_area || !cp->drawing_area->window
 	   )
 		return FALSE;
@@ -605,7 +605,7 @@ gkrellm_winop_draw_rootpixmap_onto_transparent_panel(GkrellmPanel *p)
 	Window	child;
 	gint	x, y;
 
-	if (   root_xpixmap == None || !p->transparency
+	if (   root_xpixmap == None || trans_gc == NULL || !p->transparency
 		|| !p->drawing_area || !p->drawing_area->window
 	   )
 		return FALSE;

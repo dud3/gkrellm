@@ -646,7 +646,8 @@ Before internal POP3 and IMAP checking was added, an external mail
 fetch/check program could be set up to be executed periodically to
 download or check remote POP3 or IMAP mail.  This method is still
 available and must be used if you want
-gkrellm to be able to
+.B gkrellm
+to be able to
 download remote mail to local mailboxes because the builtin checking
 functions cannot download.
 
@@ -679,8 +680,22 @@ which is duplicated for each battery.
 Sensor monitoring on Linux requires that either lm_sensors modules are
 installed in your running kernel, that you run a kernel >= 2.6 with sysfs
 sensors configured, or, for i386 architectures, that you have the mbmon
-daemon running when gkrellm is started.  If the mbmon daemon is used, it
-must be started before gkrellm like so:
+daemon running when
+.B gkrellm
+is started (as long as mbmon supports reporting
+sensor values for your motherboard).
+.PP
+For lm_sensors to be used,
+.B gkrellm
+must be compiled with libsensors support.
+It will be if the libsensors development package is installed when
+.B gkrellm
+is compiled.
+.PP
+If the mbmon daemon is used, it
+must be started before
+.B gkrellm
+like so:
 .PP
 .RS
 .nf
@@ -688,8 +703,27 @@ mbmon -r -P port-number
 .fi
 .RE
 .PP
-where the given "port-number" must be configured to match in the gkrellm
-Sensors->Options config.  Sensor temperatures can also be read from
+where the given "port-number" must be configured to match in the
+.B gkrellm
+Sensors->Options config.
+If you have mbmon installed from a distribution
+package, you can probably easily set up for mbmon to be started at boot.
+With Debian, for example, you would edit the file /etc/default/mbmon
+to set:
+.PP
+.RS
+.nf
+START_MBMON=1
+.fi
+.RE
+.PP
+and you would need to set in the
+.B gkrellm
+Sensors->Option config the
+mbmon port to be "411" to match the default in the /etc/default/mbmon
+file.
+.PP
+Sensor temperatures can also be read from
 /proc/acpi/thermal_zone, /proc/acpi/thermal, /proc/acpi/ibm, the
 PowerMac Windfarm /sysfs interface, and PowerMac PMU /sysfs based
 sensors.
@@ -698,7 +732,7 @@ When using lm_sensors, libsensors will be used if available, but if
 libsensors is not linked into the program, the sensor data will be
 read directly from the /sysfs or /proc file systems.  If running a newer
 Linux kernel sensor module not yet supported by libsensors and libsensors
-is linked, there will also be an automaitc  fallback to using /sysfs as
+is linked, there will also be an automatic  fallback to using /sysfs as
 long as libsensors doesn't detect any sensors.  But if it does detect some
 sensors which does not include the new sensors you need, you can force
 getting /sysfs sensor data either by running:
@@ -718,10 +752,12 @@ make without-libsensors=yes
 .RE
 .PP
 Disk temperatures may also be monitored if you have the hddtemp daemon
-running when gkrellm is started.
+running when
 .B gkrellm
-uses the default hddtemp port of 7634.  Both hddtemp and mbmon are best
-started in a boot rc script to guarantee they will be running when
+is started.
+.B gkrellm
+uses the default hddtemp port of 7634.  Like mbmon, hddtemp is best
+started in a boot script to guarantee it will be running when
 .B gkrellm
 is started.
 .PP
@@ -731,7 +767,9 @@ the temperature reporting.  If nvidia-settings is not installed or does not
 report temperatures for your card, an option for using the nvclock
 program will appear in the Sensors config.  Nvclock use is not
 automatically enabled as is nvidia-settings because nvclock can
-add seconds of gkrellm startup time
+add seconds of
+.B gkrellm
+startup time
 when used on a NVIDIA GPU chipset it does not support.  GKrellM must be
 restarted to recognize changes for the nvclock option.
 .PP

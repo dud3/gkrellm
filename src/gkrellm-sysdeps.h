@@ -59,6 +59,16 @@
 void	gkrellm_sys_main_init(void);
 void	gkrellm_sys_main_cleanup(void);
 
+	/* If the sysdep code needs to call a function for additional
+	|  setup after the main() arguments are parsed and GTK is
+	|  initialized, register the function by calling this from
+	|  gkrellm_sys_main_init().
+	*/
+void	gkrellm_sys_setup_connect(void (*setup_func)());
+
+	/* The setup function will be passed the main() argc and argv and
+	|  should be declared like:  void XXX_setup(gint ac, gchar **av);
+	*/
 
 /* ===================================================================== */
 /* Misc monitor interface functions */

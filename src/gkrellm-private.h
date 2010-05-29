@@ -326,6 +326,8 @@ struct	GkrellmConfig
 	gint		m2;
 	gint		use_top_bottom_margins;
 
+	void		(*sys_setup_func)(gint, gchar **);
+
 	GList		*chart_name_list,		/* Move these lists to monitor_list */
 				*meter_name_list,
 				*custom_name_list,

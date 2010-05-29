@@ -87,7 +87,7 @@ BINMODE = 755
 #GTOP_LIBS_D = -L$(GTOP_PREFIX)/lib -lgtop -lgtop_common -lgtop_sysdeps
 #export GTOP_INCLUDE GTOP_LIBS GTOP_LIBS_D
 
-VERSION = 2.3.3
+VERSION = 2.3.4
 
 INSTALLROOT ?= $(DESTDIR)$(PREFIX)
 
