@@ -401,11 +401,13 @@ gkrellm_net_led_positions(gint *x_rx_led, gint *y_rx_led,
 #include    "pixmaps/timer/bg_timer.xpm"
 #include    "pixmaps/timer/decal_timer_button.xpm"
 
-/* ISO 8601 date format for network stats gui*/
+/* ISO 8601 date and month format strings for network stats gui*/
 #ifdef WIN32
 #define GK_NET_ISO_DATE "%Y-%m-%d"
+#define GK_NET_MONTH_STAT_DATE "%b %d"
 #else
 #define GK_NET_ISO_DATE "%F"
+#define GK_NET_MONTH_STAT_DATE "%b %e"
 #endif
 
 #define	MIN_GRID_RES		5
@@ -1204,8 +1206,7 @@ format_net_data(NetMon *net, gchar *src_string, gchar *buf, gint size)
 	cp = net->chart;
 	net->totals_shown = FALSE;
 
-	if ((_GK.debug_level & DEBUG_CHART_TEXT))
-		printf("net chart text: %s\n", src_string);
+	gkrellm_debug(DEBUG_CHART_TEXT, "net chart text: %s\n", src_string);
 
 	for (s = src_string; *s != '\0' && size > 0; ++s)
 		{
@@ -1314,8 +1315,7 @@ format_net_data(NetMon *net, gchar *src_string, gchar *buf, gint size)
 		}
 	*buf = '\0';
 
-	if ((_GK.debug_level & DEBUG_CHART_TEXT))
-		printf("              : %s\n", result);
+	gkrellm_debug(DEBUG_CHART_TEXT, "              : %s\n", result);
 	}
 
 static void
@@ -1759,8 +1759,8 @@ net_stat_set_date_string(NetStat *ns, enum StatType stat_type, struct tm *t)
 				tmx.tm_mday = days_in_month[tmx.tm_mon];
 			if (tm.tm_mday > days_in_month[tm.tm_mon])
 				tm.tm_mday = days_in_month[tm.tm_mon];
-			strftime(bufa, sizeof(bufa), "%b %e", &tmx);
-			strftime(bufb, sizeof(bufb), "%b %e", &tm);
+			strftime(bufa, sizeof(bufa), GK_NET_MONTH_STAT_DATE, &tmx);
+			strftime(bufb, sizeof(bufb), GK_NET_MONTH_STAT_DATE, &tm);
 			snprintf(buf, sizeof(buf), "%s - %s", bufa, bufb);
 			}
 		}
@@ -2520,7 +2520,7 @@ load_net_config(gchar *arg)
 			{	/* Can't get resolution, label, launch or tooltip */
 			sscanf(item1, "%*d %d %*s %d %d", &enable, &ch_labels, &force);
 			strcpy(config, "enables");
-			sprintf(item1, "%d %d %d", enable, ch_labels, force);
+			snprintf(item1, sizeof(item1), "%d %d %d", enable, ch_labels, force);
 			}
 		/* Remaining configs will have a net name
 		*/
