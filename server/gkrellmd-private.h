@@ -35,6 +35,13 @@
 
 #include "../src/gkrellm-sysdeps.h"
 
+#if defined(WIN32)
+// Enable getaddrinfo on win32 if we target win xp or newer
+#if _WIN32_WINNT > 0x0500
+#define HAVE_GETADDRINFO	1
+#endif
+#endif
+
 #if defined(__linux__)
 #if defined(__GLIBC__) && ((__GLIBC__>2)||(__GLIBC__==2 && __GLIBC_MINOR__>=1))
 #define HAVE_GETADDRINFO	1
