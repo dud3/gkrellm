@@ -116,6 +116,28 @@ typedef NTSTATUS (NTAPI *pfLsaFreeReturnBuffer)(VOID *Buffer);
 
 
 // ----------------------------------------------------------------------------
+// Missing definitions from MinGW iphlpapi.h
+
+typedef struct {
+  DWORD dwState; // one of MIB_TCP_STATE_*
+  IN6_ADDR LocalAddr;
+  DWORD dwLocalScopeId;
+  DWORD dwLocalPort;
+  IN6_ADDR RemoteAddr;
+  DWORD dwRemoteScopeId;
+  DWORD dwRemotePort;
+} MIB_TCP6ROW, *PMIB_TCP6ROW;
+
+typedef struct {
+  DWORD dwNumEntries;
+  MIB_TCP6ROW table[ANY_SIZE];
+} MIB_TCP6TABLE, *PMIB_TCP6TABLE;
+
+typedef DWORD (WINAPI *GetTcp6TableFunc)(PMIB_TCP6TABLE TcpTable,
+	PDWORD SizePointer, BOOL Order);
+
+
+// ----------------------------------------------------------------------------
 // Max len of device names returned by clean_dev_name().
 // Value taken from net.c load_net_config() and disk.c load_disk_config().
 #define MAX_DEV_NAME 31
@@ -1676,15 +1698,11 @@ gkrellm_sys_proc_init(void)
 		}
 	else
 		{
-		win32_warning(NULL, GetLastError(),
-				"Could not load secur32.dll, number of logged in " \
-				"users will not be detected\n");
+		win32_warning(NULL, GetLastError(), "Could not load secur32.dll\n");
 		}
-
 
 	// Determine OS for proper load-average computation
 	// (wait-queue value on win2k is off by one)
-
 #if 0
 	memset(&vi, 0, sizeof(OSVERSIONINFOEXW));
 	vi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEXW);
@@ -2088,17 +2106,36 @@ void gkrellm_sys_fs_get_fstab_list(void)
 /* INET monitor interfaces */
 /* ===================================================================== */
 
+// Library handle for Iphlpapi.dll, lib is loaded at runtime
+static HANDLE hIphlpapi = NULL;
+// Function pointer to GetTcp6Table() which only exists on Vista and newer
+static GetTcp6TableFunc pfGetTcp6Table = NULL;
+
 gboolean gkrellm_sys_inet_init(void)
-{
-	gkrellm_debug(DEBUG_SYSDEP, "INIT inet port monitoring\n");
-	return TRUE;
-}
-
-
-void gkrellm_sys_inet_read_tcp_data(void)
 	{
-	// TODO: Make use of GetTcp6Table() by loading it at runtime
-	//       (only available on vista and newer)
+	gkrellm_debug(DEBUG_SYSDEP, "INIT inet port monitoring\n");
+	hIphlpapi = LoadLibraryW(L"Iphlpapi.dll");
+	if (hIphlpapi != NULL)
+		{
+		gkrellm_debug(DEBUG_SYSDEP, "Loaded Iphlpapi.dll\n");
+		pfGetTcp6Table = (GetTcp6TableFunc) GetProcAddress(hIphlpapi,
+			"GetTcp6Table");
+		if (pfGetTcp6Table == NULL)
+			{
+			g_warning("Could not get address for " \
+				"GetTcp6Table() in Iphlpapi.dll " \
+				"(this is ok on windows versions older than vista)\n");
+			}
+		}
+	else
+		{
+		win32_warning(NULL, GetLastError(), "Could not load Iphlpapi.dll\n");
+		}
+	return TRUE;
+	}
+
+static void win32_read_tcp_data(void)
+	{
 	PMIB_TCPTABLE pTcpTable = NULL;
 	DWORD dwTableSize = 0;
 	DWORD dwStatus;
@@ -2106,7 +2143,7 @@ void gkrellm_sys_inet_read_tcp_data(void)
 	ActiveTCP tcp;
 	DWORD i;
 
-	gkrellm_debug(DEBUG_SYSDEP, "Fetching list of TCP connections\n");
+	gkrellm_debug(DEBUG_SYSDEP, "Fetching list of IPv4 TCP connections\n");
 
 	// Make an initial call to GetTcpTable to
 	// get the necessary size into the dwSize variable
@@ -2134,7 +2171,7 @@ void gkrellm_sys_inet_read_tcp_data(void)
 				tcp.local_port         = htons(tcprow->dwLocalPort);
 				tcp.remote_addr.s_addr = tcprow->dwRemoteAddr;
 #if defined(INET6)
-				tcp.in6_addr = 0;
+				memset(&tcp.remote_addr6, 0, sizeof(struct in6_addr));
 #endif
 				tcp.remote_port        = htons(tcprow->dwRemotePort);
 				tcp.is_udp             = FALSE;
@@ -2145,7 +2182,7 @@ void gkrellm_sys_inet_read_tcp_data(void)
 			else
 			{
 				win32_warning(NULL, dwStatus,
-					"Could not fetch list of TCP connections");
+					"Could not fetch list of IPv4 TCP connections");
 			}
 
 		g_free(pTcpTable);
@@ -2153,8 +2190,79 @@ void gkrellm_sys_inet_read_tcp_data(void)
 		else
 		{
 			win32_warning(NULL, dwStatus,
-					"Could not fetch list of TCP connections");
+					"Could not fetch list of IPv4 TCP connections");
 		}
+	}
+
+#if defined(INET6)
+static void win32_read_tcp6_data(void)
+	{
+	PMIB_TCP6TABLE pTcpTable = NULL;
+	DWORD dwTableSize = 0;
+	DWORD dwStatus;
+	MIB_TCP6ROW *tcprow;
+	ActiveTCP tcp;
+	DWORD i;
+
+	if (pfGetTcp6Table == NULL)
+		return; // missing GetTcp6Table() on this machine
+
+	gkrellm_debug(DEBUG_SYSDEP, "Fetching list of IPv6 TCP connections\n");
+
+	// Make an initial call to GetTcpTable to
+	// get the necessary size into the dwSize variable
+	dwStatus = pfGetTcp6Table(NULL, &dwTableSize, FALSE);
+
+	if ((dwStatus == ERROR_INSUFFICIENT_BUFFER) && (dwTableSize > 0))
+		{
+		pTcpTable = (MIB_TCP6TABLE *)g_malloc(dwTableSize);
+
+		// Make a second call to GetTcpTable to get
+		// the actual data we require
+		dwStatus = pfGetTcp6Table(pTcpTable, &dwTableSize, FALSE);
+
+		if (dwStatus == NO_ERROR)
+			{
+			for (i = 0; i < pTcpTable->dwNumEntries; i++)
+				{
+				tcprow = &pTcpTable->table[i];
+
+				// Skip connections that are not fully established
+				if (tcprow->dwState != MIB_TCP_STATE_ESTAB)
+					continue;
+
+				tcp.family             = AF_INET6;
+				tcp.local_port         = htons(tcprow->dwLocalPort);
+				tcp.remote_addr.s_addr = 0;
+				tcp.remote_addr6       = tcprow->RemoteAddr;
+				tcp.remote_port        = htons(tcprow->dwRemotePort);
+				tcp.is_udp             = FALSE;
+
+				gkrellm_inet_log_tcp_port_data(&tcp);
+				}
+			}
+			else
+			{
+				win32_warning(NULL, dwStatus,
+					"Could not fetch list of IPv6 TCP connections");
+			}
+
+		g_free(pTcpTable);
+		}
+		else
+		{
+			win32_warning(NULL, dwStatus,
+					"Could not fetch list of IPv6 TCP connections");
+		}
+	}
+#endif
+
+void gkrellm_sys_inet_read_tcp_data(void)
+	{
+	win32_read_tcp_data();
+#if defined(INET6)
+	win32_read_tcp6_data();
+#endif
 	}
 
 
