@@ -1562,8 +1562,8 @@ client_send_to_server(gchar *buf)
 #endif
 	if (n < 0 && errno == EPIPE)
 		{
-		if (_GK.debug_level & DEBUG_CLIENT)
-			printf("Write on closed pipe to gkrellmd server.\n");
+		gkrellm_debug(DEBUG_CLIENT, "Write on closed pipe to gkrellmd " \
+			"server, marking server-connection as dead\n");
 		server_alive = FALSE;
 		return FALSE;
 		}
@@ -1651,8 +1651,7 @@ gkrellm_getline(gint fd, gchar *buf, gint len)
 		fprintf(stderr, "Broken server connection\n");
 		exit(0);
 		}
-	if (_GK.debug_level & DEBUG_CLIENT)
-		printf("%s\n", buf);
+	gkrellm_debug(DEBUG_CLIENT, "%s\n", buf);
 	return n;
 	}
 
@@ -1701,6 +1700,8 @@ read_server_setup(gint fd)
 	gchar			buf[256];
 	gint			table_size;
 
+	gkrellm_debug(DEBUG_CLIENT, "read_server_setup()\n");
+
 	/* Pre 2.1.6 gkrellmd does not send <decimal_point>, so put a fallback
 	|  locale_sync() here.
 	*/
@@ -1714,8 +1715,8 @@ read_server_setup(gint fd)
 
 	while (1)
 		{
-		rs=gkrellm_getline(fd, buf, sizeof(buf));
-        if(rs<0)
+		rs = gkrellm_getline(fd, buf, sizeof(buf));
+        if (rs < 0)
             return FALSE;
 		if (!strcmp(buf, "</gkrellmd_setup>"))
 			break;
@@ -1732,8 +1733,8 @@ read_server_setup(gint fd)
 	table_size = sizeof(update_table) / sizeof(KeyTable);
 	while (1)
 		{
-		rs=gkrellm_getline(fd, buf, sizeof(buf));
-        if(rs<0)
+		rs = gkrellm_getline(fd, buf, sizeof(buf));
+        if (rs < 0)
             return FALSE;
 		if (!strcmp(buf, "</initial_update>"))
 			break;
@@ -1747,7 +1748,11 @@ void
 gkrellm_client_mode_disconnect(void)
 	{
 	if (client_fd >= 0)
+		{
+		gkrellm_debug(DEBUG_CLIENT, "gkrellm_client_mode_disconnect(); " \
+			"closing connection to server\n");
 		close(client_fd);
+		}
 	client_fd = -1;
 	server_alive = FALSE;
 	gdk_input_remove(client_input_id);
@@ -1764,6 +1769,8 @@ read_server_input(gpointer data, gint fd, GdkInputCondition condition)
 	count = recv(fd, server_buf + buf_index, n, 0);
 	if (count <= 0)
 		{
+		gkrellm_debug(DEBUG_CLIENT, "read_server_input(); recv() " \
+			"returned error, disconnecting from server\n", count);
 		gkrellm_client_mode_disconnect();
 		return;
 		}
@@ -1775,8 +1782,7 @@ read_server_input(gpointer data, gint fd, GdkInputCondition condition)
 	while (*line && (eol = strchr(line, '\n')) != NULL)
 		{
 		*eol = '\0';
-		if (_GK.debug_level & DEBUG_CLIENT)
-			printf("%s\n", line);
+		gkrellm_debug(DEBUG_CLIENT, "%s\n", line);
 		process_server_line(&update_table[0], table_size, line);
 		line = eol + 1;
 		}
@@ -1825,8 +1831,7 @@ gkrellm_connect_to(gchar *server, gint server_port)
 		if ((fd = socket(res->ai_family, res->ai_socktype,
 				res->ai_protocol)) < 0)
 			continue;
-		if (_GK.debug_level & DEBUG_CLIENT)
-			printf("\t[gkrellm_connect_to: (%d,%d,%d) %s:%d]\n",
+		gkrellm_debug(DEBUG_CLIENT, "\t[gkrellm_connect_to: (%d,%d,%d) %s:%d]\n",
 			       res->ai_family, res->ai_socktype,
 			       res->ai_protocol, server, server_port);
 		if (connect(fd, res->ai_addr, res->ai_addrlen) >= 0)
@@ -1840,8 +1845,8 @@ gkrellm_connect_to(gchar *server, gint server_port)
 		}
 	freeaddrinfo(res0);
 #else
-	if (_GK.debug_level & DEBUG_CLIENT)
-		printf("\t[gkrellm_connect_to: %s:%d]\n", server, server_port);
+	gkrellm_debug(DEBUG_CLIENT, "\t[gkrellm_connect_to: %s:%d]\n", server,
+		server_port);
 	addr = gethostbyname(server);
 	if (addr)
 		{
@@ -1854,6 +1859,7 @@ gkrellm_connect_to(gchar *server, gint server_port)
 			s.sin_port = htons(server_port);
 			if (connect(fd, (struct sockaddr *)&s, sizeof (s)) < 0)
 				{
+				gkrellm_debug(DEBUG_CLIENT, "gkrellm_connect_to(); connect() failed\n");
 #ifdef WIN32
 				closesocket(fd);
 #else
@@ -1862,6 +1868,10 @@ gkrellm_connect_to(gchar *server, gint server_port)
 				fd = -1;
 				}
 			}
+		}
+	else
+		{
+		gkrellm_debug(DEBUG_CLIENT, "gkrellm_connect_to(); gethostbyname() failed\n");
 		}
 #endif
 	if (fd < 0)
@@ -1908,7 +1918,6 @@ gkrellm_client_mode_connect(void)
 					(GdkInputFunction) read_server_input, NULL);
 
 	server_alive = TRUE;
-
 	return GOOD_CONNECT;
 	}
 
