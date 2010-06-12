@@ -170,7 +170,7 @@ _log_active_port(ActiveTCP *tcp)
 	if (_GK.debug_level & DEBUG_INET)
 		{
 		ap = inet_ntoa(tcp->remote_addr);
-		g_print("inet  OO----->  %x %s:%x\n",
+		g_debug("inet  OO----->  %x %s:%x\n",
 				tcp->local_port, ap, tcp->remote_port);
 		}
 	active_tcp_list = g_list_prepend(active_tcp_list, (gpointer) new_tcp);
@@ -248,7 +248,7 @@ gkrellm_inet_client_divert(void (*read_tcp_func)())
 
 /* ======================================================================== */
 
-#define DUMP_IN(in,tag)	printf("%s: %s %s %ld %ld %ld %ld\n", \
+#define DUMP_IN(in,tag)	g_debug("%s: %s %s %ld %ld %ld %ld\n", \
 						tag, in->label0, in->label1, \
             			in->port0_0, in->port0_1, in->port1_0, in->port1_1);
 
@@ -560,7 +560,7 @@ update_inet(void)
 				if (_GK.debug_level & DEBUG_INET)
 					{
 					ap = inet_ntoa(tcp->remote_addr);
-					g_print("inet  XX----->  %x %s:%x\n",
+					g_debug("inet  XX----->  %x %s:%x\n",
 							tcp->local_port, ap, tcp->remote_port);
 					}
 				free_tcp_list = g_list_prepend(free_tcp_list, tcp);
@@ -1104,12 +1104,14 @@ fix_ports(InetMon *in)
 
 	if (!*in->label0)
 		{
-		in->port0_1 = in->port0_1 = in->data0_is_range = 0;
+		in->port0_1 = 0;
+		in->data0_is_range = 0;
 		--cd_length;
 		}
 	if (!*in->label1)
 		{
-		in->port1_1 = in->port1_1 = in->data1_is_range = 0;
+		in->port1_1 = 0;
+		in->data1_is_range = 0;
 		--cd_length;
 		}
 	if (in->data0_is_range && (in->port0_1 < in->port0_0))

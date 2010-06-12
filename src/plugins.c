@@ -179,7 +179,7 @@ get_style_from_list(GList *list, gint n)
 		l = list;
 	if (l->data == NULL)
 		{
-		printf("Warning: NULL style returned %d\n", n);
+		g_warning("Warning: NULL style returned %d\n", n);
 		abort();
 		}
 	style = (GkrellmStyle *) l->data;
@@ -283,7 +283,7 @@ get_piximage_from_list(GList *list, gint n)
 		l = list;
 	if (l->data == NULL)
 		{
-		printf("Warning: NULL image returned %d\n", n);
+		g_warning("Warning: NULL image returned %d\n", n);
 		abort();
 		}
 	return (GkrellmPiximage *) l->data;

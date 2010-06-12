@@ -436,9 +436,8 @@ check_mbox(Mailbox *mbox)
 		mbox->mail_count = mbox->old_mail_count = mbox->new_mail_count = 0;
 		mbox->last_mtime = 0;
 		mbox->last_size = 0;
-		if (_GK.debug_level & DEBUG_MAIL)
-			printf("check_mbox can't stat(%s): %s\n", mbox->path,
-						g_strerror(errno));
+		gkrellm_debug(DEBUG_MAIL, "check_mbox can't stat(%s): %s\n",
+			mbox->path, g_strerror(errno));
 		return FALSE;
 		}
 
@@ -451,9 +450,8 @@ check_mbox(Mailbox *mbox)
 		{
 		if ((f = fopen(mbox->path, "r")) == NULL)
 			{
-			if (_GK.debug_level & DEBUG_MAIL)
-				printf("check_mbox can't fopen(%s): %s\n", mbox->path,
-							g_strerror(errno));
+			gkrellm_debug(DEBUG_MAIL, "check_mbox can't fopen(%s): %s\n",
+				mbox->path, g_strerror(errno));
 			return FALSE;
 			}
 		mbox->mail_count = 0;

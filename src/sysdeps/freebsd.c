@@ -1648,7 +1648,7 @@ scan_for_sensors(void)
 						chip_dir, dentry->d_name);
 			if ((iodev = open(temp_file, O_RDWR)) == -1)
 				continue;
-			sprintf(id_name, "%s%3s", "temp", dentry->d_name + 3);
+			snprintf(id_name, sizeof(id_name), "%s%3s", "temp", dentry->d_name + 3);
 			interface = INTERFACE_SMB;
 			if (!gkrellm_sys_sensors_get_temperature(NULL, 0, iodev,
 					interface, NULL))
@@ -1693,7 +1693,7 @@ scan_for_sensors(void)
 				if (!gkrellm_sys_sensors_get_fan(NULL, id, iodev,
 						interface, NULL))
 					continue;
-				sprintf(id_name, "%s%d", "fan", id);
+				snprintf(id_name, sizeof(id_name), "%s%d", "fan", id);
 				sensors_add_sensor(SENSOR_FAN, id_name, id,
 						iodev, interface,
 						1.0 / (gfloat) fandiv[id], 0.0,
@@ -1705,7 +1705,7 @@ scan_for_sensors(void)
 			if (!gkrellm_sys_sensors_get_voltage(NULL, id, iodev,
 					interface, NULL))
 				continue;
-			sprintf(id_name, "%s%d", "in", id);
+			snprintf(id_name, sizeof(id_name), "%s%d", "in", id);
 			sensors_add_sensor(SENSOR_VOLTAGE, id_name, id,
 					iodev, interface,
 					voltdefault0[id].factor, 0.0,

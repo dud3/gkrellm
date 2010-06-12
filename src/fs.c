@@ -754,9 +754,7 @@ fs_update(void)
 
 	if (!force_fs_check && (!GK.second_tick || (!fs_check && !nfs_check)))
 		return;
-#if 0
-printf("fs update %d nfs %d force %d\n", fs_check, nfs_check, force_fs_check);
-#endif
+//g_debug("fs update %d nfs %d force %d\n", fs_check, nfs_check, force_fs_check);
 
 	refresh_mounts_list();
 
@@ -1849,7 +1847,7 @@ cb_tree_selection_changed(GtkTreeSelection *selection, gpointer data)
 	indices = gtk_tree_path_get_indices(path);
 	secondary = indices[0];
 	depth = gtk_tree_path_get_depth(path);
-// printf("selection: indices=[%d,%d]:%d, path=%s\n",
+// g_debug("selection: indices=[%d,%d]:%d, path=%s\n",
 //			indices[0], indices[1], gtk_tree_path_get_depth(path),
 //			gtk_tree_path_to_string(path));
 	change_row_reference(model, path);
@@ -2208,7 +2206,7 @@ row_drop_possible(GtkTreeDragDest *drag_dest, GtkTreePath *path,
 		return FALSE;
 	src_path = gtk_tree_row_reference_get_path(row_reference);
 	indices = gtk_tree_path_get_indices(path);
-//	printf("drop path: indices=[%d,%d]:%d, path=%s\n",
+//	g_debug("drop path: indices=[%d,%d]:%d, path=%s\n",
 //			indices[0], indices[1], gtk_tree_path_get_depth(path),
 //			gtk_tree_path_to_string(path));
 

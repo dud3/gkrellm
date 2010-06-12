@@ -718,9 +718,9 @@ gkrellm_sys_disk_init(void)
 		}
 	if (f)
 		fclose(f);
-	if (_GK.debug_level & DEBUG_SYSDEP)
-		printf("diskstats=%d partition_stats=%d sysfs_stats=%d\n",
-			have_diskstats, have_partition_stats, have_sysfs_stats);
+	gkrellm_debug(DEBUG_SYSDEP,
+		"diskstats=%d partition_stats=%d sysfs_stats=%d\n", have_diskstats,
+		have_partition_stats, have_sysfs_stats);
 
 	return TRUE;
 	}
@@ -1050,7 +1050,7 @@ gkrellm_sys_net_isdn_online(void)
 	   ) 
 		{
 		if (_GK.debug_level & DEBUG_NET)
-			printf("sys_net_isdn__online: no /dev/isdninfo?\n");
+			g_debug("sys_net_isdn__online: no /dev/isdninfo?\n");
 		return FALSE;
 		}
 	memset(buffer, 0, BUFSIZ);
@@ -1124,7 +1124,7 @@ get_io_indices(void)
 		fclose(f);
 		}
 	if (_GK.debug_level & DEBUG_NET)
-		printf("rx_bytes=%d tx_bytes=%d rx_packets=%d tx_packets=%d\n",
+		g_debug("rx_bytes=%d tx_bytes=%d rx_packets=%d tx_packets=%d\n",
 				rx_bytes_index, tx_bytes_index,
 				rx_packets_index, tx_packets_index);
 	}
@@ -1513,7 +1513,7 @@ setup_acpi_battery(gchar *bat)
 
 	info = g_strconcat(ACPI_BATTERY_DIR, bat, "/info", NULL);
 	if (_GK.debug_level & DEBUG_BATTERY)
-		printf("setup_acpi_battery: %s\n", info);
+		g_debug("setup_acpi_battery: %s\n", info);
 	if (!access(info, F_OK))
 		{
 		bf = g_new0(BatteryFile, 1);
@@ -1524,7 +1524,7 @@ setup_acpi_battery(gchar *bat)
 			bf->state = get_acpi_battery_file(ACPI_BATTERY_DIR, bat, "status");
 		acpi_battery_list = g_list_append(acpi_battery_list, bf);
 		if (_GK.debug_level & DEBUG_BATTERY)
-			printf("setup_acpi_battery: %s\n",
+			g_debug("setup_acpi_battery: %s\n",
 						bf->state ? bf->state : "no state");
 		return TRUE;
 		}
@@ -1542,7 +1542,7 @@ setup_ac_adapter(gchar **state, gchar *ac)
 		path = get_acpi_battery_file(ACPI_AC_ADAPTOR_DIR, ac, "status");
 	*state = path;
 	if (_GK.debug_level & DEBUG_BATTERY)
-		printf("setup_ac_adaptor: %s\n", path ? path : "no state");
+		g_debug("setup_ac_adaptor: %s\n", path ? path : "no state");
 
 	return path ? TRUE : FALSE;
 	}
@@ -1614,7 +1614,7 @@ acpi_battery_data(BatteryFile *bf)
 	if (!bf->got_full_cap)	/* get battery capacity */
 		{
 		if (_GK.debug_level & DEBUG_BATTERY)
-			printf("getting full capacity: %s\n", bf->info);
+			g_debug("getting full capacity: %s\n", bf->info);
 		if ((f = fopen(bf->info, "r")) == NULL)
 			return FALSE;
 		bf->got_full_cap = TRUE;
@@ -1636,10 +1636,10 @@ acpi_battery_data(BatteryFile *bf)
 			*/
 			if (sscanf(buf, "design capacity: %d", &bf->full_cap) == 1)
 				if (_GK.debug_level & DEBUG_BATTERY)
-					printf("%s: %d <- %s", bf->info, bf->full_cap, buf);
+					g_debug("%s: %d <- %s", bf->info, bf->full_cap, buf);
 			if (sscanf(buf, "last full capacity: %d", &bf->full_cap) == 1)
 				if (_GK.debug_level & DEBUG_BATTERY)
-					printf("%s: %d <- %s", bf->info, bf->full_cap, buf);
+					g_debug("%s: %d <- %s", bf->info, bf->full_cap, buf);
 			}
 		fclose(f);
 		}
@@ -1696,7 +1696,7 @@ acpi_battery_data(BatteryFile *bf)
 		if (sscanf(buf, "remaining capacity: %d", &cur_cap) == 1)
 			{
 			if (_GK.debug_level & DEBUG_BATTERY)
-				printf("%s: %d <- %s", bf->state, cur_cap, buf);
+				g_debug("%s: %d <- %s", bf->state, cur_cap, buf);
 			continue;
 			}
 		if (sscanf(buf, "present rate: %d", &cur_rate) == 1)
@@ -1709,7 +1709,7 @@ acpi_battery_data(BatteryFile *bf)
 	fclose(f);
 
 	if (_GK.debug_level & DEBUG_BATTERY)
-		printf(
+		g_debug(
 			"Battery: on_line=%d charging=%d have_charging=%d state_file=%d\n",
 			on_line, charging, have_charging_state,
 			acpi_ac_state_file ? TRUE : FALSE);
@@ -1743,9 +1743,9 @@ acpi_battery_data(BatteryFile *bf)
 
 	if (_GK.debug_level & DEBUG_BATTERY)
 		{
-		printf("Battery %d: percent=%d time_left=%d cur_cap=%d full_cap=%d\n",
+		g_debug("Battery %d: percent=%d time_left=%d cur_cap=%d full_cap=%d\n",
 				bf->id, percent, time_left, cur_cap, bf->full_cap);
-		printf("            available=%d on_line=%d charging=%d fc_bug=%d\n",
+		g_debug("            available=%d on_line=%d charging=%d fc_bug=%d\n",
 			available, on_line, charging, bf->full_cap_bug);
 		}
 	gkrellm_battery_assign_data(bf->id, available, on_line, charging,
@@ -1810,14 +1810,14 @@ read_sysfs_entry (gchar *buf, gint buflen, gchar const *sysentry)
 				*nl = '\0';
 			fclose (f);
 			if (_GK.debug_level & DEBUG_BATTERY)
-				printf ("read_sysfs_entry: %s = %s\n",
+				g_debug ("read_sysfs_entry: %s = %s\n",
 		        	sysentry, buf);
 			return TRUE;
 			}
 		fclose (f);
 		}
 	if (_GK.debug_level & DEBUG_BATTERY)
-		printf ("read_sysfs_entry: cannot read %s\n", sysentry);
+		g_debug ("read_sysfs_entry: cannot read %s\n", sysentry);
 	return FALSE;
 	}
 
@@ -1909,7 +1909,7 @@ setup_sysfs_ac_power (gchar const *sysdir)
 	syspower	*sp;
 
 	if (_GK.debug_level & DEBUG_BATTERY)
-		printf ("setup_sysfs_ac_power: %s\n", sysdir);
+		g_debug ("setup_sysfs_ac_power: %s\n", sysdir);
 	sp = g_new0 (syspower, 1);
 	sp->type			= PWRTYPE_MAINS;
 	sp->id				= g_pwr_id++;
@@ -1940,7 +1940,7 @@ setup_sysfs_battery (gchar const *sysdir)
 	 * pretty.)
 	 */
 	if (_GK.debug_level & DEBUG_BATTERY)
-		printf ("setup_sysfs_battery: %s\n", sysdir);
+		g_debug ("setup_sysfs_battery: %s\n", sysdir);
 	units = CHGUNITS_uWH;
 	sys_charge_full = g_strconcat (sysdir, "/energy_full", NULL);
 	if (access (sys_charge_full, F_OK | R_OK))
@@ -2005,7 +2005,7 @@ done:
 	/*  Battery power sources are appended to the end of the list.  */
 	g_sysfs_power_list = g_list_append (g_sysfs_power_list, sp);
 	if (_GK.debug_level & DEBUG_BATTERY)
-		printf ("setup_sysfs_battery: %s, %s\n",
+		g_debug ("setup_sysfs_battery: %s, %s\n",
 		        sys_charge_full, sys_charge_now);
 	retval = TRUE;
 
@@ -2036,7 +2036,7 @@ setup_sysfs_power_entry (gchar const *sysentry)
 
 		type = g_strconcat (sysdir, "/type", NULL);
 		if (_GK.debug_level & DEBUG_BATTERY)
-			printf ("setup_sysfs_power_entry: checking %s\n", type);
+			g_debug ("setup_sysfs_power_entry: checking %s\n", type);
 		if (read_sysfs_entry (buf, sizeof (buf), type))
 			{
 			if (!strcasecmp (buf, SYSFS_TYPE_AC_ADAPTER))
@@ -2044,7 +2044,7 @@ setup_sysfs_power_entry (gchar const *sysentry)
 			else if (!strcasecmp (buf, SYSFS_TYPE_BATTERY))
 				retval = setup_sysfs_battery (sysdir);
 			else if (_GK.debug_level & DEBUG_BATTERY)
-				printf ("setup_sysfs_power_entry: unknown power type: %s\n",
+				g_debug ("setup_sysfs_power_entry: unknown power type: %s\n",
 						buf);
 			}
 		g_free (type);
@@ -2062,7 +2062,7 @@ sysfs_power_setup (void)
 	gboolean		retval = FALSE;
 
 	if (_GK.debug_level & DEBUG_BATTERY)
-		printf ("sysfs_power_setup() entry\n");
+		g_debug ("sysfs_power_setup() entry\n");
 	if ((d = opendir (SYSFS_POWER_SUPPLIES)) == NULL)
 		return retval;
 
@@ -2366,7 +2366,7 @@ sensors_config_migrate(gchar *current_name, gchar *config_name,
 				{
 				if (_GK.debug_level & DEBUG_SENSORS)
 					{
-					printf("migrate name %s->%s: %s -> %s\n",
+					g_debug("migrate name %s->%s: %s -> %s\n",
 							(config == SENSOR_NAMES_I2C) ? "i2c" : "hwmon",
 							(current == SENSOR_NAMES_LIBSENSORS) ?
 									"libsensors" : "hwmon",
@@ -2401,7 +2401,7 @@ sensors_config_migrate(gchar *current_name, gchar *config_name,
 				{
 				if (_GK.debug_level & DEBUG_SENSORS)
 					{
-					printf("migrate name %s->%s: %s -> %s\n",
+					g_debug("migrate name %s->%s: %s -> %s\n",
 							(config == SENSOR_NAMES_LIBSENSORS) ?
 									"libsensors" : "hwmon",
 							(current == SENSOR_NAMES_I2C) ? "i2c" : "hwmon",
@@ -2458,20 +2458,20 @@ libsensors_init(void)
 	if (!f)
 		{
 		if (_GK.debug_level & DEBUG_SENSORS)
-			printf("libsensors: could not open /etc/sensors.conf\n");
+			g_debug("libsensors: could not open /etc/sensors.conf\n");
 		return FALSE;
 		}
 
 	if (sensors_init(f) != 0)
 		{
 		if (_GK.debug_level & DEBUG_SENSORS)
-			printf("libsensors: init failed!\n");
+			g_debug("libsensors: init failed!\n");
 		return FALSE;
 		}
 	fclose(f);
 
 	if (_GK.debug_level & DEBUG_SENSORS)
-		printf("libsensors: init OK\n");
+		g_debug("libsensors: init OK\n");
 
 	n_sensors_added = 0;
 	nr = 0;
@@ -2506,7 +2506,7 @@ libsensors_init(void)
 				else
 					{
 					if (_GK.debug_level & DEBUG_SENSORS)
-						printf("libsensors: error determining type for: %s\n",
+						g_debug("libsensors: error determining type for: %s\n",
 								id_name);
 					continue;
 					}
@@ -2516,14 +2516,14 @@ libsensors_init(void)
 				if (name->bus != ((name->bus << 16) >> 16))
 					{
 					if (_GK.debug_level & DEBUG_SENSORS)
-						printf("libsensors: bus bigger than 16 bits: %s\n",
+						g_debug("libsensors: bus bigger than 16 bits: %s\n",
 								id_name);
 					continue;
 					}
 				if (name->addr != ((name->addr << 16) >> 16))
 					{
 					if (_GK.debug_level & DEBUG_SENSORS)
-						printf("libsensors: addr bigger than 16 bits: %s\n",
+						g_debug("libsensors: addr bigger than 16 bits: %s\n",
 								id_name);
 					continue;
 					}
@@ -2536,7 +2536,7 @@ libsensors_init(void)
 				if (sensors_get_label(*name, feature->number, &label) != 0)
 					{
 					if (_GK.debug_level & DEBUG_SENSORS)
-						printf("libsensors: error getting label for: %s\n",
+						g_debug("libsensors: error getting label for: %s\n",
 								id_name);
 					label = NULL;
 					}
@@ -2544,12 +2544,12 @@ libsensors_init(void)
 	if (sensors_init(NULL) != 0)
 		{
 		if (_GK.debug_level & DEBUG_SENSORS)
-			printf("libsensors: init failed!\n");
+			g_debug("libsensors: init failed!\n");
 		return FALSE;
 		}
 
 	if (_GK.debug_level & DEBUG_SENSORS)
-		printf("libsensors: init OK\n");
+		g_debug("libsensors: init OK\n");
 
 	n_sensors_added = 0;
 	nr = 0;
@@ -2597,7 +2597,7 @@ libsensors_init(void)
 				break;
 			  default:
 				if (_GK.debug_level & DEBUG_SENSORS)
-					printf("libsensors: error determining type for: %s\n",
+					g_debug("libsensors: error determining type for: %s\n",
 							id_name);
 				continue;
 			  }
@@ -2605,7 +2605,7 @@ libsensors_init(void)
 			if (!feature)
 				{
 				if (_GK.debug_level & DEBUG_SENSORS)
-					printf("libsensors: error could not get input subfeature for: %s\n",
+					g_debug("libsensors: error could not get input subfeature for: %s\n",
 							id_name);
 				continue;
 				}
@@ -2616,21 +2616,21 @@ libsensors_init(void)
 			if (name->bus.type != ((name->bus.type << 24) >> 24))
 				{
 				if (_GK.debug_level & DEBUG_SENSORS)
-					printf("libsensors: bus-type bigger than 8 bits: %s\n",
+					g_debug("libsensors: bus-type bigger than 8 bits: %s\n",
 							id_name);
 				continue;
 				}
 			if (name->bus.nr != ((name->bus.nr << 24) >> 24))
 				{
 				if (_GK.debug_level & DEBUG_SENSORS)
-					printf("libsensors: bus-nr bigger than 8 bits: %s\n",
+					g_debug("libsensors: bus-nr bigger than 8 bits: %s\n",
 							id_name);
 				continue;
 				}
 			if (name->addr != ((name->addr << 16) >> 16))
 				{
 				if (_GK.debug_level & DEBUG_SENSORS)
-					printf("libsensors: addr bigger than 16 bits: %s\n",
+					g_debug("libsensors: addr bigger than 16 bits: %s\n",
 							id_name);
 				continue;
 				}
@@ -2644,7 +2644,7 @@ libsensors_init(void)
 
 			label = sensors_get_label(name, main_feature);
 			if (!label && (_GK.debug_level & DEBUG_SENSORS))
-				printf("libsensors: error getting label for: %s\n",
+				g_debug("libsensors: error getting label for: %s\n",
 						id_name);
 
 			/* additional { to match "if (get_ignored(..) {"
@@ -2693,7 +2693,7 @@ libsensors_init(void)
 					free(label);
 
 				if (_GK.debug_level & DEBUG_SENSORS)
-					printf("%s %s %x\n",
+					g_debug("%s %s %x\n",
 							sensor_path, id_name,
 							iodev);
 
@@ -2730,7 +2730,7 @@ libsensors_get_value(char *sensor_path, int id, int iodev, float *value)
 	if (!p)
 		{
 		if (_GK.debug_level & DEBUG_SENSORS)
-			printf("libsensors: error parsing sensor_path: %s\n",
+			g_debug("libsensors: error parsing sensor_path: %s\n",
 					sensor_path);
 		return FALSE;
 		}
@@ -2748,11 +2748,11 @@ libsensors_get_value(char *sensor_path, int id, int iodev, float *value)
 	if (!result && (_GK.debug_level & DEBUG_SENSORS))
 		{
 		if (name.bus >= 0)
-			printf(
+			g_debug(
 				"libsensors: error getting value for: %s@%d:%x feature: %d\n",
 				name.prefix, name.bus, name.addr, id);
 		else
-			printf("libsensors: error getting value for: %s@%x feature: %d\n",
+			g_debug("libsensors: error getting value for: %s@%x feature: %d\n",
 					name.prefix, name.addr, id);
 		}
 
@@ -2771,12 +2771,12 @@ libsensors_get_value(char *sensor_path, int id, int iodev, float *value)
 			  {
 			  case SENSORS_BUS_TYPE_I2C:
 			  case SENSORS_BUS_TYPE_SPI:
-				printf(
+				g_debug(
 					"libsensors: error getting value for: %s@%d:%x feature: %d\n",
 					name.prefix, (int)name.bus.nr, name.addr, id);
 				break;
 			  default:
-				printf("libsensors: error getting value for: %s@%x feature: %d\n",
+				g_debug("libsensors: error getting value for: %s@%x feature: %d\n",
 					name.prefix, name.addr, id);
 			  }
 		}
@@ -3407,7 +3407,7 @@ sysfs_sensors_init(void)
 			}
 		have_sysfs_sensors = TRUE;
 		if (_GK.debug_level & DEBUG_SENSORS)
-				printf("sysfs sensors dir: %s\n", path);
+				g_debug("sysfs sensors dir: %s\n", path);
 
 		get_volt_default(chip_name, &voltdefault, &voltdefaultsize);
 		while ((name = (gchar *) g_dir_read_name(chip_dir)) != NULL)
@@ -3454,7 +3454,7 @@ sysfs_sensors_init(void)
 						id, 0, 0,
 						factor, offset, vref, default_label);
 			if (_GK.debug_level & DEBUG_SENSORS)
-				printf("%s %s %d %d\n",
+				g_debug("%s %s %d %d\n",
 							sensor_path, id_name, id, type);
 
 			if (!using_i2c_dir)
@@ -3506,7 +3506,7 @@ sensors_nvidia_settings_ngpus(void)
 	g_free(output);
 #endif
 	if (_GK.debug_level & DEBUG_SENSORS)
-		printf("nvidia-settings gpus = %d\n", n);
+		g_debug("nvidia-settings gpus = %d\n", n);
 	return n;
 	}
 
@@ -3532,7 +3532,7 @@ sensors_nvclock_ngpus(void)
 	g_free(output);
 #endif
 	if (_GK.debug_level & DEBUG_SENSORS)
-		printf("nvclock gpus = %d\n", n);
+		g_debug("nvclock gpus = %d\n", n);
 	return n;
 	}
 
@@ -3921,7 +3921,7 @@ gkrellm_sys_sensors_init(void)
 		}
 #else
 	if (_GK.debug_level & DEBUG_SENSORS)
-		printf("libsensors support is not compiled in.\n");
+		g_debug("libsensors support is not compiled in.\n");
 
 #endif
 
@@ -3943,7 +3943,7 @@ gkrellm_sys_sensors_init(void)
 			continue;
 			}
 		if (_GK.debug_level & DEBUG_SENSORS)
-			printf("lm_sensors dir: %s\n", path);
+			g_debug("lm_sensors dir: %s\n", path);
 
 		get_volt_default(chip_name, &voltdefault, &voltdefaultsize);
 		while ((sensor_name = (gchar *) g_dir_read_name(chip_dir)) != NULL)
@@ -3985,7 +3985,7 @@ gkrellm_sys_sensors_init(void)
 					factor, offset, vref, default_label);
 
 			if (_GK.debug_level & DEBUG_SENSORS)
-				printf("%s %s %d %d\n",
+				g_debug("%s %s %d %d\n",
 							sensor_path, id_name, id, type);
 			g_free(sensor_path);
 			}

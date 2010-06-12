@@ -2050,9 +2050,10 @@ gkrellm_abort(gint sig)
 		do_xmessage = FALSE;
 		}
 
+	// FIXME: xmessage is only available on X11
 	snprintf(buf, sizeof(buf), "xmessage gkrellm %s:  %s  (%s)", fault,
 				(mon && mon->name) ? mon->name : "", state);
-	printf("%s\n", buf + 9);
+	g_warning("%s\n", buf + 9);
 	if (do_xmessage)
 		g_spawn_command_line_async(buf, NULL);
 

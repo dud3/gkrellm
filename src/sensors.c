@@ -529,9 +529,9 @@ sensor_read_temperature(Sensor *sensor, gfloat *temp, gchar *units)
 	   	else
 			*units = '\0';
 		}
-	if ((_GK.debug_level & DEBUG_SENSORS) && sensor)
-		printf("sensor_temp: %s %s t=%.2f\n",
-					sensor->name_locale, sensor->path, sensor->value);
+	if (sensor)
+		gkrellm_debug(DEBUG_SENSORS, "sensor_temp: %s %s t=%.2f\n",
+			sensor->name_locale, sensor->path, sensor->value);
 	if (found_temp && sensor)
 		gkrellm_check_alert(sensor->alert, sensor->value);
 	return found_temp;
@@ -565,9 +565,9 @@ sensor_read_fan(Sensor *sensor, gfloat *fan)
 		}
 	if (fan)
 		*fan = f;
-	if ((_GK.debug_level & DEBUG_SENSORS) && sensor)
-		printf("sensor_fan: %s %s rpm=%.0f\n",
-					sensor->name_locale, sensor->path, sensor->value);
+	if (sensor)
+		gkrellm_debug(DEBUG_SENSORS, "sensor_fan: %s %s rpm=%.0f\n",
+			sensor->name_locale, sensor->path, sensor->value);
 	if (found_fan && sensor)
 		gkrellm_check_alert(sensor->alert, sensor->value);
 	return found_fan;
@@ -605,9 +605,9 @@ sensor_read_voltage(Sensor *sensor, gfloat *voltage)
 		}
 	if (voltage)
 		*voltage = v;
-	if ((_GK.debug_level & DEBUG_SENSORS) && sensor)
-		printf("sensor_voltage: %s %s v=%.2f\n",
-				sensor->name_locale, sensor->path, sensor->value);
+	if (sensor)
+		gkrellm_debug(DEBUG_SENSORS, "sensor_voltage: %s %s v=%.2f\n",
+			sensor->name_locale, sensor->path, sensor->value);
 	if (found_voltage && sensor)
 		gkrellm_check_alert(sensor->alert, sensor->value);
 	return found_voltage;
@@ -1731,7 +1731,7 @@ save_sensors_config(FILE *f_not_used)
 
 	if (!sensor_list || _GK.no_config)
 		return;
-	sprintf(buf, "%s/%s", GKRELLM_DIR, SENSOR_CONFIG_FILE);
+	snprintf(buf, sizeof(buf), "%s/%s", GKRELLM_DIR, SENSOR_CONFIG_FILE);
 	config = gkrellm_make_config_file_name(gkrellm_homedir(), buf);
 	f = g_fopen(config, "w");
 	g_free(config);
@@ -1810,8 +1810,8 @@ load_sensors_config(gchar *arg)
 	n = sscanf(arg, "%31s %[^\n]", config, item);
 	if (n != 2)
 		return;
-	if (_GK.debug_level & DEBUG_SENSORS)
-		printf("load_sensors_config: <%s> <%s>\n", config, item);
+	gkrellm_debug(DEBUG_SENSORS, "load_sensors_config: <%s> <%s>\n", config,
+		item);
 	if (!strcmp(config, "sensor_config_version"))
 		sscanf(item, "%d", &sensor_config_version);
 	else if (!strcmp(config, "sensor_sysdep_private"))
@@ -1912,14 +1912,14 @@ read_sensors_config(void)
 	gchar	*config;
 	gchar	buf[CFG_BUFSIZE];
 
-	sprintf(buf, "%s/%s", GKRELLM_DIR, SENSOR_CONFIG_FILE);
+	snprintf(buf, sizeof(buf), "%s/%s", GKRELLM_DIR, SENSOR_CONFIG_FILE);
 	config = gkrellm_make_config_file_name(gkrellm_homedir(), buf);
 	f = g_fopen(config, "r");
 	g_free(config);
 
 	if (!f)
 		{
-		sprintf(buf, "%s/%s", GKRELLM_DIR, SENSOR_2_1_14_CONFIG_FILE);
+		snprintf(buf, sizeof(buf), "%s/%s", GKRELLM_DIR, SENSOR_2_1_14_CONFIG_FILE);
 		config = gkrellm_make_config_file_name(gkrellm_homedir(), buf);
 		f = g_fopen(config, "r");
 		g_free(config);
@@ -2163,7 +2163,7 @@ row_drop_possible(GtkTreeDragDest *drag_dest, GtkTreePath *path,
 	src_path = gtk_tree_row_reference_get_path(row_reference);
 	src_indices = gtk_tree_path_get_indices(src_path);
 	dst_indices = gtk_tree_path_get_indices(path);
-//printf("drop path: indices=[%d,%d]:%d, path=%s\n",
+//g_debug("drop path: indices=[%d,%d]:%d, path=%s\n",
 //	dst_indices[0], dst_indices[1], gtk_tree_path_get_depth(path),
 //	gtk_tree_path_to_string(path));
 
@@ -2469,7 +2469,7 @@ cb_tree_selection_changed(GtkTreeSelection *selection, gpointer data)
 	path = gtk_tree_model_get_path(model, &iter);
 	indices = gtk_tree_path_get_indices(path);
 	depth = gtk_tree_path_get_depth(path);
-//printf("selection: indices=[%d,%d]:%d, path=%s\n",
+//g_debug("selection: indices=[%d,%d]:%d, path=%s\n",
 //		indices[0], indices[1], gtk_tree_path_get_depth(path),
 //		gtk_tree_path_to_string(path));
     change_row_reference(model, path);

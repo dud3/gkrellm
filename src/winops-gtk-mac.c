@@ -129,7 +129,7 @@ gkrellm_winop_options(gint argc, gchar **argv)
 		&& !_gkrellm_get_lock()
 	   )
 		{
-		printf("gkrellm: %s\n",
+		g_message("gkrellm: %s\n",
 			_("Exiting because multiple instances option is off.\n"));
 		exit(0);
 		}
@@ -163,8 +163,7 @@ gkrellm_winop_place_gkrellm(gchar *geom)
 	_GK.y_position = y;
 	_GK.x_position = x;
 	_GK.position_valid = TRUE;
-	if (_GK.debug_level & DEBUG_POSITION)
-		printf("geometry moveto %d %d\n", x, y);
+	gkrellm_debug(DEBUG_POSITION, "geometry moveto %d %d\n", x, y);
 	*/
 	}
 

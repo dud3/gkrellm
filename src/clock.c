@@ -209,7 +209,7 @@ strftime_format(gchar *format, gchar *alt_color)
 	g_free (locale_format);
 	format_alt_color(buf1, buf2, sizeof(buf2), alt_color);
 
-// printf("%s\n", buf2);
+// g_debug("%s\n", buf2);
 
 	return g_locale_to_utf8 (buf2, -1, NULL, NULL, NULL);
 	}

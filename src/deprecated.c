@@ -100,14 +100,14 @@ gdk_string_extents(void *font_desc, const char *string,
 int
 setuid(uid_t u)
 	{
-//	printf("setuid() intercepted\n");
+//	g_debug("setuid() intercepted\n");
 	return 0;
 	}
 
 int
 setreuid(uid_t r, uid_t e)
 	{
-//	printf("setreuid() intercepted\n");
+//	g_debug("setreuid() intercepted\n");
 	return 0;
 	}
 

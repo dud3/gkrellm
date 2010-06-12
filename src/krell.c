@@ -958,7 +958,7 @@ gkrellm_create_krell(GkrellmPanel *p, GkrellmPiximage *im, GkrellmStyle *style)
 
 	if (im == NULL || style == NULL)
 		{
-		printf(_("create_krell: NULL image or style\n"));
+		g_warning(_("create_krell: NULL image or style\n"));
 		exit(0);
 		}
 

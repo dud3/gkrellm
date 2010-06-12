@@ -1019,9 +1019,9 @@ gkrellm_draw_chart_text(GkrellmChart *cp, gint style_id, gchar *str)
 
 	if (_GK.debug_level & DEBUG_CHART_TEXT)
 		{
-		printf("\n");
+		g_debug("\n");
 		if (!cp->text_format_reuse)
-			printf("draw_chart_text: [%s]\n", str);
+			g_debug("draw_chart_text: [%s]\n", str);
 		}
 
 	if (   !cp->text_format_reuse
@@ -1171,7 +1171,7 @@ gkrellm_draw_chart_text(GkrellmChart *cp, gint style_id, gchar *str)
 
 				strncpy(buf, s, text_length);
 				buf[text_length] = '\0';
-				printf("draw_chart_text: [%s] ", buf);
+				g_debug("draw_chart_text: [%s] ", buf);
 				}
 			
 			offset = cp->baseline_ref - tr->baseline;	/* align baselines */
@@ -1183,7 +1183,7 @@ gkrellm_draw_chart_text(GkrellmChart *cp, gint style_id, gchar *str)
 				if (!tr->cache_valid)
 					{
 					if (_GK.debug_level & DEBUG_CHART_TEXT)
-						printf("pango ");
+						g_debug("pango ");
 					gdk_draw_drawable(cp->bg_text_pixmap, _GK.draw1_GC,
 							cp->bg_pixmap,
 							x - 1, y + tr->y_ink + offset - 1,
@@ -1193,7 +1193,7 @@ gkrellm_draw_chart_text(GkrellmChart *cp, gint style_id, gchar *str)
 							text_length);
 					}
 				if (_GK.debug_level & DEBUG_CHART_TEXT)
-					printf("x=%d y=%d w=%d h=%d\n",
+					g_debug("x=%d y=%d w=%d h=%d\n",
 							x - 1, y + tr->y_ink + offset - 1,
 							tr->w + shadow + 2, tr->h + shadow + 1);
 				gdk_draw_drawable(cp->pixmap, _GK.draw1_GC, cp->bg_text_pixmap,
@@ -1983,7 +1983,7 @@ gkrellm_125_sequence(gint value, gboolean use125,
 		{
 		for (i = 0; i < table_size; ++i)
 			{
-/*printf("  mapping[%d] value=%d table=%d\n", i, value, table[i]); */
+/*g_debug("  mapping[%d] value=%d table=%d\n", i, value, table[i]); */
 			if (value == table[i])
 				return table[i];
 			else if (value == table[i] - 1)
@@ -2742,20 +2742,20 @@ debug_dump_chart_list()
 	GkrellmPanel	*p;
 	GkrellmChartdata *cd;
 
-	printf("\n");
+	g_debug("\n");
 	for (list = gkrellm_get_chart_list(); list; list = list->next)
 		{
 		cp = (GkrellmChart *) list->data;
 		p = cp->panel;
 		if (p && p->label && p->label->string)
-			printf("%s [%d]: ", p->label->string, cp->style_id);
+			g_debug("%s [%d]: ", p->label->string, cp->style_id);
 		else
-			printf("(null) [%d]: ", cp->style_id);
+			g_debug("(null) [%d]: ", cp->style_id);
 		for (cdlist = cp->cd_list; cdlist; cdlist = cdlist->next)
 			{
 			cd = (GkrellmChartdata *) cdlist->data;
-			printf("%s %p->data ", cd->label, cd->data);
+			g_debug("%s %p->data ", cd->label, cd->data);
 			}
-		printf("\n");
+		g_debug("\n");
 		}
 	}

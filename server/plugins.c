@@ -220,7 +220,8 @@ gkrellmd_plugin_scan(gchar *path)
 			}
 		if (_GK.list_plugins)
 			{
-			printf("%s    (%s)\n", name, path);
+			// TODO: list plugins support on win32
+			g_message("%s    (%s)\n", name, path);
 			continue;
 			}
 		for (list = plugin_list; list; list = list->next)

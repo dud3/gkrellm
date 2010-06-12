@@ -567,7 +567,7 @@ assign_custom_style(gchar *debug_name, GList *style_list, gint index,
 		custom_style =
 				(GkrellmStyle *) g_list_nth_data(_GK.custom_style_list, i);
 
-//printf("assign_custom_style(%s, %s, %d, %s) %d\n",
+//g_debug("assign_custom_style(%s, %s, %d, %s) %d\n",
 //debug_name, custom_name, entry_flag, arg, i);
 	assign_style_entry(custom_style, arg, entry_flag);
 	set_themed(custom_style, entry_flag);

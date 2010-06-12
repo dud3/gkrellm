@@ -305,8 +305,8 @@ gkrellm_disk_assign_data_nth(gint n, guint64 rb, guint64 wb, gboolean virtual)
 		disk = (DiskMon *) g_list_nth_data(disk_mon_list, n + 1);
 	else
 		{
-		sprintf(name, "%s%c", "Disk", 'A' + n);
-		sprintf(label, "%s%c", _("Disk"), 'A' + n);
+		snprintf(name, sizeof(name), "%s%c", "Disk", 'A' + n);
+		snprintf(label, sizeof(label), "%s%c", _("Disk"), 'A' + n);
 		disk = add_disk(name, label, 0, 0, n);
 		}
 	disk_assign_data(disk, rb, wb, virtual);
@@ -1250,7 +1250,7 @@ cb_tree_selection_changed(GtkTreeSelection *selection, gpointer data)
 	path = gtk_tree_model_get_path(model, &iter);
 	indices = gtk_tree_path_get_indices(path);
 	depth = gtk_tree_path_get_depth(path);
-// printf("selection: indices=[%d,%d]:%d, path=%s\n",
+// g_debug("selection: indices=[%d,%d]:%d, path=%s\n",
 //          indices[0], indices[1], gtk_tree_path_get_depth(path),
 //          gtk_tree_path_to_string(path));
 	change_row_reference(model, path);

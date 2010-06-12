@@ -468,9 +468,9 @@ check_media_type(kstat_t *ksp) {
                 return 0; /* guess it's removable media */
             } else {
 #ifdef DEBUG
-                printf("opening %s\n", devices_path);
-                printf("unexpected errno: %d\n", errno);
-                printf("disabled auto-detection/exclusion of removable media\n");
+                g_message("opening %s\n", devices_path);
+                g_message("unexpected errno: %d\n", errno);
+                g_message("disabled auto-detection/exclusion of removable media\n");
 #endif
                 close(fd);
                 di_devfs_path_free(phys_path);
@@ -773,11 +773,11 @@ gkrellm_sys_net_sync(void)
     }
 
 #ifdef DEBUG
-    printf("interfaces probed: ");
+    g_message("interfaces probed: ");
     for (i=0; i < numifs; i++) {
-        printf("%s ", ifc.ifc_req[i].ifr_name);
+        g_message("%s ", ifc.ifc_req[i].ifr_name);
     }
-    printf("\n");
+    g_message("\n");
 #endif
     
     ifrp = ifc.ifc_req;

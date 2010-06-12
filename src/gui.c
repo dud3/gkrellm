@@ -1630,8 +1630,7 @@ gkrellm_load_theme_config(void)
 			{
 			if ((s = strchr(buf, (gint) '\n')) != NULL)
 				*s = '\0';
-			if (_GK.debug_level & DEBUG_GUI)
-				printf("gkrellm_load_theme_config: %s\n", buf);
+			gkrellm_debug(DEBUG_GUI, "gkrellm_load_theme_config: %s\n", buf);
 			s = buf;
 			if (s && *s != '#' && *s != '\0' && strcmp(s, "Default"))
 				{
@@ -1645,8 +1644,7 @@ gkrellm_load_theme_config(void)
 				{
 				if ((s = strchr(buf, (gint) '\n')) != NULL)
 					*s = '\0';
-				if (_GK.debug_level & DEBUG_GUI)
-					printf("gkrellm_load_theme_config: %s\n", buf);
+				gkrellm_debug(DEBUG_GUI, "gkrellm_load_theme_config: %s\n", buf);
 				if (i == 0)
 					sscanf(buf, "%d", &_GK.theme_alternative);
 				if (i == 1 && !strstr(buf, "*-*"))	/* XXX Trap out GdkFont */
@@ -1684,8 +1682,8 @@ gkrellm_read_theme_event(GtkSettings  *settings)
 					/* so get the current gtk theme name and switch to it  */
 		{
 		g_object_get(_GK.gtk_settings, "gtk-theme-name", &theme_name, NULL);
-		if ((_GK.debug_level & DEBUG_GUI) && theme_name)
-			printf("notify::gtk-theme-name: %s\n", theme_name);
+		if (theme_name)
+			gkrellm_debug(DEBUG_GUI, "notify::gtk-theme-name: %s\n", theme_name);
 
 		if (   gkrellm_dup_string(&_GK.gtk_theme_name, theme_name)
 			&& _GK.track_gtk_theme_name
@@ -2125,8 +2123,8 @@ create_config_page(GkrellmMonitor *mon, GtkTreeStore *tree, GtkTreeIter *iter,
 			PAGE_COLUMN, page,
 			-1);
 
-	if (_GK.debug_level & DEBUG_GUI)
-		printf("create_config_page %d: %s\n", page, mon ? mon->name : "--");
+	gkrellm_debug(DEBUG_GUI, "create_config_page %d: %s\n", page,
+		mon ? mon->name : "--");
 
 	return vbox;
 	}
@@ -2196,9 +2194,8 @@ gkrellm_remove_plugin_config_page(GkrellmMonitor *mon)
 			if (mon->privat->config_page >= tmon->privat->config_page)
 				continue;
 			tmon->privat->config_page -= 1;
-			if (_GK.debug_level & DEBUG_GUI)
-				printf("config_page %d: %s\n",
-						tmon->privat->config_page,  tmon->name);
+			gkrellm_debug(DEBUG_GUI, "config_page %d: %s\n",
+				tmon->privat->config_page, tmon->name);
 			}
 		}
 	mon->privat->config_page = -1;
@@ -2261,9 +2258,8 @@ cb_tree_selection_changed(GtkTreeSelection *selection, gpointer data)
 	set_apply_mode(instant);
 
 	gtk_notebook_set_current_page(config_notebook, page);
-	if (_GK.debug_level & DEBUG_GUI)
-		printf("tree_selection_changed %d: %s\n",
-					page, selected_monitor ? selected_monitor->name : "--");
+	gkrellm_debug(DEBUG_GUI, "tree_selection_changed %d: %s\n",
+		page, selected_monitor ? selected_monitor->name : "--");
 	}
 
   /* Monitors may want to present as instant apply monitors, but still need

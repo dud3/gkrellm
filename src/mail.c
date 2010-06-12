@@ -3220,12 +3220,12 @@ set_list_store_model_data(GtkListStore *store, GtkTreeIter *iter,
 		{
 		default_port = default_port_of_proto(account->protocol,
 						     account->use_ssl);
-		sprintf(abuf, "%s",
+		snprintf(abuf, sizeof(abuf), "%s",
 			auth_string(account->protocol, account->authmech));
 		mailbox = g_strdup(account->server);
 		if (account->port != atoi(default_port))
 			{
-			sprintf(pbuf, ":%d", account->port);
+			snprintf(pbuf, sizeof(pbuf), ":%d", account->port);
 			s = g_strconcat(mailbox, pbuf, NULL);
 			g_free(mailbox);
 			mailbox = s;
@@ -3243,7 +3243,7 @@ set_list_store_model_data(GtkListStore *store, GtkTreeIter *iter,
 		}
 	else
 		{
-		sprintf(abuf, "%s", mbox_strings[account->mboxtype & 0xf]);
+		snprintf(abuf, sizeof(abuf), "%s", mbox_strings[account->mboxtype & 0xf]);
 		mailbox = g_strdup_printf("%s", account->homedir_path ?
 					account->homedir_path : account->path);
 		}
@@ -3466,7 +3466,7 @@ cb_tree_selection_changed(GtkTreeSelection *selection, gpointer data)
 			account->port = default_port;
 		active = (account->port == default_port) ? FALSE : TRUE;
 		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(port_button), active);
-		sprintf(buf, "%d", account->port);
+		snprintf(buf, sizeof(buf), "%d", account->port);
 		gtk_entry_set_text(GTK_ENTRY(port_entry), buf);		
 		}
 	else if (local_supported)

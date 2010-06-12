@@ -32,7 +32,6 @@
 */
 
 
-
 /* A system dependent interface can include this file to get sensors
 |  from daemons that can run under different operating systems.
 */
@@ -85,9 +84,8 @@ mbmon_decimal_point_check(gchar *buf)
 	if (mbmon_decimal_point_fix(s))
 		{
 		mbmon_need_decimal_point_fix = TRUE;
-		if (_GK.debug_level & DEBUG_SENSORS)
-			printf("mbmon_need_decimal_point_fix: %c -> %c\n",
-					mbmon_decimal_point, gkrellm_decimal_point);
+		gkrellm_debug(DEBUG_SENSORS, "mbmon_need_decimal_point_fix: %c -> %c\n",
+			mbmon_decimal_point, gkrellm_decimal_point);
 		}
 	g_free(s);
 
@@ -143,9 +141,9 @@ mbmon_daemon_read(void)
 
 	if ((fd = gkrellm_connect_to(server, _GK.mbmon_port)) < 0)
 		{
-		if (_GK.debug_level & DEBUG_SENSORS)
-			printf("mbmon_daemon_read: can't connect to %s:%d.\n",
-			       server, _GK.mbmon_port);
+		gkrellm_debug(DEBUG_SENSORS,
+			"mbmon_daemon_read: can't connect to %s:%d.\n", server,
+			_GK.mbmon_port);
 		return FALSE;
 		}
 
@@ -160,8 +158,7 @@ mbmon_daemon_read(void)
 		}
 	close(fd);
 
-	if (_GK.debug_level & DEBUG_SENSORS)
-		printf("mbmon_daemon_read:\n%s\n", mbmon_gstring->str);
+	gkrellm_debug(DEBUG_SENSORS, "mbmon_daemon_read:\n%s\n", mbmon_gstring->str);
 
 	while (gkrellm_getline_from_gstring(&mbmon_gstring, buf, sizeof(buf)))
 		{
@@ -317,9 +314,9 @@ hddtemp_daemon_read(void)
 
 	if ((fd = gkrellm_connect_to(server, HDDTEMP_PORT)) < 0)
 		{
-		if (_GK.debug_level & DEBUG_SENSORS)
-			printf("hddtemp_daemon_read: can't connect to %s:%d.\n",
-			       server, HDDTEMP_PORT);
+		gkrellm_debug(DEBUG_SENSORS,
+			"hddtemp_daemon_read: can't connect to %s:%d.\n", server,
+			HDDTEMP_PORT);
 		return FALSE;
 		}
 
@@ -334,9 +331,8 @@ hddtemp_daemon_read(void)
 		}
 	close(fd);
 
-	if (_GK.debug_level & DEBUG_SENSORS)
-		printf("hddtemp_daemon_read (once a minute):\n\t%s\n",
-					hddtemp_gstring->str);
+	gkrellm_debug(DEBUG_SENSORS, "hddtemp_daemon_read (once a minute):\n\t%s\n",
+		hddtemp_gstring->str);
 
 	sep = hddtemp_gstring->str[0];
 	if (sep == '\0')

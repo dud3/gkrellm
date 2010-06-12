@@ -173,10 +173,9 @@ gkrellm_connect_to(gchar *server, gint server_port)
 		if ((fd = socket(res->ai_family, res->ai_socktype,
 				res->ai_protocol)) < 0)
 			continue;
-		if (_GK.debug_level & DEBUG_SENSORS)
-			printf("\t[gkrellm_connect_to: (%d,%d,%d) %s:%d]\n",
-			       res->ai_family, res->ai_socktype,
-			       res->ai_protocol, server, server_port);
+		gkrellm_debug(DEBUG_SENSORS,
+			"\t[gkrellm_connect_to: (%d,%d,%d) %s:%d]\n", res->ai_family,
+			res->ai_socktype, res->ai_protocol, server, server_port);
 		if (connect(fd, res->ai_addr, res->ai_addrlen) >= 0)
 			break;
 #ifdef WIN32
@@ -188,8 +187,8 @@ gkrellm_connect_to(gchar *server, gint server_port)
 		}
 	freeaddrinfo(res0);
 #else
-	if (_GK.debug_level & DEBUG_SENSORS)
-		printf("\t[gkrellm_connect_to: %s:%d]\n", server, server_port);
+	gkrellm_debug(DEBUG_SENSORS, "\t[gkrellm_connect_to: %s:%d]\n", server,
+		server_port);
 	addr = gethostbyname(server);
 	if (addr)
 		{

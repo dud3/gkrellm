@@ -97,7 +97,7 @@ gkrellmd_serve_data(GkrellmdMonitor *mon, gchar *line)
 			}
 		else
 			{
-			printf("gkrellmd: %s forgot to gkrellmd_set_serve_name()\n",
+			g_warning("gkrellmd: %s forgot to gkrellmd_set_serve_name()\n",
 					mon->name);
 			return;
 			}
@@ -201,7 +201,7 @@ serve_cpu_data(GkrellmdMonitor *mon, gboolean first_serve)
 	for (list = cpu_list; list; list = list->next)
 		{
 		cpu = (CpuData *) list->data;
-		sprintf(buf, "%d %lu %lu %lu %lu\n", cpu->instance,
+		snprintf(buf, sizeof(buf), "%d %lu %lu %lu %lu\n", cpu->instance,
 				cpu->user, cpu->nice, cpu->sys, cpu->idle);
 		gkrellmd_serve_data(mon, buf);
 		}
@@ -471,7 +471,7 @@ gkrellm_disk_assign_data_nth(gint n, guint64 rb, guint64 wb, gboolean virtual)
 		disk = (DiskData *) g_list_nth_data(disk_list, n);
 	else
 		{
-		sprintf(name, "%s%c", _("Disk"), 'A' + n);
+		snprintf(name, sizeof(name), "%s%c", _("Disk"), 'A' + n);
 		disk = add_disk(name, n, 0, 0);
 		}
 	disk_assign_data(disk, rb, wb, virtual);
@@ -741,7 +741,7 @@ serve_inet_data(GkrellmdMonitor *mon, gboolean first_serve)
 			   )
 				{
 				cp = inet_ntoa(tcp->remote_addr);
-				sprintf(buf, "+0 %x %s:%x\n",
+				snprintf(buf, sizeof(buf), "+0 %x %s:%x\n",
 							tcp->local_port, cp, tcp->remote_port);
 				}
 #if defined(INET6) && defined(HAVE_GETADDRINFO)
@@ -783,7 +783,7 @@ serve_inet_data(GkrellmdMonitor *mon, gboolean first_serve)
 			if (tcp->family == AF_INET)
 				{
 				cp = inet_ntoa(tcp->remote_addr);
-				sprintf(buf, "-0 %x %s:%x\n",
+				snprintf(buf, sizeof(buf), "-0 %x %s:%x\n",
 							tcp->local_port, cp, tcp->remote_port);
 				}
 #if defined(INET6) && defined(HAVE_GETADDRINFO)
@@ -1089,7 +1089,7 @@ serve_net_data(GkrellmdMonitor *mon, gboolean first_serve)
 		net = (NetData *) list->data;
 		if (net->changed || first_serve)
 			{
-			sprintf(buf, "%s %lu %lu\n", net->name, net->rx, net->tx);
+			snprintf(buf, sizeof(buf), "%s %lu %lu\n", net->name, net->rx, net->tx);
 			gkrellmd_serve_data(mon, buf);
 			}
 		}
@@ -1106,7 +1106,7 @@ serve_net_data(GkrellmdMonitor *mon, gboolean first_serve)
 			fake_up_event = (first_serve && net->up);
 			if (net->up_event || net->down_event || fake_up_event)
 				{
-				sprintf(buf, "%s %d\n", net->name,
+				snprintf(buf, sizeof(buf), "%s %d\n", net->name,
 						fake_up_event ? TRUE : net->up_event);
 				gkrellmd_serve_data(mon, buf);
 				}
@@ -1120,7 +1120,7 @@ serve_net_data(GkrellmdMonitor *mon, gboolean first_serve)
 		if (net_timer->timed_changed || first_serve)
 			{
 			gkrellmd_set_serve_name(mon, "net_timer");
-			sprintf(buf, "%s %d\n", net_timer->name, (gint)net_timer->up_time);
+			snprintf(buf, sizeof(buf), "%s %d\n", net_timer->name, (gint)net_timer->up_time);
 			gkrellmd_serve_data(mon, buf);
 			}
 		}
@@ -1940,7 +1940,7 @@ serve_sensors_data(GkrellmdMonitor *mon, gboolean first_serve)
 			continue;
 		if (sr->changed || first_serve)
 			{
-			sprintf(buf, "%d \"%s\" %d %d %d %.2f\n",
+			snprintf(buf, sizeof(buf), "%d \"%s\" %d %d %d %.2f\n",
 					sr->type, sr->id_name,
 					sr->id, sr->iodev, sr->inter, sr->raw_value);
 			gkrellmd_serve_data(mon, buf);
@@ -1965,12 +1965,12 @@ serve_sensors_setup(GkrellmdMonitor *mon)
 		if (s->group == SENSOR_GROUP_DISK && !sensor_disk_ok)
 			continue;
 		if (sensor_disk_ok)
-			sprintf(buf, "%d \"%s\" %d %d %d %.4f %.4f \"%s\" \"%s\" %d\n",
+			snprintf(buf, sizeof(buf), "%d \"%s\" %d %d %d %.4f %.4f \"%s\" \"%s\" %d\n",
 					s->type, s->id_name,
 					s->id, s->iodev, s->inter,
 					s->factor, s->offset, s->vref, s->default_label, s->group);
 		else
-			sprintf(buf, "%d \"%s\" %d %d %d %.4f %.4f \"%s\" \"%s\"\n",
+			snprintf(buf, sizeof(buf), "%d \"%s\" %d %d %d %.4f %.4f \"%s\" \"%s\"\n",
 					s->type, s->id_name,
 					s->id, s->iodev, s->inter,
 					s->factor, s->offset, s->vref, s->default_label);
@@ -2057,7 +2057,7 @@ send_time(GkrellmdClient *client)
 	gchar		buf[128];
 
 	t = &gkrellmd_current_tm;
-	sprintf(buf, "<time>\n%d %d %d %d %d %d %d %d %d\n",
+	snprintf(buf, sizeof(buf), "<time>\n%d %d %d %d %d %d %d %d %d\n",
 		t->tm_sec, t->tm_min, t->tm_hour,
 		t->tm_mday, t->tm_mon, t->tm_year,
 		t->tm_wday, t->tm_yday, t->tm_isdst);
@@ -2111,7 +2111,7 @@ gkrellmd_load_monitors(void)
 	if (_GK.list_plugins)
 		exit(0);
 	if (_GK.log_plugins)
-		printf("%s\n", plugin_install_log ? plugin_install_log :
+		g_message("%s\n", plugin_install_log ? plugin_install_log :
 				_("No plugins found\n"));
 	for (  ; list; list = list->next)
 		{
@@ -2201,7 +2201,7 @@ gkrellmd_update_monitors(void)
 			send_time(client);
 		else if (GK.second_tick)
 			{
-			sprintf(buf, "<.%d>\n", gkrellmd_current_tm.tm_sec);
+			snprintf(buf, sizeof(buf), "<.%d>\n", gkrellmd_current_tm.tm_sec);
 			gkrellmd_send_to_client(client, buf);
 			}
 
@@ -2241,7 +2241,7 @@ gkrellmd_serve_setup(GkrellmdClient *client)
 	g_free(s);
 
 	lc = localeconv();
-	sprintf(buf, "%c\n", *lc->decimal_point);
+	snprintf(buf, sizeof(buf), "%c\n", *lc->decimal_point);
 	s = g_strconcat("<decimal_point>\n", buf, "\n", NULL);
 	gkrellmd_send_to_client(client, s);
 	g_free(s);
@@ -2269,16 +2269,16 @@ gkrellmd_serve_setup(GkrellmdClient *client)
 	for (list = gkrellmd_monitor_list; list; list = list->next)
 		{
 		mon = (GkrellmdMonitor *) list->data;
-		sprintf(buf, "%s\n", mon->name);
+		snprintf(buf, sizeof(buf), "%s\n", mon->name);
 		gkrellmd_send_to_client(client, buf);
 		}
 
-	sprintf(buf, "%d\n", _GK.io_timeout);
+	snprintf(buf, sizeof(buf), "%d\n", _GK.io_timeout);
 	s = g_strconcat("<io_timeout>\n", buf, "\n", NULL);
 	gkrellmd_send_to_client(client, s);
 	g_free(s);
 
-	sprintf(buf, "%d\n", _GK.reconnect_timeout);
+	snprintf(buf, sizeof(buf), "%d\n", _GK.reconnect_timeout);
 	s = g_strconcat("<reconnect_timeout>\n", buf, "\n", NULL);
 	gkrellmd_send_to_client(client, s);
 	g_free(s);

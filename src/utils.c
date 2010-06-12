@@ -114,7 +114,7 @@ gkrellm_cut_quoted_string(gchar *src, gchar **endptr)
 			{
 			if (endptr)
 				*endptr = src;
-			printf(_("Unterminated quote\n"));
+			g_warning(_("Unterminated quote\n"));
 			return NULL;
 			}
 		*s = '\0';
@@ -230,7 +230,7 @@ gkrellm_make_home_subdir(gchar *subdir, gchar **path)
 	if (!g_file_test(dir, G_FILE_TEST_IS_DIR))
 		{
 		if (g_mkdir(dir, 0755) < 0)
-			printf(_("Cannot create directory: %s\n"), dir);
+			g_warning(_("Cannot create directory: %s\n"), dir);
 		else
 			result = TRUE;
 		}
