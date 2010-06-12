@@ -115,11 +115,12 @@ OBJS = main.o monitor.o mail.o plugins.o glib.o utils.o sysdeps-unix.o log.o
 all:	gkrellmd
 
 gkrellmd: $(OBJS) $(EXTRAOBJS)
-	$(CC) $(OBJS) $(EXTRAOBJS) -o gkrellmd $(LIBS) $(LINK_FLAGS)
+	$(CC) $(OBJS) $(EXTRAOBJS) -o gkrellmd \
+		$(LDFLAGS) $(LIBS) $(LINK_FLAGS)
 
 static: $(OBJS) $(EXTRAOBJS)
 	$(CC) $(OBJS) $(EXTRAOBJS) -o gkrellmd.static -static \
-		$(LIBS) $(LINK_FLAGS)
+		$(LDFLAGS) $(LIBS) $(LINK_FLAGS)
 
 freebsd2:
 	$(MAKE) GTK_CONFIG=gtk12-config \

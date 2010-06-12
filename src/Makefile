@@ -115,11 +115,12 @@ UNIXOBJS = winops-x11.o
 all:	gkrellm
 
 gkrellm: check_env $(OBJS) $(UNIXOBJS) $(EXTRAOBJS)
-	$(CC) $(OBJS) $(UNIXOBJS) $(EXTRAOBJS) -o gkrellm $(LIBS) $(LINK_FLAGS)
+	$(CC) $(OBJS) $(UNIXOBJS) $(EXTRAOBJS) -o gkrellm \
+		$(LDFLAGS) $(LIBS) $(LINK_FLAGS)
 
 static: check_env $(OBJS) $(UNIXOBJS) $(EXTRAOBJS)
 	$(CC) $(OBJS) $(UNIXOBJS) $(EXTRAOBJS) -o gkrellm.static -static \
-		$(LIBS) $(LINK_FLAGS)
+		$(LDFLAGS) $(LIBS) $(LINK_FLAGS)
 
 freebsd2:
 ifeq ($(HAVE_SSL),1)
