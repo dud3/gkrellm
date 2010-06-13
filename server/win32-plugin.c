@@ -1,7 +1,7 @@
  /* GKrellM Windows Portion
 |  Copyright (C) 2006-2009 Stefan Gehn
 |
-|  Authors:  Stefan Gehn    stefan@gkrellm.srcbox.net
+|  Authors:  Stefan Gehn    stefan+gkrellm@srcbox.net
 |  Latest versions might be found at:  http://gkrellm.net
 |
 |

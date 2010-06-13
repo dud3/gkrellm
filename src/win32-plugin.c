@@ -3,7 +3,7 @@
 |                2007-2009 Stefan Gehn
 |
 |  Authors:  Bill Wilson    billw@gkrellm.net
-|            Stefan Gehn    stefan@gkrellm.srcbox.net
+|            Stefan Gehn    stefan+gkrellm@srcbox.net
 |  Latest versions might be found at:  http://gkrellm.net
 |
 |

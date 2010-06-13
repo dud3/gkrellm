@@ -5,7 +5,7 @@
 |
 |  Authors:  Bill Wilson    billw@gkrellm.net
 |            Bill Nalen     bill@nalens.com
-|            Stefan Gehn    stefan@gkrellm.srcbox.net
+|            Stefan Gehn    stefan+gkrellm@srcbox.net
 |  Latest versions might be found at:  http://gkrellm.net
 |
 |
