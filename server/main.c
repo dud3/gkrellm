@@ -568,7 +568,11 @@ remove_client(gint fd)
 		if (client->fd == fd)
 			{
 			g_message(_("Removing client %s\n"), client->hostname);
+#if defined(WIN32)
+			closesocket(fd);
+#else
 			close(fd);
+#endif
 			g_free(client->hostname);
 			g_free(client);
 			gkrellmd_client_list = g_list_remove(gkrellmd_client_list, client);
@@ -633,7 +637,11 @@ parse_config(gchar *config, gchar *arg)
 	else if (!strcmp(config, "net-timer"))
 		_GK.net_timer = g_strdup(arg);
 	else if (!strcmp(config, "debug-level") || !strcmp(config, "debug"))
+		{
 		_GK.debug_level = (gint) strtoul(arg, NULL, 0);
+		if (_GK.debug_level > 0)
+			g_print("Set debug-level to 0x%x\n", _GK.debug_level);
+		}
 	else if (!strcmp(config, "logfile"))
 		gkrellm_log_set_filename(arg);
 #if !defined(WIN32)
@@ -825,7 +833,7 @@ usage(void)
 	g_print(  "       --logfile path        Enable logging to a file\n");
 	g_print(  "       --syslog              Enable logging to syslog\n");
 	g_print(_("   -V, --verbose             increases the verbosity of gkrellmd\n"));
-	g_print(_("   -d, --debug-level n       Turn debugging on for selective code sections.\n"));
+	g_print(_("   -debug, --debug-level n   Turn debugging on for selective code sections.\n"));
 
 #else
 
@@ -854,6 +862,7 @@ usage(void)
 	g_print(_("   -V, --verbose             increases the verbosity of gkrellmd\n"));
 	g_print(_("   -h, --help                display this help and exit\n"));
 	g_print(_("   -v, --version             output version information and exit\n"));
+	g_print(_("   -debug, --debug-level n   Turn debugging on for selective code sections.\n"));
 
 #endif
 	}
@@ -884,8 +893,6 @@ get_args(gint argc, gchar **argv)
 		else if (!strcmp(s, "without-libsensors"))
 			_GK.without_libsensors = TRUE;
 #endif /* !WIN32 */
-		else if ((!strcmp(s, "debug-level") || !strcmp(s, "d")) && i < argc - 1)
-			_GK.debug_level = (gint) strtoul(argv[++i], NULL, 0);
 		else if ( i < argc
 				 && ((r = parse_config(s, (i < argc - 1) ? argv[i+1] : NULL)) >= 0)
 				)
@@ -984,7 +991,11 @@ socksetup(int af)
 			if (setsockopt(*s, SOL_SOCKET, SO_REUSEADDR, &on, sizeof(on)) < 0)
 				{
 				g_warning("gkrellmd: setsockopt (SO_REUSEADDR) failed\n");
+#if defined(WIN32)
+				closesocket(*s);
+#else
 				close(*s);
+#endif
 				continue;
 				}
 			}
@@ -997,14 +1008,22 @@ socksetup(int af)
 			if (setsockopt(*s, IPPROTO_IPV6, IPV6_V6ONLY, &on, sizeof(on)) < 0)
 				{
 				g_warning("gkrellmd: setsockopt (IPV6_V6ONLY) failed\n");
+#if defined(WIN32)
+				closesocket(*s);
+#else
 				close(*s);
+#endif
 				continue;
 				}
 			}
 #endif
 		if (bind(*s, r->ai_addr, r->ai_addrlen) < 0)
 			{
-			close(*s);
+#if defined(WIN32)
+				closesocket(*s);
+#else
+				close(*s);
+#endif
 			continue;
 			}
 		(*socks)++;
@@ -1196,7 +1215,11 @@ gkrellmd_run(gint argc, gchar **argv)
 		{
 		if (listen(_GK.server_fd[i], 5) == -1)
 			{
-			close(_GK.server_fd[i]);
+#if defined(WIN32)
+				closesocket(_GK.server_fd[i]);
+#else
+				close(_GK.server_fd[i]);
+#endif
 			continue;
 			}
 		++listen_fds;
@@ -1284,7 +1307,11 @@ gkrellmd_run(gint argc, gchar **argv)
 							(struct sockaddr *)&client_addr, addr_len);
 				if (!client)
 					{
-					close(client_fd);
+#if defined(WIN32)
+				closesocket(client_fd);
+#else
+				close(client_fd);
+#endif
 					continue;
 					}
 				FD_SET(client_fd, &read_fds);

@@ -92,6 +92,7 @@ gkrellmd_serve_data(GkrellmdMonitor *mon, gchar *line)
 		if (mp->serve_name)
 			{
 			snprintf(buf, sizeof(buf), "<%s>\n", mp->serve_name);
+			gkrellm_debug(DEBUG_SERVER, "%s", buf);
 			mp->serve_gstring = g_string_append(mp->serve_gstring, buf);
 			mp->serve_name_sent = TRUE;
 			}
@@ -102,6 +103,7 @@ gkrellmd_serve_data(GkrellmdMonitor *mon, gchar *line)
 			return;
 			}
 		}
+	gkrellm_debug(DEBUG_SERVER,"%s", line);
 	mp->serve_gstring = g_string_append(mp->serve_gstring, line);
 	}
 
@@ -1510,7 +1512,7 @@ update_fs(GkrellmdMonitor *mon, gboolean first_update)
 #endif
 			}
 		}
-	if (gkrellm_sys_fs_fstab_modified())
+	if (first_update || gkrellm_sys_fs_fstab_modified())
 		refresh_fstab_list();
 
 	gkrellmd_need_serve(mon);
@@ -1533,6 +1535,8 @@ serve_fs_data(GkrellmdMonitor *mon, gboolean first_serve)
 			snprintf(buf, sizeof(buf), "%s %s %s %ld %ld %ld %ld\n",
 					m->directory, m->device, m->type,
 					m->blocks, m->bavail, m->bfree, m->bsize);
+			/*gkrellm_debug(DEBUG_SERVER,
+				"Adding mount-line for %s to serve-data\n", m->directory);*/
 			gkrellmd_serve_data(mon, buf);
 			}
 		}
@@ -1547,6 +1551,8 @@ serve_fs_data(GkrellmdMonitor *mon, gboolean first_serve)
 			snprintf(buf, sizeof(buf), "%s %s %ld %ld %ld %ld\n",
 					m->directory, m->device,
 					m->blocks, m->bavail, m->bfree, m->bsize);
+			/*gkrellm_debug(DEBUG_SERVER,
+				"Updating fs %s in serve-data\n", m->directory);*/
 			gkrellmd_serve_data(mon, buf);
 			}
 		}
@@ -1559,6 +1565,8 @@ serve_fs_data(GkrellmdMonitor *mon, gboolean first_serve)
 			m = (Mount *) list->data;
 			snprintf(buf, sizeof(buf), "%s %s %s\n",
 					m->directory, m->device, m->type);
+			/*gkrellm_debug(DEBUG_SERVER,
+				"Adding fstab-line for %s to serve-data\n", m->directory);*/
 			gkrellmd_serve_data(mon, buf);
 			}
 		}

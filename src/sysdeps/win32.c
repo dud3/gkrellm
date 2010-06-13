@@ -1949,6 +1949,8 @@ gboolean gkrellm_sys_battery_init()
 
 gboolean gkrellm_sys_fs_fstab_modified(void)
 	{
+	/* TODO: determine changes in available volumes on win32 using
+	FindFirstVolume(), FindNextVolume() etc. */
 	return FALSE;
 	}
 
