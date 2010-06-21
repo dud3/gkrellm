@@ -49,6 +49,7 @@ endif
 
 
 CC ?= gcc
+WINDRES ?= windres
 STRIP ?= -s
 
 GKRELLMD_INCLUDES = gkrellmd.h $(SHARED_PATH)/log.h
@@ -168,10 +169,10 @@ endif
 
 windows: libgkrellmd.a
 	$(MAKE) \
-		CFLAGS="${CFLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501" \
+		CFLAGS="${CFLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWIN32_LEAN_AND_MEAN" \
 		LINK_FLAGS="${LINK_FLAGS} -mconsole" \
-		EXTRAOBJS="win32-resource.o win32-plugin.o" \
-		SYS_LIBS=" -llargeint -lws2_32 -lwtsapi32 -lpdh -lnetapi32 -liphlpapi -lntdll -lintl" \
+		EXTRAOBJS="${EXTRAOBJS} win32-resource.o win32-plugin.o" \
+		SYS_LIBS="-lws2_32 -lwtsapi32 -lpdh -lnetapi32 -liphlpapi -lntdll -lintl" \
 		gkrellmd
 
 install: install_bin install_inc install_man
@@ -245,8 +246,8 @@ sysdeps-unix.o: sysdeps-unix.c ../src/gkrellm-sysdeps.h $(SYSDEPS) $(GKRELLMD_H)
 log.o: $(SHARED_PATH)/log.c $(SHARED_PATH)/log.h $(GKRELLMD_H)
 win32-gui.o:	win32-gui.c
 win32-plugin.o:	win32-plugin.c win32-plugin.h $(GKRELLMD_H)
-win32-resource.o:	win32-resource.rc win32-resource.h
-	windres -I.. -o win32-resource.o win32-resource.rc
+win32-resource.o: win32-resource.rc win32-resource.h
+	$(WINDRES) $< -o $@
 win32-libgkrellmd.o:	win32-libgkrellmd.c win32-plugin.h $(GKRELLMD_H)
 libgkrellmd.a:	win32-libgkrellmd.o
 	ar -cr libgkrellmd.a win32-libgkrellmd.o
