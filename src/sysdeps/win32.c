@@ -42,16 +42,17 @@
 	#include "../win32-plugin.h"
 #endif
 
-#include <largeint.h> // For disk space calculation
 #include <winioctl.h> // For cdrom eject
 #include <iphlpapi.h> // For tcp connection stats
+
 // Following two are for cpu, proc, disk and network stats
 // which are queried via "performance data counters"
 #include <pdh.h>
 #include <pdhmsg.h>
+
 // Following two are used to determine number of logged in users and
 // pagefile usage via NT-APIs
-#include <ntdef.h>
+#include <subauth.h>
 #include <ntsecapi.h>
 
 #if _WIN32_WINNT >= 0x501 // Windows XP or newer
@@ -86,10 +87,12 @@ typedef struct _SYSTEM_PAGEFILE_INFORMATION
 
 
 // ----------------------------------------------------------------------------
-// Structs and typedefs used to determine the number of logged in users.
-// These should be in ntsecapi.h but are missing in MinGW currently.
-// Docs: http://msdn.microsoft.com/en-us/library/aa378290(VS.85).aspx
-
+/* Structs and typedefs used to determine the number of logged in users.
+ * These should be in ntsecapi.h but are missing in MinGW currently, they
+ * are present in the headers provided by mingw-w64.
+ * Docs: http://msdn.microsoft.com/en-us/library/aa378290(VS.85).aspx
+ */ 
+#if defined(__MINGW32__) && !defined(WIN64)
 typedef struct _SECURITY_LOGON_SESSION_DATA
 	{
 	ULONG Size;
@@ -106,6 +109,7 @@ typedef struct _SECURITY_LOGON_SESSION_DATA
 	LSA_UNICODE_STRING Upn;
 	}
 	SECURITY_LOGON_SESSION_DATA;
+#endif
 
 // Definitions for function pointers (functions resolved manually at runtime)
 typedef NTSTATUS (NTAPI *pfLsaEnumerateLogonSessions)(
@@ -1436,7 +1440,7 @@ gkrellm_sys_disk_cleanup(void)
 static PDH_HCOUNTER processCounter = NULL;
 static PDH_HCOUNTER waitQueueCounter = NULL;
 // Library handle for secur32.dll, lib is loaded at runtime
-static HANDLE hSecur32 = NULL;
+static HINSTANCE hSecur32 = NULL;
 // Function pointers to various functions from secur32.dll
 static pfLsaEnumerateLogonSessions pfLELS = NULL;
 static pfLsaFreeReturnBuffer pfLFRB = NULL;
@@ -1754,7 +1758,7 @@ typedef struct _PERFORMANCE_INFORMATION {
 
 typedef BOOL (WINAPI *pfGetPerformanceInfo)(PERFORMANCE_INFORMATION *, DWORD);
 
-static HINSTANCE psapi_instance = NULL;
+static HINSTANCE hPsapi = NULL;
 static pfGetPerformanceInfo pGPI = NULL;
 static DWORD page_size = 1;
 
@@ -1874,10 +1878,10 @@ gkrellm_sys_mem_init(void)
 	GetSystemInfo(&si);
 	page_size = si.dwPageSize;
 
-	psapi_instance = LoadLibraryW(L"PSAPI.DLL");
-	if (psapi_instance)
+	hPsapi = LoadLibraryW(L"PSAPI.DLL");
+	if (hPsapi)
 		{
-		pGPI = GetProcAddress(psapi_instance, "GetPerformanceInfo");
+		pGPI = (pfGetPerformanceInfo)GetProcAddress(hPsapi, "GetPerformanceInfo");
 		if (pGPI == NULL)
 			{
 			gkrellm_debug(DEBUG_SYSDEP, "No GetPerformanceInfo() in " \
@@ -1896,9 +1900,9 @@ static void
 gkrellm_sys_mem_cleanup(void)
 	{
 	pGPI = NULL;
-	if (psapi_instance)
-		FreeLibrary(psapi_instance);
-	psapi_instance = NULL;
+	if (hPsapi != NULL)
+		FreeLibrary(hPsapi);
+	hPsapi = NULL;
 	}
 
 
@@ -2014,9 +2018,9 @@ void gkrellm_sys_fs_get_fsusage(gpointer fs, gchar *dir)
 		{
 		// fs, blocks, avail, free, size
 		gkrellm_fs_assign_fsusage_data(fs
-			, EnlargedUnsignedDivide(totalBytes, 1024, 0) /* total */
-			, EnlargedUnsignedDivide(availToCaller, 1024, 0) /* free to caller */
-			, EnlargedUnsignedDivide(freeBytes, 1024, 0) /* free */
+			, totalBytes.QuadPart / (ULONGLONG)1024
+			, availToCaller.QuadPart / (ULONGLONG)1024 /* free to caller */
+			, freeBytes.QuadPart / (ULONGLONG)1024 /* free */
 			, 1024 /* block size */
 			);
 		}
@@ -2109,7 +2113,7 @@ void gkrellm_sys_fs_get_fstab_list(void)
 /* ===================================================================== */
 
 // Library handle for Iphlpapi.dll, lib is loaded at runtime
-static HANDLE hIphlpapi = NULL;
+static HINSTANCE hIphlpapi = NULL;
 // Function pointer to GetTcp6Table() which only exists on Vista and newer
 static GetTcp6TableFunc pfGetTcp6Table = NULL;
 
