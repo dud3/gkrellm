@@ -92,7 +92,7 @@ typedef struct _SYSTEM_PAGEFILE_INFORMATION
  * are present in the headers provided by mingw-w64.
  * Docs: http://msdn.microsoft.com/en-us/library/aa378290(VS.85).aspx
  */ 
-#if defined(__MINGW32__) && !defined(WIN64)
+#if !defined(__MINGW64_VERSION_MAJOR) && defined(__MINGW32_MAJOR_VERSION)
 typedef struct _SECURITY_LOGON_SESSION_DATA
 	{
 	ULONG Size;
