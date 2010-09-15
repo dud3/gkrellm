@@ -1,6 +1,6 @@
  /* GKrellM Windows Portion
 |  Copyright (C) 2002 Bill Nalen
-|                2007-2009 Stefan Gehn
+|                2007-2010 Stefan Gehn
 |
 |  Authors:  Bill Nalen     bill@nalens.com
 |            Stefan Gehn    stefan+gkrellm@srcbox.net
@@ -565,10 +565,10 @@ typedef struct
   // new since 2.2.5
 
   gboolean      (*gkrellm_client_send_to_server)(gchar *key_name, gchar *line);
-
+  
   GkrellmDecal *(*gkrellm_create_decal_text_markup)(GkrellmPanel *p, gchar *string, GkrellmTextstyle *ts, GkrellmStyle *style, gint x, gint y, gint w);
   void          (*gkrellm_decal_text_markup_insert)(GkrellmDecal *d, gchar *s, GkrellmTextstyle *ts, gint x_off, gint y_off);
-
+  
   void          (*gkrellm_decal_text_nth_inserted_set_offset)(GkrellmDecal *d, gint n, gint x_off, gint y_off);
   void          (*gkrellm_decal_text_nth_inserted_get_offset)(GkrellmDecal *d, gint n, gint *x_off, gint *y_off);
   void          (*gkrellm_config_instant_apply)(GkrellmMonitor *mon);
@@ -589,7 +589,7 @@ typedef struct
 
 
 /// part of win32-plugin.c
-///
+/// 
 extern win32_plugin_callbacks gkrellm_callbacks;
 
 

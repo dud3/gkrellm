@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
+|  Copyright (C) 1999-2010 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -30,6 +30,7 @@
 |  shall include the source code for the parts of OpenSSL used as well
 |  as that of the covered work.
 */
+
 
 
 /* A system dependent interface can include this file to get sensors
@@ -85,7 +86,7 @@ mbmon_decimal_point_check(gchar *buf)
 		{
 		mbmon_need_decimal_point_fix = TRUE;
 		gkrellm_debug(DEBUG_SENSORS, "mbmon_need_decimal_point_fix: %c -> %c\n",
-			mbmon_decimal_point, gkrellm_decimal_point);
+					mbmon_decimal_point, gkrellm_decimal_point);
 		}
 	g_free(s);
 
@@ -332,7 +333,7 @@ hddtemp_daemon_read(void)
 	close(fd);
 
 	gkrellm_debug(DEBUG_SENSORS, "hddtemp_daemon_read (once a minute):\n\t%s\n",
-		hddtemp_gstring->str);
+					hddtemp_gstring->str);
 
 	sep = hddtemp_gstring->str[0];
 	if (sep == '\0')

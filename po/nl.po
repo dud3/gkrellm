@@ -19,10 +19,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GKrellM 2.1.24\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-20 19:56-0600\n"
+"POT-Creation-Date: 2010-09-14 11:48-0500\n"
 "PO-Revision-Date: 2003-12-31 12:48+0100\n"
 "Last-Translator: Daniel van Eeden <daniel_e@dds.nl>\n"
 "Language-Team: none <none>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -117,7 +118,7 @@ msgstr ""
 "De Batterij waarschuwings eenheden zijn\n"
 "veranderd, en moeten opnieuw ingesteld worden"
 
-#: ../src/battery.c:1117 ../src/mail.c:3754 ../src/sensors.c:2688
+#: ../src/battery.c:1117 ../src/mail.c:3848 ../src/sensors.c:2688
 msgid "<h>Setup\n"
 msgstr "<h>Instellingen\n"
 
@@ -166,7 +167,7 @@ msgstr ""
 "wat betekent dat het simpele lineare model de oplaadtijd zal onderschatten.\n"
 "Selecteer het exponentiële model voor meer nauwkeurigheid.\n"
 
-#: ../src/battery.c:1136 ../src/cpu.c:1284 ../src/disk.c:1344 ../src/fs.c:2496
+#: ../src/battery.c:1136 ../src/cpu.c:1284 ../src/disk.c:1344 ../src/fs.c:2494
 #: ../src/mem.c:1281 ../src/net.c:2934 ../src/proc.c:904 ../src/sensors.c:2698
 msgid "Substitution variables may be used in alert commands.\n"
 msgstr ""
@@ -192,12 +193,12 @@ msgstr "\t$o    online staat (boolean).\n"
 msgid "\t$c    charging state (boolean).\n"
 msgstr "\t$c    status opladen (boolean).\n"
 
-#: ../src/battery.c:1143 ../src/fs.c:2498 ../src/inet.c:1820 ../src/mem.c:1284
+#: ../src/battery.c:1143 ../src/fs.c:2496 ../src/inet.c:1823 ../src/mem.c:1284
 msgid "<h>Mouse Button Actions:\n"
 msgstr "<h>Muisknop acties:\n"
 
-#: ../src/battery.c:1144 ../src/fs.c:2499 ../src/gui.c:1038 ../src/inet.c:1821
-#: ../src/mail.c:3795 ../src/mail.c:3798 ../src/mem.c:1285
+#: ../src/battery.c:1144 ../src/fs.c:2497 ../src/gui.c:1038 ../src/inet.c:1824
+#: ../src/mail.c:3889 ../src/mail.c:3892 ../src/mem.c:1285
 msgid "<b>\tLeft "
 msgstr "<b>\tLinks "
 
@@ -209,7 +210,7 @@ msgstr ""
 " klik op de oplaad staat gedeelte om te wisselen tussen\n"
 "\t\tminuten, percentages of oplaad snelheid weergave.\n"
 
-#: ../src/battery.c:1147 ../src/inet.c:1824 ../src/mail.c:3801
+#: ../src/battery.c:1147 ../src/inet.c:1827 ../src/mail.c:3895
 msgid "<b>\tMiddle "
 msgstr "<b>\tMidden "
 
@@ -220,14 +221,14 @@ msgstr ""
 " klik ergens op het Batterij paneel om van weergave modus te wisselen.\n"
 
 #: ../src/battery.c:1164 ../src/clock.c:714 ../src/cpu.c:1307
-#: ../src/disk.c:1369 ../src/fs.c:2534 ../src/gui.c:1063 ../src/gui.c:1906
-#: ../src/mail.c:4149 ../src/mem.c:1307 ../src/proc.c:918
+#: ../src/disk.c:1369 ../src/fs.c:2532 ../src/gui.c:1063 ../src/gui.c:1926
+#: ../src/mail.c:4243 ../src/mem.c:1307 ../src/proc.c:918
 #: ../src/sensors.c:2836 ../src/sensors.c:2871 ../src/uptime.c:277
 msgid "Options"
 msgstr "Opties"
 
 #: ../src/battery.c:1169 ../src/clock.c:720 ../src/clock.c:739
-#: ../src/disk.c:1382 ../src/plugins.c:1724 ../src/sensors.c:2768
+#: ../src/disk.c:1382 ../src/plugins.c:1746 ../src/sensors.c:2768
 msgid "Enable"
 msgstr "Inschakelen"
 
@@ -259,19 +260,19 @@ msgstr "Totale batterij oplaad tijd in uren"
 msgid "Exponential charge model"
 msgstr "Exponentieel oplaad model"
 
-#: ../src/battery.c:1218 ../src/inet.c:2014
+#: ../src/battery.c:1218 ../src/inet.c:2017
 msgid "Seconds between updates"
 msgstr "Seconden tussen vernieuwing"
 
 #: ../src/battery.c:1222 ../src/clock.c:755 ../src/cpu.c:1358
-#: ../src/disk.c:1415 ../src/fs.c:2531 ../src/inet.c:2008 ../src/mail.c:3838
+#: ../src/disk.c:1415 ../src/fs.c:2529 ../src/inet.c:2011 ../src/mail.c:3932
 #: ../src/mem.c:1346 ../src/net.c:3075 ../src/proc.c:958 ../src/sensors.c:2737
 #: ../src/uptime.c:274
 msgid "Setup"
 msgstr "Instellingen"
 
 #: ../src/battery.c:1225 ../src/clock.c:782 ../src/cpu.c:1389
-#: ../src/disk.c:1437 ../src/inet.c:2038 ../src/mem.c:1418 ../src/net.c:3063
+#: ../src/disk.c:1437 ../src/inet.c:2041 ../src/mem.c:1418 ../src/net.c:3063
 #: ../src/proc.c:977 ../src/uptime.c:285
 msgid "Launch Commands"
 msgstr "Uitvoer Commando's"
@@ -281,77 +282,77 @@ msgid "Alerts check for percent capacity remaining."
 msgstr ""
 
 #: ../src/battery.c:1251 ../src/clock.c:790 ../src/cpu.c:1412
-#: ../src/disk.c:1451 ../src/fs.c:2576 ../src/gui.c:1173 ../src/gui.c:1987
-#: ../src/inet.c:2051 ../src/mail.c:4217 ../src/mem.c:1436 ../src/net.c:3105
-#: ../src/proc.c:989 ../src/sensors.c:2909
+#: ../src/disk.c:1451 ../src/fs.c:2574 ../src/gui.c:1173 ../src/gui.c:2007
+#: ../src/inet.c:2054 ../src/mail.c:4311 ../src/mem.c:1436 ../src/net.c:3105
+#: ../src/proc.c:989 ../src/sensors.c:2917
 msgid "Info"
 msgstr "Info"
 
-#: ../src/chart.c:1029
+#: ../src/chart.c:1039
 msgid "Ag8"
 msgstr ""
 
-#: ../src/chart.c:2300 ../src/chart.c:2457
+#: ../src/chart.c:2310 ../src/chart.c:2467
 msgid "/Control/Auto mode sticks at peak value"
 msgstr "/Controle/Automaat mode blijft op top waarde"
 
-#: ../src/chart.c:2304 ../src/chart.c:2455
+#: ../src/chart.c:2314 ../src/chart.c:2465
 msgid "/Control/Auto mode recalibrate"
 msgstr "/Controle/Automaat mode opnieuw kalibreren"
 
-#: ../src/chart.c:2453
+#: ../src/chart.c:2463
 msgid "/Control"
 msgstr "/Controle"
 
-#: ../src/chart.c:2454 ../src/chart.c:2459 ../src/chart.c:2465
+#: ../src/chart.c:2464 ../src/chart.c:2469 ../src/chart.c:2475
 msgid "/Control/-"
 msgstr "/Controle/-"
 
-#: ../src/chart.c:2460 ../src/chart.c:2464 ../src/chart.c:2491
+#: ../src/chart.c:2470 ../src/chart.c:2474 ../src/chart.c:2501
 msgid "/Control/Sequence.../1 2 5"
 msgstr "/Controle/Opeenvolging.../1 2 5"
 
-#: ../src/chart.c:2462 ../src/chart.c:2493
+#: ../src/chart.c:2472 ../src/chart.c:2503
 msgid "/Control/Sequence.../1 1.5 2 3 5 7"
 msgstr "/Controle/Opeenvolging.../1 1.5 2 3 5 7"
 
-#: ../src/chart.c:2528
+#: ../src/chart.c:2538
 msgid "GKrellM Chart Config"
 msgstr "GKrellM Grafiek Instelling"
 
-#: ../src/chart.c:2549
+#: ../src/chart.c:2559
 msgid "Line style"
 msgstr "Lijn stijl"
 
-#: ../src/chart.c:2556
+#: ../src/chart.c:2566
 msgid "Inverted"
 msgstr "Omgekeerd"
 
-#: ../src/chart.c:2564
+#: ../src/chart.c:2574
 msgid "Split view"
 msgstr "Gesplitste weergave"
 
-#: ../src/chart.c:2576
+#: ../src/chart.c:2586
 msgid "Hide"
 msgstr "Verberg"
 
-#: ../src/chart.c:2591
+#: ../src/chart.c:2601
 msgid "Resolution per Grid"
 msgstr "Resolutie per Rooster"
 
-#: ../src/chart.c:2611
+#: ../src/chart.c:2621
 msgid "Auto"
 msgstr "Automaat"
 
-#: ../src/chart.c:2623
+#: ../src/chart.c:2633
 msgid "Number of Grids"
 msgstr "Aantal roosters"
 
-#: ../src/chart.c:2628
+#: ../src/chart.c:2638
 msgid "0: Auto    1-5: Constant"
 msgstr "0: Automaat    1-5: Constant"
 
-#: ../src/chart.c:2637
+#: ../src/chart.c:2647
 msgid "Chart height"
 msgstr "Grafiek hoogte"
 
@@ -469,16 +470,16 @@ msgstr "nice tijd"
 msgid "CPU"
 msgstr "CPU"
 
-#: ../src/cpu.c:978 ../src/fs.c:1303 ../src/mem.c:998
+#: ../src/cpu.c:978 ../src/fs.c:1301 ../src/mem.c:998
 msgid "Percent Usage"
 msgstr "Procent gebruikt"
 
-#: ../src/cpu.c:1276 ../src/disk.c:1336 ../src/gui.c:1010 ../src/inet.c:1809
+#: ../src/cpu.c:1276 ../src/disk.c:1336 ../src/gui.c:1010 ../src/inet.c:1812
 #: ../src/mem.c:1254 ../src/net.c:2918 ../src/proc.c:895
 msgid "<h>Chart Labels\n"
 msgstr "<h>Grafiek Labels\n"
 
-#: ../src/cpu.c:1277 ../src/disk.c:1337 ../src/inet.c:1810 ../src/mem.c:1255
+#: ../src/cpu.c:1277 ../src/disk.c:1337 ../src/inet.c:1813 ../src/mem.c:1255
 #: ../src/net.c:2919 ../src/proc.c:896
 msgid "Substitution variables for the format string for chart labels:\n"
 msgstr "Vervang variabelen voor de weergave tekst voor grafiek labels:\n"
@@ -537,7 +538,7 @@ msgstr "Gezamelijke CPU."
 msgid "Composite and real"
 msgstr "Gezamelijk en werkelijk"
 
-#: ../src/cpu.c:1361 ../src/disk.c:1418 ../src/inet.c:2020 ../src/mem.c:1349
+#: ../src/cpu.c:1361 ../src/disk.c:1418 ../src/inet.c:2023 ../src/mem.c:1349
 #: ../src/net.c:3078 ../src/proc.c:961
 msgid "Format String for Chart Labels"
 msgstr "Weergave Tekst voor Grafiek Labels"
@@ -592,7 +593,7 @@ msgstr "Gezamelijke grafiek combineert data voor alle schijven"
 msgid "\t$L    the Disk label\n"
 msgstr ""
 
-#: ../src/disk.c:1339 ../src/inet.c:1811 ../src/mem.c:1256 ../src/net.c:2920
+#: ../src/disk.c:1339 ../src/inet.c:1814 ../src/mem.c:1256 ../src/net.c:2920
 msgid "\t$M    maximum chart value\n"
 msgstr "\t$M    maximum grafiek waarde\n"
 
@@ -624,23 +625,23 @@ msgstr "$t - $u gebruikt"
 msgid "$t - $U"
 msgstr "$t - $U"
 
-#: ../src/fs.c:882
+#: ../src/fs.c:880
 msgid "GKrellM Mount Error"
 msgstr "GKrellM Mount Fout"
 
-#: ../src/fs.c:1572
+#: ../src/fs.c:1570
 msgid "Primary"
 msgstr "Primaire"
 
-#: ../src/fs.c:1586 ../src/fs.c:2311
+#: ../src/fs.c:1584 ../src/fs.c:2309
 msgid "Secondary"
 msgstr "Secondaire"
 
-#: ../src/fs.c:1928 ../src/fs.c:2025 ../src/fs.c:2037 ../src/fs.c:2045
+#: ../src/fs.c:1926 ../src/fs.c:2023 ../src/fs.c:2035 ../src/fs.c:2043
 msgid "Entry Error"
 msgstr "Inschrijving Fout"
 
-#: ../src/fs.c:1929
+#: ../src/fs.c:1927
 msgid ""
 "At least one primary fs monitor must exist to click on in order to show\n"
 "secondary ones.\n"
@@ -648,56 +649,56 @@ msgstr ""
 "Om z'n minst moet een primaire fs monitor bestaan als secondaire weergeven\n"
 "moeten worden.\n"
 
-#: ../src/fs.c:2027
+#: ../src/fs.c:2025
 msgid "Both a label and a mount point must be entered."
 msgstr "Zowel het label en de mount plaatst moeten ingevoerd worden."
 
-#: ../src/fs.c:2038
+#: ../src/fs.c:2036
 msgid "Both mount and umount commands must be entered."
 msgstr "Zowel mount als umount commando's moeten opgegeven worden."
 
-#: ../src/fs.c:2046
+#: ../src/fs.c:2044
 msgid "Missing ejectable device entry."
 msgstr "Er mist een uitwerpbaar apparaat inschrijving."
 
-#: ../src/fs.c:2278 ../src/fs.c:2400 ../src/inet.c:1870 ../src/inet.c:1876
-#: ../src/inet.c:1961 ../src/inet.c:1981 ../src/sensors.c:2777
+#: ../src/fs.c:2276 ../src/fs.c:2398 ../src/inet.c:1873 ../src/inet.c:1879
+#: ../src/inet.c:1964 ../src/inet.c:1984 ../src/sensors.c:2777
 msgid "Label"
 msgstr "Label"
 
-#: ../src/fs.c:2287 ../src/fs.c:2404
+#: ../src/fs.c:2285 ../src/fs.c:2402
 msgid "Mount Point"
 msgstr "Mount Plaats"
 
-#: ../src/fs.c:2318
+#: ../src/fs.c:2316
 msgid "Show if mounted"
 msgstr "Laat zien als gemount"
 
-#: ../src/fs.c:2324
+#: ../src/fs.c:2322
 msgid "Enable /etc/fstab mounting"
 msgstr "Schakel /etc/fstab mounten in"
 
-#: ../src/fs.c:2338
+#: ../src/fs.c:2336
 msgid "Ejectable"
 msgstr "Uitwerpbaar"
 
-#: ../src/fs.c:2344
+#: ../src/fs.c:2342
 msgid "Device"
 msgstr "Apparaat"
 
-#: ../src/fs.c:2359
+#: ../src/fs.c:2357
 msgid "mount"
 msgstr "mount"
 
-#: ../src/fs.c:2361
+#: ../src/fs.c:2359
 msgid "umount"
 msgstr "umount"
 
-#: ../src/fs.c:2427
+#: ../src/fs.c:2425
 msgid "<h>Mounting\n"
 msgstr "<h>Mounten\n"
 
-#: ../src/fs.c:2428
+#: ../src/fs.c:2426
 msgid ""
 "Enter file system mount points to monitor and enter a label to describe\n"
 "the mount point.  The krell shows the ratio of blocks used to total blocks\n"
@@ -713,11 +714,11 @@ msgstr ""
 "ingeschakeld worden:\n"
 "\n"
 
-#: ../src/fs.c:2433
+#: ../src/fs.c:2431
 msgid "<b>\t1) Mounting using /etc/fstab: "
 msgstr "<b>\t1) Mounten met behulp van /etc/fstab: "
 
-#: ../src/fs.c:2435
+#: ../src/fs.c:2433
 msgid ""
 "If a mount point is in your\n"
 "\t/etc/fstab and you have mount permission then mount and umount\n"
@@ -740,15 +741,15 @@ msgstr ""
 "\tuw floppy kunnen mounten, dan moet uw /etc/fstab een van deze opties\n"
 "\thebben:\n"
 
-#: ../src/fs.c:2445
+#: ../src/fs.c:2443
 msgid "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,noauto,rw,exec 0 0\n"
 msgstr "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,noauto,rw,exec 0 0\n"
 
-#: ../src/fs.c:2446
+#: ../src/fs.c:2444
 msgid "\tor\n"
 msgstr "\tof\n"
 
-#: ../src/fs.c:2447
+#: ../src/fs.c:2445
 msgid ""
 "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,defaults 0 0\n"
 "\n"
@@ -756,11 +757,11 @@ msgstr ""
 "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,defaults 0 0\n"
 "\n"
 
-#: ../src/fs.c:2449
+#: ../src/fs.c:2447
 msgid "<b>\t2) Mounting using custom commands: "
 msgstr "<b>\t2) Mounten met handmatige commando's: "
 
-#: ../src/fs.c:2450
+#: ../src/fs.c:2448
 msgid ""
 "If GKrellM is run as root or if\n"
 "\tyou have sudo permission to run the mount commands, then a custom\n"
@@ -774,15 +775,15 @@ msgstr ""
 "\tinvulvak. Een umount commando moet ook ingevuld worden als u deze optie\n"
 "\tkiest. Voorbeeld mount en umount commando's voor sudo:\n"
 
-#: ../src/fs.c:2456
+#: ../src/fs.c:2454
 msgid "<i>\t\tsudo /bin/mount -t msdos /dev/fd0 /mnt/A\n"
 msgstr "<i>\t\tsudo /bin/mount -t msdos /dev/fd0 /mnt/A\n"
 
-#: ../src/fs.c:2457
+#: ../src/fs.c:2455
 msgid "<i>\t\tsudo /bin/umount /mnt/A\n"
 msgstr "<i>\t\tsudo /bin/umount /mnt/A\n"
 
-#: ../src/fs.c:2459
+#: ../src/fs.c:2457
 msgid ""
 "\tNotes: the mount point specified in a custom mount command\n"
 "\t(/mnt/A in this example) must be the same as entered in the\n"
@@ -795,11 +796,11 @@ msgstr ""
 "\t\"Mount Plaats\" invulvak. U zou de NOPASSWD optie moeten gebruiken\n"
 "\tin /etc/sudoers als u sudo gebruikt.\n"
 
-#: ../src/fs.c:2464
+#: ../src/fs.c:2462
 msgid "<h>Primary and Secondary Monitors\n"
 msgstr "<h>Primaire en Secondaire Monitoren\n"
 
-#: ../src/fs.c:2465
+#: ../src/fs.c:2463
 #, no-c-format
 msgid ""
 "File system monitors can be created as primary (always visible)\n"
@@ -832,93 +833,93 @@ msgstr ""
 "mount/umount mogelijkheden te gebruiken.\n"
 "\n"
 
-#: ../src/fs.c:2482 ../src/mem.c:1261
+#: ../src/fs.c:2480 ../src/mem.c:1261
 msgid "<h>Panel Labels\n"
 msgstr "<h>Paneel Labels\n"
 
-#: ../src/fs.c:2483
+#: ../src/fs.c:2481
 msgid "Substitution variables for the format string for file system panels:\n"
 msgstr ""
 "Vervang variabelen voor de weergave tekst voor de bestands systeem panelen:\n"
 
-#: ../src/fs.c:2484
+#: ../src/fs.c:2482
 msgid "\t$t    total capacity\n"
 msgstr "\t$t    totale capaciteit\n"
 
-#: ../src/fs.c:2485
+#: ../src/fs.c:2483
 msgid "\t$u    used space\n"
 msgstr "\t$u    gebruikte ruimte\n"
 
-#: ../src/fs.c:2486
+#: ../src/fs.c:2484
 msgid "\t$f    free space\n"
 msgstr "\t$f    vrije ruimte\n"
 
-#: ../src/fs.c:2487
+#: ../src/fs.c:2485
 msgid "\t$U    used %,\n"
 msgstr "\t$U    gebruikt %,\n"
 
-#: ../src/fs.c:2488 ../src/mem.c:1270
+#: ../src/fs.c:2486 ../src/mem.c:1270
 msgid "\t$F    free %\n"
 msgstr "\t$F    vrij %\n"
 
-#: ../src/fs.c:2489
+#: ../src/fs.c:2487
 msgid "\t$l    the panel label\n"
 msgstr "\t$l    het paneel label\n"
 
-#: ../src/fs.c:2491
+#: ../src/fs.c:2489
 msgid "\t$D    the mount point\n"
 msgstr "\t$D    de mount plaats\n"
 
-#: ../src/fs.c:2493
+#: ../src/fs.c:2491
 msgid "\t$D    the disk\n"
 msgstr "\t$D    de schijf\n"
 
-#: ../src/fs.c:2500
+#: ../src/fs.c:2498
 msgid "click on a panel to scroll a programmable display\n"
 msgstr "klik op een paneel om te wisselen tussen een programmeerbaar display\n"
 
-#: ../src/fs.c:2501
+#: ../src/fs.c:2499
 msgid "\t\tof file system capacities (default is total and free space).\n"
 msgstr ""
 "\t\tof bestands systeem capaciteiten (standaard is totaal en vrije ruimte).\n"
 
-#: ../src/fs.c:2502
+#: ../src/fs.c:2500
 msgid "<b>\tWheel "
 msgstr "<b>\tWiel "
 
-#: ../src/fs.c:2503
+#: ../src/fs.c:2501
 msgid "Shows and hides the secondary file system monitors.\n"
 msgstr "Laat de secondaire bestands systeem monitoren zien of verbergt ze.\n"
 
-#: ../src/fs.c:2521
+#: ../src/fs.c:2519
 msgid "Panels"
 msgstr "Panelen"
 
-#: ../src/fs.c:2539
+#: ../src/fs.c:2537
 msgid "Use binary units (MiB, GiG) for reporting disk capacities."
 msgstr ""
 "Gebruikt binaire eenheden (MiB, GiG) voor het weergeven van schijf "
 "capaciteiten."
 
-#: ../src/fs.c:2545
+#: ../src/fs.c:2543
 msgid "Auto eject when ejectable devices are unmounted"
 msgstr "Automatisch uitwerpen wanneer uitwerpbare apparaten geünmount worden"
 
-#: ../src/fs.c:2554
+#: ../src/fs.c:2552
 msgid "Seconds between data updates for local mounted file systems"
 msgstr ""
 "Secondes tussen data het vernieuwen van lokaal gemounte bestands systemen"
 
-#: ../src/fs.c:2559
+#: ../src/fs.c:2557
 msgid "Seconds between data updates for remote mounted file systems"
 msgstr ""
 "Secondes tussen het vernieuwen van op afstand gemounte bestands systemen"
 
-#: ../src/fs.c:2563 ../src/mem.c:1371
+#: ../src/fs.c:2561 ../src/mem.c:1371
 msgid "Format String for Panel Labels"
 msgstr "Weergave Tekst voor Paneel Labels"
 
-#: ../src/fs.c:2590
+#: ../src/fs.c:2588
 msgid "File System"
 msgstr "Bestands Systeem"
 
@@ -937,7 +938,7 @@ msgid ""
 "GKrellM %d.%d.%d%s\n"
 "GNU Krell Monitors\n"
 "\n"
-"Copyright (c) 1999-2009 by Bill Wilson\n"
+"Copyright (c) 1999-2010 by Bill Wilson\n"
 "billw@gkrellm.net\n"
 "http://gkrellm.net\n"
 "\n"
@@ -946,7 +947,7 @@ msgstr ""
 "GKrellM %d.%d.%d%s\n"
 "GNU Krell Monitoren\n"
 "\n"
-"Copyright (c) 1999-2009 bij Bill Wilson\n"
+"Copyright (c) 1999-2010 bij Bill Wilson\n"
 "billw@gkrellm.net\n"
 "http://gkrellm.net\n"
 "\n"
@@ -998,7 +999,7 @@ msgstr ""
 msgid ""
 "Windows system dependent code was contributed by:\n"
 "Bill Nalen <bill@nalens.com>\n"
-"Stefan Gehn <metz81@web.de>\n"
+"Stefan Gehn <stefan+gkrellm@srcbox.net>\n"
 msgstr ""
 
 #: ../src/gui.c:996
@@ -1034,7 +1035,7 @@ msgstr ""
 "vensters. Maar een combinatie van de automatisch schalende modes kan het\n"
 "beste resultaat geven\n"
 
-#: ../src/gui.c:1008 ../src/gui.c:1034
+#: ../src/gui.c:1008 ../src/gui.c:1034 ../src/sensors.c:2908
 msgid "See the README or do a \"man gkrellm\" for more information.\n"
 msgstr ""
 "Zie het README bestand of doe een \"man gkrellm\" voor meer informatie.\n"
@@ -1136,7 +1137,7 @@ msgstr ""
 "\tover het paneel van de monitor gaat.\n"
 "\n"
 
-#: ../src/gui.c:1037 ../src/mail.c:3794
+#: ../src/gui.c:1037 ../src/mail.c:3888
 msgid ""
 "<h>\n"
 "Mouse Button Actions:\n"
@@ -1241,113 +1242,113 @@ msgstr ""
 "standaarden voldoet.\n"
 "Het is mogelijk dat u gkrellm moet starten om het effect te zien.\n"
 
-#: ../src/gui.c:1553
+#: ../src/gui.c:1575
 #, c-format
 msgid "%d total theme alternatives"
 msgstr "%d totaal thema alternatieven"
 
-#: ../src/gui.c:1854 ../src/gui.c:1886
+#: ../src/gui.c:1874 ../src/gui.c:1906
 msgid "Theme"
 msgstr "Thema"
 
-#: ../src/gui.c:1858
+#: ../src/gui.c:1878
 msgid "Theme:"
 msgstr "Thema:"
 
-#: ../src/gui.c:1868
+#: ../src/gui.c:1888
 msgid "Author:"
 msgstr "Auteur:"
 
-#: ../src/gui.c:1914
+#: ../src/gui.c:1934
 msgid "Track Gtk theme changes for similarly named themes"
 msgstr "Volg Gtk thema veranderingen voor thema's met de zelfde naam"
 
-#: ../src/gui.c:1921
+#: ../src/gui.c:1941
 msgid "Default"
 msgstr "Standaard"
 
-#: ../src/gui.c:1936
+#: ../src/gui.c:1956
 msgid "Scale"
 msgstr "Schaal"
 
-#: ../src/gui.c:1942
+#: ../src/gui.c:1962
 msgid "Fonts"
 msgstr "Lettertype"
 
-#: ../src/gui.c:1945
+#: ../src/gui.c:1965
 msgid "Large font"
 msgstr "Groot lettertype"
 
-#: ../src/gui.c:1957 ../src/gui.c:1971 ../src/gui.c:1984
+#: ../src/gui.c:1977 ../src/gui.c:1991 ../src/gui.c:2004
 msgid "Browse"
 msgstr "Bladeren"
 
-#: ../src/gui.c:1959
+#: ../src/gui.c:1979
 msgid "Normal font"
 msgstr "Normaal lettertype"
 
-#: ../src/gui.c:1973
+#: ../src/gui.c:1993
 msgid "Small font"
 msgstr "Klein lettertype"
 
-#: ../src/gui.c:1988
+#: ../src/gui.c:2008
 #, c-format
 msgid "Untar your theme tar files in %s/%s"
 msgstr "Untar uw thema tar bestanden in %s/%s"
 
-#: ../src/gui.c:1997
+#: ../src/gui.c:2017
 msgid "Download themes from the GKrellM theme site at www.muhri.net"
 msgstr "Download thema's van de GKrellM thema site op www.muhri.net"
 
-#: ../src/gui.c:2293
+#: ../src/gui.c:2311
 msgid "Configuration"
 msgstr "Configuratie"
 
-#: ../src/gui.c:2321
+#: ../src/gui.c:2339
 msgid "General"
 msgstr "Algemeen"
 
-#: ../src/gui.c:2326
+#: ../src/gui.c:2344
 msgid "Builtins"
 msgstr "Ingebouwd"
 
-#: ../src/gui.c:2346 ../src/plugins.c:1711
+#: ../src/gui.c:2364 ../src/plugins.c:1733
 msgid "Plugins"
 msgstr "Plugins"
 
-#: ../src/gui.c:2351
+#: ../src/gui.c:2369
 msgid "Themes"
 msgstr "Thema's"
 
-#: ../src/gui.c:2356
+#: ../src/gui.c:2374
 msgid "About"
 msgstr "Over"
 
-#: ../src/gui.c:2381
+#: ../src/gui.c:2399
 msgid "Monitors"
 msgstr "Monitoren"
 
-#: ../src/gui.c:2453 ../src/gui.c:2464
+#: ../src/gui.c:2471 ../src/gui.c:2482
 msgid "/Quit"
 msgstr "/Afsluiten"
 
-#: ../src/gui.c:2460
+#: ../src/gui.c:2478
 msgid "/Configuration"
 msgstr "/Configuratie"
 
-#: ../src/gui.c:2461
+#: ../src/gui.c:2479
 msgid "/Theme/Prev"
 msgstr "/Thema/Vorige"
 
-#: ../src/gui.c:2462
+#: ../src/gui.c:2480
 msgid "/Theme/Next"
 msgstr "/Thema/Volgende"
 
-#: ../src/gui.c:2471
+#: ../src/gui.c:2489
 msgid "/Theme prev"
 msgstr "/Thema vorige"
 
-#: ../src/gui.c:2472
+#: ../src/gui.c:2490
 msgid "/Theme next"
 msgstr "/Thema volgende"
 
@@ -1356,24 +1357,24 @@ msgstr "/Thema volgende"
 msgid "%s Connections"
 msgstr "%s Verbindingen"
 
-#: ../src/inet.c:718
+#: ../src/inet.c:719
 msgid "No current connections."
 msgstr "Geen huidige verbindingen"
 
-#: ../src/inet.c:945
+#: ../src/inet.c:946
 #, c-format
 msgid "inet%d"
 msgstr "inet%d"
 
-#: ../src/inet.c:957
+#: ../src/inet.c:958
 msgid "TCP hits per minute"
 msgstr "TCP hits per minuut"
 
-#: ../src/inet.c:960
+#: ../src/inet.c:961
 msgid "TCP hits per hour"
 msgstr "TCP hits per uur"
 
-#: ../src/inet.c:1789
+#: ../src/inet.c:1792
 msgid ""
 "Inet charts show historical TCP port hits on a minute or hourly\n"
 "chart. Below the chart there is a strip where marks are drawn for\n"
@@ -1401,11 +1402,11 @@ msgstr ""
 "\n"
 "Als voorbeeld, als u een inet monitor maakte:\n"
 
-#: ../src/inet.c:1800
+#: ../src/inet.c:1803
 msgid "<i>\thttp 80 8080   ftp 21\n"
 msgstr "<i>\thttp 80 8080   ftp 21\n"
 
-#: ../src/inet.c:1802
+#: ../src/inet.c:1805
 msgid ""
 "Http hits on the standard http port 80 and www web caching service\n"
 "on port 8080 are combined and plotted in the one color.  Ftp hits\n"
@@ -1417,7 +1418,7 @@ msgstr ""
 "de enkele ftp port 21 wordt in een andere kleur geplot.\n"
 "\n"
 
-#: ../src/inet.c:1806
+#: ../src/inet.c:1809
 msgid ""
 "If the range button is checked, then all port numbers between Port0 and\n"
 "Port1 are monitored and included in the plot.\n"
@@ -1426,32 +1427,32 @@ msgstr ""
 "Als de bereik knop is aangevinkt, dan worden alle poort nummers tussen\n"
 "Poort0 en Poort1 gemonitord en geplot.\n"
 
-#: ../src/inet.c:1812
+#: ../src/inet.c:1815
 msgid "\t$a    current active connections for Data0\n"
 msgstr "\t$a    actueel actieve verbindingen voor Data0\n"
 
-#: ../src/inet.c:1813
+#: ../src/inet.c:1816
 msgid "\t$cN   total connections in last N minutes (or hours) for Data0\n"
 msgstr "\t$cN   totaal connecties in de laatste N minuten voor Data0\n"
 
-#: ../src/inet.c:1814
+#: ../src/inet.c:1817
 msgid "\t$l    label for Data0\n"
 msgstr "\t$l    label voor Data0\n"
 
-#: ../src/inet.c:1815
+#: ../src/inet.c:1818
 msgid "\t$A    current active connections for Data1\n"
 msgstr "\t$A    actueel actieve verbindingen voor Data1\n"
 
-#: ../src/inet.c:1816
+#: ../src/inet.c:1819
 msgid "\t$CN   total connections in last N minutes (or hours) for Data1\n"
 msgstr ""
 "\t$CN   totaal aantal connecties in de de laatste N minuten voor Data1\n"
 
-#: ../src/inet.c:1817
+#: ../src/inet.c:1820
 msgid "\t$L    label for Data1\n"
 msgstr "\t$L    label voor Data1\n"
 
-#: ../src/inet.c:1822
+#: ../src/inet.c:1825
 msgid ""
 "click on an inet chart to toggle the extra info display of\n"
 "\t\tcurrent TCP port connections.\n"
@@ -1459,146 +1460,140 @@ msgstr ""
 "klik op een inet grafiek om te switchen tussen extra info of\n"
 "\t\tactuele TCP poort verbindingen.\n"
 
-#: ../src/inet.c:1825
+#: ../src/inet.c:1828
 msgid "click on an inet chart to toggle hour/minute charts.\n"
 msgstr ""
 "klik op een inet grafiek om te switchen tussen uur en minuut grafieken.\n"
 
-#: ../src/inet.c:1852
+#: ../src/inet.c:1855
 msgid "Ports"
 msgstr "Poorten"
 
-#: ../src/inet.c:1858
+#: ../src/inet.c:1861
 msgid "Data0"
 msgstr "Data0"
 
-#: ../src/inet.c:1862
+#: ../src/inet.c:1865
 msgid "Data1"
 msgstr "Data1"
 
-#: ../src/inet.c:1872 ../src/inet.c:1878 ../src/inet.c:1966 ../src/inet.c:1986
+#: ../src/inet.c:1875 ../src/inet.c:1881 ../src/inet.c:1969 ../src/inet.c:1989
 msgid "Port0"
 msgstr "Poort0"
 
-#: ../src/inet.c:1874 ../src/inet.c:1880 ../src/inet.c:1971 ../src/inet.c:1991
+#: ../src/inet.c:1877 ../src/inet.c:1883 ../src/inet.c:1974 ../src/inet.c:1994
 msgid "Port1"
 msgstr "Poort1"
 
-#: ../src/inet.c:1912 ../src/inet.c:1917
+#: ../src/inet.c:1915 ../src/inet.c:1920
 msgid "Port0 - Port1 is a range"
 msgstr "Poort0 - Poort1 is een bereik"
 
-#: ../src/inet.c:2064
+#: ../src/inet.c:2067
 msgid "Internet"
 msgstr "Internet"
 
 #: ../src/krell.c:961
-#, c-format
 msgid "create_krell: NULL image or style\n"
 msgstr "create_krell: NULL afbeelding of stijl\n"
 
-#: ../src/mail.c:688
+#: ../src/mail.c:733
 msgid "Unable to connect."
 msgstr "Connectie onmogelijk."
 
-#: ../src/mail.c:689
+#: ../src/mail.c:734
 msgid "Bad response after connect."
 msgstr "Slechte respons na maken van connectie"
 
-#: ../src/mail.c:690
+#: ../src/mail.c:735
 msgid "Bad response after username."
 msgstr "Slechte respons na gebruikersnaam"
 
-#: ../src/mail.c:691
+#: ../src/mail.c:736
 msgid "Bad response after password."
 msgstr "Slechte respons na wachtwoord"
 
-#: ../src/mail.c:692
+#: ../src/mail.c:737
 msgid "Bad response after STAT or STATUS."
 msgstr "Slechte respons na STAT of STATUS."
 
-#: ../src/mail.c:693
+#: ../src/mail.c:738
 msgid "Bad response after UIDL."
 msgstr "Slechte respons na UIDL."
 
-#: ../src/mail.c:694
+#: ../src/mail.c:739
 msgid "Bad APOP response after connect."
 msgstr "Slechte APOP respons na maken van verbinding."
 
-#: ../src/mail.c:695
+#: ../src/mail.c:740
 msgid "Bad CRAM_MD5 response after connect."
 msgstr "Slechte CRAM_MD5 respons na maken van verbinding"
 
-#: ../src/mail.c:743
+#: ../src/mail.c:788
 #, c-format
 msgid "Mail TCP Error: %s - %s\n"
 msgstr "Mail TCP Fout: %s - %s\n"
 
-#: ../src/mail.c:774
+#: ../src/mail.c:819
 msgid "Cannot initialize SSL method."
 msgstr "Kan SSL methode niet initialiseren"
 
-#: ../src/mail.c:778
+#: ../src/mail.c:823
 msgid "Cannot initialize SSL server certificate handler."
 msgstr "Kan SSL server certificaat handler niet initialiseren"
 
-#: ../src/mail.c:784
+#: ../src/mail.c:829
 msgid "Cannot initialize SSL handler."
 msgstr "Kan SSL certificaat handler niet initialiseren"
 
-#: ../src/mail.c:911 ../src/mail.c:985
+#: ../src/mail.c:955 ../src/mail.c:1027
 msgid "could not decode BASE64 challenge\n"
 msgstr "kon BASE64 vraag niet decoderen\n"
 
-#: ../src/mail.c:919
+#: ../src/mail.c:962
 #, c-format
 msgid "decoded as %s\n"
 msgstr "gedecodeerd als %s\n"
 
-#: ../src/mail.c:1037
+#: ../src/mail.c:1079
 msgid "Bad response after STLS."
 msgstr "Slechte respons na STLS."
 
-#: ../src/mail.c:1179
+#: ../src/mail.c:1254
 msgid "Bad response after STARTTLS."
 msgstr "Slechte respons na STARTTLS."
 
-#: ../src/mail.c:1252
-#, c-format
-msgid ""
-"Messages: %d\n"
-"Unseen: %d\n"
+#: ../src/mail.c:1272
+msgid "Bad response after CAPABILITY."
 msgstr ""
-"Berichten: %d\n"
-"Ongelezen: %d\n"
 
-#: ../src/mail.c:1740
+#: ../src/mail.c:1834
 #, c-format
 msgid "mute"
 msgstr "mute"
 
-#: ../src/mail.c:2016
+#: ../src/mail.c:2109
 msgid "seen"
 msgstr ""
 
-#: ../src/mail.c:3479
+#: ../src/mail.c:3573
 msgid "GKrellM Config Error"
 msgstr "GKrellM Configuratie Fout"
 
-#: ../src/mail.c:3480
+#: ../src/mail.c:3574
 msgid "Incomplete mailbox entries"
 msgstr "Mailbox inschrijvingen niet compleet"
 
-#: ../src/mail.c:3744
+#: ../src/mail.c:3838
 msgid "<h>Mailboxes\n"
 msgstr "<h>Mailboxen\n"
 
-#: ../src/mail.c:3746
+#: ../src/mail.c:3840
 msgid "Mailboxes to monitor can be local or remote mailbox types.\n"
 msgstr ""
 "Mailboxen die gemonitord moeten worden kunne lokaal en op afstand zijn.\n"
 
-#: ../src/mail.c:3747
+#: ../src/mail.c:3841
 msgid ""
 "For local mailboxes, the path name may be a mbox file or it may be\n"
 "a Maildir or MH mail style directory.\n"
@@ -1606,11 +1601,11 @@ msgstr ""
 "Voor lokale mailboxen, de pad naam mag een bestand zijn of ht mag\n"
 "een Maildir of MH mail stijl directory zijn.\n"
 
-#: ../src/mail.c:3755
+#: ../src/mail.c:3849
 msgid "<b>Mail reading program\n"
 msgstr "<b>Mail lees programma\n"
 
-#: ../src/mail.c:3756
+#: ../src/mail.c:3850
 msgid ""
 "If you enter a mail reading program (your mail user agent or MUA)\n"
 "it can be launched by clicking on the mail monitor message count button.\n"
@@ -1618,11 +1613,11 @@ msgstr ""
 "Als u een mail lees programma invoert kan dit opgestart worden door\n"
 "op de mail monitor totaal knop te klikken.\n"
 
-#: ../src/mail.c:3759
+#: ../src/mail.c:3853
 msgid "<b>Sound notify program\n"
 msgstr "<b>Geluidsmelding programma\n"
 
-#: ../src/mail.c:3760
+#: ../src/mail.c:3854
 msgid ""
 "If you enter a notify (sound) command, it will be run when new mail\n"
 "is detected.\n"
@@ -1630,11 +1625,11 @@ msgstr ""
 "Als u een (geluids)meldings commando invoert wordt dit uitgevoerd\n"
 "als er nieuwe mail is.\n"
 
-#: ../src/mail.c:3767
+#: ../src/mail.c:3861
 msgid "<b>fetch/check Program\n"
 msgstr "<b>ophaal/nakijk Programma\n"
 
-#: ../src/mail.c:3768
+#: ../src/mail.c:3862
 msgid ""
 "If you want to download remote mail or check for remote mail without\n"
 "using the builtin POP3 or IMAP mail checking which is set up in the\n"
@@ -1643,11 +1638,11 @@ msgstr ""
 "de ingebouwde POP3 of IMAP mail nakijk functie welke kan worden ingesteld\n"
 "in het\n"
 
-#: ../src/mail.c:3770 ../src/mail.c:3788
+#: ../src/mail.c:3864 ../src/mail.c:3882
 msgid "<i>Mailboxes"
 msgstr "<i>Mailboxen"
 
-#: ../src/mail.c:3771
+#: ../src/mail.c:3865
 msgid ""
 " tab, then do this by entering a mail fetch/check command.\n"
 "For example, fetchmail can be run periodically to download mail\n"
@@ -1670,11 +1665,11 @@ msgstr ""
 "telt. Als u een commando zoals dit invoert moet u dat kenbaar maken door\n"
 "het in de Opties tab selecteren van:\n"
 
-#: ../src/mail.c:3781
+#: ../src/mail.c:3875
 msgid "<i>\tFetch/check program checks messages only\n"
 msgstr "<i>\tOphaal/nakijk programma kijken enkel berichten na\n"
 
-#: ../src/mail.c:3782
+#: ../src/mail.c:3876
 msgid ""
 "For checking messages on a remote server, GKrellM can read the\n"
 "output of the program "
@@ -1682,15 +1677,15 @@ msgstr ""
 "Voor het nakijken van berichten op een server op afstand, GKrellM kan de\n"
 "uitvoer lezen van het programma "
 
-#: ../src/mail.c:3784
+#: ../src/mail.c:3878
 msgid "<i>fetchmail -c"
 msgstr "<i>fetchmail -c"
 
-#: ../src/mail.c:3785
+#: ../src/mail.c:3879
 msgid " (you must append the -c).\n"
 msgstr " (u moet de -c toevoegen).\n"
 
-#: ../src/mail.c:3786
+#: ../src/mail.c:3880
 msgid ""
 "But, do not combine these methods for the same mailbox!  If you enter a\n"
 "POP3 mailbox in the "
@@ -1698,21 +1693,21 @@ msgstr ""
 "Maar, combineer deze methodes niet voor de zelfde mailbox! Als u een\n"
 "POP3 mailbox toegevoegd in de "
 
-#: ../src/mail.c:3789
+#: ../src/mail.c:3883
 msgid " tab, then don't check it again with fetchmail.\n"
 msgstr " tab, dan moet u het niet nog een keer met fetchmail nakijken.\n"
 
-#: ../src/mail.c:3796
+#: ../src/mail.c:3890
 msgid "click the mail count button to launch the mail reading program.\n"
 msgstr "klik op de mail tel knop om het mail lees programma te starten.\n"
 
-#: ../src/mail.c:3797
+#: ../src/mail.c:3891
 msgid "\t\tIf options permit, also stop animations and reset remote counts.\n"
 msgstr ""
 "\t\tAls de optie het toestaat, stop de animatie en stel het tellen opnieuw "
 "in.\n"
 
-#: ../src/mail.c:3799
+#: ../src/mail.c:3893
 msgid ""
 "click the envelope decal to force a mail check regardless of\n"
 "\t\tany mute mode or inhibit mail checking option settings.\n"
@@ -1720,7 +1715,7 @@ msgstr ""
 "klik op de envelop om een mailcheck te forceren onafhankelijk of\n"
 "\t\telke mute mode of de instellingen in de opties tab.\n"
 
-#: ../src/mail.c:3802
+#: ../src/mail.c:3896
 msgid ""
 "click the mail panel to toggle a mute mode which inhibits\n"
 "\t\tthe sound notify program and optionally inhibits all mail\n"
@@ -1730,182 +1725,182 @@ msgstr ""
 "\t\twelke het geluidswaarschuwings programma en optioneel het\n"
 "\t\tnakijken op nieuwe mail uitschakelt.\n"
 
-#: ../src/mail.c:3843
+#: ../src/mail.c:3937
 msgid "Enable Mailcheck"
 msgstr "Mail Nakijken Inschakelen"
 
-#: ../src/mail.c:3855
+#: ../src/mail.c:3949
 msgid "Mail reading program:"
 msgstr "Mail lees programma:"
 
-#: ../src/mail.c:3870
+#: ../src/mail.c:3964
 msgid "Notify (sound) program:"
 msgstr "Geluids waarschuwings programma:"
 
-#: ../src/mail.c:3887
+#: ../src/mail.c:3981
 msgid "Mail fetch/check program:"
 msgstr "Mail ophaal/nakijk programma:"
 
-#: ../src/mail.c:3906
+#: ../src/mail.c:4000
 msgid "Run fetch/check program at local interval"
 msgstr ""
 
-#: ../src/mail.c:3916
+#: ../src/mail.c:4010
 msgid "Check local mailboxes every"
 msgstr "Test lokale mailboxen elke"
 
-#: ../src/mail.c:3923
+#: ../src/mail.c:4017
 msgid "seconds"
 msgstr "secondes"
 
-#: ../src/mail.c:3929
+#: ../src/mail.c:4023
 msgid "Do remote checks every"
 msgstr "Test op afstand elke"
 
-#: ../src/mail.c:3931
+#: ../src/mail.c:4025
 msgid "Check mail every"
 msgstr "Check mail elke"
 
-#: ../src/mail.c:3938
+#: ../src/mail.c:4032
 msgid "minutes"
 msgstr "minuten"
 
-#: ../src/mail.c:3941
+#: ../src/mail.c:4035
 msgid "Mailboxes"
 msgstr "Mailboxen"
 
-#: ../src/mail.c:3957
+#: ../src/mail.c:4051
 msgid "Path name:"
 msgstr "Pad naam:"
 
-#: ../src/mail.c:3975
+#: ../src/mail.c:4069
 msgid "Server"
 msgstr "Server"
 
-#: ../src/mail.c:3982
+#: ../src/mail.c:4076
 msgid "User name"
 msgstr "Gebruikers naam"
 
-#: ../src/mail.c:3989
+#: ../src/mail.c:4083
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: ../src/mail.c:3997 ../src/mail.c:4089
+#: ../src/mail.c:4091 ../src/mail.c:4183
 msgid "Protocol"
 msgstr "Protocol"
 
-#: ../src/mail.c:4012
+#: ../src/mail.c:4106
 msgid "Use SSL"
 msgstr "Gebruik SSL"
 
-#: ../src/mail.c:4020
+#: ../src/mail.c:4114
 msgid "No"
 msgstr "Nee"
 
-#: ../src/mail.c:4028
+#: ../src/mail.c:4122
 msgid "IMAP folder"
 msgstr "IMAP map"
 
-#: ../src/mail.c:4038
+#: ../src/mail.c:4132
 msgid "Specify port"
 msgstr "Specificeer poort"
 
-#: ../src/mail.c:4057
+#: ../src/mail.c:4151
 msgid "Local mailbox"
 msgstr "Lokale mailbox"
 
-#: ../src/mail.c:4063
+#: ../src/mail.c:4157
 msgid "Remote mailbox"
 msgstr "Mailbox op afstand"
 
-#: ../src/mail.c:4099
+#: ../src/mail.c:4193
 msgid "Mailbox"
 msgstr "Mailbox"
 
-#: ../src/mail.c:4110
+#: ../src/mail.c:4204
 msgid "Animation"
 msgstr "Animatie"
 
-#: ../src/mail.c:4113
+#: ../src/mail.c:4207
 msgid "Animation Select"
 msgstr "Animatie Selectie"
 
-#: ../src/mail.c:4118
+#: ../src/mail.c:4212
 msgid "None"
 msgstr "Geen"
 
-#: ../src/mail.c:4121
+#: ../src/mail.c:4215
 msgid "Envelope"
 msgstr "Envelop"
 
-#: ../src/mail.c:4126
+#: ../src/mail.c:4220
 msgid "Daemon"
 msgstr "Daemon"
 
-#: ../src/mail.c:4128
+#: ../src/mail.c:4222
 msgid "Penguin"
 msgstr "Penguin"
 
-#: ../src/mail.c:4132
+#: ../src/mail.c:4226
 msgid "Both"
 msgstr "Beide"
 
-#: ../src/mail.c:4145
+#: ../src/mail.c:4239
 msgid "Run animation continuously as long as there is a new mail count"
 msgstr "Laat animatie continu zien als er nieuwe mail is"
 
-#: ../src/mail.c:4152
+#: ../src/mail.c:4246
 msgid "Message Counting"
 msgstr "Berichten Tellen"
 
-#: ../src/mail.c:4157
+#: ../src/mail.c:4251
 msgid "new/total"
 msgstr "nieuw/totaal"
 
-#: ../src/mail.c:4161
+#: ../src/mail.c:4255
 msgid "new"
 msgstr "nieuw"
 
-#: ../src/mail.c:4165
+#: ../src/mail.c:4259
 msgid "do not count"
 msgstr "tel niet"
 
-#: ../src/mail.c:4178
+#: ../src/mail.c:4272
 msgid "Fetch/check program checks messages only (see Mail Info tab)"
 msgstr "Ophaal/nakijk programma kijkt enkel na (zie Mail Info tab)"
 
-#: ../src/mail.c:4183
+#: ../src/mail.c:4277
 msgid "Reset remote message counts when message count button is pressed."
 msgstr ""
 "Stel teller op nieuw in voor mailboxen op afstand als op de knop wordt "
 "gedrukt"
 
-#: ../src/mail.c:4188
+#: ../src/mail.c:4282
 msgid "Count accessed but unseen mail as new (if this status is available)"
 msgstr ""
 "Tel bereikte maar ongeziene mail als nieuw (als deze status beschikbaar is)"
 
-#: ../src/mail.c:4193
+#: ../src/mail.c:4287
 msgid "Mute mode inhibits all mail checking, not just notify (sound) program"
 msgstr "Mute mode stopt het checken van mail, niet enkel het geluids programma"
 
-#: ../src/mail.c:4198
+#: ../src/mail.c:4292
 msgid "Inhibit all mail checking while the mail reader is running"
 msgstr "Stop met het nakijken van mail als het mail programma draait"
 
-#: ../src/mail.c:4203
+#: ../src/mail.c:4297
 msgid "Allow multiple launches of the mail reader program"
 msgstr "Sta meerdere instanties van het mail programma toe"
 
-#: ../src/mail.c:4208
+#: ../src/mail.c:4302
 msgid "List mailboxes containing new mail in a tooltip"
 msgstr "Laat mailboxen met nieuwe mail in de tooltip zien"
 
-#: ../src/mail.c:4214
+#: ../src/mail.c:4308
 msgid "Ignore .mh_sequences when checking MH mail."
 msgstr "Negeer .mh_sequences bij het nakijken van MH mail."
 
-#: ../src/mail.c:4237
+#: ../src/mail.c:4331
 msgid "Mail"
 msgstr "Mail"
 
@@ -2041,23 +2036,27 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ../src/main.c:1999
+#: ../src/main.c:1832
+msgid "GKrellM"
+msgstr ""
+
+#: ../src/main.c:2025
 msgid "segmentation fault"
 msgstr "segmentatie fout"
 
-#: ../src/main.c:2001
+#: ../src/main.c:2027
 msgid "floating point exception"
 msgstr "probleem met drijvende komma"
 
-#: ../src/main.c:2003
+#: ../src/main.c:2029
 msgid "aborted"
 msgstr "afgebroken"
 
-#: ../src/main.c:2006
+#: ../src/main.c:2032
 msgid "initializing"
 msgstr "initialiseren"
 
-#: ../src/main.c:2188
+#: ../src/main.c:2217
 #, c-format
 msgid "Bad arg: %s\n"
 msgstr "Fout arg: %s\n"
@@ -2202,67 +2201,67 @@ msgstr ""
 msgid "$t - $u used  $s sh  $b bf  $c ca"
 msgstr "$t - $u gebruikt  $s sh  $b bf  $c ca"
 
-#: ../src/net.c:685
+#: ../src/net.c:687
 msgid "Received"
 msgstr ""
 
-#: ../src/net.c:689
+#: ../src/net.c:691
 msgid "Transmitted"
 msgstr ""
 
-#: ../src/net.c:693
+#: ../src/net.c:695
 msgid "Total"
 msgstr "Totaal"
 
-#: ../src/net.c:701
+#: ../src/net.c:703
 msgid "Connect Time"
 msgstr "Connectie Timer"
 
-#: ../src/net.c:718
+#: ../src/net.c:720
 #, c-format
 msgid "%s Statistics"
 msgstr ""
 
-#: ../src/net.c:738
+#: ../src/net.c:740
 msgid "Daily"
 msgstr ""
 
-#: ../src/net.c:739
+#: ../src/net.c:741
 msgid "Date"
 msgstr ""
 
-#: ../src/net.c:741
+#: ../src/net.c:743
 msgid "Weekly"
 msgstr ""
 
-#: ../src/net.c:743
+#: ../src/net.c:745
 msgid "Week Ending"
 msgstr ""
 
-#: ../src/net.c:745
+#: ../src/net.c:747
 msgid "Monthly"
 msgstr ""
 
-#: ../src/net.c:747
+#: ../src/net.c:749
 msgid "Month"
 msgstr "Maand"
 
-#: ../src/net.c:804
+#: ../src/net.c:806
 #, c-format
 msgid "get_connect_state changed from %d to %d  (check=%d)\n"
 msgstr "get_connect_state veranderde van %d naar %d  (check=%d)\n"
 
-#: ../src/net.c:847
+#: ../src/net.c:849
 #, c-format
 msgid "set_timer_button_state from %d to %d (check=%d)\n"
 msgstr "set_timer_button_state van %d naar %d (check=%d)\n"
 
-#: ../src/net.c:860
+#: ../src/net.c:862
 #, c-format
 msgid "update_timer_button net_timed old_state=%d new_state=%d\n"
 msgstr "update_timer_button net_timed old_state=%d new_state=%d\n"
 
-#: ../src/net.c:921
+#: ../src/net.c:923
 msgid "  **** Stale pppd pppX.pid file detected!\n"
 msgstr "  **** Stalen pppd pppX.pid bestand gedetecteerd!\n"
 
@@ -2490,51 +2489,51 @@ msgstr "Negeer dubbele plugin "
 msgid "*** Command line plugin:\n"
 msgstr "*** Commando lijn plugin:\n"
 
-#: ../src/plugins.c:1504
+#: ../src/plugins.c:1526
 msgid "GKrellM Place Plugin"
 msgstr "GKrellM Plaats Plugin"
 
-#: ../src/plugins.c:1515
+#: ../src/plugins.c:1537
 msgid "Builtin Monitors"
 msgstr "Ingebouwde Monitoren"
 
-#: ../src/plugins.c:1545
+#: ../src/plugins.c:1567
 msgid "Place Plugin"
 msgstr "Plaats Plugin"
 
-#: ../src/plugins.c:1551
+#: ../src/plugins.c:1573
 msgid "Before selected builtin monitor"
 msgstr "Voor geselecteerde ingebouwde monitor"
 
-#: ../src/plugins.c:1558
+#: ../src/plugins.c:1580
 msgid "With gravity"
 msgstr "Met zwaartekracht"
 
-#: ../src/plugins.c:1563
+#: ../src/plugins.c:1585
 msgid "After selected builtin monitor"
 msgstr "Na geselecteerde ingebouwde monitor"
 
-#: ../src/plugins.c:1571
+#: ../src/plugins.c:1593
 msgid "Plugin Defaults"
 msgstr "Plugin Standaarden"
 
-#: ../src/plugins.c:1674
+#: ../src/plugins.c:1696
 msgid "from command line"
 msgstr "van commando lijn"
 
-#: ../src/plugins.c:1731
+#: ../src/plugins.c:1753
 msgid "Plugin"
 msgstr "Plugin"
 
-#: ../src/plugins.c:1752
+#: ../src/plugins.c:1774
 msgid "Place"
 msgstr "Plaats"
 
-#: ../src/plugins.c:1759
+#: ../src/plugins.c:1781
 msgid "Install Log"
 msgstr "Installatie Log"
 
-#: ../src/plugins.c:1767
+#: ../src/plugins.c:1789
 msgid "No plugins found."
 msgstr "Geen plugins gevonden."
 
@@ -2621,7 +2620,7 @@ msgstr "Proc"
 msgid "Can't find a %s panel to relocate sensor to."
 msgstr ""
 
-#: ../src/sensors.c:1620 ../src/sensors.c:2933
+#: ../src/sensors.c:1620 ../src/sensors.c:2941
 msgid "Sensors"
 msgstr "Sensors"
 
@@ -2742,11 +2741,10 @@ msgid "Uptime"
 msgstr "Uptime"
 
 #: ../src/utils.c:117
-#, c-format
 msgid "Unterminated quote\n"
 msgstr "Niet getermineerde quote\n"
 
-#: ../src/utils.c:237
+#: ../src/utils.c:233
 #, c-format
 msgid "Cannot create directory: %s\n"
 msgstr "Kan directory niet creëren: %s\n"
@@ -2760,9 +2758,16 @@ msgid "Warning: -w flag is ignored when the window dock type is set"
 msgstr ""
 "Waarschuwing: -w vlag wordt genegeerd wanneer window dock type is ingesteld"
 
-#: ../src/sysdeps/linux.c:3751
+#: ../src/sysdeps/linux.c:3797
 msgid "Use nvclock for NVIDIA GPU temperatures"
 msgstr ""
+
+#~ msgid ""
+#~ "Messages: %d\n"
+#~ "Unseen: %d\n"
+#~ msgstr ""
+#~ "Berichten: %d\n"
+#~ "Ongelezen: %d\n"
 
 #~ msgid "Display 24 hour instead of 12 hour time"
 #~ msgstr "Toon in 24 uurs mode in plaats van 12 uurs mode"

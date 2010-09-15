@@ -1,5 +1,42 @@
 GKrellM Changelog
 -----------------
+2.3.5 - Not released
+------------------------
+	* Patch from Stefan Gehn:
+	    - Clean up debug printing by using gkrellm_debug(), g_message(),
+	      g_debug(), g_warning().
+	    - Replace sprintf() calls with snprintf().
+	    - Use glib gstdio to replace unix calls: fopen()->g_fopen(), etc.
+		- Use glib mutex functions for portability.
+	    - Fix IMAP login by escaping backslash and double-quotes in
+	      username, password and mailbox strings.
+	    - Fix initial sending of fstab entries in gkrellmd, fstab was only
+	      sent if it was marked as "changed"
+	    - Configure scripts handle pkg-config and compiler errors better.
+	    - src/Makefile: Rename SMC_LIBS to X11_lIBS and add -lX11
+	    - Makefile: Drop duplicating SMC_LIBS in "netbsd" targets by calling
+	      src/Makefile with "netbsd" target instead of using the generic
+	      "gkrellm" target.
+	    - Make "-d" commandline option the short version for "--detach"
+	      instead of for "--debug-level".
+	    - Enable IPv6-support on win32 if target os is windows xp or newer.
+	    - Support monitoring of active IPv6 TCP connections on windows vista
+	      or newer.
+	    - Fix building with mingw-w64 environment.
+	* Patch from Stefan Gehn: add searching for linux sensors directly below
+	  hwmon dir since kernel is putting newer devices there.
+	* Patch from Hajimu Umemoto: FreeBSD memory usage calculation update.
+	* Translation updates
+	  o es.po from Cristian Othon Martinez Vera
+	  o de.po minor bug patch from Jan Brinkmann.
+	  o pt_BR.po update from Vinicius Moreira de Oliveira
+	* Bugfixes
+	  o Fix eof check in fgets_pipe() (when using external mail check program).
+	  o Jindrich Makovicka patch: fix some aliasing violations due to
+	    sockaddr_* typecasting.
+	  o Ville Skytta patch: add explicit -lm linking to fix Fedora builds
+	    with --no-add-needed.
+
 2.3.4 - Mon Jan 4, 2010
 ------------------------
 	* Add gkrellm_sys_setup_connect() function so sysdep code can register

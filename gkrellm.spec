@@ -1,5 +1,5 @@
 %define name gkrellm
-%define version 2.3.4
+%define version 2.3.5
 %define release 1
 %define prefix /usr
 

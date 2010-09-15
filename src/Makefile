@@ -21,6 +21,7 @@ MANDIRMODE ?= 755
 INSTALL ?= install
 LINK_FLAGS ?= -Wl,-E
 X11_LIBS ?= -L/usr/X11R6/lib -lX11 -lSM -lICE
+MATH_LIB ?= -lm
 
 SHARED_PATH = ../shared
 # Make GNU Make search for sources somewhere else as well
@@ -58,7 +59,7 @@ include configure.mk
 
 # Only use own md5-code if neither OpenSSL nor GnuTLS are present
 ifneq ($(HAVE_SSL),1)
-	EXTRAOBJS ?= md5c.o
+    EXTRAOBJS ?= md5c.o
 endif
 
 CC ?= gcc
@@ -74,7 +75,7 @@ FLAGS = -O2 -I.. -I$(SHARED_PATH) $(PKG_INCLUDE) $(GTOP_INCLUDE) $(PTHREAD_INC)\
  ${SSL_INCLUDE} ${NTLM_INCLUDE} -DGKRELLM_CLIENT
 
 LIBS = $(PKG_LIB) $(GTOP_LIBS) $(X11_LIBS) $(SYS_LIBS) $(SSL_LIBS) $(SENSORS_LIBS)\
- $(NTLM_LIBS)
+ $(NTLM_LIBS) $(MATH_LIB)
 
 ifeq ($(debug),1)
     FLAGS += -g

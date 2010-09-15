@@ -1,7 +1,7 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
+|  Copyright (C) 1999-2010 Bill Wilson
 |                2002      Bill Nalen
-|                2007-2009 Stefan Gehn
+|                2007-2010 Stefan Gehn
 |
 |  Authors:  Bill Wilson    billw@gkrellm.net
 |            Bill Nalen     bill@nalens.com
@@ -92,7 +92,7 @@ typedef struct _SYSTEM_PAGEFILE_INFORMATION
  * are present in the headers provided by mingw-w64.
  * Docs: http://msdn.microsoft.com/en-us/library/aa378290(VS.85).aspx
  */ 
-#if !defined(__MINGW64_VERSION_MAJOR) && defined(__MINGW32_MAJOR_VERSION)
+#if defined(__MINGW32__) && !defined(WIN64)
 typedef struct _SECURITY_LOGON_SESSION_DATA
 	{
 	ULONG Size;
@@ -1512,7 +1512,6 @@ gkrellm_sys_proc_read_data(void)
 			num_forks /*n_forks*/, fload);
 	}
 
-
 void
 gkrellm_sys_proc_read_users(void)
 	{
@@ -2260,7 +2259,7 @@ static void win32_read_tcp6_data(void)
 			win32_warning(NULL, dwStatus,
 					"Could not fetch list of IPv6 TCP connections");
 		}
-	}
+		}
 #endif
 
 void gkrellm_sys_inet_read_tcp_data(void)

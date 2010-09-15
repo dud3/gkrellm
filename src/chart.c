@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
+|  Copyright (C) 1999-2010 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -848,7 +848,7 @@ gkrellm_store_chartdatav(GkrellmChart *cp, gulong total, va_list args)
 		cp->previous_total = total;	  /* Wrap around, this store won't scale */
 	total_diff = total - cp->previous_total;
 	cp->previous_total = total;
-
+		
 	/* Increment position in circular buffer and remember the data
 	|  value to be thrown out.
 	*/

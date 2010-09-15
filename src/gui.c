@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
+|  Copyright (C) 1999-2010 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -768,7 +768,7 @@ create_about_tab(GtkWidget *vbox)
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
 
 	buf = g_strdup_printf(_("GKrellM %d.%d.%d%s\nGNU Krell Monitors\n\n"
-				"Copyright (c) 1999-2009 by Bill Wilson\n"
+				"Copyright (c) 1999-2010 by Bill Wilson\n"
 				"billw@gkrellm.net\n"
 				"http://gkrellm.net\n\n"
 				"Released under the GNU General Public License"),
@@ -2195,7 +2195,7 @@ gkrellm_remove_plugin_config_page(GkrellmMonitor *mon)
 				continue;
 			tmon->privat->config_page -= 1;
 			gkrellm_debug(DEBUG_GUI, "config_page %d: %s\n",
-				tmon->privat->config_page, tmon->name);
+						tmon->privat->config_page,  tmon->name);
 			}
 		}
 	mon->privat->config_page = -1;
@@ -2259,7 +2259,7 @@ cb_tree_selection_changed(GtkTreeSelection *selection, gpointer data)
 
 	gtk_notebook_set_current_page(config_notebook, page);
 	gkrellm_debug(DEBUG_GUI, "tree_selection_changed %d: %s\n",
-		page, selected_monitor ? selected_monitor->name : "--");
+					page, selected_monitor ? selected_monitor->name : "--");
 	}
 
   /* Monitors may want to present as instant apply monitors, but still need

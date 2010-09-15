@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
+|  Copyright (C) 1999-2010 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -3040,10 +3040,11 @@ gkrellm_sys_sensors_get_temperature(gchar *sensor_path, gint id,
 #if GLIB_CHECK_VERSION(2,0,0)
 		gchar	*args[] = { "nvidia-settings", "-q", sensor_path, NULL };
 		gchar	*output = NULL;
+		GError	*error	= NULL;
 
 		result = g_spawn_sync(NULL, args, NULL,
 					G_SPAWN_SEARCH_PATH | G_SPAWN_STDERR_TO_DEV_NULL,
-					NULL, NULL, &output, NULL, NULL, NULL);
+					NULL, NULL, &output, NULL, NULL, &error);
 
 		if(result && output)
 			{
@@ -3051,10 +3052,21 @@ gkrellm_sys_sensors_get_temperature(gchar *sensor_path, gint id,
 
 			if(!temp)
 				temp = &dummy;
-			result = (sscanf(output, " Attribute %*s %*s %f", temp) == 1);
+			result = (sscanf((*output == '\n' ? output + 1 : output),
+						" Attribute %*s %*s %f", temp) == 1);
 			}
-
-		g_free(output);
+		if ((_GK.debug_level & DEBUG_SENSORS) && (!result || !output))
+			{
+			printf("nvidia-settings %s: result=%d  output=%s\n", sensor_path,
+					(gint) result,
+					output ? output : "(null)");
+			if (error)
+				printf("\terror=%s\n", error->message);
+			}
+		if (error)
+			g_error_free(error);
+		if (output)
+			g_free(output);
 		return result;
 #else
 		return FALSE;
@@ -3403,7 +3415,18 @@ sysfs_sensors_init(void)
 		if ((chip_name = sysfs_get_chip_name(path)) == NULL)
 			{
 			g_dir_close(chip_dir);
-			continue;
+			if (using_i2c_dir)
+				continue;
+			/* Newer hwmon drivers keep their files directly in the hwmon dir
+			   and not in the device-subdir. */
+			snprintf(path, sizeof(path), "%s/%s", SYSFS_HWMON_DIR, bus_name);
+			if ((chip_dir = g_dir_open(path, 0, NULL)) == NULL)
+				continue;
+			if ((chip_name = sysfs_get_chip_name(path)) == NULL)
+				{
+				g_dir_close(chip_dir);
+				continue;
+				}
 			}
 		have_sysfs_sensors = TRUE;
 		if (_GK.debug_level & DEBUG_SENSORS)
@@ -3495,15 +3518,33 @@ sensors_nvidia_settings_ngpus(void)
 #if GLIB_CHECK_VERSION(2,0,0)
 	gchar		*args[] = { "nvidia-settings", "-q", "gpus", NULL };
 	gchar		*output = NULL;
+	gchar		*errout = NULL;
 	gboolean	result;
+	GError		*error	= NULL;
 
 	result = g_spawn_sync(NULL, args, NULL,
-				G_SPAWN_SEARCH_PATH | G_SPAWN_STDERR_TO_DEV_NULL,
-				NULL, NULL, &output, NULL, NULL, NULL);
+				G_SPAWN_SEARCH_PATH,
+				NULL, NULL, &output, &errout, NULL, &error);
 
+	if (_GK.debug_level & DEBUG_SENSORS)
+		{
+		printf("nvidia-settings: result=%d  output=%s stderr=%s\n",
+				(gint) result,
+				output ? output : "(null)",
+				errout ? errout : "(null)");
+		if (error)
+			printf("\terror=%s\n", error->message);
+		}
 	if(result && output)
-		sscanf(output, "%d", &n);
-	g_free(output);
+			sscanf((*output == '\n' ? output + 1 : output), "%d", &n);
+
+	if (output)
+		g_free(output);
+	if (errout)
+		g_free(errout);
+	if (error)
+			g_error_free(error);
+
 #endif
 	if (_GK.debug_level & DEBUG_SENSORS)
 		g_debug("nvidia-settings gpus = %d\n", n);

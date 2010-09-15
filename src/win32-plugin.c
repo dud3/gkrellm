@@ -1,6 +1,6 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
-|                2007-2009 Stefan Gehn
+|  Copyright (C) 1999-2010 Bill Wilson
+|                2007-2010 Stefan Gehn
 |
 |  Authors:  Bill Wilson    billw@gkrellm.net
 |            Stefan Gehn    stefan+gkrellm@srcbox.net
@@ -149,7 +149,7 @@ void win32_init_callbacks(void)
     gkrellm_callbacks.gkrellm_remove_krell = gkrellm_remove_krell;
     gkrellm_callbacks.gkrellm_insert_krell = gkrellm_insert_krell;
     gkrellm_callbacks.gkrellm_insert_krell_nth = gkrellm_insert_krell_nth;
-
+    
       // Decal and Decalbutton functions
     gkrellm_callbacks.gkrellm_create_decal_text = gkrellm_create_decal_text;
     gkrellm_callbacks.gkrellm_create_decal_pixmap = gkrellm_create_decal_pixmap;
@@ -184,7 +184,7 @@ void win32_init_callbacks(void)
     gkrellm_callbacks.gkrellm_hide_button = gkrellm_hide_button;
     gkrellm_callbacks.gkrellm_show_button = gkrellm_show_button;
     gkrellm_callbacks.gkrellm_destroy_button = gkrellm_destroy_button;
-
+    
       // Pixops
     gkrellm_callbacks.gkrellm_load_piximage = gkrellm_load_piximage;
     gkrellm_callbacks.gkrellm_piximage_new_from_file = gkrellm_piximage_new_from_file;
@@ -201,7 +201,7 @@ void win32_init_callbacks(void)
     gkrellm_callbacks.gkrellm_clone_bitmap = gkrellm_clone_bitmap;
     gkrellm_callbacks.gkrellm_free_pixmap = gkrellm_free_pixmap;
     gkrellm_callbacks.gkrellm_free_bitmap = gkrellm_free_bitmap;
-
+    
       // Misc support functions
     gkrellm_callbacks.gkrellm_get_top_window = gkrellm_get_top_window;
     gkrellm_callbacks.gkrellm_set_gkrellmrc_piximage_border = gkrellm_set_gkrellmrc_piximage_border;
@@ -232,7 +232,7 @@ void win32_init_callbacks(void)
     gkrellm_callbacks.gkrellm_message_dialog = gkrellm_message_dialog;
     gkrellm_callbacks.gkrellm_config_message_dialog = gkrellm_config_message_dialog;
     gkrellm_callbacks.gkrellm_spacers_set_types = gkrellm_spacers_set_types;
-
+    
       // Alerts
     gkrellm_callbacks.gkrellm_alert_create = gkrellm_alert_create;
     gkrellm_callbacks.gkrellm_alert_destroy = gkrellm_alert_destroy;
@@ -250,7 +250,7 @@ void win32_init_callbacks(void)
     gkrellm_callbacks.gkrellm_save_alertconfig = gkrellm_save_alertconfig;
     gkrellm_callbacks.gkrellm_load_alertconfig = gkrellm_load_alertconfig;
     gkrellm_callbacks.gkrellm_alert_set_triggers = gkrellm_alert_set_triggers;
-
+    
       // GKrellM Styles and Textstyles
     gkrellm_callbacks.gkrellm_add_chart_style = gkrellm_add_chart_style;
     gkrellm_callbacks.gkrellm_add_meter_style = gkrellm_add_meter_style;
@@ -270,7 +270,7 @@ void win32_init_callbacks(void)
     gkrellm_callbacks.gkrellm_chart_alt_textstyle = gkrellm_chart_alt_textstyle;
     gkrellm_callbacks.gkrellm_panel_alt_textstyle = gkrellm_panel_alt_textstyle;
     gkrellm_callbacks.gkrellm_meter_alt_textstyle = gkrellm_meter_alt_textstyle;
-
+    
       // Accessing GKrellM GkrellmPiximages and pixmaps
     gkrellm_callbacks.gkrellm_bg_chart_piximage = gkrellm_bg_chart_piximage;
     gkrellm_callbacks.gkrellm_bg_grid_piximage = gkrellm_bg_grid_piximage;
@@ -288,7 +288,7 @@ void win32_init_callbacks(void)
     gkrellm_callbacks.gkrellm_data_out_grid_pixmap = gkrellm_data_out_grid_pixmap;
     gkrellm_callbacks.gkrellm_decal_misc_pixmap = gkrellm_decal_misc_pixmap;
     gkrellm_callbacks.gkrellm_decal_misc_mask = gkrellm_decal_misc_mask;
-
+    
     // Accessing other data from the GK struct
     gkrellm_callbacks.gkrellm_draw_GC = gkrellm_draw_GC;
     gkrellm_callbacks.gkrellm_bit_GC = gkrellm_bit_GC;
@@ -304,7 +304,7 @@ void win32_init_callbacks(void)
     gkrellm_callbacks.gkrellm_ticks = gkrellm_ticks;
     gkrellm_callbacks.gkrellm_allow_scaling = gkrellm_allow_scaling;
     gkrellm_callbacks.gkrellm_plugin_debug = gkrellm_plugin_debug;
-
+    
     // Wrappers around gtk widget functions to provide a convenience higher level
     //  interface for creating the config pages.
     gkrellm_callbacks.gkrellm_gtk_notebook_page = gkrellm_gtk_notebook_page;
@@ -332,7 +332,7 @@ void win32_init_callbacks(void)
     gkrellm_callbacks.gkrellm_125_sequence = gkrellm_125_sequence;
     gkrellm_callbacks.gkrellm_save_all = gkrellm_save_all;
 
-    // ------- Some builtin monitor public functions --------
+    // ------- Some builtin monitor public functions -------- 
 
     // Functions exported by cpu.c
     gkrellm_callbacks.gkrellm_smp_cpus = gkrellm_smp_cpus;
@@ -395,7 +395,7 @@ void win32_init_callbacks(void)
     //---------------------------------------------------------------------------
     // new since 2.2.0
 
-    gkrellm_callbacks.gkrellm_decal_get_size = gkrellm_decal_get_size;
+    gkrellm_callbacks.gkrellm_decal_get_size = gkrellm_decal_get_size; 
     gkrellm_callbacks.gkrellm_decal_text_set_offset = gkrellm_decal_text_set_offset;
     gkrellm_callbacks.gkrellm_decal_text_get_offset = gkrellm_decal_text_get_offset;
     gkrellm_callbacks.gkrellm_chart_reuse_text_format = gkrellm_chart_reuse_text_format;
@@ -421,7 +421,7 @@ void win32_init_callbacks(void)
 
     //---------------------------------------------------------------------------
     // new since 2.2.1
-
+    
     gkrellm_callbacks.gkrellm_draw_decal_markup = gkrellm_draw_decal_markup;
     gkrellm_callbacks.gkrellm_decal_scroll_text_set_markup = gkrellm_decal_scroll_text_set_markup;
 

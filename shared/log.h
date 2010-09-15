@@ -1,8 +1,7 @@
 /* GKrellM
-*  Copyright (C) 1999-2009 Bill Wilson
-*
-*  @author Bill Wilson  <billw@gkrellm.net>
-*
+|  Copyright (C) 1999-2010 Bill Wilson
+|
+|  Author:  Stefan Gehn    stefan+gkrellm@srcbox.net
 |  Latest versions might be found at:  http://gkrellm.net
 |
 |
@@ -39,10 +38,10 @@
 
 /**
  * @brief Prints our and/or logs a debug message.
- *
+ *  
  * If a logfile was set @see gkrellm_log_set_filename() the message will
  * be logged into the logfile as well.
- **/
+ **/    
 void gkrellm_debug(guint debug_level, const gchar *format, ...);
 void gkrellm_debugv(guint debug_level, const gchar *format, va_list arg);
 

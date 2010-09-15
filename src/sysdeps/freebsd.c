@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2007 Bill Wilson
+|  Copyright (C) 1999-2010 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -1041,13 +1041,14 @@ gkrellm_sys_mem_read_data(void)
 	static gint	swappgsin = -1;
 	static gint	swappgsout = -1;
 	gint		dpagein, dpageout;
-	guint64		total, used, x_used, free, shared, buffers = 0, cached;
+	guint64		total, used, free, shared, buffers = 0, cached;
 	struct vmtotal	vmt;
 	size_t		length_vmt = sizeof(vmt);
 	static int	oid_vmt[] = { CTL_VM, VM_TOTAL };
 #if __FreeBSD_version >= 410000
 	gint		i;
 #else
+	guint64		x_used;
 	struct vmmeter	sum;
 #endif
 
@@ -1083,16 +1084,14 @@ gkrellm_sys_mem_read_data(void)
 		if (sysctl(mibs[i].oid, mibs[i].oid_len, &mibs[i].value,
 			   &mibs[i].value_len, NULL, 0) < 0)
 			return;
-	total = (mibs[MIB_V_PAGE_COUNT].value -
-		     mibs[MIB_V_WIRE_COUNT].value) << pshift;
-	x_used = (mibs[MIB_V_ACTIVE_COUNT].value +
-		      mibs[MIB_V_INACTIVE_COUNT].value) << pshift;
-	free = mibs[MIB_V_FREE_COUNT].value << pshift;
+	total = (guint64)(mibs[MIB_V_PAGE_COUNT].value) << pshift;
+	free = (guint64)(mibs[MIB_V_INACTIVE_COUNT].value +
+			 mibs[MIB_V_FREE_COUNT].value) << pshift;
 	if (sysctl(oid_vmt, 2, &vmt, &length_vmt, NULL, 0) == 0)
-		shared = vmt.t_rmshr << pshift;
+		shared = (guint64)vmt.t_rmshr << pshift;
 	get_bufspace(&buffers);
-	cached = mibs[MIB_V_CACHE_COUNT].value << pshift;
-	used = x_used - buffers - cached;
+	cached = (guint64)mibs[MIB_V_CACHE_COUNT].value << pshift;
+	used = total - free;
 	gkrellm_mem_assign_data(total, used, free, shared, buffers, cached);
 
 	if (swappgsin < 0)

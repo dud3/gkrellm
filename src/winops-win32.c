@@ -1,6 +1,6 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
-|                2007-2009 Stefan Gehn
+|  Copyright (C) 1999-2010 Bill Wilson
+|                2007-2010 Stefan Gehn
 |
 |  Authors:  Bill Wilson    billw@gkrellm.net
 |            Stefan Gehn    stefan+gkrellm@srcbox.net

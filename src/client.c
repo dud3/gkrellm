@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
+|  Copyright (C) 1999-2010 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -1918,6 +1918,7 @@ gkrellm_client_mode_connect(void)
 					(GdkInputFunction) read_server_input, NULL);
 
 	server_alive = TRUE;
+
 	return GOOD_CONNECT;
 	}
 

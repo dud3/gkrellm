@@ -1,8 +1,10 @@
-The code in the GKrellM distribution is Copyright (C) 1999-2007 by Bill Wilson
+The code in the GKrellM distribution is Copyright (C) 1999-2010 by Bill Wilson
 except for:
-  base64.c which is Copyright 1997 by Eric S. Raymond and is under the GPL.
+  base64.c which is Copyright 1997 by Eric S. Raymond and is under the GPL,
 and
-  md5.h, md5c.c which are public domain.
+  md5.h, md5c.c which are public domain,
 and
   some system dependent files which port GKrellM to architectures other
-  than Linux are Copyright their authors as indicated in the respective files.
+  than Linux are Copyright their authors as indicated in the respective files,
+and
+  any other file which has its own copyright posted.

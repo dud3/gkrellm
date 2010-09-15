@@ -1,9 +1,8 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
-|                2007-2009 Stefan Gehn
+|  Copyright (C) 1999-2010 Bill Wilson
+|                2007-2010 Stefan Gehn
 |
-|  Authors:  Bill Wilson    billw@gkrellm.net
-|            Stefan Gehn    stefan+gkrellm@srcbox.net
+|  Author:  Stefan Gehn    stefan+gkrellm@srcbox.net
 |  Latest versions might be found at:  http://gkrellm.net
 |
 |
@@ -36,12 +35,12 @@ typedef struct
     void		(*gkrellmd_serve_data)(GkrellmdMonitor *mon, gchar *line);
     void		(*gkrellmd_add_serveflag_done)(gboolean *);
     gboolean	(*gkrellmd_check_client_version)(GkrellmdMonitor *mon, gint major, gint minor, gint rev);
-
+    
     const gchar	*(*gkrellmd_config_getline)(GkrellmdMonitor *mon);
-
+    
     void		(*gkrellmd_client_input_connect)(GkrellmdMonitor *mon, void (*func)(GkrellmdClient *, gchar *));
-
-
+    
+    
     /* Small set of useful functions duplicated from src/utils.c.
     |  These really should just be in the gkrellm_ namespace for sysdep code
     |  common to gkrellm and gkrellmd, but for convenience, offer them in
@@ -51,18 +50,18 @@ typedef struct
     gboolean    (*gkrellmd_getline_from_gstring)(GString **, gchar *, gint);
     gchar *     (*gkrellmd_dup_token)(gchar **string, gchar *delimeters);
     gboolean    (*gkrellmd_dup_string)(gchar **dst, gchar *src);
-
+    
     void		(*gkrellm_free_glist_and_data)(GList **list_head);
     gboolean	(*gkrellm_getline_from_gstring)(GString **, gchar *, gint);
     gchar*      (*gkrellm_dup_token)(gchar **string, gchar *delimeters);
     gboolean    (*gkrellm_dup_string)(gchar **dst, gchar *src);
-
-
+    
+    
     /* Plugins should use above data serve functions instead of this.
     */
     gint        (*gkrellmd_send_to_client)(GkrellmdClient *client, gchar *buf);
-
-
+    
+    
     /* Misc
     */
     void        (*gkrellmd_add_mailbox)(gchar *);
@@ -79,7 +78,7 @@ typedef struct
 
 
 /// part of win32-plugin.c
-///
+/// 
 extern win32_plugin_callbacks gkrellmd_callbacks;
 
 

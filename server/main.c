@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
+|  Copyright (C) 1999-2010 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -340,7 +340,12 @@ cidr_match(struct sockaddr *sa, socklen_t salen, char *allowed)
 {
 #ifdef HAVE_GETADDRINFO
 	struct addrinfo hints, *res;
-	struct sockaddr_storage	ss;
+	union {
+	    struct sockaddr_storage	ss;
+	    struct sockaddr_in		sin;
+	    struct sockaddr_in6	sin6;
+	    struct sockaddr		sa;
+	} ss;
 	char		*buf;
 	char		*p, *ep;
 	guchar		*addr, *pat;
@@ -376,7 +381,7 @@ cidr_match(struct sockaddr *sa, socklen_t salen, char *allowed)
 	memcpy(&ss, res->ai_addr, res->ai_addrlen);
 	freeaddrinfo(res);
 
-	if (sa->sa_family != ((struct sockaddr *)&ss)->sa_family)
+	if (sa->sa_family != ss.sa.sa_family)
 		return FALSE;
 	switch (sa->sa_family)
 		{
@@ -386,12 +391,12 @@ cidr_match(struct sockaddr *sa, socklen_t salen, char *allowed)
 				plen = 128;
 			if (plen > 128)
 				return FALSE;
-			if (((struct sockaddr_in6 *)&ss)->sin6_scope_id != 0 &&
-			    ((struct sockaddr_in6 *)&ss)->sin6_scope_id !=
+			if (ss.sin6.sin6_scope_id != 0 &&
+			    ss.sin6.sin6_scope_id !=
 			    ((struct sockaddr_in6 *)sa)->sin6_scope_id)
 				return FALSE;
 			addr = (guchar *)&((struct sockaddr_in6 *)sa)->sin6_addr;
-			pat = (guchar *)&((struct sockaddr_in6 *)&ss)->sin6_addr;
+			pat = (guchar *)&ss.sin6.sin6_addr;
 			i = 0;
 			while (plen > 0)
 				{
@@ -417,7 +422,7 @@ cidr_match(struct sockaddr *sa, socklen_t salen, char *allowed)
 			if (plen > 32)
 				return FALSE;
 			addr = (guchar *)&((struct sockaddr_in *)sa)->sin_addr;
-			pat = (guchar *)&((struct sockaddr_in *)&ss)->sin_addr;
+			pat = (guchar *)&ss.sin.sin_addr;
 			mask = htonl(~(0xffffffff >> plen));
 			if ((*(uint32_t *)addr & mask) !=
 			    (*(uint32_t *)pat & mask))
@@ -1022,7 +1027,7 @@ socksetup(int af)
 #if defined(WIN32)
 				closesocket(*s);
 #else
-				close(*s);
+			close(*s);
 #endif
 			continue;
 			}
@@ -1127,11 +1132,15 @@ drop_privileges(void)
 static gint
 gkrellmd_run(gint argc, gchar **argv)
 	{
+    union {
 #ifdef HAVE_GETADDRINFO
-	struct sockaddr_storage client_addr;
+	struct sockaddr_storage ss;
 #else
-	struct sockaddr_in	client_addr;
+	struct sockaddr_in	ss;
 #endif
+	struct sockaddr_in	sin;
+	struct sockaddr	sa;
+    } client_addr;
 	fd_set				read_fds, test_fds;
 	struct timeval		tv;
 	GkrellmdClient		*client;
@@ -1218,7 +1227,7 @@ gkrellmd_run(gint argc, gchar **argv)
 #if defined(WIN32)
 				closesocket(_GK.server_fd[i]);
 #else
-				close(_GK.server_fd[i]);
+			close(_GK.server_fd[i]);
 #endif
 			continue;
 			}
@@ -1249,11 +1258,7 @@ gkrellmd_run(gint argc, gchar **argv)
 #endif
 		{
 		test_fds = read_fds;
-#ifdef HAVE_GETADDRINFO
-		addr_len = sizeof(struct sockaddr_storage);
-#else
-		addr_len = sizeof(struct sockaddr_in);
-#endif
+		addr_len = sizeof(client_addr.ss);
 		tv.tv_usec = interval;
 		tv.tv_sec = 0;
 
@@ -1292,7 +1297,7 @@ gkrellmd_run(gint argc, gchar **argv)
 				{
 				gkrellm_debug(DEBUG_SERVER, "Calling accept() for new client connection\n");
 				client_fd = accept(server_fd,
-						(struct sockaddr *) &client_addr,
+						&client_addr.sa,
 						(socklen_t *) (void *)&addr_len);
 				if (client_fd == -1)
 					{
@@ -1304,13 +1309,13 @@ gkrellmd_run(gint argc, gchar **argv)
 				if (client_fd > max_fd)
 					max_fd = client_fd;
 				client = accept_client(client_fd,
-							(struct sockaddr *)&client_addr, addr_len);
+							&client_addr.sa, addr_len);
 				if (!client)
 					{
 #if defined(WIN32)
 				closesocket(client_fd);
 #else
-				close(client_fd);
+					close(client_fd);
 #endif
 					continue;
 					}
@@ -1319,7 +1324,7 @@ gkrellmd_run(gint argc, gchar **argv)
 
 				g_message(_("Accepted client %s:%u\n"),
 					client->hostname,
-					ntohs(((struct sockaddr_in *)&client_addr)->sin_port));
+					ntohs(client_addr.sin.sin_port));
 				}
 			else
 				{
@@ -1653,15 +1658,15 @@ int main(int argc, char* argv[])
 	// Prepend app install path to locale dir
 	install_path = g_win32_get_package_installation_directory_of_module(NULL);
 	if (install_path != NULL)
-	    {
-	    locale_dir = g_build_filename(install_path, LOCALEDIR, NULL);
-	    if (locale_dir != NULL)
 		{
-		bindtextdomain(PACKAGE_D, locale_dir);
-		g_free(locale_dir);
-		}
+	    locale_dir = g_build_filename(install_path, LOCALEDIR, NULL);
+		if (locale_dir != NULL)
+			{
+			bindtextdomain(PACKAGE_D, locale_dir);
+			g_free(locale_dir);
+			}
 	    g_free(install_path);
-	    }
+		}
 #else
 	bindtextdomain(PACKAGE_D, LOCALEDIR);
 #endif /* !WIN32 */

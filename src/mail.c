@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
+|  Copyright (C) 1999-2010 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -1998,7 +1998,7 @@ fgets_pipe(gchar *line, gint len, Mailproc *mp)
 #endif
 		if (n <= 0)
 			{
-			if (errno != EINTR && errno != EAGAIN)
+			if ((n == 0) || (errno != EINTR && errno != EAGAIN))
 				{
 				if (close(mp->pipe) < 0 && errno == EINTR)
 					close(mp->pipe);
@@ -2312,8 +2312,8 @@ mail_check_thread(void *data)
 		format_remote_mbox_name(mbox, buf, sizeof(buf));
 		g_debug("Start mail_check_thread: %s at %d:%d:%d\n", buf,
 			gkrellm_get_current_time()->tm_hour,
-			gkrellm_get_current_time()->tm_min,
-			gkrellm_get_current_time()->tm_sec);
+				gkrellm_get_current_time()->tm_min,
+				gkrellm_get_current_time()->tm_sec);
 		}
 	external = mbox->account->mboxtype & MBOX_EXTERNAL;
 	if ( (*(mbox->check_func))(external ? mbox->data : mbox) == FALSE)
@@ -2327,8 +2327,8 @@ mail_check_thread(void *data)
 
 	gkrellm_debug(DEBUG_MAIL, "Stop mail_check_thread: %s at %d:%d:%d\n", buf,
 		gkrellm_get_current_time()->tm_hour,
-		gkrellm_get_current_time()->tm_min,
-		gkrellm_get_current_time()->tm_sec);
+				gkrellm_get_current_time()->tm_min,
+				gkrellm_get_current_time()->tm_sec);
 
 	mbox->busy = FALSE;
 	mbox->thread = NULL;

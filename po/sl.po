@@ -8,10 +8,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: sl-1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-20 19:56-0600\n"
+"POT-Creation-Date: 2010-09-14 11:48-0500\n"
 "PO-Revision-Date: 2004-01-11 12:15+0100\n"
 "Last-Translator: \n"
 "Language-Team:  <en@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -141,7 +142,7 @@ msgstr ""
 
 # src/apm.c:765 src/mail.c:3043 src/sensors.c:1755
 # src/apm.c:766 src/mail.c:3043 src/sensors.c:2149
-#: ../src/battery.c:1117 ../src/mail.c:3754 ../src/sensors.c:2688
+#: ../src/battery.c:1117 ../src/mail.c:3848 ../src/sensors.c:2688
 msgid "<h>Setup\n"
 msgstr "<h>Nastavitev\n"
 
@@ -203,7 +204,7 @@ msgstr ""
 # src/proc.c:655
 # src/cpu.c:1026 src/disk.c:718 src/inet.c:1701 src/mem.c:1052 src/net.c:1687
 # src/proc.c:687
-#: ../src/battery.c:1136 ../src/cpu.c:1284 ../src/disk.c:1344 ../src/fs.c:2496
+#: ../src/battery.c:1136 ../src/cpu.c:1284 ../src/disk.c:1344 ../src/fs.c:2494
 #: ../src/mem.c:1281 ../src/net.c:2934 ../src/proc.c:904 ../src/sensors.c:2698
 msgid "Substitution variables may be used in alert commands.\n"
 msgstr "Nadomestna spremenljivka se lahko uporabi pri ukazih za alarm.\n"
@@ -234,7 +235,7 @@ msgstr "\t$c    stanje polnjenja (logièno).\n"
 
 # src/apm.c:781 src/fs.c:2157 src/inet.c:1709 src/mem.c:1075
 # src/apm.c:782 src/fs.c:2157 src/inet.c:1709 src/mem.c:1075
-#: ../src/battery.c:1143 ../src/fs.c:2498 ../src/inet.c:1820 ../src/mem.c:1284
+#: ../src/battery.c:1143 ../src/fs.c:2496 ../src/inet.c:1823 ../src/mem.c:1284
 msgid "<h>Mouse Button Actions:\n"
 msgstr "<h>Dejanje tipke na mi¹ki:\n"
 
@@ -242,8 +243,8 @@ msgstr "<h>Dejanje tipke na mi¹ki:\n"
 # src/mail.c:3087 src/mem.c:1076
 # src/apm.c:783 src/fs.c:2158 src/gui.c:800 src/inet.c:1710 src/mail.c:3084
 # src/mail.c:3087 src/mem.c:1076
-#: ../src/battery.c:1144 ../src/fs.c:2499 ../src/gui.c:1038 ../src/inet.c:1821
-#: ../src/mail.c:3795 ../src/mail.c:3798 ../src/mem.c:1285
+#: ../src/battery.c:1144 ../src/fs.c:2497 ../src/gui.c:1038 ../src/inet.c:1824
+#: ../src/mail.c:3889 ../src/mail.c:3892 ../src/mem.c:1285
 msgid "<b>\tLeft "
 msgstr "<b>\tLeva "
 
@@ -259,7 +260,7 @@ msgstr ""
 
 # src/apm.c:785 src/inet.c:1713 src/mail.c:3090
 # src/apm.c:786 src/inet.c:1713 src/mail.c:3090
-#: ../src/battery.c:1147 ../src/inet.c:1824 ../src/mail.c:3801
+#: ../src/battery.c:1147 ../src/inet.c:1827 ../src/mail.c:3895
 msgid "<b>\tMiddle "
 msgstr "<b>\tSrednja "
 
@@ -277,8 +278,8 @@ msgstr " s klikom kjerkoli na plo¹èi Baterija se spremeni prikazni naèin.\n"
 # src/gui.c:822 src/mail.c:3376 src/mem.c:1099 src/proc.c:710
 # src/sensors.c:2296 src/uptime.c:248
 #: ../src/battery.c:1164 ../src/clock.c:714 ../src/cpu.c:1307
-#: ../src/disk.c:1369 ../src/fs.c:2534 ../src/gui.c:1063 ../src/gui.c:1906
-#: ../src/mail.c:4149 ../src/mem.c:1307 ../src/proc.c:918
+#: ../src/disk.c:1369 ../src/fs.c:2532 ../src/gui.c:1063 ../src/gui.c:1926
+#: ../src/mail.c:4243 ../src/mem.c:1307 ../src/proc.c:918
 #: ../src/sensors.c:2836 ../src/sensors.c:2871 ../src/uptime.c:277
 msgid "Options"
 msgstr "Mo¾nosti"
@@ -286,7 +287,7 @@ msgstr "Mo¾nosti"
 # src/clock.c:548 src/clock.c:553 src/plugins.c:1495
 # src/clock.c:548 src/clock.c:553 src/plugins.c:1495 src/sensors.c:2221
 #: ../src/battery.c:1169 ../src/clock.c:720 ../src/clock.c:739
-#: ../src/disk.c:1382 ../src/plugins.c:1724 ../src/sensors.c:2768
+#: ../src/disk.c:1382 ../src/plugins.c:1746 ../src/sensors.c:2768
 msgid "Enable"
 msgstr "Omogoèi"
 
@@ -330,7 +331,7 @@ msgstr "Eksponentni model polnjenja"
 
 # src/apm.c:833
 # src/apm.c:834
-#: ../src/battery.c:1218 ../src/inet.c:2014
+#: ../src/battery.c:1218 ../src/inet.c:2017
 msgid "Seconds between updates"
 msgstr "Sekunde med osve¾itvami"
 
@@ -341,7 +342,7 @@ msgstr "Sekunde med osve¾itvami"
 # src/inet.c:1898 src/mail.c:3125 src/mem.c:1118 src/net.c:1810
 # src/proc.c:708 src/sensors.c:2186 src/uptime.c:246
 #: ../src/battery.c:1222 ../src/clock.c:755 ../src/cpu.c:1358
-#: ../src/disk.c:1415 ../src/fs.c:2531 ../src/inet.c:2008 ../src/mail.c:3838
+#: ../src/disk.c:1415 ../src/fs.c:2529 ../src/inet.c:2011 ../src/mail.c:3932
 #: ../src/mem.c:1346 ../src/net.c:3075 ../src/proc.c:958 ../src/sensors.c:2737
 #: ../src/uptime.c:274
 msgid "Setup"
@@ -352,7 +353,7 @@ msgstr "Nastavitev"
 # src/apm.c:843 src/clock.c:592 src/cpu.c:1114 src/disk.c:782 src/inet.c:1917
 # src/mem.c:1172 src/net.c:1802 src/proc.c:735 src/uptime.c:253
 #: ../src/battery.c:1225 ../src/clock.c:782 ../src/cpu.c:1389
-#: ../src/disk.c:1437 ../src/inet.c:2038 ../src/mem.c:1418 ../src/net.c:3063
+#: ../src/disk.c:1437 ../src/inet.c:2041 ../src/mem.c:1418 ../src/net.c:3063
 #: ../src/proc.c:977 ../src/uptime.c:285
 msgid "Launch Commands"
 msgstr "Ukazi za zagon"
@@ -368,109 +369,109 @@ msgstr ""
 # src/gui.c:1699 src/inet.c:1929 src/mail.c:3430 src/mem.c:1181
 # src/net.c:1832 src/proc.c:743 src/sensors.c:2321
 #: ../src/battery.c:1251 ../src/clock.c:790 ../src/cpu.c:1412
-#: ../src/disk.c:1451 ../src/fs.c:2576 ../src/gui.c:1173 ../src/gui.c:1987
-#: ../src/inet.c:2051 ../src/mail.c:4217 ../src/mem.c:1436 ../src/net.c:3105
-#: ../src/proc.c:989 ../src/sensors.c:2909
+#: ../src/disk.c:1451 ../src/fs.c:2574 ../src/gui.c:1173 ../src/gui.c:2007
+#: ../src/inet.c:2054 ../src/mail.c:4311 ../src/mem.c:1436 ../src/net.c:3105
+#: ../src/proc.c:989 ../src/sensors.c:2917
 msgid "Info"
 msgstr "Info"
 
-#: ../src/chart.c:1029
+#: ../src/chart.c:1039
 msgid "Ag8"
 msgstr ""
 
 # src/chart.c:1969 src/chart.c:2135
 # src/chart.c:1969 src/chart.c:2135
-#: ../src/chart.c:2300 ../src/chart.c:2457
+#: ../src/chart.c:2310 ../src/chart.c:2467
 msgid "/Control/Auto mode sticks at peak value"
 msgstr "/Upravljanje/Samodejni naèin se prilepi na najvi¹jo vrednost"
 
 # src/chart.c:1983 src/chart.c:2133
 # src/chart.c:1983 src/chart.c:2133
-#: ../src/chart.c:2304 ../src/chart.c:2455
+#: ../src/chart.c:2314 ../src/chart.c:2465
 msgid "/Control/Auto mode recalibrate"
 msgstr "/Upravljanje/Samodejno rekalibriranje"
 
 # src/chart.c:2131
 # src/chart.c:2131
-#: ../src/chart.c:2453
+#: ../src/chart.c:2463
 msgid "/Control"
 msgstr "/Upravljanje"
 
 # src/chart.c:2132 src/chart.c:2137 src/chart.c:2143
 # src/chart.c:2132 src/chart.c:2137 src/chart.c:2143
-#: ../src/chart.c:2454 ../src/chart.c:2459 ../src/chart.c:2465
+#: ../src/chart.c:2464 ../src/chart.c:2469 ../src/chart.c:2475
 msgid "/Control/-"
 msgstr "/Upravljanje/-"
 
 # src/chart.c:2138 src/chart.c:2142 src/chart.c:2169
 # src/chart.c:2138 src/chart.c:2142 src/chart.c:2169
-#: ../src/chart.c:2460 ../src/chart.c:2464 ../src/chart.c:2491
+#: ../src/chart.c:2470 ../src/chart.c:2474 ../src/chart.c:2501
 msgid "/Control/Sequence.../1 2 5"
 msgstr "/Upravljanje/Zaporedje.../1 2 5"
 
 # src/chart.c:2140 src/chart.c:2171
 # src/chart.c:2140 src/chart.c:2171
-#: ../src/chart.c:2462 ../src/chart.c:2493
+#: ../src/chart.c:2472 ../src/chart.c:2503
 msgid "/Control/Sequence.../1 1.5 2 3 5 7"
 msgstr "/upravljanje/Zaporedje.../1 1.5 2 3 5 7"
 
 # src/chart.c:2206
 # src/chart.c:2206
-#: ../src/chart.c:2528
+#: ../src/chart.c:2538
 msgid "GKrellM Chart Config"
 msgstr "Konfiguracija diagrama"
 
 # src/chart.c:2225
 # src/chart.c:2225
-#: ../src/chart.c:2549
+#: ../src/chart.c:2559
 msgid "Line style"
 msgstr "Slog èrte"
 
 # src/chart.c:2232
 # src/chart.c:2232
-#: ../src/chart.c:2556
+#: ../src/chart.c:2566
 msgid "Inverted"
 msgstr "Obrnjeno"
 
 # src/chart.c:2240
 # src/chart.c:2240
-#: ../src/chart.c:2564
+#: ../src/chart.c:2574
 msgid "Split view"
 msgstr "Razdeli pogled"
 
 # src/chart.c:2252
 # src/chart.c:2252
-#: ../src/chart.c:2576
+#: ../src/chart.c:2586
 msgid "Hide"
 msgstr "Skrij"
 
 # src/chart.c:2267
 # src/chart.c:2267
-#: ../src/chart.c:2591
+#: ../src/chart.c:2601
 msgid "Resolution per Grid"
 msgstr "Loèljivost na mre¾o"
 
 # src/chart.c:2287
 # src/chart.c:2287
-#: ../src/chart.c:2611
+#: ../src/chart.c:2621
 msgid "Auto"
 msgstr "Samodejno"
 
 # src/chart.c:2299
 # src/chart.c:2299
-#: ../src/chart.c:2623
+#: ../src/chart.c:2633
 msgid "Number of Grids"
 msgstr "©tevilo mre¾"
 
 # src/chart.c:2304
 # src/chart.c:2304
-#: ../src/chart.c:2628
+#: ../src/chart.c:2638
 msgid "0: Auto    1-5: Constant"
 msgstr "0: Samodejno    1-5: Konstantno"
 
 # src/chart.c:2313
 # src/chart.c:2313
-#: ../src/chart.c:2637
+#: ../src/chart.c:2647
 msgid "Chart height"
 msgstr "Vi¹ina diagrama"
 
@@ -621,7 +622,7 @@ msgstr "nice èas"
 msgid "CPU"
 msgstr "CPE"
 
-#: ../src/cpu.c:978 ../src/fs.c:1303 ../src/mem.c:998
+#: ../src/cpu.c:978 ../src/fs.c:1301 ../src/mem.c:998
 msgid "Percent Usage"
 msgstr "Uporaba v odstotkih"
 
@@ -629,7 +630,7 @@ msgstr "Uporaba v odstotkih"
 # src/net.c:1693 src/proc.c:654
 # src/cpu.c:1025 src/disk.c:717 src/gui.c:774 src/inet.c:1700 src/mem.c:1051
 # src/net.c:1686 src/proc.c:686
-#: ../src/cpu.c:1276 ../src/disk.c:1336 ../src/gui.c:1010 ../src/inet.c:1809
+#: ../src/cpu.c:1276 ../src/disk.c:1336 ../src/gui.c:1010 ../src/inet.c:1812
 #: ../src/mem.c:1254 ../src/net.c:2918 ../src/proc.c:895
 msgid "<h>Chart Labels\n"
 msgstr "<h>Oznake diagrama\n"
@@ -638,7 +639,7 @@ msgstr "<h>Oznake diagrama\n"
 # src/proc.c:655
 # src/cpu.c:1026 src/disk.c:718 src/inet.c:1701 src/mem.c:1052 src/net.c:1687
 # src/proc.c:687
-#: ../src/cpu.c:1277 ../src/disk.c:1337 ../src/inet.c:1810 ../src/mem.c:1255
+#: ../src/cpu.c:1277 ../src/disk.c:1337 ../src/inet.c:1813 ../src/mem.c:1255
 #: ../src/net.c:2919 ../src/proc.c:896
 msgid "Substitution variables for the format string for chart labels:\n"
 msgstr "Nadomestna spremenljivka oblike za oznako diagrama:\n"
@@ -725,7 +726,7 @@ msgstr "Zdru¾eni in resnièni"
 # src/proc.c:688
 # src/cpu.c:1095 src/disk.c:765 src/inet.c:1900 src/mem.c:1120 src/net.c:1811
 # src/proc.c:720
-#: ../src/cpu.c:1361 ../src/disk.c:1418 ../src/inet.c:2020 ../src/mem.c:1349
+#: ../src/cpu.c:1361 ../src/disk.c:1418 ../src/inet.c:2023 ../src/mem.c:1349
 #: ../src/net.c:3078 ../src/proc.c:961
 msgid "Format String for Chart Labels"
 msgstr "Oblika za oznako diagramov"
@@ -804,7 +805,7 @@ msgstr ""
 
 # src/disk.c:719 src/inet.c:1702 src/mem.c:1053 src/net.c:1695
 # src/disk.c:719 src/inet.c:1702 src/mem.c:1053 src/net.c:1688
-#: ../src/disk.c:1339 ../src/inet.c:1811 ../src/mem.c:1256 ../src/net.c:2920
+#: ../src/disk.c:1339 ../src/inet.c:1814 ../src/mem.c:1256 ../src/net.c:2920
 msgid "\t$M    maximum chart value\n"
 msgstr "\t$M    najvi¹ja vrednost diagrama\n"
 
@@ -852,31 +853,31 @@ msgstr "$t - $U"
 
 # src/fs.c:811
 # src/fs.c:811
-#: ../src/fs.c:882
+#: ../src/fs.c:880
 msgid "GKrellM Mount Error"
 msgstr "Napaka GKrellM-a pri priklopu"
 
 # src/fs.c:1407
 # src/fs.c:1407
-#: ../src/fs.c:1572
+#: ../src/fs.c:1570
 msgid "Primary"
 msgstr "Primarni"
 
 # src/fs.c:1421 src/fs.c:1983
 # src/fs.c:1421 src/fs.c:1983
-#: ../src/fs.c:1586 ../src/fs.c:2311
+#: ../src/fs.c:1584 ../src/fs.c:2309
 msgid "Secondary"
 msgstr "Sekundarni"
 
 # src/fs.c:1697 src/fs.c:1709 src/fs.c:1717 src/fs.c:1828
 # src/fs.c:1697 src/fs.c:1709 src/fs.c:1717 src/fs.c:1828
-#: ../src/fs.c:1928 ../src/fs.c:2025 ../src/fs.c:2037 ../src/fs.c:2045
+#: ../src/fs.c:1926 ../src/fs.c:2023 ../src/fs.c:2035 ../src/fs.c:2043
 msgid "Entry Error"
 msgstr "Napaka pri vnosu"
 
 # src/fs.c:1829
 # src/fs.c:1829
-#: ../src/fs.c:1929
+#: ../src/fs.c:1927
 msgid ""
 "At least one primary fs monitor must exist to click on in order to show\n"
 "secondary ones.\n"
@@ -884,19 +885,19 @@ msgstr "Obstajati mora vsaj en prikaz primarnega ds za prikaz sekundarnega.\n"
 
 # src/fs.c:1699
 # src/fs.c:1699
-#: ../src/fs.c:2027
+#: ../src/fs.c:2025
 msgid "Both a label and a mount point must be entered."
 msgstr "Vnesite ime in toèko priklopa."
 
 # src/fs.c:1710
 # src/fs.c:1710
-#: ../src/fs.c:2038
+#: ../src/fs.c:2036
 msgid "Both mount and umount commands must be entered."
 msgstr "Vnesite ukaza za priklop in odklop."
 
 # src/fs.c:1718
 # src/fs.c:1718
-#: ../src/fs.c:2046
+#: ../src/fs.c:2044
 msgid "Missing ejectable device entry."
 msgstr "Pogre¹am vnos za napravo, sposobne za izmet."
 
@@ -904,62 +905,62 @@ msgstr "Pogre¹am vnos za napravo, sposobne za izmet."
 # src/inet.c:1871 src/sensors.c:1822
 # src/fs.c:1950 src/fs.c:2072 src/inet.c:1760 src/inet.c:1766 src/inet.c:1851
 # src/inet.c:1871 src/sensors.c:2230
-#: ../src/fs.c:2278 ../src/fs.c:2400 ../src/inet.c:1870 ../src/inet.c:1876
-#: ../src/inet.c:1961 ../src/inet.c:1981 ../src/sensors.c:2777
+#: ../src/fs.c:2276 ../src/fs.c:2398 ../src/inet.c:1873 ../src/inet.c:1879
+#: ../src/inet.c:1964 ../src/inet.c:1984 ../src/sensors.c:2777
 msgid "Label"
 msgstr "Oznaka"
 
 # src/fs.c:1959 src/fs.c:2076
 # src/fs.c:1959 src/fs.c:2076
-#: ../src/fs.c:2287 ../src/fs.c:2404
+#: ../src/fs.c:2285 ../src/fs.c:2402
 msgid "Mount Point"
 msgstr "Toèka priklopa"
 
 # src/fs.c:1990
 # src/fs.c:1990
-#: ../src/fs.c:2318
+#: ../src/fs.c:2316
 msgid "Show if mounted"
 msgstr "Prika¾i, èe priklopljeno"
 
 # src/fs.c:1996
 # src/fs.c:1996
-#: ../src/fs.c:2324
+#: ../src/fs.c:2322
 msgid "Enable /etc/fstab mounting"
 msgstr "Omogoèi /etc/fstab priklapljanje"
 
 # src/fs.c:2010
 # src/fs.c:2010
-#: ../src/fs.c:2338
+#: ../src/fs.c:2336
 msgid "Ejectable"
 msgstr "Izvrzljivo"
 
 # src/fs.c:2016
 # src/fs.c:2016
-#: ../src/fs.c:2344
+#: ../src/fs.c:2342
 msgid "Device"
 msgstr "Naprava"
 
 # src/fs.c:2031
 # src/fs.c:2031
-#: ../src/fs.c:2359
+#: ../src/fs.c:2357
 msgid "mount"
 msgstr "priklopi"
 
 # src/fs.c:2033
 # src/fs.c:2033
-#: ../src/fs.c:2361
+#: ../src/fs.c:2359
 msgid "umount"
 msgstr "odklopi"
 
 # src/fs.c:2093
 # src/fs.c:2093
-#: ../src/fs.c:2427
+#: ../src/fs.c:2425
 msgid "<h>Mounting\n"
 msgstr "<h>Priklapljanje\n"
 
 # src/fs.c:2094
 # src/fs.c:2094
-#: ../src/fs.c:2428
+#: ../src/fs.c:2426
 msgid ""
 "Enter file system mount points to monitor and enter a label to describe\n"
 "the mount point.  The krell shows the ratio of blocks used to total blocks\n"
@@ -975,13 +976,13 @@ msgstr ""
 
 # src/fs.c:2099
 # src/fs.c:2099
-#: ../src/fs.c:2433
+#: ../src/fs.c:2431
 msgid "<b>\t1) Mounting using /etc/fstab: "
 msgstr "<b>\t1) Za priklop uporabi /etc/fstab: "
 
 # src/fs.c:2101
 # src/fs.c:2101
-#: ../src/fs.c:2435
+#: ../src/fs.c:2433
 msgid ""
 "If a mount point is in your\n"
 "\t/etc/fstab and you have mount permission then mount and umount\n"
@@ -1005,19 +1006,19 @@ msgstr ""
 
 # src/fs.c:2111
 # src/fs.c:2111
-#: ../src/fs.c:2445
+#: ../src/fs.c:2443
 msgid "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,noauto,rw,exec 0 0\n"
 msgstr "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,noauto,rw,exec 0 0\n"
 
 # src/fs.c:2112
 # src/fs.c:2112
-#: ../src/fs.c:2446
+#: ../src/fs.c:2444
 msgid "\tor\n"
 msgstr "\tali\n"
 
 # src/fs.c:2113
 # src/fs.c:2113
-#: ../src/fs.c:2447
+#: ../src/fs.c:2445
 msgid ""
 "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,defaults 0 0\n"
 "\n"
@@ -1027,13 +1028,13 @@ msgstr ""
 
 # src/fs.c:2115
 # src/fs.c:2115
-#: ../src/fs.c:2449
+#: ../src/fs.c:2447
 msgid "<b>\t2) Mounting using custom commands: "
 msgstr "<b>\t2) Priklop z ukazi po meri: "
 
 # src/fs.c:2116
 # src/fs.c:2116
-#: ../src/fs.c:2450
+#: ../src/fs.c:2448
 msgid ""
 "If GKrellM is run as root or if\n"
 "\tyou have sudo permission to run the mount commands, then a custom\n"
@@ -1049,19 +1050,19 @@ msgstr ""
 
 # src/fs.c:2122
 # src/fs.c:2122
-#: ../src/fs.c:2456
+#: ../src/fs.c:2454
 msgid "<i>\t\tsudo /bin/mount -t msdos /dev/fd0 /mnt/A\n"
 msgstr "<i>\t\tsudo /bin/mount -t msdos /dev/fd0 /mnt/A\n"
 
 # src/fs.c:2123
 # src/fs.c:2123
-#: ../src/fs.c:2457
+#: ../src/fs.c:2455
 msgid "<i>\t\tsudo /bin/umount /mnt/A\n"
 msgstr "<i>\t\tsudo /bin/umount /mnt/A\n"
 
 # src/fs.c:2125
 # src/fs.c:2125
-#: ../src/fs.c:2459
+#: ../src/fs.c:2457
 msgid ""
 "\tNotes: the mount point specified in a custom mount command\n"
 "\t(/mnt/A in this example) must be the same as entered in the\n"
@@ -1077,13 +1078,13 @@ msgstr ""
 
 # src/fs.c:2130
 # src/fs.c:2130
-#: ../src/fs.c:2464
+#: ../src/fs.c:2462
 msgid "<h>Primary and Secondary Monitors\n"
 msgstr "<h>Primarni in sekundarni prikazi\n"
 
 # src/fs.c:2131
 # src/fs.c:2131
-#: ../src/fs.c:2465
+#: ../src/fs.c:2463
 #, no-c-format
 msgid ""
 "File system monitors can be created as primary (always visible)\n"
@@ -1116,131 +1117,131 @@ msgstr ""
 
 # src/fs.c:2148 src/mem.c:1058
 # src/fs.c:2148 src/mem.c:1058
-#: ../src/fs.c:2482 ../src/mem.c:1261
+#: ../src/fs.c:2480 ../src/mem.c:1261
 msgid "<h>Panel Labels\n"
 msgstr "<h>Oznake za plo¹èo\n"
 
 # src/fs.c:2149
 # src/fs.c:2149
-#: ../src/fs.c:2483
+#: ../src/fs.c:2481
 msgid "Substitution variables for the format string for file system panels:\n"
 msgstr ""
 "Nadomestna spremenljivka za obliko oznake plo¹èe datoteènega sistema:\n"
 
 # src/fs.c:2150
 # src/fs.c:2150
-#: ../src/fs.c:2484
+#: ../src/fs.c:2482
 msgid "\t$t    total capacity\n"
 msgstr "\t$t    popolna zmogljivost\n"
 
 # src/fs.c:2151
 # src/fs.c:2151
-#: ../src/fs.c:2485
+#: ../src/fs.c:2483
 msgid "\t$u    used space\n"
 msgstr "\t$u    uporabljeni prostor\n"
 
 # src/fs.c:2152
 # src/fs.c:2152
-#: ../src/fs.c:2486
+#: ../src/fs.c:2484
 msgid "\t$f    free space\n"
 msgstr "\t$f    neuporabljeni prostor\n"
 
 # src/fs.c:2153
 # src/fs.c:2153
-#: ../src/fs.c:2487
+#: ../src/fs.c:2485
 msgid "\t$U    used %,\n"
 msgstr "\t$U    uporabljeno %,\n"
 
 # src/fs.c:2154 src/mem.c:1067
 # src/fs.c:2154 src/mem.c:1067
-#: ../src/fs.c:2488 ../src/mem.c:1270
+#: ../src/fs.c:2486 ../src/mem.c:1270
 msgid "\t$F    free %\n"
 msgstr "\t$F    prosto %\n"
 
 # src/fs.c:2155
 # src/fs.c:2155
-#: ../src/fs.c:2489
+#: ../src/fs.c:2487
 msgid "\t$l    the panel label\n"
 msgstr "\t$l    oznaka za plo¹èo\n"
 
 # src/fs.c:2150
 # src/fs.c:2150
-#: ../src/fs.c:2491
+#: ../src/fs.c:2489
 msgid "\t$D    the mount point\n"
 msgstr "\t$O    toèka priklopa\n"
 
 # src/mem.c:1071
 # src/mem.c:1071
-#: ../src/fs.c:2493
+#: ../src/fs.c:2491
 msgid "\t$D    the disk\n"
 msgstr "\t$O    disk\n"
 
 # src/fs.c:2159
 # src/fs.c:2159
-#: ../src/fs.c:2500
+#: ../src/fs.c:2498
 msgid "click on a panel to scroll a programmable display\n"
 msgstr ""
 "klik na oznaki plo¹èe prika¾e/skrije kapaciteto programiranega prikaza\n"
 
 # src/fs.c:2160
 # src/fs.c:2160
-#: ../src/fs.c:2501
+#: ../src/fs.c:2499
 msgid "\t\tof file system capacities (default is total and free space).\n"
 msgstr "\t\tdatoteènega sistema (privzeto je skupen in uporabljen prostor).\n"
 
 # src/fs.c:2161
 # src/fs.c:2161
-#: ../src/fs.c:2502
+#: ../src/fs.c:2500
 msgid "<b>\tWheel "
 msgstr "<h>\tKro¾eèe "
 
 # src/fs.c:2162
 # src/fs.c:2162
-#: ../src/fs.c:2503
+#: ../src/fs.c:2501
 msgid "Shows and hides the secondary file system monitors.\n"
 msgstr "Prika¾e in skrije prikaze sekundarnega datoteènega sistema.\n"
 
 # src/fs.c:2183
 # src/fs.c:2183
-#: ../src/fs.c:2521
+#: ../src/fs.c:2519
 msgid "Panels"
 msgstr "Plo¹èe"
 
 # src/fs.c:2198
 # src/fs.c:2198
-#: ../src/fs.c:2539
+#: ../src/fs.c:2537
 msgid "Use binary units (MiB, GiG) for reporting disk capacities."
 msgstr "Uporabi binarne enote (MiB, GiG) za poroèanje o kapaciteti diska."
 
 # src/fs.c:2203
 # src/fs.c:2203
-#: ../src/fs.c:2545
+#: ../src/fs.c:2543
 msgid "Auto eject when ejectable devices are unmounted"
 msgstr "Samodejno izvrzi odklopljene izvrzljive naprave"
 
 # src/fs.c:2212
 # src/fs.c:2212
-#: ../src/fs.c:2554
+#: ../src/fs.c:2552
 msgid "Seconds between data updates for local mounted file systems"
 msgstr ""
 "Sekunde med osve¾itvami podatkov lokalno priklopljenih datoteènih sistemov"
 
 # src/fs.c:2217
 # src/fs.c:2217
-#: ../src/fs.c:2559
+#: ../src/fs.c:2557
 msgid "Seconds between data updates for remote mounted file systems"
 msgstr ""
 "Sekunde med osve¾itvami podatkov na daljavo priklopljenih datoteènih sistemov"
 
 # src/fs.c:2220 src/mem.c:1139
 # src/fs.c:2220 src/mem.c:1139
-#: ../src/fs.c:2563 ../src/mem.c:1371
+#: ../src/fs.c:2561 ../src/mem.c:1371
 msgid "Format String for Panel Labels"
 msgstr "Oblika oznake plo¹èe"
 
 # src/fs.c:2250
 # src/fs.c:2250
-#: ../src/fs.c:2590
+#: ../src/fs.c:2588
 msgid "File System"
 msgstr "Datoteèni sistem"
 
@@ -1263,7 +1264,7 @@ msgid ""
 "GKrellM %d.%d.%d%s\n"
 "GNU Krell Monitors\n"
 "\n"
-"Copyright (c) 1999-2009 by Bill Wilson\n"
+"Copyright (c) 1999-2010 by Bill Wilson\n"
 "billw@gkrellm.net\n"
 "http://gkrellm.net\n"
 "\n"
@@ -1272,7 +1273,7 @@ msgstr ""
 "GKrellM %d.%d.%d%s\n"
 "GNU Krell Monitors\n"
 "\n"
-"Copyright (c) 1999-2009 by Bill Wilson\n"
+"Copyright (c) 1999-2010 by Bill Wilson\n"
 "billw@gkrellm.net\n"
 "http://gkrellm.net\n"
 "\n"
@@ -1332,7 +1333,7 @@ msgstr ""
 msgid ""
 "Windows system dependent code was contributed by:\n"
 "Bill Nalen <bill@nalens.com>\n"
-"Stefan Gehn <metz81@web.de>\n"
+"Stefan Gehn <stefan+gkrellm@srcbox.net>\n"
 msgstr ""
 
 # src/gui.c:738
@@ -1375,7 +1376,7 @@ msgstr ""
 "fiksne resolucije mre¾ v oknu za nastavitev diagrama. Nekatere\n"
 "kombinacije samodejnega naèina merjenja lahko dajo najbolj¹e rezultate.\n"
 
-#: ../src/gui.c:1008 ../src/gui.c:1034
+#: ../src/gui.c:1008 ../src/gui.c:1034 ../src/sensors.c:2908
 msgid "See the README or do a \"man gkrellm\" for more information.\n"
 msgstr "Glejte README ali za veè informacij izvedi \"man gkrellm\".\n"
 
@@ -1511,7 +1512,7 @@ msgstr ""
 
 # src/gui.c:790 src/mail.c:3083
 # src/gui.c:799 src/mail.c:3083
-#: ../src/gui.c:1037 ../src/mail.c:3794
+#: ../src/gui.c:1037 ../src/mail.c:3888
 msgid ""
 "<h>\n"
 "Mouse Button Actions:\n"
@@ -1646,161 +1647,161 @@ msgstr ""
 
 # src/gui.c:1189
 # src/gui.c:1198
-#: ../src/gui.c:1553
+#: ../src/gui.c:1575
 #, c-format
 msgid "%d total theme alternatives"
 msgstr "%d alternativ v temi"
 
 # src/gui.c:1580 src/gui.c:1612
 # src/gui.c:1589 src/gui.c:1621
-#: ../src/gui.c:1854 ../src/gui.c:1886
+#: ../src/gui.c:1874 ../src/gui.c:1906
 msgid "Theme"
 msgstr "Tema"
 
 # src/gui.c:1584
 # src/gui.c:1593
-#: ../src/gui.c:1858
+#: ../src/gui.c:1878
 msgid "Theme:"
 msgstr "Tema:"
 
 # src/gui.c:1594
 # src/gui.c:1603
-#: ../src/gui.c:1868
+#: ../src/gui.c:1888
 msgid "Author:"
 msgstr "Avtor:"
 
 # src/gui.c:838
 # src/gui.c:847
-#: ../src/gui.c:1914
+#: ../src/gui.c:1934
 msgid "Track Gtk theme changes for similarly named themes"
 msgstr "Zasledi spremembe Gtk tem pri sorodno imenovanih temah"
 
-#: ../src/gui.c:1921
+#: ../src/gui.c:1941
 msgid "Default"
 msgstr "Privzeto"
 
-#: ../src/gui.c:1936
+#: ../src/gui.c:1956
 msgid "Scale"
 msgstr "Skala"
 
 # src/gui.c:1632
 # src/gui.c:1641
-#: ../src/gui.c:1942
+#: ../src/gui.c:1962
 msgid "Fonts"
 msgstr "Pisave"
 
 # src/gui.c:1635
 # src/gui.c:1644
-#: ../src/gui.c:1945
+#: ../src/gui.c:1965
 msgid "Large font"
 msgstr "Velika pisava"
 
 # src/gui.c:1647 src/gui.c:1661 src/gui.c:1674
 # src/gui.c:1656 src/gui.c:1670 src/gui.c:1683
-#: ../src/gui.c:1957 ../src/gui.c:1971 ../src/gui.c:1984
+#: ../src/gui.c:1977 ../src/gui.c:1991 ../src/gui.c:2004
 msgid "Browse"
 msgstr "I¹èi"
 
 # src/gui.c:1649
 # src/gui.c:1658
-#: ../src/gui.c:1959
+#: ../src/gui.c:1979
 msgid "Normal font"
 msgstr "Obièajna pisava"
 
 # src/gui.c:1663
 # src/gui.c:1672
-#: ../src/gui.c:1973
+#: ../src/gui.c:1993
 msgid "Small font"
 msgstr "Majhna pisava"
 
 # src/gui.c:1691
 # src/gui.c:1700
-#: ../src/gui.c:1988
+#: ../src/gui.c:2008
 #, c-format
 msgid "Untar your theme tar files in %s/%s"
 msgstr "Razpakiraj teme iz datotek .tar  v %s/%s"
 
 # src/gui.c:1700
 # src/gui.c:1709
-#: ../src/gui.c:1997
+#: ../src/gui.c:2017
 msgid "Download themes from the GKrellM theme site at www.muhri.net"
 msgstr "Teme potegni dol s strani s temami na www.muhri.net"
 
 # src/gui.c:1948
 # src/gui.c:1960
-#: ../src/gui.c:2293
+#: ../src/gui.c:2311
 msgid "Configuration"
 msgstr "Konfiguracija"
 
 # src/gui.c:1976
 # src/gui.c:1988
-#: ../src/gui.c:2321
+#: ../src/gui.c:2339
 msgid "General"
 msgstr "Splo¹no"
 
 # src/gui.c:1981
 # src/gui.c:1993
-#: ../src/gui.c:2326
+#: ../src/gui.c:2344
 msgid "Builtins"
 msgstr "Vgrajene funcije"
 
 # src/gui.c:2001 src/plugins.c:1482
 # src/gui.c:2013 src/plugins.c:1482
-#: ../src/gui.c:2346 ../src/plugins.c:1711
+#: ../src/gui.c:2364 ../src/plugins.c:1733
 msgid "Plugins"
 msgstr "Dodatki"
 
 # src/gui.c:2006
 # src/gui.c:2018
-#: ../src/gui.c:2351
+#: ../src/gui.c:2369
 msgid "Themes"
 msgstr "Teme"
 
 # src/gui.c:2011
 # src/gui.c:2023
-#: ../src/gui.c:2356
+#: ../src/gui.c:2374
 msgid "About"
 msgstr "O"
 
 # src/plugins.c:1288
 # src/plugins.c:1288
-#: ../src/gui.c:2381
+#: ../src/gui.c:2399
 msgid "Monitors"
 msgstr "Prikazi"
 
 # src/gui.c:2108 src/gui.c:2119
 # src/gui.c:2120 src/gui.c:2131
-#: ../src/gui.c:2453 ../src/gui.c:2464
+#: ../src/gui.c:2471 ../src/gui.c:2482
 msgid "/Quit"
 msgstr "/Izhod"
 
 # src/gui.c:2115
 # src/gui.c:2127
-#: ../src/gui.c:2460
+#: ../src/gui.c:2478
 msgid "/Configuration"
 msgstr "/Konfiguracija"
 
 # src/gui.c:2116
 # src/gui.c:2128
-#: ../src/gui.c:2461
+#: ../src/gui.c:2479
 msgid "/Theme/Prev"
 msgstr "/Tema/Prej"
 
 # src/gui.c:2117
 # src/gui.c:2129
-#: ../src/gui.c:2462
+#: ../src/gui.c:2480
 msgid "/Theme/Next"
 msgstr "/Tema/Nasl"
 
 # src/gui.c:2126
 # src/gui.c:2138
-#: ../src/gui.c:2471
+#: ../src/gui.c:2489
 msgid "/Theme prev"
 msgstr "/Prej tema"
 
 # src/gui.c:2127
 # src/gui.c:2139
-#: ../src/gui.c:2472
+#: ../src/gui.c:2490
 msgid "/Theme next"
 msgstr "/Nasl tema"
 
@@ -1813,32 +1814,32 @@ msgstr "%s Povezave"
 
 # src/inet.c:639
 # src/inet.c:639
-#: ../src/inet.c:718
+#: ../src/inet.c:719
 msgid "No current connections."
 msgstr "Ni trenutnih povezav."
 
 # src/inet.c:864
 # src/inet.c:864
-#: ../src/inet.c:945
+#: ../src/inet.c:946
 #, c-format
 msgid "inet%d"
 msgstr "inet%d"
 
 # src/inet.c:876
 # src/inet.c:876
-#: ../src/inet.c:957
+#: ../src/inet.c:958
 msgid "TCP hits per minute"
 msgstr "TCP zadetki na minuto"
 
 # src/inet.c:879
 # src/inet.c:879
-#: ../src/inet.c:960
+#: ../src/inet.c:961
 msgid "TCP hits per hour"
 msgstr "TCP zadetki na uro"
 
 # src/inet.c:1680
 # src/inet.c:1680
-#: ../src/inet.c:1789
+#: ../src/inet.c:1792
 msgid ""
 "Inet charts show historical TCP port hits on a minute or hourly\n"
 "chart. Below the chart there is a strip where marks are drawn for\n"
@@ -1871,13 +1872,13 @@ msgstr ""
 
 # src/inet.c:1691
 # src/inet.c:1691
-#: ../src/inet.c:1800
+#: ../src/inet.c:1803
 msgid "<i>\thttp 80 8080   ftp 21\n"
 msgstr "<i>\thttp 80 8080   ftp 21\n"
 
 # src/inet.c:1693
 # src/inet.c:1693
-#: ../src/inet.c:1802
+#: ../src/inet.c:1805
 msgid ""
 "Http hits on the standard http port 80 and www web caching service\n"
 "on port 8080 are combined and plotted in the one color.  Ftp hits\n"
@@ -1891,7 +1892,7 @@ msgstr ""
 
 # src/inet.c:1697
 # src/inet.c:1697
-#: ../src/inet.c:1806
+#: ../src/inet.c:1809
 msgid ""
 "If the range button is checked, then all port numbers between Port0 and\n"
 "Port1 are monitored and included in the plot.\n"
@@ -1903,43 +1904,43 @@ msgstr ""
 
 # src/inet.c:1703
 # src/inet.c:1703
-#: ../src/inet.c:1812
+#: ../src/inet.c:1815
 msgid "\t$a    current active connections for Data0\n"
 msgstr "\t$a    trenutne aktivne povezave za Podatki0\n"
 
 # src/inet.c:1703
 # src/inet.c:1703
-#: ../src/inet.c:1813
+#: ../src/inet.c:1816
 msgid "\t$cN   total connections in last N minutes (or hours) for Data0\n"
 msgstr "\t$cN    skupne povezave v zadnjih N minutah (ali urah) za Podatki0\n"
 
 # src/inet.c:1704
 # src/inet.c:1704
-#: ../src/inet.c:1814
+#: ../src/inet.c:1817
 msgid "\t$l    label for Data0\n"
 msgstr "\t$l    oznaka za Podatki0\n"
 
 # src/inet.c:1705
 # src/inet.c:1705
-#: ../src/inet.c:1815
+#: ../src/inet.c:1818
 msgid "\t$A    current active connections for Data1\n"
 msgstr "\t$A    trenutne aktivne povezave za Podatki1\n"
 
 # src/inet.c:1705
 # src/inet.c:1705
-#: ../src/inet.c:1816
+#: ../src/inet.c:1819
 msgid "\t$CN   total connections in last N minutes (or hours) for Data1\n"
 msgstr "\t$CN    skupne povezave v zadnjih N minutah (ali urah) za Podatki1\n"
 
 # src/inet.c:1706
 # src/inet.c:1706
-#: ../src/inet.c:1817
+#: ../src/inet.c:1820
 msgid "\t$L    label for Data1\n"
 msgstr "\t$L    oznaka za Podatki1\n"
 
 # src/inet.c:1711
 # src/inet.c:1711
-#: ../src/inet.c:1822
+#: ../src/inet.c:1825
 msgid ""
 "click on an inet chart to toggle the extra info display of\n"
 "\t\tcurrent TCP port connections.\n"
@@ -1949,197 +1950,189 @@ msgstr ""
 
 # src/inet.c:1714
 # src/inet.c:1714
-#: ../src/inet.c:1825
+#: ../src/inet.c:1828
 msgid "click on an inet chart to toggle hour/minute charts.\n"
 msgstr "klik na diagram inet prika¾e urne/minutne diagrame.\n"
 
 # src/inet.c:1742
 # src/inet.c:1742
-#: ../src/inet.c:1852
+#: ../src/inet.c:1855
 msgid "Ports"
 msgstr "Vrata"
 
 # src/inet.c:1748
 # src/inet.c:1748
-#: ../src/inet.c:1858
+#: ../src/inet.c:1861
 msgid "Data0"
 msgstr "Podatki0"
 
 # src/inet.c:1752
 # src/inet.c:1752
-#: ../src/inet.c:1862
+#: ../src/inet.c:1865
 msgid "Data1"
 msgstr "Podatki1"
 
 # src/inet.c:1762 src/inet.c:1768 src/inet.c:1856 src/inet.c:1876
 # src/inet.c:1762 src/inet.c:1768 src/inet.c:1856 src/inet.c:1876
-#: ../src/inet.c:1872 ../src/inet.c:1878 ../src/inet.c:1966 ../src/inet.c:1986
+#: ../src/inet.c:1875 ../src/inet.c:1881 ../src/inet.c:1969 ../src/inet.c:1989
 msgid "Port0"
 msgstr "Vrata0"
 
 # src/inet.c:1764 src/inet.c:1770 src/inet.c:1861 src/inet.c:1881
 # src/inet.c:1764 src/inet.c:1770 src/inet.c:1861 src/inet.c:1881
-#: ../src/inet.c:1874 ../src/inet.c:1880 ../src/inet.c:1971 ../src/inet.c:1991
+#: ../src/inet.c:1877 ../src/inet.c:1883 ../src/inet.c:1974 ../src/inet.c:1994
 msgid "Port1"
 msgstr "Vrata1"
 
 # src/inet.c:1802 src/inet.c:1807
 # src/inet.c:1802 src/inet.c:1807
-#: ../src/inet.c:1912 ../src/inet.c:1917
+#: ../src/inet.c:1915 ../src/inet.c:1920
 msgid "Port0 - Port1 is a range"
 msgstr "Vrata0 - Vrata1 je obmoèje"
 
 # src/inet.c:1942
 # src/inet.c:1942
-#: ../src/inet.c:2064
+#: ../src/inet.c:2067
 msgid "Internet"
 msgstr "Internet"
 
 # src/krell.c:363
 # src/krell.c:363
 #: ../src/krell.c:961
-#, c-format
 msgid "create_krell: NULL image or style\n"
 msgstr "create_krell: nièta slika ali stil\n"
 
 # src/client.c:1223 src/client.c:1241 src/client.c:1262 src/mail.c:588
 # src/client.c:1268 src/client.c:1286 src/client.c:1307 src/mail.c:588
-#: ../src/mail.c:688
+#: ../src/mail.c:733
 msgid "Unable to connect."
 msgstr "Povezava ni mo¾na."
 
 # src/mail.c:589
 # src/mail.c:589
-#: ../src/mail.c:689
+#: ../src/mail.c:734
 msgid "Bad response after connect."
 msgstr "Napaèen odgovor po povezavi."
 
 # src/mail.c:590
 # src/mail.c:590
-#: ../src/mail.c:690
+#: ../src/mail.c:735
 msgid "Bad response after username."
 msgstr "Napaèen odgovor po uporabni¹kem imenu."
 
 # src/mail.c:591
 # src/mail.c:591
-#: ../src/mail.c:691
+#: ../src/mail.c:736
 msgid "Bad response after password."
 msgstr "Napaèen odgovor po geslu."
 
 # src/mail.c:592
 # src/mail.c:592
-#: ../src/mail.c:692
+#: ../src/mail.c:737
 msgid "Bad response after STAT or STATUS."
 msgstr "Napaèen odgovor po STAT ali STATUS."
 
 # src/mail.c:593
 # src/mail.c:593
-#: ../src/mail.c:693
+#: ../src/mail.c:738
 msgid "Bad response after UIDL."
 msgstr "Napaèen odgovor po UIDL."
 
 # src/mail.c:594
 # src/mail.c:594
-#: ../src/mail.c:694
+#: ../src/mail.c:739
 msgid "Bad APOP response after connect."
 msgstr "Napaèen APOP odgovor po povezavi."
 
 # src/mail.c:595
 # src/mail.c:595
-#: ../src/mail.c:695
+#: ../src/mail.c:740
 msgid "Bad CRAM_MD5 response after connect."
 msgstr "Napèen CRAM_MD5 odgovor po povezavi."
 
 # src/mail.c:606
 # src/mail.c:606
-#: ../src/mail.c:743
+#: ../src/mail.c:788
 #, c-format
 msgid "Mail TCP Error: %s - %s\n"
 msgstr "Napaka TCP za po¹to: %s - %s\n"
 
-#: ../src/mail.c:774
+#: ../src/mail.c:819
 msgid "Cannot initialize SSL method."
 msgstr "Ne morem inicializirati metode SSL"
 
-#: ../src/mail.c:778
+#: ../src/mail.c:823
 msgid "Cannot initialize SSL server certificate handler."
 msgstr "Ne morem inicializirati obravnalnika certifikata za stre¾nik SSL"
 
-#: ../src/mail.c:784
+#: ../src/mail.c:829
 msgid "Cannot initialize SSL handler."
 msgstr "Ne morem inicializirati obravnalnika SSL"
 
 # src/mail.c:707
 # src/mail.c:707
-#: ../src/mail.c:911 ../src/mail.c:985
+#: ../src/mail.c:955 ../src/mail.c:1027
 msgid "could not decode BASE64 challenge\n"
 msgstr "zahteve BASE64 ni mo¾no dekodirati\n"
 
 # src/mail.c:720
 # src/mail.c:720
-#: ../src/mail.c:919
+#: ../src/mail.c:962
 #, c-format
 msgid "decoded as %s\n"
 msgstr "dekodirano kot %s\n"
 
-#: ../src/mail.c:1037
+#: ../src/mail.c:1079
 msgid "Bad response after STLS."
 msgstr "Napaèen odgovor po STLS."
 
-#: ../src/mail.c:1179
+#: ../src/mail.c:1254
 msgid "Bad response after STARTTLS."
 msgstr "Napaèen odgovor po STARTTLS."
 
-# src/mail.c:1028
-# src/mail.c:1028
-#: ../src/mail.c:1252
-#, c-format
-msgid ""
-"Messages: %d\n"
-"Unseen: %d\n"
+#: ../src/mail.c:1272
+msgid "Bad response after CAPABILITY."
 msgstr ""
-"Sporoèila: %d\n"
-"Nepregledana: %d\n"
 
 # src/mail.c:1360
 # src/mail.c:1360
-#: ../src/mail.c:1740
+#: ../src/mail.c:1834
 #, c-format
 msgid "mute"
 msgstr "nemo"
 
-#: ../src/mail.c:2016
+#: ../src/mail.c:2109
 msgid "seen"
 msgstr ""
 
 # src/mail.c:2840 src/net.c:1896 src/sensors.c:1649
 # src/mail.c:2840 src/net.c:1889
-#: ../src/mail.c:3479
+#: ../src/mail.c:3573
 msgid "GKrellM Config Error"
 msgstr "Napaka pri konfiguraciji"
 
 # src/mail.c:2841
 # src/mail.c:2841
-#: ../src/mail.c:3480
+#: ../src/mail.c:3574
 msgid "Incomplete mailbox entries"
 msgstr "Nepopolni vnosi za po¹tni predal"
 
 # src/mail.c:3033
 # src/mail.c:3033
-#: ../src/mail.c:3744
+#: ../src/mail.c:3838
 msgid "<h>Mailboxes\n"
 msgstr "<h>Po¹tni predali\n"
 
 # src/mail.c:3035
 # src/mail.c:3035
-#: ../src/mail.c:3746
+#: ../src/mail.c:3840
 msgid "Mailboxes to monitor can be local or remote mailbox types.\n"
 msgstr ""
 "Nadzorovani po¹tni predali so lahko tipa lokalnega ali oddaljenega predala.\n"
 
 # src/mail.c:3036
 # src/mail.c:3036
-#: ../src/mail.c:3747
+#: ../src/mail.c:3841
 msgid ""
 "For local mailboxes, the path name may be a mbox file or it may be\n"
 "a Maildir or MH mail style directory.\n"
@@ -2149,13 +2142,13 @@ msgstr ""
 
 # src/mail.c:3044
 # src/mail.c:3044
-#: ../src/mail.c:3755
+#: ../src/mail.c:3849
 msgid "<b>Mail reading program\n"
 msgstr "<h>Program za branje po¹te\n"
 
 # src/mail.c:3045
 # src/mail.c:3045
-#: ../src/mail.c:3756
+#: ../src/mail.c:3850
 msgid ""
 "If you enter a mail reading program (your mail user agent or MUA)\n"
 "it can be launched by clicking on the mail monitor message count button.\n"
@@ -2165,13 +2158,13 @@ msgstr ""
 
 # src/mail.c:3048
 # src/mail.c:3048
-#: ../src/mail.c:3759
+#: ../src/mail.c:3853
 msgid "<b>Sound notify program\n"
 msgstr "<b>Program za naznanitev po¹te\n"
 
 # src/mail.c:3049
 # src/mail.c:3049
-#: ../src/mail.c:3760
+#: ../src/mail.c:3854
 msgid ""
 "If you enter a notify (sound) command, it will be run when new mail\n"
 "is detected.\n"
@@ -2181,13 +2174,13 @@ msgstr ""
 
 # src/mail.c:3056
 # src/mail.c:3056
-#: ../src/mail.c:3767
+#: ../src/mail.c:3861
 msgid "<b>fetch/check Program\n"
 msgstr "<b>Program za poteg/preverjanje\n"
 
 # src/mail.c:3057
 # src/mail.c:3057
-#: ../src/mail.c:3768
+#: ../src/mail.c:3862
 msgid ""
 "If you want to download remote mail or check for remote mail without\n"
 "using the builtin POP3 or IMAP mail checking which is set up in the\n"
@@ -2198,13 +2191,13 @@ msgstr ""
 
 # src/mail.c:3059 src/mail.c:3077
 # src/mail.c:3059 src/mail.c:3077
-#: ../src/mail.c:3770 ../src/mail.c:3788
+#: ../src/mail.c:3864 ../src/mail.c:3882
 msgid "<i>Mailboxes"
 msgstr "<i>Po¹tni predali"
 
 # src/mail.c:3060
 # src/mail.c:3060
-#: ../src/mail.c:3771
+#: ../src/mail.c:3865
 msgid ""
 " tab, then do this by entering a mail fetch/check command.\n"
 "For example, fetchmail can be run periodically to download mail\n"
@@ -2231,13 +2224,13 @@ msgstr ""
 
 # src/mail.c:3070
 # src/mail.c:3070
-#: ../src/mail.c:3781
+#: ../src/mail.c:3875
 msgid "<i>\tFetch/check program checks messages only\n"
 msgstr "<i>\tProgram za prenos/preverjanje le preverja sporoèila\n"
 
 # src/mail.c:3071
 # src/mail.c:3071
-#: ../src/mail.c:3782
+#: ../src/mail.c:3876
 msgid ""
 "For checking messages on a remote server, GKrellM can read the\n"
 "output of the program "
@@ -2247,19 +2240,19 @@ msgstr ""
 
 # src/mail.c:3073
 # src/mail.c:3073
-#: ../src/mail.c:3784
+#: ../src/mail.c:3878
 msgid "<i>fetchmail -c"
 msgstr "<i>fetchmail -c"
 
 # src/mail.c:3074
 # src/mail.c:3074
-#: ../src/mail.c:3785
+#: ../src/mail.c:3879
 msgid " (you must append the -c).\n"
 msgstr " (dodati morate -c).\n"
 
 # src/mail.c:3075
 # src/mail.c:3075
-#: ../src/mail.c:3786
+#: ../src/mail.c:3880
 msgid ""
 "But, do not combine these methods for the same mailbox!  If you enter a\n"
 "POP3 mailbox in the "
@@ -2269,26 +2262,26 @@ msgstr ""
 
 # src/mail.c:3078
 # src/mail.c:3078
-#: ../src/mail.c:3789
+#: ../src/mail.c:3883
 msgid " tab, then don't check it again with fetchmail.\n"
 msgstr ", potem ga ne preverjajte ¹e s fetchmail.\n"
 
 # src/mail.c:3085
 # src/mail.c:3085
-#: ../src/mail.c:3796
+#: ../src/mail.c:3890
 msgid "click the mail count button to launch the mail reading program.\n"
 msgstr "kliknite na tipko za ¹tetje po¹te za zagon programa za branje po¹te.\n"
 
 # src/mail.c:3086
 # src/mail.c:3086
-#: ../src/mail.c:3797
+#: ../src/mail.c:3891
 msgid "\t\tIf options permit, also stop animations and reset remote counts.\n"
 msgstr ""
 "\t\tÈe mo¾nosti dopu¹èajo, ustavite animacije in znova nastavite oddaljeno\n"
 
 # src/mail.c:3088
 # src/mail.c:3088
-#: ../src/mail.c:3799
+#: ../src/mail.c:3893
 msgid ""
 "click the envelope decal to force a mail check regardless of\n"
 "\t\tany mute mode or inhibit mail checking option settings.\n"
@@ -2298,7 +2291,7 @@ msgstr ""
 
 # src/mail.c:3091
 # src/mail.c:3091
-#: ../src/mail.c:3802
+#: ../src/mail.c:3896
 msgid ""
 "click the mail panel to toggle a mute mode which inhibits\n"
 "\t\tthe sound notify program and optionally inhibits all mail\n"
@@ -2309,211 +2302,211 @@ msgstr ""
 
 # src/mail.c:3128
 # src/mail.c:3128
-#: ../src/mail.c:3843
+#: ../src/mail.c:3937
 msgid "Enable Mailcheck"
 msgstr "Omogoèi preverjanje po¹te"
 
 # src/mail.c:3139
 # src/mail.c:3139
-#: ../src/mail.c:3855
+#: ../src/mail.c:3949
 msgid "Mail reading program:"
 msgstr "Program za branje po¹te"
 
 # src/mail.c:3152
 # src/mail.c:3152
-#: ../src/mail.c:3870
+#: ../src/mail.c:3964
 msgid "Notify (sound) program:"
 msgstr "Program za naznanitev:"
 
 # src/mail.c:3165
 # src/mail.c:3165
-#: ../src/mail.c:3887
+#: ../src/mail.c:3981
 msgid "Mail fetch/check program:"
 msgstr "Program za prenos/preverjanje po¹te:"
 
-#: ../src/mail.c:3906
+#: ../src/mail.c:4000
 msgid "Run fetch/check program at local interval"
 msgstr ""
 
 # src/mail.c:3178
 # src/mail.c:3178
-#: ../src/mail.c:3916
+#: ../src/mail.c:4010
 msgid "Check local mailboxes every"
 msgstr "Preveri lokalne po¹tne predale vsakih"
 
 # src/mail.c:3185
 # src/mail.c:3185
-#: ../src/mail.c:3923
+#: ../src/mail.c:4017
 msgid "seconds"
 msgstr "sekund"
 
 # src/mail.c:3191
 # src/mail.c:3191
-#: ../src/mail.c:3929
+#: ../src/mail.c:4023
 msgid "Do remote checks every"
 msgstr "Preveri oddaljene po¹tne predale vsakih"
 
 # src/mail.c:3193
 # src/mail.c:3193
-#: ../src/mail.c:3931
+#: ../src/mail.c:4025
 msgid "Check mail every"
 msgstr "Preveri po¹to vsakih"
 
 # src/mail.c:3200
 # src/mail.c:3200
-#: ../src/mail.c:3938
+#: ../src/mail.c:4032
 msgid "minutes"
 msgstr "minut"
 
 # src/mail.c:3203
 # src/mail.c:3203
-#: ../src/mail.c:3941
+#: ../src/mail.c:4035
 msgid "Mailboxes"
 msgstr "Po¹tni predali"
 
 # src/mail.c:3216
 # src/mail.c:3216
-#: ../src/mail.c:3957
+#: ../src/mail.c:4051
 msgid "Path name:"
 msgstr "Ime poti:"
 
 # src/mail.c:3234
 # src/mail.c:3234
-#: ../src/mail.c:3975
+#: ../src/mail.c:4069
 msgid "Server"
 msgstr "Stre¾nik"
 
 # src/mail.c:3241
 # src/mail.c:3241
-#: ../src/mail.c:3982
+#: ../src/mail.c:4076
 msgid "User name"
 msgstr "Uporabni¹ko ime"
 
 # src/mail.c:3248
 # src/mail.c:3248
-#: ../src/mail.c:3989
+#: ../src/mail.c:4083
 msgid "Password"
 msgstr "Geslo"
 
 # src/mail.c:3256 src/mail.c:3326
 # src/mail.c:3256 src/mail.c:3326
-#: ../src/mail.c:3997 ../src/mail.c:4089
+#: ../src/mail.c:4091 ../src/mail.c:4183
 msgid "Protocol"
 msgstr "Protokol"
 
-#: ../src/mail.c:4012
+#: ../src/mail.c:4106
 msgid "Use SSL"
 msgstr "Uporabi SSL"
 
-#: ../src/mail.c:4020
+#: ../src/mail.c:4114
 msgid "No"
 msgstr "Ne"
 
 # src/mail.c:3270
 # src/mail.c:3270
-#: ../src/mail.c:4028
+#: ../src/mail.c:4122
 msgid "IMAP folder"
 msgstr "Imenik IMAP"
 
 # src/mail.c:3279
 # src/mail.c:3279
-#: ../src/mail.c:4038
+#: ../src/mail.c:4132
 msgid "Specify port"
 msgstr "Doloèite vrata"
 
 # src/mail.c:3297
 # src/mail.c:3297
-#: ../src/mail.c:4057
+#: ../src/mail.c:4151
 msgid "Local mailbox"
 msgstr "Lokalni po¹tni predal"
 
 # src/mail.c:3303
 # src/mail.c:3303
-#: ../src/mail.c:4063
+#: ../src/mail.c:4157
 msgid "Remote mailbox"
 msgstr "Oddaljeni po¹tni predal"
 
 # src/mail.c:3330
 # src/mail.c:3330
-#: ../src/mail.c:4099
+#: ../src/mail.c:4193
 msgid "Mailbox"
 msgstr "Po¹tni predal"
 
 # src/mail.c:3341
 # src/mail.c:3341
-#: ../src/mail.c:4110
+#: ../src/mail.c:4204
 msgid "Animation"
 msgstr "Animacija"
 
 # src/mail.c:3342
 # src/mail.c:3342
-#: ../src/mail.c:4113
+#: ../src/mail.c:4207
 msgid "Animation Select"
 msgstr "Izberi animacijo"
 
 # src/mail.c:3348
 # src/mail.c:3348
-#: ../src/mail.c:4118
+#: ../src/mail.c:4212
 msgid "None"
 msgstr "Nobeno"
 
 # src/mail.c:3352
 # src/mail.c:3352
-#: ../src/mail.c:4121
+#: ../src/mail.c:4215
 msgid "Envelope"
 msgstr "Kuverta"
 
 # src/mail.c:3357
 # src/mail.c:3357
-#: ../src/mail.c:4126
+#: ../src/mail.c:4220
 msgid "Daemon"
 msgstr "Demon"
 
 # src/mail.c:3359
 # src/mail.c:3359
-#: ../src/mail.c:4128
+#: ../src/mail.c:4222
 msgid "Penguin"
 msgstr "Pingvin"
 
 # src/mail.c:3364
 # src/mail.c:3364
-#: ../src/mail.c:4132
+#: ../src/mail.c:4226
 msgid "Both"
 msgstr "Oboje"
 
 # src/mail.c:3372
 # src/mail.c:3372
-#: ../src/mail.c:4145
+#: ../src/mail.c:4239
 msgid "Run animation continuously as long as there is a new mail count"
 msgstr "Animiraj animacijo ponavljajoèe, dokler se ¹teje nova po¹ta"
 
 # src/mail.c:3378
 # src/mail.c:3378
-#: ../src/mail.c:4152
+#: ../src/mail.c:4246
 msgid "Message Counting"
 msgstr "©tetje sporoèil"
 
 # src/mail.c:3383
 # src/mail.c:3383
-#: ../src/mail.c:4157
+#: ../src/mail.c:4251
 msgid "new/total"
 msgstr "nova/skupna"
 
 # src/mail.c:3387
 # src/mail.c:3387
-#: ../src/mail.c:4161
+#: ../src/mail.c:4255
 msgid "new"
 msgstr "nova"
 
 # src/mail.c:3391
 # src/mail.c:3391
-#: ../src/mail.c:4165
+#: ../src/mail.c:4259
 msgid "do not count"
 msgstr "ne ¹tej"
 
 # src/mail.c:3400
 # src/mail.c:3400
-#: ../src/mail.c:4178
+#: ../src/mail.c:4272
 msgid "Fetch/check program checks messages only (see Mail Info tab)"
 msgstr ""
 "Program za prenos/preverjanje preverja le sporoèila (glej sekcijo Info o "
@@ -2521,51 +2514,51 @@ msgstr ""
 
 # src/mail.c:3404
 # src/mail.c:3404
-#: ../src/mail.c:4183
+#: ../src/mail.c:4277
 msgid "Reset remote message counts when message count button is pressed."
 msgstr "Po pritisku tipke za ¹tetje znova nastavi ¹tetje oddaljenih sporoèil."
 
 # src/mail.c:3408
 # src/mail.c:3408
-#: ../src/mail.c:4188
+#: ../src/mail.c:4282
 msgid "Count accessed but unseen mail as new (if this status is available)"
 msgstr ""
 "©tej dostopano, a neprebrano po¹to kot novo (èe to stanje na razpolago)"
 
 # src/mail.c:3412
 # src/mail.c:3412
-#: ../src/mail.c:4193
+#: ../src/mail.c:4287
 msgid "Mute mode inhibits all mail checking, not just notify (sound) program"
 msgstr ""
 "Mo¾nost nemo onemogoèi tudi preverjanje po¹te in ne le zvoène obvestitve"
 
 # src/mail.c:3416
 # src/mail.c:3416
-#: ../src/mail.c:4198
+#: ../src/mail.c:4292
 msgid "Inhibit all mail checking while the mail reader is running"
 msgstr "Dokler teèe program za branje po¹te, onemogoèi vsa preverjanja po¹te"
 
 # src/mail.c:3419
 # src/mail.c:3419
-#: ../src/mail.c:4203
+#: ../src/mail.c:4297
 msgid "Allow multiple launches of the mail reader program"
 msgstr "Dovoli veèkratni zagon programa za branje po¹te"
 
 # src/mail.c:3423
 # src/mail.c:3423
-#: ../src/mail.c:4208
+#: ../src/mail.c:4302
 msgid "List mailboxes containing new mail in a tooltip"
 msgstr "V nasvetu prika¾i vse po¹tne predale, ki vsebujejo novo po¹to"
 
 # src/mail.c:3427
 # src/mail.c:3427
-#: ../src/mail.c:4214
+#: ../src/mail.c:4308
 msgid "Ignore .mh_sequences when checking MH mail."
 msgstr "Ignoriraj .mh_sequences pri preverjanju MH po¹te"
 
 # src/mail.c:3450
 # src/mail.c:3450
-#: ../src/mail.c:4237
+#: ../src/mail.c:4331
 msgid "Mail"
 msgstr "Po¹ta"
 
@@ -2706,25 +2699,29 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ../src/main.c:1999
+#: ../src/main.c:1832
+msgid "GKrellM"
+msgstr ""
+
+#: ../src/main.c:2025
 msgid "segmentation fault"
 msgstr "segmentacijska napaka"
 
-#: ../src/main.c:2001
+#: ../src/main.c:2027
 msgid "floating point exception"
 msgstr "izjema plavajoèe vejice"
 
-#: ../src/main.c:2003
+#: ../src/main.c:2029
 msgid "aborted"
 msgstr "prekinjeno"
 
-#: ../src/main.c:2006
+#: ../src/main.c:2032
 msgid "initializing"
 msgstr "inicializiram"
 
 # src/main.c:1603
 # src/main.c:1594
-#: ../src/main.c:2188
+#: ../src/main.c:2217
 #, c-format
 msgid "Bad arg: %s\n"
 msgstr "Napaèen arg: %s\n"
@@ -2927,77 +2924,77 @@ msgstr ""
 msgid "$t - $u used  $s sh  $b bf  $c ca"
 msgstr "$t - $u uporabljeno  $s sh  $b bf  $c ca"
 
-#: ../src/net.c:685
+#: ../src/net.c:687
 msgid "Received"
 msgstr ""
 
-#: ../src/net.c:689
+#: ../src/net.c:691
 msgid "Transmitted"
 msgstr ""
 
-#: ../src/net.c:693
+#: ../src/net.c:695
 msgid "Total"
 msgstr "Skupno"
 
-#: ../src/net.c:701
+#: ../src/net.c:703
 msgid "Connect Time"
 msgstr "Trajanje povezave"
 
-#: ../src/net.c:718
+#: ../src/net.c:720
 #, c-format
 msgid "%s Statistics"
 msgstr ""
 
-#: ../src/net.c:738
+#: ../src/net.c:740
 msgid "Daily"
 msgstr ""
 
-#: ../src/net.c:739
+#: ../src/net.c:741
 msgid "Date"
 msgstr ""
 
-#: ../src/net.c:741
+#: ../src/net.c:743
 msgid "Weekly"
 msgstr ""
 
-#: ../src/net.c:743
+#: ../src/net.c:745
 msgid "Week Ending"
 msgstr ""
 
-#: ../src/net.c:745
+#: ../src/net.c:747
 msgid "Monthly"
 msgstr ""
 
 # src/mail.c:3364
 # src/mail.c:3364
-#: ../src/net.c:747
+#: ../src/net.c:749
 msgid "Month"
 msgstr "Mesec"
 
 # src/net.c:492
 # src/net.c:490
-#: ../src/net.c:804
+#: ../src/net.c:806
 #, c-format
 msgid "get_connect_state changed from %d to %d  (check=%d)\n"
 msgstr "get_connect_state spremenjeno s %d na %d  (check=%d)\n"
 
 # src/net.c:534
 # src/net.c:532
-#: ../src/net.c:847
+#: ../src/net.c:849
 #, c-format
 msgid "set_timer_button_state from %d to %d (check=%d)\n"
 msgstr "set_timer_button_state s %d na %d (check=%d)\n"
 
 # src/net.c:547
 # src/net.c:545
-#: ../src/net.c:860
+#: ../src/net.c:862
 #, c-format
 msgid "update_timer_button net_timed old_state=%d new_state=%d\n"
 msgstr "update_timer_button net_timed old_state=%d new_state=%d\n"
 
 # src/net.c:596
 # src/net.c:594
-#: ../src/net.c:921
+#: ../src/net.c:923
 msgid "  **** Stale pppd pppX.pid file detected!\n"
 msgstr "  **** Odkrita zastarana pppd pppX.pid datoteka!\n"
 
@@ -3310,73 +3307,73 @@ msgstr "*** Dodatek za ukazno vrstico:\n"
 
 # src/plugins.c:1280
 # src/plugins.c:1280
-#: ../src/plugins.c:1504
+#: ../src/plugins.c:1526
 msgid "GKrellM Place Plugin"
 msgstr "Mesto dodatkov"
 
 # src/plugins.c:1288
 # src/plugins.c:1288
-#: ../src/plugins.c:1515
+#: ../src/plugins.c:1537
 msgid "Builtin Monitors"
 msgstr "Vgrajeni prikazi"
 
 # src/plugins.c:1314
 # src/plugins.c:1314
-#: ../src/plugins.c:1545
+#: ../src/plugins.c:1567
 msgid "Place Plugin"
 msgstr "Vmesti dodatek"
 
 # src/plugins.c:1320
 # src/plugins.c:1320
-#: ../src/plugins.c:1551
+#: ../src/plugins.c:1573
 msgid "Before selected builtin monitor"
 msgstr "Pred izbranim vgrajenim prikazom"
 
 # src/plugins.c:1324
 # src/plugins.c:1324
-#: ../src/plugins.c:1558
+#: ../src/plugins.c:1580
 msgid "With gravity"
 msgstr "S privlaènostjo"
 
 # src/plugins.c:1329
 # src/plugins.c:1329
-#: ../src/plugins.c:1563
+#: ../src/plugins.c:1585
 msgid "After selected builtin monitor"
 msgstr "Po izbranem vgrajenem prikazu"
 
 # src/plugins.c:1335
 # src/plugins.c:1335
-#: ../src/plugins.c:1571
+#: ../src/plugins.c:1593
 msgid "Plugin Defaults"
 msgstr "Privzete nastavitve za dodatek"
 
 # src/plugins.c:1445
 # src/plugins.c:1445
-#: ../src/plugins.c:1674
+#: ../src/plugins.c:1696
 msgid "from command line"
 msgstr "iz ukazne vrstice"
 
 # src/plugins.c:1502
 # src/plugins.c:1502
-#: ../src/plugins.c:1731
+#: ../src/plugins.c:1753
 msgid "Plugin"
 msgstr "Dodatek"
 
 # src/plugins.c:1523
 # src/plugins.c:1523
-#: ../src/plugins.c:1752
+#: ../src/plugins.c:1774
 msgid "Place"
 msgstr "Prostor"
 
 # src/plugins.c:1530
 # src/plugins.c:1530
-#: ../src/plugins.c:1759
+#: ../src/plugins.c:1781
 msgid "Install Log"
 msgstr "Dnevnik namestitve"
 
 # src/plugins.c:1538
 # src/plugins.c:1538
-#: ../src/plugins.c:1767
+#: ../src/plugins.c:1789
 msgid "No plugins found."
 msgstr "Ni dodatkov."
 
@@ -3496,7 +3493,7 @@ msgstr ""
 
 # src/sensors.c:1359 src/sensors.c:1980
 # src/sensors.c:1301 src/sensors.c:2341
-#: ../src/sensors.c:1620 ../src/sensors.c:2933
+#: ../src/sensors.c:1620 ../src/sensors.c:2941
 msgid "Sensors"
 msgstr "Senzorji"
 
@@ -3659,13 +3656,12 @@ msgstr "Èas delovanja"
 # src/utils.c:82
 # src/utils.c:82
 #: ../src/utils.c:117
-#, c-format
 msgid "Unterminated quote\n"
 msgstr "Neprekinjena kvota\n"
 
 # src/utils.c:217
 # src/utils.c:217
-#: ../src/utils.c:237
+#: ../src/utils.c:233
 #, c-format
 msgid "Cannot create directory: %s\n"
 msgstr "Ne morem ustvariti imenika: %s\n"
@@ -3678,9 +3674,18 @@ msgstr "Zapiram, ker ni omogoèena mo¾nost za veèkratne zahteve.\n"
 msgid "Warning: -w flag is ignored when the window dock type is set"
 msgstr "Opozorilo: zastava -w se ignorira, ko je nastavljen zasidrani tip okna"
 
-#: ../src/sysdeps/linux.c:3751
+#: ../src/sysdeps/linux.c:3797
 msgid "Use nvclock for NVIDIA GPU temperatures"
 msgstr ""
+
+# src/mail.c:1028
+# src/mail.c:1028
+#~ msgid ""
+#~ "Messages: %d\n"
+#~ "Unseen: %d\n"
+#~ msgstr ""
+#~ "Sporoèila: %d\n"
+#~ "Nepregledana: %d\n"
 
 # src/clock.c:557
 # src/clock.c:557

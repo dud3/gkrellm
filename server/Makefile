@@ -246,7 +246,7 @@ sysdeps-unix.o: sysdeps-unix.c ../src/gkrellm-sysdeps.h $(SYSDEPS) $(GKRELLMD_H)
 log.o: $(SHARED_PATH)/log.c $(SHARED_PATH)/log.h $(GKRELLMD_H)
 win32-gui.o:	win32-gui.c
 win32-plugin.o:	win32-plugin.c win32-plugin.h $(GKRELLMD_H)
-win32-resource.o: win32-resource.rc win32-resource.h
+win32-resource.o:	win32-resource.rc win32-resource.h
 	$(WINDRES) $< -o $@
 win32-libgkrellmd.o:	win32-libgkrellmd.c win32-plugin.h $(GKRELLMD_H)
 libgkrellmd.a:	win32-libgkrellmd.o

@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
+|  Copyright (C) 1999-2010 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -2104,15 +2104,15 @@ main(gint argc, gchar **argv)
 	// Prepend app install path to locale dir
 	install_path = g_win32_get_package_installation_directory_of_module(NULL);
 	if (install_path != NULL)
-	    {
-	    locale_dir = g_build_filename(install_path, LOCALEDIR, NULL);
-	    if (locale_dir != NULL)
 		{
-		bindtextdomain(PACKAGE, locale_dir);
-		g_free(locale_dir);
-		}
+	    locale_dir = g_build_filename(install_path, LOCALEDIR, NULL);
+		if (locale_dir != NULL)
+			{
+			bindtextdomain(PACKAGE, locale_dir);
+			g_free(locale_dir);
+			}
 	    g_free(install_path);
-	    }
+		}
 #else
 	bindtextdomain(PACKAGE, LOCALEDIR);
 #endif /* !WIN32 */

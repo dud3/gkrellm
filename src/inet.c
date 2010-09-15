@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
+|  Copyright (C) 1999-2010 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -650,9 +650,12 @@ get_connection_string_thread(void *data)
 	GList					*list;
 	ActiveTCP				*tcp;
 #if defined(INET6)
-	struct sockaddr_storage	ss;
-	struct sockaddr_in		*sin;
-	struct sockaddr_in6		*sin6;
+	union {
+	    struct sockaddr_storage	ss;
+	    struct sockaddr_in		sin;
+	    struct sockaddr_in6	sin6;
+	    struct sockaddr		sa;
+	} ss;
 	gint					salen, flag = 0;
 	gchar					hbuf[NI_MAXHOST];
 	gchar					buf[NI_MAXHOST + 10];
@@ -670,34 +673,32 @@ get_connection_string_thread(void *data)
 		{
 		tcp = (ActiveTCP *) list->data;
 #if defined(INET6)
-		memset(&ss, 0, sizeof(ss));
+		memset(&ss.ss, 0, sizeof(ss.ss));
 		switch (tcp->family)
 			{
 			case AF_INET:
-				sin = (struct sockaddr_in *)&ss;
 				salen = sizeof(struct sockaddr_in);
-				memcpy(&sin->sin_addr, &tcp->remote_addr, salen);
+				memcpy(&ss.sin.sin_addr, &tcp->remote_addr, salen);
 #if defined(SIN6_LEN)
-				sin->sin_len = salen;
+				ss.sin.sin_len = salen;
 #endif
-				sin->sin_family = tcp->family;
+				ss.sin.sin_family = tcp->family;
 				break;
 			case AF_INET6:
-				sin6 = (struct sockaddr_in6 *)&ss;
 				salen = sizeof(struct sockaddr_in6);
-				memcpy(&sin6->sin6_addr, &tcp->remote_addr6, salen);
+				memcpy(&ss.sin6.sin6_addr, &tcp->remote_addr6, salen);
 #if defined(SIN6_LEN)
-				sin6->sin6_len = salen;
+				ss.sin6.sin6_len = salen;
 #endif
-				sin6->sin6_family = tcp->family;
+				ss.sin6.sin6_family = tcp->family;
 				/* XXX: We should mention about
 				|  scope, too. */
 				break;
 			default:
 				continue;
 			}
-		if (getnameinfo((struct sockaddr *)&ss, salen,
-					hbuf, sizeof(hbuf), NULL, 0, flag))
+		if (getnameinfo(&ss.sa, salen,
+				hbuf, sizeof(hbuf), NULL, 0, flag))
 			continue;
 		remote_host = hbuf;
 #else

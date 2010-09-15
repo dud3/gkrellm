@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2009 Bill Wilson
+|  Copyright (C) 1999-2010 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -531,7 +531,7 @@ sensor_read_temperature(Sensor *sensor, gfloat *temp, gchar *units)
 		}
 	if (sensor)
 		gkrellm_debug(DEBUG_SENSORS, "sensor_temp: %s %s t=%.2f\n",
-			sensor->name_locale, sensor->path, sensor->value);
+					sensor->name_locale, sensor->path, sensor->value);
 	if (found_temp && sensor)
 		gkrellm_check_alert(sensor->alert, sensor->value);
 	return found_temp;
@@ -567,7 +567,7 @@ sensor_read_fan(Sensor *sensor, gfloat *fan)
 		*fan = f;
 	if (sensor)
 		gkrellm_debug(DEBUG_SENSORS, "sensor_fan: %s %s rpm=%.0f\n",
-			sensor->name_locale, sensor->path, sensor->value);
+					sensor->name_locale, sensor->path, sensor->value);
 	if (found_fan && sensor)
 		gkrellm_check_alert(sensor->alert, sensor->value);
 	return found_fan;
@@ -607,7 +607,7 @@ sensor_read_voltage(Sensor *sensor, gfloat *voltage)
 		*voltage = v;
 	if (sensor)
 		gkrellm_debug(DEBUG_SENSORS, "sensor_voltage: %s %s v=%.2f\n",
-			sensor->name_locale, sensor->path, sensor->value);
+				sensor->name_locale, sensor->path, sensor->value);
 	if (found_voltage && sensor)
 		gkrellm_check_alert(sensor->alert, sensor->value);
 	return found_voltage;
