@@ -7,7 +7,8 @@ GKrellM Changelog
 	      g_debug(), g_warning().
 	    - Replace sprintf() calls with snprintf().
 	    - Use glib gstdio to replace unix calls: fopen()->g_fopen(), etc.
-		- Use glib mutex functions for portability.
+	    - Use glib mutex functions for portability when building with
+	      GnuTLS.
 	    - Fix IMAP login by escaping backslash and double-quotes in
 	      username, password and mailbox strings.
 	    - Fix initial sending of fstab entries in gkrellmd, fstab was only
@@ -17,12 +18,13 @@ GKrellM Changelog
 	    - Makefile: Drop duplicating SMC_LIBS in "netbsd" targets by calling
 	      src/Makefile with "netbsd" target instead of using the generic
 	      "gkrellm" target.
-	    - Make "-d" commandline option the short version for "--detach"
-	      instead of for "--debug-level".
+	    - gkrellmd: Make "-d" commandline option the short version
+	      for "--detach" instead of for "--debug-level".
 	    - Enable IPv6-support on win32 if target os is windows xp or newer.
 	    - Support monitoring of active IPv6 TCP connections on windows vista
 	      or newer.
 	    - Fix building with mingw-w64 environment.
+	    - Fix time formatting on win32 for monthly network statistics
 	* Patch from Stefan Gehn: add searching for linux sensors directly below
 	  hwmon dir since kernel is putting newer devices there.
 	* Patch from Hajimu Umemoto: FreeBSD memory usage calculation update.

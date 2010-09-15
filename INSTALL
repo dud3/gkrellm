@@ -81,19 +81,19 @@ Note: install_solaris makes gkrellm setgid sys so it can be run non-root, ie:
   (see below for additional Solaris install notes)
 
 
-Windows:  2000 SP4 / XP SP1 / Vista SP2
+Windows (needs Windows XP or newer)
 ---------------------------------------
   make windows
   make INSTALLROOT=C:\gkrellm install_windows
 
 See:
-	http://www.srcbox.net/projects/gkrellm/
+  http://www.srcbox.net/projects/gkrellm/
 
 Needed software for building gkrellm on win32 systems:
   - MinGW
-  - MSYS (gkrellm Makefiles are NOT compatible with cmd.exe)
+  - MSYS (gkrellm makefiles are NOT compatible with cmd.exe)
   - GTK >= 2.4 Development files (see http://www.gtk.org/download-windows.html)
-  - OpenSSL (optional), GnuTLS is not recommended on win32
+  - OpenSSL or GnuTLS (optional)
   - libntlm (optional)
 
 Note: Installing gkrellm on windows needs INSTALLROOT set, the default path
