@@ -190,7 +190,7 @@ windows: libgkrellm.a
 		CFLAGS="${CFLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWIN32_LEAN_AND_MEAN" \
 		LINK_FLAGS="${LINK_FLAGS} -mwindows" \
 		EXTRAOBJS="${EXTRAOBJS} winops-win32.o win32-plugin.o win32-resource.o" \
-		SYS_LIBS="-lws2_32 -lwtsapi32 -lpdh -lnetapi32 -liphlpapi -lntdll -lintl" \
+		SYS_LIBS="-lws2_32 -lwtsapi32 -lpdh -lnetapi32 -liphlpapi -lintl" \
 		X11_LIBS="" \
 		UNIXOBJS="" \
 		gkrellm
@@ -236,7 +236,7 @@ install_solaris:
 	chgrp sys $(INSTALLDIR)/$(PACKAGE)
 	chmod g+s $(INSTALLDIR)/$(PACKAGE)  
 
-install_windows:
+install_windows: windows
 	$(MAKE) BINEXT=".exe" install_bin install_inc
 	$(INSTALL) -d -m $(LIBDIRMODE) $(LIBDIR)
 	$(INSTALL) -c -m $(BINMODE) libgkrellm.a $(LIBDIR)

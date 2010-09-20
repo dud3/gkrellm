@@ -69,7 +69,7 @@
 #define STATUS_INFO_LENGTH_MISMATCH ((NTSTATUS)0xC0000004L)
 #define SystemPagefileInformation 18
 
-NTSTATUS NTAPI ZwQuerySystemInformation(
+typedef NTSTATUS (NTAPI *pfZwQuerySystemInformation)(
   /*IN*/ UINT SystemInformationClass,
   /*IN OUT*/ VOID *SystemInformation,
   /*IN*/ ULONG SystemInformationLength,
@@ -92,7 +92,7 @@ typedef struct _SYSTEM_PAGEFILE_INFORMATION
  * are present in the headers provided by mingw-w64.
  * Docs: http://msdn.microsoft.com/en-us/library/aa378290(VS.85).aspx
  */ 
-#if defined(__MINGW32__) && !defined(WIN64)
+#if defined(__MINGW32__) && !defined(__MINGW64_VERSION_MAJOR)
 typedef struct _SECURITY_LOGON_SESSION_DATA
 	{
 	ULONG Size;
@@ -162,6 +162,7 @@ static const wchar_t* WTSAPI32 = L"WTSAPI32.DLL";
 static void gkrellm_sys_cpu_cleanup(void);
 static void gkrellm_sys_disk_cleanup(void);
 static void gkrellm_sys_mem_cleanup(void);
+static void gkrellm_sys_inet_cleanup(void);
 static void gkrellm_sys_net_cleanup(void);
 static void gkrellm_sys_proc_cleanup(void);
 
@@ -425,6 +426,9 @@ void gkrellm_sys_main_init(void)
 	WSADATA wsdata;
 	int err;
 
+	// Remove current working directory from DLL search path
+	SetDllDirectoryW(L"");
+
 	gkrellm_debug(DEBUG_SYSDEP, "Starting Winsock\n");
 	err = WSAStartup(MAKEWORD(1,1), &wsdata);
 	if (err != 0)
@@ -470,6 +474,7 @@ void gkrellm_sys_main_cleanup(void)
 	gkrellm_sys_cpu_cleanup();
 	gkrellm_sys_disk_cleanup();
 	gkrellm_sys_net_cleanup();
+	gkrellm_sys_inet_cleanup();
 	gkrellm_sys_proc_cleanup();
 	gkrellm_sys_mem_cleanup();
 
@@ -1724,6 +1729,7 @@ gkrellm_sys_proc_init(void)
 static void
 gkrellm_sys_proc_cleanup(void)
 	{
+	gkrellm_debug(DEBUG_SYSDEP, "Cleanup process monitoring\n");
 	// Unload secur32.dll and invalidate function pointers
 	pfLELS = NULL;
 	pfLFRB = NULL;
@@ -1760,6 +1766,8 @@ typedef BOOL (WINAPI *pfGetPerformanceInfo)(PERFORMANCE_INFORMATION *, DWORD);
 static HINSTANCE hPsapi = NULL;
 static pfGetPerformanceInfo pGPI = NULL;
 static DWORD page_size = 1;
+static HINSTANCE hNtdll = NULL;
+static pfZwQuerySystemInformation pZwQSI = NULL;
 
 void
 gkrellm_sys_mem_read_data(void)
@@ -1818,6 +1826,9 @@ gkrellm_sys_swap_read_data(void)
 	SYSTEM_PAGEFILE_INFORMATION *pInfo;
 	LPVOID pBuf = NULL;
 
+	if (pZwQSI == NULL)
+		return;
+
 	gkrellm_debug(DEBUG_SYSDEP, "Checking swap utilization\n");
 
 	// it is difficult to determine beforehand which size of the
@@ -1828,8 +1839,7 @@ gkrellm_sys_swap_read_data(void)
 	{
 		pBuf = g_malloc(szBuf);
 
-		ntstatus = ZwQuerySystemInformation(SystemPagefileInformation, pBuf,
-			szBuf, NULL);
+		ntstatus = pZwQSI(SystemPagefileInformation, pBuf, szBuf, NULL);
 		if (ntstatus == STATUS_INFO_LENGTH_MISMATCH)
 		{
 			// Buffer was too small, double its size and try again
@@ -1877,19 +1887,36 @@ gkrellm_sys_mem_init(void)
 	GetSystemInfo(&si);
 	page_size = si.dwPageSize;
 
-	hPsapi = LoadLibraryW(L"PSAPI.DLL");
+	hPsapi = LoadLibraryW(L"psapi.dll");
 	if (hPsapi)
 		{
+		gkrellm_debug(DEBUG_SYSDEP, "Loaded psapi.dll\n");
 		pGPI = (pfGetPerformanceInfo)GetProcAddress(hPsapi, "GetPerformanceInfo");
 		if (pGPI == NULL)
 			{
 			gkrellm_debug(DEBUG_SYSDEP, "No GetPerformanceInfo() in " \
-					"PSAPI.DLL, cache-memory will stay at 0!\n");
+					"psapi.dll, cache-memory will stay at 0!\n");
 			}
 		}
 	else
 		{
 		win32_warning(NULL, GetLastError(), "Could not load PSAPI.DLL");
+		}
+
+	hNtdll = LoadLibraryW(L"ntdll.dll");
+	if (hNtdll)
+		{
+		gkrellm_debug(DEBUG_SYSDEP, "Loaded ntdll.dll\n");
+		pZwQSI = (pfZwQuerySystemInformation)GetProcAddress(hNtdll, "ZwQuerySystemInformation");
+		if (pZwQSI == NULL)
+			{
+			gkrellm_debug(DEBUG_SYSDEP, "No ZwQuerySystemInformation() in " \
+					"ntdll.dll, pagefile-usage cannot be determined.\n");
+			}
+		}
+	else
+		{
+		win32_warning(NULL, GetLastError(), "Could not load ntdll.dll");
 		}
 
 	return TRUE;
@@ -1898,12 +1925,17 @@ gkrellm_sys_mem_init(void)
 static void
 gkrellm_sys_mem_cleanup(void)
 	{
+	gkrellm_debug(DEBUG_SYSDEP, "Cleanup memory monitoring\n");
 	pGPI = NULL;
 	if (hPsapi != NULL)
 		FreeLibrary(hPsapi);
 	hPsapi = NULL;
+	
+	pZwQSI = NULL;
+	if (hNtdll != NULL)
+		FreeLibrary(hNtdll);
+	hNtdll = NULL;
 	}
-
 
 
 /* ===================================================================== */
@@ -2137,6 +2169,15 @@ gboolean gkrellm_sys_inet_init(void)
 		win32_warning(NULL, GetLastError(), "Could not load Iphlpapi.dll\n");
 		}
 	return TRUE;
+	}
+static void
+gkrellm_sys_inet_cleanup(void)
+	{
+	gkrellm_debug(DEBUG_SYSDEP, "Cleanup inet port monitoring\n");
+	pfGetTcp6Table = NULL;
+	if (hIphlpapi != NULL)
+		FreeLibrary(hIphlpapi);
+	hIphlpapi = NULL;
 	}
 
 static void win32_read_tcp_data(void)

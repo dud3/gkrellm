@@ -172,7 +172,7 @@ windows: libgkrellmd.a
 		CFLAGS="${CFLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWIN32_LEAN_AND_MEAN" \
 		LINK_FLAGS="${LINK_FLAGS} -mconsole" \
 		EXTRAOBJS="${EXTRAOBJS} win32-resource.o win32-plugin.o" \
-		SYS_LIBS="-lws2_32 -lwtsapi32 -lpdh -lnetapi32 -liphlpapi -lntdll -lintl" \
+		SYS_LIBS="-lws2_32 -lwtsapi32 -lpdh -lnetapi32 -liphlpapi -lintl" \
 		gkrellmd
 
 install: install_bin install_inc install_man
