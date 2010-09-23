@@ -436,6 +436,19 @@ gkrellm_disk_units_are_blocks(void)
 	}
 
 void
+gkrellm_disk_add_by_name(const gchar *name, const gchar *label)
+	{
+	gint	order = -1;
+
+    if (NULL == name) // Cannot add disk without a name
+		return;
+    order = gkrellm_sys_disk_order_from_name(name);
+    /* FIXME: gkrellmd currently has no support for disk labels. Extend
+       network-protocol and server to support disks with both name and label. */
+    add_disk(name, order, 0, 0);
+	}
+
+void
 gkrellm_disk_assign_data_by_device(gint device_number, gint unit_number,
 			guint64 rb, guint64 wb, gboolean virtual)
 	{

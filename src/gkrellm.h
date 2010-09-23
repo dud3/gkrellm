@@ -155,7 +155,7 @@
 #define	ON				1
 #define	OFF				0
 
-#define	CFG_BUFSIZE		384
+#define	CFG_BUFSIZE		512
 
 
   /* Features

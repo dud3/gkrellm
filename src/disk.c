@@ -124,7 +124,7 @@ lookup_disk_by_device(gint major, gint minor)
 	}
 
 static DiskMon *
-lookup_disk_by_name(gchar *name)
+lookup_disk_by_name(const gchar *name)
 	{
 	DiskMon	*disk;
 	GList	*list;
@@ -146,7 +146,7 @@ lookup_disk_by_name(gchar *name)
 	}
 
 static DiskMon *
-disk_new(gchar *name, gchar *label)
+disk_new(const gchar *name, const gchar *label)
 	{
 	DiskMon	*disk;
 
@@ -161,7 +161,7 @@ disk_new(gchar *name, gchar *label)
 	}
 
 static DiskMon *
-add_disk(gchar *name, gchar *label, gint major, gint minor, gint order)
+add_disk(const gchar *name, const gchar *label, gint major, gint minor, gint order)
 	{
 	DiskMon	*disk;
 	GList	*list;
@@ -190,7 +190,7 @@ add_disk(gchar *name, gchar *label, gint major, gint minor, gint order)
 	}
 
 static DiskMon *
-add_subdisk(gchar *subdisk_name, gchar *disk_name, gint subdisk)
+add_subdisk(const gchar *subdisk_name, const gchar *disk_name, gint subdisk)
 	{
 	DiskMon	*disk, *sdisk;
 	GList	*list = NULL;
@@ -273,6 +273,22 @@ void
 gkrellm_disk_units_are_blocks(void)
 	{
 	units_are_blocks = TRUE;
+	}
+
+void
+gkrellm_disk_add_by_name(const gchar *name, const gchar *label)
+	{
+	gint	order = -1;
+
+	assign_method = DISK_ASSIGN_BY_NAME;
+	if (NULL == name) // Cannot add disk without a name
+		return;
+    if (order_from_name) // get optional order from sysdep-code
+        order = (*order_from_name)(name);
+    if (NULL != label) // label is optional and might be NULL
+        add_disk(name, label, 0, 0, order);
+    else
+        add_disk(name, name, 0, 0, order);
 	}
 
 void
@@ -957,7 +973,7 @@ load_disk_config(gchar *arg)
 	{
 	DiskMon		*disk = NULL;
 	gchar		config[32], item[CFG_BUFSIZE],
-				name[32], item1[CFG_BUFSIZE];
+				name[CFG_BUFSIZE], item1[CFG_BUFSIZE];
 	gint		major, minor, enabled, extra, order, subdisk = -1;
 	gint		n;
 	gboolean	enabled_subdisks = TRUE;
@@ -971,7 +987,7 @@ load_disk_config(gchar *arg)
 			gkrellm_locale_dup_string(&text_format, item, &text_format_locale);
 		else if (!strcmp(config, "assign_method"))
 			sscanf(item, "%d", &config_assign_method);
-		else if (sscanf(item, "%31s %[^\n]", name, item1) == 2)
+		else if (sscanf(item, "%s %[^\n]", name, item1) == 2)
 			disk = lookup_disk_by_name(name);
 
 		if (!strcmp(config, "device"))

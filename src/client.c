@@ -308,6 +308,7 @@ client_disk_line_from_server(gchar *line)
 	gint		n;
 	gboolean	virtual = FALSE;
 
+    // FIXME: Extend client and server to support disks with both name and label
 	n = sscanf(line, "%15s %31s %31s %31s", name, s1, s2, s3);
 	if (n == 4)
 		{

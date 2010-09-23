@@ -46,6 +46,9 @@ kvm_t	*kvmd = NULL;
 char	errbuf[_POSIX2_LINE_MAX];
 #endif
 
+static void gkrellm_sys_disk_cleanup(void);
+
+
 void
 gkrellm_sys_main_init(void)
 	{
@@ -65,6 +68,7 @@ gkrellm_sys_main_init(void)
 void
 gkrellm_sys_main_cleanup(void)
 	{
+    gkrellm_sys_disk_cleanup();
 	}
 
 /* ===================================================================== */
@@ -77,13 +81,13 @@ gkrellm_sys_cpu_read_data(void)
 	{
 		processor_cpu_load_info_data_t *pinfo;
 		mach_msg_type_number_t info_count;
-		int i = 0;
+		int i;
 
 		if (host_processor_info (mach_host_self (),
 						   PROCESSOR_CPU_LOAD_INFO,
 						   &n_cpus,
 						   (processor_info_array_t*)&pinfo,
-						   &info_count)) {
+						   &info_count) != KERN_SUCCESS) {
 			return;
 		}
 
@@ -109,9 +113,10 @@ gkrellm_sys_cpu_init(void)
 						  PROCESSOR_CPU_LOAD_INFO,
 						  &n_cpus,
 						  (processor_info_array_t*)&pinfo,
-						  &info_count)) {
+						  &info_count) != KERN_SUCCESS) {
 		return FALSE;
 	}
+	vm_deallocate (mach_task_self (), (vm_address_t) pinfo, info_count);
 	gkrellm_cpu_set_number_of_cpus(n_cpus);
 	return TRUE;
 	}
@@ -122,14 +127,14 @@ gkrellm_sys_cpu_init(void)
 
 #include <sys/sysctl.h>
 #include <sys/user.h>
-#define	PID_MAX		30000
 
 #ifdef HAVE_KVM_H
+#define	PID_MAX		30000
 #include <kvm.h>
 #endif
 #include <limits.h>
 #include <paths.h>
-#include <utmp.h>
+#include <utmpx.h>
 
 static int	oid_v_forks[CTL_MAXNAME + 2];
 static int	oid_v_vforks[CTL_MAXNAME + 2];
@@ -169,7 +174,10 @@ gkrellm_sys_proc_read_data(void)
 	{
 	static int	oid_proc[] = { CTL_KERN, KERN_PROC, KERN_PROC_ALL };
 	double		avenrun;
-	static u_int	n_processes, n_forks = 0, curpid = -1;
+	static u_int	n_processes, n_forks = 0;
+#ifdef HAVE_KVM_H
+	static u_int	curpid = -1;
+#endif
 	u_int		n_vforks, n_rforks;
 	gint		r_forks, r_vforks, r_rforks;
 	size_t		len;
@@ -235,33 +243,29 @@ gkrellm_sys_proc_read_data(void)
 void
 gkrellm_sys_proc_read_users(void)
 	{
-	gint		n_users;
-	struct stat	sb, s;
-	gchar		ttybuf[MAXPATHLEN];
-	FILE		*ut;
-	struct utmp	utmp;
-	static time_t	utmp_mtime;
+    struct utmpx  *utmpx_entry;
+	gchar          ttybuf[MAXPATHLEN];
+	struct stat    sb;
+    gint           n_users;
 
-	if (stat(_PATH_UTMP, &s) != 0 || s.st_mtime == utmp_mtime)
-		return;
-	if ((ut = fopen(_PATH_UTMP, "r")) != NULL)
-		{
-		n_users = 0;
-		while (fread(&utmp, sizeof(utmp), 1, ut))
-			{
-			if (utmp.ut_name[0] == '\0')
-				continue;
-			(void)snprintf(ttybuf, sizeof(ttybuf), "%s/%s",
-				       _PATH_DEV, utmp.ut_line);
-			/* corrupted record */
-			if (stat(ttybuf, &sb))
-				continue;
-			++n_users;
-			}
-		(void)fclose(ut);
-		gkrellm_proc_assign_users(n_users);
-		}
-	utmp_mtime = s.st_mtime;
+    n_users = 0;
+    setutxent();
+    while((utmpx_entry = getutxent()))
+        {
+        if (utmpx_entry->ut_type != USER_PROCESS)
+            continue; // skip other entries (reboot, runlevel changes etc.)
+        
+        (void)snprintf(ttybuf, sizeof(ttybuf), "%s/%s",
+            _PATH_DEV, utmpx_entry->ut_line);
+
+        if (stat(ttybuf, &sb))
+            continue; // tty of entry missing, no real user
+
+        ++n_users;
+        
+        }
+    endutxent();
+	gkrellm_proc_assign_users(n_users);
 	}
 
 
@@ -270,11 +274,129 @@ gkrellm_sys_proc_read_users(void)
 
 #include <CoreFoundation/CoreFoundation.h>
 #include <IOKit/IOKitLib.h>
+#include <IOKit/storage/IOBlockStorageDevice.h>
 #include <IOKit/storage/IOBlockStorageDriver.h>
-io_iterator_t       drivelist  = 0;  /* needs release */
-mach_port_t         masterPort = 0;
+#include <IOKit/storage/IOStorageDeviceCharacteristics.h>
 
-static GList	*disk_list;		/* list of names */
+
+typedef struct _GK_DISK
+	{
+    io_service_t  service;
+    io_string_t   path;
+	} GK_DARWIN_DISK;
+
+static GPtrArray *s_disk_ptr_array = NULL;
+
+
+static GK_DARWIN_DISK *
+gk_darwin_disk_new()
+{
+	return g_new0(GK_DARWIN_DISK, 1);
+}
+
+static void
+gk_darwin_disk_free(GK_DARWIN_DISK *disk)
+{
+    if (disk->service != MACH_PORT_NULL)
+        IOObjectRelease(disk->service);
+	g_free(disk);
+}
+
+static gboolean
+dict_get_int64(CFDictionaryRef dict, CFStringRef key, gint64 *value)
+{
+    CFNumberRef number_ref;
+
+    number_ref = (CFNumberRef) CFDictionaryGetValue(dict, key);
+    if ((NULL == number_ref) ||
+        !CFNumberGetValue(number_ref, kCFNumberSInt64Type, value))
+    {
+        *value = 0;
+        return FALSE;
+    }
+    return TRUE;
+}
+
+static gboolean
+dict_get_string(CFDictionaryRef dict, CFStringRef key, char *buf, size_t buf_len)
+{
+    CFStringRef string_ref;
+
+    string_ref = (CFStringRef)CFDictionaryGetValue(dict, key);
+    if ((NULL == string_ref) ||
+        !CFStringGetCString(string_ref, buf, buf_len, kCFStringEncodingUTF8))
+    {
+        buf[0] = '\0';
+        return FALSE;
+    }
+    return TRUE;
+}
+
+static gboolean
+add_storage_device(io_registry_entry_t service)
+{
+    GK_DARWIN_DISK *disk;
+    CFMutableDictionaryRef chars_dict; /* needs release */
+    gchar vendor_str[128];
+    gchar product_str[128];
+    gchar *disk_label;
+
+    gkrellm_debug(DEBUG_SYSDEP, "add_storage_device(); START\n");
+
+    disk = gk_darwin_disk_new();
+    disk->service = service;
+
+    if (IORegistryEntryGetPath(service, kIOServicePlane, disk->path)
+        != kIOReturnSuccess)
+    {
+        g_warning("Could not fetch io registry path for disk\n");
+        gk_darwin_disk_free(disk);
+        return FALSE;
+    }
+
+    chars_dict = (CFMutableDictionaryRef)IORegistryEntryCreateCFProperty(
+        service, CFSTR(kIOPropertyDeviceCharacteristicsKey),
+        kCFAllocatorDefault, 0);
+
+    if (NULL == chars_dict)
+    {
+        g_warning("Could not fetch properties for disk\n");
+        gk_darwin_disk_free(disk);
+        return FALSE;
+    }
+
+    gkrellm_debug(DEBUG_SYSDEP, "Getting vendor name\n");
+    dict_get_string(chars_dict, CFSTR(kIOPropertyVendorNameKey),
+        vendor_str, sizeof(vendor_str));
+    g_strstrip(vendor_str); // remove leading/trailing whitespace
+
+    gkrellm_debug(DEBUG_SYSDEP, "Getting product name\n");
+    dict_get_string(chars_dict, CFSTR(kIOPropertyProductNameKey),
+        product_str, sizeof(product_str));
+    g_strstrip(product_str); // remove leading/trailing whitespace
+
+    if (strlen(vendor_str) > 0)
+        disk_label = g_strdup_printf("%s %s", vendor_str, product_str);
+    else
+        disk_label = g_strdup(product_str);
+
+    gkrellm_debug(DEBUG_SYSDEP, "Adding disk '%s' with fancy label '%s'\n",
+        disk->path, disk_label);
+
+    // Add disk to internal list
+    g_ptr_array_add(s_disk_ptr_array, disk);
+
+    // Add disk to gkrellm list
+    gkrellm_disk_add_by_name(disk->path, disk_label);
+
+    /* we don't need to store the label, it is only for GUI display */
+    g_free(disk_label);
+    CFRelease(chars_dict);
+
+    gkrellm_debug(DEBUG_SYSDEP, "add_storage_device(); END\n");
+    return TRUE;
+}
+
 
 gchar *
 gkrellm_sys_disk_name_from_device(gint device_number, gint unit_number,
@@ -295,127 +417,116 @@ gkrellm_sys_disk_order_from_name(gchar *name)
 void
 gkrellm_sys_disk_read_data(void)
 {
-    io_registry_entry_t drive      = 0;  /* needs release */
-    UInt64         totalReadBytes  = 0;
-    UInt64         totalReadCount  = 0;
-    UInt64         totalWriteBytes = 0;
-    UInt64         totalWriteCount = 0;
-    kern_return_t status = 0;
-	GList		*list;
+    int i;
+    GK_DARWIN_DISK *disk;
 
-	list = disk_list; 
-    while ( (drive = IOIteratorNext(drivelist)) )
-    {
-        CFNumberRef number          = 0;  /* don't release */
-        CFDictionaryRef properties  = 0;  /* needs release */
-        CFDictionaryRef statistics  = 0;  /* don't release */
-        UInt64 value                = 0;
-    
-        /* Obtain the properties for this drive object */
-                
-        status = IORegistryEntryCreateCFProperties (drive,
-                                                    (CFMutableDictionaryRef *) &properties,
-                                                    kCFAllocatorDefault,
-                                                    kNilOptions);
-        if (properties) {
-    
-            /* Obtain the statistics from the drive properties */
-            statistics = (CFDictionaryRef) CFDictionaryGetValue(properties, CFSTR(kIOBlockStorageDriverStatisticsKey));
-    
-            if (statistics) {
-                /* Obtain the number of bytes read from the drive statistics */
-                number = (CFNumberRef) CFDictionaryGetValue (statistics,
-                                                            CFSTR(kIOBlockStorageDriverStatisticsBytesReadKey));
-                if (number) {
-                        status = CFNumberGetValue(number, kCFNumberSInt64Type, &value);
-                        totalReadBytes += value;
-                }
-                /* Obtain the number of reads from the drive statistics */
-                number = (CFNumberRef) CFDictionaryGetValue (statistics,
-                                                            CFSTR(kIOBlockStorageDriverStatisticsReadsKey));
-                if (number) {
-                        status = CFNumberGetValue(number, kCFNumberSInt64Type, &value);
-                        totalReadCount += value;
-                }
-    
-                /* Obtain the number of writes from the drive statistics */
-                number = (CFNumberRef) CFDictionaryGetValue (statistics,
-                                                            CFSTR(kIOBlockStorageDriverStatisticsWritesKey));
-                if (number) {
-                        status = CFNumberGetValue(number, kCFNumberSInt64Type, &value);
-                        totalWriteCount += value;
-                }
-                /* Obtain the number of bytes written from the drive statistics */
-                number = (CFNumberRef) CFDictionaryGetValue (statistics,
-                                                            CFSTR(kIOBlockStorageDriverStatisticsBytesWrittenKey));
-                if (number) {
-                        status = CFNumberGetValue(number, kCFNumberSInt64Type, &value);
-                        totalWriteBytes += value;
-                }
-                /* Release resources */
-                CFRelease(properties); properties = 0;
-            }
+	for (i = 0; i < s_disk_ptr_array->len; i++)
+        {
+        io_registry_entry_t storage_driver; /* needs release */
+        CFDictionaryRef storage_driver_stats; /* needs release */
+        gint64 bytes_read;
+        gint64 bytes_written;
+
+		disk = (GK_DARWIN_DISK *)g_ptr_array_index(s_disk_ptr_array, i);
+
+        //gkrellm_debug(DEBUG_SYSDEP, "Fetching disk stats for '%s'\n", disk->path);
+
+        /* get subitem of device, has to be some kind of IOStorageDriver */
+        if (IORegistryEntryGetChildEntry(disk->service, kIOServicePlane,
+            &storage_driver) != kIOReturnSuccess)
+        {
+            gkrellm_debug(DEBUG_SYSDEP,
+                "No driver child found in storage device, skipping disk '%s'\n",
+                disk->path);
+            // skip devices that have no driver child
+            continue;
         }
-        IOObjectRelease(drive); drive = 0;
 
-		if (list)
-			{
-			gkrellm_disk_assign_data_by_name((gchar *) list->data,
-					totalReadCount, totalWriteCount, FALSE);
-	        list = list->next;
-			}
-        
-    }
-    IOIteratorReset(drivelist);
+        storage_driver_stats = IORegistryEntryCreateCFProperty(storage_driver,
+            CFSTR(kIOBlockStorageDriverStatisticsKey), kCFAllocatorDefault, 0);
+
+        if (NULL == storage_driver_stats)
+        {
+            gkrellm_debug(DEBUG_SYSDEP,
+                "No statistics dict found in storage driver, skipping disk '%s'\n",
+                disk->path);
+            CFRelease(storage_driver_stats);
+            IOObjectRelease(storage_driver);
+            continue;
+        }
+
+        /* Obtain the number of bytes read/written from the drive statistics */
+        if (dict_get_int64(storage_driver_stats,
+                CFSTR(kIOBlockStorageDriverStatisticsBytesReadKey), &bytes_read)
+            &&
+            dict_get_int64(storage_driver_stats,
+                CFSTR(kIOBlockStorageDriverStatisticsBytesWrittenKey), &bytes_written)
+           )
+        {
+            gkrellm_disk_assign_data_by_name(disk->path, bytes_read,
+                bytes_written, FALSE);
+        }
+        else
+        {
+            gkrellm_debug(DEBUG_SYSDEP,
+                "could not fetch read/write stats for disk '%s'\n",
+                disk->path);
+        }
+
+        CFRelease(storage_driver_stats);
+        IOObjectRelease(storage_driver);
+    } // for()
 }
 
 gboolean
 gkrellm_sys_disk_init(void)
     {
-    io_registry_entry_t drive      = 0;  /* needs release */
-    io_registry_entry_t child      = 0;  /* needs release */
-    
-    /* get ports and services for drive stats */
-    /* Obtain the I/O Kit communication handle */
-    if (IOMasterPort(MACH_PORT_NULL, &masterPort)) return FALSE;
+    /* needs release */
+    io_iterator_t iter = MACH_PORT_NULL;
 
-    /* Obtain the list of all drive objects */
-    if (IOServiceGetMatchingServices(masterPort,
-				     IOServiceMatching("IOBlockStorageDriver"),
-				     &drivelist))
-      return FALSE;
+    /* needs release (if add_storage_device() failed) */
+    io_service_t service = MACH_PORT_NULL;
 
-    while ( (drive = IOIteratorNext(drivelist)) )
-    {
-        gchar * name = malloc(128); /* io_name_t is char[128] */
-	kern_return_t status = 0;
-        int ptr = 0;
-   		
-   		if(!name) return FALSE;
-   		
-        /* Obtain the properties for this drive object */           
-	status = IORegistryEntryGetChildEntry(drive, kIOServicePlane, &child );
+    gkrellm_debug(DEBUG_SYSDEP, "gkrellm_sys_disk_init();\n");
 
-        if(!status)
-	status = IORegistryEntryGetName(child, name );
+    s_disk_ptr_array = g_ptr_array_new();
 
-        /* Convert spaces to underscores, for prefs safety */
-        if(!status)
+    if (IOServiceGetMatchingServices(kIOMasterPortDefault,
+        IOServiceMatching(kIOBlockStorageDeviceClass),
+        &iter) == kIOReturnSuccess)
         {
-            for(ptr = 0; ptr < strlen(name); ptr++) 
+        while ((service = IOIteratorNext(iter)) != MACH_PORT_NULL)
             {
-                if(name[ptr] == ' ') 
-                    name[ptr] = '_';
+            if (!add_storage_device(service))
+                IOObjectRelease(service);
             }
-            disk_list = g_list_append(disk_list, name);
+        IOObjectRelease(iter);
         }
-        IOObjectRelease(drive); drive = 0;
+
+	gkrellm_debug(DEBUG_SYSDEP,
+        "gkrellm_sys_disk_init(); Found %u disk(s) for monitoring.\n",
+		s_disk_ptr_array->len);
+
+	return (s_disk_ptr_array->len == 0 ? FALSE : TRUE);
     }
-    IOIteratorReset(drivelist);
-    
-    return (disk_list != NULL) ? TRUE : FALSE;
+
+static void
+gkrellm_sys_disk_cleanup(void)
+{
+	guint i;
+
+    if (NULL == s_disk_ptr_array)
+		return;
+    gkrellm_debug(DEBUG_SYSDEP,
+        "gkrellm_sys_disk_cleanup() Freeing counters for %u disk(s)\n",
+		s_disk_ptr_array->len);
+	for (i = 0; i < s_disk_ptr_array->len; i++)
+		gk_darwin_disk_free(g_ptr_array_index(s_disk_ptr_array, i));
+	g_ptr_array_free(s_disk_ptr_array, TRUE);
 }
 
+/* ===================================================================== */
+/* Inet monitor interface */
 
 #include "../inet.h"
 
@@ -441,8 +552,6 @@ gkrellm_sys_disk_init(void)
 #include <netinet/udp_var.h>
 #include <sys/types.h>
 
-#define warn(x...) fprintf(stderr,x)
- 
  void
  gkrellm_sys_inet_read_tcp_data(void)
 {
@@ -456,15 +565,15 @@ gkrellm_sys_disk_init(void)
 	size_t len=0;
 	if (sysctlbyname(mibvar, 0, &len, 0, 0) < 0) {
 		if (errno != ENOENT)
-			warn("sysctl: %s", mibvar);
+			g_warning("sysctl: %s\n", mibvar);
 		return;
 	}        
 	if ((buf = malloc(len)) == 0) {
-		warn("malloc %lu bytes", (u_long)len);
+		g_warning("malloc %lu bytes\n", (u_long)len);
 		return;
  	}
 	if (sysctlbyname(mibvar, buf, &len, 0, 0) < 0) {
-		warn("sysctl: %s", mibvar);
+		g_warning("sysctl: %s\n", mibvar);
 		free(buf);
 		return;
 	}

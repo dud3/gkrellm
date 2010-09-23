@@ -162,6 +162,7 @@ gint	gkrellm_sys_disk_order_from_name(gchar *name);
 
 void	gkrellm_disk_client_divert(void (*read_func)(),
 			gchar *(*name_from_device_func)(), gint (*order_from_name_func)());
+void    gkrellm_disk_add_by_name(const gchar *name, const gchar *label);
 void	gkrellm_disk_assign_data_by_device(gint device_number,
 				gint unit_number, guint64 r, guint64 w, gboolean virtual);
 void	gkrellm_disk_assign_data_nth(gint n, guint64 r, guint64 w,

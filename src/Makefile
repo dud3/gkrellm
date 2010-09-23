@@ -138,33 +138,36 @@ else
 	$(MAKE) EXTRAOBJS= SYS_LIBS="-lkvm -ldevstat -lmd" gkrellm
 endif
 
+# Darwin target for systems that still have libkvm
 darwin: 
 ifeq ($(HAVE_SSL),1)
-	$(MAKE) GTK_CONFIG=gtk-config STRIP= \
-		EXTRAOBJS= SYS_LIBS="-lkvm" \
+	$(MAKE) STRIP= HAVE_GETADDRINFO=1 \
+		EXTRAOBJS= \
+		SYS_LIBS="-framework CoreFoundation -framework IOKit -lkvm" \
+		LINK_FLAGS="-Wl,-bind_at_load" \
 		gkrellm
 else
-	$(MAKE) GTK_CONFIG=gtk-config STRIP= \
-		EXTRAOBJS= SYS_LIBS="-lkvm -lmd5" \
+	$(MAKE) STRIP= HAVE_GETADDRINFO=1 \
+		EXTRAOBJS= \
+		SYS_LIBS="-framework CoreFoundation -framework IOKit -lkvm -lmd5" \
+		LINK_FLAGS="-Wl,-bind_at_load" \
 		gkrellm
 endif
 
+# Mac OS X target with X11-based Gtk+
 darwin9: 
-ifeq ($(HAVE_SSL),1)
-	$(MAKE) GTK_CONFIG=gtk-config STRIP= \
-		EXTRAOBJS= SYS_LIBS="" \
+	$(MAKE) STRIP= HAVE_GETADDRINFO=1 \
+		EXTRAOBJS= \
+		SYS_LIBS="-framework CoreFoundation -framework IOKit" \
+		LINK_FLAGS="-Wl,-bind_at_load" \
 		gkrellm
-else
-	$(MAKE) GTK_CONFIG=gtk-config STRIP= \
-		EXTRAOBJS= SYS_LIBS="-lmd5" \
-		gkrellm
-endif
 
+# Mac OS X target with Quartz-based Gtk+ (experimental)
 macosx: 
 	$(MAKE) STRIP= HAVE_GETADDRINFO=1 \
 		EXTRAOBJS="winops-gtk-mac.o" \
-		LINK_FLAGS="-Wl,-bind_at_load -framework CoreFoundation" \
-		SYS_LIBS="-lkvm -framework IOKit" \
+		SYS_LIBS="-framework CoreFoundation -framework IOKit" \
+		LINK_FLAGS="-Wl,-bind_at_load" \
 		X11_LIBS="" \
 		UNIXOBJS="" \
  		gkrellm
@@ -179,7 +182,7 @@ netbsd2:
 		gkrellm
 
 openbsd:
-	$(MAKE) GTK_CONFIG=gtk-config GTOP_LIBS= SYS_LIBS="-lkvm -pthread" gkrellm
+	$(MAKE) GTOP_LIBS= SYS_LIBS="-lkvm -pthread" gkrellm
 
 solaris:
 	$(MAKE) CFLAGS="-Wno-implicit-int" \

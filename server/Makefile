@@ -124,28 +124,29 @@ static: $(OBJS) $(EXTRAOBJS)
 		$(LDFLAGS) $(LIBS) $(LINK_FLAGS)
 
 freebsd2:
-	$(MAKE) GTK_CONFIG=gtk12-config \
-		EXTRAOBJS= SYS_LIBS="-lkvm -lmd" gkrellmd
+	$(MAKE) EXTRAOBJS= SYS_LIBS="-lkvm -lmd" gkrellmd
 
 freebsd3 freebsd:
-	$(MAKE) GTK_CONFIG=gtk12-config \
-		EXTRAOBJS= SYS_LIBS="-lkvm -ldevstat -lmd" gkrellmd
+	$(MAKE) EXTRAOBJS= SYS_LIBS="-lkvm -ldevstat -lmd" gkrellmd
 
+# Darwin target for systems that still have libkvm
 darwin: 
-	$(MAKE) GTK_CONFIG=gtk-config STRIP= \
-		EXTRAOBJS= SYS_LIBS="-lkvm -lmd5" \
-		LINK_FLAGS="-flat_namespace -undefined warning" gkrellmd
-
-darwin9: 
-	$(MAKE) GTK_CONFIG=gtk-config STRIP= \
-		EXTRAOBJS= SYS_LIBS="-lmd5" \
-		LINK_FLAGS="-flat_namespace -undefined warning" gkrellmd
-
-macosx: 
 	$(MAKE) STRIP= HAVE_GETADDRINFO=1 \
-		EXTRAOBJS= SYS_LIBS="-lkvm" \
-		LINK_FLAGS="-flat_namespace -undefined warning" \
+		EXTRAOBJS= \
+		SYS_LIBS="-framework CoreFoundation -framework IOKit -lkvm" \
+		LINK_FLAGS="-Wl,-bind_at_load" \
 		gkrellmd
+
+# Darwin 9.x and newer (OS X > 10.4) do not have libkvm, build without it
+darwin9: 
+	$(MAKE) STRIP= HAVE_GETADDRINFO=1 \
+		EXTRAOBJS= \
+		SYS_LIBS="-framework CoreFoundation -framework IOKit" \
+		LINK_FLAGS="-Wl,-bind_at_load" \
+		gkrellmd
+
+# Same as darwin9
+macosx: darwin9
 
 netbsd1:
 	$(MAKE) EXTRAOBJS= SYS_LIBS="-lkvm" gkrellmd

@@ -11,8 +11,12 @@
 #	make netbsd2
 # For OpenBSD
 #	make openbsd
-# For Darwin / Mac OS X
-#   make darwin
+# For Darwin < 9.0 / Mac OS X < 10.4
+# 	make darwin
+# For newer Darwin systems
+# 	make darwin9
+# For Mac OS X with Quartz-based Gtk+ (experimental)
+# 	make macosx
 # For Solaris 2.x (8 tested so far):
 #	make solaris
 # For libgtop if you have version 1.1.x installed:
@@ -211,25 +215,13 @@ freebsd3 freebsd4 freebsd5 freebsd: gkrellm.pc
 
 darwin: gkrellm.pc
 	(cd po && ${MAKE} all)
-	(cd src && ${MAKE} GTK_CONFIG=gtk-config STRIP= HAVE_GETADDRINFO=1 \
-		EXTRAOBJS= SYS_LIBS="-lkvm -framework IOKit" \
-		LINK_FLAGS="-prebind -Wl,-bind_at_load -framework CoreFoundation -lX11" \
-		gkrellm )
-	(cd server && ${MAKE} GTK_CONFIG=gtk-config STRIP= HAVE_GETADDRINFO=1 \
-		EXTRAOBJS= SYS_LIBS="-lkvm -framework IOKit" \
-		LINK_FLAGS="-prebind -Wl,-bind_at_load -framework CoreFoundation" \
-		gkrellmd )
+	(cd src && ${MAKE} darwin)
+	(cd server && ${MAKE} darwin)
 
 darwin9: gkrellm.pc
 	(cd po && ${MAKE} all)
-	(cd src && ${MAKE} GTK_CONFIG=gtk-config STRIP= HAVE_GETADDRINFO=1 \
-		EXTRAOBJS= SYS_LIBS="-framework IOKit" \
-		LINK_FLAGS="-prebind -Wl,-bind_at_load -framework CoreFoundation -lX11" \
-		gkrellm )
-	(cd server && ${MAKE} GTK_CONFIG=gtk-config STRIP= HAVE_GETADDRINFO=1 \
-		EXTRAOBJS= SYS_LIBS="-framework IOKit" \
-		LINK_FLAGS="-prebind -Wl,-bind_at_load -framework CoreFoundation" \
-		gkrellmd )
+	(cd src && ${MAKE} darwin9)
+	(cd server && ${MAKE} darwin9)
 
 macosx: gkrellm.pc
 	(cd po && ${MAKE} all)
