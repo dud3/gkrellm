@@ -1854,7 +1854,7 @@ usage()
 	gint	i;
 
 	for (i = 0; i < (sizeof(usage_string) / sizeof(gchar *)); ++i)
-		g_print(_(usage_string[i]));
+		g_print("%s", _(usage_string[i]));
 #endif
 	}
 
