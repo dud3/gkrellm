@@ -408,7 +408,7 @@ gkrellm_sys_disk_name_from_device(gint device_number, gint unit_number,
 
 #if __FreeBSD_version < 300000
 gint
-gkrellm_sys_disk_order_from_name(gchar *name)
+gkrellm_sys_disk_order_from_name(const gchar *name)
 	{
 	return 0;	/* Not implemented */
 	}
@@ -464,7 +464,7 @@ gkrellm_sys_disk_init(void)
 #endif
 
 gint
-gkrellm_sys_disk_order_from_name(gchar *name)
+gkrellm_sys_disk_order_from_name(const gchar *name)
 	{
 	return -1;	/* Append as added */
 	}

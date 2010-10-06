@@ -406,7 +406,7 @@ gkrellm_sys_disk_name_from_device(gint device_number, gint unit_number,
 	}
 
 gint
-gkrellm_sys_disk_order_from_name(gchar *name)
+gkrellm_sys_disk_order_from_name(const gchar *name)
 	{
 	/* implement this if you want disk charts to show up in a particular
 	|  order in gkrellm.

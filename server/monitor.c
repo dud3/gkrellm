@@ -349,7 +349,7 @@ static gboolean	units_are_blocks;
 
 
 static DiskData *
-add_disk(gchar *name, gint order, gint device_number, gint unit_number)
+add_disk(const gchar *name, gint order, gint device_number, gint unit_number)
 	{
 	DiskData	*disk;
 	GList		*list;

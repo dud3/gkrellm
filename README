@@ -443,7 +443,9 @@ sensor values for your motherboard).
 
 For lm_sensors to be used, gkrellm must be compiled with libsensors support.
 It will be if the libsensors development package is installed when gkrellm
-is compiled.
+is compiled.  Using libsensors is the preferred interface on Linux since it is
+the only interface that will be up to date on supporting correct voltage
+scaling factors and offsets for recent sensor chips. 
 
 If the mbmon daemon is used, it must be started before gkrellm like so:
 

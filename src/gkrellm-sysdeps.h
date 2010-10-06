@@ -158,7 +158,7 @@ gboolean gkrellm_sys_disk_init(void);
 void	gkrellm_sys_disk_read_data(void);
 gchar	*gkrellm_sys_disk_name_from_device(gint device_number,
 				gint unit_number, gint *order);
-gint	gkrellm_sys_disk_order_from_name(gchar *name);
+gint	gkrellm_sys_disk_order_from_name(const gchar *name);
 
 void	gkrellm_disk_client_divert(void (*read_func)(),
 			gchar *(*name_from_device_func)(), gint (*order_from_name_func)());

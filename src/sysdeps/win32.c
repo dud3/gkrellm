@@ -1340,7 +1340,7 @@ gchar *gkrellm_sys_disk_name_from_device(gint device_number, gint unit_number,
 	return name;
 }
 
-gint gkrellm_sys_disk_order_from_name(gchar *name)
+gint gkrellm_sys_disk_order_from_name(const gchar *name)
 {
 	return 0; // Disk by name not implemented in Windows
 }

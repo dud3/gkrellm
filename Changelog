@@ -2,7 +2,11 @@ GKrellM Changelog
 -----------------
 2.3.5 - Not released
 ------------------------
-	* Patch from Stefan Gehn:
+	* Linux sensors: check for /sys/class/thermal/thermal_zone[0-*].
+	* Patch from Simon de Hartog: Add Linux net monitor checking for
+	  IPv6 routes.
+	* Patches from Stefan Gehn:
+	    - Use dynamic buffering to handle large disk names from a Mac gkrellmd.
 	    - Clean up debug printing by using gkrellm_debug(), g_message(),
 	      g_debug(), g_warning().
 	    - Replace sprintf() calls with snprintf().

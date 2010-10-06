@@ -458,7 +458,7 @@ gkrellm_sys_disk_name_from_device(gint device_number, gint unit_number,
 	}
 
 gint
-gkrellm_sys_disk_order_from_name(gchar *name)
+gkrellm_sys_disk_order_from_name(const gchar *name)
 	{
 	struct _disk_name_map	*dm, *dm_next;
 	gint		i, len, table_size;
@@ -886,6 +886,7 @@ gkrellm_sys_inet_init(void)
 
 #define	PROC_NET_DEV_FILE	"/proc/net/dev"
 #define	PROC_NET_ROUTE_FILE	"/proc/net/route"
+#define	PROC_NET_IPV6ROUTE_FILE	"/proc/net/ipv6_route"
 
 typedef struct
 	{
@@ -906,11 +907,13 @@ static gint			rx_bytes_index,
 void
 gkrellm_sys_net_check_routes(void)
 	{
-	static FILE		*f;
+	static FILE		*f=NULL;
+	static FILE		*f6=NULL;
 	GList			*list;
 	NetUp			*net;
 	gchar			*s;
 	gchar			buf[512];
+	gint			i;
 
 
 	for (list = net_routed_list; list; list = list->next)
@@ -945,6 +948,43 @@ gkrellm_sys_net_check_routes(void)
 			}
 		rewind(f);
 		}
+	
+	if (f6 || (f6 = fopen(PROC_NET_IPV6ROUTE_FILE, "r")) != NULL)
+		{
+		while (fgets(buf, sizeof(buf), f6))
+			{
+			if ( strtok(buf, " \t\n") == NULL) continue;	/* Extract first field */
+
+			/* Extract the nineth field on the line, i.e., the name of the device */
+			for (i = 1; i <= 9 && (s = strtok(NULL, " \t\n")) != NULL; i++);
+
+			/* If i is not 10, strtok failed prematurely */
+			if (i != 10) continue;
+
+			if ( !strncmp(s, "dummy", 5)
+				|| (*s == '*' && *(s+1) == '\0')
+			   )
+				continue;
+			for (list = net_routed_list; list; list = list->next)
+				{
+				net = (NetUp *) list->data;
+				if (!strcmp(net->name, s))
+					{
+					net->cur_up = TRUE;
+					break;
+					}
+				}
+			if (!list)
+				{
+				net = g_new0(NetUp, 1);
+				net_routed_list = g_list_append(net_routed_list, net);
+				net->name = g_strdup(s);
+				net->cur_up = TRUE;
+				}
+			}
+		rewind(f6);
+		}
+
 	for (list = net_routed_list; list; list = list->next)
 		{
 		net = (NetUp *) list->data;
@@ -2287,6 +2327,7 @@ gkrellm_sys_uptime_init(void)
 
 #define	THERMAL_ZONE_DIR	"/proc/acpi/thermal_zone"
 #define	THERMAL_DIR			"/proc/acpi/thermal"
+#define	SYS_THERMAL_DIR		"/sys/class/thermal"
 #define	SENSORS_DIR			"/proc/sys/dev/sensors"
 #define SYSFS_I2C_DIR		"/sys/bus/i2c/devices"
 #define SYSFS_HWMON_DIR		"/sys/class/hwmon"
@@ -2303,6 +2344,7 @@ gkrellm_sys_uptime_init(void)
 #define IBM_ACPI_INTERFACE			6
 #define UNINORTH_INTERFACE			7
 #define WINDFARM_INTERFACE			8
+#define	SYS_THERMAL_INTERFACE		9
 
 #define IBM_ACPI_FAN_FILE	"/proc/acpi/ibm/fan"
 #define IBM_ACPI_THERMAL	"/proc/acpi/ibm/thermal"
@@ -2975,6 +3017,26 @@ gkrellm_sys_sensors_get_temperature(gchar *sensor_path, gint id,
 	gint		n;
 	gfloat		T, t[5],ibm_acpi_temp[8];
 	gboolean	result = FALSE;
+
+	if (   interface == SYS_THERMAL_INTERFACE)
+		{
+		f = fopen(sensor_path, "r");
+		if (f)
+			{
+			while (fgets(buf, sizeof(buf), f) != NULL)
+				{
+				if (need_locale_fix)
+					locale_fix(buf);
+				if ((n = sscanf(buf, "%f", &T)) > 0)
+					{
+					*temp = T / 1000.0;	/* Units from file are millidegree */
+					result = TRUE;
+					}
+				}
+			fclose(f);
+			}
+		return result;
+		}
 
 	if (   interface == THERMAL_INTERFACE
 	    || interface == THERMAL_ZONE_INTERFACE
@@ -3691,6 +3753,24 @@ gkrellm_sys_sensors_init(void)
 							path, id_name,
 							id, 0, THERMAL_INTERFACE,
 							1.0, 0.0, NULL, name);
+				}
+			g_free(path);
+			}
+		g_dir_close(dir);
+		}
+
+	if ((dir = g_dir_open(SYS_THERMAL_DIR, 0, NULL)) != NULL)
+		{
+		while ((name = (gchar *) g_dir_read_name(dir)) != NULL)
+			{
+			path = g_build_filename(SYS_THERMAL_DIR, name, "temp", NULL);
+			if (g_file_test(path, G_FILE_TEST_IS_REGULAR))
+				{
+				snprintf(id_name, sizeof(id_name), "%s", name);
+				gkrellm_sensors_add_sensor(SENSOR_TEMPERATURE,
+							path, id_name,
+							id, 0, SYS_THERMAL_INTERFACE,
+							1.0, 0.0, NULL, "temp");
 				}
 			g_free(path);
 			}

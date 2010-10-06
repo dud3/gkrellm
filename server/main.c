@@ -502,7 +502,7 @@ allow_host(GkrellmdClient *client, struct sockaddr *sa, socklen_t salen)
 
 	snprintf(buf, sizeof(buf), _("Connection not allowed from %s\n"),
 			hostname ? hostname : addr);
-	g_warning("%s", buf),
+	g_warning("%s", buf);
 	gkrellmd_send_to_client(client, "<error>\n");
 	gkrellmd_send_to_client(client, buf);
 	return FALSE;

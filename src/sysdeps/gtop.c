@@ -116,7 +116,7 @@ gkrellm_sys_disk_name_from_device(gint major, gint minor,gint *order)
 	}
 
 gint
-gkrellm_sys_disk_order_from_name(gchar *name)
+gkrellm_sys_disk_order_from_name(const gchar *name)
 	{
 	return -1;
 	}
