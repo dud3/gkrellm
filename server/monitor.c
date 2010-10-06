@@ -571,7 +571,7 @@ serve_disk_data(GkrellmdMonitor *mon, gboolean first_serve)
 	{
 	DiskData	*disk;
 	GList		*list;
-	gchar		buf[128];
+	gchar		*buf = NULL;
 
 	gkrellmd_set_serve_name(mon, "disk");
 	for (list = disk_list; list; list = list->next)
@@ -582,18 +582,20 @@ serve_disk_data(GkrellmdMonitor *mon, gboolean first_serve)
 		if (!disk->subdisk_parent)
 			{
 			if (gkrellmd_check_client_version(mon, 2, 2, 7) && disk->virtual)
-				snprintf(buf, sizeof(buf), "%s virtual %" PRIu64 " %" PRIu64 "\n",
+                buf = g_strdup_printf("%s virtual %" PRIu64 " %" PRIu64 "\n",
 							disk->name, disk->rb, disk->wb);
 			else
-				snprintf(buf, sizeof(buf), "%s %" PRIu64 " %" PRIu64 "\n",
+				buf = g_strdup_printf("%s %" PRIu64 " %" PRIu64 "\n",
 							disk->name, disk->rb, disk->wb);
 			}
 		else if (mon->privat->client->feature_subdisk)
-			snprintf(buf, sizeof(buf), "%s %s %" PRIu64 " %" PRIu64 "\n",
+			buf = g_strdup_printf("%s %s %" PRIu64 " %" PRIu64 "\n",
 						disk->name, disk->subdisk_parent, disk->rb, disk->wb);
 		else
 			continue;
 		gkrellmd_serve_data(mon, buf);
+        g_free(buf);
+        buf = NULL;
 		}
 	}
 

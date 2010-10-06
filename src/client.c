@@ -102,7 +102,7 @@ static gint		client_input_id,
 				client_fd;
 static gboolean	server_alive;
 
-static gchar	server_buf[4097];
+static gchar	server_buf[4097]; /* TODO: Use dynamic receive buffer */
 static gint		buf_index;
 
 static gchar	locale_decimal_point;
@@ -303,13 +303,17 @@ client_disk_line_from_server(gchar *line)
 	{
 	DiskData	*disk = NULL;
 	GList		*list;
-	gchar		name[16], s1[32], s2[32], s3[32];
+	gchar		*name;
+	gchar		s1[32], s2[32], s3[32];
 	guint64		rblk, wblk;
 	gint		n;
 	gboolean	virtual = FALSE;
 
-    // FIXME: Extend client and server to support disks with both name and label
-	n = sscanf(line, "%15s %31s %31s %31s", name, s1, s2, s3);
+	g_assert(line != NULL);
+	name = g_malloc(strlen(line) * sizeof(gchar));
+
+    /* FIXME: Extend client and server to support disks with both name and label */
+	n = sscanf(line, "%s %31s %31s %31s", name, s1, s2, s3);
 	if (n == 4)
 		{
 		if (   gkrellm_client_check_server_version(2, 2, 7)
@@ -329,15 +333,22 @@ client_disk_line_from_server(gchar *line)
 		s1[0] = '\0';
 		}
 	else
+		{
+		g_warning("Invalid disk line received from server: \"%s\"", line);
+		g_free(name);
 		return;
+		}
+
 	for (list = disk_list; list; list = list->next)
 		{
+		/* Search disk in list */
 		disk = (DiskData *) list->data;
 		if (!strcmp(disk->name, name))
 			break;
 		}
 	if (!list)
 		{
+		/* Disk wasn't found, create new disk and add to list */
 		disk = g_new0(DiskData, 1);
 		disk->name = g_strdup(name);
 		if (s1[0])		/* I expect server to send in order */
@@ -346,10 +357,12 @@ client_disk_line_from_server(gchar *line)
 		}
 	if (disk)
 		{
+		/* Assign parsed data to disk */
 		disk->rblk = rblk;
 		disk->wblk = wblk;
 		disk->virtual = virtual;
 		}
+	g_free(name);
 	}
 
 static void
@@ -1620,6 +1633,7 @@ KeyTable	update_table[] =
 
 
 
+/* TODO: Port to GInputStream */
 static gint
 gkrellm_getline(gint fd, gchar *buf, gint len)
 	{
@@ -1649,7 +1663,7 @@ gkrellm_getline(gint fd, gchar *buf, gint len)
 		}
 	if (nread < 0 && errno != EINTR)
 		{
-		fprintf(stderr, "Broken server connection\n");
+		g_warning("Broken server connection\n");
 		exit(0);
 		}
 	gkrellm_debug(DEBUG_CLIENT, "%s\n", buf);
@@ -1698,7 +1712,7 @@ process_server_line(KeyTable *table, gint table_size, gchar *line)
 static gboolean
 read_server_setup(gint fd)
 	{
-	gchar			buf[256];
+	gchar			buf[4097]; /* TODO: Use dynamic receive buffer */
 	gint			table_size;
 
 	gkrellm_debug(DEBUG_CLIENT, "read_server_setup()\n");
