@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gkrellm\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-14 11:48-0500\n"
+"POT-Creation-Date: 2010-10-07 10:00-0500\n"
 "PO-Revision-Date: 2003-03-07 22:56+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -188,7 +188,7 @@ msgstr ""
 # src/cpu.c:1296 src/disk.c:1444 src/inet.c:2129 src/meminfo.c:1649 src/net.c:2229 src/proc.c:1023
 # src/cpu.c:1325 src/disk.c:1448 src/inet.c:2123 src/meminfo.c:1668
 # src/net.c:2230 src/proc.c:1024
-#: ../src/battery.c:1136 ../src/cpu.c:1284 ../src/disk.c:1344 ../src/fs.c:2494
+#: ../src/battery.c:1136 ../src/cpu.c:1284 ../src/disk.c:1360 ../src/fs.c:2494
 #: ../src/mem.c:1281 ../src/net.c:2934 ../src/proc.c:904 ../src/sensors.c:2698
 msgid "Substitution variables may be used in alert commands.\n"
 msgstr "Ersättningsvariabler kan användas i varningskommandon.\n"
@@ -262,7 +262,7 @@ msgstr ""
 # src/gui.c:760 src/mail.c:2612 src/meminfo.c:1715 src/proc.c:1047
 # src/uptime.c:338
 #: ../src/battery.c:1164 ../src/clock.c:714 ../src/cpu.c:1307
-#: ../src/disk.c:1369 ../src/fs.c:2532 ../src/gui.c:1063 ../src/gui.c:1926
+#: ../src/disk.c:1385 ../src/fs.c:2532 ../src/gui.c:1063 ../src/gui.c:1926
 #: ../src/mail.c:4243 ../src/mem.c:1307 ../src/proc.c:918
 #: ../src/sensors.c:2836 ../src/sensors.c:2871 ../src/uptime.c:277
 msgid "Options"
@@ -271,7 +271,7 @@ msgstr "Alternativ"
 # src/clock.c:389 src/clock.c:393 src/plugins.c:1404
 # src/clock.c:389 src/clock.c:393 src/plugins.c:1407
 #: ../src/battery.c:1169 ../src/clock.c:720 ../src/clock.c:739
-#: ../src/disk.c:1382 ../src/plugins.c:1746 ../src/sensors.c:2768
+#: ../src/disk.c:1398 ../src/plugins.c:1746 ../src/sensors.c:2768
 msgid "Enable"
 msgstr "Använd"
 
@@ -314,7 +314,7 @@ msgstr "Sekunder mellan uppdateringar"
 # src/inet.c:2310 src/mail.c:2450 src/meminfo.c:1731 src/net.c:2346
 # src/proc.c:1045 src/sensors.c:2144 src/uptime.c:336
 #: ../src/battery.c:1222 ../src/clock.c:755 ../src/cpu.c:1358
-#: ../src/disk.c:1415 ../src/fs.c:2529 ../src/inet.c:2011 ../src/mail.c:3932
+#: ../src/disk.c:1431 ../src/fs.c:2529 ../src/inet.c:2011 ../src/mail.c:3932
 #: ../src/mem.c:1346 ../src/net.c:3075 ../src/proc.c:958 ../src/sensors.c:2737
 #: ../src/uptime.c:274
 msgid "Setup"
@@ -325,7 +325,7 @@ msgstr "Inställningar"
 # src/inet.c:2329 src/meminfo.c:1785 src/net.c:2338 src/proc.c:1071
 # src/uptime.c:343
 #: ../src/battery.c:1225 ../src/clock.c:782 ../src/cpu.c:1389
-#: ../src/disk.c:1437 ../src/inet.c:2041 ../src/mem.c:1418 ../src/net.c:3063
+#: ../src/disk.c:1453 ../src/inet.c:2041 ../src/mem.c:1418 ../src/net.c:3063
 #: ../src/proc.c:977 ../src/uptime.c:285
 msgid "Launch Commands"
 msgstr "Starta kommandon"
@@ -339,7 +339,7 @@ msgstr ""
 # src/gui.c:1553 src/inet.c:2341 src/mail.c:2660 src/meminfo.c:1793
 # src/net.c:2366 src/proc.c:1077 src/sensors.c:2289
 #: ../src/battery.c:1251 ../src/clock.c:790 ../src/cpu.c:1412
-#: ../src/disk.c:1451 ../src/fs.c:2574 ../src/gui.c:1173 ../src/gui.c:2007
+#: ../src/disk.c:1467 ../src/fs.c:2574 ../src/gui.c:1173 ../src/gui.c:2007
 #: ../src/inet.c:2054 ../src/mail.c:4311 ../src/mem.c:1436 ../src/net.c:3105
 #: ../src/proc.c:989 ../src/sensors.c:2917
 msgid "Info"
@@ -580,7 +580,7 @@ msgstr "Procent användning"
 # src/cpu.c:1295 src/disk.c:1443 src/gui.c:716 src/inet.c:2128 src/meminfo.c:1648 src/net.c:2228 src/proc.c:1022
 # src/cpu.c:1324 src/disk.c:1447 src/gui.c:712 src/inet.c:2122
 # src/meminfo.c:1667 src/net.c:2229 src/proc.c:1023
-#: ../src/cpu.c:1276 ../src/disk.c:1336 ../src/gui.c:1010 ../src/inet.c:1812
+#: ../src/cpu.c:1276 ../src/disk.c:1352 ../src/gui.c:1010 ../src/inet.c:1812
 #: ../src/mem.c:1254 ../src/net.c:2918 ../src/proc.c:895
 msgid "<h>Chart Labels\n"
 msgstr "<h>Diagrametiketter\n"
@@ -588,7 +588,7 @@ msgstr "<h>Diagrametiketter\n"
 # src/cpu.c:1296 src/disk.c:1444 src/inet.c:2129 src/meminfo.c:1649 src/net.c:2229 src/proc.c:1023
 # src/cpu.c:1325 src/disk.c:1448 src/inet.c:2123 src/meminfo.c:1668
 # src/net.c:2230 src/proc.c:1024
-#: ../src/cpu.c:1277 ../src/disk.c:1337 ../src/inet.c:1813 ../src/mem.c:1255
+#: ../src/cpu.c:1277 ../src/disk.c:1353 ../src/inet.c:1813 ../src/mem.c:1255
 #: ../src/net.c:2919 ../src/proc.c:896
 msgid "Substitution variables for the format string for chart labels:\n"
 msgstr "Ersättningsvariabler för formatsträngen i diagrametiketter:\n"
@@ -676,7 +676,7 @@ msgstr "Sammansatt och verklig"
 # src/cpu.c:1360 src/disk.c:1491 src/inet.c:2318 src/meminfo.c:1714 src/net.c:2346 src/proc.c:1055
 # src/cpu.c:1392 src/disk.c:1495 src/inet.c:2312 src/meminfo.c:1733
 # src/net.c:2347 src/proc.c:1056
-#: ../src/cpu.c:1361 ../src/disk.c:1418 ../src/inet.c:2023 ../src/mem.c:1349
+#: ../src/cpu.c:1361 ../src/disk.c:1434 ../src/inet.c:2023 ../src/mem.c:1349
 #: ../src/net.c:3078 ../src/proc.c:961
 msgid "Format String for Chart Labels"
 msgstr "Formatsträng för diagrametiketter"
@@ -709,81 +709,81 @@ msgstr "%s"
 # src/disk.c:137 src/disk.c:375 src/disk.c:492 src/disk.c:655 src/disk.c:1529 src/disk.c:1560
 # src/disk.c:140 src/disk.c:378 src/disk.c:495 src/disk.c:659 src/disk.c:1533
 # src/disk.c:1564
-#: ../src/disk.c:309 ../src/disk.c:1390 ../src/disk.c:1460 ../src/disk.c:1488
+#: ../src/disk.c:325 ../src/disk.c:1406 ../src/disk.c:1476 ../src/disk.c:1504
 #: ../src/sensors.c:2297 ../src/sensors.c:2375 ../src/sysdeps/openbsd.c:410
 msgid "Disk"
 msgstr "Disk"
 
 # src/net.c:1599
 # src/net.c:1600
-#: ../src/disk.c:750 ../src/disk.c:1212
+#: ../src/disk.c:766 ../src/disk.c:1228
 msgid "Write bytes"
 msgstr "Skrivbyte"
 
 # src/net.c:1599
 # src/net.c:1600
-#: ../src/disk.c:751 ../src/disk.c:1209
+#: ../src/disk.c:767 ../src/disk.c:1225
 msgid "Read bytes"
 msgstr "Läsbyte"
 
 # src/disk.c:1207
 # src/disk.c:1211
-#: ../src/disk.c:762
+#: ../src/disk.c:778
 msgid "Disk I/O blocks per sec"
 msgstr "I/O-diskblock per sekund"
 
 # src/disk.c:1207
 # src/disk.c:1211
-#: ../src/disk.c:762
+#: ../src/disk.c:778
 msgid "Disk I/O bytes per sec"
 msgstr "I/O-diskbyte per sekund"
 
 # src/net.c:1403 src/net.c:1610
 # src/net.c:1404 src/net.c:1611
-#: ../src/disk.c:878 ../src/net.c:2419
+#: ../src/disk.c:894 ../src/net.c:2419
 msgid "Bytes per second"
 msgstr "Byte per sekund"
 
 # src/disk.c:1481
 # src/disk.c:1485
-#: ../src/disk.c:1076
+#: ../src/disk.c:1092
 msgid "Composite chart combines data for all disks"
 msgstr "Sammansatt diagram kombinerar data för alla hårddiskar"
 
-#: ../src/disk.c:1338
+#: ../src/disk.c:1354
 msgid "\t$L    the Disk label\n"
 msgstr ""
 
 # src/disk.c:1445 src/inet.c:2130 src/meminfo.c:1650 src/net.c:2230
 # src/disk.c:1449 src/inet.c:2124 src/meminfo.c:1669 src/net.c:2231
-#: ../src/disk.c:1339 ../src/inet.c:1814 ../src/mem.c:1256 ../src/net.c:2920
+#: ../src/disk.c:1355 ../src/inet.c:1814 ../src/mem.c:1256 ../src/net.c:2920
 msgid "\t$M    maximum chart value\n"
 msgstr "\t$M    maximalt diagramvärde\n"
 
 # src/disk.c:1446
 # src/disk.c:1450
-#: ../src/disk.c:1340
+#: ../src/disk.c:1356
 #, fuzzy
 msgid "\t$T    total read bytes + write bytes\n"
 msgstr "\t$T    totala antalet lästa block + skrivna block\n"
 
 # src/net.c:2232
 # src/net.c:2233
-#: ../src/disk.c:1341
+#: ../src/disk.c:1357
 #, fuzzy
 msgid "\t$r    read bytes\n"
 msgstr "\t$r    mottagna byte\n"
 
 # src/disk.c:1448
 # src/disk.c:1452
-#: ../src/disk.c:1342
+#: ../src/disk.c:1358
 #, fuzzy
 msgid "\t$w    write bytes\n"
 msgstr "\t$w    skrivna block\n"
 
 # src/disk.c:1503
 # src/disk.c:1507
-#: ../src/disk.c:1431
+#: ../src/disk.c:1447
 msgid "\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"
 msgstr "\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"
 
@@ -3600,7 +3600,7 @@ msgstr ""
 msgid "Warning: -w flag is ignored when the window dock type is set"
 msgstr "Varning: flaggan -w ignoreras när fönsterdockningstypen är inställd"
 
-#: ../src/sysdeps/linux.c:3797
+#: ../src/sysdeps/linux.c:3877
 msgid "Use nvclock for NVIDIA GPU temperatures"
 msgstr ""
 

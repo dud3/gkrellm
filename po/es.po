@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gkrellm 2.3.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-14 11:48-0500\n"
+"POT-Creation-Date: 2010-10-07 10:00-0500\n"
 "PO-Revision-Date: 2010-01-12 19:59-0600\n"
 "Last-Translator: Cristian Martínez <cfuga@itam.mx>\n"
 "Language-Team: none\n"
@@ -182,7 +182,7 @@ msgstr ""
 
 # src/cpu.c:1258 src/disk.c:1454 src/inet.c:2136 src/meminfo.c:1723
 # src/net.c:2262 src/proc.c:1081
-#: ../src/battery.c:1136 ../src/cpu.c:1284 ../src/disk.c:1344 ../src/fs.c:2494
+#: ../src/battery.c:1136 ../src/cpu.c:1284 ../src/disk.c:1360 ../src/fs.c:2494
 #: ../src/mem.c:1281 ../src/net.c:2934 ../src/proc.c:904 ../src/sensors.c:2698
 msgid "Substitution variables may be used in alert commands.\n"
 msgstr ""
@@ -255,7 +255,7 @@ msgstr ""
 # src/gui.c:762 src/mail.c:2574 src/meminfo.c:1770 src/proc.c:1104
 # src/uptime.c:341
 #: ../src/battery.c:1164 ../src/clock.c:714 ../src/cpu.c:1307
-#: ../src/disk.c:1369 ../src/fs.c:2532 ../src/gui.c:1063 ../src/gui.c:1926
+#: ../src/disk.c:1385 ../src/fs.c:2532 ../src/gui.c:1063 ../src/gui.c:1926
 #: ../src/mail.c:4243 ../src/mem.c:1307 ../src/proc.c:918
 #: ../src/sensors.c:2836 ../src/sensors.c:2871 ../src/uptime.c:277
 msgid "Options"
@@ -265,7 +265,7 @@ msgstr "Opciones"
 # src/plugins.c:910
 # src/clock.c:398 src/clock.c:402 src/plugins.c:1393
 #: ../src/battery.c:1169 ../src/clock.c:720 ../src/clock.c:739
-#: ../src/disk.c:1382 ../src/plugins.c:1746 ../src/sensors.c:2768
+#: ../src/disk.c:1398 ../src/plugins.c:1746 ../src/sensors.c:2768
 msgid "Enable"
 msgstr "Habilitar"
 
@@ -310,7 +310,7 @@ msgstr "Segundos entre las actualizaciones"
 # src/inet.c:2320 src/mail.c:2412 src/meminfo.c:1786 src/net.c:2378
 # src/proc.c:1102 src/sensors.c:1570 src/uptime.c:339
 #: ../src/battery.c:1222 ../src/clock.c:755 ../src/cpu.c:1358
-#: ../src/disk.c:1415 ../src/fs.c:2529 ../src/inet.c:2011 ../src/mail.c:3932
+#: ../src/disk.c:1431 ../src/fs.c:2529 ../src/inet.c:2011 ../src/mail.c:3932
 #: ../src/mem.c:1346 ../src/net.c:3075 ../src/proc.c:958 ../src/sensors.c:2737
 #: ../src/uptime.c:274
 msgid "Setup"
@@ -322,7 +322,7 @@ msgstr "Configuración"
 # src/inet.c:2337 src/meminfo.c:1840 src/net.c:2370 src/proc.c:1128
 # src/uptime.c:346
 #: ../src/battery.c:1225 ../src/clock.c:782 ../src/cpu.c:1389
-#: ../src/disk.c:1437 ../src/inet.c:2041 ../src/mem.c:1418 ../src/net.c:3063
+#: ../src/disk.c:1453 ../src/inet.c:2041 ../src/mem.c:1418 ../src/net.c:3063
 #: ../src/proc.c:977 ../src/uptime.c:285
 msgid "Launch Commands"
 msgstr "Órdenes para ejecutar"
@@ -339,7 +339,7 @@ msgstr "Revisión de alertas para porcentaje de capacidad restante."
 # src/inet.c:2349 src/mail.c:2619 src/meminfo.c:1848 src/net.c:2398
 # src/proc.c:1134 src/sensors.c:1693
 #: ../src/battery.c:1251 ../src/clock.c:790 ../src/cpu.c:1412
-#: ../src/disk.c:1451 ../src/fs.c:2574 ../src/gui.c:1173 ../src/gui.c:2007
+#: ../src/disk.c:1467 ../src/fs.c:2574 ../src/gui.c:1173 ../src/gui.c:2007
 #: ../src/inet.c:2054 ../src/mail.c:4311 ../src/mem.c:1436 ../src/net.c:3105
 #: ../src/proc.c:989 ../src/sensors.c:2917
 msgid "Info"
@@ -602,14 +602,14 @@ msgstr "Porcentaje de Uso"
 # src/net.c:2180
 # src/cpu.c:1257 src/disk.c:1453 src/gui.c:714 src/inet.c:2135
 # src/meminfo.c:1722 src/net.c:2261 src/proc.c:1080
-#: ../src/cpu.c:1276 ../src/disk.c:1336 ../src/gui.c:1010 ../src/inet.c:1812
+#: ../src/cpu.c:1276 ../src/disk.c:1352 ../src/gui.c:1010 ../src/inet.c:1812
 #: ../src/mem.c:1254 ../src/net.c:2918 ../src/proc.c:895
 msgid "<h>Chart Labels\n"
 msgstr "<h>Etiquetas del Gráfico\n"
 
 # src/cpu.c:1258 src/disk.c:1454 src/inet.c:2136 src/meminfo.c:1723
 # src/net.c:2262 src/proc.c:1081
-#: ../src/cpu.c:1277 ../src/disk.c:1337 ../src/inet.c:1813 ../src/mem.c:1255
+#: ../src/cpu.c:1277 ../src/disk.c:1353 ../src/inet.c:1813 ../src/mem.c:1255
 #: ../src/net.c:2919 ../src/proc.c:896
 msgid "Substitution variables for the format string for chart labels:\n"
 msgstr ""
@@ -698,7 +698,7 @@ msgstr "Compuesta y real"
 # src/fs.c:2098
 # src/cpu.c:1322 src/disk.c:1501 src/inet.c:2322 src/meminfo.c:1788
 # src/net.c:2379 src/proc.c:1113
-#: ../src/cpu.c:1361 ../src/disk.c:1418 ../src/inet.c:2023 ../src/mem.c:1349
+#: ../src/cpu.c:1361 ../src/disk.c:1434 ../src/inet.c:2023 ../src/mem.c:1349
 #: ../src/net.c:3078 ../src/proc.c:961
 msgid "Format String for Chart Labels"
 msgstr "Cadena de formato para etiquetas de los gráficos"
@@ -732,7 +732,7 @@ msgstr "%s"
 # src/disk.c:1166 src/gui.c:58
 # src/disk.c:137 src/disk.c:375 src/disk.c:492 src/disk.c:655 src/disk.c:1539
 # src/disk.c:1570
-#: ../src/disk.c:309 ../src/disk.c:1390 ../src/disk.c:1460 ../src/disk.c:1488
+#: ../src/disk.c:325 ../src/disk.c:1406 ../src/disk.c:1476 ../src/disk.c:1504
 #: ../src/sensors.c:2297 ../src/sensors.c:2375 ../src/sysdeps/openbsd.c:410
 msgid "Disk"
 msgstr "Disco"
@@ -740,66 +740,66 @@ msgstr "Disco"
 # src/net.c:2319
 # src/net.c:2319
 # src/net.c:1612
-#: ../src/disk.c:750 ../src/disk.c:1212
+#: ../src/disk.c:766 ../src/disk.c:1228
 msgid "Write bytes"
 msgstr "Bytes escritos"
 
 # src/net.c:2319
 # src/net.c:2319
 # src/net.c:1612
-#: ../src/disk.c:751 ../src/disk.c:1209
+#: ../src/disk.c:767 ../src/disk.c:1225
 msgid "Read bytes"
 msgstr "Bytes leídos"
 
 # src/disk.c:1206
-#: ../src/disk.c:762
+#: ../src/disk.c:778
 msgid "Disk I/O blocks per sec"
 msgstr "E/S de bloques de disco por segundo"
 
 # src/disk.c:1206
-#: ../src/disk.c:762
+#: ../src/disk.c:778
 msgid "Disk I/O bytes per sec"
 msgstr "E/S de bytes de disco por segundo"
 
 # src/net.c:1406 src/net.c:1627
-#: ../src/disk.c:878 ../src/net.c:2419
+#: ../src/disk.c:894 ../src/net.c:2419
 msgid "Bytes per second"
 msgstr "Bytes por segundo"
 
 # src/disk.c:1086
 # src/disk.c:1086
 # src/disk.c:1491
-#: ../src/disk.c:1076
+#: ../src/disk.c:1092
 msgid "Composite chart combines data for all disks"
 msgstr "El gráfico combinado reúne datos de todos los discos"
 
 # src/cpu.c:1259
-#: ../src/disk.c:1338
+#: ../src/disk.c:1354
 msgid "\t$L    the Disk label\n"
 msgstr "\t$L    la etiqueta de Disco\n"
 
 # src/disk.c:1455 src/inet.c:2137 src/meminfo.c:1724 src/net.c:2263
-#: ../src/disk.c:1339 ../src/inet.c:1814 ../src/mem.c:1256 ../src/net.c:2920
+#: ../src/disk.c:1355 ../src/inet.c:1814 ../src/mem.c:1256 ../src/net.c:2920
 msgid "\t$M    maximum chart value\n"
 msgstr "\t$M    valor máximo del gráfico\n"
 
 # src/disk.c:1456
-#: ../src/disk.c:1340
+#: ../src/disk.c:1356
 msgid "\t$T    total read bytes + write bytes\n"
 msgstr "\t$T    total bytes leídos + bytes escritos\n"
 
 # src/net.c:2265
-#: ../src/disk.c:1341
+#: ../src/disk.c:1357
 msgid "\t$r    read bytes\n"
 msgstr "\t$r    bytes leídos\n"
 
 # src/disk.c:1458
-#: ../src/disk.c:1342
+#: ../src/disk.c:1358
 msgid "\t$w    write bytes\n"
 msgstr "\t$w    bytes escritos\n"
 
 # src/disk.c:1513
-#: ../src/disk.c:1431
+#: ../src/disk.c:1447
 msgid "\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"
 msgstr "\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"
 
@@ -3828,7 +3828,7 @@ msgid "Warning: -w flag is ignored when the window dock type is set"
 msgstr ""
 "Aviso: se ignora la opción -w cuando se establece el tipo de ventana acoplada"
 
-#: ../src/sysdeps/linux.c:3797
+#: ../src/sysdeps/linux.c:3877
 msgid "Use nvclock for NVIDIA GPU temperatures"
 msgstr "Usar nvclock para las temperaturas del GPU de NVIDIA"
 

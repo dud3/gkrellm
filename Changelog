@@ -1,7 +1,8 @@
 GKrellM Changelog
 -----------------
-2.3.5 - Not released
+2.3.5 - Thu Oct 7, 2010
 ------------------------
+	* Patch from Hajimu Umemoto: use utmpx instead of utmp on FreeBSD 9-CURRENT
 	* Linux sensors: check for /sys/class/thermal/thermal_zone[0-*].
 	* Patch from Simon de Hartog: Add Linux net monitor checking for
 	  IPv6 routes.
@@ -33,6 +34,7 @@ GKrellM Changelog
 	  hwmon dir since kernel is putting newer devices there.
 	* Patch from Hajimu Umemoto: FreeBSD memory usage calculation update.
 	* Translation updates
+	  o fr.po from Jerome UZEL
 	  o es.po from Cristian Othon Martinez Vera
 	  o de.po minor bug patch from Jan Brinkmann.
 	  o pt_BR.po update from Vinicius Moreira de Oliveira
