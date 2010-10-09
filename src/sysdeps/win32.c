@@ -760,7 +760,7 @@ typedef struct _SFSharedMemory
 	unsigned short int version;
 	unsigned short int flags;
 	signed int         MemSize;
-	HANDLE             handle;
+	signed int         handle;
 	unsigned short int NumTemps;
 	unsigned short int NumFans;
 	unsigned short int NumVolts;
