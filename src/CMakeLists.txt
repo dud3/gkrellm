@@ -81,6 +81,10 @@ target_link_libraries(gkrellm
     ${GDK_PIXBUF_LIBRARIES}
     )
 
+if (APPLE)
+    target_link_libraries(gkrellm ${IOKIT_LIBRARY})
+endif ()
+
 if (OPENSSL_FOUND)
     # Link to OpenSSL if it was found
     target_link_libraries(gkrellm ${OPENSSL_LIBRARIES})

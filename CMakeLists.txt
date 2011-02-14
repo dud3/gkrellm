@@ -57,6 +57,11 @@ pkg_check_modules(GDK_PIXBUF gdk-pixbuf-2.0)
 include_directories(${GDK_PIXBUF_INCLUDE_DIRS})
 link_directories(${GDK_PIXBUF_LIBRARY_DIRS})
 
+# IOKit
+if (APPLE)
+    find_package(IOKit REQUIRED)
+endif ()
+
 # NTLM
 pkg_check_modules(NTLM libntlm)
 if (NTLM_FOUND)

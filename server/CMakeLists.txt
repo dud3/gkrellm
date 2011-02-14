@@ -45,6 +45,10 @@ target_link_libraries(gkrellmd
     ${GTHREAD2_LIBRARIES}
     )
 
+if (APPLE)
+    target_link_libraries(gkrellmd ${IOKIT_LIBRARY})
+endif ()
+
 if (SENSORS_FOUND)
     target_link_libraries(gkrellmd ${SENSORS_LIBRARIES})
 endif ()
