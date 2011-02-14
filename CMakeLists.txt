@@ -66,11 +66,13 @@ if (NTLM_FOUND)
 endif ()
 
 # SENSORS
-find_package(Sensors)
-if (SENSORS_FOUND)
-    include_directories(${SENSORS_INCLUDE_DIR})
-    link_directories(${SENSORS_LIBRARY_DIRS})
-    set(HAVE_LIBSENSORS TRUE) # for configure.h
+if (UNIX)
+    find_package(Sensors)
+    if (SENSORS_FOUND)
+        include_directories(${SENSORS_INCLUDE_DIR})
+        link_directories(${SENSORS_LIBRARY_DIRS})
+        set(HAVE_LIBSENSORS TRUE) # for configure.h
+    endif ()
 endif ()
 
 # SSL (either OpenSSL or GnuTLS)
