@@ -33,7 +33,7 @@ set(GKRELLM_SOURCES
     ../shared/log.c
     )
 
-# This is the gkrellm client (needed for code shared between client and server)
+# This is a client build (flag needed for sysdep code)
 add_definitions(-DGKRELLM_CLIENT)
 
 # TODO: Configurable PACKAGE?

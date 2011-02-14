@@ -10,14 +10,11 @@ set(GKRELLMD_SOURCES
     ../shared/log.c
     )
 
-# This is the gkrellm client (needed for code shared between client and server)
+# This is a server build (flag needed for sysdep code)
 add_definitions(-DGKRELLM_SERVER)
 
 # TODO: Configurable PACKAGE?
 add_definitions(-DPACKAGE_D="gkrellmd")
-
-# For included configure.h
-#include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # ----------------------------------------------------------------------------
 # Platform specific sources and defines
@@ -50,5 +47,5 @@ target_link_libraries(gkrellmd
 
 if (SENSORS_FOUND)
     target_link_libraries(gkrellmd ${SENSORS_LIBRARIES})
-endif (SENSORS_FOUND)
+endif ()
 
