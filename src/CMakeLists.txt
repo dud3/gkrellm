@@ -66,14 +66,6 @@ endif ()
      #set(GKRELLM_SOURCES ${GKRELLM_SOURCES} md5c.c)
 #endif ()
 
-if (UNIX)
-    # X11
-    # TODO: Drop X11-dependency when compiling on OS X Gtk+ wih quartz backend
-    find_package(X11 REQUIRED)
-    include_directories(${X11_INCLUDE_DIR})
-    link_directories(${X11_LIBRARY_DIRS})
-endif ()
-
 add_executable(gkrellm WIN32 ${GKRELLM_SOURCES})
 if (WIN32)
     target_link_libraries(gkrellm ws2_32 wtsapi32 pdh iphlpapi)

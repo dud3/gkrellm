@@ -89,6 +89,16 @@ elseif (GNUTLS_FOUND)
     set(HAVE_GNUTLS TRUE) # for configure.h
 endif ()
 
+# X11
+if (UNIX)
+    # TODO: Drop X11-dependency when compiling on Gtk+ with Quartz backend
+    find_package(X11)
+    if (${X11_FOUND})
+        include_directories(${X11_INCLUDE_DIR})
+        link_directories(${X11_LIBRARY_DIRS})
+    endif()
+endif ()
+
 # Build configure.h and add location to include-path
 configure_file(configure.h.cmake configure.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
