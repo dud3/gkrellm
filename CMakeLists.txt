@@ -103,7 +103,25 @@ endif ()
 configure_file(configure.h.cmake configure.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-# TODO: only build src if we have gtk and gdk-pixbuf
-add_subdirectory(src)
-add_subdirectory(server)
+# Options for building either gkrellm, gkrellmd or both
+option(GKRELLM_BUILD_CLIENT "Build GKrellM (Client)" TRUE)
+option(GKRELLM_BUILD_SERVER "Build GKrellM Daemon" TRUE)
+
+if (${GKRELLM_BUILD_CLIENT})
+    if (NOT ${GTK2_FOUND})
+        message(ERROR "Cannot build GKrellM (Client), Gtk+ development files missing")
+    endif()
+    if (NOT ${GDK_PIXBUF_FOUND})
+        message(ERROR "Cannot build GKrellM (Client), Gdk-Pixbuf development files missing")
+    endif()
+    if (NOT ${X11_FOUND})
+        message(ERROR "Cannot build GKrellM (Client), X11 development files missing")
+    endif()
+    add_subdirectory(src)
+endif ()
+
+# Always build the server, all deps are marked as REQUIRED
+if (${GKRELLM_BUILD_SERVER})
+    add_subdirectory(server)
+endif ()
 
