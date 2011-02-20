@@ -7,6 +7,7 @@ set(CMAKE_MODULE_PATH
     ${CMAKE_MODULE_PATH})
 
 include(CheckFunctionExists)
+include(CheckIncludeFile)
 
 # Need pkg-config for finding libraries
 find_package(PkgConfig REQUIRED)
