@@ -61,10 +61,10 @@ elseif (UNIX)
 endif ()
 
 # SSL (either OpenSSL or GnuTLS)
-#if ( (not OPENSSL_FOUND) and (not GNUTLS_FOUND) )
+if ( (NOT ${OPENSSL_FOUND}) AND (NOT ${GNUTLS_FOUND}) )
      # Use own md5 implementation
-     #set(GKRELLM_SOURCES ${GKRELLM_SOURCES} md5c.c)
-#endif ()
+     set(GKRELLM_SOURCES ${GKRELLM_SOURCES} md5c.c)
+endif ()
 
 add_executable(gkrellm WIN32 ${GKRELLM_SOURCES})
 if (WIN32)
