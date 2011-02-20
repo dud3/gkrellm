@@ -95,6 +95,13 @@ elseif (GNUTLS_FOUND)
     set(HAVE_GNUTLS TRUE) # for configure.h
 endif ()
 
+# Windres compiler
+if (WIN32)
+    set(CMAKE_RC_COMPILER_INIT windres)
+    enable_language(RC)
+    set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
+endif ()
+
 # X11
 if (UNIX)
     # TODO: Drop X11-dependency when compiling on Gtk+ with Quartz backend
