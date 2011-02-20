@@ -86,23 +86,23 @@ if (APPLE)
     target_link_libraries(gkrellm ${IOKIT_LIBRARY})
 endif ()
 
-if (OPENSSL_FOUND)
+if (${OPENSSL_FOUND})
     # Link to OpenSSL if it was found
     target_link_libraries(gkrellm ${OPENSSL_LIBRARIES})
-elseif (GNUTLS_FOUND)
+elseif (${GNUTLS_FOUND})
     # Link to GnuTLS if it was found
     target_link_libraries(gkrellm ${GNUTLS_LIBRARIES} gnutls-openssl gcrypt)
-endif (OPENSSL_FOUND)
+endif ()
 
-if (NTLM_FOUND)
+if (${NTLM_FOUND})
     target_link_libraries(gkrellm ${NTLM_LIBRARIES})
-endif (NTLM_FOUND)
+endif ()
 
-if (SENSORS_FOUND)
+if (${SENSORS_FOUND})
     target_link_libraries(gkrellm ${SENSORS_LIBRARIES})
-endif (SENSORS_FOUND)
+endif ()
 
-if (X11_FOUND)
+if (${X11_FOUND})
     target_link_libraries(gkrellm ${X11_X11_LIB} ${X11_ICE_LIB} ${X11_SM_LIB})
-endif (X11_FOUND)
+endif ()
 
