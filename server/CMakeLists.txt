@@ -36,7 +36,8 @@ add_executable(gkrellmd ${GKRELLMD_SOURCES})
 if (WIN32)
     target_link_libraries(gkrellmd ws2_32 wtsapi32 pdh iphlpapi)
     # Build static helper-library for plugin development on win32
-    add_library(gkrellmd_ STATIC win32-libgkrellmd.c)
+    add_library(libgkrellmd STATIC win32-libgkrellmd.c)
+    set_target_properties(libgkrellmd PROPERTIES OUTPUT_NAME gkrellmd)
 endif ()
 
 target_link_libraries(gkrellmd

@@ -70,7 +70,8 @@ add_executable(gkrellm WIN32 ${GKRELLM_SOURCES})
 if (WIN32)
     target_link_libraries(gkrellm ws2_32 wtsapi32 pdh iphlpapi)
     # Build static helper-library for plugin development on win32
-    add_library(gkrellm_ STATIC win32-libgkrellm.c)
+    add_library(libgkrellm STATIC win32-libgkrellm.c)
+    set_target_properties(libgkrellm PROPERTIES OUTPUT_NAME gkrellm)
 endif ()
 
 # Always link to Gtk+ 2.x
