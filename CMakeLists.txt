@@ -50,13 +50,9 @@ link_directories(${GTHREAD2_LIBRARY_DIRS})
 
 # GTK (optional, needed for gkrellm client)
 pkg_check_modules(GTK2 gtk+-2.0>=2.4)
-include_directories(${GTK2_INCLUDE_DIRS})
-link_directories(${GTK2_LIBRARY_DIRS})
 
 # Gdk Pixbuf (optional, needed for gkrellm client)
 pkg_check_modules(GDK_PIXBUF gdk-pixbuf-2.0)
-include_directories(${GDK_PIXBUF_INCLUDE_DIRS})
-link_directories(${GDK_PIXBUF_LIBRARY_DIRS})
 
 # IOKit
 if (APPLE)

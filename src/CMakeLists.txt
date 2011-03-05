@@ -42,6 +42,9 @@ add_definitions(-DPACKAGE="gkrellm")
 # For included pixmaps
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
 
+include_directories(${GTK2_INCLUDE_DIRS})
+include_directories(${GDK_PIXBUF_INCLUDE_DIRS})
+
 # ----------------------------------------------------------------------------
 # Platform specific sources and defines
 if (WIN32)
