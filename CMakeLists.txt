@@ -98,6 +98,11 @@ if (WIN32)
     set(CMAKE_RC_COMPILE_OBJECT "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
 endif ()
 
+if (WIN32)
+    # win32 specific flag needed GLib/GThread/Gtk+
+    set(CMAKE_C_FLAGS "-mms-bitfields ${CMAKE_C_FLAGS}")
+endif ()
+
 # X11
 if (UNIX)
     # TODO: Drop X11-dependency when compiling on Gtk+ with Quartz backend
