@@ -38,6 +38,10 @@ if (WIN32)
     # Build static helper-library for plugin development on win32
     add_library(libgkrellmd STATIC win32-libgkrellmd.c)
     set_target_properties(libgkrellmd PROPERTIES OUTPUT_NAME gkrellmd)
+    install(TARGETS libgkrellmd
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        )
 endif ()
 
 target_link_libraries(gkrellmd
@@ -54,3 +58,4 @@ if (SENSORS_FOUND)
     target_link_libraries(gkrellmd ${SENSORS_LIBRARIES})
 endif ()
 
+install(TARGETS gkrellmd RUNTIME DESTINATION bin)

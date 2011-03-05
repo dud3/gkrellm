@@ -72,6 +72,10 @@ if (WIN32)
     # Build static helper-library for plugin development on win32
     add_library(libgkrellm STATIC win32-libgkrellm.c)
     set_target_properties(libgkrellm PROPERTIES OUTPUT_NAME gkrellm)
+    install(TARGETS libgkrellm
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        )
 endif ()
 
 # Always link to Gtk+ 2.x
@@ -105,4 +109,6 @@ endif ()
 if (${X11_FOUND})
     target_link_libraries(gkrellm ${X11_X11_LIB} ${X11_ICE_LIB} ${X11_SM_LIB})
 endif ()
+
+install(TARGETS gkrellm RUNTIME DESTINATION bin)
 
