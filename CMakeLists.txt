@@ -60,7 +60,7 @@ if (APPLE)
 endif ()
 
 # NTLM
-pkg_check_modules(NTLM libntlm)
+find_package(Ntlm)
 if (NTLM_FOUND)
     include_directories(${NTLM_INCLUDE_DIRS})
     link_directories(${NTLM_LIBRARY_DIRS})
