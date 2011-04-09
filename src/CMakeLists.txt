@@ -51,10 +51,14 @@ if (WIN32)
     set(GKRELLM_SOURCES ${GKRELLM_SOURCES}
         winops-win32.c win32-plugin.c win32-resource.rc
         )
-elseif (UNIX)
-    # TODO: USE_X11 Flag for OS X?
+elseif (APPLE AND (NOT X11_FOUND))
+    set(GKRELLM_SOURCES ${GKRELLM_SOURCES}
+        winops-gtk-mac.c)
+elseif (X11_FOUND)
     set(GKRELLM_SOURCES ${GKRELLM_SOURCES}
         winops-x11.c)
+else ()
+    message(FATAL_ERROR "No supported windowing system found")
 endif ()
 
 # SSL (either OpenSSL or GnuTLS)
