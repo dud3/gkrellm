@@ -101,6 +101,8 @@ endif ()
 if (WIN32)
     # win32 specific flag needed GLib/GThread/Gtk+
     set(CMAKE_C_FLAGS "-mms-bitfields ${CMAKE_C_FLAGS}")
+    # Some defines to make windows.h expose Windows 5.1/XP API
+    add_definitions(-D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWIN32_LEAN_AND_MEAN)
 endif ()
 
 # X11

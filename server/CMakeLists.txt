@@ -22,8 +22,6 @@ if (WIN32)
     set(GKRELLMD_SOURCES ${GKRELLMD_SOURCES}
         win32-plugin.c win32-resource.rc
         )
-    # Some defines to make windows.h behave as wanted (0x0501 is WinXP)
-    add_definitions(-D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWIN32_LEAN_AND_MEAN)
     # Use a relative path for finding locale files
     add_definitions(-DLOCALEDIR="share/locale")
 elseif (UNIX)
