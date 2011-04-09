@@ -6,5 +6,6 @@
 #cmakedefine HAVE_NTLM
 #cmakedefine HAVE_LIBSENSORS
 #cmakedefine HAVE_SSL
+#define LOCALEDIR "${GKRELLM_LOCALEDIR}"
 #endif // GK_CONFIGURE_H
 

@@ -22,10 +22,6 @@ if (WIN32)
     set(GKRELLMD_SOURCES ${GKRELLMD_SOURCES}
         win32-plugin.c win32-resource.rc
         )
-    # Use a relative path for finding locale files
-    add_definitions(-DLOCALEDIR="share/locale")
-elseif (UNIX)
-    add_definitions(-DLOCALEDIR="${CMAKE_INSTALL_PREFIX}/share/locale")
 endif ()
 
 # TODO: libgtop?

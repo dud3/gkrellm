@@ -51,13 +51,10 @@ if (WIN32)
     set(GKRELLM_SOURCES ${GKRELLM_SOURCES}
         winops-win32.c win32-plugin.c win32-resource.rc
         )
-    # Use a relative path for finding locale files
-    add_definitions(-DLOCALEDIR="share/locale")
 elseif (UNIX)
     # TODO: USE_X11 Flag for OS X?
     set(GKRELLM_SOURCES ${GKRELLM_SOURCES}
         winops-x11.c)
-    add_definitions(-DLOCALEDIR="${CMAKE_INSTALL_PREFIX}/share/locale")
 endif ()
 
 # SSL (either OpenSSL or GnuTLS)

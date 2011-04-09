@@ -105,6 +105,13 @@ if (WIN32)
     add_definitions(-D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWIN32_LEAN_AND_MEAN)
 endif ()
 
+if (WIN32)
+    # Use a relative path for finding locale files
+    set(GKRELLM_LOCALEDIR "share/locale")
+else ()
+    set(GKRELLM_LOCALEDIR "${CMAKE_INSTALL_PREFIX}/share/locale")
+endif ()
+
 # X11
 if (UNIX)
     # TODO: Drop X11-dependency when compiling on Gtk+ with Quartz backend
