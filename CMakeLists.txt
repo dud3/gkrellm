@@ -87,15 +87,31 @@ if (UNIX)
 endif ()
 
 # SSL (either OpenSSL or GnuTLS)
-find_package(GnuTLS)
 find_package(OpenSSL)
 if (OPENSSL_FOUND)
     include_directories(${OPENSSL_INCLUDE_DIR})
     set(HAVE_SSL TRUE) # for configure.h
-elseif (GNUTLS_FOUND)
-    include_directories(${GNUTLS_INCLUDE_DIR})
-    set(HAVE_SSL TRUE) # for configure.h
-    set(HAVE_GNUTLS TRUE) # for configure.h
+else ()
+    find_package(GnuTLS)
+    if (GNUTLS_FOUND)
+        find_package(GnuTLS-OpenSSL)
+        if (GNUTLS_OPENSSL_FOUND)
+            # Check if GnuTLS is >= 2.10
+            include(CheckLibraryExists)
+            get_filename_component(GNUTLS_PATH ${GNUTLS_LIBRARY} PATH)
+            check_library_exists(gnutls gnutls_hash ${GNUTLS_PATH} GNUTLS_NEW_VERSION)
+            if (NOT(GNUTLS_NEW_VERSION))
+                find_package(GCrypt)
+                include_directories(${GCRYPT_INCLUDE_DIRS})
+            endif ()
+
+            if (GNUTLS_NEW_VERSION OR GCRYPT_FOUND)
+                include_directories(${GNUTLS_INCLUDE_DIRS})
+                set(HAVE_SSL TRUE) # for configure.h
+                set(HAVE_GNUTLS TRUE) # for configure.h
+            endif ()
+        endif()
+    endif ()
 endif ()
 
 # Windres compiler

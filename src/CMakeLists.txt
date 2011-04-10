@@ -91,12 +91,16 @@ if (APPLE)
     target_link_libraries(gkrellm ${IOKIT_LIBRARY})
 endif ()
 
-if (${OPENSSL_FOUND})
+if (OPENSSL_FOUND)
     # Link to OpenSSL if it was found
     target_link_libraries(gkrellm ${OPENSSL_LIBRARIES})
-elseif (${GNUTLS_FOUND})
+elseif (GNUTLS_FOUND AND GNUTLS_OPENSSL_FOUND AND (GNUTLS_NEW_VERSION OR GCRYPT_FOUND))
     # Link to GnuTLS if it was found
-    target_link_libraries(gkrellm ${GNUTLS_LIBRARIES} gnutls-openssl gcrypt)
+    target_link_libraries(gkrellm ${GNUTLS_LIBRARIES} ${GNUTLS_OPENSSL_LIBRARIES})
+    # Link to GCrypt if it is needed
+    if (NOT(GNUTLS_NEW_VERSION))
+        target_link_libraries(gkrellm ${GCRYPT_LIBRARIES})
+    endif ()
 endif ()
 
 if (${NTLM_FOUND})
