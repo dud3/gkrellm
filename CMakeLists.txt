@@ -63,7 +63,6 @@ endif ()
 find_package(Ntlm)
 if (NTLM_FOUND)
     include_directories(${NTLM_INCLUDE_DIRS})
-    link_directories(${NTLM_LIBRARY_DIRS})
     set(HAVE_NTLM TRUE) # for configure.h
 endif ()
 
@@ -72,7 +71,6 @@ if (UNIX)
     find_package(Sensors)
     if (SENSORS_FOUND)
         include_directories(${SENSORS_INCLUDE_DIR})
-        link_directories(${SENSORS_LIBRARY_DIRS})
         set(HAVE_LIBSENSORS TRUE) # for configure.h
     endif ()
 endif ()
@@ -82,11 +80,9 @@ find_package(GnuTLS)
 find_package(OpenSSL)
 if (OPENSSL_FOUND)
     include_directories(${OPENSSL_INCLUDE_DIR})
-    link_directories(${OPENSSL_LIBARY_DIRS})
     set(HAVE_SSL TRUE) # for configure.h
 elseif (GNUTLS_FOUND)
     include_directories(${GNUTLS_INCLUDE_DIR})
-    link_directories(${GNUTLS_LIBRARY_DIRS})
     set(HAVE_SSL TRUE) # for configure.h
     set(HAVE_GNUTLS TRUE) # for configure.h
 endif ()
@@ -118,7 +114,6 @@ if (UNIX)
     find_package(X11)
     if (${X11_FOUND})
         include_directories(${X11_INCLUDE_DIR})
-        link_directories(${X11_LIBRARY_DIRS})
     endif()
 endif ()
 
