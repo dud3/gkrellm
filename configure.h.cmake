@@ -2,6 +2,7 @@
 #define GK_CONFIGURE_H
 #cmakedefine HAVE_GETADDRINFO
 #cmakedefine HAVE_GETHOSTBYNAME
+#cmakedefine INET6 /* TODO: rename to HAVE_INET6 */
 #cmakedefine HAVE_GNUTLS
 #cmakedefine HAVE_NTLM
 #cmakedefine HAVE_LIBSENSORS

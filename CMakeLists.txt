@@ -8,6 +8,7 @@ set(CMAKE_MODULE_PATH
 
 include(CheckFunctionExists)
 include(CheckIncludeFile)
+include(CheckSymbolExists)
 
 # Need pkg-config for finding libraries
 find_package(PkgConfig REQUIRED)
@@ -25,6 +26,16 @@ elseif (UNIX)
     check_function_exists(getaddrinfo HAVE_GETADDRINFO)
     check_function_exists(gethostbyname HAVE_GETHOSTBYNAME)
 endif ()
+
+# IPv6 support
+if (WIN32)
+    check_symbol_exists(IPPROTO_IPV6 "winsock2.h;ws2tcpip.h" INET6)
+elseif (APPLE)
+    set(INET6 TRUE)
+elseif (UNIX)
+    # TODO: Support for BSD and Solaris
+    check_symbol_exists(IPPROTO_IPV6 "netinet/in.h;arpa/inet.h;netdb.h" INET6)
+endif()
 
 # GETTEXT
 find_package(Gettext)
