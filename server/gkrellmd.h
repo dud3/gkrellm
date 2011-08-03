@@ -36,6 +36,7 @@
 #include "log.h"
 
 #include <glib.h>
+#include <gio/gio.h>
 #include <glib/gstdio.h>
 
 #include <stdio.h>
@@ -135,6 +136,10 @@ GKRELLMD_VERSION_REV >= (rev)))
 	#define GKRELLMD_LOCAL_ETC	"/usr/local/etc"
 #endif // !defined(WIN32)
 
+typedef struct _GkrellmdClient GkrellmdClient;
+
+typedef void (*GkrellmdClientReadFunc)(GkrellmdClient *client, GString *str,
+		gpointer user_data);
 
 typedef struct _GkrellmdClient
 	{
@@ -150,6 +155,11 @@ typedef struct _GkrellmdClient
 	gboolean	feature_subdisk;
 	GString		*input_gstring;
 	void		(*input_func)(struct _GkrellmdClient *, gchar *);
+
+	GSocketConnection *connection;
+	GSource *read_source;
+	GkrellmdClientReadFunc read_func;
+	gpointer read_func_user_data;
 	}
 	GkrellmdClient;
 
