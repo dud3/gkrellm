@@ -1,5 +1,10 @@
 GKrellM Changelog
 -----------------
+2.3.6 - Not released
+------------------------
+	* Translation updates
+	  o ru.po from Roman Savochenko
+
 2.3.5 - Thu Oct 7, 2010
 ------------------------
 	* Patch from Hajimu Umemoto: use utmpx instead of utmp on FreeBSD 9-CURRENT

@@ -2,113 +2,112 @@
 # Copyright (C) 2001, 2002, 2004, 2005 Free Software Foundation, Inc.
 # Grigory Batalov <bga@altlinux.ru>, 2001, 2002, 2003.
 # Vitaly Lipatov <lav@altlinux.ru>, 2005.
+# Roman Savochenko <rom_as@altlinux.ru>, 2011.
 msgid ""
 msgstr ""
-"Project-Id-Version: GKrellM 2.2.7\n"
+"Project-Id-Version: GKrellM 2.3.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-07 10:00-0500\n"
-"PO-Revision-Date: 2005-06-18 18:57MSK\n"
-"Last-Translator: Vitaly Lipatov <lav@altlinux.ru>\n"
+"PO-Revision-Date: 2011-07-17 18:57MSK\n"
+"Last-Translator: Roman Savochenko <rom_as@altlinux.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=KOI8-R\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.10.1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 
 #: ../src/alerts.c:1165
 msgid "GKrellM Set Alerts"
-msgstr "Настройка датчиков GKrellM"
+msgstr "п²п╟я│я┌я─п╬п╧п╨п╟ я│п╦пЁп╫п╟п╩п╬п╡ GKrellM"
 
 #: ../src/alerts.c:1177 ../src/battery.c:1134 ../src/gui.c:567
 #: ../src/sensors.c:2820
 msgid "Alerts"
-msgstr "Сигналы"
+msgstr "п║п╦пЁп╫п╟п╩я▀"
 
 #: ../src/alerts.c:1200
 msgid "High Limits"
-msgstr "Верхняя граница"
+msgstr "п▓п╣я─я┘п╫п╦п╣ пЁя─п╟п╫п╦я├я▀"
 
 #: ../src/alerts.c:1207
 msgid "High alarm limit"
-msgstr "Тревога"
+msgstr "п▓п╣я─я┘п╫я▐я▐ п╟п╡п╟я─п╦п╧п╫п╟я▐ пЁя─п╟п╫п╦я├п╟"
 
 #: ../src/alerts.c:1213
 msgid "High warn limit"
-msgstr "Предупреждение"
+msgstr "п▓п╣я─я┘п╫я▐я▐ п©я─п╣п╢я┐п©я─. пЁя─п╟п╫п╦я├п╟"
 
 #: ../src/alerts.c:1220
 msgid "Low Limits"
-msgstr "Нижняя граница"
+msgstr "п²п╦п╤п╫п╦п╣ пЁя─п╟п╫п╦я├я▀"
 
 #: ../src/alerts.c:1226
 msgid "Low warn limit"
-msgstr "Предупреждение"
+msgstr "п²п╦п╤п╫я▐я▐ п©я─п╣п╢я┐п©я─. пЁя─п╟п╫п╦я├п╟"
 
 #: ../src/alerts.c:1231
 msgid "Low alarm limit"
-msgstr "Тревога"
+msgstr "п²п╦п╤п╫я▐я▐ п╟п╡п╟я─п╦п╧п╫п╟я▐ пЁя─п╟п╫п╦я├п╟"
 
 #: ../src/alerts.c:1241
 msgid "Seconds limit conditions must exist to have an alert"
-msgstr "Для срабатывания сигнала необходима задержка в секундах"
+msgstr "п■п╩я▐ я│п╦пЁп╫п╟п╩п╟ п╫п╣п╬п╠я┘п╬п╢п╦п╪п╟ п╥п╟п╢п╣я─п╤п╨п╟ п╡ я│п╣п╨я┐п╫п╢п╟я┘"
 
 #: ../src/alerts.c:1253
 msgid "Commands - with repeat intervals in seconds"
-msgstr "Команды - с интервалами повторов в секундах"
+msgstr "п п╬п╪п╟п╫п╢я▀ - я│ п╦п╫я┌п╣я─п╡п╟п╩п╟п╪п╦ п©п╬п╡я┌п╬я─п╬п╡ п╡ я│п╣п╨я┐п╫п╢п╟я┘"
 
 #: ../src/alerts.c:1263
 msgid "Alarm command:"
-msgstr "Команда тревоги:"
+msgstr "п п╬п╪п╟п╫п╢п╟ я┌я─п╣п╡п╬пЁп╦:"
 
 #: ../src/alerts.c:1283
 msgid "Warn command:"
-msgstr "Предупреждение:"
+msgstr "п п╬п╪п╟п╫п╢п╟ п©я─п╣п╢я┐п©я─.:"
 
 #: ../src/alerts.c:1307
 msgid "A repeat of zero seconds executes the command once per alert."
-msgstr "Интервал в 0 секунд означает однократное выполнение команды."
+msgstr "п≤п╫я┌п╣я─п╡п╟п╩ п╡ 0 я│п╣п╨я┐п╫п╢ п╬п╥п╫п╟я┤п╟п╣я┌ п╬п╢п╫п╬п╨я─п╟я┌п╫п╬п╣ п╡я▀п©п╬п╩п╫п╣п╫п╦п╣ п╨п╬п╪п╟п╫п╢я▀."
 
 #: ../src/battery.c:578 ../src/battery.c:976 ../src/battery.c:1009
 msgid "GKrellM Battery"
-msgstr "Батареи GKrellM"
+msgstr "п▒п╟я┌п╟я─п╣я▐ GKrellM"
 
 #: ../src/battery.c:579
 msgid ""
 "Battery times are unavailable.  You\n"
 "could select the Estimated Time option."
 msgstr ""
-"Показания батарей недоступны. Можете\n"
-"включить пункт Расчётное Время."
+"п÷п╬п╨п╟п╥п╟п╫п╦я▐ п╠п╟я┌п╟я─п╣п╦ п╫п╣п╢п╬я│я┌я┐п©п╫я▀. п°п╬п╤п╣я┌п╣\n"
+"п╡п╨п╩я▌я┤п╦я┌я▄ п©я┐п╫п╨я┌ п═п╟я│я┤я▒я┌п╫п╬п╣ п▓я─п╣п╪я▐."
 
 #: ../src/battery.c:812 ../src/battery.c:818 ../src/battery.c:1229
 #: ../src/battery.c:1260
 msgid "Battery"
-msgstr "Батареи"
+msgstr "п▒п╟я┌п╟я─п╣я▐"
 
 #: ../src/battery.c:813
 msgid "Battery Percent Limits"
-msgstr "Пределы батарей в процентах"
+msgstr "п÷я─п╣п╢п╣п╩я▀ п╠п╟я┌п╟я─п╣п╦ п╡ %"
 
 #: ../src/battery.c:819
 msgid "Battery Minutes Remaining Limits"
-msgstr "Пределы запаса батарей в минутах"
+msgstr "п÷я─п╣п╢п╣п╩я▀ п╥п╟п©п╟я│п╟ п╠п╟я┌п╟я─п╣п╦ п╡ п╪п╦п╫я┐я┌п╟я┘"
 
 #: ../src/battery.c:977 ../src/battery.c:1010
 msgid ""
 "The Battery alert units are changed\n"
 "and the alert must be reconfigured."
 msgstr ""
-"Единицы измерения батарей изменены, сигналы\n"
-"дожны быть перенастроены."
+"п∙п╢п╦п╫п╦я├я▀ п╦п╥п╪п╣я─п╣п╫п╦я▐ п╠п╟я┌п╟я─п╣п╦ п╦п╥п╪п╣п╫п╣п╫я▀, я│п╦пЁп╫п╟п╩я▀\n"
+"п╢п╬п╩п╤п╫я▀ п╠я▀я┌я▄ п©п╣я─п╣п╫п╟я│я┌я─п╬п╣п╫я▀."
 
 #: ../src/battery.c:1117 ../src/mail.c:3848 ../src/sensors.c:2688
 msgid "<h>Setup\n"
-msgstr "<h>Настройка\n"
+msgstr "<h>п²п╟я│я┌я─п╬п╧п╨п╟\n"
 
 #: ../src/battery.c:1118
 msgid "<b>Display Estimated Time\n"
-msgstr "<b>Показывать Расчётное время\n"
+msgstr "<b>п÷п╬п╨п╟п╥я▀п╡п╟я┌я▄ п═п╟я│я┤я▒я┌п╫п╬п╣ п▓я─п╣п╪я▐\n"
 
 #: ../src/battery.c:1119
 msgid ""
@@ -117,28 +116,27 @@ msgid ""
 "time to charge which is calculated based on the current battery percentage\n"
 "level, user supplied total battery times, and a linear extrapolation model.\n"
 msgstr ""
-"Если показания зарядки батарей не возвращаются BIOS-ом или эти показания\n"
-"недостаточно точны, включите этот пункт. Тогда время запаса батарей и время\n"
-"зарядки будет рассчитываться с учётом текущего состояния батарей и "
-"указанных\n"
-"пользователем значений полной зарядки/разрядки при помощи линейной\n"
-"экстраполяции.\n"
+"п∙я│п╩п╦ п©п╬п╨п╟п╥п╟п╫п╦я▐ п╥п╟я─я▐п╢п╨п╦ п╠п╟я┌п╟я─п╣п╦ п╫п╣ п╡п╬п╥п╡я─п╟я┴п╟я▌я┌я│я▐ BIOS-п╬п╪ п╦п╩п╦ я█я┌п╦ п©п╬п╨п╟п╥п╟п╫п╦я▐\n"
+"п╫п╣п╢п╬я│я┌п╟я┌п╬я┤п╫п╬ я┌п╬я┤п╫я▀, п╡п╨п╩я▌я┤п╦я┌п╣ я█я┌п╬я┌ п©я┐п╫п╨я┌. п╒п╬пЁп╢п╟ п╡я─п╣п╪я▐ п╥п╟п©п╟я│п╟ п╠п╟я┌п╟я─п╣п╧ п╦ п╡я─п╣п╪я▐\n"
+"п╥п╟я─я▐п╢п╨п╦ п╠я┐п╢п╣я┌ я─п╟я│я│я┤п╦я┌я▀п╡п╟я┌я▄я│я▐ я│ я┐я┤я▒я┌п╬п╪ я┌п╣п╨я┐я┴п╣пЁп╬ я│п╬я│я┌п╬я▐п╫п╦я▐ п╠п╟я┌п╟я─п╣п╧ п╦ "
+"я┐п╨п╟п╥п╟п╫п╫я▀я┘\n"
+"п©п╬п╩я▄п╥п╬п╡п╟я┌п╣п╩п╣п╪ п╥п╫п╟я┤п╣п╫п╦п╧ п©п╬п╩п╫п╬п╧ п╥п╟я─я▐п╢п╨п╦/я─п╟п╥я─я▐п╢п╨п╦ п©я─п╦ п©п╬п╪п╬я┴п╦ п╩п╦п╫п╣п╧п╫п╬п╧\n"
+"я█п╨я│я┌я─п╟п©п╬п╩я▐я├п╦п╦.\n"
 
 #: ../src/battery.c:1124
 msgid "<b>Total Battery Times\n"
-msgstr "<b>Периоды зарядки/разрядки батарей\n"
+msgstr "<b>п÷п╣я─п╦п╬п╢я▀ п╥п╟я─я▐п╢п╨п╦/я─п╟п╥я─я▐п╢п╨п╦ п╠п╟я┌п╟я─п╣п╦\n"
 
 #: ../src/battery.c:1125
 msgid ""
 "Enter the typical total run time and total charge time in hours for your\n"
 "battery.\n"
 msgstr ""
-"Укажите типичные значения полного времени работы и времени полной зарядки\n"
-"ваших батарей.\n"
+"пёп╨п╟п╤п╦я┌п╣ я┌п╦п©п╦я┤п╫я▀п╣ п╥п╫п╟я┤п╣п╫п╦я▐ п©п╬п╩п╫п╬пЁп╬ п╡я─п╣п╪п╣п╫п╦ я─п╟п╠п╬я┌я▀ п╦ п╥п╟я─я▐п╢п╨п╦ п╡п╟я┬п╣п╧ п╠п╟я┌п╟я─п╣п╦.\n"
 
 #: ../src/battery.c:1128
 msgid "<b>Exponential Charge Model\n"
-msgstr "<b>Экспоненциальная модель зарядки\n"
+msgstr "<b>п╜п╨я│п©п╬п╫п╣п╫я├п╦п╟п╩я▄п╫п╟я▐ п╪п╬п╢п╣п╩я▄ п╥п╟я─я▐п╢п╨п╦\n"
 
 #: ../src/battery.c:1129
 #, no-c-format
@@ -147,130 +145,129 @@ msgid ""
 "means the simple linear model will grossly underestimate the time to 100%.\n"
 "Select the exponential model for more accuracy in this case.\n"
 msgstr ""
-"В некоторых системах заряд батареи растёт экспоненциально, поэтому\n"
-"простая линейная модель будет сильно занижать время до полной зарядки.\n"
-"В этом случае экспоненциальная модель даст более точный результат.\n"
+"п▓ п╫п╣п╨п╬я┌п╬я─я▀я┘ я│п╦я│я┌п╣п╪п╟я┘ п╥п╟я─я▐п╢ п╠п╟я┌п╟я─п╣п╦ я─п╟я│я┌я▒я┌ я█п╨я│п©п╬п╫п╣п╫я├п╦п╟п╩я▄п╫п╬, п©п╬я█я┌п╬п╪я┐\n"
+"п©я─п╬я│я┌п╟я▐ п╩п╦п╫п╣п╧п╫п╟я▐ п╪п╬п╢п╣п╩я▄ п╠я┐п╢п╣я┌ я│п╦п╩я▄п╫п╬ п╥п╟п╫п╦п╤п╟я┌я▄ п╡я─п╣п╪я▐ п╢п╬ п©п╬п╩п╫п╬п╧ п╥п╟я─я▐п╢п╨п╦.\n"
+"п▓ я█я┌п╬п╪ я│п╩я┐я┤п╟п╣ я█п╨я│п©п╬п╫п╣п╫я├п╦п╟п╩я▄п╫п╟я▐ п╪п╬п╢п╣п╩я▄ п╢п╟я│я┌ п╠п╬п╩п╣п╣ я┌п╬я┤п╫я▀п╧ я─п╣п╥я┐п╩я▄я┌п╟я┌.\n"
 
 #: ../src/battery.c:1136 ../src/cpu.c:1284 ../src/disk.c:1360 ../src/fs.c:2494
 #: ../src/mem.c:1281 ../src/net.c:2934 ../src/proc.c:904 ../src/sensors.c:2698
 msgid "Substitution variables may be used in alert commands.\n"
-msgstr "Переменные можно использовать в командах сигналов.\n"
+msgstr "п÷п╣я─п╣п╪п╣п╫п╫я▀п╣ п╥п╟п╪п╣я┴п╣п╫п╦я▐ п╪п╬п╤п╫п╬ п╦я│п©п╬п╩я▄п╥п╬п╡п╟я┌я▄ п╡ п╨п╬п╪п╟п╫п╢п╟я┘ я│п╦пЁп╫п╟п╩п╬п╡.\n"
 
 #: ../src/battery.c:1137
 msgid "\t$p    battery percent level.\n"
-msgstr "\t$p    зарядка батарей в процентах.\n"
+msgstr "\t$p    я┐я─п╬п╡п╣п╫я▄ п╠п╟я┌п╟я─п╣п╦ п╡ п©я─п╬я├п╣п╫я┌п╟я┘.\n"
 
 #: ../src/battery.c:1138
 msgid "\t$t    battery time left.\n"
-msgstr "\t$t    осталось времени на батареях.\n"
+msgstr "\t$t    п╬я│я┌п╟я┌п╬я┤п╫п╬п╣ п╡я─п╣п╪я▐ п╠п╟я┌п╟я─п╣п╦.\n"
 
 #: ../src/battery.c:1139
 msgid "\t$n    battery number.\n"
-msgstr "\t$n    количество батарей.\n"
+msgstr "\t$n    п╨п╬п╩п╦я┤п╣я│я┌п╡п╬ п╠п╟я┌п╟я─п╣п╧.\n"
 
 #: ../src/battery.c:1140
 msgid "\t$o    online state (boolean).\n"
-msgstr "\t$o    режим онлайн (да/нет).\n"
+msgstr "\t$o    я─п╣п╤п╦п╪ п╬п╫п╩п╟п╧п╫ (п╢п╟/п╫п╣я┌).\n"
 
 #: ../src/battery.c:1141
 msgid "\t$c    charging state (boolean).\n"
-msgstr "\t$c    режим зарядки (да/нет).\n"
+msgstr "\t$c    я─п╣п╤п╦п╪ п╥п╟я─я▐п╢п╨п╦ (п╢п╟/п╫п╣я┌).\n"
 
 #: ../src/battery.c:1143 ../src/fs.c:2496 ../src/inet.c:1823 ../src/mem.c:1284
 msgid "<h>Mouse Button Actions:\n"
-msgstr "<h>Действия кнопок мыши:\n"
+msgstr "<h>п■п╣п╧я│я┌п╡п╦я▐ п╨п╫п╬п©п╬п╨ п╪я▀я┬п╦:\n"
 
 #: ../src/battery.c:1144 ../src/fs.c:2497 ../src/gui.c:1038 ../src/inet.c:1824
 #: ../src/mail.c:3889 ../src/mail.c:3892 ../src/mem.c:1285
 msgid "<b>\tLeft "
-msgstr "<b>\tЛевая "
+msgstr "<b>\tп⌡п╣п╡п╟я▐ "
 
 #: ../src/battery.c:1145
 msgid ""
 " click on the charging state decal to toggle the display mode\n"
 "\t\tbetween a minutes, percentage, or charging rate display.\n"
 msgstr ""
-" кнопка переключает режим отображения между\n"
-"\t\tминутами, процентами и скоростью зарядки при нажатии в панели Батарей.\n"
+" п╨п╫п╬п©п╨п╟ п©п╣я─п╣п╨п╩я▌я┤п╟п╣я┌ я─п╣п╤п╦п╪ п╬я┌п╬п╠я─п╟п╤п╣п╫п╦я▐ п╪п╣п╤п╢я┐ п╪п╦п╫я┐я┌п╟п╪п╦,\n"
+"\t\tп©я─п╬я├п╣п╫я┌п╟п╪п╦ п╦ я│п╨п╬я─п╬я│я┌я▄я▌ п╥п╟я─я▐п╢п╨п╦ п©я─п╦ п╫п╟п╤п╟я┌п╦п╦ п╡ п©п╟п╫п╣п╩п╦ п▒п╟я┌п╟я─п╣п╦.\n"
 
 #: ../src/battery.c:1147 ../src/inet.c:1827 ../src/mail.c:3895
 msgid "<b>\tMiddle "
-msgstr "<b>\tСредняя "
+msgstr "<b>\tп║я─п╣п╢п╫я▐я▐ "
 
 #: ../src/battery.c:1148
 msgid ""
 " clicking anywhere on the Battery panel also toggles the display mode.\n"
 msgstr ""
-" кнопка также переключает режимы при нажатии где-нибудь в панели\n"
-"\t\tБатарей.\n"
+" п╨п╫п╬п©п╨п╟ я┌п╟п╨п╤п╣ п©п╣я─п╣п╨п╩я▌я┤п╟п╣я┌ я─п╣п╤п╦п╪я▀ п©я─п╦ п╫п╟п╤п╟я┌п╦п╦ п╡ п╬п╠п╩п╟я│я┌п╦ п©п╟п╫п╣п╩п╦ п▒п╟я┌п╟я─п╣п╦.\n"
 
 #: ../src/battery.c:1164 ../src/clock.c:714 ../src/cpu.c:1307
 #: ../src/disk.c:1385 ../src/fs.c:2532 ../src/gui.c:1063 ../src/gui.c:1926
 #: ../src/mail.c:4243 ../src/mem.c:1307 ../src/proc.c:918
 #: ../src/sensors.c:2836 ../src/sensors.c:2871 ../src/uptime.c:277
 msgid "Options"
-msgstr "Параметры"
+msgstr "п÷п╟я─п╟п╪п╣я┌я─я▀"
 
 #: ../src/battery.c:1169 ../src/clock.c:720 ../src/clock.c:739
 #: ../src/disk.c:1398 ../src/plugins.c:1746 ../src/sensors.c:2768
 msgid "Enable"
-msgstr "Включить"
+msgstr "п▓п╨п╩я▌я┤п╦я┌я▄"
 
 #: ../src/battery.c:1174
 msgid "Composite Battery"
-msgstr "Комбинированная батарея"
+msgstr "п п╬п╪п╠п╦п╫п╦я─п╬п╡п╟п╫п╫п╟я▐ п▒п╟я┌п╟я─п╣я▐"
 
 #: ../src/battery.c:1178
 msgid "Real Batteries"
-msgstr "Реальная батарея"
+msgstr "п═п╣п╟п╩я▄п╫п╟я▐ п▒п╟я┌п╟я─п╣я▐"
 
 #: ../src/battery.c:1184
 msgid "Enable Battery"
-msgstr "Включить Батареи"
+msgstr "п▓п╨п╩я▌я┤п╦я┌я▄ п▒п╟я┌п╟я─п╣я▌"
 
 #: ../src/battery.c:1193
 msgid "Display estimated time remaining and time to charge"
-msgstr "Показывать расчётное время зарядки/разрядки"
+msgstr "п÷п╬п╨п╟п╥я▀п╡п╟я┌я▄ я─п╟я│я┤я▒я┌п╫п╬п╣ п╡я─п╣п╪я▐ п╥п╟я─я▐п╢п╨п╦/я─п╟п╥я─я▐п╢п╨п╦"
 
 #: ../src/battery.c:1201
 msgid "Total battery run time in hours"
-msgstr "Полное время работы на батареях в часах"
+msgstr "п÷п╬п╩п╫п╬п╣ п╡я─п╣п╪я▐ я─п╟п╠п╬я┌я▀ п╫п╟ п╠п╟я┌п╟я─п╣п╣ п╡ я┤п╟я│п╟я┘"
 
 #: ../src/battery.c:1205
 msgid "Total battery charge time in hours"
-msgstr "Время полной зарядки батарей в часах"
+msgstr "п▓я─п╣п╪я▐ п©п╬п╩п╫п╬п╧ п╥п╟я─я▐п╢п╨п╦ п╠п╟я┌п╟я─п╣п╦ п╡ я┤п╟я│п╟я┘"
 
 #: ../src/battery.c:1210
 msgid "Exponential charge model"
-msgstr "Экспоненциальная модель зарядки"
+msgstr "п╜п╨я│п©п╬п╫п╣п╫я├п╦п╟п╩я▄п╫п╟я▐ п╪п╬п╢п╣п╩я▄ п╥п╟я─я▐п╢п╨п╦"
 
 #: ../src/battery.c:1218 ../src/inet.c:2017
 msgid "Seconds between updates"
-msgstr "секунд между обновлениями"
+msgstr "п║п╣п╨я┐п╫п╢я▀ п╪п╣п╤п╢я┐ п╬п╠п╫п╬п╡п╩п╣п╫п╦я▐п╪п╦"
 
 #: ../src/battery.c:1222 ../src/clock.c:755 ../src/cpu.c:1358
 #: ../src/disk.c:1431 ../src/fs.c:2529 ../src/inet.c:2011 ../src/mail.c:3932
 #: ../src/mem.c:1346 ../src/net.c:3075 ../src/proc.c:958 ../src/sensors.c:2737
 #: ../src/uptime.c:274
 msgid "Setup"
-msgstr "Настройка"
+msgstr "п²п╟я│я┌я─п╬п╧п╨п╟"
 
 #: ../src/battery.c:1225 ../src/clock.c:782 ../src/cpu.c:1389
 #: ../src/disk.c:1453 ../src/inet.c:2041 ../src/mem.c:1418 ../src/net.c:3063
 #: ../src/proc.c:977 ../src/uptime.c:285
 msgid "Launch Commands"
-msgstr "Команды запуска"
+msgstr "п п╬п╪п╟п╫п╢я▀ п╥п╟п©я┐я│п╨п╟"
 
 #: ../src/battery.c:1246
 msgid "Alerts check for percent capacity remaining."
-msgstr ""
+msgstr "п÷я─п╬п╡п╣я─п╨п╟ я│п╦пЁп╫п╟п╩п╬п╡ п©п╬ п╬я│я┌п╟я┌п╨я┐ я▒п╪п╨п╬я│я┌п╦ п╡ %."
 
 #: ../src/battery.c:1251 ../src/clock.c:790 ../src/cpu.c:1412
 #: ../src/disk.c:1467 ../src/fs.c:2574 ../src/gui.c:1173 ../src/gui.c:2007
 #: ../src/inet.c:2054 ../src/mail.c:4311 ../src/mem.c:1436 ../src/net.c:3105
 #: ../src/proc.c:989 ../src/sensors.c:2917
 msgid "Info"
-msgstr "Описание"
+msgstr "п·п©п╦я│п╟п╫п╦п╣"
 
 #: ../src/chart.c:1039
 msgid "Ag8"
@@ -278,67 +275,67 @@ msgstr ""
 
 #: ../src/chart.c:2310 ../src/chart.c:2467
 msgid "/Control/Auto mode sticks at peak value"
-msgstr "/Настроить/Держаться максимальных значений"
+msgstr "/п²п╟я│я┌я─./п■п╣я─п╤п╟я┌я▄я│я▐ п╪п╟п╨я│п╦п╪п╟п╩я▄п╫я▀я┘ п╥п╫п╟я┤п╣п╫п╦п╧"
 
 #: ../src/chart.c:2314 ../src/chart.c:2465
 msgid "/Control/Auto mode recalibrate"
-msgstr "/Настроить/Пересчитать авто-режим"
+msgstr "/п²п╟я│я┌я─./п÷п╣я─п╣я│я┤п╦я┌п╟я┌я▄ п╟п╡я┌п╬-я─п╣п╤п╦п╪"
 
 #: ../src/chart.c:2463
 msgid "/Control"
-msgstr "/Настроить"
+msgstr "/п²п╟я│я┌я─п╬п╦я┌я▄"
 
 #: ../src/chart.c:2464 ../src/chart.c:2469 ../src/chart.c:2475
 msgid "/Control/-"
-msgstr "/Настроить/-"
+msgstr "/п²п╟я│я┌я─./-"
 
 #: ../src/chart.c:2470 ../src/chart.c:2474 ../src/chart.c:2501
 msgid "/Control/Sequence.../1 2 5"
-msgstr "/Настроить/Последовательность/1 2 5"
+msgstr "/п²п╟я│я┌я─./п÷п╬я│п╩п╣п╢п╬п╡п╟я┌п╣п╩я▄п╫п╬я│я┌я▄/1 2 5"
 
 #: ../src/chart.c:2472 ../src/chart.c:2503
 msgid "/Control/Sequence.../1 1.5 2 3 5 7"
-msgstr "/Настроить/Последовательность/1 1.5 2 3 5 7"
+msgstr "/п²п╟я│я┌я─./п÷п╬я│п╩п╣п╢п╬п╡п╟я┌п╣п╩я▄п╫п╬я│я┌я▄/1 1.5 2 3 5 7"
 
 #: ../src/chart.c:2538
 msgid "GKrellM Chart Config"
-msgstr "Настройка чартов GKrellM"
+msgstr "п²п╟я│я┌я─п╬п╧п╨п╟ я┤п╟я─я┌п╬п╡ GKrellM"
 
 #: ../src/chart.c:2559
 msgid "Line style"
-msgstr "Кривая"
+msgstr "п║я┌п╦п╩я▄ п╩п╦п╫п╦п╦"
 
 #: ../src/chart.c:2566
 msgid "Inverted"
-msgstr "Инверсия"
+msgstr "п≤п╫п╡п╣я─я│п╦я▐"
 
 #: ../src/chart.c:2574
 msgid "Split view"
-msgstr "Два окна"
+msgstr "п■п╡п╟ п╬п╨п╫п╟"
 
 #: ../src/chart.c:2586
 msgid "Hide"
-msgstr "Спрятать"
+msgstr "п║п©я─я▐я┌п╟я┌я▄"
 
 #: ../src/chart.c:2601
 msgid "Resolution per Grid"
-msgstr "Разрешение полосы"
+msgstr "п═п╟п╥я─п╣я┬п╣п╫п╦п╣ я│п╣я┌п╨п╦"
 
 #: ../src/chart.c:2621
 msgid "Auto"
-msgstr "Авто"
+msgstr "п░п╡я┌п╬"
 
 #: ../src/chart.c:2633
 msgid "Number of Grids"
-msgstr "Число полос"
+msgstr "п╖п╦я│п╩п╬ я│п╣я┌п╬п╨"
 
 #: ../src/chart.c:2638
 msgid "0: Auto    1-5: Constant"
-msgstr "0: Авто    1-5: Постоянное"
+msgstr "0: п░п╡я┌п╬    1-5: п÷п╬я│я┌п╬я▐п╫п╫п╟я▐"
 
 #: ../src/chart.c:2647
 msgid "Chart height"
-msgstr "Высота чарта"
+msgstr "п▓я▀я│п╬я┌п╟ я┤п╟я─я┌п╟"
 
 #: ../src/clock.c:49
 msgid "%l:%M <span foreground=\"$A\"><small>%S</small></span>"
@@ -350,13 +347,15 @@ msgstr ""
 
 #: ../src/clock.c:688
 msgid "<h>Clock/Calendar Format Strings\n"
-msgstr ""
+msgstr "<h>п║я┌я─п╬п╨п╦ я└п╬я─п╪п╟я┌п╬п╡ п╖п╟я│я▀/п п╟п╩п╣п╫п╢п╟я─я▄\n"
 
 #: ../src/clock.c:689
 msgid ""
 "The display format strings should contain strftime conversion\n"
 "characters and Pango text attribute markup strings.\n"
 msgstr ""
+"п║я┌я─п╬п╨п╦ я└п╬я─п╪п╟я┌п╟ п╬я┌п╬п╠я─п╟п╤п╣п╫п╦я▐ п╢п╬п╩п╤п╫я▀ я│п╬п╢п╣я─п╤п╟я┌я▄ strftime п©я─п╣п╬п╠я─п╟п╥п╬п╡п╟п╫п╦я▐\n"
+"я│п╦п╪п╡п╬п╩п╬п╡ п╦ Pango я┌п╣п╨я│я┌п╬п╡я▀п╣ п╟я┌я─п╦п╠я┐я┌я▀ п╪п╟я─п╨п╦я─п╬п╡п╟п╫п╫я▀я┘ я│я┌я─п╬п╨\n"
 
 #: ../src/clock.c:692
 msgid ""
@@ -364,59 +363,63 @@ msgid ""
 "clock with seconds, a 12 hour clock with AM/PM indicator, or a 24 hour\n"
 "clock with seconds.\n"
 msgstr ""
+"п■п╩я▐ я┤п╟я│п╬п╡, п©п╬ я┐п╪п╬п╩я┤п╟п╫п╦я▌ п©я─п╣п╢п╬я│я┌п╟п╡п╩я▐я▌я┌я│я▐ я│я┌я─п╬п╨п╦ я│ п╬я┌п╬п╠я─п╟п╤п╣п╫п╦п╣п╪ 12 я┤п╟я│п╬п╡\n"
+"я│ я│п╣п╨я┐п╫п╢п╟п╪п╦, 12 я┤п╟я│п╬п╡ я│ AM/PM п╦п╫п╢п╦п╨п╟я┌п╬я─п╬п╪, п╦п╩п╦ 24 я┤п╟я│п╟ я│ я│п╣п╨я┐п╫п╢п╟п╪п╦.\n"
 
 #: ../src/clock.c:696
 msgid ""
 "The special $A substitution variable expands to the current theme\n"
 "alternate color and is for use with the Pango \"foreground\" attribute.\n"
 msgstr ""
+"п÷п╣я─п╣п╪п╣п╫п╫п╟я▐ я│п©п╣я├п╦п╟п╩я▄п╫п╬п╧ п╥п╟п╪п╣п╫я▀ $A я─п╟я│я┬п╦я─я▐п╣я┌я│я▐ п╟п╩я▄я┌п╣я─п╫п╟я┌п╦п╡п╫я▀п╪ я├п╡п╣я┌п╬п╪ я┌п╣п╨я┐я┴п╣п╧\n"
+"я┌п╣п╪я▀ п╦ п©я─п╣п╢п╫п╟п╥п╫п╟я┤п╣п╫п╟ п╢п╩я▐ п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╦я▐ я│ Pango \"п╩п╦я├п╣п╡я▀п╪\" п╟я┌я─п╦п╠я┐я┌п╬п╪.\n"
 
 #: ../src/clock.c:716 ../src/clock.c:787 ../src/clock.c:850
 msgid "Calendar"
-msgstr "Календарь"
+msgstr "п п╟п╩п╣п╫п╢п╟я─я▄"
 
 #: ../src/clock.c:723 ../src/clock.c:742
 msgid "Display format string:"
-msgstr ""
+msgstr "п║я┌я─п╬п╨п╟ я└п╬я─п╪п╟я┌п╟ п╬я┌п╬п╠я─п╟п╤п╣п╫п╦я▐:"
 
 #: ../src/clock.c:735 ../src/clock.c:801 ../src/clock.c:811
 msgid "Clock"
-msgstr "Часы"
+msgstr "п╖п╟я│я▀"
 
 #: ../src/clock.c:757
 msgid "Clock Chime Commands"
-msgstr "Команды мелодий"
+msgstr "п п╬п╪п╟п╫п╢я▀ п╪п╣п╩п╬п╢п╦п╦ я┤п╟я│п╬п╡"
 
 #: ../src/clock.c:762
 msgid "Hour"
-msgstr "ежечасная"
+msgstr "п∙п╤п╣я┤п╟я│п╫п╟я▐"
 
 #: ../src/clock.c:770
 msgid "Quarter hour"
-msgstr "пятнадцатиминутная"
+msgstr "п п╟п╤п╢я┐я▌ я┤п╣я┌п╡п╣я─я┌я▄ я┤п╟я│п╟"
 
 #: ../src/clock.c:780
 msgid "Loop hour chime command"
-msgstr "Повторять мелодию"
+msgstr "п∙п╤п╣я┤п╟я│п╫п╬п╣ п©п╬п╡я┌п╬я─п╣п╫п╦п╣ п╪п╣п╩п╬п╢п╦п╦"
 
 #: ../src/config.c:272
 #, c-format
 msgid "Bad textcolor line %s\n"
-msgstr "Неверная строка цвета %s\n"
+msgstr "п²п╣п╡п╣я─п╫п╟я▐ я│я┌я─п╬п╨п╟ я├п╡п╣я┌п╟ %s\n"
 
 #: ../src/config.c:1052 ../src/config.c:1083
 #, c-format
 msgid "  Cannot load file image: %s\n"
-msgstr "  Не могу загрузить картинку: %s\n"
+msgstr "  п²п╣ п╪п╬пЁя┐ п╥п╟пЁя─я┐п╥п╦я┌я▄ я└п╟п╧п╩ п╦п╥п╬п╠я─п╟п╤п╣п╫п╦я▐: %s\n"
 
 #: ../src/config.c:1058
 msgid "  Cannot load GdkPixbuf inline data.\n"
-msgstr "  Не могу загрузить встроенный GdkPixbuf.\n"
+msgstr "  п²п╣ п╪п╬пЁя┐ п╥п╟пЁя─я┐п╥п╦я┌я▄ п╡я│я┌я─п╬п╣п╫п╫я▀п╣ п╢п╟п╫п╫я▀п╣ GdkPixbuf.\n"
 
 #: ../src/config.c:1089
 #, c-format
 msgid "  Cannot load xpm: %s\n"
-msgstr "  Не могу загрузить xpm: %s\n"
+msgstr "  п²п╣ п╪п╬пЁя┐ п╥п╟пЁя─я┐п╥п╦я┌я▄ xpm: %s\n"
 
 #: ../src/config.c:1753
 #, c-format
@@ -424,105 +427,105 @@ msgid ""
 "Incomplete config line:\n"
 "    %s\n"
 msgstr ""
-"Незавершённая строка настройки:\n"
+"п²п╣п╥п╟п╡п╣я─я┬я▒п╫п╫п╟я▐ я│я┌я─п╬п╨п╟ п╫п╟я│я┌я─п╬п╧п╨п╦:\n"
 "    %s\n"
 
 #: ../src/config.c:2438
 #, c-format
 msgid "Cannot open config file %s for writing.\n"
-msgstr "Не могу записать файл настройки %s.\n"
+msgstr "п²п╣ п╪п╬пЁя┐ п╥п╟п©п╦я│п╟я┌я▄ я└п╟п╧п╩ п╫п╟я│я┌я─п╬п╧п╨п╦ %s.\n"
 
 #: ../src/cpu.c:187
 #, c-format
 msgid "CPU%s"
-msgstr "ЦПУ%s"
+msgstr "п╕п÷пё%s"
 
 #: ../src/cpu.c:855
 msgid "sys time"
-msgstr "система"
+msgstr "п╡я─п╣п╪я▐ я│п╦я│я┌п╣п╪я▀"
 
 #: ../src/cpu.c:856
 msgid "user time"
-msgstr "пользователь"
+msgstr "п╡я─п╣п╪я▐ п©п╬п╩я▄п╥п╬п╡п╟я┌п╣п╩я▐"
 
 #: ../src/cpu.c:865 ../src/cpu.c:869 ../src/cpu.c:1117
 msgid "nice time"
-msgstr ""
+msgstr "п╡я─п╣п╪я▐ п╠п╣п╥п╢п╣п╧я│я┌п╡п╦я▐"
 
 #: ../src/cpu.c:977 ../src/cpu.c:1444
 msgid "CPU"
-msgstr "ЦПУ"
+msgstr "п╕п÷пё"
 
 #: ../src/cpu.c:978 ../src/fs.c:1301 ../src/mem.c:998
 msgid "Percent Usage"
-msgstr "Проценты загрузки"
+msgstr "п÷я─п╬я├п╣п╫я┌ п╥п╟пЁя─я┐п╥п╨п╦"
 
 #: ../src/cpu.c:1276 ../src/disk.c:1352 ../src/gui.c:1010 ../src/inet.c:1812
 #: ../src/mem.c:1254 ../src/net.c:2918 ../src/proc.c:895
 msgid "<h>Chart Labels\n"
-msgstr "<h>Подписи на Чарте\n"
+msgstr "<h>п÷п╬п╢п©п╦я│п╦ п╫п╟ п╖п╟я─я┌п╣\n"
 
 #: ../src/cpu.c:1277 ../src/disk.c:1353 ../src/inet.c:1813 ../src/mem.c:1255
 #: ../src/net.c:2919 ../src/proc.c:896
 msgid "Substitution variables for the format string for chart labels:\n"
-msgstr "Переменные для подстановки в строку формата:\n"
+msgstr "п÷п╣я─п╣п╪п╣п╫п╫я▀п╣ п╥п╟п╪п╣я┴п╣п╫п╦я▐ п╢п╩я▐ я│я┌я─п╬п╨ я└п╬я─п╪п╟я┌п╬п╡ п╪п╟я─п╨п╦я─п╬п╡п╬п╨ я┤п╟я─я┌п╟:\n"
 
 #: ../src/cpu.c:1278
 msgid "\t$L    the CPU label\n"
-msgstr "\t$L    заголовок ЦПУ\n"
+msgstr "\t$L    п╥п╟пЁп╬п╩п╬п╡п╬п╨ п╕п÷пё\n"
 
 #: ../src/cpu.c:1279
 msgid "\t$T    total CPU time percent usage\n"
-msgstr "\t$T    общая загрузка процессора в процентах\n"
+msgstr "\t$T    п╬п╠я┴п╣п╣ п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╦я▐ п╡я─п╣п╪п╣п╫п╦ п©я─п╬я├п╣я│я│п╬я─п╟ п╡ %\n"
 
 #: ../src/cpu.c:1280
 msgid "\t$s    sys time percent usage\n"
-msgstr "\t$s    использование времени системой в процентах\n"
+msgstr "\t$s    п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╦п╣ п╡я─п╣п╪п╣п╫п╦ я│п╦я│я┌п╣п╪п╬п╧ п╡ %\n"
 
 #: ../src/cpu.c:1281
 msgid "\t$u    user time percent usage\n"
-msgstr "\t$u    использование времени пользователем в процентах\n"
+msgstr "\t$u    п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╦п╣ п╡я─п╣п╪п╣п╫п╦ п©п╬п╩я▄п╥п╬п╡п╟я┌п╣п╩п╣п╪ п╡ %\n"
 
 #: ../src/cpu.c:1282
 msgid "\t$n    nice time percent usage\n"
-msgstr "\t$n    nice time в процентах\n"
+msgstr "\t$n    п╡я─п╣п╪п╣п╫я▐ п╠п╣п╥п╢п╣п╧я│я┌п╡п╦я▐ п╡ %\n"
 
 #: ../src/cpu.c:1311
 msgid "Enable CPU"
-msgstr "Включить ЦПУ"
+msgstr "п▓п╨п╩я▌я┤п╦я┌я▄ п╕п÷пё"
 
 #: ../src/cpu.c:1316
 msgid "Exclude nice CPU time from krell even if nice is shown on chart"
-msgstr "Убрать nice time с крелла, даже если он показан на чарте"
+msgstr "пёп╠я─п╟я┌я▄ п╡я─п╣п╪я▐ п╠п╣п╥п╢п╣п╧я│я┌п╡п╦я▐ я│ п╨я─п╣п╩п╩п╟, п╢п╟п╤п╣ п╣я│п╩п╦ п╬п╫ п©п╬п╨п╟п╥п╟п╫ п╫п╟ я┤п╟я─я┌п╣"
 
 #: ../src/cpu.c:1321 ../src/proc.c:928
 msgid "Draw fan and temperature values separately (not alternating)."
-msgstr "Отображать температуру и обороты вентилятора раздельно."
+msgstr "п·я┌п╬п╠я─п╟п╤п╟я┌я▄ я┌п╣п╪п©п╣я─п╟я┌я┐я─я┐ п╦ п╬п╠п╬я─п╬я┌я▀ п╡п╣п╫я┌п╦п╩я▐я┌п╬я─п╟ я─п╟п╥п╢п╣п╩я▄п╫п╬."
 
 #: ../src/cpu.c:1328
 msgid "Apply any CPU chart config height change to all CPU charts"
-msgstr "Применять смену высоты на одном чарте ЦПУ к другим чартам ЦПУ"
+msgstr "п÷я─п╦п╪п╣п╫я▐я┌я▄ я│п╪п╣п╫я┐ п╡я▀я│п╬я┌я▀ п╫п╟ п╬п╢п╫п╬п╪ я┤п╟я─я┌п╣ п╕п÷пё п╨ п╢я─я┐пЁп╦п╪ я┤п╟я─я┌п╟п╪ п╕п÷пё"
 
 #: ../src/cpu.c:1331
 msgid "SMP Charts Select"
-msgstr "Выбор чартов SMP"
+msgstr "п▓я▀п╠п╬я─ я┤п╟я─я┌п╬п╡ SMP"
 
 #: ../src/cpu.c:1334
 msgid "Real CPUs."
-msgstr "Реальные ЦПУ"
+msgstr "п═п╣п╟п╩я▄п╫я▀п╣ п╕п÷пё"
 
 #: ../src/cpu.c:1339
 msgid "Composite CPU."
-msgstr "Составной ЦПУ."
+msgstr "п║п╬я│я┌п╟п╡п╫п╬п╧ п╕п÷пё."
 
 #: ../src/cpu.c:1345
 msgid "Composite and real"
-msgstr "Составной и реальные"
+msgstr "п║п╬я│я┌п╟п╡п╫п╬п╧ п╦ я─п╣п╟п╩я▄п╫я▀п╣"
 
 #: ../src/cpu.c:1361 ../src/disk.c:1434 ../src/inet.c:2023 ../src/mem.c:1349
 #: ../src/net.c:3078 ../src/proc.c:961
 msgid "Format String for Chart Labels"
-msgstr "Строка формата для подписи чарта"
+msgstr "п║я┌я─п╬п╨п╟ я└п╬я─п╪п╟я┌п╟ п╢п╩я▐ п©п╬п╢п©п╦я│п╦ я┤п╟я─я┌п╟"
 
 #: ../src/cpu.c:1374
 msgid "\\fu \\.$u\\n\\fs \\.$s"
@@ -544,51 +547,51 @@ msgstr ""
 #: ../src/disk.c:325 ../src/disk.c:1406 ../src/disk.c:1476 ../src/disk.c:1504
 #: ../src/sensors.c:2297 ../src/sensors.c:2375 ../src/sysdeps/openbsd.c:410
 msgid "Disk"
-msgstr "Диск"
+msgstr "п■п╦я│п╨"
 
 #: ../src/disk.c:766 ../src/disk.c:1228
 msgid "Write bytes"
-msgstr "Записано байт"
+msgstr "п≈п╟п©п╦я│п╟п╫п╬ п╠п╟п╧я┌"
 
 #: ../src/disk.c:767 ../src/disk.c:1225
 msgid "Read bytes"
-msgstr "Cчитано байт"
+msgstr "Cя┤п╦я┌п╟п╫п╬ п╠п╟п╧я┌"
 
 #: ../src/disk.c:778
 msgid "Disk I/O blocks per sec"
-msgstr "Ввод/вывод блоков в секунду"
+msgstr "п▓п╡п╬п╢/п╡я▀п╡п╬п╢ п╠п╩п╬п╨п╬п╡ п╡ я│п╣п╨я┐п╫п╢я┐"
 
 #: ../src/disk.c:778
 msgid "Disk I/O bytes per sec"
-msgstr "Ввод/вывод байт в секунду"
+msgstr "п▓п╡п╬п╢/п╡я▀п╡п╬п╢ п╠п╟п╧я┌ п╡ я│п╣п╨я┐п╫п╢я┐"
 
 #: ../src/disk.c:894 ../src/net.c:2419
 msgid "Bytes per second"
-msgstr "Байт в секунду"
+msgstr "п▒п╟п╧я┌ п╡ я│п╣п╨я┐п╫п╢я┐"
 
 #: ../src/disk.c:1092
 msgid "Composite chart combines data for all disks"
-msgstr "Общий чарт с данными по всем дискам"
+msgstr "п·п╠я┴п╦п╧ я┤п╟я─я┌ я│ п╢п╟п╫п╫я▀п╪п╦ п©п╬ п╡я│п╣п╪ п╢п╦я│п╨п╟п╪"
 
 #: ../src/disk.c:1354
 msgid "\t$L    the Disk label\n"
-msgstr ""
+msgstr "\t$L    п╪п╣я┌п╨п╟ п╢п╦я│п╨п╟\n"
 
 #: ../src/disk.c:1355 ../src/inet.c:1814 ../src/mem.c:1256 ../src/net.c:2920
 msgid "\t$M    maximum chart value\n"
-msgstr "\t$M    максимум на чарте\n"
+msgstr "\t$M    п╪п╟п╨я│п╦п╪я┐п╪ п╫п╟ я┤п╟я─я┌п╣\n"
 
 #: ../src/disk.c:1356
 msgid "\t$T    total read bytes + write bytes\n"
-msgstr "\t$T    всего считано байт + записано байт\n"
+msgstr "\t$T    п╡я│п╣пЁп╬ я│я┤п╦я┌п╟п╫п╬ п╠п╟п╧я┌ + п╥п╟п©п╦я│п╟п╫п╬ п╠п╟п╧я┌\n"
 
 #: ../src/disk.c:1357
 msgid "\t$r    read bytes\n"
-msgstr "\t$r    считано байт\n"
+msgstr "\t$r    я│я┤п╦я┌п╟п╫п╬ п╠п╟п╧я┌\n"
 
 #: ../src/disk.c:1358
 msgid "\t$w    write bytes\n"
-msgstr "\t$w    записано байт\n"
+msgstr "\t$w    п╥п╟п©п╦я│п╟п╫п╬ п╠п╟п╧я┌\n"
 
 #: ../src/disk.c:1447
 msgid "\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"
@@ -596,11 +599,11 @@ msgstr ""
 
 #: ../src/fs.c:39 ../src/mem.c:63
 msgid "$t - $f free"
-msgstr "$t - $f свободно"
+msgstr "$t - $f я│п╡п╬п╠п╬п╢п╫п╬"
 
 #: ../src/fs.c:40 ../src/mem.c:1382 ../src/mem.c:1405
 msgid "$t - $u used"
-msgstr "$t - $u занято"
+msgstr "$t - $u п╥п╟п╫я▐я┌п╬"
 
 #: ../src/fs.c:41 ../src/mem.c:1384 ../src/mem.c:1407
 msgid "$t - $U"
@@ -608,76 +611,76 @@ msgstr ""
 
 #: ../src/fs.c:880
 msgid "GKrellM Mount Error"
-msgstr "GKrellM: Ошибка монтирования"
+msgstr "GKrellM: п·я┬п╦п╠п╨п╟ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐"
 
 #: ../src/fs.c:1570
 msgid "Primary"
-msgstr "Основные"
+msgstr "п·я│п╫п╬п╡п╫я▀п╣"
 
 #: ../src/fs.c:1584 ../src/fs.c:2309
 msgid "Secondary"
-msgstr "Дополнительные"
+msgstr "п■п╬п©п╬п╩п╫п╦я┌п╣п╩я▄п╫я▀п╣"
 
 #: ../src/fs.c:1926 ../src/fs.c:2023 ../src/fs.c:2035 ../src/fs.c:2043
 msgid "Entry Error"
-msgstr "Неправильная запись"
+msgstr "п²п╣п©я─п╟п╡п╦п╩я▄п╫п╟я▐ п╥п╟п©п╦я│я▄"
 
 #: ../src/fs.c:1927
 msgid ""
 "At least one primary fs monitor must exist to click on in order to show\n"
 "secondary ones.\n"
 msgstr ""
-"По крайней мере один основной монитор должен присутствовать, чтобы можно\n"
-"было показать дополнительные щелчком мыши.\n"
+"п÷п╬ п╨я─п╟п╧п╫п╣п╧ п╪п╣я─п╣ п╬п╢п╦п╫ п╬я│п╫п╬п╡п╫п╬п╧ п╪п╬п╫п╦я┌п╬я─ п╢п╬п╩п╤п╣п╫ п©я─п╦я│я┐я┌я│я┌п╡п╬п╡п╟я┌я▄, я┤я┌п╬п╠я▀ п╪п╬п╤п╫п╬\n"
+"п╠я▀п╩п╬ п©п╬п╨п╟п╥п╟я┌я▄ п╢п╬п©п╬п╩п╫п╦я┌п╣п╩я▄п╫я▀п╣ я┴п╣п╩я┤п╨п╬п╪ п╪я▀я┬п╦.\n"
 
 #: ../src/fs.c:2025
 msgid "Both a label and a mount point must be entered."
-msgstr "Нужно ввести и метку, и точку монтирования."
+msgstr "п²я┐п╤п╫п╬ п╡п╡п╣я│я┌п╦ п╦ п╪п╣я┌п╨я┐, п╦ я┌п╬я┤п╨я┐ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐."
 
 #: ../src/fs.c:2036
 msgid "Both mount and umount commands must be entered."
-msgstr "Нужно указать команды монтирования и размонтирования."
+msgstr "п²я┐п╤п╫п╬ я┐п╨п╟п╥п╟я┌я▄ п╨п╬п╪п╟п╫п╢я▀ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐ п╦ я─п╟п╥п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐."
 
 #: ../src/fs.c:2044
 msgid "Missing ejectable device entry."
-msgstr "Не указано сменное устройство."
+msgstr "п²п╣ я┐п╨п╟п╥п╟п╫п╬ я│п╪п╣п╫п╫п╬п╣ я┐я│я┌я─п╬п╧я│я┌п╡п╬."
 
 #: ../src/fs.c:2276 ../src/fs.c:2398 ../src/inet.c:1873 ../src/inet.c:1879
 #: ../src/inet.c:1964 ../src/inet.c:1984 ../src/sensors.c:2777
 msgid "Label"
-msgstr "Метка"
+msgstr "п°п╣я┌п╨п╟"
 
 #: ../src/fs.c:2285 ../src/fs.c:2402
 msgid "Mount Point"
-msgstr "Куда:"
+msgstr "п я┐п╢п╟:"
 
 #: ../src/fs.c:2316
 msgid "Show if mounted"
-msgstr "Показывать, если смонтировано"
+msgstr "п÷п╬п╨п╟п╥я▀п╡п╟я┌я▄, п╣я│п╩п╦ я│п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╬"
 
 #: ../src/fs.c:2322
 msgid "Enable /etc/fstab mounting"
-msgstr "Брать из /etc/fstab"
+msgstr "п▒я─п╟я┌я▄ п╦п╥ /etc/fstab"
 
 #: ../src/fs.c:2336
 msgid "Ejectable"
-msgstr "Сменное"
+msgstr "п║п╪п╣п╫п╫п╬п╣"
 
 #: ../src/fs.c:2342
 msgid "Device"
-msgstr "Устройство"
+msgstr "пёя│я┌я─п╬п╧я│я┌п╡п╬"
 
 #: ../src/fs.c:2357
 msgid "mount"
-msgstr "монтирования"
+msgstr "п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐"
 
 #: ../src/fs.c:2359
 msgid "umount"
-msgstr "размонтирования"
+msgstr "я─п╟п╥п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐"
 
 #: ../src/fs.c:2425
 msgid "<h>Mounting\n"
-msgstr "<h>Монтирование\n"
+msgstr "<h>п°п╬п╫я┌п╦я─п╬п╡п╟п╫п╦п╣\n"
 
 #: ../src/fs.c:2426
 msgid ""
@@ -687,15 +690,14 @@ msgid ""
 "of two ways:\n"
 "\n"
 msgstr ""
-"Укажите нужную точку монтирования и метку для её описания.\n"
-"Крелл показывает соотношение использованных и доступных блоков.\n"
-"Команды монтирования для каждой точки могут быть указаны одним\n"
-"из двух способов:\n"
+"пёп╨п╟п╤п╦я┌п╣ п╫я┐п╤п╫я┐я▌ я┌п╬я┤п╨я┐ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐ п╦ п╪п╣я┌п╨я┐ п╢п╩я▐ п╣я▒ п╬п©п╦я│п╟п╫п╦я▐. п я─п╣п╩п╩ п©п╬п╨п╟п╥я▀п╡п╟п╣я┌\n"
+"я│п╬п╬я┌п╫п╬я┬п╣п╫п╦п╣ п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╫я▀я┘ п╦ п╢п╬я│я┌я┐п©п╫я▀я┘ п╠п╩п╬п╨п╬п╡. п п╬п╪п╟п╫п╢я▀ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐ п╢п╩я▐ п╨п╟п╤п╢п╬п╧\n"
+"я┌п╬я┤п╨п╦ п╪п╬пЁя┐я┌ п╠я▀я┌я▄ я┐п╨п╟п╥п╟п╫я▀ п╬п╢п╫п╦п╪ п╦п╥ п╢п╡я┐я┘ я│п©п╬я│п╬п╠п╬п╡:\n"
 "\n"
 
 #: ../src/fs.c:2431
 msgid "<b>\t1) Mounting using /etc/fstab: "
-msgstr "<b>\t1) При помощи /etc/fstab: "
+msgstr "<b>\t1) п÷я─п╦ п©п╬п╪п╬я┴п╦ /etc/fstab: "
 
 #: ../src/fs.c:2433
 msgid ""
@@ -709,18 +711,13 @@ msgid ""
 "\tto be able to mount your floppy, your /etc/fstab could have\n"
 "\teither of:\n"
 msgstr ""
-"\tЕсли точка монтирования присутствует в /etc/fstab,\n"
-"\tи у вас есть права на монтирование, то команды монтирования и "
-"размонтирования\n"
-"\tдля данной точки могут быть указаны и исполнены включением пункта \"Брать "
-"из\n"
-"\t/etc/fstab\". Записи в /etc/fstab должны иметь параметр \"user\" или "
-"\"owner\",\n"
-"\tдабы обеспечить такие права, за исключением, когда GKrellM запущен под "
-"root.\n"
-"\tНапример, если вы запустили GKrellM как обычный пользователь и хотите "
-"иметь\n"
-"\tвозможность монтировать дисковод, в /etc/fstab должно быть либо\n"
+"\tп∙я│п╩п╦ я┌п╬я┤п╨п╟ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐ п©я─п╦я│я┐я┌я│я┌п╡я┐п╣я┌ п╡ /etc/fstab,\n"
+"\tп╦ я┐ п╡п╟я│ п╣я│я┌я▄ п©я─п╟п╡п╟ п╫п╟ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦п╣, я┌п╬ п╨п╬п╪п╟п╫п╢я▀ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐ п╦ я─п╟п╥п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐\n"
+"\tп╢п╩я▐ п╢п╟п╫п╫п╬п╧ я┌п╬я┤п╨п╦ п╪п╬пЁя┐я┌ п╠я▀я┌я▄ я┐п╨п╟п╥п╟п╫я▀ п╦ п╦я│п©п╬п╩п╫п╣п╫я▀ п╡п╨п╩я▌я┤п╣п╫п╦п╣п╪ п©я┐п╫п╨я┌п╟ \"п▒я─п╟я┌я▄ п╦п╥\n"
+"\t/etc/fstab\". п≈п╟п©п╦я│п╦ п╡ /etc/fstab п╢п╬п╩п╤п╫я▀ п╦п╪п╣я┌я▄ п©п╟я─п╟п╪п╣я┌я─ \"user\" п╦п╩п╦ \"owner\",\n"
+"\tп╢п╟п╠я▀ п╬п╠п╣я│п©п╣я┤п╦я┌я▄ я┌п╟п╨п╦п╣ п©я─п╟п╡п╟, п╥п╟ п╦я│п╨п╩я▌я┤п╣п╫п╦п╣п╪, п╨п╬пЁп╢п╟ GKrellM п╥п╟п©я┐я┴п╣п╫ п©п╬п╢ root.\n"
+"\tп²п╟п©я─п╦п╪п╣я─, п╣я│п╩п╦ п╡я▀ п╥п╟п©я┐я│я┌п╦п╩п╦ GKrellM п╨п╟п╨ п╬п╠я▀я┤п╫я▀п╧ п©п╬п╩я▄п╥п╬п╡п╟я┌п╣п╩я▄ п╦ я┘п╬я┌п╦я┌п╣ п╦п╪п╣я┌я▄\n"
+"\tп╡п╬п╥п╪п╬п╤п╫п╬я│я┌я▄ п╪п╬п╫я┌п╦я─п╬п╡п╟я┌я▄ п╢п╦я│п╨п╬п╡п╬п╢, п╡ /etc/fstab п╢п╬п╩п╤п╫п╬ п╠я▀я┌я▄:\n"
 
 #: ../src/fs.c:2443
 msgid "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,noauto,rw,exec 0 0\n"
@@ -728,7 +725,7 @@ msgstr ""
 
 #: ../src/fs.c:2444
 msgid "\tor\n"
-msgstr "\tлибо\n"
+msgstr "\tп╩п╦п╠п╬\n"
 
 #: ../src/fs.c:2445
 msgid ""
@@ -738,7 +735,7 @@ msgstr ""
 
 #: ../src/fs.c:2447
 msgid "<b>\t2) Mounting using custom commands: "
-msgstr "<b>\t2) Монтирование собственными командами: "
+msgstr "<b>\t2) п°п╬п╫я┌п╦я─п╬п╡п╟п╫п╦п╣ я│п╬п╠я│я┌п╡п╣п╫п╫я▀п╪п╦ п╨п╬п╪п╟п╫п╢п╟п╪п╦: "
 
 #: ../src/fs.c:2448
 msgid ""
@@ -748,12 +745,11 @@ msgid ""
 "\tbox.  A umount command must also be entered if you choose this\n"
 "\tmethod.  Example mount and umount entries using sudo:\n"
 msgstr ""
-"\tЕсли GKrellM запущен под root\n"
-"\tили у Вас есть sudo-права для запуска mount, команда монтирования может\n"
-"\tбыть записана в поле \"mount command\". Если Вы используете этот метод, "
-"то\n"
-"\tзаполните также поле \"umount command\". Пример монтирования и\n"
-"\tразмонтирования при помощи sudo:\n"
+"\tп∙я│п╩п╦ GKrellM п╥п╟п©я┐я┴п╣п╫ п©п╬п╢ root п╦п╩п╦\n"
+"\tя┐ п▓п╟я│ п╣я│я┌я▄ sudo-п©я─п╟п╡п╟ п╢п╩я▐ п╥п╟п©я┐я│п╨п╟ mount, п╨п╬п╪п╟п╫п╢п╟ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐ п╪п╬п╤п╣я┌\n"
+"\tп╠я▀я┌я▄ п╥п╟п©п╦я│п╟п╫п╟ п╡ п©п╬п╩п╣ \"mount command\". п∙я│п╩п╦ п▓я▀ п╦я│п©п╬п╩я▄п╥я┐п╣я┌п╣ я█я┌п╬я┌ п╪п╣я┌п╬п╢,\n"
+"\tя┌п╬ п╥п╟п©п╬п╩п╫п╦я┌п╣ я┌п╟п╨п╤п╣ п©п╬п╩п╣ \"umount command\". п÷я─п╦п╪п╣я─ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐ п╦\n"
+"\tя─п╟п╥п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐ п©я─п╦ п©п╬п╪п╬я┴п╦ sudo:\n"
 
 #: ../src/fs.c:2454
 msgid "<i>\t\tsudo /bin/mount -t msdos /dev/fd0 /mnt/A\n"
@@ -771,15 +767,15 @@ msgid ""
 "\tin /etc/sudoers if using sudo.\n"
 "\n"
 msgstr ""
-"\tПримечание: точка монтирования, указанная в поле \"mount comand\"\n"
-"\t( /mnt/A в этом примере), должна совпадать с указанной в поле \"Куда:\"\n"
-"\tВы должны установить параметр NOPASSWD в /etc/sudoers, если используете\n"
-"\tsudo.\n"
+"\tп÷я─п╦п╪п╣я┤п╟п╫п╦п╣: я┌п╬я┤п╨п╟ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐, я┐п╨п╟п╥п╟п╫п╫п╟я▐ п╡ п©п╬п╩п╣ \"mount comand\"\n"
+"\t(/mnt/A п╡ я█я┌п╬п╪ п©я─п╦п╪п╣я─п╣), п╢п╬п╩п╤п╫п╟ я│п╬п╡п©п╟п╢п╟я┌я▄ я│ я┐п╨п╟п╥п╟п╫п╫п╬п╧ п╡ п©п╬п╩п╣\n"
+"\t\"п я┐п╢п╟:\" п▓я▀ п╢п╬п╩п╤п╫я▀ я┐я│я┌п╟п╫п╬п╡п╦я┌я▄ п©п╟я─п╟п╪п╣я┌я─ NOPASSWD п╡ /etc/sudoers,\n"
+"\tп╣я│п╩п╦ п╦я│п©п╬п╩я▄п╥я┐п╣я┌п╣ sudo.\n"
 "\n"
 
 #: ../src/fs.c:2462
 msgid "<h>Primary and Secondary Monitors\n"
-msgstr "<h>Основные и дополнительные мониторы\n"
+msgstr "<h>п·я│п╫п╬п╡п╫я▀п╣ п╦ п╢п╬п©п╬п╩п╫п╦я┌п╣п╩я▄п╫я▀п╣ п╪п╬п╫п╦я┌п╬я─я▀\n"
 
 #: ../src/fs.c:2463
 #, no-c-format
@@ -799,117 +795,114 @@ msgid ""
 "mount/umount convenience.\n"
 "\n"
 msgstr ""
-"Мониторы файловой системы могут быть созданы как основные (всегда\n"
-"видимые) и дополнительные, которые можно спрятать и затем показать\n"
-"в случае необходимости. Например, Вы можете сделать основные мониторы\n"
-"для root, home или user, так что они будут всегда видимы, и дополнительные\n"
-"мониторы для не так часто используемых точек монтирования, таких как\n"
-"дисковод, разделы для резервных копий, чужеродные файловые системы и т.п.\n"
-"Дополнительные мониторы также можно настроить, чтобы они были всегда\n"
-"видимыми после монтирования, отметив пункт \"Показывать, если смонтировано"
-"\".\n"
-"Используя эту возможность, Вы можете показать группу дополнительных\n"
-"мониторов, смонтировать файловую систему и оставить её монитор видимым\n"
-"даже если спрячете остальные дополнительные мониторы. Смонтированный\n"
-"CD-ROM всегда будет показан 100% занятым, монитор для него можно создать\n"
-"просто для удобства монтирования/размонтирования.\n"
+"п°п╬п╫п╦я┌п╬я─я▀ я└п╟п╧п╩п╬п╡п╬п╧ я│п╦я│я┌п╣п╪я▀ п╪п╬пЁя┐я┌ п╠я▀я┌я▄ я│п╬п╥п╢п╟п╫я▀ п╨п╟п╨ п╬я│п╫п╬п╡п╫я▀п╣ (п╡я│п╣пЁп╢п╟\n"
+"п╡п╦п╢п╦п╪я▀п╣) п╦ п╢п╬п©п╬п╩п╫п╦я┌п╣п╩я▄п╫я▀п╣, п╨п╬я┌п╬я─я▀п╣ п╪п╬п╤п╫п╬ я│п©я─я▐я┌п╟я┌я▄ п╦ п╥п╟я┌п╣п╪ п©п╬п╨п╟п╥п╟я┌я▄\n"
+"п╡ я│п╩я┐я┤п╟п╣ п╫п╣п╬п╠я┘п╬п╢п╦п╪п╬я│я┌п╦. п²п╟п©я─п╦п╪п╣я─, п▓я▀ п╪п╬п╤п╣я┌п╣ я│п╢п╣п╩п╟я┌я▄ п╬я│п╫п╬п╡п╫я▀п╣ п╪п╬п╫п╦я┌п╬я─я▀\n"
+"п╢п╩я▐ root, home п╦п╩п╦ user, я┌п╟п╨ я┤я┌п╬ п╬п╫п╦ п╠я┐п╢я┐я┌ п╡я│п╣пЁп╢п╟ п╡п╦п╢п╦п╪я▀, п╦ п╢п╬п©п╬п╩п╫п╦я┌п╣п╩я▄п╫я▀п╣\n"
+"п╪п╬п╫п╦я┌п╬я─я▀ п╢п╩я▐ п╫п╣ я┌п╟п╨ я┤п╟я│я┌п╬ п╦я│п©п╬п╩я▄п╥я┐п╣п╪я▀я┘ я┌п╬я┤п╣п╨ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐, я┌п╟п╨п╦я┘ п╨п╟п╨\n"
+"п╢п╦я│п╨п╬п╡п╬п╢, я─п╟п╥п╢п╣п╩я▀ п╢п╩я▐ я─п╣п╥п╣я─п╡п╫я▀я┘ п╨п╬п©п╦п╧, я┤я┐п╤п╣я─п╬п╢п╫я▀п╣ я└п╟п╧п╩п╬п╡я▀п╣ я│п╦я│я┌п╣п╪я▀ п╦ я┌.п©.\n"
+"п■п╬п©п╬п╩п╫п╦я┌п╣п╩я▄п╫я▀п╣ п╪п╬п╫п╦я┌п╬я─я▀ я┌п╟п╨п╤п╣ п╪п╬п╤п╫п╬ п╫п╟я│я┌я─п╬п╦я┌я▄, я┤я┌п╬п╠я▀ п╬п╫п╦ п╠я▀п╩п╦ п╡я│п╣пЁп╢п╟\n"
+"п╡п╦п╢п╦п╪я▀п╪п╦ п©п╬я│п╩п╣ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐, п╬я┌п╪п╣я┌п╦п╡ п©я┐п╫п╨я┌ \"п÷п╬п╨п╟п╥я▀п╡п╟я┌я▄, п╣я│п╩п╦ я│п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╬\".\n"
+"п≤я│п©п╬п╩я▄п╥я┐я▐ я█я┌я┐ п╡п╬п╥п╪п╬п╤п╫п╬я│я┌я▄, п▓я▀ п╪п╬п╤п╣я┌п╣ п©п╬п╨п╟п╥п╟я┌я▄ пЁя─я┐п©п©я┐ п╢п╬п©п╬п╩п╫п╦я┌п╣п╩я▄п╫я▀я┘\n"
+"п╪п╬п╫п╦я┌п╬я─п╬п╡, я│п╪п╬п╫я┌п╦я─п╬п╡п╟я┌я▄ я└п╟п╧п╩п╬п╡я┐я▌ я│п╦я│я┌п╣п╪я┐ п╦ п╬я│я┌п╟п╡п╦я┌я▄ п╣я▒ п╪п╬п╫п╦я┌п╬я─ п╡п╦п╢п╦п╪я▀п╪\n"
+"п╢п╟п╤п╣ п╣я│п╩п╦ я│п©я─я▐я┤п╣я┌п╣ п╬я│я┌п╟п╩я▄п╫я▀п╣ п╢п╬п©п╬п╩п╫п╦я┌п╣п╩я▄п╫я▀п╣ п╪п╬п╫п╦я┌п╬я─я▀. п║п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╫я▀п╧\n"
+"CD-ROM п╡я│п╣пЁп╢п╟ п╠я┐п╢п╣я┌ п©п╬п╨п╟п╥п╟п╫ 100% п╥п╟п╫я▐я┌я▀п╪, п╪п╬п╫п╦я┌п╬я─ п╢п╩я▐ п╫п╣пЁп╬ п╪п╬п╤п╫п╬ я│п╬п╥п╢п╟я┌я▄\n"
+"п©я─п╬я│я┌п╬ п╢п╩я▐ я┐п╢п╬п╠я│я┌п╡п╟ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐/я─п╟п╥п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐.\n"
 "\n"
 
 #: ../src/fs.c:2480 ../src/mem.c:1261
 msgid "<h>Panel Labels\n"
-msgstr "<h>Подписи панелей\n"
+msgstr "<h>п÷п╬п╢п©п╦я│п╦ п©п╟п╫п╣п╩п╣п╧\n"
 
 #: ../src/fs.c:2481
 msgid "Substitution variables for the format string for file system panels:\n"
-msgstr "Переменные для подстановки в названия панелей файловой системы:\n"
+msgstr "п÷п╣я─п╣п╪п╣п╫п╫я▀п╣ п╢п╩я▐ п©п╬п╢я│я┌п╟п╫п╬п╡п╨п╦ п╡ п╫п╟п╥п╡п╟п╫п╦я▐ п©п╟п╫п╣п╩п╣п╧ я└п╟п╧п╩п╬п╡п╬п╧ я│п╦я│я┌п╣п╪я▀:\n"
 
 #: ../src/fs.c:2482
 msgid "\t$t    total capacity\n"
-msgstr "\t$t    общая емкость\n"
+msgstr "\t$t    п╬п╠я┴п╟я▐ п╣п╪п╨п╬я│я┌я▄\n"
 
 #: ../src/fs.c:2483
 msgid "\t$u    used space\n"
-msgstr "\t$u    занято\n"
+msgstr "\t$u    п╥п╟п╫я▐я┌п╬\n"
 
 #: ../src/fs.c:2484
 msgid "\t$f    free space\n"
-msgstr "\t$f    свободно\n"
+msgstr "\t$f    я│п╡п╬п╠п╬п╢п╫п╬\n"
 
 #: ../src/fs.c:2485
 msgid "\t$U    used %,\n"
-msgstr "\t$U    занято %,\n"
+msgstr "\t$U    п╥п╟п╫я▐я┌п╬ %,\n"
 
 #: ../src/fs.c:2486 ../src/mem.c:1270
 msgid "\t$F    free %\n"
-msgstr "\t$F    свободно %\n"
+msgstr "\t$F    я│п╡п╬п╠п╬п╢п╫п╬ %\n"
 
 #: ../src/fs.c:2487
 msgid "\t$l    the panel label\n"
-msgstr "\t$l    подпись панели\n"
+msgstr "\t$l    п©п╬п╢п©п╦я│я▄ п©п╟п╫п╣п╩п╦\n"
 
 #: ../src/fs.c:2489
 msgid "\t$D    the mount point\n"
-msgstr "\t$D    точка монтирования\n"
+msgstr "\t$D    я┌п╬я┤п╨п╟ п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦я▐\n"
 
 #: ../src/fs.c:2491
 msgid "\t$D    the disk\n"
-msgstr "\t$D    диск\n"
+msgstr "\t$D    п╢п╦я│п╨\n"
 
 #: ../src/fs.c:2498
 msgid "click on a panel to scroll a programmable display\n"
-msgstr "нажмите на панели, чтобы включить прокрутку строки заданного\n"
+msgstr "п╫п╟п╤п╪п╦я┌п╣ п╫п╟ п©п╟п╫п╣п╩п╦, я┤я┌п╬п╠я▀ п╡п╨п╩я▌я┤п╦я┌я▄ п©я─п╬п╨я─я┐я┌п╨я┐ я│я┌я─п╬п╨п╦ п╥п╟п╢п╟п╫п╫п╬пЁп╬\n"
 
 #: ../src/fs.c:2499
 msgid "\t\tof file system capacities (default is total and free space).\n"
-msgstr ""
-"\t\tтекста о вместимости файловой системы (по умолчанию - всего места\n"
-"\t\tи свободного места).\n"
-"\n"
+msgstr "\t\tя┌п╣п╨я│я┌п╟ п╬ п╡п╪п╣я│я┌п╦п╪п╬я│я┌п╦ я└п╟п╧п╩п╬п╡п╬п╧ я│п╦я│я┌п╣п╪я▀\n"
+"\t\t(п©п╬ я┐п╪п╬п╩я┤п╟п╫п╦я▌ - п╡я│п╣пЁп╬ п╦ я│п╡п╬п╠п╬п╢п╫п╬пЁп╬ п╪п╣я│я┌п╟).\n"
 
 #: ../src/fs.c:2500
 msgid "<b>\tWheel "
-msgstr "<b>\tКолесо "
+msgstr "<b>\tп п╬п╩п╣я│п╬ "
 
 #: ../src/fs.c:2501
 msgid "Shows and hides the secondary file system monitors.\n"
-msgstr "Прячет/показывает дополнительные мониторы.\n"
+msgstr "п÷я─я▐я┤п╣я┌/п©п╬п╨п╟п╥я▀п╡п╟п╣я┌ п╢п╬п©п╬п╩п╫п╦я┌п╣п╩я▄п╫я▀п╣ п╪п╬п╫п╦я┌п╬я─я▀.\n"
 
 #: ../src/fs.c:2519
 msgid "Panels"
-msgstr "Панели"
+msgstr "п÷п╟п╫п╣п╩п╦"
 
 #: ../src/fs.c:2537
 msgid "Use binary units (MiB, GiG) for reporting disk capacities."
-msgstr "Использовать двоичные эквиваленты (MiB, GiG) для размера дисков."
+msgstr "п≤я│п©п╬п╩я▄п╥п╬п╡п╟я┌я▄ п╢п╡п╬п╦я┤п╫я▀п╣ я█п╨п╡п╦п╡п╟п╩п╣п╫я┌я▀ (MiB, GiG) п╢п╩я▐ я─п╟п╥п╪п╣я─п╟ п╢п╦я│п╨п╬п╡."
 
 #: ../src/fs.c:2543
 msgid "Auto eject when ejectable devices are unmounted"
-msgstr "Извлекать сменные носители при размонтировании"
+msgstr "п≤п╥п╡п╩п╣п╨п╟я┌я▄ я│п╪п╣п╫п╫я▀п╣ п╫п╬я│п╦я┌п╣п╩п╦ п©я─п╦ я─п╟п╥п╪п╬п╫я┌п╦я─п╬п╡п╟п╫п╦п╦"
 
 #: ../src/fs.c:2552
 msgid "Seconds between data updates for local mounted file systems"
-msgstr "Секунд между проверкой локальных файловых систем"
+msgstr "п║п╣п╨я┐п╫п╢ п╪п╣п╤п╢я┐ п©я─п╬п╡п╣я─п╨п╬п╧ п╩п╬п╨п╟п╩я▄п╫я▀я┘ я└п╟п╧п╩п╬п╡я▀я┘ я│п╦я│я┌п╣п╪"
 
 #: ../src/fs.c:2557
 msgid "Seconds between data updates for remote mounted file systems"
-msgstr "Секунд между проверкой сетевых файловых систем"
+msgstr "п║п╣п╨я┐п╫п╢ п╪п╣п╤п╢я┐ п©я─п╬п╡п╣я─п╨п╬п╧ я│п╣я┌п╣п╡я▀я┘ я└п╟п╧п╩п╬п╡я▀я┘ я│п╦я│я┌п╣п╪"
 
 #: ../src/fs.c:2561 ../src/mem.c:1371
 msgid "Format String for Panel Labels"
-msgstr "Подписи панелей"
+msgstr "п÷п╬п╢п©п╦я│п╦ п©п╟п╫п╣п╩п╣п╧"
 
 #: ../src/fs.c:2588
 msgid "File System"
-msgstr "Ф.Система"
+msgstr "п╓.п║п╦я│я┌п╣п╪п╟"
 
 #: ../src/gui.c:403
 #, c-format
 msgid "%s command"
-msgstr "Команда %s:"
+msgstr "п п╬п╪п╟п╫п╢п╟ %s:"
 
 #: ../src/gui.c:421
 msgid "comment"
-msgstr "Комментарий"
+msgstr "п╨п╬п╪п╪п╣п╫я┌п╟я─п╦п╧"
 
 #: ../src/gui.c:770
 #, c-format
@@ -926,11 +919,11 @@ msgstr ""
 "GKrellM %d.%d.%d%s\n"
 "GNU Krell Monitors\n"
 "\n"
-"Авторские права (c) 1999-2010 принадлежат Bill Wilson\n"
+"п░п╡я┌п╬я─я│п╨п╦п╣ п©я─п╟п╡п╟ (c) 1999-2010 п©я─п╦п╫п╟п╢п╩п╣п╤п╟я┌ Bill Wilson\n"
 "billw@gkrellm.net\n"
 "http://gkrellm.net\n"
 "\n"
-"Распространяется на условиях GNU General Public License"
+"п═п╟я│п©я─п╬я│я┌я─п╟п╫я▐п╣я┌я│я▐ п╫п╟ я┐я│п╩п╬п╡п╦я▐я┘ GNU General Public License"
 
 #: ../src/gui.c:786
 msgid ""
@@ -939,9 +932,9 @@ msgid ""
 "and\n"
 "Hajimu UMEMOTO <ume@mahoroba.org>"
 msgstr ""
-"Код для Mac OS X написан\n"
+"п п╬п╢ п╢п╩я▐ Mac OS X п╫п╟п©п╦я│п╟п╫:\n"
 "Ben Hines <bhines@alumni.ucsd.edu>\n"
-"и\n"
+"п╦\n"
 "Hajimu UMEMOTO <ume@mahoroba.org>"
 
 #: ../src/gui.c:796
@@ -949,7 +942,7 @@ msgid ""
 "FreeBSD system dependent code was contributed by:\n"
 "Hajimu UMEMOTO <ume@mahoroba.org>"
 msgstr ""
-"Системозависимый код для FreeBSD написан\n"
+"п║п╦я│я┌п╣п╪п╬п╥п╟п╡п╦я│п╦п╪я▀п╧ п╨п╬п╢ п╢п╩я▐ FreeBSD п╫п╟п©п╦я│п╟п╫:\n"
 "Hajimu UMEMOTO <ume@mahoroba.org>"
 
 #: ../src/gui.c:804
@@ -957,13 +950,15 @@ msgid ""
 "DragonFly system dependent code was contributed by:\n"
 "Joerg Sonnenberger <joerg@bec.de>"
 msgstr ""
+"п║п╦я│я┌п╣п╪п╬п╥п╟п╡п╦я│п╦п╪я▀п╧ п╨п╬п╢ п╢п╩я▐ DragonFly п╫п╟п©п╦я│п╟п╫:\n"
+"Joerg Sonnenberger <joerg@bec.de>"
 
 #: ../src/gui.c:812
 msgid ""
 "NetBSD system dependent code was contributed by:\n"
 "Anthony Mallet <anthony.mallet@useless-ficus.net>"
 msgstr ""
-"Системозависимый код для NetBSD написан\n"
+"п║п╦я│я┌п╣п╪п╬п╥п╟п╡п╦я│п╦п╪я▀п╧ п╨п╬п╢ п╢п╩я▐ NetBSD п╫п╟п©п╦я│п╟п╫:\n"
 "Anthony Mallet <anthony.mallet@useless-ficus.net>"
 
 #: ../src/gui.c:820
@@ -971,7 +966,7 @@ msgid ""
 "Solaris system dependent code was contributed by:\n"
 "Daisuke Yabuki <dxy@acm.org>"
 msgstr ""
-"Системозависимый код для Solaris написан\n"
+"п║п╦я│я┌п╣п╪п╬п╥п╟п╡п╦я│п╦п╪я▀п╧ п╨п╬п╢ п╢п╩я▐ Solaris п╫п╟п©п╦я│п╟п╫:\n"
 "Daisuke Yabuki <dxy@acm.org>"
 
 #: ../src/gui.c:828
@@ -980,10 +975,13 @@ msgid ""
 "Bill Nalen <bill@nalens.com>\n"
 "Stefan Gehn <stefan+gkrellm@srcbox.net>\n"
 msgstr ""
+"п║п╦я│я┌п╣п╪п╬п╥п╟п╡п╦я│п╦п╪я▀п╧ п╨п╬п╢ п╢п╩я▐ MS Windows п╫п╟п©п╦я│п╟п╫:\n"
+"Bill Nalen <bill@nalens.com>\n"
+"Stefan Gehn <stefan+gkrellm@srcbox.net>\n"
 
 #: ../src/gui.c:996
 msgid "<h>Krells\n"
-msgstr "<h>Креллы\n"
+msgstr "<h>п я─п╣п╩п╩я▀\n"
 
 #: ../src/gui.c:997
 msgid ""
@@ -991,13 +989,13 @@ msgid ""
 "on meter style monitors.  Depending on the monitor, they show fast\n"
 "response data rates, a percentage of some capacity, or something else.\n"
 msgstr ""
-"Креллы - это горизонтальные индикаторы внизу каждого чарта и на\n"
-"мониторах-измерителях. В зависимости от монитора, они отображают\n"
-"скорость отклика, процент от некоторого объема или ещё что-нибудь.\n"
+"п я─п╣п╩п╩я▀ - я█я┌п╬ пЁп╬я─п╦п╥п╬п╫я┌п╟п╩я▄п╫я▀п╣ п╦п╫п╢п╦п╨п╟я┌п╬я─я▀ п╡п╫п╦п╥я┐ п╨п╟п╤п╢п╬пЁп╬ я┤п╟я─я┌п╟ п╦ п╫п╟\n"
+"п╪п╬п╫п╦я┌п╬я─п╟я┘-п╦п╥п╪п╣я─п╦я┌п╣п╩я▐я┘. п▓ п╥п╟п╡п╦я│п╦п╪п╬я│я┌п╦ п╬я┌ п╪п╬п╫п╦я┌п╬я─п╟, п╬п╫п╦ п╬я┌п╬п╠я─п╟п╤п╟я▌я┌\n"
+"я│п╨п╬я─п╬я│я┌я▄ п╬я┌п╨п╩п╦п╨п╟, п©я─п╬я├п╣п╫я┌ п╬я┌ п╫п╣п╨п╬я┌п╬я─п╬пЁп╬ п╬п╠я┼п╣п╪п╟ п╦п╩п╦ п╣я┴я▒ я┤я┌п╬-п╫п╦п╠я┐п╢я▄.\n"
 
 #: ../src/gui.c:1001
 msgid "<h>Charts\n"
-msgstr "<h>Чарты\n"
+msgstr "<h>п╖п╟я─я┌я▀\n"
 
 #: ../src/gui.c:1002
 msgid ""
@@ -1007,82 +1005,80 @@ msgid ""
 "fixed grid resolutions in the chart config windows.  However,\n"
 "some combination of the auto scaling modes may give best results.\n"
 msgstr ""
-"По умолчанию большинство чартов автоматически изменяет число\n"
-"полос и разрешение полосы для удобства восприятия отображаемых\n"
-"данных. Вы можете назначить фиксированное число полос от 1 до 5\n"
-"и/или фиксированное разрешение в окне настройки чарта. Впрочем \n"
-"режим автоматического масштабирования может дать лучший результат.\n"
+"п÷п╬ я┐п╪п╬п╩я┤п╟п╫п╦я▌ п╠п╬п╩я▄я┬п╦п╫я│я┌п╡п╬ я┤п╟я─я┌п╬п╡ п╟п╡я┌п╬п╪п╟я┌п╦я┤п╣я│п╨п╦ п╦п╥п╪п╣п╫я▐п╣я┌ я┤п╦я│п╩п╬\n"
+"п©п╬п╩п╬я│ п╦ я─п╟п╥я─п╣я┬п╣п╫п╦п╣ п©п╬п╩п╬я│я▀ п╢п╩я▐ я┐п╢п╬п╠я│я┌п╡п╟ п╡п╬я│п©я─п╦я▐я┌п╦я▐ п╬я┌п╬п╠я─п╟п╤п╟п╣п╪я▀я┘\n"
+"п╢п╟п╫п╫я▀я┘. п▓я▀ п╪п╬п╤п╣я┌п╣ п╫п╟п╥п╫п╟я┤п╦я┌я▄ я└п╦п╨я│п╦я─п╬п╡п╟п╫п╫п╬п╣ я┤п╦я│п╩п╬ п©п╬п╩п╬я│ п╬я┌ 1 п╢п╬ 5\n"
+"п╦/п╦п╩п╦ я└п╦п╨я│п╦я─п╬п╡п╟п╫п╫п╬п╣ я─п╟п╥я─п╣я┬п╣п╫п╦п╣ п╡ п╬п╨п╫п╣ п╫п╟я│я┌я─п╬п╧п╨п╦ я┤п╟я─я┌п╟. п▓п©я─п╬я┤п╣п╪ \n"
+"я─п╣п╤п╦п╪ п╟п╡я┌п╬п╪п╟я┌п╦я┤п╣я│п╨п╬пЁп╬ п╪п╟я│я┬я┌п╟п╠п╦я─п╬п╡п╟п╫п╦я▐ п╪п╬п╤п╣я┌ п╢п╟я┌я▄ п╩я┐я┤я┬п╦п╧ я─п╣п╥я┐п╩я▄я┌п╟я┌.\n"
 
 #: ../src/gui.c:1008 ../src/gui.c:1034 ../src/sensors.c:2908
 msgid "See the README or do a \"man gkrellm\" for more information.\n"
-msgstr "Подробности смотрите в README или в \"man gkrellm\".\n"
+msgstr "п÷п╬п╢я─п╬п╠п╫п╬я│я┌п╦ я│п╪п╬я┌я─п╦я┌п╣ п╡ README п╦п╩п╦ п╡ \"man gkrellm\".\n"
 
 #: ../src/gui.c:1011
 msgid "Chart label format strings place text on charts using position codes:\n"
-msgstr ""
-"Строка формата размещает текст на чарте при помощи кодов\n"
-"позиций:\n"
+msgstr "п║я┌я─п╬п╨п╟ я└п╬я─п╪п╟я┌п╟ я─п╟п╥п╪п╣я┴п╟п╣я┌ я┌п╣п╨я│я┌ п╫п╟ я┤п╟я─я┌п╣ п©я─п╦ п©п╬п╪п╬я┴п╦ п╨п╬п╢п╬п╡ п©п╬п╥п╦я├п╦п╧:\n"
 
 #: ../src/gui.c:1012
 msgid "\t\\t    top left\n"
-msgstr "\t\\t    вверху слева\n"
+msgstr "\t\\t    п╡п╡п╣я─я┘я┐ я│п╩п╣п╡п╟\n"
 
 #: ../src/gui.c:1013
 msgid "\t\\b    bottom left\n"
-msgstr "\t\\b    внизу слева\n"
+msgstr "\t\\b    п╡п╫п╦п╥я┐ я│п╩п╣п╡п╟\n"
 
 #: ../src/gui.c:1014
 msgid "\t\\n    next line\n"
-msgstr "\t\\n    новая строка\n"
+msgstr "\t\\n    я│п╩п╣п╢я┐я▌я┴п╟я▐ я│я┌я─п╬п╨п╟\n"
 
 #: ../src/gui.c:1015
 msgid "\t\\N    next line only if last string had visible characters\n"
-msgstr "\t\\N    новая строка, если в предыдущей были видимые символы\n"
+msgstr "\t\\N    п╫п╬п╡п╟я▐ я│я┌я─п╬п╨п╟, п╣я│п╩п╦ п╡ п©я─п╣п╢я▀п╢я┐я┴п╣п╧ п╠я▀п╩п╦ п╡п╦п╢п╦п╪я▀п╣ я│п╦п╪п╡п╬п╩я▀\n"
 
 #: ../src/gui.c:1016
 msgid "\t\\p    previous line\n"
-msgstr "\t\\p    предыдущая строка\n"
+msgstr "\t\\p    п©я─п╣п╢я▀п╢я┐я┴п╟я▐ я│я┌я─п╬п╨п╟\n"
 
 #: ../src/gui.c:1017
 msgid "\t\\c    center the text\n"
-msgstr "\t\\c    выровнять по центру\n"
+msgstr "\t\\c    п╡я▀я─п╬п╡п╫я▐я┌я▄ п©п╬ я├п╣п╫я┌я─я┐\n"
 
 #: ../src/gui.c:1018
 msgid "\t\\C    begin drawing text at the center\n"
-msgstr "\t\\C    начать текст с центра\n"
+msgstr "\t\\C    п╫п╟я┤п╟я┌я▄ п╬я┌п╬п╠я─п╟п╤п╣п╫п╦п╣ я┌п╣п╨я│я┌ я│ я├п╣п╫я┌я─п╟\n"
 
 #: ../src/gui.c:1019
 msgid "\t\\r    right justify\n"
-msgstr "\t\\r    выровнять вправо\n"
+msgstr "\t\\r    я─п╟я│п©я─п╣п╢п╣п╩п╦я┌я▄ я│п©я─п╟п╡п╟\n"
 
 #: ../src/gui.c:1020
 msgid "\t\\f    use alternate font for the next string\n"
-msgstr "\t\\f    использовать альтернативный шрифт для текста\n"
+msgstr "\t\\f    п╦я│п©п╬п╩я▄п╥п╬п╡п╟я┌я▄ п╟п╩я▄я┌п╣я─п╫п╟я┌п╦п╡п╫я▀п╧ я┬я─п╦я└я┌ п╢п╩я▐ я│п╩п╣п╢я┐я▌я┴п╣п╧ я│я┌я─п╬п╨п╦\n"
 
 #: ../src/gui.c:1021
 msgid "\t\\w    use the following string to define a field width\n"
-msgstr "\t\\w    определять следующим текстом ширину поля\n"
+msgstr "\t\\w    п╬п©я─п╣п╢п╣п╩я▐я┌я▄ я┬п╦я─п╦п╫я┐ п©п╬п╩я▐ п©п╬ я│п╩п╣п╢я┐я▌я┴п╣п╧ я│я┌я─п╬п╨п╣\n"
 
 #: ../src/gui.c:1022
 msgid "\t\\a    draw left justified in the defined field width\n"
-msgstr "\t\\a    выровнять влево по указанной ширине поля\n"
+msgstr "\t\\a    п╦п╥п╬п╠я─п╟п╥п╦я┌я▄ я│п╩п╣п╡п╟ я─п╟я│п©я─п╣п╢п╣п╩п╦п╡ п©п╬ я┐п╨п╟п╥п╟п╫п╫п╬п╧ я┬п╦я─п╦п╫п╣ п©п╬п╩я▐\n"
 
 #: ../src/gui.c:1023
 msgid "\t\\e    draw right justified in the defined field width\n"
-msgstr "\t\\e    выровнять вправо по указанной ширине поля\n"
+msgstr "\t\\e    п╦п╥п╬п╠я─п╟п╥п╦я┌я▄ я│п©я─п╟п╡п╟ я─п╟я│п©я─п╣п╢п╣п╩п╦п╡ п©п╬ я┐п╨п╟п╥п╟п╫п╫п╬п╧ я┬п╦я─п╦п╫п╣ п©п╬п╩я▐\n"
 
 #: ../src/gui.c:1024
 msgid "\t\\.     no-op.  Used to break a string into two strings.\n"
-msgstr "\t\\.     ничего. Используется для разделения строки на две части.\n"
+msgstr "\t\\.     п╫п╦я┤п╣пЁп╬. п≤я│п©п╬п╩я▄п╥я┐п╣я┌я│я▐ п╢п╩я▐ я─п╟п╥п╢п╣п╩п╣п╫п╦я▐ я│я┌я─п╬п╨п╦ п╫п╟ п╢п╡п╣ я┤п╟я│я┌п╦.\n"
 
 #: ../src/gui.c:1025
 msgid ""
 "\t\\D0   bottom of charts first data view (D2 for second data view ...)\n"
-msgstr "\t\\D0   первые данные отображаются внизу (D2 - вторые данные...)\n"
+msgstr "\t\\D0   п©п╣я─п╡я▀п╣ п╢п╟п╫п╫я▀п╣ п╬я┌п╬п╠я─п╟п╤п╟я▌я┌я│я▐ п╡п╫п╦п╥я┐ (D2 - п╡я┌п╬я─я▀п╣ п╢п╟п╫п╫я▀п╣...)\n"
 
 #: ../src/gui.c:1026
 msgid "\t\\D1   top of charts first data view (D3 for second data view ...)\n"
-msgstr "\t\\D1   первые данные отображаются вверху (D3 - вторые данные...)\n"
+msgstr "\t\\D1   п©п╣я─п╡я▀п╣ п╢п╟п╫п╫я▀п╣ п╬я┌п╬п╠я─п╟п╤п╟я▌я┌я│я▐ п╡п╡п╣я─я┘я┐ (D3 - п╡я┌п╬я─я▀п╣ п╢п╟п╫п╫я▀п╣...)\n"
 
 #: ../src/gui.c:1028
 msgid ""
@@ -1090,7 +1086,7 @@ msgid ""
 "Commands\n"
 msgstr ""
 "<h>\n"
-"Команды\n"
+"п п╬п╪п╟п╫п╢я▀\n"
 
 #: ../src/gui.c:1029
 msgid ""
@@ -1101,11 +1097,11 @@ msgid ""
 "\tmove the mouse into the panel area of the monitor.\n"
 "\n"
 msgstr ""
-"\tМногие из мониторов можно настроить на запуск команд. Просто\n"
-"\tвведите команду в поле \"команда\" и комментарий, если хотите\n"
-"\tвсплывающую подсказку к команде. После того, как команда для\n"
-"\tмонитора введена, кнопка для её запуска становится видимой при\n"
-"\tперемещении мыши в область панели монитора.\n"
+"\tп°п╫п╬пЁп╦п╣ п╦п╥ п╪п╬п╫п╦я┌п╬я─п╬п╡ п╪п╬п╤п╫п╬ п╫п╟я│я┌я─п╬п╦я┌я▄ п╫п╟ п╥п╟п©я┐я│п╨ п╨п╬п╪п╟п╫п╢. п÷я─п╬я│я┌п╬\n"
+"\tп╡п╡п╣п╢п╦я┌п╣ п╨п╬п╪п╟п╫п╢я┐ п╡ п©п╬п╩п╣ \"п╨п╬п╪п╟п╫п╢п╟\" п╦ п╨п╬п╪п╪п╣п╫я┌п╟я─п╦п╧, п╣я│п╩п╦ я┘п╬я┌п╦я┌п╣\n"
+"\tп╡я│п©п╩я▀п╡п╟я▌я┴я┐я▌ п©п╬п╢я│п╨п╟п╥п╨я┐ п╨ п╨п╬п╪п╟п╫п╢п╣. п÷п╬я│п╩п╣ я┌п╬пЁп╬, п╨п╟п╨ п╨п╬п╪п╟п╫п╢п╟ п╢п╩я▐\n"
+"\tп╪п╬п╫п╦я┌п╬я─п╟ п╡п╡п╣п╢п╣п╫п╟, п╨п╫п╬п©п╨п╟ п╢п╩я▐ п╣я▒ п╥п╟п©я┐я│п╨п╟ я│я┌п╟п╫п╬п╡п╦я┌я│я▐ п╡п╦п╢п╦п╪п╬п╧ п©я─п╦\n"
+"\tп©п╣я─п╣п╪п╣я┴п╣п╫п╦п╦ п╪я▀я┬п╦ п╡ п╬п╠п╩п╟я│я┌я▄ п©п╟п╫п╣п╩п╦ п╪п╬п╫п╦я┌п╬я─п╟.\n"
 "\n"
 
 #: ../src/gui.c:1037 ../src/mail.c:3888
@@ -1114,226 +1110,222 @@ msgid ""
 "Mouse Button Actions:\n"
 msgstr ""
 "<h>\n"
-"Действия кнопок мыши:\n"
+"п■п╣п╧я│я┌п╡п╦я▐ п╨п╫п╬п©п╬п╨ п╪я▀я┬п╦:\n"
 
 #: ../src/gui.c:1039
 msgid "clicking on charts will toggle a display of some extra info.\n"
 msgstr ""
-"кнопка включает на мониторе дополнительную\n"
-"\t\t\tинформацию.\n"
+"п╨п╫п╬п©п╨п╟ п╡п╨п╩я▌я┤п╟п╣я┌ п╫п╟ п╪п╬п╫п╦я┌п╬я─п╣ п╢п╬п©п╬п╩п╫п╦я┌п╣п╩я▄п╫я┐я▌\n"
+"\t\t\tп╦п╫я└п╬я─п╪п╟я├п╦я▌.\n"
 
 #: ../src/gui.c:1040 ../src/gui.c:1042
 msgid "<b>\tRight "
-msgstr "<b>\tПравая "
+msgstr "<b>\tп÷я─п╟п╡п╟я▐ "
 
 #: ../src/gui.c:1041
 msgid "clicking on charts brings up a chart configuration window.\n"
-msgstr ""
-"кнопка при нажатии на чарт вызывает диалог\n"
-"\t\t\tнастроек чарта.\n"
+msgstr "п╨п╫п╬п©п╨п╟ п©я─п╦ п╫п╟п╤п╟я┌п╦п╦ п╫п╟ я┤п╟я─я┌ п╡я▀п╥я▀п╡п╟п╣я┌ п╢п╦п╟п╩п╬пЁ п╫п╟я│я┌я─п╬п╣п╨ я┤п╟я─я┌п╟.\n"
 
 #: ../src/gui.c:1043
 msgid "clicking on many panels opens its monitor configuration window.\n"
-msgstr ""
-"кнопка при нажатии на панель монитора открывает диалог\n"
-"\t\t\tнастроек монитора.\n"
+msgstr "п╨п╫п╬п©п╨п╟, п©я─п╦ п╫п╟п╤п╟я┌п╦п╦ п╫п╟ п©п╟п╫п╣п╩я▄ п╪п╬п╫п╦я┌п╬я─п╟, п╬я┌п╨я─я▀п╡п╟п╣я┌ п╢п╦п╟п╩п╬пЁ п╫п╟я│я┌я─п╬п╣п╨ п╪п╬п╫п╦я┌п╬я─п╟.\n"
 
 #: ../src/gui.c:1072
 msgid "Hostname display"
-msgstr "Показывать имя машины"
+msgstr "п÷п╬п╨п╟п╥я▀п╡п╟я┌я▄ п╦п╪я▐ п╪п╟я┬п╦п╫я▀"
 
 #: ../src/gui.c:1078
 msgid "Short hostname"
-msgstr "Короткое имя машины"
+msgstr "п п╬я─п╬я┌п╨п╬п╣ п╦п╪я▐ п╪п╟я┬п╦п╫я▀"
 
 #: ../src/gui.c:1083
 msgid "System name display"
-msgstr "Показывать имя системы"
+msgstr "п÷п╬п╨п╟п╥я▀п╡п╟я┌я▄ п╦п╪я▐ я│п╦я│я┌п╣п╪я▀"
 
 #: ../src/gui.c:1088
 msgid "Remember screen location at exit and move to it at next startup"
-msgstr "Запоминать положение на экране при выходе"
+msgstr "п≈п╟п©п╬п╪п╦п╫п╟я┌я▄ п©п╬п╩п╬п╤п╣п╫п╦п╣ п╫п╟ я█п╨я─п╟п╫п╣ п©я─п╦ п╡я▀я┘п╬п╢п╣ п╦ п©п╣я─п╣п╪п╣я│я┌п╦я┌я▄ п©я─п╦ я│я┌п╟я─я┌п╣"
 
 #: ../src/gui.c:1094
 msgid "Allow multiple instances"
-msgstr "Разрешать несколько запусков"
+msgstr "п═п╟п╥я─п╣я┬п╟я┌я▄ п╫п╣я│п╨п╬п╩я▄п╨п╬ п╥п╟п©я┐я│п╨п╬п╡"
 
 #: ../src/gui.c:1101
 msgid ""
 "Make gkrellm a topmost window (restart gkrellm for this to take effect)."
-msgstr "Выдвинуть gkrellm на передний план (требуется перезапуск gkrellm)."
+msgstr "п▓я▀п╢п╡п╦п╫я┐я┌я▄ gkrellm п╫п╟ п©п╣я─п╣п╢п╫п╦п╧ п©п╩п╟п╫ (я┌я─п╣п╠я┐п╣я┌я│я▐ п©п╣я─п╣п╥п╟п©я┐я│п╨ gkrellm)."
 
 #: ../src/gui.c:1110 ../src/hostname.c:400
 msgid "gkrellmd server disconnect"
-msgstr "отсоединение сервера gkrellmd"
+msgstr "п╬я┌я│п╬п╣п╢п╦п╫п╣п╫п╦п╣ я│п╣я─п╡п╣я─п╟ gkrellmd"
 
 #: ../src/gui.c:1118
 msgid "Krell and LED updates per second."
-msgstr "Обновлений креллов и индикаторов в секунду"
+msgstr "п·п╠п╫п╬п╡п╩п╣п╫п╦п╧ п╨я─п╣п╩п╩п╬п╡ п╦ п╦п╫п╢п╦п╨п╟я┌п╬я─п╬п╡ п╡ я│п╣п╨я┐п╫п╢я┐"
 
 #: ../src/gui.c:1124
 msgid "GKrellM width"
-msgstr "Ширина GKrellM"
+msgstr "п╗п╦я─п╦п╫п╟ GKrellM"
 
 #: ../src/gui.c:1128
 msgid "Properties"
-msgstr "Свойства"
+msgstr "п║п╡п╬п╧я│я┌п╡п╟"
 
 #: ../src/gui.c:1131
 msgid "Set sticky state"
-msgstr "Располагать на каждом рабочем столе"
+msgstr "п═п╟я│п©п╬п╩п╟пЁп╟я┌я▄ п╫п╟ п╨п╟п╤п╢п╬п╪ я─п╟п╠п╬я┤п╣п╪ я│я┌п╬п╩п╣"
 
 #: ../src/gui.c:1134
 msgid "Set on top of other windows of the same type"
-msgstr "Располагать поверх всех окон"
+msgstr "п═п╟я│п©п╬п╩п╟пЁп╟я┌я▄ п©п╬п╡п╣я─я┘ п╡я│п╣я┘ п╬п╨п╬п╫"
 
 #: ../src/gui.c:1137
 msgid "Set below other windows of the same type"
-msgstr "Располагать на заднем плане"
+msgstr "п═п╟я│п©п╬п╩п╟пЁп╟я┌я▄ п╫п╟ п╥п╟п╢п╫п╣п╪ п©п╩п╟п╫п╣"
 
 #: ../src/gui.c:1144
 msgid "Set window type to be a dock or panel"
-msgstr "Установить тип окна dock или panel"
+msgstr "пёя│я┌п╟п╫п╬п╡п╦я┌я▄ я┌п╦п© п╬п╨п╫п╟ dock п╦п╩п╦ panel"
 
 #: ../src/gui.c:1149
 msgid "Use window manager decorations"
-msgstr "Использовать оформление оконного менеджера"
+msgstr "п≤я│п©п╬п╩я▄п╥п╬п╡п╟я┌я▄ п╬я└п╬я─п╪п╩п╣п╫п╦п╣ п╬п╨п╬п╫п╫п╬пЁп╬ п╪п╣п╫п╣п╢п╤п╣я─п╟"
 
 #: ../src/gui.c:1153
 msgid "Do not include on a taskbar"
-msgstr "Не показывать в панели задач"
+msgstr "п²п╣ п©п╬п╨п╟п╥я▀п╡п╟я┌я▄ п╡ п©п╟п╫п╣п╩п╦ п╥п╟п╢п╟я┤"
 
 #: ../src/gui.c:1157
 msgid "Do not include on a pager"
-msgstr "Не показывать в пейджере"
+msgstr "п²п╣ п©п╬п╨п╟п╥я▀п╡п╟я┌я▄ п╡ п©п╣п╧п╢п╤п╣я─п╣"
 
 #: ../src/gui.c:1167
 msgid ""
 "Some of these properties require a standards compliant window manager.\n"
 "You may have to restart gkrellm for them to take effect.\n"
 msgstr ""
-"Некоторые из этих параметров требуют совместимого со стандартами оконного\n"
-"менеджера. Возможно, потребуется перезапустить gkrellm для вступления\n"
-"изменений в силу.\n"
+"п²п╣п╨п╬я┌п╬я─я▀п╣ п╦п╥ я█я┌п╦я┘ п©п╟я─п╟п╪п╣я┌я─п╬п╡ я┌я─п╣п╠я┐я▌я┌ я│п╬п╡п╪п╣я│я┌п╦п╪п╬пЁп╬ я│п╬ я│я┌п╟п╫п╢п╟я─я┌п╟п╪п╦ п╬п╨п╬п╫п╫п╬пЁп╬\n"
+"п╪п╣п╫п╣п╢п╤п╣я─п╟. п▓п╬п╥п╪п╬п╤п╫п╬, п©п╬я┌я─п╣п╠я┐п╣я┌я│я▐ п©п╣я─п╣п╥п╟п©я┐я│я┌п╦я┌я▄ gkrellm п╢п╩я▐ п╡я│я┌я┐п©п╩п╣п╫п╦я▐\n"
+"п╦п╥п╪п╣п╫п╣п╫п╦п╧ п╡ я│п╦п╩я┐.\n"
 
 #: ../src/gui.c:1575
 #, c-format
 msgid "%d total theme alternatives"
-msgstr "%d альтернативных тем"
+msgstr "%d п╟п╩я▄я┌п╣я─п╫п╟я┌п╦п╡п╫я▀я┘ я┌п╣п╪"
 
 #: ../src/gui.c:1874 ../src/gui.c:1906
 msgid "Theme"
-msgstr "Тема"
+msgstr "п╒п╣п╪п╟"
 
 #: ../src/gui.c:1878
 msgid "Theme:"
-msgstr "Тема:"
+msgstr "п╒п╣п╪п╟:"
 
 #: ../src/gui.c:1888
 msgid "Author:"
-msgstr "Автор:"
+msgstr "п░п╡я┌п╬я─:"
 
 #: ../src/gui.c:1934
 msgid "Track Gtk theme changes for similarly named themes"
-msgstr "Отслеживать смену одноимённых тем Gtk"
+msgstr "п·я┌я│п╩п╣п╤п╦п╡п╟я┌я▄ я│п╪п╣п╫я┐ п╬п╢п╫п╬п╦п╪я▒п╫п╫я▀я┘ я┌п╣п╪ Gtk"
 
 #: ../src/gui.c:1941
 msgid "Default"
-msgstr "По умолчанию"
+msgstr "п÷п╬ я┐п╪п╬п╩я┤п╟п╫п╦я▌"
 
 #: ../src/gui.c:1956
 msgid "Scale"
-msgstr "Масштаб"
+msgstr "п°п╟я│я┬я┌п╟п╠"
 
 #: ../src/gui.c:1962
 msgid "Fonts"
-msgstr "Шрифты"
+msgstr "п╗я─п╦я└я┌я▀"
 
 #: ../src/gui.c:1965
 msgid "Large font"
-msgstr "Большой шрифт"
+msgstr "п▒п╬п╩я▄я┬п╬п╧ я┬я─п╦я└я┌"
 
 #: ../src/gui.c:1977 ../src/gui.c:1991 ../src/gui.c:2004
 msgid "Browse"
-msgstr "Выбрать"
+msgstr "п▓я▀п╠я─п╟я┌я▄"
 
 #: ../src/gui.c:1979
 msgid "Normal font"
-msgstr "Обычный шрифт"
+msgstr "п·п╠я▀я┤п╫я▀п╧ я┬я─п╦я└я┌"
 
 #: ../src/gui.c:1993
 msgid "Small font"
-msgstr "Мелкий шрифт"
+msgstr "п°п╣п╩п╨п╦п╧ я┬я─п╦я└я┌"
 
 #: ../src/gui.c:2008
 #, c-format
 msgid "Untar your theme tar files in %s/%s"
-msgstr "Распакуйте архив с темой в %s/%s"
+msgstr "п═п╟я│п©п╟п╨я┐п╧я┌п╣ п╟я─я┘п╦п╡ я│ я┌п╣п╪п╬п╧ п╡ %s/%s"
 
 #: ../src/gui.c:2017
 msgid "Download themes from the GKrellM theme site at www.muhri.net"
-msgstr "Загрузить тему можно с сайта тем для GKrellM www.muhri.net"
+msgstr "п≈п╟пЁя─я┐п╥п╦я┌я▄ я┌п╣п╪я┐ п╪п╬п╤п╫п╬ я│ я│п╟п╧я┌п╟ я┌п╣п╪ п╢п╩я▐ GKrellM www.muhri.net"
 
 #: ../src/gui.c:2311
 msgid "Configuration"
-msgstr "Настройки"
+msgstr "п²п╟я│я┌я─п╬п╧п╨п╦"
 
 #: ../src/gui.c:2339
 msgid "General"
-msgstr "Общие"
+msgstr "п·п╠я┴п╦п╣"
 
 #: ../src/gui.c:2344
 msgid "Builtins"
-msgstr "Встроенные"
+msgstr "п▓я│я┌я─п╬п╣п╫п╫я▀п╣"
 
 #: ../src/gui.c:2364 ../src/plugins.c:1733
 msgid "Plugins"
-msgstr "Внешние"
+msgstr "п▓п╫п╣я┬п╫п╦п╣"
 
 #: ../src/gui.c:2369
 msgid "Themes"
-msgstr "Темы"
+msgstr "п╒п╣п╪я▀"
 
 #: ../src/gui.c:2374
 msgid "About"
-msgstr "О программе"
+msgstr "п· п©я─п╬пЁя─п╟п╪п╪п╣"
 
 #: ../src/gui.c:2399
 msgid "Monitors"
-msgstr "Мониторы"
+msgstr "п°п╬п╫п╦я┌п╬я─я▀"
 
 #: ../src/gui.c:2471 ../src/gui.c:2482
 msgid "/Quit"
-msgstr "/Выход"
+msgstr "/п▓я▀я┘п╬п╢"
 
 #: ../src/gui.c:2478
 msgid "/Configuration"
-msgstr "/Настроить"
+msgstr "/п²п╟я│я┌я─п╬п╦я┌я▄"
 
 #: ../src/gui.c:2479
 msgid "/Theme/Prev"
-msgstr "/Тема/Пред."
+msgstr "/п╒п╣п╪п╟/п÷я─п╣п╢."
 
 #: ../src/gui.c:2480
 msgid "/Theme/Next"
-msgstr "/Тема/След."
+msgstr "/п╒п╣п╪п╟/п║п╩п╣п╢."
 
 #: ../src/gui.c:2489
 msgid "/Theme prev"
-msgstr "/Тема пред."
+msgstr "/п╒п╣п╪п╟ п©я─п╣п╢."
 
 #: ../src/gui.c:2490
 msgid "/Theme next"
-msgstr "/Тема след."
+msgstr "/п╒п╣п╪п╟ я│п╩п╣п╢."
 
 #: ../src/inet.c:628
 #, c-format
 msgid "%s Connections"
-msgstr "%s соединений"
+msgstr "%s я│п╬п╣п╢п╦п╫п╣п╫п╦п╧"
 
 #: ../src/inet.c:719
 msgid "No current connections."
-msgstr "Соединений нет"
+msgstr "п║п╬п╣п╢п╦п╫п╣п╫п╦п╧ п╫п╣я┌"
 
 #: ../src/inet.c:946
 #, c-format
@@ -1342,11 +1334,11 @@ msgstr ""
 
 #: ../src/inet.c:958
 msgid "TCP hits per minute"
-msgstr "TCP-запросов в минуту"
+msgstr "TCP-п╥п╟п©я─п╬я│п╬п╡ п╡ п╪п╦п╫я┐я┌я┐"
 
 #: ../src/inet.c:961
 msgid "TCP hits per hour"
-msgstr "TCP-запросов в час"
+msgstr "TCP-п╥п╟п©я─п╬я│п╬п╡ п╡ я┤п╟я│"
 
 #: ../src/inet.c:1792
 msgid ""
@@ -1363,19 +1355,19 @@ msgid ""
 "\n"
 "For example, if you created an inet monitor:\n"
 msgstr ""
-"Графики Интернет показывают историю запросов по TCP-портам на\n"
-"минутном или часовом графике. Под графиком есть полоса, на которой\n"
-"отмечаются запросы с интервалом в одну секунду. Krell имеет\n"
-"максимальное значение 5 запросов и собирает данные раз в секунду.\n"
-"Дополнительная информация показывает текущие TCP-соединения.\n"
+"п⌠я─п╟я└п╦п╨п╦ п≤п╫я┌п╣я─п╫п╣я┌ п©п╬п╨п╟п╥я▀п╡п╟я▌я┌ п╦я│я┌п╬я─п╦я▌ п╥п╟п©я─п╬я│п╬п╡ п©п╬ TCP-п©п╬я─я┌п╟п╪ п╫п╟\n"
+"п╪п╦п╫я┐я┌п╫п╬п╪ п╦п╩п╦ я┤п╟я│п╬п╡п╬п╪ пЁя─п╟я└п╦п╨п╣. п÷п╬п╢ пЁя─п╟я└п╦п╨п╬п╪ п╣я│я┌я▄ п©п╬п╩п╬я│п╟, п╫п╟ п╨п╬я┌п╬я─п╬п╧\n"
+"п╬я┌п╪п╣я┤п╟я▌я┌я│я▐ п╥п╟п©я─п╬я│я▀ я│ п╦п╫я┌п╣я─п╡п╟п╩п╬п╪ п╡ п╬п╢п╫я┐ я│п╣п╨я┐п╫п╢я┐. Krell п╦п╪п╣п╣я┌\n"
+"п╪п╟п╨я│п╦п╪п╟п╩я▄п╫п╬п╣ п╥п╫п╟я┤п╣п╫п╦п╣ 5 п╥п╟п©я─п╬я│п╬п╡ п╦ я│п╬п╠п╦я─п╟п╣я┌ п╢п╟п╫п╫я▀п╣ я─п╟п╥ п╡ я│п╣п╨я┐п╫п╢я┐.\n"
+"п■п╬п©п╬п╩п╫п╦я┌п╣п╩я▄п╫п╟я▐ п╦п╫я└п╬я─п╪п╟я├п╦я▐ п©п╬п╨п╟п╥я▀п╡п╟п╣я┌ я┌п╣п╨я┐я┴п╦п╣ TCP-я│п╬п╣п╢п╦п╫п╣п╫п╦я▐.\n"
 "\n"
-"Для каждого монитора Вы можете указать два типа соединений\n"
-"с одним или двумя ненулевыми портами для каждого типа. Можно\n"
-"указывать два порта, поскольку некоторые порты взаимосвязаны,\n"
-"и Вы, возможно, захотите сгруппировать их. Номера портов\n"
-"смотрите в /etc/services.\n"
+"п■п╩я▐ п╨п╟п╤п╢п╬пЁп╬ п╪п╬п╫п╦я┌п╬я─п╟ п▓я▀ п╪п╬п╤п╣я┌п╣ я┐п╨п╟п╥п╟я┌я▄ п╢п╡п╟ я┌п╦п©п╟ я│п╬п╣п╢п╦п╫п╣п╫п╦п╧\n"
+"я│ п╬п╢п╫п╦п╪ п╦п╩п╦ п╢п╡я┐п╪я▐ п╫п╣п╫я┐п╩п╣п╡я▀п╪п╦ п©п╬я─я┌п╟п╪п╦ п╢п╩я▐ п╨п╟п╤п╢п╬пЁп╬ я┌п╦п©п╟. п°п╬п╤п╫п╬\n"
+"я┐п╨п╟п╥я▀п╡п╟я┌я▄ п╢п╡п╟ п©п╬я─я┌п╟, п©п╬я│п╨п╬п╩я▄п╨я┐ п╫п╣п╨п╬я┌п╬я─я▀п╣ п©п╬я─я┌я▀ п╡п╥п╟п╦п╪п╬я│п╡я▐п╥п╟п╫я▀,\n"
+"п╦ п▓я▀, п╡п╬п╥п╪п╬п╤п╫п╬, п╥п╟я┘п╬я┌п╦я┌п╣ я│пЁя─я┐п©п©п╦я─п╬п╡п╟я┌я▄ п╦я┘. п²п╬п╪п╣я─п╟ п©п╬я─я┌п╬п╡\n"
+"я│п╪п╬я┌я─п╦я┌п╣ п╡ /etc/services.\n"
 "\n"
-"Предположим, Вы создали монитор:\n"
+"п÷я─п╣п╢п©п╬п╩п╬п╤п╦п╪, п▓я▀ я│п╬п╥п╢п╟п╩п╦ п╪п╬п╫п╦я┌п╬я─:\n"
 
 #: ../src/inet.c:1803
 msgid "<i>\thttp 80 8080   ftp 21\n"
@@ -1388,9 +1380,9 @@ msgid ""
 "on the single ftp port 21 are plotted in another color.\n"
 "\n"
 msgstr ""
-"Http-запросы по стандартному http-порту 80 и кэширующий сервис\n"
-"на 8080-м порту складываются и отображаются одним цветом.\n"
-"Ftp-запросы по одиночному ftp-порту 21 отображаются другим цветом.\n"
+"Http-п╥п╟п©я─п╬я│я▀ п©п╬ я│я┌п╟п╫п╢п╟я─я┌п╫п╬п╪я┐ http-п©п╬я─я┌я┐ 80 п╦ п╨я█я┬п╦я─я┐я▌я┴п╦п╧ я│п╣я─п╡п╦я│\n"
+"п╫п╟ 8080-п╪ п©п╬я─я┌я┐ я│п╨п╩п╟п╢я▀п╡п╟я▌я┌я│я▐ п╦ п╬я┌п╬п╠я─п╟п╤п╟я▌я┌я│я▐ п╬п╢п╫п╦п╪ я├п╡п╣я┌п╬п╪.\n"
+"Ftp-п╥п╟п©я─п╬я│я▀ п©п╬ п╬п╢п╦п╫п╬я┤п╫п╬п╪я┐ ftp-п©п╬я─я┌я┐ 21 п╬я┌п╬п╠я─п╟п╤п╟я▌я┌я│я▐ п╢я─я┐пЁп╦п╪ я├п╡п╣я┌п╬п╪.\n"
 "\n"
 
 #: ../src/inet.c:1809
@@ -1399,223 +1391,222 @@ msgid ""
 "Port1 are monitored and included in the plot.\n"
 "\n"
 msgstr ""
-"Если отмечен пункт \"диапазон\", то все порты с номерами между Порт0\n"
-"и Порт1 проверяются и отображаются на графике.\n"
+"п∙я│п╩п╦ п╬я┌п╪п╣я┤п╣п╫ п©я┐п╫п╨я┌ \"п╢п╦п╟п©п╟п╥п╬п╫\", я┌п╬ п╡я│п╣ п©п╬я─я┌я▀ я│ п╫п╬п╪п╣я─п╟п╪п╦ п╪п╣п╤п╢я┐ п÷п╬я─я┌0\n"
+"п╦ п÷п╬я─я┌1 п©я─п╬п╡п╣я─я▐я▌я┌я│я▐ п╦ п╬я┌п╬п╠я─п╟п╤п╟я▌я┌я│я▐ п╫п╟ пЁя─п╟я└п╦п╨п╣.\n"
 "\n"
 
 #: ../src/inet.c:1815
 msgid "\t$a    current active connections for Data0\n"
-msgstr "\t$a    активных соединений для Данных-0\n"
+msgstr "\t$a    п╟п╨я┌п╦п╡п╫я▀я┘ я│п╬п╣п╢п╦п╫п╣п╫п╦п╧ п╢п╩я▐ п■п╟п╫п╫я▀п╣-0\n"
 
 #: ../src/inet.c:1816
 msgid "\t$cN   total connections in last N minutes (or hours) for Data0\n"
-msgstr "\t$cN   соединений за последние N минут (или часов) для Данных-0\n"
+msgstr "\t$cN   я│п╬п╣п╢п╦п╫п╣п╫п╦п╧ п╥п╟ п©п╬я│п╩п╣п╢п╫п╦п╣ N п╪п╦п╫я┐я┌ (п╦п╩п╦ я┤п╟я│п╬п╡) п╢п╩я▐ п■п╟п╫п╫я▀п╣-0\n"
 
 #: ../src/inet.c:1817
 msgid "\t$l    label for Data0\n"
-msgstr "\t$l     метка для Данных-0\n"
+msgstr "\t$l     п╪п╣я┌п╨п╟ п╢п╩я▐ п■п╟п╫п╫я▀п╣-0\n"
 
 #: ../src/inet.c:1818
 msgid "\t$A    current active connections for Data1\n"
-msgstr "\t$A    активных соединений для Данных-1\n"
+msgstr "\t$A    п╟п╨я┌п╦п╡п╫я▀я┘ я│п╬п╣п╢п╦п╫п╣п╫п╦п╧ п╢п╩я▐ п■п╟п╫п╫я▀п╣-1\n"
 
 #: ../src/inet.c:1819
 msgid "\t$CN   total connections in last N minutes (or hours) for Data1\n"
-msgstr "\t$CN   соединений за последние N минут (или часов) для Данных-1\n"
+msgstr "\t$CN   я│п╬п╣п╢п╦п╫п╣п╫п╦п╧ п╥п╟ п©п╬я│п╩п╣п╢п╫п╦п╣ N п╪п╦п╫я┐я┌ (п╦п╩п╦ я┤п╟я│п╬п╡) п╢п╩я▐ п■п╟п╫п╫я▀п╣-1\n"
 
 #: ../src/inet.c:1820
 msgid "\t$L    label for Data1\n"
-msgstr "\t$L     метка для Данных-1\n"
+msgstr "\t$L     п╪п╣я┌п╨п╟ п╢п╩я▐ п■п╟п╫п╫я▀п╣-1\n"
 
 #: ../src/inet.c:1825
 msgid ""
 "click on an inet chart to toggle the extra info display of\n"
 "\t\tcurrent TCP port connections.\n"
 msgstr ""
-"кнопка включает/выключает дополнительную информацию\n"
-"\t\tо текущих TCP-соединениях.\n"
+"п╨п╫п╬п©п╨п╟ п╡п╨п╩я▌я┤п╟п╣я┌/п╡я▀п╨п╩я▌я┤п╟п╣я┌ п╢п╬п©п╬п╩п╫п╦я┌п╣п╩я▄п╫я┐я▌ п╦п╫я└п╬я─п╪п╟я├п╦я▌\n"
+"\t\tп╬ я┌п╣п╨я┐я┴п╦я┘ TCP-я│п╬п╣п╢п╦п╫п╣п╫п╦я▐я┘.\n"
 
 #: ../src/inet.c:1828
 msgid "click on an inet chart to toggle hour/minute charts.\n"
 msgstr ""
-"кнопка переключает минутный и часовой\n"
-"\t\tграфики.\n"
+"п╨п╫п╬п©п╨п╟ п©п╣я─п╣п╨п╩я▌я┤п╟п╣я┌ п╪п╦п╫я┐я┌п╫я▀п╧ п╦ я┤п╟я│п╬п╡п╬п╧\n"
+"\t\tпЁя─п╟я└п╦п╨п╦.\n"
 
 #: ../src/inet.c:1855
 msgid "Ports"
-msgstr "Порты"
+msgstr "п÷п╬я─я┌я▀"
 
 #: ../src/inet.c:1861
 msgid "Data0"
-msgstr "Данные-0"
+msgstr "п■п╟п╫п╫я▀п╣-0"
 
 #: ../src/inet.c:1865
 msgid "Data1"
-msgstr "Данные-1"
+msgstr "п■п╟п╫п╫я▀п╣-1"
 
 #: ../src/inet.c:1875 ../src/inet.c:1881 ../src/inet.c:1969 ../src/inet.c:1989
 msgid "Port0"
-msgstr "Порт0"
+msgstr "п÷п╬я─я┌0"
 
 #: ../src/inet.c:1877 ../src/inet.c:1883 ../src/inet.c:1974 ../src/inet.c:1994
 msgid "Port1"
-msgstr "Порт1"
+msgstr "п÷п╬я─я┌1"
 
 #: ../src/inet.c:1915 ../src/inet.c:1920
 msgid "Port0 - Port1 is a range"
-msgstr "Порт0-Порт1 - это диапазон"
+msgstr "п÷п╬я─я┌0-п÷п╬я─я┌1 - я█я┌п╬ п╢п╦п╟п©п╟п╥п╬п╫"
 
 #: ../src/inet.c:2067
 msgid "Internet"
-msgstr "Интернет"
+msgstr "п≤п╫я┌п╣я─п╫п╣я┌"
 
 #: ../src/krell.c:961
 msgid "create_krell: NULL image or style\n"
-msgstr "create_krell: пустая (NULL) картинка или стиль\n"
+msgstr "create_krell: п©я┐я│я┌п╟я▐ (NULL) п╨п╟я─я┌п╦п╫п╨п╟ п╦п╩п╦ я│я┌п╦п╩я▄\n"
 
 #: ../src/mail.c:733
 msgid "Unable to connect."
-msgstr "Не могу соединиться."
+msgstr "п²п╣ п╪п╬пЁя┐ я│п╬п╣п╢п╦п╫п╦я┌я▄я│я▐."
 
 #: ../src/mail.c:734
 msgid "Bad response after connect."
-msgstr "Плохой ответ после 'connect'."
+msgstr "п÷п╩п╬я┘п╬п╧ п╬я┌п╡п╣я┌ п©п╬я│п╩п╣ 'connect'."
 
 #: ../src/mail.c:735
 msgid "Bad response after username."
-msgstr "Плохой ответ после 'username'."
+msgstr "п÷п╩п╬я┘п╬п╧ п╬я┌п╡п╣я┌ п©п╬я│п╩п╣ 'username'."
 
 #: ../src/mail.c:736
 msgid "Bad response after password."
-msgstr "Плохой ответ после 'password'."
+msgstr "п÷п╩п╬я┘п╬п╧ п╬я┌п╡п╣я┌ п©п╬я│п╩п╣ 'password'."
 
 #: ../src/mail.c:737
 msgid "Bad response after STAT or STATUS."
-msgstr "Плохой ответ после STAT или STATUS."
+msgstr "п÷п╩п╬я┘п╬п╧ п╬я┌п╡п╣я┌ п©п╬я│п╩п╣ STAT п╦п╩п╦ STATUS."
 
 #: ../src/mail.c:738
 msgid "Bad response after UIDL."
-msgstr "Плохой ответ после UIDL."
+msgstr "п÷п╩п╬я┘п╬п╧ п╬я┌п╡п╣я┌ п©п╬я│п╩п╣ UIDL."
 
 #: ../src/mail.c:739
 msgid "Bad APOP response after connect."
-msgstr "Плохой ответ APOP после соединения."
+msgstr "п÷п╩п╬я┘п╬п╧ п╬я┌п╡п╣я┌ APOP п©п╬я│п╩п╣ я│п╬п╣п╢п╦п╫п╣п╫п╦я▐."
 
 #: ../src/mail.c:740
 msgid "Bad CRAM_MD5 response after connect."
-msgstr "Плохой ответ CRAM_MD5 после соединения."
+msgstr "п÷п╩п╬я┘п╬п╧ п╬я┌п╡п╣я┌ CRAM_MD5 п©п╬я│п╩п╣ я│п╬п╣п╢п╦п╫п╣п╫п╦я▐."
 
 #: ../src/mail.c:788
 #, c-format
 msgid "Mail TCP Error: %s - %s\n"
-msgstr "Ошибка TCP в почте: %s - %s\n"
+msgstr "п·я┬п╦п╠п╨п╟ TCP п╡ п©п╬я┤я┌п╣: %s - %s\n"
 
 #: ../src/mail.c:819
 msgid "Cannot initialize SSL method."
-msgstr "Невозможно установить метод SSL."
+msgstr "п²п╣п╡п╬п╥п╪п╬п╤п╫п╬ я┐я│я┌п╟п╫п╬п╡п╦я┌я▄ п╪п╣я┌п╬п╢ SSL."
 
 #: ../src/mail.c:823
 msgid "Cannot initialize SSL server certificate handler."
-msgstr "Невозможно установить держателя SSL-сертификата."
+msgstr "п²п╣п╡п╬п╥п╪п╬п╤п╫п╬ я┐я│я┌п╟п╫п╬п╡п╦я┌я▄ п╢п╣я─п╤п╟я┌п╣п╩я▐ SSL-я│п╣я─я┌п╦я└п╦п╨п╟я┌п╟."
 
 #: ../src/mail.c:829
 msgid "Cannot initialize SSL handler."
-msgstr "Невозможно запустить обработчик SSL."
+msgstr "п²п╣п╡п╬п╥п╪п╬п╤п╫п╬ п╥п╟п©я┐я│я┌п╦я┌я▄ п╬п╠я─п╟п╠п╬я┌я┤п╦п╨ SSL."
 
 #: ../src/mail.c:955 ../src/mail.c:1027
 msgid "could not decode BASE64 challenge\n"
-msgstr "не могу расшифровать ответ в BASE64\n"
+msgstr "п╫п╣ п╪п╬пЁя┐ я─п╟я│я┬п╦я└я─п╬п╡п╟я┌я▄ п╬я┌п╡п╣я┌ п╡ BASE64\n"
 
 #: ../src/mail.c:962
 #, c-format
 msgid "decoded as %s\n"
-msgstr "расшифровано как %s\n"
+msgstr "я─п╟я│я┬п╦я└я─п╬п╡п╟п╫п╬ п╨п╟п╨ %s\n"
 
 #: ../src/mail.c:1079
 msgid "Bad response after STLS."
-msgstr "Плохой ответ после STLS."
+msgstr "п÷п╩п╬я┘п╬п╧ п╬я┌п╡п╣я┌ п©п╬я│п╩п╣ STLS."
 
 #: ../src/mail.c:1254
 msgid "Bad response after STARTTLS."
-msgstr "Плохой ответ после STARTTLS."
+msgstr "п÷п╩п╬я┘п╬п╧ п╬я┌п╡п╣я┌ п©п╬я│п╩п╣ STARTTLS."
 
 #: ../src/mail.c:1272
 msgid "Bad response after CAPABILITY."
-msgstr ""
+msgstr "п÷п╩п╬я┘п╬п╧ п╬я┌п╡п╣я┌ п©п╬я│п╩п╣ CAPABILITY."
 
 #: ../src/mail.c:1834
 #, c-format
 msgid "mute"
-msgstr "тихо"
+msgstr "я┌п╦я┘п╬"
 
 #: ../src/mail.c:2109
 msgid "seen"
-msgstr "прочитано"
+msgstr "п©я─п╬я┤п╦я┌п╟п╫п╬"
 
 #: ../src/mail.c:3573
 msgid "GKrellM Config Error"
-msgstr "Ошибка в настройках GKrellM"
+msgstr "п·я┬п╦п╠п╨п╟ п╡ п╫п╟я│я┌я─п╬п╧п╨п╟я┘ GKrellM"
 
 #: ../src/mail.c:3574
 msgid "Incomplete mailbox entries"
-msgstr "Не заполнены некоторые поля"
+msgstr "п²п╣ п╥п╟п©п╬п╩п╫п╣п╫я▀ п╫п╣п╨п╬я┌п╬я─я▀п╣ п©п╬п╩я▐"
 
 #: ../src/mail.c:3838
 msgid "<h>Mailboxes\n"
-msgstr "<h>Почтовые ящики\n"
+msgstr "<h>п÷п╬я┤я┌п╬п╡я▀п╣ я▐я┴п╦п╨п╦\n"
 
 #: ../src/mail.c:3840
 msgid "Mailboxes to monitor can be local or remote mailbox types.\n"
-msgstr ""
-"Отображаемые почтовые ящики могут быть как локальными, так и удалёнными.\n"
+msgstr "п·я┌п╬п╠я─п╟п╤п╟п╣п╪я▀п╣ п©п╬я┤я┌п╬п╡я▀п╣ я▐я┴п╦п╨п╦ п╪п╬пЁя┐я┌ п╠я▀я┌я▄ п╨п╟п╨ п╩п╬п╨п╟п╩я▄п╫я▀п╪п╦, я┌п╟п╨ п╦ я┐п╢п╟п╩я▒п╫п╫я▀п╪п╦.\n"
 
 #: ../src/mail.c:3841
 msgid ""
 "For local mailboxes, the path name may be a mbox file or it may be\n"
 "a Maildir or MH mail style directory.\n"
 msgstr ""
-"Для локальных ящиков путь может быть mbox-файлом или Maildir-\n"
-"или MH-каталогом.\n"
+"п■п╩я▐ п╩п╬п╨п╟п╩я▄п╫я▀я┘ я▐я┴п╦п╨п╬п╡ п©я┐я┌я▄ п╪п╬п╤п╣я┌ п╠я▀я┌я▄ mbox-я└п╟п╧п╩п╬п╪ п╦п╩п╦ Maildir-\n"
+"п╦п╩п╦ MH-п╨п╟я┌п╟п╩п╬пЁп╬п╪.\n"
 
 #: ../src/mail.c:3849
 msgid "<b>Mail reading program\n"
-msgstr "<b>Почтовая программа\n"
+msgstr "<b>п÷п╬я┤я┌п╬п╡п╟я▐ п©я─п╬пЁя─п╟п╪п╪п╟\n"
 
 #: ../src/mail.c:3850
 msgid ""
 "If you enter a mail reading program (your mail user agent or MUA)\n"
 "it can be launched by clicking on the mail monitor message count button.\n"
 msgstr ""
-"Если Вы укажете программу для чтения почты (Ваш почтовый агент или MUA),\n"
-"её можно будет запускать нажатием мыши на счётчик писем на мониторе.\n"
+"п∙я│п╩п╦ п▓я▀ я┐п╨п╟п╤п╣я┌п╣ п©я─п╬пЁя─п╟п╪п╪я┐ п╢п╩я▐ я┤я┌п╣п╫п╦я▐ п©п╬я┤я┌я▀ (п▓п╟я┬ п©п╬я┤я┌п╬п╡я▀п╧ п╟пЁп╣п╫я┌ п╦п╩п╦ MUA),\n"
+"п╣я▒ п╪п╬п╤п╫п╬ п╠я┐п╢п╣я┌ п╥п╟п©я┐я│п╨п╟я┌я▄ п╫п╟п╤п╟я┌п╦п╣п╪ п╪я▀я┬п╦ п╫п╟ я│я┤я▒я┌я┤п╦п╨ п©п╦я│п╣п╪ п╫п╟ п╪п╬п╫п╦я┌п╬я─п╣.\n"
 
 #: ../src/mail.c:3853
 msgid "<b>Sound notify program\n"
-msgstr "<b>Команда звукового оповещения\n"
+msgstr "<b>п п╬п╪п╟п╫п╢п╟ п╥п╡я┐п╨п╬п╡п╬пЁп╬ п╬п©п╬п╡п╣я┴п╣п╫п╦я▐\n"
 
 #: ../src/mail.c:3854
 msgid ""
 "If you enter a notify (sound) command, it will be run when new mail\n"
 "is detected.\n"
 msgstr ""
-"Если Вы впишете команду (звукового) оповещения, она будет запущена\n"
-"при обнаружении новой почты.\n"
+"п∙я│п╩п╦ п▓я▀ п╡п©п╦я┬п╣я┌п╣ п╨п╬п╪п╟п╫п╢я┐ (п╥п╡я┐п╨п╬п╡п╬пЁп╬) п╬п©п╬п╡п╣я┴п╣п╫п╦я▐, п╬п╫п╟ п╠я┐п╢п╣я┌ п╥п╟п©я┐я┴п╣п╫п╟\n"
+"п©я─п╦ п╬п╠п╫п╟я─я┐п╤п╣п╫п╦п╦ п╫п╬п╡п╬п╧ п©п╬я┤я┌я▀.\n"
 
 #: ../src/mail.c:3861
 msgid "<b>fetch/check Program\n"
-msgstr "<b>Программа проверки почты\n"
+msgstr "<b>п÷я─п╬пЁя─п╟п╪п╪п╟ п©я─п╬п╡п╣я─п╨п╦ п©п╬я┤я┌я▀\n"
 
 #: ../src/mail.c:3862
 msgid ""
 "If you want to download remote mail or check for remote mail without\n"
 "using the builtin POP3 or IMAP mail checking which is set up in the\n"
 msgstr ""
-"Если Вы хотите забирать почту или проверять её наличие, не используя\n"
-"встроенный POP3- или IMAP-агент, как подразумевается во вкладке\n"
+"п∙я│п╩п╦ п▓я▀ я┘п╬я┌п╦я┌п╣ п╥п╟п╠п╦я─п╟я┌я▄ п©п╬я┤я┌я┐ п╦п╩п╦ п©я─п╬п╡п╣я─я▐я┌я▄ п╣я▒ п╫п╟п╩п╦я┤п╦п╣, п╫п╣ п╦я│п©п╬п╩я▄п╥я┐я▐\n"
+"п╡я│я┌я─п╬п╣п╫п╫я▀п╧ POP3 п╦п╩п╦ IMAP, п╨п╬я┌п╬я─я▀п╣ я┐я│я┌п╟п╫п╬п╡п╩п╣п╫я▀ п╡\n"
 
 #: ../src/mail.c:3864 ../src/mail.c:3882
 msgid "<i>Mailboxes"
-msgstr "<i>Ящики"
+msgstr "<i>п╞я┴п╦п╨п╦"
 
 #: ../src/mail.c:3865
 msgid ""
@@ -1630,28 +1621,28 @@ msgid ""
 "must tell GKrellM this is the expected behaviour by selecting in the\n"
 "Options tab:\n"
 msgstr ""
-", сделайте это, указав команду проверки почты. Например, можно\n"
-"периодически забирать письма с удаленного сервера при помощи\n"
-"fetchmail и складывать в локальный ящик, где GKreelM может\n"
-"сосчитать их.\n"
+", я│п╢п╣п╩п╟п╧я┌п╣ я█я┌п╬, я┐п╨п╟п╥п╟п╡ п╨п╬п╪п╟п╫п╢я┐ п©я─п╬п╡п╣я─п╨п╦ п©п╬я┤я┌я▀. п²п╟п©я─п╦п╪п╣я─, п╪п╬п╤п╫п╬\n"
+"п©п╣я─п╦п╬п╢п╦я┤п╣я│п╨п╦ п╥п╟п╠п╦я─п╟я┌я▄ п©п╦я│я▄п╪п╟ я│ я┐п╢п╟п╩п╣п╫п╫п╬пЁп╬ я│п╣я─п╡п╣я─п╟ п©я─п╦ п©п╬п╪п╬я┴п╦\n"
+"fetchmail п╦ я│п╨п╩п╟п╢я▀п╡п╟я┌я▄ п╡ п╩п╬п╨п╟п╩я▄п╫я▀п╧ я▐я┴п╦п╨, пЁп╢п╣ GKreelM п╪п╬п╤п╣я┌\n"
+"я│п╬я│я┤п╦я┌п╟я┌я▄ п╦я┘.\n"
 "\n"
-"Также, GKrellM может считывать вывод какой-нибудь программы,\n"
-"проверяющей локальные или удаленные письма, и выводить результаты.\n"
-"Если Вы указываете команду, подобную этой, которая проверяет почту\n"
-"без скачивания, Вы должны сообщить GKrellM об этом, отметив \n"
-"во вкладке \"Параметры\" пункт\n"
+"п╒п╟п╨п╤п╣, GKrellM п╪п╬п╤п╣я┌ я│я┤п╦я┌я▀п╡п╟я┌я▄ п╡я▀п╡п╬п╢ п╨п╟п╨п╬п╧-п╫п╦п╠я┐п╢я▄ п©я─п╬пЁя─п╟п╪п╪я▀,\n"
+"п©я─п╬п╡п╣я─я▐я▌я┴п╣п╧ п╩п╬п╨п╟п╩я▄п╫я▀п╣ п╦п╩п╦ я┐п╢п╟п╩п╣п╫п╫я▀п╣ п©п╦я│я▄п╪п╟, п╦ п╡я▀п╡п╬п╢п╦я┌я▄ я─п╣п╥я┐п╩я▄я┌п╟я┌я▀.\n"
+"п∙я│п╩п╦ п▓я▀ я┐п╨п╟п╥я▀п╡п╟п╣я┌п╣ п╨п╬п╪п╟п╫п╢я┐, п©п╬п╢п╬п╠п╫я┐я▌ я█я┌п╬п╧, п╨п╬я┌п╬я─п╟я▐ п©я─п╬п╡п╣я─я▐п╣я┌ п©п╬я┤я┌я┐\n"
+"п╠п╣п╥ я│п╨п╟я┤п╦п╡п╟п╫п╦я▐, п▓я▀ п╢п╬п╩п╤п╫я▀ я│п╬п╬п╠я┴п╦я┌я▄ GKrellM п╬п╠ я█я┌п╬п╪, п╬я┌п╪п╣я┌п╦п╡ \n"
+"п╡п╬ п╡п╨п╩п╟п╢п╨п╣ \"п÷п╟я─п╟п╪п╣я┌я─я▀\" п©я┐п╫п╨я┌\n"
 
 #: ../src/mail.c:3875
 msgid "<i>\tFetch/check program checks messages only\n"
-msgstr "<i>\tПрограмма проверки почты не скачивает письма\n"
+msgstr "<i>\tп÷я─п╬пЁя─п╟п╪п╪п╟ п©п╬п╩я┐я┤п╣п╫п╦я▐/п©я─п╬п╡п╣я─п╨п╦ я┌п╬п╩я▄п╨п╬ п©я─п╬п╡п╣я─я▐п╣я┌ п©п╦я│я▄п╪п╟\n"
 
 #: ../src/mail.c:3876
 msgid ""
 "For checking messages on a remote server, GKrellM can read the\n"
 "output of the program "
 msgstr ""
-"Для проверки писем на удаленном сервере GKrellM может\n"
-"считывать вывод программы "
+"п■п╩я▐ п©я─п╬п╡п╣я─п╨п╦ п©п╦я│п╣п╪ п╫п╟ я┐п╢п╟п╩п╣п╫п╫п╬п╪ я│п╣я─п╡п╣я─п╣ GKrellM п╪п╬п╤п╣я┌\n"
+"я│я┤п╦я┌я▀п╡п╟я┌я▄ п╡я▀п╡п╬п╢ п©я─п╬пЁя─п╟п╪п╪я▀ "
 
 #: ../src/mail.c:3878
 msgid "<i>fetchmail -c"
@@ -1659,39 +1650,38 @@ msgstr ""
 
 #: ../src/mail.c:3879
 msgid " (you must append the -c).\n"
-msgstr " (Вы должны добавить -c).\n"
+msgstr " (п▓я▀ п╢п╬п╩п╤п╫я▀ п╢п╬п╠п╟п╡п╦я┌я▄ -c).\n"
 
 #: ../src/mail.c:3880
 msgid ""
 "But, do not combine these methods for the same mailbox!  If you enter a\n"
 "POP3 mailbox in the "
 msgstr ""
-"Но не используйте вместе эти методы для одного почтового ящика! Если\n"
-"Вы настроили POP3 во вкладке "
+"п²п╬ п╫п╣ п╦я│п©п╬п╩я▄п╥я┐п╧я┌п╣ п╡п╪п╣я│я┌п╣ я█я┌п╦ п╪п╣я┌п╬п╢я▀ п╢п╩я▐ п╬п╢п╫п╬пЁп╬ п©п╬я┤я┌п╬п╡п╬пЁп╬ я▐я┴п╦п╨п╟! п∙я│п╩п╦\n"
+"п▓я▀ п╫п╟я│я┌я─п╬п╦п╩п╦ POP3 п╡ "
 
 #: ../src/mail.c:3883
 msgid " tab, then don't check it again with fetchmail.\n"
 msgstr ""
-", не проверяйте его снова при помощи\n"
+", п╫п╣ п©я─п╬п╡п╣я─я▐п╧я┌п╣ п╣пЁп╬ я│п╫п╬п╡п╟ п©я─п╦ п©п╬п╪п╬я┴п╦\n"
 "fetchmail.\n"
 
 #: ../src/mail.c:3890
 msgid "click the mail count button to launch the mail reading program.\n"
-msgstr "нажмите на счётчик писем, чтобы запустить почтовую\n"
+msgstr "п╫п╟п╤п╪п╦я┌п╣ п╫п╟ я│я┤я▒я┌я┤п╦п╨ п©п╦я│п╣п╪, я┤я┌п╬п╠я▀ п╥п╟п©я┐я│я┌п╦я┌я▄ п©п╬я┤я┌п╬п╡я┐я▌ п©я─п╬пЁя─п╟п╪п╪я┐\n"
 
 #: ../src/mail.c:3891
 msgid "\t\tIf options permit, also stop animations and reset remote counts.\n"
-msgstr ""
-"\t\tпрограмму. Если указано в Параметрах, прекращается анимация\n"
-"\t\tи сбрасываются счетчики.\n"
+msgstr "\t\tп∙я│п╩п╦ п©п╟я─п╟п╪п╣я┌я─я▀ п╢п╬я│я┌я┐п©п╫я▀, я┌п╟п╨п╤п╣ п╬я│я┌п╟п╫п╟п╡п╩п╦п╡п╟п╣я┌я│я▐ п╟п╫п╦п╪п╟я├п╦я▐\n"
+"\t\tп╦ я│п╠я─п╟я│я▀п╡п╟я▌я┌я│я▐ я┐п╢п╟п╩я▒п╫п╫я▀п╣ я│я┤п╣я┌я┤п╦п╨п╦.\n"
 
 #: ../src/mail.c:3893
 msgid ""
 "click the envelope decal to force a mail check regardless of\n"
 "\t\tany mute mode or inhibit mail checking option settings.\n"
 msgstr ""
-"нажмите на конверте для запуска проверки почты независимо\n"
-"\t\tот режима \"выкл\" или параметра \"Не проверять почту\".\n"
+"п╫п╟п╤п╪п╦я┌п╣ п╫п╟ п╨п╬п╫п╡п╣я─я┌п╣ п╢п╩я▐ п╥п╟п©я┐я│п╨п╟ п©я─п╬п╡п╣я─п╨п╦ п©п╬я┤я┌я▀ п╫п╣п╥п╟п╡п╦я│п╦п╪п╬\n"
+"\t\tп╬я┌ я─п╣п╤п╦п╪п╟ \"п╡я▀п╨п╩\" п╦п╩п╦ п©п╟я─п╟п╪п╣я┌я─п╟ \"п²п╣ п©я─п╬п╡п╣я─я▐я┌я▄ п©п╬я┤я┌я┐\".\n"
 
 #: ../src/mail.c:3896
 msgid ""
@@ -1699,186 +1689,185 @@ msgid ""
 "\t\tthe sound notify program and optionally inhibits all mail\n"
 "\t\tchecking.\n"
 msgstr ""
-"нажмите на панель монитора, чтобы\n"
-"\t\tвключить/выключить программу звукового оповещения и,\n"
-"\t\tесли указано в Параметрах, вообще проверку почты.\n"
+"п╫п╟п╤п╪п╦я┌п╣ п╫п╟ п©п╟п╫п╣п╩я▄ п╪п╬п╫п╦я┌п╬я─п╟, я┤я┌п╬п╠я▀\n"
+"\t\tп╡п╨п╩я▌я┤п╦я┌я▄/п╡я▀п╨п╩я▌я┤п╦я┌я▄ п©я─п╬пЁя─п╟п╪п╪я┐ п╥п╡я┐п╨п╬п╡п╬пЁп╬ п╬п©п╬п╡п╣я┴п╣п╫п╦я▐ п╦,\n"
+"\t\tп╣я│п╩п╦ я┐п╨п╟п╥п╟п╫п╬ п╡ п÷п╟я─п╟п╪п╣я┌я─п╟я┘, п╡п╬п╬п╠я┴п╣ п©я─п╬п╡п╣я─п╨я┐ п©п╬я┤я┌я▀.\n"
 
 #: ../src/mail.c:3937
 msgid "Enable Mailcheck"
-msgstr "Включить Почту"
+msgstr "п▓п╨п╩я▌я┤п╦я┌я▄ п÷п╬я┤я┌я┐"
 
 #: ../src/mail.c:3949
 msgid "Mail reading program:"
-msgstr "Почтовая программа:"
+msgstr "п÷я─п╬пЁя─п╟п╪п╪п╟ я┤я┌п╣п╫п╦я▐ п©п╬я┤я┌я▀:"
 
 #: ../src/mail.c:3964
 msgid "Notify (sound) program:"
-msgstr "Команда оповещения:"
+msgstr "п п╬п╪п╟п╫п╢п╟ п╬п©п╬п╡п╣я┴п╣п╫п╦я▐ (п╥п╡я┐п╨):"
 
 #: ../src/mail.c:3981
 msgid "Mail fetch/check program:"
-msgstr "Программа проверки почты:"
+msgstr "п÷я─п╬пЁя─п╟п╪п╪п╟ п©п╬п╩я┐я┤п╣п╫п╦я▐/п©я─п╬п╡п╣я─п╨п╦ п©п╬я┤я┌я▀:"
 
 #: ../src/mail.c:4000
 msgid "Run fetch/check program at local interval"
-msgstr "Проверять сервера вместе с локальными ящиками"
+msgstr "п▓я▀п©п╬п╩п╫я▐я┌я▄ п©я─п╬пЁя─п╟п╪п╪я┐ п©п╬п╩я┐я┤п╣п╫п╦я▐/п©я─п╬п╡п╣я─п╨п╦ я│ п╩п╬п╨п╟п╩я▄п╫я▀п╪п╦ п╦п╫я┌п╣я─п╡п╟п╩п╬п╪"
 
 #: ../src/mail.c:4010
 msgid "Check local mailboxes every"
-msgstr "Проверять локально каждые"
+msgstr "п÷я─п╬п╡п╣я─п╨п╟ п╩п╬п╨п╟п╩я▄п╫п╦я┘ п©п╬я┤я┌п╬п╡я▀я┘ я▐я┴п╦п╨п╬п╡ п╨п╟п╤п╢я▀п╣"
 
 #: ../src/mail.c:4017
 msgid "seconds"
-msgstr "секунд"
+msgstr "я│п╣п╨я┐п╫п╢"
 
 #: ../src/mail.c:4023
 msgid "Do remote checks every"
-msgstr "Проверять сервера каждые"
+msgstr "пёп╢п╟п╩я▒п╫п╫п╟я▐ п©я─п╬п╡п╣я─п╨п╟ п╨п╟п╤п╢я▀п╣"
 
 #: ../src/mail.c:4025
 msgid "Check mail every"
-msgstr "Проверять почту каждые"
+msgstr "п÷я─п╬п╡п╣я─п╦я┌я▄ п╨п╟п╤п╢я┐я▌ п©п╬я┤я┌я┐"
 
 #: ../src/mail.c:4032
 msgid "minutes"
-msgstr "минут"
+msgstr "п╪п╦п╫я┐я┌"
 
 #: ../src/mail.c:4035
 msgid "Mailboxes"
-msgstr "Ящики"
+msgstr "п╞я┴п╦п╨п╦"
 
 #: ../src/mail.c:4051
 msgid "Path name:"
-msgstr "Путь"
+msgstr "п÷я┐я┌я▄:"
 
 #: ../src/mail.c:4069
 msgid "Server"
-msgstr "Сервер"
+msgstr "п║п╣я─п╡п╣я─"
 
 #: ../src/mail.c:4076
 msgid "User name"
-msgstr "ID пользователя"
+msgstr "п≤п╪я▐ п©п╬п╩я▄п╥п╬п╡п╟я┌п╣п╩я▐"
 
 #: ../src/mail.c:4083
 msgid "Password"
-msgstr "Пароль"
+msgstr "п÷п╟я─п╬п╩я▄"
 
 #: ../src/mail.c:4091 ../src/mail.c:4183
 msgid "Protocol"
-msgstr "Протокол"
+msgstr "п÷я─п╬я┌п╬п╨п╬п╩"
 
 #: ../src/mail.c:4106
 msgid "Use SSL"
-msgstr "Использовать SSL"
+msgstr "п≤я│п©п╬п╩я▄п╥п╬п╡п╟я┌я▄ SSL"
 
 #: ../src/mail.c:4114
 msgid "No"
-msgstr "Нет"
+msgstr "п²п╣я┌"
 
 #: ../src/mail.c:4122
 msgid "IMAP folder"
-msgstr "Каталог сервера IMAP"
+msgstr "п п╟я┌п╟п╩п╬пЁ IMAP"
 
 #: ../src/mail.c:4132
 msgid "Specify port"
-msgstr "Порт"
+msgstr "пёп╨п╟п╥п╟я┌я▄ п©п╬я─я┌"
 
 #: ../src/mail.c:4151
 msgid "Local mailbox"
-msgstr "Локальный ящик"
+msgstr "п⌡п╬п╨п╟п╩я▄п╫я▀п╧ п©п╬я┤я┌п╬п╡я▀п╧ я▐я┴п╦п╨"
 
 #: ../src/mail.c:4157
 msgid "Remote mailbox"
-msgstr "Удаленный ящик"
+msgstr "пёп╢п╟п╩п╣п╫п╫я▀п╧ п©п╬я┤я┌п╬п╡я▀п╧ я▐я┴п╦п╨"
 
 #: ../src/mail.c:4193
 msgid "Mailbox"
-msgstr "Ящик"
+msgstr "п÷п╬я┤я┌п╬п╡я▀п╧ я▐я┴п╦п╨"
 
 #: ../src/mail.c:4204
 msgid "Animation"
-msgstr "Анимация"
+msgstr "п░п╫п╦п╪п╟я├п╦я▐"
 
 #: ../src/mail.c:4207
 msgid "Animation Select"
-msgstr "Выбор анимации"
+msgstr "п▓я▀п╠п╬я─ п╟п╫п╦п╪п╟я├п╦п╦"
 
 #: ../src/mail.c:4212
 msgid "None"
-msgstr "Нет"
+msgstr "п²п╣я┌"
 
 #: ../src/mail.c:4215
 msgid "Envelope"
-msgstr "Конверт"
+msgstr "п п╬п╫п╡п╣я─я┌"
 
 #: ../src/mail.c:4220
 msgid "Daemon"
-msgstr "Демон"
+msgstr "п■п╣п╪п╬п╫"
 
 #: ../src/mail.c:4222
 msgid "Penguin"
-msgstr "Пингвин"
+msgstr "п÷п╦п╫пЁп╡п╦п╫"
 
 #: ../src/mail.c:4226
 msgid "Both"
-msgstr "Оба"
+msgstr "п·п╠п╟"
 
 #: ../src/mail.c:4239
 msgid "Run animation continuously as long as there is a new mail count"
-msgstr "Воспроизводить анимацию, пока есть новые письма"
+msgstr "п▓п╬я│п©я─п╬п╦п╥п╡п╬п╢п╦я┌я▄ п╟п╫п╦п╪п╟я├п╦я▌, п©п╬п╨п╟ п╣я│я┌я▄ п╫п╬п╡я▀п╣ п©п╦я│я▄п╪п╟"
 
 #: ../src/mail.c:4246
 msgid "Message Counting"
-msgstr "Счетчик писем"
+msgstr "п║я┤п╣я┌я┤п╦п╨ п©п╦я│п╣п╪"
 
 #: ../src/mail.c:4251
 msgid "new/total"
-msgstr "новых/всего"
+msgstr "п╫п╬п╡я▀я┘/п╡я│п╣пЁп╬"
 
 #: ../src/mail.c:4255
 msgid "new"
-msgstr "новых"
+msgstr "п╫п╬п╡я▀я┘"
 
 #: ../src/mail.c:4259
 msgid "do not count"
-msgstr "не считать"
+msgstr "п╫п╣ я│я┤п╦я┌п╟я┌я▄"
 
 #: ../src/mail.c:4272
 msgid "Fetch/check program checks messages only (see Mail Info tab)"
-msgstr "Программа проверки почты не скачивает письма (см. вкладку Описание)"
+msgstr "п÷я─п╬пЁя─п╟п╪п╪п╟ п©п╬п╩я┐я┤п╣п╫п╦я▐/п©я─п╬п╡п╣я─п╨п╦ я┌п╬п╩я▄п╨п╬ п©я─п╬п╡п╣я─я▐п╣я┌ п©п╦я│я▄п╪п╟ (я│п╪. п╡п╨п╩п╟п╢п╨я┐ п·п©п╦я│п╟п╫п╦п╣)"
 
 #: ../src/mail.c:4277
 msgid "Reset remote message counts when message count button is pressed."
-msgstr "Сбрасывать счетчик писем на сервере при нажатии на кнопку счетчика"
+msgstr "п║п╠я─п╟я│я▀п╡п╟я┌я▄ я│я┤п╣я┌я┤п╦п╨ я┐п╢п╟п╩я▒п╫п╫я▀я┘ я│п╬п╬п╠я┴п╣п╫п╦п╧ п©я─п╦ п╫п╟п╤п╟я┌п╦п╦ п╫п╟ п╨п╫п╬п©п╨я┐ я│я┤п╣я┌я┤п╦п╨п╟"
 
 #: ../src/mail.c:4282
 msgid "Count accessed but unseen mail as new (if this status is available)"
-msgstr "Считать не новую, но непрочитанную почту как новую (если доступно)"
+msgstr "п║я┤п╦я┌п╟я┌я▄ п╫п╣ п╫п╬п╡я┐я▌, п╫п╬ п╫п╣п©я─п╬я┤п╦я┌п╟п╫п╫я┐я▌ п©п╬я┤я┌я┐ п╨п╟п╨ п╫п╬п╡я┐я▌ (п╣я│п╩п╦ я█я┌п╬я┌ я│я┌п╟я┌я┐я│ п╢п╬я│я┌я┐п©п╣п╫)"
 
 #: ../src/mail.c:4287
 msgid "Mute mode inhibits all mail checking, not just notify (sound) program"
-msgstr ""
-"Режим 'тихо' прекращает проверку почты, а не только (звуковое) оповещение"
+msgstr "п═п╣п╤п╦п╪ 'я┌п╦я┘п╬' п©я─п╣п╨я─п╟я┴п╟п╣я┌ п©я─п╬п╡п╣я─п╨я┐ п©п╬я┤я┌я▀, п╟ п╫п╣ я┌п╬п╩я▄п╨п╬ (п╥п╡я┐п╨п╬п╡п╬п╣) п╬п©п╬п╡п╣я┴п╣п╫п╦п╣"
 
 #: ../src/mail.c:4292
 msgid "Inhibit all mail checking while the mail reader is running"
-msgstr "Не проверять почту при запущенной почтовой программе"
+msgstr "п²п╣ п©я─п╬п╡п╣я─я▐я┌я▄ п©п╬я┤я┌я┐ п©я─п╦ п╥п╟п©я┐я┴п╣п╫п╫п╬п╧ п©п╬я┤я┌п╬п╡п╬п╧ п©я─п╬пЁя─п╟п╪п╪п╣"
 
 #: ../src/mail.c:4297
 msgid "Allow multiple launches of the mail reader program"
-msgstr "Разрешать запуск нескольких почтовых программ"
+msgstr "п═п╟п╥я─п╣я┬п╟я┌я▄ п╥п╟п©я┐я│п╨ п╫п╣я│п╨п╬п╩я▄п╨п╦я┘ п©п╬я┤я┌п╬п╡я▀я┘ п©я─п╬пЁя─п╟п╪п╪"
 
 #: ../src/mail.c:4302
 msgid "List mailboxes containing new mail in a tooltip"
-msgstr "Перечислять ящики с новыми письмами во всплывающей подсказке"
+msgstr "п÷п╣я─п╣я┤п╦я│п╩я▐я┌я▄ я▐я┴п╦п╨п╦ я│ п╫п╬п╡я▀п╪п╦ п©п╦я│я▄п╪п╟п╪п╦ п╡п╬ п╡я│п©п╩я▀п╡п╟я▌я┴п╣п╧ п©п╬п╢я│п╨п╟п╥п╨п╣"
 
 #: ../src/mail.c:4308
 msgid "Ignore .mh_sequences when checking MH mail."
-msgstr "Игнорировать .mh_sequences при проверке MH-ящика"
+msgstr "п≤пЁп╫п╬я─п╦я─п╬п╡п╟я┌я▄ .mh_sequences п©я─п╦ п©я─п╬п╡п╣я─п╨п╣ MH-я▐я┴п╦п╨п╟"
 
 #: ../src/mail.c:4331
 msgid "Mail"
-msgstr "Почта"
+msgstr "п÷п╬я┤я┌п╟"
 
 #: ../src/main.c:135
 msgid ""
@@ -1888,57 +1877,61 @@ msgid ""
 "\n"
 "Read the Info pages in the config for setup help."
 msgstr ""
-"Вы можете попасть в настройку программы, нажав правой\n"
-"кнопкой мыши по бордюру GKrellM или нажав кнопку F1\n"
-"когда курсор мыши расположен над окном GKrellM.\n"
+"п▓я▀ п╪п╬п╤п╣я┌п╣ п©п╬п©п╟я│я┌я▄ п╡ п╫п╟я│я┌я─п╬п╧п╨я┐ п©я─п╬пЁя─п╟п╪п╪я▀, п╫п╟п╤п╟п╡ п©я─п╟п╡п╬п╧\n"
+"п╨п╫п╬п©п╨п╬п╧ п╪я▀я┬п╦ п©п╬ п╠п╬я─п╢я▌я─я┐ GKrellM п╦п╩п╦ п╫п╟п╤п╟п╡ п╨п╫п╬п©п╨я┐ F1\n"
+"п╨п╬пЁп╢п╟ п╨я┐я─я│п╬я─ п╪я▀я┬п╦ я─п╟я│п©п╬п╩п╬п╤п╣п╫ п╫п╟п╢ п╬п╨п╫п╬п╪ GKrellM.\n"
 "\n"
-"Ищите помощь по настройкам во вкладках \"Описание\"."
+"п╖п╦я┌п╟п╧я┌п╣ я│я┌я─п╟п╫п╦я├я▀ \"п·п©п╦я│п╟п╫п╦п╣\" п╨п╬п╫я└п╦пЁя┐я─п╟я├п╦п╧ п╢п╩я▐ п©п╬п╪п╬я┴п╦ п╡ я┐я│я┌п╟п╫п╬п╡п╨п╣."
 
 #: ../src/main.c:174
 msgid "Error: Could not load all fonts.\n"
-msgstr "Ошибка: Не могу загрузить ни одного шрифта.\n"
+msgstr "п·я┬п╦п╠п╨п╟: п²п╣ п╪п╬пЁя┐ п╥п╟пЁя─я┐п╥п╦я┌я▄ п╫п╦ п╬п╢п╫п╬пЁп╬ я┬я─п╦я└я┌п╟.\n"
 
 #: ../src/main.c:1704
 msgid "GKrellM Introduction"
-msgstr "Приветствие GKrellM"
+msgstr "п÷я─п╦п╡п╣я┌я│я┌п╡п╦п╣ GKrellM"
 
 #: ../src/main.c:1782
 msgid ""
 "usage: gkrellm [options]\n"
 "options:\n"
 msgstr ""
+"п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╦п╣: gkrellm [п╬п©я├п╦п╦]\n"
+"п╬п©я├п╦п╦:\n"
 
 #: ../src/main.c:1784
 msgid "   -t, --theme theme_dir    Select a theme directory.\n"
-msgstr ""
+msgstr "   -t, --theme theme_dir    п▓я▀п╠п╬я─ п╢п╦я─п╣п╨я┌п╬я─п╦п╦ я┌п╣п╪я▀.\n"
 
 #: ../src/main.c:1785
 msgid "   -g, --geometry +x+y      Position the window on the screen.\n"
-msgstr ""
+msgstr "   -g, --geometry +x+y      п÷п╬п╩п╬п╤п╣п╫п╦п╣ п╬п╨п╫п╟ п╫п╟ я█п╨я─п╟п╫п╣.\n"
 
 #: ../src/main.c:1786
 msgid "       --wm                 Allow window manager decorations.\n"
-msgstr ""
+msgstr "       --wm                 п═п╟п╥я─п╣я┬п╦я┌я▄ п╬я└п╬я─п╪п╩п╣п╫п╦п╣ п╬п╨п╬п╫п╫п╬пЁп╬ п╪п╣п╫п╣п╢п╤п╣я─п╟.\n"
 
 #: ../src/main.c:1787
 msgid ""
 "       --m2                 Left button side frame shading (for 2 btn "
 "mice).\n"
-msgstr ""
+msgstr "--m2                 п⌡п╣п╡п╟я▐ п╨п╫п╬п©п╨п╟ п╢п╩я▐ п╥п╟я┌п╣п╫п╣п╫п╦я▐ я┤п╟я│я┌п╦ я─п╟п╪п╨п╦ (п╢п╩я▐ 2 п╨п╫п╬п©. п╪я▀я┬п╦).\n"
 
 #: ../src/main.c:1788
 msgid "       --nt                 No transparency.\n"
-msgstr ""
+msgstr "       --nt                 п²п╣я┌ п©я─п╬п╥я─п╟я┤п╫п╬я│я┌п╦.\n"
 
 #: ../src/main.c:1789
 msgid "   -w, --withdrawn          Draw GKrellM in withdrawn mode.\n"
-msgstr ""
+msgstr "   -w, --withdrawn          п═п╦я│п╬п╡п╟я┌я▄ GKrellM п╡ п╥п╟п╪п╨п╫я┐я┌п╬п╪ я─п╣п╤п╦п╪п╣.\n"
 
 #: ../src/main.c:1790
 msgid ""
 "   -c, --config suffix      Use alternate config files generated by\n"
 "                            appending \"suffix\" to config file names.\n"
 msgstr ""
+"   -c, --config я│я┐я└я└п╦п╨я│     п≤я│п©п╬п╩я▄п╥п╬п╡п╟я┌я▄ п╟п╩я▄я┌п╣я─п╫п╟я┌п╦п╡п╫я▀п╣ п╨п╬п╫я└. я└п╟п╧п╩я▀ пЁп╣п╫п╣я─п╦я─я┐п╣п╪я▀п╣ п©я┐я┌я▒п╪\n"
+"                            п╢п╬п╠п╟п╡п╩п╣п╫п╦я▐ \"я│я┐я└я└п╦п╨я│п╟\" п╨ п╦п╪п╣п╫п╟п╪ п╨п╬п╫я└. я└п╟п╧п╩п╬п╡.\n"
 
 #: ../src/main.c:1792
 msgid ""
@@ -1951,50 +1944,67 @@ msgid ""
 "                            and for the hostname to be in the window title.\n"
 "                            This option has no effect in client mode.\n"
 msgstr ""
+"   -f, --force-host-config  п║п╬п╥п╢п╟п╣я┌ я└п╟п╧п╩я▀ п╫п╟я│я┌я─п╬п╣п╨ я│ п╢п╬п╠п╟п╡п╩п╣п╫п╦п╣п╪\n"
+"                            п╦п╪п╣п╫п╦ п╪п╟я┬п╦п╫я▀ п╨ п╦п╪п╣п╫п╟п╪ я└п╟п╧п╩п╬п╡. п÷п╬я│п╩п╣п╢я┐я▌я┴п╦п╣\n"
+"                            п╥п╟п©я┐я│п╨п╦ п╠я┐п╢я┐я┌ п╟п╡я┌п╬п╪п╟я┌п╦я┤п╣я│п╨п╦ п╦я│п©п╬п╩я▄п╥п╬п╡п╟я┌я▄ я█я┌п╦\n"
+"                            я└п╟п╧п╩я▀, п╣я│п╩п╦ п╫п╣ я┐п╨п╟п╥п╟п╫п╬ п╬я│п╬п╠п╬ п©п╟я─п╟п╪п╣я┌я─п╬п╪ --config.\n"
+"                            п╜я┌п╬ я┐п╢п╬п╠п╫п╬ п╢п╩я▐ я┐п╢п╟п╩п╣п╫п╫п╬пЁп╬ п╥п╟п©я┐я│п╨п╟ я│ я─п╟п╥п╫я▀я┘\n"
+"                            п╪п╟я┬п╦п╫ п╡ п╬п╢п╫п╬п╪ п╢п╬п╪п╟я┬п╫п╣п╪ п╨п╟я┌п╟п╩п╬пЁп╣, п╦п╪я▐ п╪п╟я┬п╦п╫я▀\n"
+"                            п╬я┌п╬п╠я─п╟п╤п╟п╣я┌я│я▐ п╡ п╥п╟пЁп╬п╩п╬п╡п╨п╣.\n"
 
 #: ../src/main.c:1800
 msgid ""
 "   -s, --server hostname    Run in client mode: connect to \"hostname\" and\n"
 "                            read monitor data from a gkrellmd server.\n"
 msgstr ""
+"   -s, --server hostname    п≈п╟п©я┐я│п╨п╟п╣я┌я│я▐ п╡ п╨п╩п╦п╣п╫я┌я│п╨п╬п╪ я─п╣п╤п╦п╪п╣: п©п╬п╢п╨п╩я▌я┤п╟п╣я┌я│я▐ п╨\n"
+"                            \"hostname\" п╦ п©п╬п╩я┐я┤п╟п╣я┌ п╢п╟п╫п╫я▀п╣ п╬я┌ я│п╣я─п╡п╣я─п╟ gkrellmd.\n"
 
 #: ../src/main.c:1802
 msgid ""
 "   -P, --port server_port   Use \"server_port\" for the server connection.\n"
 msgstr ""
+"   -P, --port server_port   п≤я│п©п╬п╩я▄п╥я┐п╣я┌ \"server_port\" п╢п╩я▐ я│п╬п╣п╢п╦п╫п╣п╫п╦я▐ я│ я│п╣я─п╡п╣я─п╬п╪.\n"
 
 #: ../src/main.c:1803
 msgid ""
 "       --nc                 No config mode prevents configuration changes.\n"
 msgstr ""
+"       --nc                 п·я┌п╨п╩я▌я┤п╟п╣я┌ п╡п╬п╥п╪п╬п╤п╫п╬я│я┌я▄ п╦п╥п╪п╣п╫п╦я┌я▄ п╫п╟я│я┌я─п╬п╧п╨п╦.\n"
 
 #: ../src/main.c:1804
 msgid "       --config-clean       Clean out unused configs on config write.\n"
-msgstr ""
+msgstr "       --config-clean       п·я┤п╦я┴п╟я┌я▄ п╫п╣п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╫я▀п╣ п╨п╬п╫я└п╦пЁя┐я─п╟я├п╦п╦ п©я─п╦ п╥п╟п©п╦я│п╦.\n"
+
 
 #: ../src/main.c:1805
 msgid "       --nolock             Allow multiple gkrellm instances.\n"
-msgstr ""
+msgstr "       --nolock             п═п╟п╥я─п╣я┬п╦я┌я▄ п╪п╫п╬п╤п╣я│я┌п╡п╣п╫п╫я▀п╧ п╥п╟п©я┐я│п╨ gkrellm.\n"
 
 #: ../src/main.c:1806
 msgid ""
 "   -p, --plugin plugin.so   While developing, load your plugin under test.\n"
 msgstr ""
+"   -p, --plugin plugin.so   п÷я─п╦ я─п╟п╥я─п╟п╠п╬я┌п╨п╣ п╥п╟пЁя─я┐п╥п╦я┌я▄ я│п╡п╬п╧ п©п╩п╟пЁп╦п╫ п╢п╩я▐ я┌п╣я│я┌п╟.\n"
 
 #: ../src/main.c:1807
 msgid ""
 "       --demo               Force enabling of many monitors so themers can\n"
 "                            see everything. All config saving is inhibited.\n"
 msgstr ""
+"       --demo               п▓п╨п╩я▌я┤п╟п╣я┌я│я▐ п╪п╫п╬п╤п╣я│я┌п╡п╬ п╪п╬п╫п╦я┌п╬я─п╬п╡, я┌п╟п╨ я┤я┌п╬ п╠я▀\n"
+"                            я─п╟п╥я─п╟п╠п╬я┌я┤п╦п╨п╦ я┌п╣п╪ п╪п╬пЁп╩п╦ п╦я┘ п╡я│п╣ я┐п╡п╦п╢п╣я┌я▄. п║п╬я┘я─п╟п╫п╣п╫п╦п╣\n"
+"                            п╫п╟я│я┌я─п╬п╣п╨ п╫п╣п╡п╬п╥п╪п╬п╤п╫п╬.\n"
 
 #: ../src/main.c:1810
 msgid "   -v, --version            Print GKrellM version number and exit.\n"
-msgstr ""
+msgstr "   -v, --version            п▓я▀п╡п╣я│я┌п╦ п╫п╬п╪п╣я─ п╡п╣я─я│п╦п╦ GKrellM п╦ п╡я▀п╧я┌п╦.\n"
 
 #: ../src/main.c:1811
 msgid ""
 "   -d, --debug-level n      Turn debugging on for selective code sections.\n"
 msgstr ""
+"   -d, --debug-level n      п▓п╨п╩я▌я┤п╦я┌я▄ п╬я┌п╩п╟п╢п╨я┐ п╬п©я─п╣п╢п╣п╩п╣п╫п╫я▀я┘ я┤п╟я│я┌п╣п╧ п╨п╬п╢п╟.\n"
 
 #: ../src/main.c:1813
 msgid ""
@@ -2011,6 +2021,18 @@ msgid ""
 "     0x20000 plugin \n"
 "\n"
 msgstr ""
+"\n"
+"п╫п╬п╪п╣я─п╟ я┐я─п╬п╡п╫п╣п╧ п╬я┌п╩п╟п╢п╨п╦ (я│п╩п╬п╤п╦я┌п╣ п╢п╩я▐ я┐п╨п╟п╥п╟п╫п╦я▐ п╫п╣я│п╨п╬п╩я▄п╨п╦я┘ я┐я─п╬п╡п╫п╣п╧ я│я─п╟п╥я┐):\n"
+"     0x10    п©п╬я┤я┌п╟\n"
+"     0x20    я│п╣я┌я▄\n"
+"     0x40    п╨п╫п╬п©п╨п╟ я┌п╟п╧п╪п╣я─п╟\n"
+"     0x80    я│п╣п╫я│п╬я─я▀\n"
+"     0x800   inet\n"
+"     0x1000  п╢п╟п╪п© п╢п╟п╫п╫я▀я┘ я│п╣я─п╡п╣я─п╟ gkrellmd\n"
+"     0x2000  GUI\n"
+"     0x8000  п╠п╟я┌п╟я─п╣я▐\n"
+"     0x20000 п©п╩п╟пЁп╦п╫я▀\n"
+"\n"
 
 #: ../src/main.c:1832
 msgid "GKrellM"
@@ -2018,53 +2040,53 @@ msgstr ""
 
 #: ../src/main.c:2025
 msgid "segmentation fault"
-msgstr ""
+msgstr "п╫п╟я─я┐я┬п╣п╫п╦п╣ я│п╣пЁп╪п╣п╫я┌п╟я├п╦п╦ п©п╟п╪я▐я┌п╦"
 
 #: ../src/main.c:2027
 msgid "floating point exception"
-msgstr ""
+msgstr "п╦я│п╨п╩я▌я┤п╣п╫п╦п╣ я┤п╦я│п╣п╩ я│ п©п╩п╟п╡п╟я▌я┴п╣п╧ я┌п╬я┤п╨п╬п╧"
 
 #: ../src/main.c:2029
 msgid "aborted"
-msgstr ""
+msgstr "п©я─п╣я─я▀п╡п╟п╫п╦п╣"
 
 #: ../src/main.c:2032
 msgid "initializing"
-msgstr ""
+msgstr "п╦п╫п╦я├п╦п╟п╩п╦п╥п╟я├п╦я▐"
 
 #: ../src/main.c:2217
 #, c-format
 msgid "Bad arg: %s\n"
-msgstr "Неверный аргумент: %s\n"
+msgstr "п²п╣п╡п╣я─п╫я▀п╧ п╟я─пЁя┐п╪п╣п╫я┌: %s\n"
 
 #: ../src/mem.c:708
 msgid "Swap Out"
-msgstr "Из подкачки"
+msgstr "п≤п╥ п©п╬п╢п╨п╟я┤п╨п╦"
 
 #: ../src/mem.c:709
 msgid "Swap In"
-msgstr "В подкачку"
+msgstr "п▓ п©п╬п╢п╨п╟я┤п╨я┐"
 
 #: ../src/mem.c:718
 msgid "Swap in/out pages per sec"
-msgstr "Ввод/вывод страниц подкачки в сек."
+msgstr "п▓п╡п╬п╢/п╡я▀п╡п╬п╢ я│я┌я─п╟п╫п╦я├ п©п╬п╢п╨п╟я┤п╨п╦ п╡ я│п╣п╨."
 
 #: ../src/mem.c:827 ../src/mem.c:1391 ../src/mem.c:1422
 msgid "Mem"
-msgstr "ОЗУ"
+msgstr "п·п≈пё"
 
 #: ../src/mem.c:903 ../src/mem.c:996 ../src/mem.c:1310 ../src/mem.c:1412
 #: ../src/mem.c:1429
 msgid "Swap"
-msgstr "Подкачка"
+msgstr "п÷п╬п╢п╨п╟я┤п╨п╟"
 
 #: ../src/mem.c:994 ../src/mem.c:1328 ../src/mem.c:1452
 msgid "Memory"
-msgstr "Память"
+msgstr "п÷п╟п╪я▐я┌я▄"
 
 #: ../src/mem.c:1247
 msgid "<h>Used and Free\n"
-msgstr "<h>Занято и Свободно\n"
+msgstr "<h>п≈п╟п╫я▐я┌п╬ п╦ п║п╡п╬п╠п╬п╢п╫п╬\n"
 
 #: ../src/mem.c:1248
 msgid ""
@@ -2074,161 +2096,163 @@ msgid ""
 "command.  If you show three memory krells, the kernel \"raw free\" is\n"
 "the space after the rightmost krell.\n"
 msgstr ""
-"Занятая и свободная память вычисляется из сообщаемых ядром\n"
-"значений вычитанием или добавлением памяти буферов и кэша.\n"
-"Посмотрите README и сравните со строкой \"-/+ buffers/cache:\"\n"
-"команды free. Если у Вас показано три крелла ОЗУ, то данные\n"
-"ядра \"raw free\" (свободно) - это расстояние за самым правым\n"
-"из креллов.\n"
+"п≈п╟п╫я▐я┌п╟я▐ п╦ я│п╡п╬п╠п╬п╢п╫п╟я▐ п©п╟п╪я▐я┌я▄ п╡я▀я┤п╦я│п╩я▐п╣я┌я│я▐ п╦п╥ я│п╬п╬п╠я┴п╟п╣п╪я▀я┘ я▐п╢я─п╬п╪\n"
+"п╥п╫п╟я┤п╣п╫п╦п╧ п╡я▀я┤п╦я┌п╟п╫п╦п╣п╪ п╦п╩п╦ п╢п╬п╠п╟п╡п╩п╣п╫п╦п╣п╪ п©п╟п╪я▐я┌п╦ п╠я┐я└п╣я─п╬п╡ п╦ п╨я█я┬п╟.\n"
+"п÷п╬я│п╪п╬я┌я─п╦я┌п╣ README п╦ я│я─п╟п╡п╫п╦я┌п╣ я│п╬ я│я┌я─п╬п╨п╬п╧ \"-/+ buffers/cache:\"\n"
+"п╨п╬п╪п╟п╫п╢я▀ free. п∙я│п╩п╦ я┐ п▓п╟я│ п©п╬п╨п╟п╥п╟п╫п╬ я┌я─п╦ п╨я─п╣п╩п╩п╟ п·п≈пё, я┌п╬ п╢п╟п╫п╫я▀п╣\n"
+"я▐п╢я─п╟ \"raw free\" (я│п╡п╬п╠п╬п╢п╫п╬) - я█я┌п╬ я─п╟я│я│я┌п╬я▐п╫п╦п╣ п╥п╟ я│п╟п╪я▀п╪ п©я─п╟п╡я▀п╪\n"
+"п╦п╥ п╨я─п╣п╩п╩п╬п╡.\n"
 
 #: ../src/mem.c:1257
 msgid "\t$T    total swap in blocks + swap out blocks\n"
-msgstr "\t$T    всего блоков в подкачку + из подкачки\n"
+msgstr "\t$T    п╡я│п╣пЁп╬ п╠п╩п╬п╨п╬п╡ п╡ п©п╬п╢п╨п╟я┤п╨я┐ + п╦п╥ п©п╬п╢п╨п╟я┤п╨п╦\n"
 
 #: ../src/mem.c:1258
 msgid "\t$i    swap in blocks\n"
-msgstr "\t$i    блоков в подкачку\n"
+msgstr "\t$i    п╠п╩п╬п╨п╬п╡ п╡ п©п╬п╢п╨п╟я┤п╨я┐\n"
 
 #: ../src/mem.c:1259
 msgid "\t$o    swap out blocks\n"
-msgstr "\t$o    блоков из подкачки\n"
+msgstr "\t$o    п╠п╩п╬п╨п╬п╡ п╦п╥ п©п╬п╢п╨п╟я┤п╨п╦\n"
 
 #: ../src/mem.c:1262
 msgid ""
 "Substitution variables for the format string for the Mem and Swap\n"
 "panels (a MiB is a binary megabyte - 2^20):\n"
 msgstr ""
-"Переменные для подстановки в строку формата панелей ОЗУ и\n"
-"Подкачка (MiB - это двоичный мегабайт, 2^20):\n"
+"п÷п╣я─п╣п╪п╣п╫п╫я▀п╣ п╢п╩я▐ п©п╬п╢я│я┌п╟п╫п╬п╡п╨п╦ п╡ я│я┌я─п╬п╨я┐ я└п╬я─п╪п╟я┌п╟ п©п╟п╫п╣п╩п╣п╧ п·п≈пё п╦\n"
+"п÷п╬п╢п╨п╟я┤п╨п╟ (MiB - я█я┌п╬ п╢п╡п╬п╦я┤п╫я▀п╧ п╪п╣пЁп╟п╠п╟п╧я┌, 2^20):\n"
 
 #: ../src/mem.c:1265
 msgid "For memory and swap:\n"
-msgstr "Для ОЗУ и Подкачки:\n"
+msgstr "п■п╩я▐ п·п≈пё п╦ п÷п╬п╢п╨п╟я┤п╨п╦:\n"
 
 #: ../src/mem.c:1266
 msgid "\t$t    total MiB\n"
-msgstr "\t$t    всего MiB\n"
+msgstr "\t$t    п╡я│п╣пЁп╬ MiB\n"
 
 #: ../src/mem.c:1267
 msgid "\t$u    used MiB\n"
-msgstr "\t$u    занято MiB\n"
+msgstr "\t$u    п╥п╟п╫я▐я┌п╬ MiB\n"
 
 #: ../src/mem.c:1268
 msgid "\t$f    free MiB\n"
-msgstr "\t$f    свободно MiB\n"
+msgstr "\t$f    я│п╡п╬п╠п╬п╢п╫п╬ MiB\n"
 
 #: ../src/mem.c:1269
 msgid "\t$U    used %\n"
-msgstr "\t$U    занято %\n"
+msgstr "\t$U    п╥п╟п╫я▐я┌п╬ %\n"
 
 #: ../src/mem.c:1271
 msgid "\t$l    the panel label"
-msgstr "\t$l    подпись панели"
+msgstr "\t$l    п©п╬п╢п©п╦я│я▄ п©п╟п╫п╣п╩п╦"
 
 #: ../src/mem.c:1273
 msgid "For memory only:\n"
-msgstr "Только для ОЗУ:\n"
+msgstr "п╒п╬п╩я▄п╨п╬ п╢п╩я▐ п·п≈пё:\n"
 
 #: ../src/mem.c:1274
 msgid "\t$s    shared MiB\n"
-msgstr "\t$s    разделяемой MiB\n"
+msgstr "\t$s    я─п╟п╥п╢п╣п╩я▐п╣п╪п╬п╧ MiB\n"
 
 #: ../src/mem.c:1275
 msgid "\t$b    buffered MiB\n"
-msgstr "\t$b    буферизировано MiB\n"
+msgstr "\t$b    п╠я┐я└п╣я─п╦п╥п╦я─п╬п╡п╟п╫п╬ MiB\n"
 
 #: ../src/mem.c:1276
 msgid "\t$c    cached MiB\n"
-msgstr "\t$c    кэшировано MiB\n"
+msgstr "\t$c    п╨я█я┬п╦я─п╬п╡п╟п╫п╬ MiB\n"
 
 #: ../src/mem.c:1278
 msgid ""
 "The free and used variables may have a 'r' qualifier for printing\n"
 "raw free and raw used values.  For example: $fr for raw free.\n"
 msgstr ""
+"п║п╡п╬п╠п╬п╢п╫я▀п╣ п╦ п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╫я▀п╣ п╦п╢п╣п╫я┌п╦я└п╦п╨п╟я┌п╬я─я▀ п╪п╬пЁя┐я┌ п╦п╪п╣я┌я▄ 'r' я│п©п╣я├п╦я└п╦п╨п╟я┌п╬я─ п╢п╩я▐ п©п╣я┤п╟я┌п╦\n"
+"я│я▀я─я▀я┘ я│п╡п╬п╠п╬п╢п╫я▀я┘ п╦ п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╫я▀я┘ п╥п╫п╟я┤п╣п╫п╦п╧. п■п╩я▐ п©я─п╦п╪п╣я─п╟: $fr п╢п╩я▐ я│я▀я─п╬пЁп╬ я│п╡п╬п╠п╬п╢п╫п╬пЁп╬.\n"
 
 #: ../src/mem.c:1286
 msgid ""
 "click on a panel to scroll a programmable display of\n"
 "\t\tof memory or swap usage.\n"
 msgstr ""
-"кнопка включает/выключает прокрутку информации об\n"
-"\t\tиспользовании ОЗУ или Подкачки.\n"
+"п╨п╫п╬п©п╨п╟ п╡п╨п╩я▌я┤п╟п╣я┌/п╡я▀п╨п╩я▌я┤п╟п╣я┌ п©я─п╬п╨я─я┐я┌п╨я┐ п╦п╫я└п╬я─п╪п╟я├п╦п╦ п╬п╠\n"
+"\t\tп╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╦п╦ п·п≈пё п╦п╩п╦ п÷п╬п╢п╨п╟я┤п╨п╦.\n"
 
 #: ../src/mem.c:1315
 msgid "Enable swap pages in/out chart"
-msgstr "Включить чарт страниц подкачки"
+msgstr "п▓п╨п╩я▌я┤п╦я┌я▄ я┤п╟я─я┌ я│я┌я─п╟п╫п╦я├ п©п╬п╢п╨п╟я┤п╨п╦"
 
 #: ../src/mem.c:1321
 msgid "Enable swap meter"
-msgstr "Включить Подкачку"
+msgstr "п▓п╨п╩я▌я┤п╦я┌я▄ п÷п╬п╢п╨п╟я┤п╨я┐"
 
 #: ../src/mem.c:1335
 msgid "Enable memory meter"
-msgstr "Включить ОЗУ"
+msgstr "п▓п╨п╩я▌я┤п╦я┌я▄ п·п≈пё"
 
 #: ../src/mem.c:1343
 msgid "Show three memory krells:   [used | buffers | cache | raw free]"
-msgstr "Показывать три крелла ОЗУ: [занято | буферы | кэш | свободно]"
+msgstr "п÷п╬п╨п╟п╥я▀п╡п╟я┌я▄ я┌я─п╦ п╨я─п╣п╩п╩п╟ п·п≈пё: [п╥п╟п╫я▐я┌п╬ | п╠я┐я└п╣я─я▀ | п╨я█я┬ | я│п╡п╬п╠п╬п╢п╫п╬]"
 
 #: ../src/mem.c:1386
 msgid "$t - $u used  $s sh  $b bf  $c ca"
-msgstr "$t - $u занято  $s разд  $b буф  $c кэш"
+msgstr "$t - $u п╥п╟п╫я▐я┌п╬  $s я─п╟п╥п╢  $b п╠я┐я└  $c п╨я█я┬"
 
 #: ../src/net.c:687
 msgid "Received"
-msgstr "Получено"
+msgstr "п÷п╬п╩я┐я┤п╣п╫п╬"
 
 #: ../src/net.c:691
 msgid "Transmitted"
-msgstr "Отправлено"
+msgstr "п·я┌п©я─п╟п╡п╩п╣п╫п╬"
 
 #: ../src/net.c:695
 msgid "Total"
-msgstr "Всего"
+msgstr "п▓я│п╣пЁп╬"
 
 #: ../src/net.c:703
 msgid "Connect Time"
-msgstr "Время соединения"
+msgstr "п▓я─п╣п╪я▐ я│п╬п╣п╢п╦п╫п╣п╫п╦я▐"
 
 #: ../src/net.c:720
 #, c-format
 msgid "%s Statistics"
-msgstr "Сводка %s"
+msgstr "п║я┌п╟я┌п╦я│я┌п╦п╨п╟ %s"
 
 #: ../src/net.c:740
 msgid "Daily"
-msgstr "По дням"
+msgstr "п÷п╬ п╢п╫я▐п╪"
 
 #: ../src/net.c:741
 msgid "Date"
-msgstr "Дата"
+msgstr "п■п╟я┌п╟"
 
 #: ../src/net.c:743
 msgid "Weekly"
-msgstr "По неделям"
+msgstr "п÷п╬ п╫п╣п╢п╣п╩я▐п╪"
 
 #: ../src/net.c:745
 msgid "Week Ending"
-msgstr "За неделю"
+msgstr "п п╬п╫п╣я├ п╫п╣п╢п╣п╩п╦"
 
 #: ../src/net.c:747
 msgid "Monthly"
-msgstr "По месяцам"
+msgstr "п÷п╬ п╪п╣я│я▐я├п╟п╪"
 
 #: ../src/net.c:749
 msgid "Month"
-msgstr "За месяц"
+msgstr "п°п╣я│я▐я├"
 
 #: ../src/net.c:806
 #, c-format
 msgid "get_connect_state changed from %d to %d  (check=%d)\n"
-msgstr ""
+msgstr "get_connect_state п╦п╥п╪п╣п╫я▒п╫ п╦п╥ %d п╡ %d  (п©я─п╬п╡п╣я─п╨п╟=%d)\n"
 
 #: ../src/net.c:849
 #, c-format
 msgid "set_timer_button_state from %d to %d (check=%d)\n"
-msgstr ""
+msgstr "set_timer_button_state п╦п╥ %d п╡ %d  (п©я─п╬п╡п╣я─п╨п╟=%d)\n"
 
 #: ../src/net.c:862
 #, c-format
@@ -2237,27 +2261,27 @@ msgstr ""
 
 #: ../src/net.c:923
 msgid "  **** Stale pppd pppX.pid file detected!\n"
-msgstr "  **** Обнаружен старый файл pppX.pid!\n"
+msgstr "  **** п·п╠п╫п╟я─я┐п╤п╣п╫ я│я┌п╟я─я▀п╧ я└п╟п╧п╩ pppX.pid!\n"
 
 #: ../src/net.c:1524 ../src/net.c:2752
 msgid "tx bytes"
-msgstr "Отправлено байт"
+msgstr "п·я┌п©я─п╟п╡п╩п╣п╫п╬ п╠п╟п╧я┌"
 
 #: ../src/net.c:1525 ../src/net.c:2749
 msgid "rx bytes"
-msgstr "Получено байт"
+msgstr "п÷п╬п╩я┐я┤п╣п╫п╬ п╠п╟п╧я┌"
 
 #: ../src/net.c:1536
 msgid "rx/tx bytes per sec"
-msgstr "Получено/отправлено байт в секунду"
+msgstr "п÷п╬п╩я┐я┤п╣п╫п╬/п╬я┌п©я─п╟п╡п╩п╣п╫п╬ п╠п╟п╧я┌ п╡ я│п╣п╨я┐п╫п╢я┐"
 
 #: ../src/net.c:2790 ../src/net.c:2979
 msgid "none"
-msgstr "ничего"
+msgstr "п╫п╦я┤п╣пЁп╬"
 
 #: ../src/net.c:2883
 msgid "<h>Timer Button\n"
-msgstr "<h>Кнопка таймера\n"
+msgstr "<h>п п╫п╬п©п╨п╟ я┌п╟п╧п╪п╣я─п╟\n"
 
 #: ../src/net.c:2884
 msgid ""
@@ -2266,11 +2290,11 @@ msgid ""
 "\twhere the commands can control the interface and different timer\n"
 "\tbutton colors can show connect states:\n"
 msgstr ""
-"\tКнопка может быть использована как самостоятельный таймер\n"
-"\tс командами старт и стоп, хотя обычно её связывают с\n"
-"\tкоммутируемым сетевым интерфейсом. Команды могут управлять\n"
-"\tинтерфейсом, а различные цвета кнопки означают состояние\n"
-"\tсоединения:\n"
+"\tп п╫п╬п©п╨п╟ п╪п╬п╤п╣я┌ п╠я▀я┌я▄ п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╟ п╨п╟п╨ я│п╟п╪п╬я│я┌п╬я▐я┌п╣п╩я▄п╫я▀п╧ я┌п╟п╧п╪п╣я─\n"
+"\tя│ п╨п╬п╪п╟п╫п╢п╟п╪п╦ я│я┌п╟я─я┌ п╦ я│я┌п╬п©, я┘п╬я┌я▐ п╬п╠я▀я┤п╫п╬ п╣я▒ я│п╡я▐п╥я▀п╡п╟я▌я┌ я│\n"
+"\tп╨п╬п╪п╪я┐я┌п╦я─я┐п╣п╪я▀п╪ я│п╣я┌п╣п╡я▀п╪ п╦п╫я┌п╣я─я└п╣п╧я│п╬п╪. п п╬п╪п╟п╫п╢я▀ п╪п╬пЁя┐я┌ я┐п©я─п╟п╡п╩я▐я┌я▄\n"
+"\tп╦п╫я┌п╣я─я└п╣п╧я│п╬п╪, п╟ я─п╟п╥п╩п╦я┤п╫я▀п╣ я├п╡п╣я┌п╟ п╨п╫п╬п©п╨п╦ п╬п╥п╫п╟я┤п╟я▌я┌ я│п╬я│я┌п╬я▐п╫п╦п╣\n"
+"\tя│п╬п╣п╢п╦п╫п╣п╫п╦я▐:\n"
 
 #: ../src/net.c:2894
 msgid ""
@@ -2280,12 +2304,12 @@ msgid ""
 "\tlock file /var/lock/LCK..modem.  If your pppd setup does not\n"
 "\tuse /dev/modem, then you can configure an alternative with:\n"
 msgstr ""
-"Режим ожидания - это когда телефонная линия\n"
-"\tзаблокирована при установлении соединения ppp, режим\n"
-"\t\"включено\" - когда ppp-соединение установлено. Блокировка\n"
-"\tтелефонной линии определяется наличием lock-файла модема\n"
-"\t/var/lock/LCK..modem. Если в настройках pppd не используется\n"
-"\t/dev/modem, можно настроить альтернативный вариант:\n"
+"п═п╣п╤п╦п╪ п╬п╤п╦п╢п╟п╫п╦я▐ - я█я┌п╬ п╨п╬пЁп╢п╟ я┌п╣п╩п╣я└п╬п╫п╫п╟я▐ п╩п╦п╫п╦я▐\n"
+"\tп╥п╟п╠п╩п╬п╨п╦я─п╬п╡п╟п╫п╟ п©я─п╦ я┐я│я┌п╟п╫п╬п╡п╩п╣п╫п╦п╦ я│п╬п╣п╢п╦п╫п╣п╫п╦я▐ ppp, я─п╣п╤п╦п╪\n"
+"\t\"п╡п╨п╩я▌я┤п╣п╫п╬\" - п╨п╬пЁп╢п╟ ppp-я│п╬п╣п╢п╦п╫п╣п╫п╦п╣ я┐я│я┌п╟п╫п╬п╡п╩п╣п╫п╬. п▒п╩п╬п╨п╦я─п╬п╡п╨п╟\n"
+"\tя┌п╣п╩п╣я└п╬п╫п╫п╬п╧ п╩п╦п╫п╦п╦ п╬п©я─п╣п╢п╣п╩я▐п╣я┌я│я▐ п╫п╟п╩п╦я┤п╦п╣п╪ lock-я└п╟п╧п╩п╟ п╪п╬п╢п╣п╪п╟\n"
+"\t/var/lock/LCK..modem. п∙я│п╩п╦ п╡ п╫п╟я│я┌я─п╬п╧п╨п╟я┘ pppd п╫п╣ п╦я│п©п╬п╩я▄п╥я┐п╣я┌я│я▐\n"
+"\t/dev/modem, п╪п╬п╤п╫п╬ п╫п╟я│я┌я─п╬п╦я┌я▄ п╟п╩я▄я┌п╣я─п╫п╟я┌п╦п╡п╫я▀п╧ п╡п╟я─п╦п╟п╫я┌:\n"
 
 #: ../src/net.c:2899
 msgid "<i>\t\tln -s /var/lock/LCK..ttySx ~/.gkrellm2/LCK..modem\n"
@@ -2297,10 +2321,10 @@ msgid ""
 "\tstate is detected by the existence of /var/run/pppX.pid and\n"
 "\tthe time stamp of this file is the base for the on line time.\n"
 msgstr ""
-"\tгде ttySx - это tty-устройство, используемое модемом.\n"
-"\tРежим \"включено\" определяется наличием файла\n"
-"\t/var/run/pppX.pid, а время его создания является началом\n"
-"\tотсчёта времени соединения.\n"
+"\tпЁп╢п╣ ttySx - я█я┌п╬ tty-я┐я│я┌я─п╬п╧я│я┌п╡п╬, п╦я│п©п╬п╩я▄п╥я┐п╣п╪п╬п╣ п╪п╬п╢п╣п╪п╬п╪.\n"
+"\tп═п╣п╤п╦п╪ \"п╡п╨п╩я▌я┤п╣п╫п╬\" п╬п©я─п╣п╢п╣п╩я▐п╣я┌я│я▐ п╫п╟п╩п╦я┤п╦п╣п╪ я└п╟п╧п╩п╟\n"
+"\t/var/run/pppX.pid, п╟ п╡я─п╣п╪я▐ п╣пЁп╬ я│п╬п╥п╢п╟п╫п╦я▐ я▐п╡п╩я▐п╣я┌я│я▐ п╫п╟я┤п╟п╩п╬п╪\n"
+"\tп╬я┌я│я┤я▒я┌п╟ я│п╬п╣п╢п╦п╫п╣п╫п╦я▐.\n"
 
 #: ../src/net.c:2906
 msgid ""
@@ -2310,44 +2334,44 @@ msgid ""
 "\twhen the isdn interface transitions from a hangup to an on line\n"
 "\tstate\n"
 msgstr ""
-"Режим ожидания кнопки таймера не применим для isdn-\n"
-"\tинтерфейсов, которые всегда маршрутизируются. Режим\n"
-"\t\"включено\" - это isdn online при маршрутизированном\n"
-"\tippp-интерфейсе. Таймер \"соединено\" сбрасывается при переходе\n"
-"\tинтерфейса из состояния \"отключено\" в состояние \"соединено\".\n"
+"п═п╣п╤п╦п╪ п╬п╤п╦п╢п╟п╫п╦я▐ п╨п╫п╬п©п╨п╦ я┌п╟п╧п╪п╣я─п╟ п╫п╣ п©я─п╦п╪п╣п╫п╦п╪ п╢п╩я▐ isdn-\n"
+"\tп╦п╫я┌п╣я─я└п╣п╧я│п╬п╡, п╨п╬я┌п╬я─я▀п╣ п╡я│п╣пЁп╢п╟ п╪п╟я─я┬я─я┐я┌п╦п╥п╦я─я┐я▌я┌я│я▐. п═п╣п╤п╦п╪\n"
+"\t\"п╡п╨п╩я▌я┤п╣п╫п╬\" - я█я┌п╬ isdn online п©я─п╦ п╪п╟я─я┬я─я┐я┌п╦п╥п╦я─п╬п╡п╟п╫п╫п╬п╪\n"
+"\tippp-п╦п╫я┌п╣я─я└п╣п╧я│п╣. п╒п╟п╧п╪п╣я─ \"я│п╬п╣п╢п╦п╫п╣п╫п╬\" я│п╠я─п╟я│я▀п╡п╟п╣я┌я│я▐ п©я─п╦ п©п╣я─п╣я┘п╬п╢п╣\n"
+"\tп╦п╫я┌п╣я─я└п╣п╧я│п╟ п╦п╥ я│п╬я│я┌п╬я▐п╫п╦я▐ \"п╬я┌п╨п╩я▌я┤п╣п╫п╬\" п╡ я│п╬я│я┌п╬я▐п╫п╦п╣ \"я│п╬п╣п╢п╦п╫п╣п╫п╬\".\n"
 "\n"
 
 #: ../src/net.c:2921
 msgid "\t$T    receive + transmit bytes\n"
-msgstr "\t$T    принято + передано байт\n"
+msgstr "\t$T    п©я─п╦п╫я▐я┌п╬ + п©п╣я─п╣п╢п╟п╫п╬ п╠п╟п╧я┌\n"
 
 #: ../src/net.c:2922
 msgid "\t$r    receive bytes\n"
-msgstr "\t$r    принято байт\n"
+msgstr "\t$r    п©я─п╦п╫я▐я┌п╬ п╠п╟п╧я┌\n"
 
 #: ../src/net.c:2923
 msgid "\t$t    transmit bytes\n"
-msgstr "\t$t    передано байт\n"
+msgstr "\t$t    п©п╣я─п╣п╢п╟п╫п╬ п╠п╟п╧я┌\n"
 
 #: ../src/net.c:2924
 msgid "\t$O    cumulative receive + transmit bytes\n"
-msgstr "\t$O    всего принято + передано байт\n"
+msgstr "\t$O    п╡я│п╣пЁп╬ п©я─п╦п╫я▐я┌п╬ + п©п╣я─п╣п╢п╟п╫п╬ п╠п╟п╧я┌\n"
 
 #: ../src/net.c:2925
 msgid "\t$i    cumulative receive bytes\n"
-msgstr "\t$i    всего принято байт\n"
+msgstr "\t$i    п╡я│п╣пЁп╬ п©я─п╦п╫я▐я┌п╬ п╠п╟п╧я┌\n"
 
 #: ../src/net.c:2926
 msgid "\t$o    cumulative transmit bytes\n"
-msgstr "\t$o    всего передано байт\n"
+msgstr "\t$o    п╡я│п╣пЁп╬ п©п╣я─п╣п╢п╟п╫п╬ п╠п╟п╧я┌\n"
 
 #: ../src/net.c:2927
 msgid "\t$L    the optional chart label\n"
-msgstr "\t$L    необязательная подпись чарта\n"
+msgstr "\t$L    п╫п╣п╬п╠я▐п╥п╟я┌п╣п╩я▄п╫п╟я▐ п©п╬п╢п©п╦я│я▄ я┤п╟я─я┌п╟\n"
 
 #: ../src/net.c:2928
 msgid "\t$I    the net interface name\n"
-msgstr "\t$I    название сетевого интерфейса\n"
+msgstr "\t$I    п╫п╟п╥п╡п╟п╫п╦п╣ я│п╣я┌п╣п╡п╬пЁп╬ п╦п╫я┌п╣я─я└п╣п╧я│п╟\n"
 
 #: ../src/net.c:2930
 msgid ""
@@ -2355,47 +2379,47 @@ msgid ""
 "daily, weekly, or monthly totals.  For example:  $Ow for a\n"
 "cumulative weekly receive + transmit bytes.\n"
 msgstr ""
-"Суммирующие переменные могут дополняться суффиксом 'd', 'w'\n"
-"или 'm' для дневных, недельных или месячных итоговых значений.\n"
-"Например: $Ow - суммарное количество принятых и переданных байт\n"
-"за неделю.\n"
+"п║я┐п╪п╪п╦я─я┐я▌я┴п╦п╣ п©п╣я─п╣п╪п╣п╫п╫я▀п╣ п╪п╬пЁя┐я┌ п╢п╬п©п╬п╩п╫я▐я┌я▄я│я▐ я│я┐я└я└п╦п╨я│п╬п╪ 'd', 'w'\n"
+"п╦п╩п╦ 'm' п╢п╩я▐ п╢п╫п╣п╡п╫я▀я┘, п╫п╣п╢п╣п╩я▄п╫я▀я┘ п╦п╩п╦ п╪п╣я│я▐я┤п╫я▀я┘ п╦я┌п╬пЁп╬п╡я▀я┘ п╥п╫п╟я┤п╣п╫п╦п╧.\n"
+"п²п╟п©я─п╦п╪п╣я─: $Ow - я│я┐п╪п╪п╟я─п╫п╬п╣ п╨п╬п╩п╦я┤п╣я│я┌п╡п╬ п©я─п╦п╫я▐я┌я▀я┘ п╦ п©п╣я─п╣п╢п╟п╫п╫я▀я┘ п╠п╟п╧я┌\n"
+"п╥п╟ п╫п╣п╢п╣п╩я▌.\n"
 
 #: ../src/net.c:2956
 msgid "Timer Button"
-msgstr "Кнопка таймера"
+msgstr "п п╫п╬п©п╨п╟ я┌п╟п╧п╪п╣я─п╟"
 
 #: ../src/net.c:2962
 msgid "Enable timer button"
-msgstr "Включить кнопку таймера"
+msgstr "п▓п╨п╩я▌я┤п╦я┌я▄ п╨п╫п╬п©п╨я┐ я┌п╟п╧п╪п╣я─п╟"
 
 #: ../src/net.c:2967
 msgid "Show seconds"
-msgstr "Показать секунды"
+msgstr "п÷п╬п╨п╟п╥п╟я┌я▄ я│п╣п╨я┐п╫п╢я▀"
 
 #: ../src/net.c:2991
 msgid "Interface to link to the timer button"
-msgstr "Связать кнопку таймера с интерфейсом"
+msgstr "п║п╡я▐п╥п╟я┌я▄ п╨п╫п╬п©п╨я┐ я┌п╟п╧п╪п╣я─п╟ я│ п╦п╫я┌п╣я─я└п╣п╧я│п╬п╪"
 
 #: ../src/net.c:3002
 msgid "Start Command"
-msgstr "Команда запуска"
+msgstr "п п╬п╪п╟п╫п╢п╟ п╥п╟п©я┐я│п╨п╟"
 
 #: ../src/net.c:3013
 msgid "Stop Command"
-msgstr "Команда останова"
+msgstr "п п╬п╪п╟п╫п╢п╟ п╬я│я┌п╟п╫п╬п╡п╟"
 
 #: ../src/net.c:3027
 #, c-format
 msgid "Enable %s"
-msgstr "Включить %s"
+msgstr "п▓п╨п╩я▌я┤п╦я┌я▄ %s"
 
 #: ../src/net.c:3044
 msgid "Force chart to be always shown even if interface is not routed."
-msgstr "Всегда показывать чарт, даже если интерфейс не маршрутизируется."
+msgstr "п▓я│п╣пЁп╢п╟ п©п╬п╨п╟п╥я▀п╡п╟я┌я▄ я┤п╟я─я┌, п╢п╟п╤п╣ п╣я│п╩п╦ п╦п╫я┌п╣я─я└п╣п╧я│ п╫п╣ п╪п╟я─я┬я─я┐я┌п╦п╥п╦я─я┐п╣я┌я│я▐."
 
 #: ../src/net.c:3057
 msgid "Optional label for this interface."
-msgstr "Необязательная подпись для интерфейса."
+msgstr "п²п╣п╬п╠я▐п╥п╟я┌п╣п╩я▄п╫п╟я▐ п©п╬п╢п©п╦я│я▄ п╢п╩я▐ п╦п╫я┌п╣я─я└п╣п╧я│п╟."
 
 #: ../src/net.c:3089
 msgid "\\f\\ww\\c\\f$M\\n\\f\\at\\.$t\\n\\f\\ar\\.$r\\b\\c\\f$L"
@@ -2411,139 +2435,137 @@ msgstr ""
 
 #: ../src/net.c:3102
 msgid "Start day for cumulative monthly transmit and receive bytes"
-msgstr "Начальный день для месячных суммарных значений"
+msgstr "п²п╟я┤п╟п╩я▄п╫я▀п╧ п╢п╣п╫я▄ п╢п╩я▐ п╪п╣я│я▐я┤п╫я▀я┘ я│я┐п╪п╪п╟я─п╫я▀я┘ п╥п╫п╟я┤п╣п╫п╦п╧"
 
 #: ../src/net.c:3121
 msgid "Net"
-msgstr "Сеть"
+msgstr "п║п╣я┌я▄"
 
 #: ../src/net.c:3182
 msgid "Net Timer"
-msgstr "Сетевой таймер"
+msgstr "п║п╣я┌п╣п╡п╬п╧ я┌п╟п╧п╪п╣я─"
 
 #: ../src/plugins.c:834
 #, c-format
 msgid "\t%s: placement is %s %s  G:%d\n"
-msgstr "\t%s: расположен %s %s  G:%d\n"
+msgstr "\t%s: я─п╟я│п©п╬п╩п╬п╤п╣п╫ %s %s  G:%d\n"
 
 #: ../src/plugins.c:836
 msgid "after"
-msgstr "после"
+msgstr "п©п╬я│п╩п╣"
 
 #: ../src/plugins.c:836
 msgid "before"
-msgstr "перед"
+msgstr "п©п╣я─п╣п╢"
 
 #: ../src/plugins.c:896 ../src/plugins.c:903 ../src/plugins.c:919
 #, c-format
 msgid "\tError: %s\n"
-msgstr "\tОшибка: %s\n"
+msgstr "\tп·я┬п╦п╠п╨п╟: %s\n"
 
 #: ../src/plugins.c:938
 msgid "\tOoops! plugin returned NULL, aborting\n"
-msgstr "\tУуупс! плагин вернул NULL, выходим\n"
+msgstr "\tпёя┐я┐п©я│! п©п╩п╟пЁп╦п╫ п╡п╣я─п╫я┐п╩ NULL, п╡я▀я┘п╬п╢п╦п╪\n"
 
 #: ../src/plugins.c:950
 msgid "\tWarning: style name \""
-msgstr "\tВнимание: стиль с именем \""
+msgstr "\tп÷я─п╣п╢я┐п©я─п╣п╤п╢п╣п╫п╦п╣: п╦п╪я▐ я│я┌п╦п╩я▐ \""
 
 #: ../src/plugins.c:951 ../src/plugins.c:961
 msgid ""
 "\" already used by:\n"
 "\t\t"
 msgstr ""
-"\" уже используется:\n"
+"\" я┐п╤п╣ п╦я│п©п╬п╩я▄п╥я┐п╣я┌я│я▐:\n"
 "\t\t"
 
 #: ../src/plugins.c:960
 msgid "\tWarning: config keyword \""
-msgstr "\tВнимание: параметр настроек \""
+msgstr "\tп÷я─п╣п╢я┐п©я─п╣п╤п╢п╣п╫п╦п╣: п©п╟я─п╟п╪п╣я┌я─ п╫п╟я│я┌я─п╬п╣п╨ \""
 
 #: ../src/plugins.c:1218
 msgid "Ignoring duplicate plugin "
-msgstr "Игнорируем повторный плагин "
+msgstr "п≤пЁп╫п╬я─п╦я─я┐п╣п╪ п©п╬п╡я┌п╬я─п╫я▀п╧ п©п╩п╟пЁп╦п╫ "
 
 #: ../src/plugins.c:1250
 msgid "*** Command line plugin:\n"
-msgstr "*** Плагин в командной строке:\n"
+msgstr "*** п÷п╩п╟пЁп╦п╫ п╡ п╨п╬п╪п╟п╫п╢п╫п╬п╧ я│я┌я─п╬п╨п╣:\n"
 
 #: ../src/plugins.c:1526
 msgid "GKrellM Place Plugin"
-msgstr "Размещение плагина GKrellM"
+msgstr "п═п╟п╥п╪п╣я┴п╣п╫п╦п╣ п©п╩п╟пЁп╦п╫п╟ GKrellM"
 
 #: ../src/plugins.c:1537
 msgid "Builtin Monitors"
-msgstr "Встроенные мониторы"
+msgstr "п▓я│я┌я─п╬п╣п╫п╫я▀п╣ п╪п╬п╫п╦я┌п╬я─я▀"
 
 #: ../src/plugins.c:1567
 msgid "Place Plugin"
-msgstr "Поместить плагин"
+msgstr "п÷п╬п╪п╣я│я┌п╦я┌я▄ п©п╩п╟пЁп╦п╫"
 
 #: ../src/plugins.c:1573
 msgid "Before selected builtin monitor"
-msgstr "Перед указанным встроенным"
+msgstr "п÷п╣я─п╣п╢ я┐п╨п╟п╥п╟п╫п╫я▀п╪ п╡я│я┌я─п╬п╣п╫п╫я▀п╪ п╪п╬п╫п╦я┌п╬я─п╬п╪"
 
 #: ../src/plugins.c:1580
 msgid "With gravity"
-msgstr "С гравитацией"
+msgstr "п║ пЁя─п╟п╡п╦я┌п╟я├п╦п╣п╧"
 
 #: ../src/plugins.c:1585
 msgid "After selected builtin monitor"
-msgstr "После указанного встроенного"
+msgstr "п÷п╬я│п╩п╣ я┐п╨п╟п╥п╟п╫п╫п╬пЁп╬ п╡я│я┌я─п╬п╣п╫п╫п╬пЁп╬ п╪п╬п╫п╦я┌п╬я─п╟"
 
 #: ../src/plugins.c:1593
 msgid "Plugin Defaults"
-msgstr "По умолчанию"
+msgstr "п÷п╩п╟пЁп╦п╫ п©п╬ я┐п╪п╬п╩я┤п╟п╫п╦я▌"
 
 #: ../src/plugins.c:1696
 msgid "from command line"
-msgstr "из командной строки"
+msgstr "п╦п╥ п╨п╬п╪п╟п╫п╢п╫п╬п╧ я│я┌я─п╬п╨п╦"
 
 #: ../src/plugins.c:1753
 msgid "Plugin"
-msgstr "Плагин"
+msgstr "п÷п╩п╟пЁп╦п╫"
 
 #: ../src/plugins.c:1774
 msgid "Place"
-msgstr "Разместить"
+msgstr "п═п╟п╥п╪п╣я│я┌п╦я┌я▄"
 
 #: ../src/plugins.c:1781
 msgid "Install Log"
-msgstr "Протокол установки"
+msgstr "п÷я─п╬я┌п╬п╨п╬п╩ я┐я│я┌п╟п╫п╬п╡п╨п╦"
 
 #: ../src/plugins.c:1789
 msgid "No plugins found."
-msgstr "Плагинов не найдено."
+msgstr "п÷п╩п╟пЁп╦п╫п╬п╡ п╫п╣ п╫п╟п╧п╢п╣п╫п╬."
 
 #: ../src/proc.c:556 ../src/proc.c:656 ../src/proc.c:948
 msgid "Load"
-msgstr "Загрузка"
+msgstr "п≈п╟пЁя─я┐п╥п╨п╟"
 
 #: ../src/proc.c:559
 msgid "Forks"
-msgstr "Ветвления"
+msgstr "п▓п╣я┌п╡п╩п╣п╫п╦я▐"
 
 #: ../src/proc.c:568
 msgid "Average process load per minute"
-msgstr "Средняя загрузка процесса в минуту"
+msgstr "п║я─п╣п╢п╫я▐я▐ п╥п╟пЁя─я┐п╥п╨п╟ п©я─п╬я├п╣я│я│п╟ п╡ п╪п╦п╫я┐я┌я┐"
 
 #: ../src/proc.c:670 ../src/proc.c:941
 msgid "Users"
-msgstr "Пользователи"
+msgstr "п÷п╬п╩я▄п╥п╬п╡п╟я┌п╣п╩п╦"
 
 #: ../src/proc.c:682 ../src/proc.c:934
 msgid "Processes"
-msgstr "Процессы"
+msgstr "п÷я─п╬я├п╣я│я│я▀"
 
 #: ../src/proc.c:887
 msgid "<h>Proc Chart"
-msgstr "<h>Чарт Процессов"
+msgstr "<h>п╖п╟я─я┌ п÷я─п╬я├п╣я│я│п╬п╡"
 
 #: ../src/proc.c:889
 msgid "The krell shows process forks with a full scale value of 10 forks.\n"
-msgstr ""
-"Крелл показывает ветвления процессов с максимальным значением\n"
-"10 ветвлений.\n"
+msgstr "п я─п╣п╩п╩ п©п╬п╨п╟п╥я▀п╡п╟п╣я┌ п╡п╣я┌п╡п╩п╣п╫п╦я▐ п©я─п╬я├п╣я│я│п╬п╡ я│ п╪п╟п╨я│п╦п╪п╟п╩я▄п╫я▀п╪ п╥п╫п╟я┤п╣п╫п╦п╣п╪ 10 п╡п╣я┌п╡п╩п╣п╫п╦п╧.\n"
 
 #: ../src/proc.c:890
 msgid ""
@@ -2552,39 +2574,39 @@ msgid ""
 "fixed at 10 when using the auto number of grids mode, and at 50 divided by\n"
 "the number of grids when using a fixed number of grids mode.\n"
 msgstr ""
-"Когда и данные загрузки, и данные ветвлений отображаются на чарте,\n"
-"разрешение чарта может быть установлено только для загрузки.\n"
-"Разрешение полосы для ветвлений устанавливается в 10 в режиме\n"
-"автоматического числа полос и в 50, деленное на число полос,\n"
-"в режиме с фиксированным числом полос.\n"
+"п п╬пЁп╢п╟ п╦ п╢п╟п╫п╫я▀п╣ п╥п╟пЁя─я┐п╥п╨п╦, п╦ п╢п╟п╫п╫я▀п╣ п╡п╣я┌п╡п╩п╣п╫п╦п╧ п╬я┌п╬п╠я─п╟п╤п╟я▌я┌я│я▐ п╫п╟ я┤п╟я─я┌п╣,\n"
+"я─п╟п╥я─п╣я┬п╣п╫п╦п╣ я┤п╟я─я┌п╟ п╪п╬п╤п╣я┌ п╠я▀я┌я▄ я┐я│я┌п╟п╫п╬п╡п╩п╣п╫п╬ я┌п╬п╩я▄п╨п╬ п╢п╩я▐ п╥п╟пЁя─я┐п╥п╨п╦.\n"
+"п═п╟п╥я─п╣я┬п╣п╫п╦п╣ п©п╬п╩п╬я│я▀ п╢п╩я▐ п╡п╣я┌п╡п╩п╣п╫п╦п╧ я┐я│я┌п╟п╫п╟п╡п╩п╦п╡п╟п╣я┌я│я▐ п╡ 10 п╡ я─п╣п╤п╦п╪п╣\n"
+"п╟п╡я┌п╬п╪п╟я┌п╦я┤п╣я│п╨п╬пЁп╬ я┤п╦я│п╩п╟ п©п╬п╩п╬я│ п╦ п╡ 50, п╢п╣п╩п╣п╫п╫п╬п╣ п╫п╟ я┤п╦я│п╩п╬ п©п╬п╩п╬я│,\n"
+"п╡ я─п╣п╤п╦п╪п╣ я│ я└п╦п╨я│п╦я─п╬п╡п╟п╫п╫я▀п╪ я┤п╦я│п╩п╬п╪ п©п╬п╩п╬я│.\n"
 
 #: ../src/proc.c:897
 msgid "\t$L    maximum chart value (load)\n"
-msgstr "\t$L    максимум на чарте (загрузка)\n"
+msgstr "\t$L    п╪п╟п╨я│п╦п╪я┐п╪ п╫п╟ я┤п╟я─я┌п╣ (п╥п╟пЁя─я┐п╥п╨п╟)\n"
 
 #: ../src/proc.c:898
 msgid "\t$F    maximum chart value (forks)\n"
-msgstr "\t$F    максимум на чарте (ветвления)\n"
+msgstr "\t$F    п╪п╟п╨я│п╦п╪я┐п╪ п╫п╟ я┤п╟я─я┌п╣ (п╡п╣я┌п╡п╩п╣п╫п╦я▐)\n"
 
 #: ../src/proc.c:899
 msgid "\t$l    load\n"
-msgstr "\t$l    загрузка\n"
+msgstr "\t$l    п╥п╟пЁя─я┐п╥п╨п╟\n"
 
 #: ../src/proc.c:900
 msgid "\t$f    forks\n"
-msgstr "\t$f    ветвлений\n"
+msgstr "\t$f    п╡п╣я┌п╡п╩п╣п╫п╦п╧\n"
 
 #: ../src/proc.c:901
 msgid "\t$p    processes\n"
-msgstr "\t$p    процессов\n"
+msgstr "\t$p    п©я─п╬я├п╣я│я│п╬п╡\n"
 
 #: ../src/proc.c:902
 msgid "\t$u    users\n"
-msgstr "\t$u    пользователей\n"
+msgstr "\t$u    п©п╬п╩я▄п╥п╬п╡п╟я┌п╣п╩п╣п╧\n"
 
 #: ../src/proc.c:922
 msgid "Enable Proc chart"
-msgstr "Включить чарт процессов"
+msgstr "п▓п╨п╩я▌я┤п╦я┌я▄ я┤п╟я─я┌ п©я─п╬я├п╣я│я│п╬п╡"
 
 #: ../src/proc.c:971
 msgid "\\f$L\\r\\f$F \\w88\\b\\p\\a$p\\f procs\\n\\e$u\\f users"
@@ -2592,40 +2614,40 @@ msgstr ""
 
 #: ../src/proc.c:982 ../src/proc.c:1011 ../src/proc.c:1038
 msgid "Proc"
-msgstr "Процессы"
+msgstr "п÷я─п╬я├п╣я│я│я▀"
 
 #: ../src/sensors.c:733
 #, c-format
 msgid "Can't find a %s panel to relocate sensor to."
-msgstr "Невозможно найти панель %s для перемещения на неё датчика"
+msgstr "п²п╣п╡п╬п╥п╪п╬п╤п╫п╬ п╫п╟п╧я┌п╦ п©п╟п╫п╣п╩я▄ %s п╢п╩я▐ п©п╣я─п╣п╪п╣я┴п╣п╫п╦я▐ п╫п╟ п╫п╣я▒ п╢п╟я┌я┤п╦п╨п╟"
 
 #: ../src/sensors.c:1620 ../src/sensors.c:2941
 msgid "Sensors"
-msgstr "Датчики"
+msgstr "п■п╟я┌я┤п╦п╨п╦"
 
 #: ../src/sensors.c:1692
 msgid "Sensor Volt Limits"
-msgstr "Пределы датчика напряжения"
+msgstr "п÷я─п╣п╢п╣п╩я▀ п╢п╟я┌я┤п╦п╨п╟ п╫п╟п©я─я▐п╤п╣п╫п╦я▐"
 
 #: ../src/sensors.c:1696
 msgid "Sensor Temperature Limits (in displayed degree units)"
-msgstr "Пределы датчика температуры (отображаются в градусах)"
+msgstr "п÷я─п╣п╢п╣п╩я▀ п╢п╟я┌я┤п╦п╨п╟ я┌п╣п╪п©п╣я─п╟я┌я┐я─я▀ (п╬я┌п╬п╠я─п╟п╤п╟я▌я┌я│я▐ п╡ пЁя─п╟п╢я┐я│п╟я┘)"
 
 #: ../src/sensors.c:1700
 msgid "Sensor Fan RPM Limits"
-msgstr "Пределы датчика оборотов"
+msgstr "п÷я─п╣п╢п╣п╩я▀ п╢п╟я┌я┤п╦п╨п╟ п╬п╠п╬я─п╬я┌п╬п╡"
 
 #: ../src/sensors.c:2036 ../src/sensors.c:2838
 msgid "Temperatures"
-msgstr "Температура"
+msgstr "п╒п╣п╪п©п╣я─п╟я┌я┐я─я▀"
 
 #: ../src/sensors.c:2043
 msgid "Fans"
-msgstr "Обороты вентиляторов"
+msgstr "п▓п╣п╫я┌п╦п╩я▐я┌п╬я─я▀"
 
 #: ../src/sensors.c:2050 ../src/sensors.c:2851
 msgid "Voltages"
-msgstr "Напряжение"
+msgstr "п²п╟п©я─я▐п╤п╣п╫п╦я▐"
 
 #: ../src/sensors.c:2660
 msgid ""
@@ -2633,13 +2655,13 @@ msgid ""
 "Check mbmon port number and '-r' option.\n"
 "Run gkrellm -d 0x80 for debug output.\n"
 msgstr ""
-"Невозможно прочитать значения датчиков для mbmon.\n"
-"Проверьте номер порта mbmon и параметр '-r'.\n"
-"Для отладки запустите gkrellm -d 0x80.\n"
+"п²п╣п╡п╬п╥п╪п╬п╤п╫п╬ п©я─п╬я┤п╦я┌п╟я┌я▄ п╥п╫п╟я┤п╣п╫п╦я▐ п╢п╟я┌я┤п╦п╨п╬п╡ п╢п╩я▐ mbmon.\n"
+"п÷я─п╬п╡п╣я─я▄я┌п╣ п╫п╬п╪п╣я─ п©п╬я─я┌п╟ mbmon п╦ п©п╟я─п╟п╪п╣я┌я─ '-r'.\n"
+"п■п╩я▐ п╬я┌п╩п╟п╢п╨п╦ п╥п╟п©я┐я│я┌п╦я┌п╣ gkrellm -d 0x80.\n"
 
 #: ../src/sensors.c:2682
 msgid "<b>No sensors detected.\n"
-msgstr "<b>Датчиков не обнаружено.\n"
+msgstr "<b>п■п╟я┌я┤п╦п╨п╬п╡ п╫п╣ п╬п╠п╫п╟я─я┐п╤п╣п╫п╬.\n"
 
 #: ../src/sensors.c:2689
 msgid ""
@@ -2647,223 +2669,99 @@ msgid ""
 "values are not correct for your motherboard.  Do a man gkrellm or\n"
 "see the GKrellM README for more information.\n"
 msgstr ""
-"Укажите масштаб и смещение показаний датчика, если значения по\n"
-"умолчанию не соответствуют вашей материнской плате. Подробности\n"
-"смотрите в 'man gkrellm' или в файле README\n"
+"пёп╨п╟п╤п╦я┌п╣ п╪п╟я│я┬я┌п╟п╠ п╦ я│п╪п╣я┴п╣п╫п╦п╣ п©п╬п╨п╟п╥п╟п╫п╦п╧ п╢п╟я┌я┤п╦п╨п╟, п╣я│п╩п╦ п╥п╫п╟я┤п╣п╫п╦я▐ п©п╬\n"
+"я┐п╪п╬п╩я┤п╟п╫п╦я▌ п╫п╣ я│п╬п╬я┌п╡п╣я┌я│я┌п╡я┐я▌я┌ п╡п╟я┬п╣п╧ п╪п╟я┌п╣я─п╦п╫я│п╨п╬п╧ п©п╩п╟я┌п╣. п÷п╬п╢я─п╬п╠п╫п╬я│я┌п╦\n"
+"я│п╪п╬я┌я─п╦я┌п╣ п╡ 'man gkrellm' п╦п╩п╦ п╡ я└п╟п╧п╩п╣ README\n"
 
 #: ../src/sensors.c:2692
 msgid "Enter a zero factor and a blank label to restore default values.\n"
-msgstr ""
-"Чтобы восстановить значения по умолчанию, введите нулевой\n"
-"множитель и пустую подпись.\n"
+msgstr "п╖я┌п╬п╠я▀ п╡п╬я│я│я┌п╟п╫п╬п╡п╦я┌я▄ п╥п╫п╟я┤п╣п╫п╦я▐ п©п╬ я┐п╪п╬п╩я┤п╟п╫п╦я▌, п╡п╡п╣п╢п╦я┌п╣ п╫я┐п╩п╣п╡п╬п╧ п╪п╫п╬п╤п╦я┌п╣п╩я▄ п╦ п©я┐я│я┌я┐я▌ п╪п╣я┌п╨я┐.\n"
 
 #: ../src/sensors.c:2694
 msgid "Drag and drop sensor rows to change the displayed order.\n"
-msgstr ""
-"Чтобы изменить порядок отображения, переносите строки сенсоров\n"
-"мышью.\n"
+msgstr "п╖я┌п╬п╠я▀ п╦п╥п╪п╣п╫п╦я┌я▄ п©п╬я─я▐п╢п╬п╨ п╬я┌п╬п╠я─п╟п╤п╣п╫п╦я▐, п©п╣я─п╣п╫п╣я│п╦я┌п╣ я│я┌я─п╬п╨п╦ я│п╣п╫я│п╬я─п╬п╡ п╪я▀я┬я▄я▌.\n"
 
 #: ../src/sensors.c:2696
 msgid "Temperature offset values must be in centigrade units.\n"
-msgstr "Смещения температурных датчиков должны быть указаны в Цельсиях.\n"
+msgstr "п║п╪п╣я┴п╣п╫п╦я▐ я┌п╣п╪п©п╣я─п╟я┌я┐я─п╫я▀я┘ п╢п╟я┌я┤п╦п╨п╬п╡ п╢п╬п╩п╤п╫я▀ п╠я▀я┌я▄ я┐п╨п╟п╥п╟п╫я▀ п╡ п╕п╣п╩я▄я│п╦я▐я┘.\n"
 
 #: ../src/sensors.c:2699
 msgid "\t$s    current sensor value.\n"
-msgstr "\t$s    текущее значение датчика.\n"
+msgstr "\t$s    я┌п╣п╨я┐я┴п╣п╣ п╥п╫п╟я┤п╣п╫п╦п╣ п╢п╟я┌я┤п╦п╨п╟.\n"
 
 #: ../src/sensors.c:2700
 msgid "\t$l    sensor label.\n"
-msgstr "\t$l    подпись датчика.\n"
+msgstr "\t$l    п©п╬п╢п©п╦я│я▄ п╢п╟я┌я┤п╦п╨п╟.\n"
 
 #: ../src/sensors.c:2762
 msgid "Sensor"
-msgstr "Датчик"
+msgstr "п■п╟я┌я┤п╦п╨"
 
 #: ../src/sensors.c:2800
 msgid "Factor"
-msgstr "Множитель"
+msgstr "п°п╫п╬п╤п╦я┌п╣п╩я▄"
 
 #: ../src/sensors.c:2805
 msgid "Offset"
-msgstr "Смещение"
+msgstr "п║п╪п╣я┴п╣п╫п╦п╣"
 
 #: ../src/sensors.c:2810
 msgid "Location"
-msgstr "Положение"
+msgstr "п÷п╬п╩п╬п╤п╣п╫п╦п╣"
 
 #: ../src/sensors.c:2842
 msgid "Display fahrenheit"
-msgstr "По Фаренгейту"
+msgstr "п÷п╬ п╓п╟я─п╣п╫пЁп╣п╧я┌я┐"
 
 #: ../src/sensors.c:2846
 msgid "Show units"
-msgstr ""
+msgstr "п÷п╬п╨п╟п╥я▀п╡п╟я┌я▄ п╣п╢п╦п╫п╦я├я▀ п╦п╥п╪п╣я─п╣п╫п╦я▐"
 
 #: ../src/sensors.c:2853
 msgid "Normal with labels"
-msgstr "Обычно (с метками)"
+msgstr "п·п╠я▀я┤п╫п╬ (я│ п╪п╣я┌п╨п╟п╪п╦)"
 
 #: ../src/sensors.c:2863
 msgid "Compact with no labels"
-msgstr "Компактно (без меток)"
+msgstr "п п╬п╪п©п╟п╨я┌п╫п╬ (п╠п╣п╥ п╪п╣я┌п╬п╨)"
 
 #: ../src/sensors.c:2888
 msgid "MBmon Daemon Port"
-msgstr "Порт для MBmon"
+msgstr "п÷п╬я─я┌ п╢п╩я▐ MBmon"
 
 #: ../src/sensors.c:2893
 msgid ""
 "<small>Daemon command must be: <b>mbmon -r -P port</b>\n"
 "where 'port' must match the port number entered here:</small>"
 msgstr ""
-"<small>Команда запуска должна выглядеть как <b>mbmon -r -P port</b>,\n"
-"где 'port' должен совпадать с номером, указанным здесь:</small>"
+"<small>п п╬п╪п╟п╫п╢п╟ п╥п╟п©я┐я│п╨п╟ п╢п╬п╩п╤п╫п╟ п╡я▀пЁп╩я▐п╢п╣я┌я▄ п╨п╟п╨ <b>mbmon -r -P port</b>,\n"
+"пЁп╢п╣ 'port' п╢п╬п╩п╤п╣п╫ я│п╬п╡п©п╟п╢п╟я┌я▄ я│ п╫п╬п╪п╣я─п╬п╪, я┐п╨п╟п╥п╟п╫п╫я▀п╪ п╥п╢п╣я│я▄:</small>"
 
 #: ../src/uptime.c:282
 msgid "Enable Uptime"
-msgstr "Включить \"время работы\""
+msgstr "п▓п╨п╩я▌я┤п╦я┌я▄ \"п╡я─п╣п╪я▐ я─п╟п╠п╬я┌я▀\""
 
 #: ../src/uptime.c:289 ../src/uptime.c:299
 msgid "Uptime"
-msgstr "Время работы"
+msgstr "п▓я─п╣п╪я▐ я─п╟п╠п╬я┌я▀"
 
 #: ../src/utils.c:117
 msgid "Unterminated quote\n"
-msgstr "Незакрытые кавычки\n"
+msgstr "п²п╣п╥п╟п╨я─я▀я┌я▀п╣ п╨п╟п╡я▀я┤п╨п╦\n"
 
 #: ../src/utils.c:233
 #, c-format
 msgid "Cannot create directory: %s\n"
-msgstr "Невозможно создать каталог: %s\n"
+msgstr "п²п╣п╡п╬п╥п╪п╬п╤п╫п╬ я│п╬п╥п╢п╟я┌я▄ п╨п╟я┌п╟п╩п╬пЁ: %s\n"
 
 #: ../src/winops-gtk-mac.c:133 ../src/winops-x11.c:387
 msgid "Exiting because multiple instances option is off.\n"
-msgstr "Выходим, поскольку несколько запусков не разрешено.\n"
+msgstr "п▓я▀я┘п╬п╢п╦п╪, п©п╬я│п╨п╬п╩я▄п╨я┐ п╫п╣я│п╨п╬п╩я▄п╨п╬ п╥п╟п©я┐я│п╨п╬п╡ п╫п╣ я─п╟п╥я─п╣я┬п╣п╫п╬.\n"
 
 #: ../src/winops-x11.c:458
 msgid "Warning: -w flag is ignored when the window dock type is set"
-msgstr "Внимание: флаг -w игнорируется при использовании типа окна 'dock'"
+msgstr "п▓п╫п╦п╪п╟п╫п╦п╣: я└п╩п╟пЁ -w п╦пЁп╫п╬я─п╦я─я┐п╣я┌я│я▐ п©я─п╦ п╦я│п©п╬п╩я▄п╥п╬п╡п╟п╫п╦п╦ я┌п╦п©п╟ п╬п╨п╫п╟ 'dock'"
 
 #: ../src/sysdeps/linux.c:3877
 msgid "Use nvclock for NVIDIA GPU temperatures"
-msgstr ""
-
-#~ msgid ""
-#~ "Messages: %d\n"
-#~ "Unseen: %d\n"
-#~ msgstr ""
-#~ "Сообщений: %d\n"
-#~ "Новых: %d\n"
-
-#~ msgid "Display 24 hour instead of 12 hour time"
-#~ msgstr "Показывать 24 часа вместо 12 am / 12 pm"
-
-#~ msgid "Show seconds instead of am/pm in 12 hour time mode"
-#~ msgstr "В режиме 12 часов показывать секунды вместо am/pm"
-
-#~ msgid "Show seconds in 24 hour time mode"
-#~ msgstr "Показывать секунды в режиме 24 часов"
-
-#~ msgid "Format string for FS data display"
-#~ msgstr " Строка формата для отображаемого текста"
-
-#~ msgid ""
-#~ "usage: gkrellm [options]\n"
-#~ "options:\n"
-#~ "   -t, --theme theme_dir    Select a theme directory.\n"
-#~ "   -g, --geometry +x+y      Position the window on the screen.\n"
-#~ "       --wm                 Allow window manager decorations.\n"
-#~ "       --m2                 Left button side frame shading (for 2 btn "
-#~ "mice).\n"
-#~ "       --nt                 No transparency.\n"
-#~ "   -w, --withdrawn          Draw GKrellM in withdrawn mode.\n"
-#~ "   -c, --config suffix      Use alternate config files generated by\n"
-#~ "                            appending \"suffix\" to config file names.\n"
-#~ "   -f, --force-host-config  Creates config files generated by appending "
-#~ "the\n"
-#~ "                            hostname to config file names.  Subsequent "
-#~ "runs\n"
-#~ "                            automatically will use these configs unless "
-#~ "a\n"
-#~ "                            specific config is specified with --config.\n"
-#~ "                            This is a convenience for allowing remote "
-#~ "runs\n"
-#~ "                            with independent configs in a shared home "
-#~ "dir\n"
-#~ "                            and for the hostname to be in the window "
-#~ "title.\n"
-#~ "                            This option has no effect in client mode.\n"
-#~ "   -s, --server hostname    Run in client mode: connect to \"hostname\" "
-#~ "and\n"
-#~ "                            read monitor data from a gkrellmd server.\n"
-#~ "   -P, --port server_port   Use \"server_port\" for the server "
-#~ "connection.\n"
-#~ "       --nc                 No config mode prevents configuration "
-#~ "changes.\n"
-#~ "   -p, --plugin plugin.so   While developing, load your plugin under "
-#~ "test.\n"
-#~ "       --demo               Force enabling of many monitors so themers "
-#~ "can\n"
-#~ "                            see everything. All config saving is "
-#~ "inhibited.\n"
-#~ "   -v, --version            Print GKrellM version number and exit.\n"
-#~ "   -d, --debug-level n      Turn debugging on for selective code "
-#~ "sections.\n"
-#~ "\n"
-#~ "debug-level numbers are (bitwise OR to debug multiple sections):\n"
-#~ "     0x10  mail\n"
-#~ "     0x20  net\n"
-#~ "     0x40  timer button\n"
-#~ "     0x80  sensors\n"
-#~ "\n"
-#~ msgstr ""
-#~ "Использование: gkrellm [параметры]\n"
-#~ "Возможные параметры:\n"
-#~ "   -t, --theme theme_dir    Укажите каталог с темами.\n"
-#~ "   -g, --geometry +x+y      Положение окна на экране.\n"
-#~ "       --wm                 Разрешить оформление оконного менеджера.\n"
-#~ "       --m2                 'Схлопывание' окна левой кнопкой мыши по "
-#~ "бордюру\n"
-#~ "                            (для двухкнопочных мышей).\n"
-#~ "       --nt                 Без прозрачности.\n"
-#~ "   -w, --withdrawn          Запускать GKrellM в скрытом режиме.\n"
-#~ "   -c, --config suffix      Использовать альтернативные файлы настроек,\n"
-#~ "                            получаемые добавлением \"suffix\" к именам\n"
-#~ "                            файлов.\n"
-#~ "   -f, --force-host-config  Создает файлы настроек с добавлением\n"
-#~ "                            имени машины к именам файлов. Последующие\n"
-#~ "                            запуски будут автоматически использовать эти\n"
-#~ "                            файлы, если не указано особо параметром --"
-#~ "config.\n"
-#~ "                            Это удобно для удаленного запуска с разных\n"
-#~ "                            машин в одном домашнем каталоге, имя машины\n"
-#~ "                            отображается в заголовке.\n"
-#~ "   -s, --server hostname    Запускается в клиентском режиме: подключается "
-#~ "к\n"
-#~ "                            \"hostname\" и получает данные от сервера "
-#~ "gkrellmd.\n"
-#~ "   -P, --port server_port   Использует \"server_port\" для соединения с "
-#~ "сервером.\n"
-#~ "       --nc                 Отключает возможность изменить настройки.\n"
-#~ "   -p, --plugin plugin.so   При разработке загрузить свой плагин для "
-#~ "теста.\n"
-#~ "       --demo               Включается множество мониторов, так что\n"
-#~ "                            разработчики тем могут их увидеть. "
-#~ "Сохранение\n"
-#~ "                            настроек невозможно.\n"
-#~ "   -v, --version            Вывести номер версии GKrellM и выйти.\n"
-#~ "   -d, --debug-level n      Включить отладку определенных частей кода.\n"
-#~ "\n"
-#~ "номера уровней откладки (сложите для указания нескольких уровней сразу):\n"
-#~ "     0x10  почта\n"
-#~ "     0x20  сеть\n"
-#~ "     0x40  кнопка таймера\n"
-#~ "     0x80  сенсоры\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "Windows system dependent code was contributed by:\n"
-#~ "Bill Nalen <bill@nalens.com>"
-#~ msgstr ""
-#~ "Системозависимый код для Windows написан\n"
-#~ "Bill Nalen <bill@nalens.com>"
+msgstr "п≤я│п©п╬п╩я▄п╥п╬п╡п╟я┌я▄ nvclock п╢п╩я▐ я┌п╣п╪п©п╣я─п╟я┌я┐я─ NVIDIA GPU"
