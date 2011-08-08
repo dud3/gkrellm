@@ -170,7 +170,7 @@ macosx:
 		LINK_FLAGS="-Wl,-bind_at_load" \
 		X11_LIBS="" \
 		UNIXOBJS="" \
- 		gkrellm
+		gkrellm
 
 netbsd1:
 	$(MAKE) EXTRAOBJS= SYS_LIBS="-lkvm" \
@@ -303,7 +303,7 @@ IMAGES = \
 SYSDEPS_SRC = sysdeps/bsd-common.c sysdeps/bsd-net-open.c sysdeps/freebsd.c \
 	sysdeps/gtop.c sysdeps/linux.c sysdeps/netbsd.c sysdeps/openbsd.c \
 	sysdeps/solaris.c sysdeps/darwin.c sysdeps/sensors-common.c \
-	sysdeps/win32.c
+	sysdeps/dragonfly.c sysdeps/win32.c
 
 GKRELLM_H = gkrellm.h gkrellm-private.h
 GKRELLM_H_SYS = gkrellm.h gkrellm-public-proto.h gkrellm-private.h \

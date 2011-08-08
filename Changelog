@@ -2,6 +2,9 @@ GKrellM Changelog
 -----------------
 2.3.6 - Not released
 ------------------------
+	* Patch from Neil Booth: Add multiple CPU capability to CPU monitor for
+	  Dragonfly.  Acquired dragonfly.c from web so could apply patch.
+	  I have no clue why I never had a dragonfly.c.
 	* Patch from Jindrich Makovicka: update multiple GKrellM files to compile
 	  with -DGTK_DISABLE_DEPRECATED -DGSEAL_ENABLE for GTK3 compatibility.
 	  Replaces GtkItemFactory and GtkTooltips.

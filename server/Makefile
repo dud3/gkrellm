@@ -231,7 +231,7 @@ clean:
 SYSDEPS = ../src/sysdeps/bsd-common.c ../src/sysdeps/bsd-net-open.c \
 	../src/sysdeps/darwin.c \
 	../src/sysdeps/freebsd.c ../src/sysdeps/gtop.c \
-	../src/sysdeps/linux.c ../src/sysdeps/netbsd.c \
+	../src/sysdeps/linux.c ../src/sysdeps/netbsd.c ../src/sysdeps/dragonfly.c \
 	../src/sysdeps/openbsd.c ../src/sysdeps/sensors-common.c \
 	../src/sysdeps/solaris.c ../src/sysdeps/win32.c 
 
