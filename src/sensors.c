@@ -1964,8 +1964,7 @@ static GtkTreeRowReference	*row_reference;
 static GtkTreeSelection		*selection;
 
 
-static GtkWidget	*optionmenu,
-					*optionmenu_menu;
+static GtkWidget	*optionmenu;
 
 static GtkWidget	*display_mode_button[2];
 static GtkWidget	*factor_spin_button,
@@ -2267,19 +2266,19 @@ sensor_reset_optionmenu(Sensor *sensor)
 		return;
 	sr = get_referenced_sensor();
 	if (sr == sensor)
-		gtk_option_menu_set_history(GTK_OPTION_MENU(optionmenu),
+		gtk_combo_box_set_active(GTK_COMBO_BOX(optionmenu),
 					SENSOR_PANEL_LOCATION);
 	}
 
 static void
-cb_location_menu(GtkOptionMenu *om, gpointer data)
+cb_location_menu(GtkComboBox *om, gpointer data)
 	{
 	GList		*list;
 	Sensor		*sr, *s;
 	gchar		*pname = NULL;
 	gint		location;
 
-	location = gtk_option_menu_get_history(om);
+	location = gtk_combo_box_get_active(om);
 	sr = get_referenced_sensor();
 	if (!sr || !sr->enabled || sr->location == location)
 		return;
@@ -2323,7 +2322,7 @@ cb_location_menu(GtkOptionMenu *om, gpointer data)
 
 	if (sr->location != location)	/* location failed */
 		{
-		gtk_option_menu_set_history(GTK_OPTION_MENU(optionmenu),
+		gtk_combo_box_set_active(GTK_COMBO_BOX(optionmenu),
 					SENSOR_PANEL_LOCATION);
 		sensor_relocation_error(pname);
 		}
@@ -2333,8 +2332,6 @@ cb_location_menu(GtkOptionMenu *om, gpointer data)
 static void
 create_location_menu(gint group)
 	{
-	GtkWidget	*menu;
-	GtkWidget	*menuitem;
 	gint		n, n_cpus;
 	static gint	sig_id;
 
@@ -2342,42 +2339,24 @@ create_location_menu(gint group)
 		return;
 	sensor_last_group = group;
 
-	if (optionmenu_menu)
-		{
-		g_signal_handler_disconnect(G_OBJECT(optionmenu), sig_id);
-		gtk_widget_destroy(optionmenu_menu);
-		}
-
-	menu = gtk_menu_new();
-
-	menuitem = gtk_menu_item_new_with_label("default");
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
-	gtk_widget_show(menuitem);
+        gtk_combo_box_append_text(GTK_COMBO_BOX(optionmenu), "default");
 
 	if (group == SENSOR_GROUP_MAINBOARD)
 		{
-		menuitem = gtk_menu_item_new_with_label(
-					gkrellm_proc_get_sensor_panel_label());
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
-		gtk_widget_show(menuitem);
+                    gtk_combo_box_append_text(GTK_COMBO_BOX(optionmenu),
+                                              gkrellm_proc_get_sensor_panel_label());
 
 		n_cpus = gkrellm_smp_cpus() + 1;
 		for (n = 0; n < n_cpus; ++n)
 			{
-			menuitem = gtk_menu_item_new_with_label(
-						gkrellm_cpu_get_sensor_panel_label(n));
-			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
-			gtk_widget_show(menuitem);
+                    gtk_combo_box_append_text(GTK_COMBO_BOX(optionmenu),
+                                              gkrellm_cpu_get_sensor_panel_label(n));
 			}
 		}
 	else if (group == SENSOR_GROUP_DISK)
 		{
-		menuitem = gtk_menu_item_new_with_label(_("Disk"));
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
-		gtk_widget_show(menuitem);
+                    gtk_combo_box_append_text(GTK_COMBO_BOX(optionmenu), _("Disk"));
 		}
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(optionmenu), menu);
-	optionmenu_menu = menu;
 	sig_id = g_signal_connect(G_OBJECT(optionmenu), "changed",
 				G_CALLBACK(cb_location_menu), NULL);
 	}
@@ -2408,7 +2387,7 @@ set_sensor_widget_states(Sensor *s)
 			}
 		}
 	create_location_menu(s ? s->group : 0);
-	gtk_option_menu_set_history(GTK_OPTION_MENU(optionmenu), location);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(optionmenu), location);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(factor_spin_button), factor);
 	gtk_spin_button_set_value(GTK_SPIN_BUTTON(offset_spin_button), offset);
 	gtk_widget_set_sensitive(optionmenu, p_sensitive);
@@ -2809,8 +2788,7 @@ create_sensors_tab(GtkWidget *tab_vbox)
 
 	box = gkrellm_gtk_framed_vbox(vbox1, _("Location"), 2, FALSE, 0, 2);
 
-	optionmenu = gtk_option_menu_new();
-	optionmenu_menu = NULL;
+	optionmenu = gtk_combo_box_new_text();
 
 	gtk_box_pack_start(GTK_BOX(box), optionmenu, FALSE, FALSE, 4);
 

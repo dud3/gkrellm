@@ -1337,7 +1337,7 @@ replace_plugins()
 		mon = (GkrellmMonitor *) list->data;
 		if (mon->privat->main_vbox && mon != gkrellm_mon_host())
 			{
-			gtk_widget_ref(mon->privat->main_vbox);
+                            g_object_ref(G_OBJECT(mon->privat->main_vbox));
 			gtk_container_remove(GTK_CONTAINER(gkrellm_monitor_vbox()),
 					mon->privat->main_vbox);
 			}
@@ -1359,7 +1359,7 @@ replace_plugins()
 			{
 			gtk_box_pack_start(GTK_BOX(gkrellm_monitor_vbox()),
 					mon->privat->main_vbox, FALSE, FALSE, 0);
-			gtk_widget_unref(mon->privat->main_vbox);
+			g_object_ref(G_OBJECT(mon->privat->main_vbox));
 			}
 		}
 	}
