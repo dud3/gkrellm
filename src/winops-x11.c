@@ -270,14 +270,15 @@ _gkrellm_get_lock(void)
 	gchar	*lock_dir, *lock_file, *display, *s;
 	gchar	buf[32];
 
-	snprintf(buf, sizeof(buf), "LCK..%d", (gint) getuid());
+	snprintf(buf, sizeof(buf), "LCK..gkrellm");
 
 #if defined(F_TLOCK)
-	lock_dir = "/var/lock/gkrellm";
+	lock_dir = g_strdup_printf("/var/lock/gkrellm-%d", (gint) getuid());
 	if (!g_file_test(lock_dir, G_FILE_TEST_IS_DIR))
 		mkdir(lock_dir, 0755);
 
 	lock_file = gkrellm_make_config_file_name(lock_dir, buf);
+	g_free(lock_dir);
 	display = XDisplayName(NULL);
 	if (display)
 		{
