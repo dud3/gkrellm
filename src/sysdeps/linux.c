@@ -2345,6 +2345,7 @@ gkrellm_sys_uptime_init(void)
 #define UNINORTH_INTERFACE			7
 #define WINDFARM_INTERFACE			8
 #define	SYS_THERMAL_INTERFACE		9
+#define	NVIDIA_SMI_INTERFACE		10
 
 #define IBM_ACPI_FAN_FILE	"/proc/acpi/ibm/fan"
 #define IBM_ACPI_THERMAL	"/proc/acpi/ibm/thermal"
@@ -3007,6 +3008,148 @@ static VoltDefault	voltdefault12[] =
 	{ "VBat",	1.0,   0, NULL }		/* in8 ((6.8/10)+1)*@		*/
 	};
 
+typedef struct
+	{
+	gchar	*id;
+	gfloat	temp;
+	}
+	NvidiaSmi;
+
+GList	*nvidia_smi_list;
+
+static NvidiaSmi *
+nvidia_smi_lookup(gchar *id)
+	{
+#if GLIB_CHECK_VERSION(2,0,0)
+	GList		*list;
+	NvidiaSmi	*smi;
+
+	for (list = nvidia_smi_list; list; list = list->next)
+		{
+		smi = (NvidiaSmi *) list->data;
+		if (!strcmp(smi->id, id))
+			return smi;
+		}
+#endif
+	return NULL;
+	}
+
+static void
+sensors_nvidia_smi_add(NvidiaSmi *smi)
+	{
+	gchar	*sensor_path, *default_label;
+	gchar	id_name[128];
+
+	sensor_path = g_strdup_printf("%s", smi->id);
+	snprintf(id_name, sizeof(id_name), "nvidia-smi GPU %s", smi->id);
+	default_label = g_strdup_printf("GPU %s", smi->id);
+	gkrellm_sensors_add_sensor(SENSOR_TEMPERATURE,
+				sensor_path, id_name,
+				0, 0, NVIDIA_SMI_INTERFACE,
+				1.0, 0.0, NULL, default_label);
+	g_free(default_label);
+	g_free(sensor_path);
+	}
+
+static gboolean
+sensors_nvidia_smi_read(gboolean setup)
+	{
+	gint		n = 0;
+#if GLIB_CHECK_VERSION(2,0,0)
+	gchar		*args[] = { "nvidia-smi", "-q", "-a", NULL };
+	gchar		*str, *stmp, id[64];
+	gchar		*output = NULL;
+	gchar		*errout = NULL;
+	gboolean	result;
+	gfloat		temp;
+	NvidiaSmi	*smi;
+	GError		*error	= NULL;
+
+	result = g_spawn_sync(NULL, args, NULL,
+				G_SPAWN_SEARCH_PATH,
+				NULL, NULL, &output, &errout, NULL, &error);
+
+	if (_GK.debug_level & DEBUG_SENSORS)
+		{
+		printf("nvidia-smi: result=%d  output=%s stderr=%s\n",
+				(gint) result,
+				output ? output : "(null)",
+				errout ? errout : "(null)");
+		if (error)
+			printf("\terror=%s\n", error->message);
+		}
+	if (result && output)
+			{
+			str = output;
+			/* Look for GPU N: or GPU X:Y:Z sections, but avoid GPU : lines
+			|  Recent nvidia-smi output looks like (eg 270.41.06):
+			|
+			|	GPU 0:3:0
+			|		Product Name                : GeForce GTX 460
+			|	...
+			|	Temperature
+			|		Gpu                     : 32 C
+			|
+			| Older nvidia-smi output was like (eg 260.19.29):
+			|
+			|	GPU 0:
+			|		Product Name            : GeForce GTX 285
+			|		...
+			|		Temperature             : 65 C
+			|		Fan Speed               : 100%
+			|		Utilization
+			|			GPU                 : 84%
+			|			...
+			*/
+			while ((str = g_strstr_len(str, -1, "GPU ")) != NULL)
+				{
+				str += 3;
+				if (   sscanf(str, " %63s", id) != 1
+				    || !strcmp(id, ":")
+				   )
+					continue;
+				if ((str = g_strstr_len(str, -1, "Temperature")) != NULL)
+					{
+					str += 11;
+					if (sscanf(str, " : %f", &temp) != 1)
+						{
+						stmp = str;
+						str = g_strstr_len(str, -1, "Gpu");
+						if (!str)
+							{
+							str = stmp;
+							continue;
+							}
+						str += 3;
+						if (sscanf(str, " : %f", &temp) != 1)
+							continue;
+						}
+					if (setup)
+						{
+						smi = g_new0(NvidiaSmi, 1);
+						smi->id = g_strdup(id);
+						smi->temp = temp;
+						nvidia_smi_list = g_list_append(nvidia_smi_list, smi);
+						sensors_nvidia_smi_add(smi);
+						++n;
+						}
+					else if ((smi = nvidia_smi_lookup(id)) != NULL)
+						smi->temp = temp;
+					}
+				}
+			}
+	if (output)
+		g_free(output);
+	if (errout)
+		g_free(errout);
+	if (error)
+			g_error_free(error);
+#endif
+
+	if (setup && (_GK.debug_level & DEBUG_SENSORS))
+		g_debug("nvidia-smi gpus = %d\n", n);
+	return n;	
+	}
 
 gboolean
 gkrellm_sys_sensors_get_temperature(gchar *sensor_path, gint id,
@@ -3095,6 +3238,26 @@ gkrellm_sys_sensors_get_temperature(gchar *sensor_path, gint id,
 		{
 		gkrellm_sys_sensors_mbmon_check(FALSE);
 		return gkrellm_sys_sensors_mbmon_get_value(sensor_path, temp);
+		}
+
+	if (interface == NVIDIA_SMI_INTERFACE)
+		{
+		NvidiaSmi	*smi;
+		static gint	check_time = -1;
+
+		if (check_time < _GK.time_now)
+			{
+			sensors_nvidia_smi_read(FALSE);
+			check_time = _GK.time_now + 2;  /* Interval < sensor update */
+			}
+		smi = nvidia_smi_lookup(sensor_path);
+		if (smi)
+			{
+			*temp = smi->temp;
+			return TRUE;
+			}
+		else
+			return FALSE;
 		}
 
 	if (interface == NVIDIA_SETTINGS_INTERFACE)
@@ -3829,6 +3992,8 @@ gkrellm_sys_sensors_init(void)
 				1.0, 0.0, NULL, "Fan");
 		fclose(f);
 		}
+
+	sensors_nvidia_smi_read(TRUE);
 
 	/* nvidia-settings GPU core & ambient temperatues
 	*/

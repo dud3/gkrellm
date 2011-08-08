@@ -2,6 +2,7 @@ GKrellM Changelog
 -----------------
 2.3.6 - Not released
 ------------------------
+	* Add nvidia-smi interface to linux.c for getting nvidia GPU temperatures.
 	* Translation updates
 	  o ru.po from Roman Savochenko
 	  o uk.po new translation from Roman Savochenko
