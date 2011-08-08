@@ -3138,7 +3138,7 @@ static GtkWidget		*server_entry,
 						*imapfolder_entry,
 						*port_entry,
 #ifdef HAVE_SSL
-						*ssl_option_menu,
+						*ssl_combo_box,
 #endif
 						*port_button;
 
@@ -3146,7 +3146,7 @@ static GtkWidget		*local_button,
 						*remote_button,
 						*delete_button,
 						*new_apply_button,
-						*remote_option_menu;
+						*remote_combo_box;
 
 static GtkWidget		*mail_user_agent_entry;
 static GtkWidget		*enable_multimua_button;
@@ -3322,10 +3322,10 @@ reset_entries(void)
 	gtk_entry_set_text(GTK_ENTRY(password_entry), "");
 	gtk_entry_set_text(GTK_ENTRY(imapfolder_entry), "");
 	gtk_widget_set_sensitive(imapfolder_entry, FALSE);
-	gtk_option_menu_set_history(GTK_OPTION_MENU(remote_option_menu), 0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(remote_combo_box), 0);
 	optmenu_auth_protocol = 0;
 #ifdef HAVE_SSL
-	gtk_option_menu_set_history(GTK_OPTION_MENU(ssl_option_menu), 0);
+	gtk_combo_box_set_active(GTK_COMBO_BOX(ssl_combo_box), 0);
 #endif
 	optmenu_use_ssl = SSL_NONE;
 
@@ -3365,11 +3365,9 @@ default_port_entry(void)
 
 #ifdef HAVE_SSL
 static void
-cb_ssl_selected(GtkMenuItem *menuitem)
+cb_ssl_selected(GtkComboBox *widget)
 	{
-	optmenu_use_ssl =
-			GPOINTER_TO_INT(g_object_get_data(G_OBJECT(menuitem),
-							  "user_data"));
+	optmenu_use_ssl = gtk_combo_box_get_active(widget);
 	default_port_entry();
 	}
 #endif
@@ -3381,10 +3379,9 @@ cb_specify_port(GtkWidget *widget, gpointer data)
 	}
 
 static void
-cb_protocol_selected(GtkMenuItem *menuitem)
+cb_protocol_selected(GtkComboBox *widget)
 	{
-	optmenu_auth_protocol =
-			GPOINTER_TO_INT(g_object_get_data(G_OBJECT(menuitem),"user_data"));
+        optmenu_auth_protocol = gtk_combo_box_get_active(widget);
 	switch (menu_to_proto(optmenu_auth_protocol))
 		{
 		case PROTO_POP3:
@@ -3456,11 +3453,11 @@ cb_tree_selection_changed(GtkTreeSelection *selection, gpointer data)
 			}
 		default_port = atoi(default_port_of_proto(account->protocol,
 							  account->use_ssl));
-		gtk_option_menu_set_history(GTK_OPTION_MENU(remote_option_menu),
+		gtk_combo_box_set_active(GTK_COMBO_BOX(remote_combo_box),
 					optmenu_auth_protocol);
 #ifdef HAVE_SSL
-		gtk_option_menu_set_history(GTK_OPTION_MENU(ssl_option_menu),
-					    optmenu_use_ssl);
+		gtk_combo_box_set_active(GTK_COMBO_BOX(ssl_combo_box),
+                                         optmenu_use_ssl);
 #endif
 		if (account->port < 1)
 			account->port = default_port;
@@ -3806,33 +3803,6 @@ copy_mailbox_accounts(void)
 		}
 	}
 
-static void
-add_menu_item(GtkWidget *menu, gchar *label, gint type)
-	{
-	GtkWidget	*menuitem;
-
-	menuitem = gtk_menu_item_new_with_label(label);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
-	g_object_set_data(G_OBJECT(menuitem), "user_data", GINT_TO_POINTER(type));
-	g_signal_connect(G_OBJECT(menuitem), "activate",
-			G_CALLBACK(cb_protocol_selected), NULL);
-	}
-
-#ifdef HAVE_SSL
-static void
-add_ssl_menu_item(GtkWidget *menu, gchar *label, gint type)
-	{
-	GtkWidget	*menuitem;
-
-	menuitem = gtk_menu_item_new_with_label(label);
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), menuitem);
-	g_object_set_data(G_OBJECT(menuitem), "user_data",
-			  GINT_TO_POINTER(type));
-	g_signal_connect(G_OBJECT(menuitem), "activate",
-			 G_CALLBACK(cb_ssl_selected), NULL);
-	}
-#endif
-
 static gchar	*mail_info_text0[]	=
 {
 N_("<h>Mailboxes\n"),
@@ -3904,10 +3874,6 @@ create_mail_tab(GtkWidget *tab_vbox)
 	{
 	GtkWidget		*tabs;
 	GtkWidget		*table;
-	GtkWidget		*menu;
-#ifdef HAVE_SSL
-	GtkWidget		*ssl_menu;
-#endif
 	GtkWidget		*vbox, *vbox1, *hbox, *hbox1;
 	GtkWidget		*label;
 	GtkWidget		*button;
@@ -4092,13 +4058,12 @@ create_mail_tab(GtkWidget *tab_vbox)
 	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
 	gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 3, 0, 1);
 
-	remote_option_menu = gtk_option_menu_new();
-	gtk_table_attach_defaults(GTK_TABLE(table), remote_option_menu, 3, 4, 0,1);
-	menu = gtk_menu_new();
+	remote_combo_box = gtk_combo_box_new_text();
+	gtk_table_attach_defaults(GTK_TABLE(table), remote_combo_box, 3, 4, 0,1);
 	for (i = 0; auth_strings[i].string != NULL; ++i)
-		add_menu_item(menu, x_out(auth_strings[i].string), i);
-	gtk_widget_show(menu);
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(remote_option_menu), menu);
+            gtk_combo_box_append_text(GTK_COMBO_BOX(remote_combo_box), auth_strings[i].string);
+	g_signal_connect(G_OBJECT(remote_combo_box), "changed",
+			G_CALLBACK(cb_protocol_selected), NULL);
 
 	i = 1;
 
@@ -4107,15 +4072,14 @@ create_mail_tab(GtkWidget *tab_vbox)
 	gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
 	gtk_table_attach_defaults(GTK_TABLE(table), label, 2, 3, i, i+1);
 
-	ssl_option_menu = gtk_option_menu_new();
-	gtk_table_attach_defaults(GTK_TABLE(table), ssl_option_menu, 3, 4, i, i+1);
+	ssl_combo_box = gtk_combo_box_new_text();
+	gtk_table_attach_defaults(GTK_TABLE(table), ssl_combo_box, 3, 4, i, i+1);
 	++i;
-	ssl_menu = gtk_menu_new();
-	add_ssl_menu_item(ssl_menu, _("No"), SSL_NONE);
-	add_ssl_menu_item(ssl_menu, "SSL", SSL_TRANSPORT);
-	add_ssl_menu_item(ssl_menu, "STARTTLS", SSL_STARTTLS);
-	gtk_widget_show(ssl_menu);
-	gtk_option_menu_set_menu(GTK_OPTION_MENU(ssl_option_menu), ssl_menu);
+        gtk_combo_box_append_text(GTK_COMBO_BOX(ssl_combo_box), _("No"));
+        gtk_combo_box_append_text(GTK_COMBO_BOX(ssl_combo_box), "SSL");
+        gtk_combo_box_append_text(GTK_COMBO_BOX(ssl_combo_box), "STARTTLS");
+	g_signal_connect(G_OBJECT(ssl_combo_box), "changed",
+                         G_CALLBACK(cb_ssl_selected), NULL);
 #endif
 
 
