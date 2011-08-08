@@ -534,8 +534,8 @@ update_battery(void)
 static gboolean
 cb_expose_event(GtkWidget *widget, GdkEventExpose *ev, GkrellmPanel *p)
 	{
-	gdk_draw_drawable(widget->window,
-			widget->style->fg_gc[GTK_WIDGET_STATE(widget)], p->pixmap,
+	gdk_draw_drawable(gtk_widget_get_window(widget),
+                          gtk_widget_get_style(widget)->fg_gc[gtk_widget_get_state(widget)], p->pixmap,
 			ev->area.x, ev->area.y, ev->area.x, ev->area.y,
 			ev->area.width, ev->area.height);
 	return FALSE;

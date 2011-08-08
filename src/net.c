@@ -1140,7 +1140,6 @@ destroy_chart(NetMon *net)
 	if (cp)
 		{
 		net->launch.button = NULL;
-		net->launch.tooltip = NULL;
 		g_free(cp->panel->textstyle);
 		cp->panel->textstyle = NULL;
 		gkrellm_chart_destroy(cp);

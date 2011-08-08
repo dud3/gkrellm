@@ -568,7 +568,7 @@ typedef struct
 	gpointer	cb_grid_resolution_data;
 	GtkWidget	*grid_resolution_spin_button;
 	GtkWidget	*auto_resolution_control_menubar;
-	GtkItemFactory	*auto_resolution_item_factory;
+	GtkUIManager	*auto_resolution_ui_manager;
 	gchar		*grid_resolution_label;
 	gboolean	adjustment_is_set;
 	gboolean	map_sequence;
@@ -775,7 +775,7 @@ typedef struct
 	gint		pad;
 	FILE		*pipe;		/* Read the output of some commands */
 	GkrellmDecalbutton	*button;
-	GtkTooltips	*tooltip;
+        void *tooltip_filler;
 	gchar		*tooltip_comment;
 	GkrellmDecal *decal;		/* Used if DECAL_LAUNCHER type	*/
 	GkrellmMargin margin;

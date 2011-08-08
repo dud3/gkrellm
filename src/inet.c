@@ -846,7 +846,6 @@ destroy_inet_monitor(InetMon *in)
 		g_free(in->launch.command);
 	if (in->launch.button)
 		gkrellm_destroy_button(in->launch.button);
-    in->launch.tooltip = NULL;
 	g_free(in->mark_data);
 
 	/* The panel doesn't live in the chart struct, so destroy it separately

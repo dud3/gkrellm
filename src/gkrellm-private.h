@@ -437,7 +437,7 @@ void	gkrellm_remove_plugin_config_page(GkrellmMonitor *);
 void	gkrellm_set_theme_alternatives_label(void);
 void	gkrellm_start_timer(gint);
 
-GtkItemFactory *gkrellm_create_item_factory_popup(void);
+GtkUIManager *gkrellm_create_ui_manager_popup(void);
 
 void	gkrellm_apply_hostname_config(void);
 gboolean gkrellm_hostname_can_shorten(void);

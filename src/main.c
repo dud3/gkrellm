@@ -88,7 +88,7 @@ static GtkWidget *top_window;
 GList			*gkrellm_monitor_list;
 time_t			gkrellm_time_now;
 
-static GtkItemFactory	*item_factory;
+static GtkUIManager	*ui_manager;
 
 static gchar	*geometry;
 
@@ -401,17 +401,17 @@ update_monitors()
 void
 gkrellm_start_timer(gint Hz)
 	{
-	static gint	timeout_id	= 0;
+	static guint	timeout_id	= 0;
 	gint		interval;
 
 	if (timeout_id)
-		gtk_timeout_remove(timeout_id);
+		g_source_remove(timeout_id);
 	timeout_id = 0;
 	if (Hz > 0)
 		{
 		interval = 1000 / Hz;
 		interval = interval * 60 / 63;	/* Compensate for overhead XXX */
-		timeout_id = gtk_timeout_add(interval,
+		timeout_id = g_timeout_add(interval,
 						(GtkFunction) update_monitors,NULL);
 		}
 	}
@@ -602,7 +602,7 @@ gkrellm_motion(GtkWidget *widget, GdkEventMotion *ev, gpointer data)
 void
 gkrellm_menu_popup(void)
 	{
-	gtk_menu_popup(GTK_MENU(item_factory->widget), NULL, NULL, NULL, NULL,
+            gtk_menu_popup(GTK_MENU(gtk_ui_manager_get_widget(ui_manager, "/popup")), NULL, NULL, NULL, NULL,
 					0, gtk_get_current_event_time());
 	}
 
@@ -639,7 +639,7 @@ top_frame_button_press(GtkWidget *widget, GdkEventButton *ev, gpointer data)
 
 	if (ev->button == 3)
 		{
-		gtk_menu_popup(GTK_MENU(item_factory->widget), NULL, NULL, NULL, NULL,
+		gtk_menu_popup(GTK_MENU(gtk_ui_manager_get_widget(ui_manager, "/popup")), NULL, NULL, NULL, NULL,
 					ev->button, ev->time);
 		return FALSE;
 		}
@@ -755,7 +755,7 @@ side_frame_button_press(GtkWidget *widget, GdkEventButton *ev, gpointer data)
 
 	if (ev->button == 3)
 		{
-		gtk_menu_popup(GTK_MENU(item_factory->widget), NULL, NULL, NULL, NULL,
+		gtk_menu_popup(GTK_MENU(gtk_ui_manager_get_widget(ui_manager, "/popup")), NULL, NULL, NULL, NULL,
 					ev->button, ev->time);
 		return FALSE;
 		}
@@ -2324,7 +2324,7 @@ main(gint argc, gchar **argv)
 	g_signal_connect(G_OBJECT(gtree.right_event_box), "button_press_event",
 				G_CALLBACK(side_frame_button_press), NULL );
 
-	item_factory = gkrellm_create_item_factory_popup();
+	ui_manager = gkrellm_create_ui_manager_popup();
 
 	if (_GK.sticky_state)
 		gtk_window_stick(GTK_WINDOW(top_window));

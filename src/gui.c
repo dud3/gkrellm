@@ -300,32 +300,20 @@ gkrellm_remove_launcher(GkrellmLauncher *launch)
 	if (launch->button)
 		gkrellm_destroy_button(launch->button);
 	launch->button = NULL;
-	if (launch->tooltip)
-		gtk_tooltips_set_tip(launch->tooltip, launch->widget, NULL, NULL);
 	}
 
 void
 gkrellm_configure_tooltip(GkrellmPanel *p, GkrellmLauncher *launch)
 	{
 	launch->widget = p->drawing_area;
-	if (!launch->tooltip)
-		{
-		if (*launch->tooltip_comment && *launch->command)
-			{
-			launch->tooltip = gtk_tooltips_new();
-			gtk_tooltips_set_tip(launch->tooltip, p->drawing_area,
-						launch->tooltip_comment, NULL);
-			}
-		return;
-		}
 	if (*launch->tooltip_comment && *launch->command)
-		{
-		gtk_tooltips_set_tip(launch->tooltip, p->drawing_area,
-					launch->tooltip_comment, NULL);
-		gtk_tooltips_enable(launch->tooltip);
-		}
+        {
+            gtk_widget_set_tooltip_text(p->drawing_area,
+                                        launch->tooltip_comment);
+        }
 	else
-		gtk_tooltips_disable(launch->tooltip);
+            gtk_widget_set_tooltip_text(p->drawing_area,
+                                        NULL);
 	}
 
 void
@@ -1181,14 +1169,6 @@ _("Some of these properties require a standards compliant window manager.\n"
 
 /* ------------------Themes Tab----------------------------------*/
 
-#define	THEME_SCALE_UP		0
-#define	THEME_SCALE_DOWN	1
-#define	THEME_RELOAD		2
-#define	THEME_NEXT			3
-#define	THEME_PREV			4
-#define	THEME_ALT_NEXT		5
-#define	THEME_ALT_PREV		6
-
 enum
 	{
 	THEME_COLUMN,
@@ -1723,40 +1703,40 @@ gkrellm_read_theme_event(GtkSettings  *settings)
 	}
 
 static void
-cb_load_theme(gpointer data, guint action, GtkWidget *widget)
+cb_load_theme(GtkAction *action, GtkWidget *widget)
 	{
 	GtkTreeIter		iter;
 	GtkTreeModel	*model;
 	GtkTreePath		*path;
 	Theme			*theme;
 	gint			row;
+        const gchar *act = gtk_action_get_name(action);
 
 	++_GK.theme_reload_count;
 	if (_GK.no_config)
 		return;
 	if (!themes_list)
 		gkrellm_make_themes_list();
-	if (action == THEME_ALT_NEXT || action == THEME_ALT_PREV)
+	if (strcmp(act, "ThemeAltNextAction") == 0 || strcmp(act, "ThemeAltPrevAction") == 0)
 		{
-		_GK.theme_alternative += ((action == THEME_ALT_NEXT) ? 1 : -1);
+		_GK.theme_alternative += ((strcmp(act, "ThemeAltNextAction") == 0) ? 1 : -1);
 		if (_GK.theme_alternative > _GK.theme_n_alternatives)
 			{
 			_GK.theme_alternative = 0;
-			action = THEME_NEXT;
+			act = "ThemeNextAction";
 			}
 		if (_GK.theme_alternative < 0)
 			{
 			_GK.theme_alternative = 100;
-			action = THEME_PREV;
+			act = "ThemePrevAction";
 			}
 		theme_modified = TRUE;
 		}
-	else if (action > THEME_RELOAD)
-		_GK.theme_alternative = 0;
 
-	if (action == THEME_NEXT || action == THEME_PREV)
+	if (strcmp(act, "ThemeNextAction") == 0 || strcmp(act, "ThemePrevAction") == 0)
 		{
-		if (action == THEME_NEXT)
+		_GK.theme_alternative = 0;
+		if (strcmp(act, "ThemeNextAction") == 0)
 			{
 			theme_position_in_list = theme_position_in_list->next;
 			if (!theme_position_in_list)
@@ -1782,12 +1762,12 @@ cb_load_theme(gpointer data, guint action, GtkWidget *widget)
 					strcmp(theme->path, "Default") ? theme->path : "");
 		theme_modified = TRUE;
 		}
-	if (action == THEME_SCALE_UP && _GK.theme_scale < 380)
+	if (strcmp(act, "ThemeScaleUp") == 0 && _GK.theme_scale < 380)
 		{
 		_GK.theme_scale += 20;
 		theme_modified = TRUE;
 		}
-	else if (action == THEME_SCALE_DOWN && _GK.theme_scale > 50)
+	else if (strcmp(act, "ThemeScaleDn") == 0 && _GK.theme_scale > 50)
 		{
 		_GK.theme_scale -= 20;
 		theme_modified = TRUE;
@@ -2465,72 +2445,99 @@ gkrellm_open_config_window(GkrellmMonitor *mon)
 	gtk_tree_view_set_cursor(treeview, path, NULL, FALSE);
 	}
 
-static GtkItemFactoryEntry	no_config_items[] =
-	{
-{"/-",				   NULL,	NULL,					0, "<Separator>"},
-{N_("/Quit"),		   NULL,	gtk_main_quit,			0, "<Item>"},
-{"/-",				   NULL,	NULL,					0, "<Separator>"},
-	};
+static const char *ui_items_no_config = "\
+<ui>\
+  <popup>\
+    <separator/>\
+    <menuitem name=\"Quit\" action=\"QuitAction\"/>\
+    <separator/>\
+  </popup>\
+</ui>\
+";
 
-static GtkItemFactoryEntry	menu_items[] =
-	{
-{"/-",				   NULL,	NULL,					0, "<Separator>"},
-{N_("/Configuration"), "F1",	create_config_window, 	0, "<Item>"},
-{N_("/Theme/Prev"), "Page_Up",	cb_load_theme,	THEME_ALT_PREV,	"<Item>"},
-{N_("/Theme/Next"), "Page_Down", cb_load_theme,	THEME_ALT_NEXT,	"<Item>"},
-{"/-",				   NULL,	NULL,					0, "<Separator>"},
-{N_("/Quit"),		   NULL,	gtk_main_quit,			0, "<Item>"},
-{"/-",				   NULL,	NULL,					0, "<Separator>"},
-	};
+static const char *ui_items = "\
+<ui>\
+  <popup accelerators=\"true\">\
+    <menuitem name=\"Configuration\" action=\"ConfigurationAction\"/>\
+    <menu name=\"ThemeMenu\" action=\"ThemeMenuAction\">\
+      <menuitem name=\"ThemeAltNext\" action=\"ThemeAltNextAction\"/>\
+      <menuitem name=\"ThemeAltPrev\" action=\"ThemeAltPrevAction\"/>\
+    </menu>\
+    <separator/>\
+    <menuitem name=\"Quit\" action=\"QuitAction\"/>\
+  </popup>\
+</ui>\
+";
 
-static GtkItemFactoryEntry	debug_items[] =
-  {
-{"/-",				    NULL,	NULL,					0, "<Separator>"},
-{N_("/Theme prev"), "<control>Page_Up",	cb_load_theme, THEME_PREV, "<Item>"},
-{N_("/Theme next"), "<control>Page_Down", cb_load_theme, THEME_NEXT, "<Item>"},
-{"/Menu Popup",     "F2",   gkrellm_menu_popup,     0, "<Item>"},
-{"/Reload Theme",	"F5",	cb_load_theme,	THEME_RELOAD, "<Item>"},
-{"/Scale Theme Up",	"F6",	cb_load_theme,	THEME_SCALE_UP, "<Item>"},
-{"/Scale Theme Dn",	"F7",	cb_load_theme,	THEME_SCALE_DOWN, "<Item>"}
-  };
+/*
+static const char *ui_items_debug = "\
+  <popup>\
+    <menuitem name=\"ThemeNext\" action=\"ThemeNextAction\"/>\
+    <menuitem name=\"ThemePrev\" action=\"ThemePrevAction\"/>\
+    <menuitem name=\"MenuPopup\" action=\"MenuPopupAction\"/>\
+    <menuitem name=\"ReloadTheme\" action=\"ReloadThemeAction\"/>\
+    <menuitem name=\"ScaleThemeUp\" action=\"ScaleThemeUpAction\"/>\
+    <menuitem name=\"ScaleThemeDn\" action=\"ScaleThemeDnAction\"/>\
+  </popup>\
+";
+*/
 
-static GtkItemFactory	*debug_factory;
+static GtkActionEntry ui_entries[] = 
+{
+    { "QuitAction", NULL, N_("Quit"),
+      NULL, NULL, G_CALLBACK(gtk_main_quit) },
+    { "ConfigurationAction", NULL, N_("Configuration"),
+      "F1", NULL, G_CALLBACK(create_config_window) },
+    { "ThemeMenuAction", NULL, N_("Theme"),
+      NULL, NULL, NULL },
+    { "ThemeAltNextAction", NULL, N_("Next"),
+      "Page_Up", NULL, G_CALLBACK(cb_load_theme) },
+    { "ThemeAltPrevAction", NULL, N_("Prev"),
+      "Page_Down", NULL, G_CALLBACK(cb_load_theme) },
+    { "ThemeNextAction", NULL, N_("Theme next"),
+      "<control>Page_Up", NULL, G_CALLBACK(cb_load_theme) },
+    { "ThemePrevAction", NULL, N_("Theme prev"),
+      "<control>Page_Down", NULL, G_CALLBACK(cb_load_theme) },
+    { "MenuPopupAction", NULL, N_("Menu Popup"),
+      "F2", NULL, G_CALLBACK(cb_load_theme) },
+    { "ReloadThemeAction", NULL, N_("Reload Theme"),
+      "F5", NULL, G_CALLBACK(cb_load_theme) },
+    { "ScaleThemeUpAction", NULL, N_("Scale Theme Up"),
+      "F6", NULL, G_CALLBACK(cb_load_theme) },
+    { "ScaleThemeDnAction", NULL, N_("Scale Theme Dn"),
+      "F7", NULL, G_CALLBACK(cb_load_theme) },
+};
+static guint n_ui_entries = G_N_ELEMENTS (ui_entries);
 
-
-GtkItemFactory *
-gkrellm_create_item_factory_popup(void)
+GtkUIManager *
+gkrellm_create_ui_manager_popup(void)
 	{
 	GtkWidget		*top_win;
-	GtkItemFactory	*item_factory;
-	GtkAccelGroup	*accel_group;
-	gint			n,i;
+        GtkUIManager *ui_manager;
+        GtkActionGroup *action_group;
+        GError *error;
 
 	top_win = gkrellm_get_top_window();
-	accel_group = gtk_accel_group_new ();
-	gtk_window_add_accel_group(GTK_WINDOW(top_win), accel_group);
+        action_group = gtk_action_group_new ("UiActions");
+        gtk_action_group_add_actions (action_group, ui_entries, n_ui_entries, NULL);
+        ui_manager = gtk_ui_manager_new ();
+        gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+        error = NULL;
+        if (_GK.no_config)
+            gtk_ui_manager_add_ui_from_string (ui_manager, ui_items_no_config,
+                                               strlen(ui_items_no_config), &error);
+        else
+            gtk_ui_manager_add_ui_from_string (ui_manager, ui_items,
+                                               strlen(ui_items), &error);
+        if (error)
+        {
+            g_message ("building menus failed: %s", error->message);
+            g_error_free (error);
+            return NULL;
+        }
+	gtk_window_add_accel_group(GTK_WINDOW(top_win),
+                                   gtk_ui_manager_get_accel_group (ui_manager));
 
-	n = sizeof(debug_items) / sizeof (GtkItemFactoryEntry);
-	debug_factory = gtk_item_factory_new(GTK_TYPE_MENU, "<Main>", accel_group);
-	gtk_item_factory_create_items(debug_factory, n, debug_items, NULL);
-
-	if (_GK.no_config)
-		{
-		n = sizeof(no_config_items) / sizeof (GtkItemFactoryEntry);
-		item_factory = gtk_item_factory_new(GTK_TYPE_MENU, "<Main>",
-				accel_group);
-		for(i = 0; i < n; i++)
-			no_config_items[i].path = _(no_config_items[i].path);
-		gtk_item_factory_create_items(item_factory, n, no_config_items, NULL);
-		}
-	else
-		{
-		n = sizeof(menu_items) / sizeof (GtkItemFactoryEntry);
-		item_factory = gtk_item_factory_new(GTK_TYPE_MENU, "<Main>",
-				accel_group);
-		for(i = 0; i < n; i++)
-			menu_items[i].path = _(menu_items[i].path);
-		gtk_item_factory_create_items(item_factory, n, menu_items, NULL);
-		}
-	return item_factory;
+	return ui_manager;
 	}
 

@@ -2303,15 +2303,15 @@ set_resolution_menubar_items_sensitivity(GkrellmChartconfig *cf)
 	{
 	GtkWidget	*w;
 
-	if (!cf->auto_resolution_item_factory)
+	if (!cf->auto_resolution_ui_manager)
 		return;
 
-	w = gtk_item_factory_get_widget(cf->auto_resolution_item_factory,
-				_("/Control/Auto mode sticks at peak value"));
+	w = gtk_ui_manager_get_widget(cf->auto_resolution_ui_manager,
+                                      "/menubar/Control/AutoModeStickPeak");
 	GTK_CHECK_MENU_ITEM(w)->active = cf->auto_resolution_stick;
 
-	w = gtk_item_factory_get_widget(cf->auto_resolution_item_factory,
-				_("/Control/Auto mode recalibrate"));
+	w = gtk_ui_manager_get_widget(cf->auto_resolution_ui_manager,
+                                      "/menubar/Control/AutoModeRecalibrate");
 	if (cf->auto_grid_resolution)
 		gtk_widget_set_sensitive(w, TRUE);
 	else
@@ -2418,92 +2418,114 @@ cb_split_fraction(GtkWidget *adjustment, GkrellmChartdata *cd)
 /* =================================================================== */
 
 static void
-cb_auto_res_control(GkrellmChart *cp, guint option, GtkWidget* widget)
-    {
-    GkrellmChartconfig *cf;
-	gint			grid_res;
-	gboolean		active;
+cb_seq_control(GtkRadioAction *action, GtkRadioAction *current, GkrellmChart *cp )
+{
+    GkrellmChartconfig *cf = cp->config;
 
-	cf = cp->config;
-    switch (option)
-        {
-        case 0:
-			cp->maxval_auto_base = 0;
-			cp->maxval_peak = 0;
-			break;
-        case 1:
-            active = GTK_CHECK_MENU_ITEM(widget)->active;
-			cf->auto_resolution_stick = active;
-			cp->maxval_auto_base = 0;
-            break;
-        case 2:
-            active = GTK_CHECK_MENU_ITEM(widget)->active;
-			if (cf->sequence_125 && active)
-				return;
-			cf->sequence_125 = active;
-			break;
-        case 3:
-            active = GTK_CHECK_MENU_ITEM(widget)->active;
-			if (!cf->sequence_125 && active)
-				return;
-			cf->sequence_125 = !active;
+    if (cf->sequence_125 == gtk_radio_action_get_current_value(action))
+        return;
+    cf->sequence_125 = gtk_radio_action_get_current_value(action);
 
-			grid_res = gkrellm_125_sequence(cf->grid_resolution,
-						cf->sequence_125, cf->low, cf->high, TRUE, FALSE);
-			cf->grid_resolution = grid_res;
-			set_grid_resolution_spin_button(cp, grid_res);
-            break;
-        }
-	gkrellm_refresh_chart(cp);
-    }
+    cf->grid_resolution = gkrellm_125_sequence(cf->grid_resolution,
+                                               cf->sequence_125, cf->low, cf->high, TRUE, FALSE);
+    set_grid_resolution_spin_button(cp, cf->grid_resolution);
+}
 
+static void
+cb_auto_stick_control(GtkToggleAction *action, GkrellmChart *cp )
+{
+    GkrellmChartconfig *cf = cp->config;
 
-static GtkItemFactoryEntry	auto_res_control_items[] =
-    {
-{N_("/Control"),	NULL,	NULL,				 0,	"<LastBranch>" },
-{N_("/Control/-"),	NULL,	NULL,				 0,	"<Separator>"},
-{N_("/Control/Auto mode recalibrate"),
-					NULL,	cb_auto_res_control, 0, "<Item>"},
-{N_("/Control/Auto mode sticks at peak value"),
-					NULL,	cb_auto_res_control, 1,	"<ToggleItem>"},
-{N_("/Control/-"),	NULL,    NULL,				 0,	"<Separator>"},
-{N_("/Control/Sequence.../1 2 5"),
-					NULL,	cb_auto_res_control, 2,	"<RadioItem>"},
-{N_("/Control/Sequence.../1 1.5 2 3 5 7"),
-					NULL,	cb_auto_res_control, 3,
-					N_("/Control/Sequence.../1 2 5")},
-{N_("/Control/-"),	 NULL,	NULL,				 0,	"<Separator>"},
-    };
+    cf->auto_resolution_stick = gtk_toggle_action_get_active(GTK_TOGGLE_ACTION(action));
+    cp->maxval_auto_base = 0;
+    gkrellm_refresh_chart(cp);
+}
+
+static void
+cb_auto_res_control(GtkAction *action, GkrellmChart *cp )
+{
+    cp->maxval_auto_base = 0;
+    cp->maxval_peak = 0;
+    gkrellm_refresh_chart(cp);
+}
+
+static const char *auto_res_control_items = "\
+<ui>\
+  <menubar>\
+  <menu name=\"Control\" action=\"ControlAction\">\
+    <separator/>\
+    <menuitem name=\"AutoModeRecalibrate\" action=\"AutoModeRecalibrateAction\"/>\
+    <menuitem name=\"AutoModeStickPeak\" action=\"AutoModeStickPeakAction\"/>\
+    <menu name=\"SequenceMenu\" action=\"SequenceMenuAction\">\
+      <menuitem name=\"Seq125\" action=\"Seq125Action\"/>\
+      <menuitem name=\"Seq1357\" action=\"Seq1357Action\"/>\
+    </menu>\
+    <separator/>\
+  </menu>\
+  </menubar>\
+</ui>\
+";
+
+static GtkActionEntry auto_res_control_entries[] = 
+{
+    { "ControlAction", NULL, N_("Control"),
+      NULL, NULL, G_CALLBACK(NULL) },
+    { "SequenceMenuAction", NULL, N_("Sequence..."),
+      NULL, NULL, G_CALLBACK(NULL) },
+    { "AutoModeRecalibrateAction", NULL, N_("Auto mode recalibrate"),
+      NULL, NULL, G_CALLBACK(cb_auto_res_control) },
+};
+static guint n_auto_res_control_entries = G_N_ELEMENTS (auto_res_control_entries);
+
+static GtkToggleActionEntry auto_res_control_toggle_entries[] = 
+{
+    { "AutoModeStickPeakAction", NULL, N_("Auto mode sticks at peak value"),
+      NULL, NULL, G_CALLBACK(cb_auto_stick_control), FALSE },
+};
+static guint n_auto_res_control_toggle_entries = G_N_ELEMENTS (auto_res_control_toggle_entries);
+
+static GtkRadioActionEntry auto_res_control_radio_entries[] = 
+{
+    { "Seq125Action", NULL, N_("1 2 5"),
+      NULL, NULL, 1 },
+    { "Seq1357Action", NULL, N_("1 1.5 2 3 5 7"),
+      NULL, NULL, 0 },
+};
+static guint n_auto_res_control_radio_entries = G_N_ELEMENTS (auto_res_control_radio_entries);
 
 static void
 auto_resolution_control_menubar(GtkWidget **menubar, GkrellmChart *cp)
 	{
-	GtkItemFactory	*item_factory;
+        GtkUIManager *ui_manager;
+        GtkActionGroup *action_group;
 	GkrellmChartconfig		*cf = cp->config;
-	gint			i, n;
-	static gboolean	translated;
+        GError *error;
 
-	n = sizeof(auto_res_control_items) / sizeof(GtkItemFactoryEntry);
-	item_factory = gtk_item_factory_new(GTK_TYPE_MENU_BAR, "<main>", NULL);
-	if (!translated)
-		{
-		for(i = 0; i < n; i++)
-			auto_res_control_items[i].path = _(auto_res_control_items[i].path);
-		auto_res_control_items[6].item_type =
-				_(auto_res_control_items[6].item_type);
-		translated = TRUE;
-		}
-	gtk_item_factory_create_items(item_factory, n, auto_res_control_items, cp);
-	cf->auto_resolution_item_factory = item_factory;
+        action_group = gtk_action_group_new ("ControlActions");
+        gtk_action_group_add_actions (action_group, auto_res_control_entries,
+                                      n_auto_res_control_entries, cp);
+        gtk_action_group_add_toggle_actions (action_group, auto_res_control_toggle_entries,
+                                             n_auto_res_control_toggle_entries, cp);
+        gtk_action_group_add_radio_actions (action_group, auto_res_control_radio_entries,
+                                            n_auto_res_control_radio_entries,
+                                            !!cf->sequence_125, G_CALLBACK(cb_seq_control),
+                                            cp);
+        ui_manager = gtk_ui_manager_new ();
+        error = NULL;
+        gtk_ui_manager_add_ui_from_string (ui_manager, auto_res_control_items,
+                                           strlen(auto_res_control_items), &error);
+        if (error)
+        {
+            g_message ("building menus failed: %s", error->message);
+            g_error_free (error);
+            return;
+        }
+        gtk_ui_manager_insert_action_group (ui_manager, action_group, 0);
+	cf->auto_resolution_ui_manager = ui_manager;
 	set_resolution_menubar_items_sensitivity(cf);
 
-	GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(item_factory,
-		_("/Control/Sequence.../1 2 5")))->active = cf->sequence_125;
-	GTK_CHECK_MENU_ITEM(gtk_item_factory_get_widget(item_factory,
-		_("/Control/Sequence.../1 1.5 2 3 5 7")))->active = !cf->sequence_125;
-
 	if (menubar)
-		*menubar = gtk_item_factory_get_widget(item_factory, "<main>");
+		*menubar = gtk_ui_manager_get_widget(ui_manager, "/menubar");
 	}
 
 void
@@ -2590,7 +2612,7 @@ gkrellm_chartconfig_window_create(GkrellmChart *cp)
 		}
 
 	cf->auto_resolution_control_menubar = NULL;
-	cf->auto_resolution_item_factory = NULL;
+	cf->auto_resolution_ui_manager = NULL;
 	cf->grid_resolution_spin_button = NULL;
 	cf->fixed_grids_spin_button = NULL;
 

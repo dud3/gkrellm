@@ -725,7 +725,6 @@ destroy_disk_monitor(DiskMon *disk)
 	if (disk->launch.button)
 		gkrellm_destroy_button(disk->launch.button);
 	disk->launch.button = NULL;
-	disk->launch.tooltip = NULL;
 	gkrellm_dup_string(&disk->launch.command, "");
 	gkrellm_dup_string(&disk->launch.tooltip_comment, "");
 	gkrellm_chart_destroy(disk->chart);

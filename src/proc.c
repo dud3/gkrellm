@@ -380,7 +380,6 @@ destroy_proc_monitor(void)
 	if (proc_launch.button)
 		gkrellm_destroy_button(proc_launch.button);
 	proc_launch.button = NULL;
-    proc_launch.tooltip = NULL;
 	gkrellm_chart_destroy(cp);
 	proc.chart = NULL;
 	proc.enabled = FALSE;
