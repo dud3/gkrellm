@@ -34,6 +34,7 @@
 #include "gkrellmd.h"
 #include "gkrellmd-private.h"
 #include "log-private.h"
+#include "serversocket.h"
 
 #if !defined(WIN32)
 	#include <syslog.h>
@@ -67,6 +68,7 @@ GList			*gkrellmd_client_list,
 static GList	*allow_host_list;
 
 static GMainLoop *gk_main_loop = NULL;
+static GkServerSocket *gk_serversocket = NULL;
 
 #if !defined(WIN32)
 static gboolean	detach_flag;
@@ -226,6 +228,7 @@ static void
 gkrellmd_cleanup()
 	{
 	gkrellm_sys_main_cleanup();
+	gkrellmd_serversocket_free(gk_serversocket);
 	gkrellm_log_cleanup();
 	remove_pidfile();
 	}
@@ -1192,6 +1195,14 @@ gkrellmd_run(gint argc, gchar **argv)
 		_GK.inet_interval = 20;
 
 	gkrellmd_load_monitors();
+
+	// Create and start listening listening socket(s)
+	gk_serversocket = gkrellmd_serversocket_new();
+	if (!gkrellmd_serversocket_setup(gk_serversocket))
+		{
+		gkrellmd_cleanup();
+		return 1;
+		}
 
 	g_timeout_add(1000 / _GK.update_HZ, gkrellmd_update_monitors, NULL);
 
