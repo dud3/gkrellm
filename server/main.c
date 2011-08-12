@@ -66,6 +66,8 @@ GList			*gkrellmd_client_list,
 
 static GList	*allow_host_list;
 
+static GMainLoop *gk_main_loop = NULL;
+
 #if !defined(WIN32)
 static gboolean	detach_flag;
 
@@ -231,11 +233,15 @@ gkrellmd_cleanup()
 static void
 cb_sigterm(gint sig)
 	{
-	g_message("GKrellM Daemon %d.%d.%d%s: Exiting normally\n",
-			GKRELLMD_VERSION_MAJOR, GKRELLMD_VERSION_MINOR,
-			GKRELLMD_VERSION_REV, GKRELLMD_EXTRAVERSION);
-	gkrellmd_cleanup();
-	exit(0);
+	if (gk_main_loop != NULL && g_main_loop_is_running(gk_main_loop) )
+		{
+		g_main_loop_quit(gk_main_loop);
+		}
+	else // Assume some kind of unclean shutdown
+		{
+			gkrellmd_cleanup();
+			exit(0);
+		}
 	}
 
 gint
@@ -1132,29 +1138,6 @@ drop_privileges(void)
 static gint
 gkrellmd_run(gint argc, gchar **argv)
 	{
-    union {
-#ifdef HAVE_GETADDRINFO
-	struct sockaddr_storage ss;
-#else
-	struct sockaddr_in	ss;
-#endif
-	struct sockaddr_in	sin;
-	struct sockaddr	sa;
-    } client_addr;
-	fd_set				read_fds, test_fds;
-	struct timeval		tv;
-	GkrellmdClient		*client;
-	size_t				addr_len;
-	gint				fd, server_fd, client_fd, i;
-#if defined(WIN32)
-	gulong				nbytes;
-#else
-	gint				nbytes;
-#endif /* defined(WIN32) */
-	gint				max_fd = -1;
-	gint				listen_fds = 0;
-	gint				interval, result;
-
 	read_config();
 	get_args(argc, argv);
 
@@ -1193,6 +1176,7 @@ gkrellmd_run(gint argc, gchar **argv)
 	gkrellm_sys_main_init();
 	drop_privileges();
 
+	g_type_init();
 #if GLIB_CHECK_VERSION(2,0,0)
 	g_thread_init(NULL);
 #endif
@@ -1209,142 +1193,17 @@ gkrellmd_run(gint argc, gchar **argv)
 
 	gkrellmd_load_monitors();
 
-	_GK.server_fd = socksetup(PF_UNSPEC);
-	if (_GK.server_fd == NULL)
-		{
-		g_warning("socket() failed: %s\n", strerror(errno));
-		gkrellmd_cleanup();
-		return 1;
-		}
-
-	/* Listen on the socket so a client gkrellm can connect.
-	*/
-	FD_ZERO(&read_fds);
-	for (i = 1; i <= _GK.server_fd[0]; ++i)
-		{
-		if (listen(_GK.server_fd[i], 5) == -1)
-			{
-#if defined(WIN32)
-				closesocket(_GK.server_fd[i]);
-#else
-			close(_GK.server_fd[i]);
-#endif
-			continue;
-			}
-		++listen_fds;
-		FD_SET(_GK.server_fd[i], &read_fds);
-		if (max_fd < _GK.server_fd[i])
-			max_fd = _GK.server_fd[i];
-		}
-	if (listen_fds <= 0)
-		{
-		g_warning("listen() failed: %s\n", strerror(errno));
-		gkrellmd_cleanup();
-		return 1;
-		}
-
-	interval = 1000000 / _GK.update_HZ;
-
 	gkrellm_debug(DEBUG_SERVER, "Entering main event loop\n");
-	// main event loop
-#if defined(WIN32)
-	/* endless loop if:
-	   - we're a service and our service_running flag is TRUE
-	   - we're a console-app (--console argument passed at startup
-	*/
-	while(service_running == TRUE || service_is_one == FALSE)
-#else
-	while(1)
-#endif
-		{
-		test_fds = read_fds;
-		addr_len = sizeof(client_addr.ss);
-		tv.tv_usec = interval;
-		tv.tv_sec = 0;
+	gk_main_loop = g_main_loop_new(NULL, FALSE);
+	g_main_loop_run(gk_main_loop);
+	gkrellm_debug(DEBUG_SERVER, "Left main event loop\n");
+	g_main_loop_unref(gk_main_loop);
 
-		result = select(max_fd + 1, &test_fds, NULL, NULL, &tv);
-		if (result == -1)
-			{
-			if (errno == EINTR)
-				continue;
-			g_warning("select() failed: %s\n", strerror(errno));
-			gkrellmd_cleanup();
-			return 1;
-			}
+	g_message("GKrellM Daemon %d.%d.%d%s: Exiting normally\n",
+			GKRELLMD_VERSION_MAJOR, GKRELLMD_VERSION_MINOR,
+			GKRELLMD_VERSION_REV, GKRELLMD_EXTRAVERSION);
+	gkrellmd_cleanup();
 
-#if 0	/* BUG, result is 0 when test_fds has a set fd!! */
-		if (result == 0)
-			{
-			gkrellmd_update_monitors();
-			continue;
-			}
-#endif
-
-		for (fd = 0; fd <= max_fd; ++fd)
-			{
-			if (!FD_ISSET(fd, &test_fds))
-				continue;
-			server_fd = -1;
-			for (i = 1; i <= _GK.server_fd[0]; ++i)
-				{
-				if (fd == _GK.server_fd[i])
-					{
-					server_fd = fd;
-					break;
-					}
-				}
-			if (server_fd >= 0)
-				{
-				gkrellm_debug(DEBUG_SERVER, "Calling accept() for new client connection\n");
-				client_fd = accept(server_fd,
-						&client_addr.sa,
-						(socklen_t *) (void *)&addr_len);
-				if (client_fd == -1)
-					{
-					g_warning("accept() failed: %s\n",
-							strerror(errno));
-					gkrellmd_cleanup();
-					return 1;
-					}
-				if (client_fd > max_fd)
-					max_fd = client_fd;
-				client = accept_client(client_fd,
-							&client_addr.sa, addr_len);
-				if (!client)
-					{
-#if defined(WIN32)
-				closesocket(client_fd);
-#else
-					close(client_fd);
-#endif
-					continue;
-					}
-				FD_SET(client_fd, &read_fds);
-				gkrellmd_serve_setup(client);
-
-				g_message(_("Accepted client %s:%u\n"),
-					client->hostname,
-					ntohs(client_addr.sin.sin_port));
-				}
-			else
-				{
-				gkrellm_debug(DEBUG_SERVER, "Reading data from client connection\n");
-#if defined(WIN32)
-				ioctlsocket(fd, FIONREAD, &nbytes);
-#else
-				ioctl(fd, FIONREAD, &nbytes);
-#endif
-				if (nbytes == 0)
-					{
-					remove_client(fd);
-					FD_CLR(fd, &read_fds);
-					}
-				else
-					gkrellmd_client_read(fd, nbytes);
-				}
-			}
-		gkrellmd_update_monitors();
-		} // while(1)
 	return 0;
 	} // gkrellmd_main()
 
