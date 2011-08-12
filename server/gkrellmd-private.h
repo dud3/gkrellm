@@ -167,7 +167,7 @@ extern GList	*gkrellmd_client_list,
 void			gkrellmd_client_read(gint client_fd, gint nbytes);
 void			gkrellmd_load_monitors(void);
 GList			*gkrellmd_plugins_load(void);
-gint			gkrellmd_update_monitors(void);
+gboolean		gkrellmd_update_monitors(gpointer data);
 void			gkrellmd_serve_setup(GkrellmdClient *client);
 
 GkrellmdMonitor *gkrellmd_init_mail_monitor(void);

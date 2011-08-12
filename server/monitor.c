@@ -2152,8 +2152,8 @@ gkrellmd_need_serve(GkrellmdMonitor *mon)
 		mon->privat->need_serve = TRUE;
 	}
 
-gint
-gkrellmd_update_monitors(void)
+gboolean
+gkrellmd_update_monitors(gpointer unused)
 	{
 	GList			*list, *c_list;
 	GkrellmdMonitor			*mon;

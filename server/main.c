@@ -1193,6 +1193,8 @@ gkrellmd_run(gint argc, gchar **argv)
 
 	gkrellmd_load_monitors();
 
+	g_timeout_add(1000 / _GK.update_HZ, gkrellmd_update_monitors, NULL);
+
 	gkrellm_debug(DEBUG_SERVER, "Entering main event loop\n");
 	gk_main_loop = g_main_loop_new(NULL, FALSE);
 	g_main_loop_run(gk_main_loop);
