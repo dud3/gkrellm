@@ -54,8 +54,8 @@ STRIP ?= -s
 
 GKRELLMD_INCLUDES = gkrellmd.h $(SHARED_PATH)/log.h
 
-PKG_INCLUDE = `$(PKG_CONFIG) --cflags glib-2.0 gthread-2.0`
-PKG_LIB = `$(PKG_CONFIG) --libs glib-2.0 gmodule-2.0 gthread-2.0`
+PKG_INCLUDE = `$(PKG_CONFIG) --cflags glib-2.0 gio-2.0 gthread-2.0`
+PKG_LIB = `$(PKG_CONFIG) --libs glib-2.0 gio-2.0 gmodule-2.0 gthread-2.0`
 
 GLIB12_INCLUDE = `glib-config --cflags`
 GLIB12_LIB = `glib-config --libs glib gmodule`
@@ -111,7 +111,7 @@ endif
 OS_NAME=$(shell uname -s)
 OS_RELEASE=$(shell uname -r)
 
-OBJS = main.o monitor.o mail.o plugins.o glib.o utils.o sysdeps-unix.o log.o
+OBJS = main.o monitor.o mail.o plugins.o glib.o utils.o sysdeps-unix.o log.o client.o serversocket.o
 
 all:	gkrellmd
 
