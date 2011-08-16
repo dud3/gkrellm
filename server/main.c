@@ -34,6 +34,7 @@
 #include "gkrellmd.h"
 #include "gkrellmd-private.h"
 #include "log-private.h"
+#include "client.h"
 #include "serversocket.h"
 
 #if !defined(WIN32)
@@ -250,22 +251,7 @@ cb_sigterm(gint sig)
 gint
 gkrellmd_send_to_client(GkrellmdClient *client, gchar *buf)
 	{
-	gint	n;
-
-	if (!client->alive)
-		return 0;
-#if defined(MSG_NOSIGNAL)
-	n = send(client->fd, buf, strlen(buf), MSG_NOSIGNAL);
-#else
-	n = send(client->fd, buf, strlen(buf), 0);
-#endif
-	if (n < 0 && errno == EPIPE)
-		{
-		if (_GK.verbose)
-			g_print("Write on closed pipe to host %s\n", client->hostname);
-		client->alive = FALSE;
-		}
-	return n;
+	return gkrellmd_client_send(client, buf);
 	}
 
 #if 0
