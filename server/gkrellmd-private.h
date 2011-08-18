@@ -164,6 +164,8 @@ extern GList	*gkrellmd_client_list,
 				*gkrellmd_plugin_enable_list,
 				*gkrellmd_plugin_config_list;
 
+
+void			gkrellmd_monitor_read_client(GkrellmdClient *client, GString *str, gpointer user_data);
 void			gkrellmd_client_read(gint client_fd, gint nbytes);
 void			gkrellmd_load_monitors(void);
 GList			*gkrellmd_plugins_load(void);
