@@ -1978,10 +1978,10 @@ serve_sensors_setup(GkrellmdMonitor *mon)
 	GkrellmdClient	*client = mon->privat->client;
 	GList			*list;
 	Sensor			*s;
-	gchar			buf[256];
+	GString			*buf;
 	gboolean		sensor_disk_ok;
 
-	gkrellmd_send_to_client(client, "<sensors_setup>\n");
+	buf = g_string_new("<sensors_setup>\n");
 	sensor_disk_ok = gkrellmd_check_client_version(mon, 2,2,0);
 	for (list = sensors_list; list; list = list->next)
 		{
@@ -1989,17 +1989,20 @@ serve_sensors_setup(GkrellmdMonitor *mon)
 		if (s->group == SENSOR_GROUP_DISK && !sensor_disk_ok)
 			continue;
 		if (sensor_disk_ok)
-			snprintf(buf, sizeof(buf), "%d \"%s\" %d %d %d %.4f %.4f \"%s\" \"%s\" %d\n",
+			g_string_append_printf(buf,
+					"%d \"%s\" %d %d %d %.4f %.4f \"%s\" \"%s\" %d\n",
 					s->type, s->id_name,
 					s->id, s->iodev, s->inter,
 					s->factor, s->offset, s->vref, s->default_label, s->group);
 		else
-			snprintf(buf, sizeof(buf), "%d \"%s\" %d %d %d %.4f %.4f \"%s\" \"%s\"\n",
+			g_string_append_printf(buf,
+					"%d \"%s\" %d %d %d %.4f %.4f \"%s\" \"%s\"\n",
 					s->type, s->id_name,
 					s->id, s->iodev, s->inter,
 					s->factor, s->offset, s->vref, s->default_label);
-		gkrellmd_send_to_client(client, buf);
 		}
+	gkrellmd_client_send(client, buf->str);
+	g_string_free(buf, TRUE);
 	}
 
 static GkrellmdMonitor sensors_monitor =
