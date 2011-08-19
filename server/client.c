@@ -66,6 +66,8 @@ gkrellmd_client_new(GSocketConnection *connection)
 	client->input_gstring = g_string_sized_new(0);
 	client->connection = connection;
 	g_object_ref(client->connection);
+	client->write_buf = g_string_sized_new(0);
+	client->write_source = NULL;
 
 	GPollableInputStream *istream = G_POLLABLE_INPUT_STREAM(
 			g_io_stream_get_input_stream((GIOStream*)client->connection));
@@ -95,7 +97,83 @@ gkrellmd_client_free(GkrellmdClient *client)
 	if (!g_source_is_destroyed(client->read_source))
 		g_source_destroy(client->read_source);
 	g_source_unref(client->read_source);
+	g_string_free(client->write_buf, TRUE);
+	if (client->write_source)
+		g_source_destroy(client->write_source);
 	g_free(client);
+	}
+
+
+// forward decl
+static gboolean gk_client_send_write_buf(GkrellmdClient *client);
+
+
+static gboolean
+gk_client_write(GObject *pollable_stream, gpointer user_data)
+	{
+	GkrellmdClient *client;
+
+	client = (GkrellmdClient*)user_data;
+	g_assert(client);
+	g_assert(client->write_source);
+
+	gkrellm_debug(DEBUG_SERVER, "gk_client_write: Retrying write\n");
+
+	client->write_source = NULL;
+	gk_client_send_write_buf(client); // Try send again
+	return FALSE; // Removes (and frees?) GSource from context
+	}
+
+
+static gboolean
+gk_client_send_write_buf(GkrellmdClient *client)
+	{
+	GPollableOutputStream *ostream;
+	GError *err;
+	gssize wb;
+
+	g_assert(client);
+	g_assert(client->write_source == NULL);
+
+	gkrellm_debug(DEBUG_SERVER,
+			"gk_client_send_write_buf: writing buffer with %ld bytes\n",
+			client->write_buf->len);
+
+	// TODO: cache ostream in client struct
+	ostream = G_POLLABLE_OUTPUT_STREAM(g_io_stream_get_output_stream(
+				(GIOStream*)client->connection));
+	g_assert(ostream);
+
+	err = NULL;
+	wb = g_pollable_output_stream_write_nonblocking(ostream,
+			(const void *)client->write_buf->str, client->write_buf->len,
+			NULL, &err);
+	if (err)
+		{
+		g_assert(wb < 1); // should not have written any bytes at all
+		if ((G_IO_ERROR == err->domain) && (G_IO_ERROR_WOULD_BLOCK == err->code))
+			{
+			gkrellm_debug(DEBUG_SERVER,	"gk_client_send_write_buf: write would block, postponing write\n");
+			g_error_free(err);
+			client->write_source = g_pollable_output_stream_create_source(
+					ostream, NULL);
+			g_source_set_callback(client->write_source,
+					(GSourceFunc)gk_client_write, (gpointer)client, NULL);
+			g_source_attach(client->write_source, NULL); // TODO: default context ok?
+			}
+		else
+			{
+			g_warning(_("Write to client host %s failed: %s\n"),
+					client->hostname, err->message);
+			g_error_free(err);
+			client->alive = FALSE;
+			return FALSE;
+			}
+		}
+	g_assert(wb <= client->write_buf->len); // can't write more than what's in the buffer
+	g_string_truncate(client->write_buf, client->write_buf->len - wb);
+	gkrellm_debug(DEBUG_SERVER,	"gk_client_send_write_buf: wrote %ld bytes\n", wb);
+	return TRUE;
 	}
 
 
