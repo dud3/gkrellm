@@ -177,30 +177,19 @@ gk_client_send_write_buf(GkrellmdClient *client)
 	}
 
 
-gssize
+gboolean
 gkrellmd_client_send(GkrellmdClient *client, const gchar *str)
 	{
-	GError *err = NULL;
-	GOutputStream *os;
-	gssize wb; // bytes actually written to socket
+	g_assert(client);
+	g_assert(str);
 
-	g_assert(client != NULL);
-	g_assert(str != NULL);
+	g_string_append(client->write_buf, str);
 
-	os = g_io_stream_get_output_stream((GIOStream*)client->connection);
-	g_assert(os != NULL);
+	// Only try to send if we are not already waiting for writing
+	if (!client->write_source)
+		return gk_client_send_write_buf(client);
 
-	wb = g_output_stream_write(os, (const void *)str, strlen(str), NULL, &err);
-	if (err)
-		{
-		g_warning("Write to client host %s failed: %s\n",
-				client->hostname, err->message);
-		g_error_free(err);
-		client->alive = FALSE;
-		return 0;
-		}
-
-	return wb;
+	return TRUE;
 	}
 
 
