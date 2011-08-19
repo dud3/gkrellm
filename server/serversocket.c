@@ -130,23 +130,24 @@ gk_check_client_access(GkrellmdClient *client)
 static void
 gk_read_helo(GkrellmdClient *client, GString *str, gpointer user_data)
 	{
-	gchar buf[48];
+	gchar *line;
 	gchar name[32];
 
 	g_assert(client);
 	g_assert(str);
 	g_assert(user_data);
 
-	if (!gkrellmd_getline_from_gstring(&str, buf, sizeof(buf) - 1))
-		return; // incomplete line
+	line = gkrellm_gstring_get_line(str);
+	if (!line)
+		return // incomplete line
 
-	gkrellm_debug(DEBUG_SERVER, "Client helo line: '%s'\n", buf);
+	gkrellm_debug(DEBUG_SERVER, "Client helo line: '%s'\n", line);
 
-	if (sscanf(buf, "%31s %d.%d.%d", name, &client->major_version,
+	if (sscanf(line, "%31s %d.%d.%d", name, &client->major_version,
 				&client->minor_version, &client->rev_version) != 4
 		|| g_strcmp0(name, "gkrellm") != 0)
 		{
-		g_warning(_("Bad connect line from %s: %s\n"), client->hostname, buf);
+		g_warning(_("Bad connect line from %s: %s\n"), client->hostname, line);
 		gkrellmd_send_to_client(client, "<error>\nBad connect string!");
 		gkrellmd_client_set_read_callback(client, NULL, NULL);
 		client->alive = FALSE;
@@ -168,6 +169,8 @@ gk_read_helo(GkrellmdClient *client, GString *str, gpointer user_data)
 
 		g_message(_("Accepted client %s\n"), client->hostname);
 		}
+
+	g_free(line);
 	}
 
 
