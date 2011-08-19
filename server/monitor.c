@@ -2387,19 +2387,18 @@ gkrellmd_monitor_read_client(GkrellmdClient *client, GString *str, gpointer user
 	GList					*list;
 	GkrellmdMonitor			*mon;
 	GkrellmdMonitorPrivate	*mp;
-	gchar					buf[513], *s, *e;
+	gchar					*line, *s, *e;
 	gint					n;
 
-	// TODO: create gchar *gkrellmd_gstring_get_line(GString *)
-	while (gkrellmd_getline_from_gstring(&str, buf, sizeof(buf) - 1))
+	while ((line = gkrellm_gstring_get_line(str)))
 		{
-		if (*buf == '<')
+		if (*line == '<')
 			{
 			gkrellm_debug(DEBUG_SERVER,
-				"gkrellmd_monitor_read_client: read command '%s'\n", buf);
+				"gkrellmd_monitor_read_client: read command '%s'\n", line);
 
 			client->input_func = NULL;
-			s = buf + 1;
+			s = line + 1;
 			for (list = gkrellmd_monitor_list; list; list = list->next)
 				{
 				mon = (GkrellmdMonitor *) list->data;
@@ -2418,9 +2417,11 @@ gkrellmd_monitor_read_client(GkrellmdClient *client, GString *str, gpointer user
 		else if (client->input_func)
 			{
 			gkrellm_debug(DEBUG_SERVER,
-				"gkrellmd_monitor_read_client: read data '%s'\n", buf);
+				"gkrellmd_monitor_read_client: read data '%s'\n", line);
 
-			(*client->input_func)(client, buf);
+			(*client->input_func)(client, line);
 			}
+
+		g_free(line);
 		}
 	}
