@@ -158,3 +158,21 @@ gkrellm_getline_from_gstring(GString **gstring, gchar *line, gint size)
 	{
 	return gkrellmd_getline_from_gstring(gstring, line, size);
 	}
+
+gchar *
+gkrellm_gstring_get_line(GString *gstr)
+{
+	gchar *s;
+	gsize len;
+	gchar *line;
+
+	if (!gstr)
+		return NULL;
+	s = strchr(gstr->str, '\n');
+	if (!s)
+		return NULL;
+	len = s - gstr->str + 1;
+	line = g_strndup(gstr->str, len);
+	g_string_erase(gstr, 0, len);
+	return line;
+}

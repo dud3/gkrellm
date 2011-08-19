@@ -241,6 +241,7 @@ gboolean	gkrellmd_dup_string(gchar **dst, gchar *src);
 
 void		gkrellm_free_glist_and_data(GList **list_head);
 gboolean	gkrellm_getline_from_gstring(GString **, gchar *, gint);
+gchar		*gkrellm_gstring_get_line(GString *gstr);
 gchar		*gkrellm_dup_token(gchar **string, gchar *delimeters);
 gboolean	gkrellm_dup_string(gchar **dst, gchar *src);
 
