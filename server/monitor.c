@@ -33,6 +33,7 @@
 
 #include "gkrellmd.h"
 #include "gkrellmd-private.h"
+#include "client.h"
 #include <inttypes.h>
 
 GList			*gkrellmd_monitor_list;
@@ -2253,21 +2254,19 @@ gkrellmd_serve_setup(GkrellmdClient *client)
 	GList			*list;
 	GkrellmdMonitor	*mon;
 	struct lconv	*lc;
-	gchar			buf[32], *s, *name;
+	GString			*buf;
 
-	gkrellmd_send_to_client(client, "<gkrellmd_setup>\n");
+	buf = g_string_new("<gkrellmd_setup>\n");
 
-	s = g_strdup_printf("<version>\ngkrellmd %d.%d.%d%s\n",
-				GKRELLMD_VERSION_MAJOR, GKRELLMD_VERSION_MINOR,
-				GKRELLMD_VERSION_REV, GKRELLMD_EXTRAVERSION);
-	gkrellmd_send_to_client(client, s);
-	g_free(s);
+	g_string_append_printf(buf, "<version>\ngkrellmd %d.%d.%d%s\n",
+			GKRELLMD_VERSION_MAJOR, GKRELLMD_VERSION_MINOR,
+			GKRELLMD_VERSION_REV, GKRELLMD_EXTRAVERSION);
 
 	lc = localeconv();
-	snprintf(buf, sizeof(buf), "%c\n", *lc->decimal_point);
-	s = g_strconcat("<decimal_point>\n", buf, "\n", NULL);
-	gkrellmd_send_to_client(client, s);
-	g_free(s);
+	g_string_append_printf(buf, "<decimal_point>\n%c\n\n", *lc->decimal_point);
+
+	gkrellmd_client_send(client, buf->str);
+	g_string_truncate(buf, 0);
 
 	for (list = gkrellmd_monitor_list; list; list = list->next)
 		{
@@ -2276,37 +2275,28 @@ gkrellmd_serve_setup(GkrellmdClient *client)
 		if (mon->serve_setup)
 			(*(mon->serve_setup))(mon);
 		}
-	name = gkrellm_sys_get_host_name();
-	s = g_strconcat("<hostname>\n", name, "\n", NULL);
-	gkrellmd_send_to_client(client, s);
-	g_free(s);
 
-	name = gkrellm_sys_get_system_name();
-	s = g_strconcat("<sysname>\n", name, "\n", NULL);
-	gkrellmd_send_to_client(client, s);
-	g_free(s);
+	g_string_append_printf(buf, "<hostname>\n%s\n", gkrellm_sys_get_host_name());
+	g_string_append_printf(buf, "<sysname>\n%s\n", gkrellm_sys_get_system_name());
+
+	gkrellmd_client_send(client, buf->str);
+	g_string_truncate(buf, 0);
 
 	send_time(client);
 
-	gkrellmd_send_to_client(client, "<monitors>\n");
+	g_string_append(buf, "<monitors>\n");
 	for (list = gkrellmd_monitor_list; list; list = list->next)
 		{
 		mon = (GkrellmdMonitor *) list->data;
-		snprintf(buf, sizeof(buf), "%s\n", mon->name);
-		gkrellmd_send_to_client(client, buf);
+		g_string_append_printf(buf, "%s\n", mon->name);
 		}
 
-	snprintf(buf, sizeof(buf), "%d\n", _GK.io_timeout);
-	s = g_strconcat("<io_timeout>\n", buf, "\n", NULL);
-	gkrellmd_send_to_client(client, s);
-	g_free(s);
+	g_string_append_printf(buf, "<io_timeout>\n%d\n\n", _GK.io_timeout);
+	g_string_append_printf(buf, "<reconnect_timeout>\n%d\n\n", _GK.reconnect_timeout);
+	g_string_append(buf, "</gkrellmd_setup>\n");
 
-	snprintf(buf, sizeof(buf), "%d\n", _GK.reconnect_timeout);
-	s = g_strconcat("<reconnect_timeout>\n", buf, "\n", NULL);
-	gkrellmd_send_to_client(client, s);
-	g_free(s);
-
-	gkrellmd_send_to_client(client, "</gkrellmd_setup>\n");
+	gkrellmd_client_send(client, buf->str);
+	g_string_free(buf, TRUE);
 	}
 
 void
