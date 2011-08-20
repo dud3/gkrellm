@@ -192,6 +192,24 @@ gkrellmd_client_send(GkrellmdClient *client, const gchar *str)
 	return TRUE;
 	}
 
+gboolean
+gkrellmd_client_send_printf(GkrellmdClient *client, const gchar *format, ...)
+	{
+	va_list varargs;
+
+	g_assert(client);
+	g_assert(format);
+
+	va_start(varargs, format);
+	g_string_append_vprintf(client->write_buf, format, varargs);
+	va_end(varargs);
+
+	// Only try to send if we are not already waiting for writing
+	if (!client->write_source)
+		return gk_client_send_write_buf(client);
+
+	return TRUE;
+	}
 
 void
 gkrellmd_client_set_read_callback(GkrellmdClient *client,
