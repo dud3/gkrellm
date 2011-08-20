@@ -119,9 +119,9 @@ typedef struct
 	}
 	CpuData;
 
-static gchar	*n_cpus_setup;
 static gboolean	nice_time_unsupported;
 
+static gint		cpu_list_len;
 static GList	*cpu_list;
 static GList	*instance_list;
 
@@ -132,7 +132,7 @@ gkrellm_cpu_set_number_of_cpus(gint n)
 	GList	*list;
 	gint	i;
 
-	n_cpus_setup = g_strdup_printf("n_cpus %d\n", n);
+	cpu_list_len = n;
 	for (i = 0; i < n; ++i)
 		{
 		cpu = g_new0(CpuData, 1);
@@ -223,7 +223,7 @@ serve_cpu_setup(GkrellmdMonitor *mon)
 		g_string_append_printf(buf, "cpu_instance %d\n",
 				GPOINTER_TO_INT(list->data));
 		}
-	g_string_append(buf, n_cpus_setup);
+	g_string_append_printf(buf, "n_cpus %d\n", cpu_list_len);
 	if (nice_time_unsupported)
 		g_string_append(buf, "nice_time_unsupported\n");
 	gkrellmd_client_send(client, buf->str);
