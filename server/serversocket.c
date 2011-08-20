@@ -202,6 +202,9 @@ gk_serversocket_incoming(GSocketService *service, GSocketConnection *connection,
 		{
 		g_message(_("Rejecting client %s, client access denied\n"),
 				client->hostname);
+		gkrellmd_client_send_printf(client,
+				"<error>\nConnection not allowed from %s\n",
+				client->hostname);
 		gkrellmd_client_free(client);
 		return TRUE;
 		}
@@ -210,6 +213,7 @@ gk_serversocket_incoming(GSocketService *service, GSocketConnection *connection,
 		{
 		g_message(_("Rejecting client %s, connection limit (%d) reached\n"),
 				client->hostname, _GK.max_clients);
+		gkrellmd_client_send(client, "<error>\nClient limit exceeded.\n");
 		gkrellmd_client_free(client);
 		return TRUE;
 		}
