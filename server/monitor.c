@@ -215,18 +215,19 @@ serve_cpu_setup(GkrellmdMonitor *mon)
 	{
 	GkrellmdClient	*client = mon->privat->client;
 	GList			*list;
-	gchar			buf[64];
+	GString			*buf;
 
-	gkrellmd_send_to_client(client, "<cpu_setup>\n");
+	buf = g_string_new("<cpu_setup>\n");
 	for (list = instance_list; list; list = list->next)
 		{
-		snprintf(buf, sizeof(buf), "cpu_instance %d\n",
+		g_string_append_printf(buf, "cpu_instance %d\n",
 				GPOINTER_TO_INT(list->data));
-		gkrellmd_send_to_client(client, buf);
 		}
-	gkrellmd_send_to_client(client, n_cpus_setup);
+	g_string_append(buf, n_cpus_setup);
 	if (nice_time_unsupported)
-		gkrellmd_send_to_client(client, "nice_time_unsupported\n");
+		g_string_append(buf, "nice_time_unsupported\n");
+	gkrellmd_client_send(client, buf->str);
+	g_string_free(buf, TRUE);
 	}
 
 static GkrellmdMonitor cpu_monitor =
