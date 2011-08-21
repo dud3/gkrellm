@@ -86,13 +86,13 @@ gkrellmd_client_new(GSocketConnection *connection)
 	}
 
 
-void
-gkrellmd_client_free(GkrellmdClient *client)
+static void
+gk_client_free(GkrellmdClient *client)
 	{
 	if (!client)
 		return;
 
-	gkrellm_debug(DEBUG_SERVER, "gkrellmd_client_free()\n");
+	gkrellm_debug(DEBUG_SERVER, "gk_client_free: client %p\n", (void*)client);
 
 	g_object_unref(client->connection);
 	g_string_free(client->input_gstring, TRUE);
@@ -126,7 +126,7 @@ void gkrellmd_client_unref(GkrellmdClient *client)
 	gkrellm_debug(DEBUG_SERVER, "gkrellmd_client_unref: client %p; ref_count %lu\n",
 			(void*)client, client->ref_count);
 	if (client->ref_count == 0)
-		gkrellmd_client_free(client);
+		gk_client_free(client);
 	}
 
 

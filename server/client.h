@@ -11,7 +11,6 @@
 GkrellmdClient *gkrellmd_client_new(GSocketConnection *connection);
 GkrellmdClient *gkrellmd_client_ref(GkrellmdClient *client);
 void gkrellmd_client_unref(GkrellmdClient *client);
-void gkrellmd_client_free(GkrellmdClient *client);
 gboolean gkrellmd_client_close(GkrellmdClient *client);
 gboolean gkrellmd_client_send(GkrellmdClient *client, const gchar *str);
 gboolean gkrellmd_client_send_printf(GkrellmdClient *client,
