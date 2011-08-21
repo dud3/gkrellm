@@ -186,7 +186,7 @@ gk_free_and_remove_client(GkrellmdClient *client, gpointer user_data)
 			(gconstpointer)client);
 	gkrellmd_client_list = serversocket->client_list; // TODO: remove global var
 
-	gkrellmd_client_free(client);
+	gkrellmd_client_unref(client);
 }
 
 static gboolean
@@ -281,7 +281,7 @@ gkrellmd_serversocket_setup(GkServerSocket *socket)
 static void
 free_client(gpointer data)
 	{
-	gkrellmd_client_free((GkrellmdClient*)data);
+	gkrellmd_client_unref((GkrellmdClient*)data);
 	}
 
 void
