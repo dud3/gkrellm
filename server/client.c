@@ -174,6 +174,8 @@ gk_client_write(GObject *pollable_stream, gpointer user_data)
 
 	client->write_source = NULL;
 	gk_client_send_write_buf(client); // Try send again
+
+	gkrellmd_client_unref(client);
 	return FALSE; // Removes (and frees?) GSource from context
 	}
 
@@ -212,6 +214,7 @@ gk_client_send_write_buf(GkrellmdClient *client)
 					ostream, NULL);
 			g_source_set_callback(client->write_source,
 					(GSourceFunc)gk_client_write, (gpointer)client, NULL);
+			gkrellmd_client_ref(client); // add ref for async callback
 			g_source_attach(client->write_source, NULL); // TODO: default context ok?
 			}
 		else
