@@ -162,6 +162,10 @@ gk_read_helo(GkrellmdClient *client, GString *str, gpointer user_data)
 				client);
 		gkrellmd_client_list = serversocket->client_list; // TODO: remove global var
 
+		// Forward client data to monitors
+		gkrellmd_client_set_read_callback(client, gkrellmd_monitor_read_client,
+				serversocket);
+
 		g_message(_("Accepted client %s\n"), client->hostname);
 		}
 	}
