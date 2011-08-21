@@ -30,6 +30,7 @@ gk_client_read(GObject *pollable_stream, gpointer user_data)
 			g_warning(_("Reading from client %s failed: %s\n"),
 					client->hostname, err->message);
 			g_error_free(err);
+			gkrellmd_client_close(client);
 			return FALSE; // stops read callback for client
 			}
 		}
@@ -40,6 +41,7 @@ gk_client_read(GObject *pollable_stream, gpointer user_data)
 		gkrellm_debug(DEBUG_SERVER, "No data to read, dropping client %s\n",
 				client->hostname);
 		client->alive = FALSE;
+		gkrellmd_client_close(client);
 		return FALSE;
 		}
 
@@ -194,6 +196,7 @@ gk_client_send_write_buf(GkrellmdClient *client)
 					client->hostname, err->message);
 			g_error_free(err);
 			client->alive = FALSE;
+			gkrellmd_client_close(client);
 			return FALSE;
 			}
 		}
