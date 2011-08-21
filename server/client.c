@@ -104,6 +104,33 @@ gkrellmd_client_free(GkrellmdClient *client)
 	}
 
 
+gboolean
+gkrellmd_client_close(GkrellmdClient *client)
+	{
+	GError *err;
+
+	g_assert(client);
+
+	gkrellm_debug(DEBUG_SERVER, "Closing connection to client %s\n",
+			client->hostname ? client->hostname : "<unresolved>");
+
+	// TODO: make async, needs cancellable
+	err = NULL;
+	g_io_stream_close((GIOStream*)client->connection, NULL, &err);
+	if (err)
+		{
+		g_warning(_("Closing client connection for %s failed: %s\n"),
+				client->hostname, err->message);
+		g_error_free(err);
+		return FALSE;
+		}
+
+	if (client->close_func)
+		client->close_func(client, client->close_func_user_data);
+	return TRUE;
+	}
+
+
 // forward decl
 static gboolean gk_client_send_write_buf(GkrellmdClient *client);
 
@@ -218,6 +245,16 @@ gkrellmd_client_set_read_callback(GkrellmdClient *client,
 	g_assert(client);
 	client->read_func = func;
 	client->read_func_user_data = user_data;
+	}
+
+
+void
+gkrellmd_client_set_close_callback(GkrellmdClient *client,
+		GkrellmdClientFunc func, gpointer user_data)
+	{
+	g_assert(client);
+	client->close_func = func;
+	client->close_func_user_data = user_data;
 	}
 
 
