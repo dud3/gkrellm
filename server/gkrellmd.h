@@ -166,6 +166,7 @@ typedef struct _GkrellmdClient
 	GSource	*write_source;
 	GkrellmdClientFunc close_func;
 	gpointer close_func_user_data;
+	gsize ref_count;
 	}
 	GkrellmdClient;
 

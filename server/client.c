@@ -81,6 +81,7 @@ gkrellmd_client_new(GSocketConnection *connection)
 			(gpointer)client, NULL);
 	g_source_attach(client->read_source, NULL); // TODO: default context ok?
 
+	client->ref_count = 1;
 	return client;
 	}
 
@@ -103,6 +104,29 @@ gkrellmd_client_free(GkrellmdClient *client)
 	if (client->write_source)
 		g_source_destroy(client->write_source);
 	g_free(client);
+	}
+
+
+GkrellmdClient *
+gkrellmd_client_ref(GkrellmdClient *client)
+	{
+	g_assert(client);
+	++(client->ref_count);
+	gkrellm_debug(DEBUG_SERVER, "gkrellmd_client_ref: client %p; ref_count %lu\n",
+			(void*)client, client->ref_count);
+	return client;
+	}
+
+
+void gkrellmd_client_unref(GkrellmdClient *client)
+	{
+	g_assert(client);
+	g_assert(client->ref_count > 0);
+	--(client->ref_count);
+	gkrellm_debug(DEBUG_SERVER, "gkrellmd_client_unref: client %p; ref_count %lu\n",
+			(void*)client, client->ref_count);
+	if (client->ref_count == 0)
+		gkrellmd_client_free(client);
 	}
 
 
