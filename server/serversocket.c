@@ -151,6 +151,7 @@ gk_read_helo(GkrellmdClient *client, GString *str, gpointer user_data)
 		gkrellmd_send_to_client(client, "<error>\nBad connect string!");
 		gkrellmd_client_set_read_callback(client, NULL, NULL);
 		client->alive = FALSE;
+		gkrellmd_client_close(client);
 		}
 	else
 		{
@@ -173,6 +174,20 @@ gk_read_helo(GkrellmdClient *client, GString *str, gpointer user_data)
 	g_free(line);
 	}
 
+static void
+gk_free_and_remove_client(GkrellmdClient *client, gpointer user_data)
+{
+	GkServerSocket *serversocket = (GkServerSocket*)user_data;
+
+	gkrellm_debug(DEBUG_SERVER, "Removing client %s\n", client->hostname);
+
+	// Remove client from list
+	serversocket->client_list = g_list_remove(serversocket->client_list,
+			(gconstpointer)client);
+	gkrellmd_client_list = serversocket->client_list; // TODO: remove global var
+
+	gkrellmd_client_free(client);
+}
 
 static gboolean
 gk_serversocket_incoming(GSocketService *service, GSocketConnection *connection,
@@ -183,10 +198,11 @@ gk_serversocket_incoming(GSocketService *service, GSocketConnection *connection,
 	gkrellm_debug(DEBUG_SERVER, "Incoming client connection\n");
 
 	GkrellmdClient *client = gkrellmd_client_new(connection);
+	gkrellmd_client_set_close_callback(client, gk_free_and_remove_client, self);
 
 	if (!gk_resolve_hostname(client))
 		{
-		gkrellmd_client_free(client);
+		gkrellmd_client_close(client);
 		return TRUE;
 		}
 
@@ -194,7 +210,7 @@ gk_serversocket_incoming(GSocketService *service, GSocketConnection *connection,
 		{
 		g_message(_("Rejecting client %s, reverse lookup failed\n"),
 				client->hostname);
-		gkrellmd_client_free(client);
+		gkrellmd_client_close(client);
 		return TRUE;
 		}
 
@@ -205,7 +221,7 @@ gk_serversocket_incoming(GSocketService *service, GSocketConnection *connection,
 		gkrellmd_client_send_printf(client,
 				"<error>\nConnection not allowed from %s\n",
 				client->hostname);
-		gkrellmd_client_free(client);
+		gkrellmd_client_close(client);
 		return TRUE;
 		}
 
@@ -214,7 +230,7 @@ gk_serversocket_incoming(GSocketService *service, GSocketConnection *connection,
 		g_message(_("Rejecting client %s, connection limit (%d) reached\n"),
 				client->hostname, _GK.max_clients);
 		gkrellmd_client_send(client, "<error>\nClient limit exceeded.\n");
-		gkrellmd_client_free(client);
+		gkrellmd_client_close(client);
 		return TRUE;
 		}
 
