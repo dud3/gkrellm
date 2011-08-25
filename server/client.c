@@ -313,3 +313,22 @@ gkrellmd_client_get_inet_socket_address(GkrellmdClient *client)
 	return NULL;
 	}
 
+
+const gchar *gkrellmd_client_get_hostname(GkrellmdClient *client)
+	{
+	static const gchar *unres = "<unknown>";
+	g_assert(client);
+	return client->hostname ? client->hostname : unres;
+	}
+
+
+gboolean
+gkrellmd_client_check_version(GkrellmdClient *client,
+		gint major, gint minor, gint rev)
+	{
+	g_return_val_if_fail(client, FALSE);
+	return (client->major_version > major
+			|| (client->major_version == major && client->minor_version > minor)
+			|| (client->major_version == major && client->minor_version == minor
+				&& client->rev_version >= rev));
+	}
