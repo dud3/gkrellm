@@ -35,14 +35,14 @@ gk_resolve_hostname(GkrellmdClient *client)
 		// Continue with just the IP
 		client->hostname = g_inet_address_to_string(inet_addr);
 		g_warning("Address lookup for client %s failed: %s\n",
-				client->hostname, err->message);
+				gkrellmd_client_get_hostname(client), err->message);
 		g_error_free(err);
 		}
 	else if (_GK.debug_level & DEBUG_SERVER)
 		{
 		gchar *addr_str = g_inet_address_to_string(inet_addr);
 		gkrellm_debug(DEBUG_SERVER, "Client %s has hostname %s\n",
-				addr_str, client->hostname);
+				addr_str, gkrellmd_client_get_hostname(client));
 		g_free(addr_str);
 		}
 
@@ -76,12 +76,13 @@ static gboolean
 gk_check_reverse_address(GkrellmdClient *client)
 	{
 	g_assert(client);
-	g_assert(client->hostname); // Forward resolve must have finished
 
 	gboolean res;
 
+	const gchar *client_hostname = gkrellmd_client_get_hostname(client);
+
 	gkrellm_debug(DEBUG_SERVER, "Checking reverse lookup for client %s\n",
-			client->hostname);
+			client_hostname);
 
 	// TODO: handle unix socket address
 	GInetSocketAddress *inet_sock_addr = gkrellmd_client_get_inet_socket_address(client);
@@ -98,11 +99,11 @@ gk_check_reverse_address(GkrellmdClient *client)
 
 	GError *err = NULL;
 	GList *address_list = g_resolver_lookup_by_name(resolver,
-			client->hostname, NULL, &err);
+			client_hostname, NULL, &err);
 	if (err)
 		{
 		g_warning("Reverse lookup for client %s failed: %s\n",
-				client->hostname, err->message);
+				client_hostname, err->message);
 		g_error_free(err);
 		res = FALSE;
 		}
@@ -147,7 +148,8 @@ gk_read_helo(GkrellmdClient *client, GString *str, gpointer user_data)
 				&client->minor_version, &client->rev_version) != 4
 		|| g_strcmp0(name, "gkrellm") != 0)
 		{
-		g_warning(_("Bad connect line from %s: %s\n"), client->hostname, line);
+		g_warning(_("Bad connect line from %s: %s\n"),
+				gkrellmd_client_get_hostname(client), line);
 		gkrellmd_send_to_client(client, "<error>\nBad connect string!");
 		gkrellmd_client_set_read_callback(client, NULL, NULL);
 		client->alive = FALSE;
@@ -168,7 +170,8 @@ gk_read_helo(GkrellmdClient *client, GString *str, gpointer user_data)
 		gkrellmd_client_set_read_callback(client, gkrellmd_monitor_read_client,
 				serversocket);
 
-		g_message(_("Accepted client %s\n"), client->hostname);
+		g_message(_("Accepted client %s\n"),
+				gkrellmd_client_get_hostname(client));
 		}
 
 	g_free(line);
@@ -179,7 +182,8 @@ gk_free_and_remove_client(GkrellmdClient *client, gpointer user_data)
 {
 	GkServerSocket *serversocket = (GkServerSocket*)user_data;
 
-	gkrellm_debug(DEBUG_SERVER, "Removing client %s\n", client->hostname);
+	gkrellm_debug(DEBUG_SERVER, "Removing client %s\n",
+			gkrellmd_client_get_hostname(client));
 
 	// Remove client from list
 	serversocket->client_list = g_list_remove(serversocket->client_list,
@@ -212,7 +216,7 @@ gk_serversocket_incoming(GSocketService *service, GSocketConnection *connection,
 	if (!gk_check_reverse_address(client))
 		{
 		g_message(_("Rejecting client %s, reverse lookup failed\n"),
-				client->hostname);
+				gkrellmd_client_get_hostname(client));
 		gkrellmd_client_close(client);
 		return TRUE;
 		}
@@ -220,10 +224,10 @@ gk_serversocket_incoming(GSocketService *service, GSocketConnection *connection,
 	if (!gk_check_client_access(client))
 		{
 		g_message(_("Rejecting client %s, client access denied\n"),
-				client->hostname);
+				gkrellmd_client_get_hostname(client));
 		gkrellmd_client_send_printf(client,
 				"<error>\nConnection not allowed from %s\n",
-				client->hostname);
+				gkrellmd_client_get_hostname(client));
 		gkrellmd_client_close(client);
 		return TRUE;
 		}
@@ -231,7 +235,7 @@ gk_serversocket_incoming(GSocketService *service, GSocketConnection *connection,
 	if (g_list_length(self->client_list) >= _GK.max_clients)
 		{
 		g_message(_("Rejecting client %s, connection limit (%d) reached\n"),
-				client->hostname, _GK.max_clients);
+				gkrellmd_client_get_hostname(client), _GK.max_clients);
 		gkrellmd_client_send(client, "<error>\nClient limit exceeded.\n");
 		gkrellmd_client_close(client);
 		return TRUE;

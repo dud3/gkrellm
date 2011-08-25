@@ -28,7 +28,7 @@ gk_client_read(GObject *pollable_stream, gpointer user_data)
 			{
 			client->alive = FALSE;
 			g_warning(_("Reading from client %s failed: %s\n"),
-					client->hostname, err->message);
+					gkrellmd_client_get_hostname(client), err->message);
 			g_error_free(err);
 			gkrellmd_client_close(client);
 			return FALSE; // stops read callback for client
@@ -39,7 +39,7 @@ gk_client_read(GObject *pollable_stream, gpointer user_data)
 		{
 		// No data to read but no socket error => client dropped connection
 		gkrellm_debug(DEBUG_SERVER, "No data to read, dropping client %s\n",
-				client->hostname);
+				gkrellmd_client_get_hostname(client));
 		client->alive = FALSE;
 		gkrellmd_client_close(client);
 		return FALSE;
@@ -146,7 +146,7 @@ gk_client_close_cb(GObject *source, GAsyncResult *res, gpointer user_data)
 	if (err)
 		{
 		g_warning(_("Closing client connection for %s failed: %s\n"),
-				client->hostname, err->message);
+				gkrellmd_client_get_hostname(client), err->message);
 		g_error_free(err);
 		}
 	else if (client->close_func)
@@ -233,7 +233,7 @@ gk_client_send_write_buf(GkrellmdClient *client)
 		else
 			{
 			g_warning(_("Write to client host %s failed: %s\n"),
-					client->hostname, err->message);
+					gkrellmd_client_get_hostname(client), err->message);
 			g_error_free(err);
 			client->alive = FALSE;
 			gkrellmd_client_close(client);
@@ -312,7 +312,7 @@ gkrellmd_client_get_inet_socket_address(GkrellmdClient *client)
 	if (err)
 		{
 		g_warning("Retrieving socket address for client %s failed: %s",
-				client->hostname ? client->hostname : "unknown", err->message);
+				gkrellmd_client_get_hostname(client), err->message);
 		g_error_free(err);
 		return NULL;
 		}
