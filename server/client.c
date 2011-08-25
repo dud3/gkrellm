@@ -130,30 +130,43 @@ void gkrellmd_client_unref(GkrellmdClient *client)
 	}
 
 
-gboolean
-gkrellmd_client_close(GkrellmdClient *client)
+static void
+gk_client_close_cb(GObject *source, GAsyncResult *res, gpointer user_data)
 	{
+	GkrellmdClient *client;
 	GError *err;
 
-	g_assert(client);
+	client = (GkrellmdClient*)user_data;
 
-	gkrellm_debug(DEBUG_SERVER, "Closing connection to client %s\n",
-			client->hostname ? client->hostname : "<unresolved>");
+	gkrellm_debug(DEBUG_SERVER, "Finished closing connection to client %s\n",
+			gkrellmd_client_get_hostname(client));
 
-	// TODO: make async, needs cancellable
 	err = NULL;
-	g_io_stream_close((GIOStream*)client->connection, NULL, &err);
+	g_io_stream_close_finish(G_IO_STREAM(source), res, &err);
 	if (err)
 		{
 		g_warning(_("Closing client connection for %s failed: %s\n"),
 				client->hostname, err->message);
 		g_error_free(err);
-		return FALSE;
 		}
-
-	if (client->close_func)
+	else if (client->close_func)
+		{
 		client->close_func(client, client->close_func_user_data);
-	return TRUE;
+		}
+	gkrellmd_client_unref(client);
+	}
+
+
+void
+gkrellmd_client_close(GkrellmdClient *client)
+	{
+	g_assert(client);
+	gkrellm_debug(DEBUG_SERVER, "Closing connection to client %s\n",
+			gkrellmd_client_get_hostname(client));
+	gkrellmd_client_ref(client);
+	g_io_stream_close_async(G_IO_STREAM(client->connection), 0,
+			NULL, gk_client_close_cb,
+			(gpointer)client);
 	}
 
 
