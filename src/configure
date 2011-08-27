@@ -96,7 +96,12 @@ echo -n "Checking for gnutls... "
 echo "Checking for gnutls... " 1>& 5
 
 GNUTLS_INCLUDE="$(pkg-config gnutls --cflags 2>& 5 || true)"
-GNUTLS_LIBS="$(pkg-config gnutls --libs 2>& 5 || true) -lgnutls-openssl -lgcrypt"
+GNUTLS_LIBS="$(pkg-config gnutls --libs 2>& 5 || true) -lgnutls-openssl"
+
+# GnuTLS >= 2.12 does not need explicit gcrypt linking anymore
+if $(pkg-config --max-version=2.11.99 gnutls 2>& 5 || false); then
+	GNUTLS_LIBS="$GNUTLS_LIBS -lgcrypt"
+fi
 
 cat << EOF > test.c
 #include <gnutls/openssl.h>

@@ -51,6 +51,9 @@
 #define MD5Update	MD5_Update
 #define MD5Final	MD5_Final
 
+#if GNUTLS_VERSION_NUMBER <= 0x020b00
+/* gcrypt mutex setup is only needed for GnuTLS < 2.12 */
+
 static int gk_gcry_glib_mutex_init (void **priv) {
     GMutex *lock = g_mutex_new();
     if (!lock)
@@ -89,6 +92,8 @@ static struct gcry_thread_cbs gk_gcry_threads_glib = {
   gk_gcry_glib_mutex_unlock,
   NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL
 };
+
+#endif
 
 #else
 
@@ -4340,7 +4345,10 @@ gkrellm_init_mail_monitor(void)
 	_GK.decal_mail_delay = 1;
 
 #ifdef HAVE_GNUTLS
+#if GNUTLS_VERSION_NUMBER <= 0x020b00
+	/* gcrypt mutex setup, only needed for GnuTLS < 2.12 */
 	gcry_control (GCRYCTL_SET_THREAD_CBS, &gk_gcry_threads_glib);
+#endif
 	gnutls_global_init();
 	SSL_load_error_strings();
 	SSL_library_init();

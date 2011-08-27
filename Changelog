@@ -16,6 +16,9 @@ GKrellM Changelog
 	* Bugfixes
 	  o Store lockfiles under /var/lock/gkrellm-UID directories to make
 	    lockfiles work for multiple users.
+	* Only link against and initialize Libgcrypt when building with
+	  GnuTLS < 2.12. This allows using GKrellM with GnuTLS versions built
+	  against Nettle instead of Libgcrypt.
 
 2.3.5 - Thu Oct 7, 2010
 ------------------------
