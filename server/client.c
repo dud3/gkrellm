@@ -282,6 +282,26 @@ gkrellmd_client_send_printf(GkrellmdClient *client, const gchar *format, ...)
 	return TRUE;
 	}
 
+
+static gboolean
+gk_client_read_after_set_callback(gpointer data)
+	{
+	GkrellmdClient *client;
+
+	client = (GkrellmdClient*)data;
+	g_assert(client);
+
+	if (client->read_func && client->input_gstring->len > 0)
+		{
+		client->read_func(client, client->input_gstring,
+				client->read_func_user_data);
+		}
+
+	gkrellmd_client_unref(client);
+	return FALSE;
+	}
+
+
 void
 gkrellmd_client_set_read_callback(GkrellmdClient *client,
 		GkrellmdClientReadFunc func, gpointer user_data)
@@ -289,6 +309,12 @@ gkrellmd_client_set_read_callback(GkrellmdClient *client,
 	g_assert(client);
 	client->read_func = func;
 	client->read_func_user_data = user_data;
+
+	if (client->read_func && client->input_gstring->len > 0)
+		{
+		gkrellmd_client_ref(client);
+		g_idle_add(gk_client_read_after_set_callback, (gpointer)client);
+		}
 	}
 
 
