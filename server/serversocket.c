@@ -196,6 +196,28 @@ gk_free_and_remove_client(GkrellmdClient *client, gpointer user_data)
 	gkrellmd_client_unref(client);
 }
 
+
+static void
+gk_finish_client_check(GkrellmdClient *client, gboolean success, gpointer user_data)
+	{
+	GkServerSocket *self = (GkServerSocket*)user_data;
+
+	if (!gk_check_client_access(client))
+		{
+		g_message(_("Rejecting client %s, client access denied\n"),
+				gkrellmd_client_get_hostname(client));
+		gkrellmd_client_send_printf(client,
+				"<error>\nConnection not allowed from %s\n",
+				gkrellmd_client_get_hostname(client));
+		gkrellmd_client_close(client);
+		}
+	else
+		{
+		gkrellmd_client_set_read_callback(client, gk_read_helo, self);
+		}
+	}
+
+
 static gboolean
 gk_serversocket_incoming(GSocketService *service, GSocketConnection *connection,
 		GObject *source_object, gpointer user_data)
