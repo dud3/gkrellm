@@ -103,6 +103,7 @@ gk_client_free(GkrellmdClient *client)
 	g_string_free(client->write_buf, TRUE);
 	if (client->write_source)
 		g_source_destroy(client->write_source);
+	g_free(client->hostname_tmp);
 	g_free(client);
 	}
 
@@ -301,6 +302,16 @@ gkrellmd_client_set_close_callback(GkrellmdClient *client,
 	}
 
 
+void
+gkrellmd_client_set_resolve_callback(GkrellmdClient *client,
+		GkrellmdClientResolveFunc func, gpointer user_data)
+	{
+	g_assert(client);
+	client->resolve_func = func;
+	client->resolve_func_user_data = user_data;
+	}
+
+
 GInetSocketAddress *
 gkrellmd_client_get_inet_socket_address(GkrellmdClient *client)
 	{
@@ -324,6 +335,168 @@ gkrellmd_client_get_inet_socket_address(GkrellmdClient *client)
 		}
 
 	return NULL;
+	}
+
+
+static void
+gk_client_set_hostname(GkrellmdClient *client, gchar *hostname)
+	{
+	g_free(client->hostname);
+	client->hostname = hostname;
+	}
+
+
+static gint
+gk_inet_address_cmp(gconstpointer a, gconstpointer b)
+	{
+#if GLIB_CHECK_VERSION(2, 30, 0)
+	return g_inet_address_equal((GInetAddress*)a, (GInetAddress*)b) ? 0 : -1;
+#else
+	GInetAddress *address = (GInetAddress*)a;
+	GInetAddress *other_address = (GInetAddress*)b;
+
+	g_return_val_if_fail (G_IS_INET_ADDRESS(address), -1);
+	g_return_val_if_fail (G_IS_INET_ADDRESS(other_address), -1);
+
+	if (g_inet_address_get_family(address) != g_inet_address_get_family(other_address))
+		return -1;
+
+	if (memcmp (g_inet_address_to_bytes(address),
+				g_inet_address_to_bytes(other_address),
+				g_inet_address_get_native_size(address)) != 0)
+		return -1;
+
+	return 0;
+#endif
+	}
+
+
+static void
+gk_resolve_address_cb(GObject *source_object, GAsyncResult *res,
+		gpointer user_data)
+	{
+	GResolver *resolver;
+	GkrellmdClient *client;
+	GError *err;
+	GList *addr_list;
+	gboolean success;
+
+	resolver = G_RESOLVER(source_object);
+	client = (GkrellmdClient*)user_data;
+
+	err = NULL;
+	addr_list = g_resolver_lookup_by_name_finish(resolver, res, &err);
+	if (err)
+		{
+		g_warning(_("Reverse lookup for client %s failed: %s\n"),
+				client->hostname_tmp, err->message);
+		g_error_free(err);
+		g_free(client->hostname_tmp);
+		success = FALSE;
+		}
+	else
+		{
+		GInetSocketAddress *isockaddr = gkrellmd_client_get_inet_socket_address(client);
+		GInetAddress *iaddr = g_inet_socket_address_get_address(isockaddr);
+
+		// Find client GInetAddress in address list
+		if (g_list_find_custom(addr_list, (gconstpointer)iaddr,
+					gk_inet_address_cmp))
+			{
+			gkrellm_debug(DEBUG_SERVER, "Reverse lookup for client %s valid\n",
+					client->hostname_tmp);
+			gk_client_set_hostname(client, client->hostname_tmp);
+			success = TRUE;
+			}
+		else
+			{
+			g_warning(_("Reverse lookup for client %s did not match!\n"),
+					client->hostname_tmp);
+			g_free(client->hostname_tmp);
+			success = FALSE;
+			}
+		g_object_unref(isockaddr);
+		g_resolver_free_addresses(addr_list);
+		}
+
+	if (client->resolve_func)
+		{
+		client->resolve_func(client, success, client->resolve_func_user_data);
+		}
+
+	client->hostname_tmp = NULL;
+	g_object_unref(resolver);
+	gkrellmd_client_unref(client);
+	}
+
+
+static void
+gk_resolve_name_cb(GObject *source_object, GAsyncResult *res,
+		gpointer user_data)
+	{
+	GResolver *resolver;
+	GkrellmdClient *client;
+	GError *err;
+
+	resolver = G_RESOLVER(source_object);
+	client = (GkrellmdClient*)user_data;
+
+	g_assert(!client->hostname_tmp);
+
+	err = NULL;
+	client->hostname_tmp = g_resolver_lookup_by_address_finish(resolver, res,
+			&err);
+	if (err)
+		{
+		g_warning(_("Address lookup for client %s failed: %s\n"),
+				gkrellmd_client_get_hostname(client), err->message);
+		g_error_free(err);
+		if (client->resolve_func)
+			{
+			client->resolve_func(client, FALSE, client->resolve_func_user_data);
+			}
+		g_object_unref(resolver);
+		gkrellmd_client_unref(client);
+		}
+	else
+		{
+		g_assert(client->hostname_tmp);
+		gkrellm_debug(DEBUG_SERVER, "Resolved client hostname %s, "
+				"verifying reverse lookup\n", client->hostname_tmp);
+		// We keep resolver and client ref'd until the next async lookup
+		// finishes.
+		g_resolver_lookup_by_name_async(resolver, client->hostname_tmp, NULL,
+				gk_resolve_address_cb, client);
+		}
+	}
+
+
+void
+gkrellmd_client_resolve(GkrellmdClient *client)
+	{
+	g_assert(client);
+
+	gkrellm_debug(DEBUG_SERVER, "Resolving hostname for client %s\n",
+			gkrellmd_client_get_hostname(client));
+
+	GInetSocketAddress *isockaddr = gkrellmd_client_get_inet_socket_address(client);
+	if (!isockaddr)
+		{
+		g_warning("Failed to retrieve inet socket address for client\n");
+		return;
+		}
+
+	GInetAddress *iaddr = g_inet_socket_address_get_address(isockaddr);
+	g_assert(iaddr); // docs say this never fails
+
+	GResolver *resolver = g_resolver_get_default();
+	g_assert(resolver); // GIO should always have a resolver
+
+	gkrellmd_client_ref(client); // Keep client around for callback
+	g_resolver_lookup_by_address_async(resolver, iaddr, NULL,
+			gk_resolve_name_cb, client);
+
+	g_object_unref(isockaddr);
 	}
 
 
