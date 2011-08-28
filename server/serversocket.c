@@ -192,6 +192,8 @@ gk_free_and_remove_client(GkrellmdClient *client, gpointer user_data)
 
 	// Make sure we're not called again somehow
 	gkrellmd_client_set_close_callback(client, NULL, NULL);
+	gkrellmd_client_set_read_callback(client, NULL, NULL);
+	gkrellmd_client_set_resolve_callback(client, NULL, NULL);
 
 	gkrellmd_client_unref(client);
 }
@@ -229,31 +231,6 @@ gk_serversocket_incoming(GSocketService *service, GSocketConnection *connection,
 	GkrellmdClient *client = gkrellmd_client_new(connection);
 	gkrellmd_client_set_close_callback(client, gk_free_and_remove_client, self);
 
-	if (!gk_resolve_hostname(client))
-		{
-		gkrellmd_client_close(client);
-		return TRUE;
-		}
-
-	if (!gk_check_reverse_address(client))
-		{
-		g_message(_("Rejecting client %s, reverse lookup failed\n"),
-				gkrellmd_client_get_hostname(client));
-		gkrellmd_client_close(client);
-		return TRUE;
-		}
-
-	if (!gk_check_client_access(client))
-		{
-		g_message(_("Rejecting client %s, client access denied\n"),
-				gkrellmd_client_get_hostname(client));
-		gkrellmd_client_send_printf(client,
-				"<error>\nConnection not allowed from %s\n",
-				gkrellmd_client_get_hostname(client));
-		gkrellmd_client_close(client);
-		return TRUE;
-		}
-
 	if (g_list_length(self->client_list) >= _GK.max_clients)
 		{
 		g_message(_("Rejecting client %s, connection limit (%d) reached\n"),
@@ -263,7 +240,8 @@ gk_serversocket_incoming(GSocketService *service, GSocketConnection *connection,
 		return TRUE;
 		}
 
-	gkrellmd_client_set_read_callback(client, gk_read_helo, self);
+	gkrellmd_client_set_resolve_callback(client, gk_finish_client_check, self);
+	gkrellmd_client_resolve(client); // start async name resolving
 	return TRUE;
 	}
 
