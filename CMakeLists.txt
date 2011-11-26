@@ -37,9 +37,10 @@ elseif (UNIX)
     check_symbol_exists(IPPROTO_IPV6 "netinet/in.h;arpa/inet.h;netdb.h" INET6)
 endif()
 
-# GETTEXT
-find_package(Gettext)
-if (GETTEXT_FOUND)
+# GETTEXT/LIBINTL
+find_package(Libintl)
+if (LIBINTL_FOUND)
+    include_directories(${LIBINTL_INCLUDE_DIRS})
     # TODO: add to configure.h
     add_definitions(-DENABLE_NLS)
 endif ()

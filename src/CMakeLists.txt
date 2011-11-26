@@ -115,5 +115,9 @@ if (${X11_FOUND})
     target_link_libraries(gkrellm ${X11_X11_LIB} ${X11_ICE_LIB} ${X11_SM_LIB})
 endif ()
 
+if (LIBINTL_FOUND)
+    target_link_libraries(gkrellm ${LIBINTL_LIBRARIES})
+endif ()
+
 install(TARGETS gkrellm RUNTIME DESTINATION bin)
 

@@ -52,4 +52,8 @@ if (SENSORS_FOUND)
     target_link_libraries(gkrellmd ${SENSORS_LIBRARIES})
 endif ()
 
+if (LIBINTL_FOUND)
+    target_link_libraries(gkrellmd ${LIBINTL_LIBRARIES})
+endif ()
+
 install(TARGETS gkrellmd RUNTIME DESTINATION bin)
