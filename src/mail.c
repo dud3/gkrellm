@@ -46,12 +46,13 @@
 
 #if defined(HAVE_GNUTLS)
 #include <gnutls/openssl.h>
-#include <gcrypt.h>
+
 #define MD5Init		MD5_Init
 #define MD5Update	MD5_Update
 #define MD5Final	MD5_Final
 
 #if GNUTLS_VERSION_NUMBER <= 0x020b00
+#include <gcrypt.h>
 /* gcrypt mutex setup is only needed for GnuTLS < 2.12 */
 
 static int gk_gcry_glib_mutex_init (void **priv) {

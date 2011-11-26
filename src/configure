@@ -99,13 +99,15 @@ GNUTLS_INCLUDE="$(pkg-config gnutls --cflags 2>& 5 || true)"
 GNUTLS_LIBS="$(pkg-config gnutls --libs 2>& 5 || true) -lgnutls-openssl"
 
 # GnuTLS >= 2.12 does not need explicit gcrypt linking anymore
+gcrypt_h=""
 if $(pkg-config --max-version=2.11.99 gnutls 2>& 5 || false); then
 	GNUTLS_LIBS="$GNUTLS_LIBS -lgcrypt"
+	gcrypt_h="#include <gcrypt.h>"
 fi
 
 cat << EOF > test.c
 #include <gnutls/openssl.h>
-#include <gcrypt.h>
+$gcrypt_h
 #include <errno.h>
 
 int main()
