@@ -77,6 +77,7 @@ if (WIN32)
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
         )
+    set(GKRELLM_LINK_ARG -lgkrellmd) # for gkrellm.pc
 endif ()
 
 # Always link to Gtk+ 2.x
@@ -121,3 +122,5 @@ endif ()
 
 install(TARGETS gkrellm RUNTIME DESTINATION bin)
 
+configure_file(gkrellm.pc.cmake gkrellm.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gkrellm.pc DESTINATION lib/pkgconfig)

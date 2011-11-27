@@ -1,6 +1,12 @@
 cmake_minimum_required(VERSION 2.8)
 project(gkrellm C)
 
+# Used for pkg-config and packaging purposes only
+# Don't forget to update gkrellm.h and gkrellmd.h defines as well
+set(GKRELLM_VERSION_MAJOR 2)
+set(GKRELLM_VERSION_MINOR 3)
+set(GKRELLM_VERSION_PATCH 5)
+
 # Add local cmake modules
 set(CMAKE_MODULE_PATH
     ${CMAKE_CURRENT_SOURCE_DIR}/cmake/modules

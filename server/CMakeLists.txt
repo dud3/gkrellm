@@ -36,6 +36,7 @@ if (WIN32)
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib
         )
+    set(GKRELLMD_LINK_ARG -lgkrellmd) # for gkrellmd.pc
 endif ()
 
 target_link_libraries(gkrellmd
@@ -57,3 +58,6 @@ if (LIBINTL_FOUND)
 endif ()
 
 install(TARGETS gkrellmd RUNTIME DESTINATION bin)
+
+configure_file(gkrellmd.pc.cmake gkrellmd.pc @ONLY)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gkrellmd.pc DESTINATION lib/pkgconfig)
