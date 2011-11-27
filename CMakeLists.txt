@@ -166,8 +166,22 @@ if (${GKRELLM_BUILD_CLIENT})
     add_subdirectory(src)
 endif ()
 
-# Always build the server, all deps are marked as REQUIRED
 if (${GKRELLM_BUILD_SERVER})
     add_subdirectory(server)
 endif ()
+
+# Install docs
+install(
+    FILES
+        Changelog
+        Changelog-plugins.html
+        Changelog-themes.html
+        COPYING
+        COPYRIGHT
+        CREDITS
+        README
+        Themes.html
+    DESTINATION
+        doc
+    )
 
