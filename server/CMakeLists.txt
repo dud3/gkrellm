@@ -10,6 +10,10 @@ set(GKRELLMD_SOURCES
     ../shared/log.c
     )
 
+set(GKRELLMD_INCLUDES
+    gkrellmd.h
+    )
+
 # This is a server build (flag needed for sysdep code)
 add_definitions(-DGKRELLM_SERVER)
 
@@ -58,6 +62,8 @@ if (LIBINTL_FOUND)
 endif ()
 
 install(TARGETS gkrellmd RUNTIME DESTINATION bin)
+
+install(FILES ${GKRELLMD_INCLUDES} DESTINATION include/gkrellm2)
 
 configure_file(gkrellmd.pc.cmake gkrellmd.pc @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gkrellmd.pc DESTINATION lib/pkgconfig)

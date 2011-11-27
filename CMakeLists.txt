@@ -159,6 +159,8 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR})
 option(GKRELLM_BUILD_CLIENT "Build GKrellM (Client)" TRUE)
 option(GKRELLM_BUILD_SERVER "Build GKrellM Daemon" TRUE)
 
+add_subdirectory(shared)
+
 if (${GKRELLM_BUILD_CLIENT})
     if (NOT GTK2_FOUND)
         message(FATAL_ERROR "Cannot build GKrellM (Client), Gtk+ development files missing")

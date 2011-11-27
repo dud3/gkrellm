@@ -33,6 +33,11 @@ set(GKRELLM_SOURCES
     ../shared/log.c
     )
 
+set(GKRELLM_INCLUDES
+    gkrellm.h
+    gkrellm-public-proto.h
+    )
+
 # This is a client build (flag needed for sysdep code)
 add_definitions(-DGKRELLM_CLIENT)
 
@@ -121,6 +126,8 @@ if (LIBINTL_FOUND)
 endif ()
 
 install(TARGETS gkrellm RUNTIME DESTINATION bin)
+
+install(FILES ${GKRELLM_INCLUDES} DESTINATION include/gkrellm2)
 
 configure_file(gkrellm.pc.cmake gkrellm.pc @ONLY)
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/gkrellm.pc DESTINATION lib/pkgconfig)
