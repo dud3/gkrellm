@@ -44,11 +44,14 @@ elseif (UNIX)
 endif()
 
 # GETTEXT/LIBINTL
+find_package(Gettext)
 find_package(Libintl)
-if (LIBINTL_FOUND)
+if (GETTEXT_FOUND AND LIBINTL_FOUND)
     include_directories(${LIBINTL_INCLUDE_DIRS})
     # TODO: add to configure.h
     add_definitions(-DENABLE_NLS)
+else ()
+    message(STATUS "NLS support needs both libintl (runtime) and gettext (compiletime)")
 endif ()
 
 # GLIB2
@@ -171,6 +174,7 @@ if (${GKRELLM_BUILD_CLIENT})
     if ( (NOT WIN32) AND (NOT X11_FOUND) )
         message(FATAL_ERROR "Cannot build GKrellM (Client), X11 development files missing")
     endif()
+    add_subdirectory(po)
     add_subdirectory(src)
 endif ()
 
