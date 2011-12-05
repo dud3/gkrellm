@@ -450,7 +450,6 @@ gkrellm_sys_disk_read_data(void)
             gkrellm_debug(DEBUG_SYSDEP,
                 "No statistics dict found in storage driver, skipping disk '%s'\n",
                 disk->path);
-            CFRelease(storage_driver_stats);
             IOObjectRelease(storage_driver);
             continue;
         }
