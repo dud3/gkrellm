@@ -153,9 +153,39 @@ gkrellmd_serversocket_setup(GkServerSocket *socket)
 
 	gkrellm_debug(DEBUG_SERVER, "Setting up listening socket\n");
 
-	// TODO: Configurable port and listening addresses
-	g_socket_listener_add_inet_port(G_SOCKET_LISTENER(socket->service),
-			19150, NULL, &err);
+	// TODO: Support multiple socket listeners and Unix sockets
+
+	if (_GK.server_address && _GK.server_address[0] != '\0')
+		{
+		gkrellm_debug(DEBUG_SERVER, "Adding TCP socket listener for %s:%d\n",
+				_GK.server_address, _GK.server_port);
+
+		GInetAddress *listen_inet_addr = g_inet_address_new_from_string(_GK.server_address);
+		if (!listen_inet_addr)
+			{
+			g_warning("Setting up listening socket failed: "
+					"Could not parse address %s\n", _GK.server_address);
+			return FALSE;
+			}
+
+		GSocketAddress *listen_sock_addr = g_inet_socket_address_new(
+				listen_inet_addr, _GK.server_port);
+		g_assert(listen_sock_addr);
+
+		g_socket_listener_add_address(G_SOCKET_LISTENER(socket->service),
+				listen_sock_addr, G_SOCKET_TYPE_STREAM, G_SOCKET_PROTOCOL_TCP,
+				NULL, NULL, &err);
+		}
+	else
+		{
+		gkrellm_debug(DEBUG_SERVER,
+				"Adding socket listener for TCP port %d on all interfaces\n",
+				_GK.server_port);
+
+		g_socket_listener_add_inet_port(G_SOCKET_LISTENER(socket->service),
+				_GK.server_port, NULL, &err);
+		}
+
 	if (err)
 		{
 		g_warning("Setting up listening socket failed: %s\n", err->message);
