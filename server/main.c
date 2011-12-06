@@ -65,8 +65,7 @@ GkrellmdTicks			GK;
 
 GList			*gkrellmd_client_list,
 				*gkrellmd_plugin_config_list;
-
-static GList	*allow_host_list;
+GList			*gkrellmd_allow_host_list;
 
 static GMainLoop *gk_main_loop = NULL;
 static GkServerSocket *gk_serversocket = NULL;
@@ -469,10 +468,10 @@ allow_host(GkrellmdClient *client, struct sockaddr *sa, socklen_t salen)
 
 	client->hostname = g_strdup(hostname ? hostname : addr);
 
-	if (!allow_host_list)
+	if (!gkrellmd_allow_host_list)
 		return TRUE;
 
-	for (list = allow_host_list; list; list = list->next)
+	for (list = gkrellmd_allow_host_list; list; list = list->next)
 		{
 		allowed = (gchar *) list->data;
 		if (   (hostname && !strcmp(hostname, allowed))
@@ -586,7 +585,7 @@ parse_config(gchar *config, gchar *arg)
 	{
 	if (!strcmp(config, "clear-hosts") || !strcmp(config, "c"))
 		{
-		gkrellm_free_glist_and_data(&allow_host_list);
+		gkrellm_free_glist_and_data(&gkrellmd_allow_host_list);
 		return 0;
 		}
 	if (!strcmp(config, "syslog"))
@@ -616,7 +615,7 @@ parse_config(gchar *config, gchar *arg)
 	else if (!strcmp(config, "max-clients") || !strcmp(config, "m"))
 		_GK.max_clients = atoi(arg);
 	else if (!strcmp(config, "allow-host") || !strcmp(config, "a"))
-		allow_host_list = g_list_append(allow_host_list, g_strdup(arg));
+		gkrellmd_allow_host_list = g_list_append(gkrellmd_allow_host_list, g_strdup(arg));
 	else if (!strcmp(config, "plugin-enable") || !strcmp(config, "pe"))
 		gkrellmd_plugin_enable_list
 				= g_list_append(gkrellmd_plugin_enable_list, g_strdup(arg));

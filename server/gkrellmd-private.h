@@ -163,6 +163,7 @@ typedef	void (*GkrellmdFunc)();
 extern GList	*gkrellmd_client_list,
 				*gkrellmd_plugin_enable_list,
 				*gkrellmd_plugin_config_list;
+extern GList	*gkrellmd_allow_host_list;
 
 
 void			gkrellmd_monitor_read_client(GkrellmdClient *client, GString *str, gpointer user_data);
