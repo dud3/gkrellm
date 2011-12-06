@@ -8,8 +8,45 @@
 static gboolean
 gk_check_client_access(GkrellmdClient *client)
 	{
+	GList *list;
+	const gchar *allowed;
+	const gchar *hostname;
+	const gchar *addr;
+	const gchar *s;
+
 	gkrellm_debug(DEBUG_SERVER, "Checking access for client connection\n");
-	// TODO: implement me
+
+	if (!gkrellmd_allow_host_list)
+		return TRUE;
+
+	hostname = gkrellmd_client_get_hostname(client);
+	addr = gkrellmd_client_get_address_string(client); // can be NULL!
+
+	for (list = gkrellmd_allow_host_list; list; list = list->next)
+		{
+		allowed = (const gchar *) list->data;
+
+		if (   (hostname && !strcmp(hostname, allowed))
+			|| (addr && !strcmp(addr, allowed))
+			|| !strcmp("ALL", allowed)
+		   )
+			return TRUE;
+
+		/*
+		if (addr && cidr_match(sa, salen, allowed))
+			return TRUE;
+		*/
+
+		/* Check for simple IPv4 subnet match.  Worry later about ranges and
+		 * other hosts_access type patterns.
+		 */
+		if (   addr
+			&& (s = strrchr(allowed, (int) '.')) != NULL
+			&& *(s + 1) == '*' && *(s + 2) == '\0'
+			&& !strncmp(addr, allowed, (gint) (s - allowed + 1))
+		   )
+			return TRUE;
+		}
 	return TRUE;
 	}
 
