@@ -97,6 +97,7 @@ gk_client_free(GkrellmdClient *client)
 	g_object_unref(client->connection);
 	g_string_free(client->input_gstring, TRUE);
 	g_free(client->hostname);
+	g_free(client->address_string);
 	if (!g_source_is_destroyed(client->read_source))
 		g_source_destroy(client->read_source);
 	g_source_unref(client->read_source);
@@ -531,6 +532,27 @@ const gchar *gkrellmd_client_get_hostname(GkrellmdClient *client)
 	static const gchar *unres = "<unknown>";
 	g_assert(client);
 	return client->hostname ? client->hostname : unres;
+	}
+
+
+const gchar *
+gkrellmd_client_get_address_string(GkrellmdClient *client)
+	{
+	g_assert(client);
+	if (!client->address_string)
+		{
+		GInetSocketAddress *isockaddr = gkrellmd_client_get_inet_socket_address(client);
+		if (!isockaddr)
+			return NULL; // Not an inet connection
+
+		GInetAddress *iaddr = g_inet_socket_address_get_address(isockaddr);
+		g_assert(iaddr); // docs say this never fails
+
+		client->address_string = g_inet_address_to_string(iaddr);
+
+		g_object_unref(isockaddr);
+		}
+	return client->address_string;
 	}
 
 

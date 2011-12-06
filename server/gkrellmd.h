@@ -152,6 +152,7 @@ typedef struct _GkrellmdClient
 				minor_version,
 				rev_version;
 	gchar		*hostname;
+	gchar		*address_string;
 
 	gint		fd;
 	gboolean	served,
