@@ -1098,7 +1098,12 @@ detach_from_terminal(void)
 		if (fd > 2)
 			close(fd);
 		}
-	chdir("/");
+
+	if (chdir("/") != 0)
+		{
+		g_warning("Detach failed in chdir(\"/\"): %s\n", strerror(errno));
+		return FALSE;
+		}
 #endif /* HAVE_DAEMON */
 
 //	signal(SIGCHLD, SIG_IGN);
