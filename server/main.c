@@ -187,7 +187,7 @@ static void gkrellmd_syslog_log(GLogLevelFlags log_level, const gchar *message)
 	if (log_level & G_LOG_LEVEL_CRITICAL)
 		facility_priority = LOG_MAKEPRI(LOG_DAEMON, LOG_CRIT);
 
-	syslog(facility_priority, message);
+	syslog(facility_priority, "%s", message);
 #endif // defined(WIN32)
 	} // gkrellmd_syslog_log()
 
