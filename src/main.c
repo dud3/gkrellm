@@ -2078,6 +2078,90 @@ gkrellm_sys_setup_connect(void (*setup_func)())
 	_GK.sys_setup_func = setup_func;
 	}
 
+/* Load configuration and setup mainwindow, triggered from main event-loop
+ * already.
+ */
+static
+gboolean gk_main_setup(gpointer user_data)
+	{
+	check_gkrellm_directories();
+	gkrellm_load_user_config(NULL, FALSE);
+	decorated = (_GK.command_line_decorated || _GK.decorated);
+	if (   _GK.command_line_plugin || _GK.command_line_theme
+		|| _GK.debug_level > 0 || _GK.debug > 0 || _GK.nolock
+	   )
+		_GK.allow_multiple_instances_real = TRUE;
+	_GK.allow_multiple_instances_real |= _GK.allow_multiple_instances;
+
+	create_widget_tree();
+	top_window = gtree.window;
+
+	load_builtin_monitors();
+	gkrellm_plugins_load();
+
+	gkrellm_build();
+	gkrellm_make_themes_list();
+
+	if ((_GK.gtk_settings = gtk_settings_get_default()) != NULL)
+		{
+		g_object_get(_GK.gtk_settings,
+					"gtk-theme-name", &_GK.gtk_theme_name, NULL);
+		g_signal_connect(_GK.gtk_settings, "notify::gtk-theme-name",
+					G_CALLBACK(gkrellm_read_theme_event), NULL);
+		}
+
+	g_signal_connect(G_OBJECT(gtree.window), "delete_event",
+				G_CALLBACK(cb_delete_event), NULL);
+	g_signal_connect(G_OBJECT(gtree.window), "destroy",
+				G_CALLBACK(cb_destroy_event), NULL);
+	g_signal_connect(G_OBJECT(gtree.window), "configure_event",
+				G_CALLBACK(cb_configure_notify), NULL);
+	g_signal_connect(G_OBJECT(gtree.window), "map_event",
+				G_CALLBACK(cb_map_event), NULL);
+	g_signal_connect(G_OBJECT(gtree.window), "size_allocate",
+				G_CALLBACK(cb_size_allocate), NULL);
+	g_signal_connect(G_OBJECT(gtree.window), "client_event",
+				G_CALLBACK(cb_client_event), NULL);
+
+	g_signal_connect(G_OBJECT(gtree.top0_event_box), "button_press_event",
+				G_CALLBACK(top_frame_button_press), NULL );
+	g_signal_connect(G_OBJECT(gtree.top1_event_box), "button_press_event",
+				G_CALLBACK(top_frame_button_press), NULL );
+	g_signal_connect(G_OBJECT(gtree.top0_event_box), "motion_notify_event",
+				G_CALLBACK(gkrellm_motion), NULL);
+	g_signal_connect(G_OBJECT(gtree.top1_event_box), "motion_notify_event",
+				G_CALLBACK(gkrellm_motion), NULL);
+	g_signal_connect(G_OBJECT(gtree.top0_event_box), "button_release_event",
+				G_CALLBACK(top_frame_button_release), NULL );
+	g_signal_connect(G_OBJECT(gtree.top1_event_box), "button_release_event",
+				G_CALLBACK(top_frame_button_release), NULL );
+
+	g_signal_connect(G_OBJECT(gtree.left_event_box), "button_press_event",
+				G_CALLBACK(side_frame_button_press), NULL );
+	g_signal_connect(G_OBJECT(gtree.right_event_box), "button_press_event",
+				G_CALLBACK(side_frame_button_press), NULL );
+
+	ui_manager = gkrellm_create_ui_manager_popup();
+
+	if (_GK.sticky_state)
+		gtk_window_stick(GTK_WINDOW(top_window));
+	// FIXME: get args from where? gkrellm_winop_options(argc, argv);
+	gtk_widget_show(gtree.window);
+	gkrellm_winop_withdrawn();
+
+	if (geometry || _GK.save_position)
+		configure_position_lock = TRUE;		/* see cb_configure_notify */
+
+	if (geometry)		/* Command line placement overrides */
+		gkrellm_winop_place_gkrellm(geometry);
+	else if (_GK.save_position)
+		set_or_save_position(0);
+
+	gkrellm_start_timer(_GK.update_HZ);
+
+	return FALSE;
+	}
+
 gint
 main(gint argc, gchar **argv)
 	{
@@ -2263,81 +2347,11 @@ main(gint argc, gchar **argv)
 			}
 		}
 
-	check_gkrellm_directories();
-	gkrellm_load_user_config(NULL, FALSE);
-	decorated = (_GK.command_line_decorated || _GK.decorated);
-	if (   _GK.command_line_plugin || _GK.command_line_theme
-		|| _GK.debug_level > 0 || _GK.debug > 0 || _GK.nolock
-	   )
-		_GK.allow_multiple_instances_real = TRUE;
-	_GK.allow_multiple_instances_real |= _GK.allow_multiple_instances;
-
-	create_widget_tree();
-	top_window = gtree.window;
-
-	load_builtin_monitors();
-	gkrellm_plugins_load();
-
-	gkrellm_build();
-	gkrellm_make_themes_list();
-
-	if ((_GK.gtk_settings = gtk_settings_get_default()) != NULL)
-		{
-		g_object_get(_GK.gtk_settings,
-					"gtk-theme-name", &_GK.gtk_theme_name, NULL);
-		g_signal_connect(_GK.gtk_settings, "notify::gtk-theme-name",
-					G_CALLBACK(gkrellm_read_theme_event), NULL);
-		}
-
-	g_signal_connect(G_OBJECT(gtree.window), "delete_event",
-				G_CALLBACK(cb_delete_event), NULL);
-	g_signal_connect(G_OBJECT(gtree.window), "destroy",
-				G_CALLBACK(cb_destroy_event), NULL);
-	g_signal_connect(G_OBJECT(gtree.window), "configure_event",
-				G_CALLBACK(cb_configure_notify), NULL);
-	g_signal_connect(G_OBJECT(gtree.window), "map_event",
-				G_CALLBACK(cb_map_event), NULL);
-	g_signal_connect(G_OBJECT(gtree.window), "size_allocate",
-				G_CALLBACK(cb_size_allocate), NULL);
-	g_signal_connect(G_OBJECT(gtree.window), "client_event",
-				G_CALLBACK(cb_client_event), NULL);
-
-	g_signal_connect(G_OBJECT(gtree.top0_event_box), "button_press_event",
-				G_CALLBACK(top_frame_button_press), NULL );
-	g_signal_connect(G_OBJECT(gtree.top1_event_box), "button_press_event",
-				G_CALLBACK(top_frame_button_press), NULL );
-	g_signal_connect(G_OBJECT(gtree.top0_event_box), "motion_notify_event",
-				G_CALLBACK(gkrellm_motion), NULL);
-	g_signal_connect(G_OBJECT(gtree.top1_event_box), "motion_notify_event",
-				G_CALLBACK(gkrellm_motion), NULL);
-	g_signal_connect(G_OBJECT(gtree.top0_event_box), "button_release_event",
-				G_CALLBACK(top_frame_button_release), NULL );
-	g_signal_connect(G_OBJECT(gtree.top1_event_box), "button_release_event",
-				G_CALLBACK(top_frame_button_release), NULL );
-
-	g_signal_connect(G_OBJECT(gtree.left_event_box), "button_press_event",
-				G_CALLBACK(side_frame_button_press), NULL );
-	g_signal_connect(G_OBJECT(gtree.right_event_box), "button_press_event",
-				G_CALLBACK(side_frame_button_press), NULL );
-
-	ui_manager = gkrellm_create_ui_manager_popup();
-
-	if (_GK.sticky_state)
-		gtk_window_stick(GTK_WINDOW(top_window));
-	gkrellm_winop_options(argc, argv);
-	gtk_widget_show(gtree.window);
-	gkrellm_winop_withdrawn();
-
-	if (geometry || _GK.save_position)
-		configure_position_lock = TRUE;		/* see cb_configure_notify */
-
-	if (geometry)		/* Command line placement overrides */
-		gkrellm_winop_place_gkrellm(geometry);
-	else if (_GK.save_position)
-		set_or_save_position(0);
-
-	gkrellm_start_timer(_GK.update_HZ);
 	setup_signal_handler();
+
+	/* Trigger config loading and mainwindow setup from event-loop */
+	g_timeout_add( 0, gk_main_setup, 0 );
+
 	gtk_main();
 
 	gkrellm_save_all();
