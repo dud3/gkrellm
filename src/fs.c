@@ -162,6 +162,7 @@ static gint		style_id;
 
 static gchar *remote_fs_types[]	=
 	{
+	"cifs",
 	"nfs",
 	"smbfs"
 	};

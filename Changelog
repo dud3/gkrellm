@@ -20,6 +20,8 @@ GKrellM Changelog
 	  GnuTLS < 2.12. This allows using GKrellM with GnuTLS versions built
 	  against Nettle instead of Libgcrypt.
 	* Patch from Gerard Neil: Skip autofs mounts in free disk space polling
+	* Patch from Gerard Neil: Handle cifs as remote filesystem to use longer
+	  nfs-timeout polling interval
 
 2.3.5 - Thu Oct 7, 2010
 ------------------------

@@ -1328,6 +1328,7 @@ static gboolean	nfs_check,
 
 static gchar *remote_fs_types[] =
 	{
+	"cifs",
 	"nfs",
 	"smbfs"
 	};
