@@ -19,6 +19,10 @@ GKrellM Changelog
 	* Only link against and initialize Libgcrypt when building with
 	  GnuTLS < 2.12. This allows using GKrellM with GnuTLS versions built
 	  against Nettle instead of Libgcrypt.
+	* Patch from Gerard Neil: Skip autofs mounts in free disk space polling
+	* Patch from Gerard Neil: Handle cifs as remote filesystem to use longer
+	  nfs-timeout polling interval
+	* Patch from Alexandre Rostovtsev: Explicitely link against gmodule-2.0
 
 2.3.5 - Thu Oct 7, 2010
 ------------------------

@@ -191,7 +191,7 @@ static void gkrellmd_syslog_log(GLogLevelFlags log_level, const gchar *message)
 	if (log_level & G_LOG_LEVEL_CRITICAL)
 		facility_priority = LOG_MAKEPRI(LOG_DAEMON, LOG_CRIT);
 
-	syslog(facility_priority, message);
+	syslog(facility_priority, "%s", message);
 #endif // defined(WIN32)
 	} // gkrellmd_syslog_log()
 
@@ -1092,7 +1092,12 @@ detach_from_terminal(void)
 		if (fd > 2)
 			close(fd);
 		}
-	chdir("/");
+
+	if (chdir("/") != 0)
+		{
+		g_warning("Detach failed in chdir(\"/\"): %s\n", strerror(errno));
+		return FALSE;
+		}
 #endif /* HAVE_DAEMON */
 
 //	signal(SIGCHLD, SIG_IGN);

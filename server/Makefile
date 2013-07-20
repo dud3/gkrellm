@@ -54,7 +54,7 @@ STRIP ?= -s
 
 GKRELLMD_INCLUDES = gkrellmd.h $(SHARED_PATH)/log.h
 
-PKG_INCLUDE = `$(PKG_CONFIG) --cflags glib-2.0 gio-2.0 gthread-2.0`
+PKG_INCLUDE = `$(PKG_CONFIG) --cflags glib-2.0 gio-2.0 gmodule-2.0 gthread-2.0`
 PKG_LIB = `$(PKG_CONFIG) --libs glib-2.0 gio-2.0 gmodule-2.0 gthread-2.0`
 
 GLIB12_INCLUDE = `glib-config --cflags`
