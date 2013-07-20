@@ -1439,6 +1439,7 @@ gkrellm_sys_fs_get_mounts_list(void)
 			|| !strcmp(type, "usbdevfs")
 			|| !strcmp(type, "usbfs")
 			|| !strcmp(type, "sysfs")
+			|| !strcmp(type, "autofs")
 		   )
 			continue;
 		/* Strip trailing / from the directory.
