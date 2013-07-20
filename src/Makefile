@@ -68,8 +68,8 @@ STRIP ?= -s
 
 GKRELLM_INCLUDES = gkrellm.h gkrellm-public-proto.h $(SHARED_PATH)/log.h
 
-PKG_INCLUDE = `$(PKG_CONFIG) --cflags gtk+-2.0 gthread-2.0`
-PKG_LIB = `$(PKG_CONFIG) --libs gtk+-2.0 gthread-2.0`
+PKG_INCLUDE = `$(PKG_CONFIG) --cflags gtk+-2.0 gmodule-2.0 gthread-2.0`
+PKG_LIB = `$(PKG_CONFIG) --libs gtk+-2.0 gmodule-2.0 gthread-2.0`
 
 FLAGS = -O2 -I.. -I$(SHARED_PATH) $(PKG_INCLUDE) $(GTOP_INCLUDE) $(PTHREAD_INC)\
  ${SSL_INCLUDE} ${NTLM_INCLUDE} -DGKRELLM_CLIENT
