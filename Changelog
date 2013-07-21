@@ -13,6 +13,7 @@ GKrellM Changelog
 	  o ru.po from Roman Savochenko
 	  o uk.po new translation from Roman Savochenko
 	  o pt.po new translation from Ze based on pt_BR.po
+	  o fr.po from Jerome UZEL
 	* Bugfixes
 	  o Store lockfiles under /var/lock/gkrellm-UID directories to make
 	    lockfiles work for multiple users.
