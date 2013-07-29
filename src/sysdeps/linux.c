@@ -1802,14 +1802,15 @@ acpi_battery_data(BatteryFile *bf)
 #define	SYSFS_TYPE_AC_ADAPTER		"mains"
 
 
+#define VARIANTS		5
 typedef struct syspower
 	{
 	gint		type;
 	gint		id;
-	gint		charge_units;
+	gint		charge_units[VARIANTS];
 	gchar const	*sysdir;
-	gchar const	*sys_charge_full;
-	gchar const	*sys_charge_now;
+	gchar const	*sys_charge_full[VARIANTS];
+	gchar const	*sys_charge_now[VARIANTS];
 	gboolean	present;
 	gboolean	ac_present;
 	gboolean	charging;
@@ -1873,7 +1874,6 @@ sysfs_power_data (struct syspower *sp)
 	gchar		buf[128];
 	gchar		*syszap;
 	gboolean	charging;
-	gboolean	stat_full;
 
 	time_left = -1;
 	charge_full = charge_now = 0;
@@ -1910,23 +1910,36 @@ sysfs_power_data (struct syspower *sp)
 
 	if (present)
 		{
-		if (read_sysfs_entry (buf, sizeof (buf), sp->sys_charge_full))
-			{
-			charge_full = strtoll (buf, NULL, 0);
-			}
-		if (read_sysfs_entry (buf, sizeof (buf), sp->sys_charge_now))
-			{
-			charge_now = strtoll (buf, NULL, 0);
-			}
-		if (sp->charge_units == CHGUNITS_PERCENT)
-			{
-			percent = charge_now;
-			}
-		else
-			{
-			if (charge_full > 0)
-				percent = charge_now * 100 / charge_full;
-			}
+		int i;
+
+		for (i = 0; i < VARIANTS; i++) {
+			if (read_sysfs_entry (buf, sizeof (buf), sp->sys_charge_full[i]))
+				{
+				charge_full = strtoll (buf, NULL, 0);
+				}
+			else
+				{
+				continue;
+				}
+			if (read_sysfs_entry (buf, sizeof (buf), sp->sys_charge_now[i]))
+				{
+				charge_now = strtoll (buf, NULL, 0);
+				}
+			else
+				{
+				continue;
+				}
+			if (sp->charge_units[i] == CHGUNITS_PERCENT)
+				{
+				percent = charge_now;
+				}
+			else
+				{
+				if (charge_full > 0)
+					percent = charge_now * 100 / charge_full;
+				}
+			break;
+		}
 
 		/*  Get charging status.  */
 		*syszap = '\0';
@@ -1934,7 +1947,6 @@ sysfs_power_data (struct syspower *sp)
 		if (read_sysfs_entry (buf, sizeof (buf), sysentry))
 			{
 			charging = !strcasecmp (buf, "charging");
-			stat_full = !strcasecmp (buf, "full");
 			}
 		}
 
@@ -1952,12 +1964,10 @@ setup_sysfs_ac_power (gchar const *sysdir)
 	if (_GK.debug_level & DEBUG_BATTERY)
 		g_debug ("setup_sysfs_ac_power: %s\n", sysdir);
 	sp = g_new0 (syspower, 1);
+	memset(sp, 0, sizeof(*sp));
 	sp->type			= PWRTYPE_MAINS;
 	sp->id				= g_pwr_id++;
-	sp->charge_units	= CHGUNITS_INVALID;
 	sp->sysdir			= g_strdup (sysdir);
-	sp->sys_charge_full	=
-	sp->sys_charge_now	= NULL;
 
 	/*  Add mains power sources to head of list.  */
 	g_sysfs_power_list = g_list_prepend (g_sysfs_power_list, sp);
@@ -1969,94 +1979,39 @@ static gboolean
 setup_sysfs_battery (gchar const *sysdir)
 	{
 	syspower	*sp;
-	gchar		*sys_charge_full = NULL,
-				*sys_charge_now = NULL;
-	gint		units;
-	gboolean	retval = FALSE;
 
-	/*
-	 * There are three flavors of reporting:  'energy', 'charge', and
-	 * 'capacity'.  Check for them in that order.  (Apologies for the
-	 * ugliness; you try coding an unrolled 'if ((A || B) && C)' and make it
-	 * pretty.)
-	 */
-	if (_GK.debug_level & DEBUG_BATTERY)
-		g_debug ("setup_sysfs_battery: %s\n", sysdir);
-	units = CHGUNITS_uWH;
-	sys_charge_full = g_strconcat (sysdir, "/energy_full", NULL);
-	if (access (sys_charge_full, F_OK | R_OK))
-		{
-		g_free (sys_charge_full);
-		sys_charge_full = g_strconcat (sysdir, "/energy_full_design", NULL);
-		if (access (sys_charge_full, F_OK | R_OK))
-			{
-			goto try_charge;	/*  Look down  */
-			}
-		}
-	sys_charge_now = g_strconcat (sysdir, "/energy_now", NULL);
-	if (!access (sys_charge_now, F_OK | R_OK))
-		goto done;	/*  Look down  */
-
-try_charge:
-	if (sys_charge_full)	g_free (sys_charge_full), sys_charge_full = NULL;
-	if (sys_charge_now)		g_free (sys_charge_now), sys_charge_now = NULL;
-
-	units = CHGUNITS_uAH;
-	sys_charge_full = g_strconcat (sysdir, "/charge_full", NULL);
-	if (access (sys_charge_full, F_OK | R_OK))
-		{
-		g_free (sys_charge_full);
-		sys_charge_full = g_strconcat (sysdir, "/charge_full_design", NULL);
-		if (access (sys_charge_full, F_OK | R_OK))
-			{
-			goto try_capacity;	/*  Look down  */
-			}
-		}
-	sys_charge_now = g_strconcat (sysdir, "/charge_now", NULL);
-	if (!access (sys_charge_now, F_OK | R_OK))
-		goto done;	/*  Look down  */
-
-try_capacity:
-	if (sys_charge_full)	g_free (sys_charge_full), sys_charge_full = NULL;
-	if (sys_charge_now)		g_free (sys_charge_now), sys_charge_now = NULL;
-
-	/*  This one's a little simpler...  */
-	units = CHGUNITS_PERCENT;
-	/*
-	 * FIXME: I have no idea if 'capacity_full' actually shows up, since
-	 * 'capacity' always defines "full" as always 100%
-	 */
-	sys_charge_full = g_strconcat (sysdir, "/capacity_full", NULL);
-	if (access (sys_charge_full, F_OK | R_OK))
-		goto ackphft;	/*  Look down  */
-
-	sys_charge_now = g_strconcat (sysdir, "/capacity_now", NULL);
-	if (access (sys_charge_now, F_OK | R_OK))
-		goto ackphft;	/*  Look down  */
-
-done:
 	sp = g_new0 (syspower, 1);
 	sp->type			= PWRTYPE_BATTERY;
 	sp->id				= g_pwr_id++;
-	sp->charge_units	= units;
 	sp->sysdir			= g_strdup (sysdir);
-	sp->sys_charge_full	= sys_charge_full;
-	sp->sys_charge_now	= sys_charge_now;
+	/*
+	 * There are three flavors of reporting:  'energy', 'charge', and
+	 * 'capacity'.  Check for them in that order.
+	 */
+	sp->charge_units[0] = CHGUNITS_uWH;
+	sp->sys_charge_full[0] = g_strconcat (sysdir, "/energy_full", NULL);
+	sp->sys_charge_now[0] = g_strconcat (sysdir, "/energy_now", NULL);
+
+	sp->charge_units[1] = CHGUNITS_uWH;
+	sp->sys_charge_full[1] = g_strconcat (sysdir, "/energy_full_design", NULL);
+	sp->sys_charge_now[1] = g_strconcat (sysdir, "/energy_now", NULL);
+
+	sp->charge_units[2] = CHGUNITS_uAH;
+	sp->sys_charge_full[2] = g_strconcat (sysdir, "/charge_full", NULL);
+	sp->sys_charge_now[2] = g_strconcat (sysdir, "/charge_now", NULL);
+
+	sp->charge_units[3] = CHGUNITS_uAH;
+	sp->sys_charge_full[3] = g_strconcat (sysdir, "/charge_full_design", NULL);
+	sp->sys_charge_now[3] = g_strconcat (sysdir, "/charge_now", NULL);
+
+	sp->charge_units[4] = CHGUNITS_PERCENT;
+	sp->sys_charge_full[4] = g_strconcat (sysdir, "/capacity_full", NULL);
+	sp->sys_charge_now[4] = g_strconcat (sysdir, "/capacity_now", NULL);
 
 	/*  Battery power sources are appended to the end of the list.  */
 	g_sysfs_power_list = g_list_append (g_sysfs_power_list, sp);
-	if (_GK.debug_level & DEBUG_BATTERY)
-		g_debug ("setup_sysfs_battery: %s, %s\n",
-		        sys_charge_full, sys_charge_now);
-	retval = TRUE;
 
-	if (0)
-		{
-ackphft:
-		if (sys_charge_full)	g_free (sys_charge_full);
-		if (sys_charge_now)		g_free (sys_charge_now);
-		}
-	return retval;
+	return TRUE;
 	}
 
 static gboolean
