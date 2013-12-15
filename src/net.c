@@ -670,7 +670,6 @@ net_stats_page(GtkWidget *vbox, NetMon *net,
 	{
 	GtkTreeView			*treeview;
 	GtkTreeModel		*model;
-	GtkTreeSelection	*selection;
 	GtkCellRenderer		*renderer;
 	gint				i;
 
@@ -704,7 +703,7 @@ net_stats_page(GtkWidget *vbox, NetMon *net,
 					renderer, "text", TIME_COLUMN, NULL);
 			break;
 			}
-	selection = gkrellm_gtk_scrolled_selection(treeview, vbox,
+	gkrellm_gtk_scrolled_selection(treeview, vbox,
 			GTK_SELECTION_NONE,
 			GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC,
 			NULL, NULL);

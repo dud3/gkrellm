@@ -130,7 +130,6 @@ static gboolean
 mbmon_daemon_read(void)
 	{
 	gchar				*server = "127.0.0.1";
-	gpointer			sr;
 	MbmonSensor			*mb;
 	gchar				*default_label, *id_name;
 	gchar				name[32], buf[256];
@@ -193,7 +192,7 @@ mbmon_daemon_read(void)
 			mb->name = g_strdup(name);
 			default_label = name;
 			id_name = g_strdup_printf("mbmon/%s", name);
-			sr = gkrellm_sensors_add_sensor(type,
+			gkrellm_sensors_add_sensor(type,
 						name, id_name,
 						0, 0, MBMON_INTERFACE,
 						1.0, 0.0, NULL, default_label);

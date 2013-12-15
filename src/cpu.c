@@ -540,12 +540,10 @@ cb_cpu_extra(GtkWidget *widget, GdkEventButton *ev)
 	{
 	GList			*list;
 	CpuMon			*cpu;
-	GkrellmChart	*cp;
 
 	for (list = cpu_mon_list; list; list = list->next)
 		{
 		cpu = (CpuMon *) list->data;
-		cp = cpu->chart;
 		if (widget != cpu->chart->drawing_area)
 			continue;
 		if (ev->button == 1 && ev->type == GDK_BUTTON_PRESS)
@@ -968,12 +966,10 @@ static void
 create_alert(void)
 	{
 	GList		*list;
-	CpuMon		*cpu;
 
 	list = g_list_nth(cpu_mon_list, 0);
 	if (!list)
 		return;
-	cpu = (CpuMon *) list->data;
 	cpu_alert = gkrellm_alert_create(NULL, _("CPU"),
 					_("Percent Usage"),
 					TRUE, FALSE, TRUE,

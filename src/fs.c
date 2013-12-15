@@ -1034,7 +1034,6 @@ cb_panel_motion(GtkWidget *widget, GdkEventButton *ev)
 	GList			*list;
 	FSmon			*fs;
 	GkrellmDecal	*d;
-	PangoFontDescription *font_desc;
 	gchar			buf[128];
 	gint			w, x_delta	= 0;
 
@@ -1047,7 +1046,6 @@ cb_panel_motion(GtkWidget *widget, GdkEventButton *ev)
 		fs_in_motion = NULL;
 		return FALSE;
 		}
-	font_desc = gkrellm_meter_alt_textstyle(style_id)->font;
 
 	d = fs_in_motion->data_decal;
 	format_fs_data(fs_in_motion, data_format_locale, buf, sizeof(buf));
@@ -2201,15 +2199,10 @@ row_drop_possible(GtkTreeDragDest *drag_dest, GtkTreePath *path,
 			GtkSelectionData *selection_data)
 	{
 	GtkTreePath	*src_path;
-	gint		*indices;
 
 	if (!row_reference)
 		return FALSE;
 	src_path = gtk_tree_row_reference_get_path(row_reference);
-	indices = gtk_tree_path_get_indices(path);
-//	g_debug("drop path: indices=[%d,%d]:%d, path=%s\n",
-//			indices[0], indices[1], gtk_tree_path_get_depth(path),
-//			gtk_tree_path_to_string(path));
 
 	if (   gtk_tree_path_get_depth(src_path) == 1
 		|| gtk_tree_path_get_depth(path) != 2

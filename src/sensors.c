@@ -2333,7 +2333,6 @@ static void
 create_location_menu(gint group)
 	{
 	gint		n, n_cpus;
-	static gint	sig_id;
 
 	if (group == sensor_last_group)
 		return;
@@ -2357,7 +2356,7 @@ create_location_menu(gint group)
 		{
                     gtk_combo_box_append_text(GTK_COMBO_BOX(optionmenu), _("Disk"));
 		}
-	sig_id = g_signal_connect(G_OBJECT(optionmenu), "changed",
+	g_signal_connect(G_OBJECT(optionmenu), "changed",
 				G_CALLBACK(cb_location_menu), NULL);
 	}
 
@@ -2437,7 +2436,7 @@ cb_tree_selection_changed(GtkTreeSelection *selection, gpointer data)
 	GtkTreeModel	*model;
 	GtkTreePath		*path;
 	Sensor			*s;
-	gint            *indices, depth;
+	gint            depth;
 
 	if (!gtk_tree_selection_get_selected(selection, &model, &iter))
 		{
@@ -2446,11 +2445,7 @@ cb_tree_selection_changed(GtkTreeSelection *selection, gpointer data)
 		return;
 		}
 	path = gtk_tree_model_get_path(model, &iter);
-	indices = gtk_tree_path_get_indices(path);
 	depth = gtk_tree_path_get_depth(path);
-//g_debug("selection: indices=[%d,%d]:%d, path=%s\n",
-//		indices[0], indices[1], gtk_tree_path_get_depth(path),
-//		gtk_tree_path_to_string(path));
     change_row_reference(model, path);
     gtk_tree_path_free(path);
 

@@ -520,7 +520,6 @@ static void
 update_inet(void)
 	{
 	InetMon			*in;
-	GkrellmChart	*cp;
 	ActiveTCP		*tcp;
 	GList			*list;
 	gchar			buf[32], *ap;
@@ -575,7 +574,6 @@ update_inet(void)
 	for (list = inet_mon_list; list; list = list->next)
 		{
 		in = (InetMon *) list->data;
-		cp = in->chart;
 		if (GK.hour_tick)
 			{
 			if (!*in->label0)

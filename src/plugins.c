@@ -1512,7 +1512,6 @@ cb_place_button(GtkWidget *widget, gpointer data)
 	GSList			*group;
 	GList			*list;
 	GkrellmMonitor	*mon;
-	GkrellmMonprivate *mp;
 	gint			i;
 
 	if (gkrellm_demo_mode())
@@ -1540,7 +1539,6 @@ cb_place_button(GtkWidget *widget, gpointer data)
 		for (i = 0, list = gkrellm_monitor_list; list; list = list->next)
 			{
 			mon = (GkrellmMonitor *) list->data;
-			mp  = mon->privat;
 			mon->privat->button_id = -1;
 			if (MONITOR_ID(mon) != MON_PLUGIN)
 				{

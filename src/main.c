@@ -979,11 +979,10 @@ draw_left_frame_overlap(GdkPixbuf *pixbuf, GkrellmBorder *border,
 	GkrellmPiximage		piximage;
 	GdkPixmap			*pixmap = NULL;
 	GdkBitmap			*mask = NULL;
-	gint				w_pixbuf, h_pixbuf;
+	gint				h_pixbuf;
 
 	if (overlap <= 0)
 		return;
-	w_pixbuf = gdk_pixbuf_get_width(pixbuf);
 	h_pixbuf = gdk_pixbuf_get_height(pixbuf);
 	piximage.pixbuf = gdk_pixbuf_new_subpixbuf(pixbuf, 0, 0,
 						overlap, h_pixbuf);
