@@ -477,7 +477,7 @@ update_clock(void)
 			if (!chime_block && hour_chime_command && *hour_chime_command)
 				{
 				chime = g_new0(ChimeData, 1);
-				chime -> command = strdup(hour_chime_command);
+				chime -> command = g_strdup(hour_chime_command);
 				chime -> count = loop_chime_enable ? ptm->tm_hour : 1;
 				g_thread_create(chime_func, chime, FALSE, NULL);
 				}
@@ -489,7 +489,7 @@ update_clock(void)
 			   )
 				{
 				chime = g_new0(ChimeData, 1);
-				chime -> command = strdup(quarter_chime_command);
+				chime -> command = g_strdup(quarter_chime_command);
 				chime -> count = 1;
 				g_thread_create(chime_func, chime, FALSE, NULL);
 				}
