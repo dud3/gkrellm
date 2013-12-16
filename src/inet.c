@@ -1368,7 +1368,7 @@ gkrellm_inet_load_data(void)
 		sscanf(buf, "%d %d %d %d", &min, &hour, &yday, &len);
 		fgets(buf, sizeof(buf), f);		/* Comment line */
 		fgets(buf, sizeof(buf), f);
-		sscanf(buf, "%ld %ld %ld %ld",
+		sscanf(buf, "%lu %lu %lu %lu",
 					&in->hits0_minute, &in->hits1_minute,
 					&in->hits0_hour, &in->hits1_hour);
 

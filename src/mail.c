@@ -1589,7 +1589,7 @@ static gboolean
 status_is_old(gchar *buf)
 	{
 	gchar	c;
-	int tmp;
+	guint tmp;
 
 	/* Standard mail clients
 	*/
@@ -1629,7 +1629,7 @@ status_is_old(gchar *buf)
 static gboolean
 status_is_deleted(gchar *buf)
 	{
-	gint	tmp;
+	guint	tmp;
 
 	/* Standard mail clients
 	if (   !strncmp(buf, "Status:", 7) )
