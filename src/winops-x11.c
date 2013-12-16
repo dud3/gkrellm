@@ -100,10 +100,13 @@ cb_ice_connection_messages(IceConn ice_connection, gint source,
 static void
 smc_connect(gint argc, gchar **argv)
 	{
-	SmProp			userid, program, restart, restart_style, clone, pid,
-					*props[6];
-	SmPropValue		userid_val, pid_val, restart_style_val;
+	SmProp			userid, program, restart, clone, pid, *props[6];
+#if 0
+	SmProp			restart_style;
 	CARD8			restartstyle;
+	SmPropValue		restart_style_val;
+#endif
+	SmPropValue		userid_val, pid_val;
 	SmcCallbacks	*callbacks;
 	SmcConn			smc_connection;
 	IceConn			ice_connection;
@@ -175,6 +178,7 @@ smc_connect(gint argc, gchar **argv)
 	restart.vals[j++].length = strlen(client_id);
 	restart.num_vals = j;
 
+#if 0
 	restartstyle = SmRestartImmediately;
 	restart_style.name = SmRestartStyleHint;
 	restart_style.type = SmCARD8;
@@ -182,6 +186,7 @@ smc_connect(gint argc, gchar **argv)
 	restart_style.vals = &restart_style_val;
 	restart_style_val.value = (SmPointer) &restartstyle;
 	restart_style_val.length = 1;
+#endif
 
 	clone.name = SmCloneCommand;
 	clone.type = SmLISTofARRAY8;
