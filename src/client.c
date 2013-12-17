@@ -1967,7 +1967,7 @@ gkrellm_client_mode_connect_thread(void)
 	if (client_mode_thread_busy || !_GK.client_mode)
 		return;
 	client_mode_thread_busy = TRUE;
-	g_thread_create(client_mode_connect_thread, NULL, FALSE, NULL);
+	g_thread_new("client_mode_connect", client_mode_connect_thread, NULL);
 	}
 
 

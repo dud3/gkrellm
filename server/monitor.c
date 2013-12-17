@@ -1522,7 +1522,7 @@ update_fs(GkrellmdMonitor *mon, gboolean first_update)
 			{
 #if GLIB_CHECK_VERSION(2,0,0)
 			m->busy = TRUE;
-			g_thread_create(get_fsusage_thread, m, FALSE, NULL);
+			g_thread_new("get_fsusage", get_fsusage_thread, m);
 #else
 			gkrellm_sys_fs_get_fsusage(m, m->directory);
 #endif
@@ -1863,7 +1863,7 @@ run_sensors_thread(void)
 	if (thread_busy)
 		return;
 	thread_busy = TRUE;
-	g_thread_create(read_sensors, NULL, FALSE, NULL);
+	g_thread_new("read_sensors", read_sensors, NULL);
 #else
 	read_sensors(NULL);
 #endif

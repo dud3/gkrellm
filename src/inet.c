@@ -748,7 +748,7 @@ cb_list_button(GkrellmDecalbutton *button)
 			in->tcp_save_list = g_list_append(in->tcp_save_list, tcp_save);
 			}
 		}
-	g_thread_create(get_connection_string_thread, in, FALSE, NULL);
+	g_thread_new("get_connection_string", get_connection_string_thread, in);
 	}
 
 static gint

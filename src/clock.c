@@ -479,7 +479,7 @@ update_clock(void)
 				chime = g_new0(ChimeData, 1);
 				chime -> command = g_strdup(hour_chime_command);
 				chime -> count = loop_chime_enable ? ptm->tm_hour : 1;
-				g_thread_create(chime_func, chime, FALSE, NULL);
+				g_thread_new("chime", chime_func, chime);
 				}
 			}
 		else
@@ -491,7 +491,7 @@ update_clock(void)
 				chime = g_new0(ChimeData, 1);
 				chime -> command = g_strdup(quarter_chime_command);
 				chime -> count = 1;
-				g_thread_create(chime_func, chime, FALSE, NULL);
+				g_thread_new("chime", chime_func, chime);
 				}
 			}
 		}

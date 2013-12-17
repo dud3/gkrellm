@@ -1198,10 +1198,6 @@ gkrellmd_run(gint argc, gchar **argv)
 	gkrellm_sys_main_init();
 	drop_privileges();
 
-#if GLIB_CHECK_VERSION(2,0,0)
-	g_thread_init(NULL);
-#endif
-
 	_GK.start_time = time(0);
 	if (_GK.update_HZ < 1 || _GK.update_HZ > 10)
 		_GK.update_HZ = 3;

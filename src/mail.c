@@ -2408,8 +2408,8 @@ update_mail(void)
 					if (remote_check && !mbox->busy && mbox->check_func)
 						{
 						mbox->busy = TRUE;
-						mbox->thread = g_thread_create(mail_check_thread,
-								mbox, FALSE, NULL);
+						mbox->thread = g_thread_new("mail_check",
+								mail_check_thread, mbox);
 						}
 					else if (   (_GK.debug_level & DEBUG_MAIL)
 							 && remote_check && mbox->busy

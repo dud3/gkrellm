@@ -227,7 +227,7 @@ run_sensors_thread(void)
 	if (thread_busy)
 		return;
 	thread_busy = TRUE;
-	g_thread_create(read_sensors_thread, NULL, FALSE, NULL);
+	g_thread_new("read_sensors", read_sensors_thread, NULL);
 	}
 
   /* Sort so that sensors are ordered: temp, fan, voltage.

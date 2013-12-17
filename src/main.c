@@ -2090,7 +2090,6 @@ main(gint argc, gchar **argv)
 #ifdef ENABLE_NLS
 	gtk_set_locale();
 #endif
-	g_thread_init(NULL);
 	gtk_init(&argc, &argv);		/* Will call gdk_init() */
 	gkrellm_log_init();
 	gtk_widget_push_colormap(gdk_rgb_get_colormap());

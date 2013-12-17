@@ -113,11 +113,11 @@ OBJS = main.o monitor.o mail.o plugins.o glib.o utils.o sysdeps-unix.o log.o
 
 all:	gkrellmd$(BINEXT)
 
-gkrellmd$(BINEXT): $(OBJS) $(EXTRAOBJS)
+gkrellmd$(BINEXT): check_env $(OBJS) $(EXTRAOBJS)
 	$(CC) $(OBJS) $(EXTRAOBJS) -o $@ \
 		$(LDFLAGS) $(LIBS) $(LINK_FLAGS)
 
-static: $(OBJS) $(EXTRAOBJS)
+static: check_env $(OBJS) $(EXTRAOBJS)
 	$(CC) $(OBJS) $(EXTRAOBJS) -o gkrellmd.static -static \
 		$(LDFLAGS) $(LIBS) $(LINK_FLAGS)
 
@@ -251,6 +251,10 @@ win32-resource.o:	win32-resource.rc win32-resource.h
 win32-libgkrellmd.o:	win32-libgkrellmd.c win32-plugin.h $(GKRELLMD_H)
 libgkrellmd.a:	win32-libgkrellmd.o
 	ar -cr libgkrellmd.a win32-libgkrellmd.o
+
+# Checks if the build environment is ok
+check_env:
+	$(PKG_CONFIG) --atleast-version=2.32 glib-2.0
 
 %.o: %.c
 	$(CC) -c -Wall $(FLAGS) $(CFLAGS) $(CPPFLAGS) $< -o $@

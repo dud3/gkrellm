@@ -528,7 +528,7 @@ close_tray(FSmon *fs)
 		if (*close_target)
 			{
 			cdrom_thread_busy = TRUE;
-			g_thread_create(close_cdrom_thread, close_target, FALSE, NULL);
+			g_thread_new("close_cdrom", close_cdrom_thread, close_target);
 			}
 		}
 	}
@@ -562,7 +562,7 @@ eject_tray(FSmon *fs)
 		if (*eject_target)
 			{
 			cdrom_thread_busy = TRUE;
-			g_thread_create(eject_cdrom_thread, eject_target, FALSE, NULL);
+			g_thread_new("eject_cdrom", eject_cdrom_thread, eject_target);
 			}
 		}
 	}
@@ -797,7 +797,7 @@ fs_update(void)
 				else if (!fs->busy)
 					{
 					fs->busy = TRUE;
-					g_thread_create(get_fsusage_thread, fs, FALSE, NULL);
+					g_thread_new("get_fsusage", get_fsusage_thread, fs);
 					}
 				fs->krell_factor = fs->blocks > 2097152 ? 1024 : 1;
 				}
