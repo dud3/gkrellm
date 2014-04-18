@@ -3,10 +3,8 @@ PKG_CONFIG ?= pkg-config
 BINMODE ?= 755
 BINEXT ?=
 
+PREFIX ?= /usr/local
 INSTALLROOT ?= $(DESTDIR)$(PREFIX)
-ifeq ($(INSTALLROOT),)
-	INSTALLROOT = /usr/local
-endif
 
 INSTALLDIR ?= $(INSTALLROOT)/bin
 INSTALLDIRMODE ?= 755
