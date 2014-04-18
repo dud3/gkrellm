@@ -114,10 +114,10 @@ OBJS =	main.o alerts.o battery.o base64.o clock.o cpu.o disk.o fs.o \
 
 UNIXOBJS = winops-x11.o
 
-all:	gkrellm
+all:	gkrellm$(BINEXT)
 
-gkrellm: check_env $(OBJS) $(UNIXOBJS) $(EXTRAOBJS)
-	$(CC) $(OBJS) $(UNIXOBJS) $(EXTRAOBJS) -o gkrellm \
+gkrellm$(BINEXT): check_env $(OBJS) $(UNIXOBJS) $(EXTRAOBJS)
+	$(CC) $(OBJS) $(UNIXOBJS) $(EXTRAOBJS) -o $@ \
 		$(LDFLAGS) $(LIBS) $(LINK_FLAGS)
 
 static: check_env $(OBJS) $(UNIXOBJS) $(EXTRAOBJS)
@@ -190,13 +190,14 @@ solaris:
 
 windows: libgkrellm.a
 	$(MAKE) \
+		BINEXT=".exe" \
 		CFLAGS="${CFLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWIN32_LEAN_AND_MEAN" \
 		LINK_FLAGS="${LINK_FLAGS} -mwindows" \
 		EXTRAOBJS="${EXTRAOBJS} winops-win32.o win32-plugin.o win32-resource.o" \
 		SYS_LIBS="-lws2_32 -lwtsapi32 -lpdh -lnetapi32 -liphlpapi -lintl" \
 		X11_LIBS="" \
 		UNIXOBJS="" \
-		gkrellm
+		all
 
 install: install_bin install_inc install_man
 

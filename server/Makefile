@@ -113,10 +113,10 @@ OS_RELEASE=$(shell uname -r)
 
 OBJS = main.o monitor.o mail.o plugins.o glib.o utils.o sysdeps-unix.o log.o
 
-all:	gkrellmd
+all:	gkrellmd$(BINEXT)
 
-gkrellmd: $(OBJS) $(EXTRAOBJS)
-	$(CC) $(OBJS) $(EXTRAOBJS) -o gkrellmd \
+gkrellmd$(BINEXT): $(OBJS) $(EXTRAOBJS)
+	$(CC) $(OBJS) $(EXTRAOBJS) -o $@ \
 		$(LDFLAGS) $(LIBS) $(LINK_FLAGS)
 
 static: $(OBJS) $(EXTRAOBJS)
@@ -170,11 +170,12 @@ endif
 
 windows: libgkrellmd.a
 	$(MAKE) \
+		BINEXT=".exe" \
 		CFLAGS="${CFLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWIN32_LEAN_AND_MEAN" \
 		LINK_FLAGS="${LINK_FLAGS} -mconsole" \
 		EXTRAOBJS="${EXTRAOBJS} win32-resource.o win32-plugin.o" \
 		SYS_LIBS="-lws2_32 -lwtsapi32 -lpdh -lnetapi32 -liphlpapi -lintl" \
-		gkrellmd
+		all
 
 install: install_bin install_inc install_man
 
