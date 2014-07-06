@@ -34,39 +34,70 @@
 
 #include <windows.h>
 
-static
-HANDLE gkrellm_sys_sensors_open_shm_helper(const wchar_t *shm_name,
+typedef struct _ShmData
+	{
+	HANDLE handle;
+	void *data;
+	} ShmData;
+
+static gboolean
+shm_open(ShmData *shm, const wchar_t *shm_name)
+	{
+	shm->handle = OpenFileMappingW(FILE_MAP_READ, FALSE, shm_name);
+	if (!shm->handle)
+		{
+		shm->data = NULL;
+		return FALSE;
+		}
+
+	shm->data = MapViewOfFile(shm->handle, FILE_MAP_READ, 0, 0, 0);
+	if (!shm->data)
+		{
+		CloseHandle(shm->handle);
+		shm->handle = NULL;
+		return FALSE;
+		}
+	return TRUE;
+	}
+
+static void
+shm_close(ShmData *shm)
+	{
+	if (shm->data)
+		UnmapViewOfFile(shm->data);
+	if (shm->handle)
+		CloseHandle(shm->handle);
+	}
+
+static gboolean
+shm_open_or_start_app(ShmData *shm, const wchar_t *shm_name,
 		const gchar *app_name)
-{
-	HANDLE hData = NULL;
-	gboolean ret;
+	{
+	/* Try to open shared memory area and return if successful*/
+	if (shm_open(shm, shm_name))
+		return TRUE;
+
+	/* shared memory area could not be opened, try to start sensor-app */
 	GError *err = NULL;
-
-	// Try to open shm-file and return if successful
-	hData = OpenFileMappingW(FILE_MAP_READ, FALSE, shm_name);
-	if (hData != 0)
-		return hData;
-
-	// shm-file could not be opened, try to start sensor-app
-	ret = g_spawn_command_line_async(app_name, &err);
-	if (!ret && err)
+	if (!g_spawn_command_line_async(app_name, &err))
 		{
 		g_warning("Could not start sensor-app %s: %s\n",
 				app_name, err->message);
 		g_error_free(err);
+		return FALSE;
 		}
-	else
-		{
-		gkrellm_debug(DEBUG_SYSDEP,
-				"Started sensor-app %s, waiting for it to initialize\n",
-				app_name);
-		// 5 second wait to allow sensor-app init
-		g_usleep(5 * G_USEC_PER_SEC);
-		// Retry open of shm-file
-		hData = OpenFileMappingW(FILE_MAP_READ, FALSE, shm_name);
-		}
-	return hData;
-}
+
+	gkrellm_debug(DEBUG_SYSDEP,
+			"Started sensor-app %s, waiting for it to initialize\n",
+			app_name);
+
+	// 5 second wait to allow sensor-app init
+	g_usleep(5 * G_USEC_PER_SEC);
+
+	/* Retry open of shm-file */
+	return shm_open(shm, shm_name);
+	}
+
 
 // ---------------------------------------------------------------------------
 // Interface to work with shared memory for MBM5
@@ -168,106 +199,97 @@ static SensorType gkrellm_sensor_type_to_mbm(gint type)
 
 static gboolean
 gkrellm_sys_sensors_mbm_get_value(gint sensor_id, gint sensor_type, gfloat *value)
-{
-	HANDLE          hData;
-	MBMSharedData   *pData;
-	MBMSharedSensor *pSensor;
-	gboolean        ret = FALSE;
-	SensorType      st = gkrellm_sensor_type_to_mbm(sensor_type);
+	{
+	ShmData          shm;
+	MBMSharedData   *data;
+	MBMSharedSensor *sensor;
+	SensorType       st;
 
+	st = gkrellm_sensor_type_to_mbm(sensor_type);
 	if (st == stUnknown || sensor_id < 0 || sensor_id > 99)
 		return FALSE; // id out of range
 
-	hData = OpenFileMappingW(FILE_MAP_READ, FALSE, MBM_SHM_NAME);
-	if (hData == 0)
+	if (!shm_open(&shm, MBM_SHM_NAME))
 		return FALSE;
-	pData = (MBMSharedData *)MapViewOfFile(hData, FILE_MAP_READ, 0, 0, 0);
-	if (pData != NULL)
+	data = (MBMSharedData*)(shm.data);
+
+	gkrellm_debug(DEBUG_SYSDEP, "Fetching sensor value %d from MBM\n", sensor_id);
+
+	sensor = &(data->sdSensor[sensor_id]);
+	if (sensor->ssType != st)
 		{
-		gkrellm_debug(DEBUG_SYSDEP, "Fetching sensor value %d from MBM\n", sensor_id);
-		pSensor = &(pData->sdSensor[sensor_id]);
-		if (pSensor->ssType == st)
-			{
-				*value = pSensor->ssCurrent;
-				ret = TRUE;
-			}
-		UnmapViewOfFile(pData);
+		shm_close(&shm);
+		return FALSE;
 		}
-	CloseHandle(hData);
-	return ret;
+
+	*value = sensor->ssCurrent;
+	shm_close(&shm);
+	return TRUE;
 	}
 
 static gboolean
 gkrellm_sys_sensors_mbm_init(void)
 {
-	HANDLE          hData;
-	MBMSharedData   *pData;
-	MBMSharedSensor *pSensor;
-	gboolean        ret = FALSE;
+	ShmData          shm;
+	MBMSharedData   *data;
+	MBMSharedSensor *sensor;
 	gint i, sensorCount, tempCount, voltCount, fanCount;
 	gchar *id_name;
 
-	hData = gkrellm_sys_sensors_open_shm_helper(MBM_SHM_NAME, MBM_EXE_NAME);
-	if (hData == 0)
+	if (!shm_open_or_start_app(&shm, MBM_SHM_NAME, MBM_EXE_NAME))
 		return FALSE;
-	gkrellm_debug(DEBUG_SYSDEP, "Mapping MBM SHM file\n");
-	pData = (MBMSharedData *)MapViewOfFile(hData, FILE_MAP_READ, 0, 0, 0);
-	if (pData != NULL)
+	data = (MBMSharedData*)(shm.data);
+
+	sensorCount = 0;
+	for (i = 0; i < 9; i++)
+		sensorCount += data->sdIndex[i].Count;
+
+	tempCount = 0;
+	voltCount = 0;
+	fanCount = 0;
+	for (i = 0; i < sensorCount; i++)
 		{
-		ret = TRUE; // MBM available, return TRUE
-
-		sensorCount = 0;
-		for (i = 0; i < 9; i++)
-			sensorCount += pData->sdIndex[i].Count;
-
-		tempCount = 0;
-		voltCount = 0;
-		fanCount = 0;
-		for (i = 0; i < sensorCount; i++)
+		sensor = &(data->sdSensor[i]);
+		switch (sensor->ssType)
 			{
-			pSensor = &(pData->sdSensor[i]);
-			switch (pSensor->ssType)
-				{
-				case stTemperature:
-					id_name = g_strdup_printf("mbm-temp-%d", tempCount);
+			case stTemperature:
+				id_name = g_strdup_printf("mbm-temp-%d", tempCount);
 
-					gkrellm_sensors_add_sensor(SENSOR_TEMPERATURE, /*sensor_path*/NULL,
+				gkrellm_sensors_add_sensor(SENSOR_TEMPERATURE, /*sensor_path*/NULL,
 						/*id_name*/id_name, /*id*/i, /*iodev*/0,
 						/*inter*/MBM_INTERFACE, /*factor*/1, /*offset*/0,
-						/*vref*/NULL, /*default_label*/(gchar *)pSensor->ssName);
+						/*vref*/NULL, /*default_label*/(gchar *)sensor->ssName);
 
-		            g_free(id_name);
-					++tempCount;
-					break;
-				case stVoltage:
-					id_name = g_strdup_printf("mbm-volt-%d", voltCount);
+				g_free(id_name);
+				++tempCount;
+				break;
+			case stVoltage:
+				id_name = g_strdup_printf("mbm-volt-%d", voltCount);
 
-					gkrellm_sensors_add_sensor(SENSOR_VOLTAGE, /*sensor_path*/NULL,
+				gkrellm_sensors_add_sensor(SENSOR_VOLTAGE, /*sensor_path*/NULL,
 						/*id_name*/id_name, /*id*/i, /*iodev*/0,
 						/*inter*/MBM_INTERFACE, /*factor*/1, /*offset*/0,
-						/*vref*/NULL, /*default_label*/(gchar *)pSensor->ssName);
+						/*vref*/NULL, /*default_label*/(gchar *)sensor->ssName);
 
-		            g_free(id_name);
-					++voltCount;
-					break;
-				case stFan:
-					id_name = g_strdup_printf("mbm-fan-%d", fanCount);
+				g_free(id_name);
+				++voltCount;
+				break;
+			case stFan:
+				id_name = g_strdup_printf("mbm-fan-%d", fanCount);
 
-					gkrellm_sensors_add_sensor(SENSOR_FAN, /*sensor_path*/NULL,
+				gkrellm_sensors_add_sensor(SENSOR_FAN, /*sensor_path*/NULL,
 						/*id_name*/id_name, /*id*/i, /*iodev*/0,
 						/*inter*/MBM_INTERFACE, /*factor*/1, /*offset*/0,
-						/*vref*/NULL, /*default_label*/(gchar *)pSensor->ssName);
+						/*vref*/NULL, /*default_label*/(gchar *)sensor->ssName);
 
-		            g_free(id_name);
-		            fanCount++;
-					break;
-				} /* switch() */
-			} /* for() */
+				g_free(id_name);
+				++fanCount;
+				break;
+			} /* switch() */
+		} /* for() */
 
-		UnmapViewOfFile(pData);
-		}
-	CloseHandle(hData);
-	return ret;
+	shm_close(&shm);
+	return TRUE;
 	}
 
 
@@ -297,119 +319,106 @@ static const gchar*   SPEEDFAN_EXE_NAME = "speedfan.exe";
 static gboolean
 gkrellm_sys_sensors_sf_get_value(gint sensor_id, gint sensor_type, gfloat *value)
 {
-	HANDLE          hData;
-	SFSharedMemory *pData;
+	ShmData         shm;
+	SFSharedMemory *data;
 	gboolean        ret = FALSE;
 
 	if (sensor_id < 0 || sensor_id > 31)
 		return FALSE; // id out of range
 
-	hData = OpenFileMappingW(FILE_MAP_READ, FALSE, SPEEDFAN_SHM_NAME);
-	if (hData == 0)
+	if (!shm_open(&shm, SPEEDFAN_SHM_NAME))
 		return FALSE;
-	pData = (SFSharedMemory *)MapViewOfFile(hData, FILE_MAP_READ, 0, 0, 0);
-	if (pData != NULL)
+	data = (SFSharedMemory*)(shm.data);
+
+	gkrellm_debug(DEBUG_SYSDEP, "Fetching sensor value %d from SpeedFan\n", sensor_id);
+	switch(sensor_type)
 		{
-		gkrellm_debug(DEBUG_SYSDEP, "Fetching sensor value %d from SpeedFan\n", sensor_id);
-		switch(sensor_type)
-			{
-			case SENSOR_TEMPERATURE:
-				if (sensor_id < pData->NumTemps)
-					{
-					*value = pData->temps[sensor_id] / 100.0;
-					ret = TRUE;
-					}
-				break;
-			case SENSOR_VOLTAGE:
-				if (sensor_id < pData->NumVolts)
-					{
-					*value = pData->volts[sensor_id] / 100.0;
-					ret = TRUE;
-					}
-				break;
-			case SENSOR_FAN:
-				if (sensor_id < pData->NumFans)
-					{
-					*value = pData->fans[sensor_id];
-					ret = TRUE;
-					}
-				break;
-			}
-		UnmapViewOfFile(pData);
+		case SENSOR_TEMPERATURE:
+			if (sensor_id < data->NumTemps)
+				{
+				*value = data->temps[sensor_id] / 100.0;
+				ret = TRUE;
+				}
+			break;
+		case SENSOR_VOLTAGE:
+			if (sensor_id < data->NumVolts)
+				{
+				*value = data->volts[sensor_id] / 100.0;
+				ret = TRUE;
+				}
+			break;
+		case SENSOR_FAN:
+			if (sensor_id < data->NumFans)
+				{
+				*value = data->fans[sensor_id];
+				ret = TRUE;
+				}
+			break;
 		}
-	CloseHandle(hData);
+	shm_close(&shm);
 	return ret;
 	}
 
 static gboolean
 gkrellm_sys_sensors_sf_init(void)
 	{
-	HANDLE          hData;
-	SFSharedMemory *pData;
-	gboolean       ret = FALSE;
-	gint           i;
+	ShmData         shm;
+	SFSharedMemory *data;
+	gint            i;
 	gchar          *id_name;
 	gchar          *default_label;
 
-	hData = gkrellm_sys_sensors_open_shm_helper(SPEEDFAN_SHM_NAME, SPEEDFAN_EXE_NAME);
-	if (hData == 0)
+	if (!shm_open_or_start_app(&shm, SPEEDFAN_SHM_NAME, SPEEDFAN_EXE_NAME))
 		return FALSE;
+	data = (SFSharedMemory*)(shm.data);
 
-	gkrellm_debug(DEBUG_SYSDEP, "Mapping SpeedFan SHM file\n");
-	pData = (SFSharedMemory *)MapViewOfFile(hData, FILE_MAP_READ, 0, 0, 0);
-	if (pData != NULL)
+	gkrellm_debug(DEBUG_SYSDEP, "Enumerating %hu temps, %hu voltages and %hu fans\n",
+				data->NumTemps, data->NumVolts, data->NumFans);
+
+	for (i = 0; i < data->NumTemps; i++)
 		{
-		ret = TRUE; // Mark SpeedFan as available
+		id_name = g_strdup_printf("speedfan-temp-%d", i);
+		default_label = g_strdup_printf("Temp %d", i+1);
 
-		gkrellm_debug(DEBUG_SYSDEP, "Enumerating %hu temps, %hu voltages and %hu fans\n",
-					pData->NumTemps, pData->NumVolts, pData->NumFans);
+		gkrellm_sensors_add_sensor(SENSOR_TEMPERATURE, /*sensor_path*/NULL,
+			/*id_name*/id_name, /*id*/i, /*iodev*/0,
+			/*inter*/SF_INTERFACE, /*factor*/1, /*offset*/0,
+			/*vref*/NULL, /*default_label*/default_label);
 
-		for (i = 0; i < pData->NumTemps; i++)
-			{
-			id_name = g_strdup_printf("speedfan-temp-%d", i);
-			default_label = g_strdup_printf("Temp %d", i+1);
-
-			gkrellm_sensors_add_sensor(SENSOR_TEMPERATURE, /*sensor_path*/NULL,
-				/*id_name*/id_name, /*id*/i, /*iodev*/0,
-				/*inter*/SF_INTERFACE, /*factor*/1, /*offset*/0,
-				/*vref*/NULL, /*default_label*/default_label);
-
-			g_free(id_name);
-			g_free(default_label);
-			}
-
-		for (i = 0; i < pData->NumVolts; i++)
-			{
-			id_name = g_strdup_printf("speedfan-volt-%d", i);
-			default_label = g_strdup_printf("Voltage %d", i+1);
-
-			gkrellm_sensors_add_sensor(SENSOR_VOLTAGE, /*sensor_path*/NULL,
-				/*id_name*/id_name, /*id*/i, /*iodev*/0,
-				/*inter*/SF_INTERFACE, /*factor*/1, /*offset*/0,
-				/*vref*/NULL, /*default_label*/default_label);
-
-			g_free(id_name);
-			g_free(default_label);
-			}
-
-		for (i = 0; i < pData->NumFans; i++)
-			{
-			id_name = g_strdup_printf("speedfan-fan-%d", i);
-			default_label = g_strdup_printf("Fan %d", i+1);
-
-			gkrellm_sensors_add_sensor(SENSOR_FAN, /*sensor_path*/NULL,
-				/*id_name*/id_name, /*id*/i, /*iodev*/0,
-				/*inter*/SF_INTERFACE, /*factor*/1, /*offset*/0,
-				/*vref*/NULL, /*default_label*/default_label);
-
-			g_free(id_name);
-			g_free(default_label);
-			}
-
-		UnmapViewOfFile(pData);
+		g_free(id_name);
+		g_free(default_label);
 		}
-	CloseHandle(hData);
-	return ret;
+
+	for (i = 0; i < data->NumVolts; i++)
+		{
+		id_name = g_strdup_printf("speedfan-volt-%d", i);
+		default_label = g_strdup_printf("Voltage %d", i+1);
+
+		gkrellm_sensors_add_sensor(SENSOR_VOLTAGE, /*sensor_path*/NULL,
+			/*id_name*/id_name, /*id*/i, /*iodev*/0,
+			/*inter*/SF_INTERFACE, /*factor*/1, /*offset*/0,
+			/*vref*/NULL, /*default_label*/default_label);
+
+		g_free(id_name);
+		g_free(default_label);
+		}
+
+	for (i = 0; i < data->NumFans; i++)
+		{
+		id_name = g_strdup_printf("speedfan-fan-%d", i);
+		default_label = g_strdup_printf("Fan %d", i+1);
+
+		gkrellm_sensors_add_sensor(SENSOR_FAN, /*sensor_path*/NULL,
+			/*id_name*/id_name, /*id*/i, /*iodev*/0,
+			/*inter*/SF_INTERFACE, /*factor*/1, /*offset*/0,
+			/*vref*/NULL, /*default_label*/default_label);
+
+		g_free(id_name);
+		g_free(default_label);
+		}
+
+	shm_close(&shm);
+	return TRUE;
 	}
 
 
@@ -447,85 +456,73 @@ static const gchar*   CORE_TEMP_EXE_NAME = "CoreTemp.exe";
 static gboolean
 gkrellm_sys_sensors_ct_get_temp(guint core_index, guint cpu_index, gfloat *temp)
 	{
-	HANDLE          hData;
-	CORE_TEMP_SHARED_DATA *pData;
-	gboolean        ret = FALSE;
-	guint           temp_index;
+	ShmData                shm;
+	CORE_TEMP_SHARED_DATA *data;
+	guint                  temp_index;
 
 	if (core_index < 0 || core_index > 255 || cpu_index < 0 || cpu_index > 127)
 		return FALSE; // core or cpu index out of range
 
-	hData = OpenFileMappingW(FILE_MAP_READ, FALSE, CORE_TEMP_SHM_NAME);
-	if (hData == 0)
+	if (!shm_open(&shm, CORE_TEMP_SHM_NAME))
 		return FALSE;
-	pData = (CORE_TEMP_SHARED_DATA *)MapViewOfFile(hData, FILE_MAP_READ, 0, 0, 0);
-	if (pData != NULL)
-		{
-		gkrellm_debug(DEBUG_SYSDEP,
-			"Fetching temp for core %d, cpu %d from CoreTemp\n", core_index,
-			cpu_index);
+	data = (CORE_TEMP_SHARED_DATA*)(shm.data);
 
-		// 'core index' + ( 'cpu index' * 'number of cores per cpu' )
-		temp_index = core_index + (cpu_index * pData->uiCoreCnt);
+	gkrellm_debug(DEBUG_SYSDEP,
+		"Fetching temp for core %d, cpu %d from CoreTemp\n", core_index,
+		cpu_index);
 
-		// make absolute value from delta
-		if (pData->ucDeltaToTjMax == '\1')
-			*temp = pData->uiTjMax[cpu_index] - pData->fTemp[temp_index];
-		else
-			*temp = pData->fTemp[temp_index];
+	// 'core index' + ( 'cpu index' * 'number of cores per cpu' )
+	temp_index = core_index + (cpu_index * data->uiCoreCnt);
 
-		// Convert Fahrenheit to Celsius
-		if (pData->ucFahrenheit == '\1')
-			*temp = (*temp - 32) * 5 / 9;
+	// make absolute value from delta
+	if (data->ucDeltaToTjMax == '\1')
+		*temp = data->uiTjMax[cpu_index] - data->fTemp[temp_index];
+	else
+		*temp = data->fTemp[temp_index];
 
-		UnmapViewOfFile(pData);
-		}
-	CloseHandle(hData);
-	return ret;
+	// Convert Fahrenheit to Celsius
+	if (data->ucFahrenheit == '\1')
+		*temp = (*temp - 32) * 5 / 9;
+
+	shm_close(&shm);
+	return TRUE;
 	}
 
 static gboolean
 gkrellm_sys_sensors_ct_init(void)
 	{
-	HANDLE          hData;
-	CORE_TEMP_SHARED_DATA *pData;
-	gboolean       ret = FALSE;
-	guint          uiCpu;
-	guint          uiCore;
-	gchar          *id_name;
-	gchar          *default_label;
+	ShmData                shm;
+	CORE_TEMP_SHARED_DATA *data;
+	guint                  uiCpu;
+	guint                  uiCore;
+	gchar                 *id_name;
+	gchar                 *default_label;
 
-	hData = gkrellm_sys_sensors_open_shm_helper(CORE_TEMP_SHM_NAME, CORE_TEMP_EXE_NAME);
-	if (hData == 0)
+	if (!shm_open_or_start_app(&shm, CORE_TEMP_SHM_NAME, CORE_TEMP_EXE_NAME))
 		return FALSE;
-	gkrellm_debug(DEBUG_SYSDEP, "Mapping CoreTemp SHM file\n");
-	pData = (CORE_TEMP_SHARED_DATA *)MapViewOfFile(hData, FILE_MAP_READ, 0, 0, 0);
-	if (pData != NULL)
+	data = (CORE_TEMP_SHARED_DATA*)(shm.data);
+
+	for (uiCpu = 0; uiCpu < data->uiCPUCnt; uiCpu++)
 		{
-		ret = TRUE; // Mark CoreTemp as available
-
-		for (uiCpu = 0; uiCpu < pData->uiCPUCnt; uiCpu++)
+		for (uiCore = 0; uiCore < data->uiCoreCnt; uiCore++)
 			{
-			for (uiCore = 0; uiCore < pData->uiCoreCnt; uiCore++)
-				{
-				id_name = g_strdup_printf("coretemp-cpu%u-core%u", uiCpu, uiCore);
-				if (pData->uiCPUCnt == 1)
-					default_label = g_strdup_printf("CPU Core %u", uiCore+1);
-				else
-					default_label = g_strdup_printf("CPU %u, Core %u", uiCpu+1, uiCore+1);
+			id_name = g_strdup_printf("coretemp-cpu%u-core%u", uiCpu, uiCore);
+			if (data->uiCPUCnt == 1)
+				default_label = g_strdup_printf("CPU Core %u", uiCore+1);
+			else
+				default_label = g_strdup_printf("CPU %u, Core %u", uiCpu+1, uiCore+1);
 
-				gkrellm_sensors_add_sensor(SENSOR_TEMPERATURE, /*sensor_path*/NULL,
-					/*id_name*/id_name, /*id*/uiCore, /*iodev*/uiCpu,
-					/*inter*/CT_INTERFACE, /*factor*/1, /*offset*/0,
-					/*vref*/NULL, /*default_label*/default_label);
+			gkrellm_sensors_add_sensor(SENSOR_TEMPERATURE, /*sensor_path*/NULL,
+				/*id_name*/id_name, /*id*/uiCore, /*iodev*/uiCpu,
+				/*inter*/CT_INTERFACE, /*factor*/1, /*offset*/0,
+				/*vref*/NULL, /*default_label*/default_label);
 
-				g_free(id_name);
-				g_free(default_label);
-				}
+			g_free(id_name);
+			g_free(default_label);
 			}
-		UnmapViewOfFile(pData);
 		}
-	CloseHandle(hData);
-	return ret;
+
+	shm_close(&shm);
+	return TRUE;
 	}
 
