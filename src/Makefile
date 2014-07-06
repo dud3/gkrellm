@@ -302,7 +302,7 @@ IMAGES = \
 SYSDEPS_SRC = sysdeps/bsd-common.c sysdeps/bsd-net-open.c sysdeps/freebsd.c \
 	sysdeps/gtop.c sysdeps/linux.c sysdeps/netbsd.c sysdeps/openbsd.c \
 	sysdeps/solaris.c sysdeps/darwin.c sysdeps/sensors-common.c \
-	sysdeps/dragonfly.c sysdeps/win32.c
+	sysdeps/dragonfly.c sysdeps/win32.c sysdeps/win32-sensors.c
 
 GKRELLM_H = gkrellm.h gkrellm-private.h
 GKRELLM_H_SYS = gkrellm.h gkrellm-public-proto.h gkrellm-private.h \
