@@ -73,6 +73,8 @@ static gboolean
 shm_open_or_start_app(ShmData *shm, const wchar_t *shm_name,
 		const gchar *app_name)
 	{
+	guint retries;
+
 	/* Try to open shared memory area and return if successful*/
 	if (shm_open(shm, shm_name))
 		return TRUE;
@@ -91,11 +93,15 @@ shm_open_or_start_app(ShmData *shm, const wchar_t *shm_name,
 			"Started sensor-app %s, waiting for it to initialize\n",
 			app_name);
 
-	// 5 second wait to allow sensor-app init
-	g_usleep(5 * G_USEC_PER_SEC);
+	/* Wait up to retries seconds for the shared memory area to be accessible */
+	for (retries = 10; retries > 0; --retries)
+		{
+		if (shm_open(shm, shm_name))
+			return TRUE;
+		g_usleep(1 * G_USEC_PER_SEC); /* delay to allow sensor-app to startup */
+		}
 
-	/* Retry open of shm-file */
-	return shm_open(shm, shm_name);
+	return FALSE;
 	}
 
 
