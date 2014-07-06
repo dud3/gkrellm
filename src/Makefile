@@ -190,7 +190,7 @@ windows: libgkrellm.a
 	$(MAKE) \
 		BINEXT=".exe" \
 		CFLAGS="${CFLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWIN32_LEAN_AND_MEAN" \
-		LINK_FLAGS="${LINK_FLAGS} -mwindows" \
+		LINK_FLAGS="-mwindows" \
 		EXTRAOBJS="${EXTRAOBJS} winops-win32.o win32-plugin.o win32-resource.o" \
 		SYS_LIBS="-lws2_32 -lwtsapi32 -lpdh -lnetapi32 -liphlpapi -lintl" \
 		X11_LIBS="" \
