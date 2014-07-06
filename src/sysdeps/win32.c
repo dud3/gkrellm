@@ -512,6 +512,7 @@ void win32_read_proc_stat(void)
 #define MBM_INTERFACE 1 /* MotherBoardMonitor 5 */
 #define SF_INTERFACE  2 /* SpeedFan */
 #define CT_INTERFACE  3 /* CoreTemp */
+#define GPUZ_INTERFACE 4 /* GPU-Z */
 
 /* TODO: Build as separate object */
 #include "win32-sensors.c"
@@ -524,6 +525,8 @@ gkrellm_sys_sensors_get_voltage(gchar *device_name, gint id,
 		return gkrellm_sys_sensors_mbm_get_value(id, SENSOR_VOLTAGE, volt);
 	if (inter == SF_INTERFACE)
 		return gkrellm_sys_sensors_sf_get_value(id, SENSOR_VOLTAGE, volt);
+	if (inter == GPUZ_INTERFACE)
+		return gkrellm_sys_sensors_gpuz_get_value((guint)id, volt);
 	return FALSE;
 }
 
@@ -535,6 +538,8 @@ gkrellm_sys_sensors_get_fan(gchar *device_name, gint id,
 		return gkrellm_sys_sensors_mbm_get_value(id, SENSOR_FAN, fan);
 	if (inter == SF_INTERFACE)
 		return gkrellm_sys_sensors_sf_get_value(id, SENSOR_FAN, fan);
+	if (inter == GPUZ_INTERFACE)
+		return gkrellm_sys_sensors_gpuz_get_value((guint)id, fan);
 	return FALSE;
 	}
 
@@ -548,6 +553,8 @@ gkrellm_sys_sensors_get_temperature(gchar *device_name, gint id,
 		return gkrellm_sys_sensors_sf_get_value(id, SENSOR_TEMPERATURE, temp);
 	if (inter == CT_INTERFACE)
 		return gkrellm_sys_sensors_ct_get_temp((guint)id, (guint)iodev, temp);
+	if (inter == GPUZ_INTERFACE)
+		return gkrellm_sys_sensors_gpuz_get_value((guint)id, temp);
 	return FALSE;
 	}
 
@@ -559,6 +566,7 @@ gkrellm_sys_sensors_init(void)
 	gkrellm_debug(DEBUG_SYSDEP, "INIT sensors\n");
 	init_ok |= gkrellm_sys_sensors_sf_init();
 	init_ok |= gkrellm_sys_sensors_ct_init();
+	init_ok |= gkrellm_sys_sensors_gpuz_init();
 	init_ok |= gkrellm_sys_sensors_mbm_init();
 
 	gkrellm_debug(DEBUG_SYSDEP, "INIT sensors finished, result is %d\n", init_ok);

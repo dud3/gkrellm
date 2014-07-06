@@ -32,6 +32,7 @@
 |  as that of the covered work.
 */
 
+#include <wchar.h>
 #include <windows.h>
 
 typedef struct _ShmData
@@ -532,3 +533,174 @@ gkrellm_sys_sensors_ct_init(void)
 	return TRUE;
 	}
 
+
+/**
+ * GPU-Z sensor reading
+ *
+ * Information and struct taken from
+ * http://www.techpowerup.com/forums/threads/gpu-z-shared-memory-layout.65258/
+ **/
+#define GPUZ_MAX_RECORDS 128
+
+#pragma pack(push, 1)
+typedef struct _GPUZ_RECORD
+{
+	WCHAR key[256];
+	WCHAR value[256];
+} GPUZ_RECORD;
+
+typedef struct _GPUZ_SENSOR_RECORD
+{
+	WCHAR name[256];
+	WCHAR unit[8];
+	UINT32 digits;
+	double value;
+} GPUZ_SENSOR_RECORD;
+
+typedef struct _GPUZ_SH_MEM
+{
+	UINT32 version; /* Version number, 1 for the struct here */
+	volatile LONG busy; /* Is data being accessed? */
+	UINT32 lastUpdate; /* GetTickCount() of last update */
+	GPUZ_RECORD data[GPUZ_MAX_RECORDS];
+	GPUZ_SENSOR_RECORD sensors[GPUZ_MAX_RECORDS];
+} GPUZ_SH_MEM;
+#pragma pack(pop)
+
+static const wchar_t* GPUZ_SHM_NAME = L"GPUZShMem";
+static const gchar*   GPUZ_EXE_NAME = "gpu-z.exe";
+
+static gboolean
+gpuz_sensor_unit_to_sensor_type(const wchar_t *sensor_unit, gint *sensor_type)
+	{
+	/* TODO: Support "°F" if needed and convert values to celsius */
+	if (wcscmp(sensor_unit, L"°C") == 0)
+		{
+		*sensor_type = SENSOR_TEMPERATURE;
+		return TRUE;
+		}
+	else if (wcscmp(sensor_unit, L"RPM") == 0)
+		{
+		*sensor_type = SENSOR_FAN;
+		return TRUE;
+		}
+	else if (wcscmp(sensor_unit, L"V") == 0)
+		{
+		*sensor_type = SENSOR_VOLTAGE;
+		return TRUE;
+		}
+
+	/* TODO: Handle more sensor types in gkrellm itself? */
+	return FALSE;
+	}
+
+static void
+gpuz_sensor_add(guint index, gint sensor_type, gchar *sensor_name)
+{
+	gchar *id_name;
+
+	/* TODO: is index stable on changing hardware? */
+	id_name = g_strdup_printf("gpuz-sensor-%u", index);
+
+	gkrellm_sensors_add_sensor(sensor_type,
+			/*sensor_path*/NULL,
+			/*id_name*/id_name,
+			/*id*/index,
+			/*iodev*/0,
+			/*inter*/GPUZ_INTERFACE,
+			/*factor*/1,
+			/*offset*/0,
+			/*vref*/NULL,
+			/*default_label*/sensor_name);
+
+	g_free(id_name);
+}
+
+static gboolean
+gkrellm_sys_sensors_gpuz_get_value(guint index, gfloat *value)
+{
+	ShmData             shm;
+	GPUZ_SH_MEM        *data;
+	GPUZ_SENSOR_RECORD *sensor;
+
+	if (index >= GPUZ_MAX_RECORDS)
+		return FALSE; /* index out of range */
+
+	if (!shm_open(&shm, GPUZ_SHM_NAME))
+		return FALSE;
+	data = (GPUZ_SH_MEM*)(shm.data);
+
+	if (data->busy != 0)
+		{
+		shm_close(&shm);
+		return FALSE;
+		}
+
+	sensor = &(data->sensors[index]);
+	*value = (gfloat)sensor->value;
+
+	shm_close(&shm);
+	return TRUE;
+}
+
+static gboolean
+gkrellm_sys_sensors_gpuz_init(void)
+	{
+	ShmData             shm;
+	GPUZ_SH_MEM        *data;
+	guint               i;
+	GPUZ_SENSOR_RECORD *sensor;
+	gint                sensor_type;
+	gchar              *sensor_name;
+
+	if (!shm_open_or_start_app(&shm, GPUZ_SHM_NAME, GPUZ_EXE_NAME))
+		return FALSE;
+	data = (GPUZ_SH_MEM*)(shm.data);
+
+	gkrellm_debug(DEBUG_SYSDEP,
+			"Found GPU-Z shared memory area version %d, busy %d",
+			data->version, data->busy);
+
+	if (data->version != 1)
+		{
+		g_warning("Unexpected GPU-Z shared memory area version %u, "
+				"skipping GPU-Z sensors.\n", data->version);
+		shm_close(&shm);
+		return FALSE;
+		}
+
+	/* TODO: wait for data->busy == 0? */
+
+	for (i = 0; i < GPUZ_MAX_RECORDS; ++i)
+		{
+		sensor = &(data->sensors[i]);
+
+		if (!sensor->name || sensor->name[0] == 0)
+			{
+			gkrellm_debug(DEBUG_SYSDEP,	"GPU-Z sensor %u has no name,"
+					" assuming end of valid sensor information\n", i);
+			break;
+			}
+
+		sensor_name = g_utf16_to_utf8(sensor->name, -1, NULL, NULL, NULL);
+
+	    if (gpuz_sensor_unit_to_sensor_type(sensor->unit, &sensor_type))
+			{
+			gkrellm_debug(DEBUG_SYSDEP,
+					"GPU-Z sensor %u \"%s\" has type %d, adding\n",
+					i, sensor_name, sensor_type);
+			gpuz_sensor_add(i, sensor_type, sensor_name);
+			}
+		else
+			{
+			gkrellm_debug(DEBUG_SYSDEP,
+					"GPU-Z sensor %u \"%s\" has unsupported unit, skipping\n",
+					i, sensor_name);
+			}
+
+		g_free(sensor_name);
+		}
+
+	shm_close(&shm);
+	return TRUE;
+	}

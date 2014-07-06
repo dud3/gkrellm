@@ -24,6 +24,7 @@ GKrellM Changelog
 	* Patch from Gerard Neil: Handle cifs as remote filesystem to use longer
 	  nfs-timeout polling interval
 	* Patch from Alexandre Rostovtsev: Explicitely link against gmodule-2.0
+	* Add support for GPU-Z sensor information on Windows
 
 2.3.5 - Thu Oct 7, 2010
 ------------------------
