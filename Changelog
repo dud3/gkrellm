@@ -27,6 +27,7 @@ GKrellM Changelog
 	* Add support for GPU-Z sensor information on Windows
 	* Increase minimum required GLib version to 2.32, some parts of gkrellm
 	  use newer GLib API
+	* Drop remaining GLib 1.x compatibility from gkrellmd
 
 2.3.5 - Thu Oct 7, 2010
 ------------------------

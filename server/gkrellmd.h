@@ -246,30 +246,4 @@ void		gkrellmd_add_mailbox(gchar *);
 GkrellmdTicks *gkrellmd_ticks(void);
 gint		gkrellmd_get_timer_ticks(void);
 
-
-#if !GLIB_CHECK_VERSION(2,0,0)
-
-/* glib2 compatibility functions
-*/
-#define G_FILE_TEST_EXISTS		1
-#define G_FILE_TEST_IS_DIR		2
-#define	G_FILE_TEST_IS_REGULAR	4
-
-#include <dirent.h>
-
-typedef struct
-    {
-    DIR     *dir;
-	}
-    GDir;
-
-GDir		*g_dir_open(gchar *path, guint flags, gpointer error);
-gchar		*g_dir_read_name(GDir *dir);
-void		g_dir_close(GDir *dir);
-gboolean	g_file_test(gchar *filename, gint test);
-gchar		*g_build_filename(gchar *first, ...);
-gchar		*g_path_get_basename(gchar *file_name);
-
-#endif
-
 #endif // GKRELLMD_H

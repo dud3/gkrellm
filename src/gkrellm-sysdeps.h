@@ -83,11 +83,7 @@ gint	gkrellm_get_timer_ticks(void);
   */
 void	gkrellm_mail_local_unsupported(void);
 
-#if GLIB_CHECK_VERSION(2,0,0)
 GThread *gkrellm_mail_get_active_thread(void);
-#else
-gpointer gkrellm_mail_get_active_thread(void);
-#endif
 
 /* ===================================================================== */
 /* CPU monitor interface

@@ -577,11 +577,7 @@ get_local_mboxtype(Mailbox *mbox)
 		}
 	if (g_file_test(mbox->path, G_FILE_TEST_IS_DIR))
 		{
-#if GLIB_CHECK_VERSION(2,0,0)
 		path = g_build_path(G_DIR_SEPARATOR_S, mbox->path, "new", NULL);
-#else
-		path = g_strconcat(mbox->path, G_DIR_SEPARATOR_S, "new", NULL);
-#endif
 		if (g_file_test(path, G_FILE_TEST_IS_DIR))
 			mbox->mboxtype = MBOX_MAILDIR;
 		else
@@ -696,11 +692,7 @@ gkrellm_mail_local_unsupported(void)
 	/* WIN32 only calls this and it is taken care of by above #if */
 	}
 
-#if GLIB_CHECK_VERSION(2,0,0)
 GThread *
-#else
-gpointer
-#endif
 gkrellm_mail_get_active_thread(void)
 	{
 	return NULL;

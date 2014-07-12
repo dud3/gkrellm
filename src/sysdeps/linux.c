@@ -2976,7 +2976,6 @@ GList	*nvidia_smi_list;
 static NvidiaSmi *
 nvidia_smi_lookup(gchar *id)
 	{
-#if GLIB_CHECK_VERSION(2,0,0)
 	GList		*list;
 	NvidiaSmi	*smi;
 
@@ -2986,7 +2985,6 @@ nvidia_smi_lookup(gchar *id)
 		if (!strcmp(smi->id, id))
 			return smi;
 		}
-#endif
 	return NULL;
 	}
 
@@ -3011,7 +3009,6 @@ static gboolean
 sensors_nvidia_smi_read(gboolean setup)
 	{
 	gint		n = 0;
-#if GLIB_CHECK_VERSION(2,0,0)
 	gchar		*args[] = { "nvidia-smi", "-q", "-a", NULL };
 	gchar		*str, *stmp, id[64];
 	gchar		*output = NULL;
@@ -3100,7 +3097,6 @@ sensors_nvidia_smi_read(gboolean setup)
 		g_free(errout);
 	if (error)
 			g_error_free(error);
-#endif
 
 	if (setup && (_GK.debug_level & DEBUG_SENSORS))
 		g_debug("nvidia-smi gpus = %d\n", n);
@@ -3218,7 +3214,6 @@ gkrellm_sys_sensors_get_temperature(gchar *sensor_path, gint id,
 
 	if (interface == NVIDIA_SETTINGS_INTERFACE)
 		{
-#if GLIB_CHECK_VERSION(2,0,0)
 		gchar	*args[] = { "nvidia-settings", "-q", sensor_path, NULL };
 		gchar	*output = NULL;
 		GError	*error	= NULL;
@@ -3249,14 +3244,10 @@ gkrellm_sys_sensors_get_temperature(gchar *sensor_path, gint id,
 		if (output)
 			g_free(output);
 		return result;
-#else
-		return FALSE;
-#endif
 		}
 
 	if (interface == NVCLOCK_INTERFACE)
 		{
-#if GLIB_CHECK_VERSION(2,0,0)
 		gchar	*args[] = { "nvclock", "-T", "-c", sensor_path, NULL };
 		gchar	*output = NULL;
 		gchar	*s = NULL;
@@ -3280,9 +3271,6 @@ gkrellm_sys_sensors_get_temperature(gchar *sensor_path, gint id,
 
 		g_free(output);
 		return result;
-#else
-		return FALSE;
-#endif
 		}
 
 	if (interface == UNINORTH_INTERFACE || interface == WINDFARM_INTERFACE)
@@ -3696,7 +3684,6 @@ static gint
 sensors_nvidia_settings_ngpus(void)
 	{
 	gint		n = 0;
-#if GLIB_CHECK_VERSION(2,0,0)
 	gchar		*args[] = { "nvidia-settings", "-q", "gpus", NULL };
 	gchar		*output = NULL;
 	gchar		*errout = NULL;
@@ -3726,7 +3713,6 @@ sensors_nvidia_settings_ngpus(void)
 	if (error)
 			g_error_free(error);
 
-#endif
 	if (_GK.debug_level & DEBUG_SENSORS)
 		g_debug("nvidia-settings gpus = %d\n", n);
 	return n;
@@ -3736,7 +3722,6 @@ static gint
 sensors_nvclock_ngpus(void)
 	{
 	gint		n = 0;
-#if GLIB_CHECK_VERSION(2,0,0)
 	gchar		*args[] = { "nvclock", "-s", NULL };
 	gchar		*output = NULL, *s;
 	gboolean	result;
@@ -3752,7 +3737,6 @@ sensors_nvclock_ngpus(void)
 			sscanf(s, "Card number: %d", &n);
 		}
 	g_free(output);
-#endif
 	if (_GK.debug_level & DEBUG_SENSORS)
 		g_debug("nvclock gpus = %d\n", n);
 	return n;

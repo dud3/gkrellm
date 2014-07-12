@@ -378,7 +378,6 @@ static DiskData *
 add_subdisk(gchar *subdisk_name, gchar *disk_name, gint subdisk)
 	{
 	DiskData	*sdisk = NULL;
-#if GLIB_CHECK_VERSION(2,0,0)
 	DiskData	*disk;
 	GList		*list = NULL;
 
@@ -404,7 +403,6 @@ add_subdisk(gchar *subdisk_name, gchar *disk_name, gint subdisk)
 		}
 	disk_list = g_list_insert_before(disk_list, list, sdisk);
 	++n_disks;
-#endif
 	return sdisk;
 	}
 
@@ -1470,7 +1468,6 @@ refresh_fstab_list(void)
 	fstab_list_modified = TRUE;
 	}
 
-#if GLIB_CHECK_VERSION(2,0,0)
 static gpointer
 get_fsusage_thread(void *data)
 	{
@@ -1488,7 +1485,6 @@ get_fsusage_thread(void *data)
 		}
 	return NULL;
 	}
-#endif
 
 static void
 update_fs(GkrellmdMonitor *mon, gboolean first_update)
@@ -1520,12 +1516,8 @@ update_fs(GkrellmdMonitor *mon, gboolean first_update)
 			gkrellm_sys_fs_get_fsusage(m, m->directory);
 		else if (nfs_check && m->is_nfs && !m->busy)
 			{
-#if GLIB_CHECK_VERSION(2,0,0)
 			m->busy = TRUE;
 			g_thread_new("get_fsusage", get_fsusage_thread, m);
-#else
-			gkrellm_sys_fs_get_fsusage(m, m->directory);
-#endif
 			}
 		}
 	if (first_update || gkrellm_sys_fs_fstab_modified())
@@ -1859,14 +1851,10 @@ read_sensors(void *data)
 static void
 run_sensors_thread(void)
 	{
-#if GLIB_CHECK_VERSION(2,0,0)
 	if (thread_busy)
 		return;
 	thread_busy = TRUE;
 	g_thread_new("read_sensors", read_sensors, NULL);
-#else
-	read_sensors(NULL);
-#endif
 	}
 
 
