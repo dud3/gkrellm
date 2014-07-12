@@ -1000,6 +1000,13 @@ socksetup(int af)
 #endif
 				continue;
 				}
+
+#ifdef IP_FREEBIND
+			if (setsockopt(*s, SOL_IP, IP_FREEBIND, &on, sizeof(on)) < 0)
+				{
+				g_warning("gkrellmd: setsockopt (IP_FREEBIND) failed\n");
+				}
+#endif
 			}
 
 #ifdef IPV6_V6ONLY
