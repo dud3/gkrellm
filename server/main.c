@@ -788,10 +788,13 @@ read_config(void)
 // on windows also load config from INSTALLDIR/etc/gkrellmd.conf
 #if defined(WIN32)
 	install_path = g_win32_get_package_installation_directory_of_module(NULL);
-	path = g_build_filename(install_path, "etc", GKRELLMD_CONFIG, NULL);
-	load_config(path);
-	g_free(install_path);
-	g_free(path);
+	if (install_path != NULL)
+		{
+		path = g_build_filename(install_path, "etc", GKRELLMD_CONFIG, NULL);
+		load_config(path);
+		g_free(path);
+		g_free(install_path);
+		}
 #endif
 
 	_GK.homedir = (gchar *) g_get_home_dir();
@@ -1655,11 +1658,8 @@ int main(int argc, char* argv[])
 	if (install_path != NULL)
 		{
 	    locale_dir = g_build_filename(install_path, LOCALEDIR, NULL);
-		if (locale_dir != NULL)
-			{
-			bindtextdomain(PACKAGE_D, locale_dir);
-			g_free(locale_dir);
-			}
+		bindtextdomain(PACKAGE_D, locale_dir);
+		g_free(locale_dir);
 	    g_free(install_path);
 		}
 #else

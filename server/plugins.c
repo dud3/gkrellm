@@ -284,18 +284,14 @@ gkrellmd_plugins_load(void)
 	g_free(path);
 
 #if defined(WIN32)
-	path = NULL;
 	gchar *install_path;
 	install_path = g_win32_get_package_installation_directory_of_module(NULL);
 	if (install_path != NULL)
 		{
 		path = g_build_filename(install_path, "lib", "gkrellm2", "plugins-gkrellmd", NULL);
-		g_free(install_path);
-		}
-	if (path)
-		{
 		gkrellmd_plugin_scan(path);
 		g_free(path);
+		g_free(install_path);
 		}
 #endif
 

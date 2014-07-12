@@ -1426,19 +1426,14 @@ gkrellm_make_themes_list(void)
 	add_themes_to_list(theme_dir, TRUE);
 
 #if defined(WIN32)
-	theme_dir = NULL;
 	gchar *install_path;
 	install_path = g_win32_get_package_installation_directory_of_module(NULL);
 	if (install_path != NULL)
 		{
 		theme_dir = g_build_filename(install_path, "share", "gkrellm2", "themes", NULL);
-		g_free(install_path);
-		}
-	if (theme_dir)
-		{
 		add_themes_to_list(theme_dir, FALSE);
 		g_free(theme_dir);
-		theme_dir = NULL;
+		g_free(install_path);
 		}
 #endif
 
