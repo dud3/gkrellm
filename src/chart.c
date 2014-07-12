@@ -1452,7 +1452,7 @@ gkrellm_add_chartdata(GkrellmChart *cp, GdkPixmap **src_pixmap,
 	if (!cp || !src_pixmap || !grid_pixmap || !label)
 		return NULL;
 
-	/* To handle theme and vert size changes without loosing data, reuse the
+	/* To handle theme and vert size changes without losing data, reuse the
 	|  GkrellmChartdata structs in the cd_list.
 	*/
 	list = g_list_nth(cp->cd_list, cp->cd_list_index++);

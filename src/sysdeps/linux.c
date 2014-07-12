@@ -955,7 +955,7 @@ gkrellm_sys_net_check_routes(void)
 			{
 			if ( strtok(buf, " \t\n") == NULL) continue;	/* Extract first field */
 
-			/* Extract the nineth field on the line, i.e., the name of the device */
+			/* Extract the ninth field on the line, i.e., the name of the device */
 			for (i = 1; i <= 9 && (s = strtok(NULL, " \t\n")) != NULL; i++);
 
 			/* If i is not 10, strtok failed prematurely */
@@ -3880,7 +3880,7 @@ gkrellm_sys_sensors_init(void)
 		g_dir_close(dir);
 		}
 
-	/* Do intial daemon reads to get sensors loaded into sensors.c
+	/* Do initial daemon reads to get sensors loaded into sensors.c
 	*/
 	gkrellm_sys_sensors_hddtemp_check();
 	gkrellm_sys_sensors_mbmon_check(TRUE);

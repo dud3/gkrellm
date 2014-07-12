@@ -71,7 +71,7 @@ gkrellm_sys_main_init(void)
 
         /*
          * a function called by the following requires sys gid privilege.
-         * the folowing function should be performed here just for that reason.
+         * the following function should be performed here just for that reason.
          */ 
         solaris_list_harddisks();
 

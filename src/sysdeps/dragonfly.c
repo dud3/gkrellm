@@ -991,7 +991,7 @@ gkrellm_sys_sensors_init(void)
 	GList		*list;
 	struct freebsd_sensor *sensor;
 
-	/* Do intial daemon reads to get sensors loaded into sensors.c
+	/* Do initial daemon reads to get sensors loaded into sensors.c
 	*/
 	gkrellm_sys_sensors_mbmon_check(TRUE);
 

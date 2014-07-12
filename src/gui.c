@@ -420,7 +420,7 @@ gkrellm_gtk_config_launcher(GtkWidget *table, gint n, GtkWidget **launch_entry,
 	}
 
   /* FIXME: this guy is called on panels at create events
-  |  when this situation has occured:  the GKrellM rebuild has destroyed
+  |  when this situation has occurred:  the GKrellM rebuild has destroyed
   |  the decal button list.  But existing launchers have not had their
   |  button pointer set to NULL!  This could cause a problem with
   |  code that tries to check for button pointers in the create routines.

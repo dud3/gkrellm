@@ -121,7 +121,7 @@ shm_open_or_start_app(ShmData *shm, const wchar_t *shm_name,
 //                - Chris Zahrt techn0@iastate.edu (visual c alterations)
 //                   http://techn0.dhs.org/programming/vcmbmsm.html
 //
-//  Licence     : Cardware. (Send me a note/email if you find it usefull.)
+//  Licence     : Cardware. (Send me a note/email if you find it useful.)
 //                Basically you may use it as you see fit as long as the origin
 //                of the code remains clear
 //

@@ -372,7 +372,7 @@ GKrellM Changelog
 	  o Henrik Brix Andersen: use gtk_window_get_size() when calculating
 	    _NET_WM_STRUT size so strut space can be resized when shutting gkrellm.
 	  o Don't save new y_positions that are y packed and not user set (eg
-	    preserve user positon when opening fs secondaries for > 10 seconds).
+	    preserve user position when opening fs secondaries for > 10 seconds).
 	  o Don't nest static function declarations inside of functions to fix
 	    upcoming gcc 3.5 compile errors - from Art Haas.
 	  o Sensor location menu wasn't recreated after the first config opening.
@@ -1289,7 +1289,7 @@ I got a very needed translation update just after releasing 2.1.7:
 	  Solaris from Daisuke.
 	* Option to run sensor reads in a thread - for systems with slow sensor
 	  interfaces that cause display pauses.
-	* Cumulative net bytes transfered displayable with dual trip counters.
+	* Cumulative net bytes transferred displayable with dual trip counters.
 	* i18n enabled Makefile is default.
 	* Contributions:
 	  o Hajimu UMEMOTO <ume--at--FreeBSD.org> patch for adding APOP password
@@ -1737,7 +1737,7 @@ I got a very needed translation update just after releasing 2.1.7:
 	  as a drawer that FS monitors can be taken out of when mounted.
 	* FS mount commands can be customized so mounts can be made of file
 	  systems not in /etc/fstab.  Using this requires that GKrellM be
-	  run as root or that the user has sudo mount priviledges.
+	  run as root or that the user has sudo mount privileges.
 	* Changed the FS capacity display from toggling to scrolling and added
 	  option to display in binary units (MiB GiB) instead of default SI norm.
 	* Patch from Tom Gilbert <gilbertt--at--btinternet.com> allows window

@@ -87,7 +87,7 @@ typedef struct
 	GkrellmAlert *alert;
 
 	guint64		total,		/* Total memory or swap in system */
-				used,		/* Amount of memory (calulated) or swap used  */
+				used,		/* Amount of memory (calculated) or swap used  */
 				free,		/* Not used by swap	monitor */
 				shared,		/* Not used by swap	monitor */
 				buffers,	/* Not used by swap	monitor */

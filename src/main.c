@@ -1673,7 +1673,7 @@ cb_configure_notify(GtkWidget *widget, GdkEventConfigure *ev, gpointer data)
 
 	/* At startup can be a race for configure events to be reporting correct
 	|  move to position and pack_side_frames() first call.  Initial configure
-	|  events will be intermediate x,y values as intial mapping happens, so
+	|  events will be intermediate x,y values as initial mapping happens, so
 	|  using configure event position values is delayed.
 	*/
 	if (!configure_position_lock)

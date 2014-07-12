@@ -176,7 +176,7 @@ void	gkrellm_disk_units_are_blocks(void);	/* Otherwise bytes */
 /* Inet monitor interface
 |
 |  System dependent code should #include "inet.h" and inet.h
-|  should #define INET6 if IPV6 protocal is available.
+|  should #define INET6 if IPV6 protocol is available.
 */
 
 gboolean gkrellm_sys_inet_init(void);

@@ -1604,7 +1604,7 @@ static gboolean service_uninstall()
 		}
 	else
 		{
-		// handle to gkrellm service aquired, now stop and uninstall it
+		// handle to gkrellm service acquired, now stop and uninstall it
 		if (service_stop(svcHandle))
 			{
 			delRet = DeleteService(svcHandle);

@@ -1363,7 +1363,7 @@ gkrellm_sys_swap_read_data(void)
 		{
 			win32_warning(NTDLL, ntstatus, "Could not determine swap usage");
 			g_free(pBuf);
-			// Some other error occured, give up
+			// Some other error occurred, give up
 			return;
 		}
 	}
