@@ -285,7 +285,6 @@ gkrellmd_plugins_load(void)
 
 #if defined(WIN32)
 	path = NULL;
-#if GLIB_CHECK_VERSION(2,16,0)
 	gchar *install_path;
 	install_path = g_win32_get_package_installation_directory_of_module(NULL);
 	if (install_path != NULL)
@@ -293,10 +292,6 @@ gkrellmd_plugins_load(void)
 		path = g_build_filename(install_path, "lib", "gkrellm2", "plugins-gkrellmd", NULL);
 		g_free(install_path);
 		}
-#else
-	// deprecated since glib 2.16.0
-	path = g_win32_get_package_installation_subdirectory(NULL, NULL, "lib/gkrellm2/plugins-gkrellmd");
-#endif
 	if (path)
 		{
 		gkrellmd_plugin_scan(path);

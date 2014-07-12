@@ -787,14 +787,8 @@ read_config(void)
 
 // on windows also load config from INSTALLDIR/etc/gkrellmd.conf
 #if defined(WIN32)
-#if GLIB_CHECK_VERSION(2,16,0)
 	install_path = g_win32_get_package_installation_directory_of_module(NULL);
 	path = g_build_filename(install_path, "etc", GKRELLMD_CONFIG, NULL);
-#else
-	// deprecated since glib 2.16
-	install_path = g_win32_get_package_installation_subdirectory(NULL, NULL, "etc");
-	path = g_build_filename(install_path, GKRELLMD_CONFIG, NULL);
-#endif
 	load_config(path);
 	g_free(install_path);
 	g_free(path);

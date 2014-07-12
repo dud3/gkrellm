@@ -1427,7 +1427,6 @@ gkrellm_make_themes_list(void)
 
 #if defined(WIN32)
 	theme_dir = NULL;
-#if GLIB_CHECK_VERSION(2,16,0)
 	gchar *install_path;
 	install_path = g_win32_get_package_installation_directory_of_module(NULL);
 	if (install_path != NULL)
@@ -1435,10 +1434,6 @@ gkrellm_make_themes_list(void)
 		theme_dir = g_build_filename(install_path, "share", "gkrellm2", "themes", NULL);
 		g_free(install_path);
 		}
-#else
-	// deprecated since glib 2.16.0
-	path = g_win32_get_package_installation_subdirectory(NULL, NULL, "share/gkrellm2/themes");
-#endif
 	if (theme_dir)
 		{
 		add_themes_to_list(theme_dir, FALSE);
