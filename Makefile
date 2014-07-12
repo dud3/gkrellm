@@ -39,7 +39,6 @@
 #
 # Default
 #--------
-EXTRAOBJS = md5c.o
 BINMODE = 755
 
 # FreeBSD 2.X
