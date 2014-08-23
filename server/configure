@@ -13,9 +13,6 @@ do
 	fi
 done
 
-PKG_INCLUDE=`pkg-config gtk+-2.0 --cflags`
-PKG_LIB=`pkg-config gtk+-2.0 --libs`
-
 rm -f configure.h configure.log test test.o test.c
 
 touch configure.h
@@ -54,8 +51,8 @@ int main()
 	}
 EOF
 
-$CC ${PKG_INCLUDE} -c test.c -o test.o 2>& 5
-$CC test.o -o test ${PKG_LIBS} -lsensors 2>& 5
+$CC -c test.c -o test.o 2>& 5
+$CC test.o -o test -lsensors 2>& 5
 
 if [ -x ./test ] && ./test
 then
