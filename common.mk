@@ -1,9 +1,17 @@
 # makefile variables and rules shared by both gkrellm and gkrellmd
 
-CC ?= gcc
-AR ?= ar
-PKG_CONFIG ?= pkg-config
-WINDRES ?= windres
+ifdef CROSS
+	# enforce overriding tools for mxe cross builds (http://mxe.cc)
+	CC = $(CROSS)gcc
+	AR = $(CROSS)ar
+	PKG_CONFIG = $(CROSS)pkg-config
+	WINDRES = $(CROSS)windres
+else
+	CC ?= gcc
+	AR ?= ar
+	PKG_CONFIG ?= pkg-config
+	WINDRES ?= windres
+endif
 
 PREFIX ?= /usr/local
 INSTALLROOT ?= $(DESTDIR)$(PREFIX)
