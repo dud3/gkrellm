@@ -70,7 +70,7 @@ EOF
 $CC ${CFLAGS} ${OPENSSL_INCLUDE} -c test.c -o test.o 2>& 5 || true
 $CC test.o -o test ${LINK_FLAGS} ${OPENSSL_LIBS} 2>& 5 || true
 
-if [ -x ./test ] && ./test
+if [ -x ./test ]
 then
 	echo "Found"
 	echo 'Defining HAVE_SSL' 1>& 5
@@ -125,7 +125,7 @@ EOF
 ${CC} ${CFLAGS} ${GNUTLS_INCLUDE} -c test.c -o test.o 2>& 5 || true
 ${CC} test.o -o test ${LINK_FLAGS} ${GNUTLS_LIBS} 2>& 5 || true
 
-if [ -x ./test ] && ./test
+if [ -x ./test ]
 then
 	echo "Found"
 	echo 'Defining HAVE_GNUTLS' 1>& 5
@@ -167,7 +167,7 @@ EOF
 ${CC} ${CFLAGS} ${PKG_NTLM_INCLUDE} -c test.c -o test.o 2>& 5 || true
 ${CC} test.o -o test ${LINK_FLAGS} ${PKG_NTLM_LIBS} 2>& 5 || true
 
-if [ -x ./test ] && ./test
+if [ -x ./test ]
 then
 	echo "Found"
 	echo 'Defining HAVE_NTLM' 1>& 5
@@ -217,7 +217,7 @@ EOF
 ${CC} ${CFLAGS} -c test.c -o test.o 2>& 5 || true
 ${CC} test.o -o test ${LINK_FLAGS} -lsensors 2>& 5 || true
 
-if [ -x ./test ] && ./test
+if [ -x ./test ]
 then
 	echo "Found"
 	echo 'Defining HAVE_LIBSENSORS' 1>& 5

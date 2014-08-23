@@ -54,7 +54,7 @@ EOF
 $CC -c test.c -o test.o 2>& 5
 $CC test.o -o test -lsensors 2>& 5
 
-if [ -x ./test ] && ./test
+if [ -x ./test ]
 then
 	echo 'Defining HAVE_LIBSENSORS' 1>& 5
 	echo '#define HAVE_LIBSENSORS 1' >> configure.h
