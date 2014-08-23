@@ -67,7 +67,6 @@ ifeq ($(HAVE_GETADDRINFO),1)
     FLAGS += -DHAVE_GETADDRINFO
 endif
 
-OS_NAME=$(shell uname -s)
 OS_RELEASE=$(shell uname -r)
 
 OBJS = main.o monitor.o mail.o plugins.o utils.o sysdeps-unix.o log.o
