@@ -1,0 +1,9 @@
+*.mo
+*.o
+*.exe
+configure.h
+configure.log
+configure.mk
+gkrellm.pc
+server/gkrellmd
+src/gkrellm
