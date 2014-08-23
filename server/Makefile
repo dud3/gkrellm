@@ -1,35 +1,16 @@
-PACKAGE_D ?= gkrellmd
-PKG_CONFIG ?= pkg-config
-BINMODE ?= 755
-BINEXT ?=
+include ../common.mk
 
-PREFIX ?= /usr/local
-INSTALLROOT ?= $(DESTDIR)$(PREFIX)
+PACKAGE_D ?= gkrellmd
 
 SINSTALLDIR ?= $(INSTALLROOT)/bin
-INSTALLDIRMODE ?= 755
-
-INCLUDEDIR ?= $(INSTALLROOT)/include
-INCLUDEMODE ?= 644
-INCLUDEDIRMODE ?= 755
-
-LIBDIR ?= $(INSTALLROOT)/lib
-LIBDIRMODE ?= 755
 
 CFGDIR ?= $(INSTALLROOT)/etc
 CFGDIRMODE ?= 755
 CFGMODE ?= 644
 
 SMANDIR ?= $(INSTALLROOT)/share/man/man1
-MANMODE ?= 644
-MANDIRMODE ?= 755
-INSTALL ?= install
-LINK_FLAGS ?= -Wl,-E
-EXTRAOBJS =
 
-SHARED_PATH = ../shared
-# Make GNU Make search for sources somewhere else as well
-VPATH = $(SHARED_PATH)
+EXTRAOBJS =
 
 ifeq ($(without-libsensors),yes)
 	CONFIGURE_ARGS += --without-libsensors
@@ -44,11 +25,6 @@ HAVE_LIBSENSORS = $(shell grep -c HAVE_LIBSENSORS configure.h)
 ifeq ($(HAVE_LIBSENSORS),1)
     SENSORS_LIBS ?= -lsensors
 endif
-
-
-CC ?= gcc
-WINDRES ?= windres
-STRIP ?= -s
 
 GKRELLMD_INCLUDES = gkrellmd.h $(SHARED_PATH)/log.h
 
@@ -234,11 +210,8 @@ win32-resource.o:	win32-resource.rc win32-resource.h
 	$(WINDRES) $< -o $@
 win32-libgkrellmd.o:	win32-libgkrellmd.c win32-plugin.h $(GKRELLMD_H)
 libgkrellmd.a:	win32-libgkrellmd.o
-	ar -cr libgkrellmd.a win32-libgkrellmd.o
+	$(AR) -cr libgkrellmd.a win32-libgkrellmd.o
 
 # Checks if the build environment is ok
 check_env:
 	$(PKG_CONFIG) --atleast-version=2.32 glib-2.0
-
-%.o: %.c
-	$(CC) -c -Wall $(FLAGS) $(CFLAGS) $(CPPFLAGS) $< -o $@

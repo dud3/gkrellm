@@ -1,30 +1,12 @@
-PACKAGE ?= gkrellm
-PKG_CONFIG ?= pkg-config
-BINMODE ?= 755
-BINEXT ?=
+include ../common.mk
 
-PREFIX ?= /usr/local
-INSTALLROOT ?= $(DESTDIR)$(PREFIX)
+PACKAGE ?= gkrellm
 
 INSTALLDIR ?= $(INSTALLROOT)/bin
-INSTALLDIRMODE ?= 755
-INCLUDEDIR ?= $(INSTALLROOT)/include
-INCLUDEMODE ?= 644
-INCLUDEDIRMODE ?= 755
-LIBDIR ?= $(INSTALLROOT)/lib
-LIBDIRMODE ?= 755
 MANDIR ?= $(INSTALLROOT)/share/man/man1
-MANMODE ?= 644
-MANDIRMODE ?= 755
-INSTALL ?= install
-LINK_FLAGS ?= -Wl,-E
+
 X11_LIBS ?= -L/usr/X11R6/lib -lX11 -lSM -lICE
 MATH_LIB ?= -lm
-
-SHARED_PATH = ../shared
-# Make GNU Make search for sources somewhere else as well
-VPATH = $(SHARED_PATH)
-
 
 ifeq ($(without-gnutls),1)
 	CONFIGURE_ARGS += --without-gnutls
@@ -59,10 +41,6 @@ include configure.mk
 ifneq ($(HAVE_SSL),1)
     EXTRAOBJS ?= md5c.o
 endif
-
-CC ?= gcc
-WINDRES ?= windres
-STRIP ?= -s
 
 GKRELLM_INCLUDES = gkrellm.h gkrellm-public-proto.h $(SHARED_PATH)/log.h
 
@@ -348,12 +326,9 @@ win32-resource.o: win32-resource.rc win32-resource.h
 	$(WINDRES) $< -o $@
 
 libgkrellm.a: win32-libgkrellm.o
-	ar -cr libgkrellm.a win32-libgkrellm.o
+	$(AR) -cr libgkrellm.a win32-libgkrellm.o
 
 # Checks if the build environment is ok
 check_env:
 	$(PKG_CONFIG) --atleast-version=2.32 glib-2.0
 	$(PKG_CONFIG) --atleast-version=2.4 gtk+-2.0
-
-%.o: %.c
-	$(CC) -c -Wall $(FLAGS) $(CFLAGS) $(CPPFLAGS) $< -o $@
