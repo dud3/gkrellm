@@ -165,6 +165,9 @@ static gboolean	net_config_use_routed;
 
 static gint		reset_mday;
 
+static gboolean		net_enabled_as_default;
+static GtkWidget	*net_enabled_as_default_button;
+
 static gint
 strcmp_net_name(NetMon *net1, NetMon *net2)
 	{
@@ -197,8 +200,9 @@ new_net(gchar *name)
 
 	net = g_new0(NetMon, 1);
 	net->name = g_strdup(name);
-	if (strcmp(name, "lo"))
-		net->enabled = TRUE;		/* All except lo default to enabled */
+	if (strcmp(name, "lo"))		/* lo is disabled by default */
+		net->enabled = net_enabled_as_default;		/* All others are enabled unless unset in configuration */
+
 	net->chart_labels = TRUE;
 	net->label = g_strdup("");
 	net->launch.command = g_strdup("");
@@ -2472,6 +2476,7 @@ save_net_config(FILE *f)
 	fprintf(f, "%s timer_off %s\n", NET_CONFIG_KEYWORD, timer_off_command);
 	fprintf(f, "%s text_format %s\n", NET_CONFIG_KEYWORD, text_format);
 	fprintf(f, "%s reset_mday %d\n", NET_CONFIG_KEYWORD, reset_mday);
+	fprintf(f, "%s net_enabled_as_default %d\n", NET_CONFIG_KEYWORD, net_enabled_as_default);
 	fprintf(f, "%s net_stats_window_height %d\n", NET_CONFIG_KEYWORD,
 				net_stats_window_height);
 	}
@@ -2497,6 +2502,8 @@ load_net_config(gchar *arg)
 		sscanf(item, "%d", &timer_seconds);
 	else if (!strcmp(config, "reset_mday"))
 		sscanf(item, "%d", &reset_mday);
+	else if (!strcmp(config, "net_enabled_as_default"))
+		sscanf(item, "%d", &net_enabled_as_default);
 	else if (!strcmp(config, "net_stats_window_height"))
 		sscanf(item, "%d", &net_stats_window_height);
 	else if (!strcmp(config, "timer_iface") && !_GK.client_mode)
@@ -2875,6 +2882,12 @@ cb_reset_mday(GtkWidget *widget, GtkSpinButton *spin)
 		}
 	}
 
+static void
+cb_net_enabled_as_default(GtkWidget *button, gpointer data)
+	{
+	net_enabled_as_default = GTK_TOGGLE_BUTTON(button)->active;
+	}
+
 #if !defined(WIN32)
 static gchar	*net_info_text0[] =
 {
@@ -3099,6 +3112,11 @@ create_net_tab(GtkWidget *tab_vbox)
 			cb_reset_mday, NULL, FALSE,
 			_("Start day for cumulative monthly transmit and receive bytes"));
 
+	gkrellm_gtk_check_button_connected(vbox, &net_enabled_as_default_button,
+			net_enabled_as_default, FALSE, FALSE, 10,
+			cb_net_enabled_as_default, NULL,
+			_("Enable new interfaces"));
+
 /* --Info tab */
 	vbox = gkrellm_gtk_framed_notebook_page(tabs, _("Info"));
 	text = gkrellm_gtk_scrolled_text_view(vbox, NULL,
@@ -3163,6 +3181,9 @@ gkrellm_init_net_monitor(void)
 	timer_seconds = TRUE;
 	timer_on_command = g_strdup("");
 	timer_off_command = g_strdup("");
+
+	net_enabled_as_default = TRUE;
+
 	gkrellm_locale_dup_string(&text_format, DEFAULT_TEXT_FORMAT,
 					&text_format_locale);
 

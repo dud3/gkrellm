@@ -30,6 +30,8 @@ GKrellM Changelog
 	* Drop remaining GLib 1.x compatibility from gkrellmd
 	* Patch from Ville Skyttä: Allow binding to a listen address that doesn't
 	  exist yet (gkrellmd)
+	* Patch from Pierre Neyron: Option to enable/disable new network
+	  interfaces by default
 
 2.3.5 - Thu Oct 7, 2010
 ------------------------
