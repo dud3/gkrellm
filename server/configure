@@ -16,10 +16,12 @@ done
 rm -f configure.h configure.log test test.o test.c
 
 touch configure.h
+exec 5>./configure.log
 
 CC=${CC-gcc}
 
-exec 5>./configure.log
+echo "CC    : ${CC}" 1>& 5
+echo "CFLAGS: ${CFLAGS}" 1>& 5
 
 if [ "$without_libsensors" != "yes" ]
 then
@@ -51,7 +53,7 @@ int main()
 	}
 EOF
 
-$CC -c test.c -o test.o 2>& 5
+$CC ${CFLAGS} -c test.c -o test.o 2>& 5
 $CC test.o -o test -lsensors 2>& 5
 
 if [ -x ./test ]
