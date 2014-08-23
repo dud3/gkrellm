@@ -33,9 +33,11 @@ touch configure.mk
 exec 5>./configure.log
 
 CC=${CC-gcc}
+PKG_CONFIG=${PKG_CONFIG-pkg-config}
 
 echo "CC    : ${CC}" 1>& 5
 echo "CFLAGS: ${CFLAGS}" 1>& 5
+echo "PKG_CONFIG: ${PKG_CONFIG}" 1>& 5
 
 rm -f test test.exe test.o test.c
 
@@ -44,8 +46,8 @@ then
 echo -n "Checking for OpenSSL... "
 echo "Checking for OpenSSL... " 1>& 5
 
-OPENSSL_INCLUDE="$(pkg-config openssl --cflags 2>& 5 || true)"
-OPENSSL_LIBS="$(pkg-config openssl --libs 2>& 5 || true)"
+OPENSSL_INCLUDE="$(${PKG_CONFIG} openssl --cflags 2>& 5 || true)"
+OPENSSL_LIBS="$(${PKG_CONFIG} openssl --libs 2>& 5 || true)"
 if [ -z "$OPENSSL_LIBS" ]
 then
 	echo "OpenSSL not found via pkg-config, using hardcoded library names" 1>& 5
@@ -93,12 +95,12 @@ then
 echo -n "Checking for gnutls... "
 echo "Checking for gnutls... " 1>& 5
 
-GNUTLS_INCLUDE="$(pkg-config gnutls --cflags 2>& 5 || true)"
-GNUTLS_LIBS="$(pkg-config gnutls --libs 2>& 5 || true) -lgnutls-openssl"
+GNUTLS_INCLUDE="$(${PKG_CONFIG} gnutls --cflags 2>& 5 || true)"
+GNUTLS_LIBS="$(${PKG_CONFIG} gnutls --libs 2>& 5 || true) -lgnutls-openssl"
 
 # GnuTLS >= 2.12 does not need explicit gcrypt linking anymore
 gcrypt_h=""
-if $(pkg-config --max-version=2.11.99 gnutls 2>& 5 || false); then
+if $(${PKG_CONFIG} --max-version=2.11.99 gnutls 2>& 5 || false); then
 	GNUTLS_LIBS="$GNUTLS_LIBS -lgcrypt"
 	gcrypt_h="#include <gcrypt.h>"
 fi
@@ -149,8 +151,8 @@ then
 echo -n "Checking for libntlm... "
 echo "Checking for libntlm... " 1>& 5
 
-PKG_NTLM_INCLUDE=$(pkg-config libntlm --cflags 2>& 5 || true)
-PKG_NTLM_LIBS=$(pkg-config libntlm --libs 2>& 5 || true)
+PKG_NTLM_INCLUDE=$(${PKG_CONFIG} libntlm --cflags 2>& 5 || true)
+PKG_NTLM_LIBS=$(${PKG_CONFIG} libntlm --libs 2>& 5 || true)
 
 cat << EOF > test.c
 #include <ntlm.h>

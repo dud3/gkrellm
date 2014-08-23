@@ -13,6 +13,10 @@ else
 	WINDRES ?= windres
 endif
 
+# Make configure use identical environment
+export CC
+export PKG_CONFIG
+
 PREFIX ?= /usr/local
 INSTALLROOT ?= $(DESTDIR)$(PREFIX)
 
