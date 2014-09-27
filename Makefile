@@ -188,7 +188,7 @@ install_solaris: install_gkrellm.pc
 	(cd src && ${MAKE} install_solaris)
 	(cd server && ${MAKE} install_solaris)
 
-install_windows: install_gkrellm.pc
+install_windows: windows install_gkrellm.pc
 	(cd po && ${MAKE} install)
 	(cd src && ${MAKE} install_windows)
 	(cd server && ${MAKE} install_windows)
