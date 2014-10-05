@@ -360,6 +360,7 @@ cidr_match(struct sockaddr *sa, socklen_t salen, char *allowed)
 	plen = -1;
 	if ((p = strchr(buf, '/')) != NULL)
 		{
+		errno = 0;
 		plen = strtoul(p + 1, &ep, 10);
 		if (errno != 0 || ep == NULL || *ep != '\0' || plen < 0)
 			{
