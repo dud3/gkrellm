@@ -224,10 +224,13 @@ read_sensors_thread(void *data)
 static void
 run_sensors_thread(void)
 	{
+	GThread		*gth;
+
 	if (thread_busy)
 		return;
 	thread_busy = TRUE;
-	g_thread_new("read_sensors", read_sensors_thread, NULL);
+	gth = g_thread_new("read_sensors", read_sensors_thread, NULL);
+	g_thread_unref(gth);
 	}
 
   /* Sort so that sensors are ordered: temp, fan, voltage.

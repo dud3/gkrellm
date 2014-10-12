@@ -606,47 +606,68 @@ gkrellm_sys_battery_init()
       do {
 	if (info.units == ENVSYS_INDICATOR &&
 	    sscanf(info.desc, "acpibat%d presen%1[t]", &bat, fake) == 2) {
-	  if (!gkrellm_battery_data_alloc(bat)) return FALSE;
+	  if (!gkrellm_battery_data_alloc(bat)) {
+	    close(fd);
+	    return FALSE;
+	  }
 	  battery_acpi_data[bat].available_index = info.sensor;
 	  found_sensors = TRUE;
 
 	} else if (info.units == ENVSYS_INDICATOR &&
 		   sscanf(info.desc, "acpiacad%*d connecte%1[d]", fake) == 1) {
-	  if (!gkrellm_battery_data_alloc(0)) return FALSE;
+	  if (!gkrellm_battery_data_alloc(0)) {
+	    close(fd);
+	    return FALSE;
+	  }
 	  battery_acpi_data[0].on_line_index = info.sensor;
 
 	} else if (info.units == ENVSYS_INDICATOR &&
 		   sscanf(info.desc,
 			  "acpibat%d chargin%1[g]", &bat, fake) == 2) {
-	  if (!gkrellm_battery_data_alloc(bat)) return FALSE;
+	  if (!gkrellm_battery_data_alloc(bat)) {
+	    close(fd);
+	    return FALSE;
+	  }
 	  battery_acpi_data[bat].charging_index = info.sensor;
 	  found_sensors = TRUE;
 
 	} else if (info.units == ENVSYS_SAMPHOUR &&
 		   sscanf(info.desc,
 			  "acpibat%d design ca%1[p]", &bat, fake) == 2) {
-	  if (!gkrellm_battery_data_alloc(bat)) return FALSE;
+	  if (!gkrellm_battery_data_alloc(bat)) {
+	    close(fd);
+	    return FALSE;
+	  }
 	  battery_acpi_data[bat].full_cap_index = info.sensor;
 	  found_sensors = TRUE;
 
 	} else if (info.units == ENVSYS_SAMPHOUR &&
 		   sscanf(info.desc,
 			  "acpibat%d charg%1[e]", &bat, fake) == 2) {
-	  if (!gkrellm_battery_data_alloc(bat)) return FALSE;
+	  if (!gkrellm_battery_data_alloc(bat)) {
+	    close(fd);
+	    return FALSE;
+	  }
 	  battery_acpi_data[bat].cap_index = info.sensor;
 	  found_sensors = TRUE;
 
 	} else if (info.units == ENVSYS_SAMPS &&
 		   sscanf(info.desc,
 			  "acpibat%d discharge rat%1[e]", &bat, fake) == 2) {
-	  if (!gkrellm_battery_data_alloc(bat)) return FALSE;
+	  if (!gkrellm_battery_data_alloc(bat)) {
+	    close(fd);
+	    return FALSE;
+	  }
 	  battery_acpi_data[bat].discharge_rate_index = info.sensor;
 	  found_sensors = TRUE;
 
 	} else if (info.units == ENVSYS_SAMPS &&
 		   sscanf(info.desc,
 			  "acpibat%d charge rat%1[e]", &bat, fake) == 2) {
-	  if (!gkrellm_battery_data_alloc(bat)) return FALSE;
+	  if (!gkrellm_battery_data_alloc(bat)) {
+	    close(fd);
+	    return FALSE;
+	  }
 	  battery_acpi_data[bat].charge_rate_index = info.sensor;
 	  found_sensors = TRUE;
 	}

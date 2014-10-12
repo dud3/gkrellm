@@ -814,7 +814,7 @@ tcp_shutdown(ConnInfo *conn, Mailbox *mbox, gchar *message, gboolean warn)
 static gboolean
 ssl_negotiate(ConnInfo *conn, Mailbox *mbox)
 	{
-	SSL_METHOD	*ssl_method;
+	const SSL_METHOD	*ssl_method;
 
 	if (mbox->account->use_ssl == SSL_TRANSPORT)
 		ssl_method = SSLv23_client_method();
@@ -2337,7 +2337,7 @@ mail_check_thread(void *data)
 				gkrellm_get_current_time()->tm_sec);
 
 	mbox->busy = FALSE;
-	mbox->thread = NULL;
+//	mbox->thread = NULL;
 	return NULL;
 	}
 
@@ -2407,6 +2407,8 @@ update_mail(void)
 				case MBOX_CHECK_THREADED:
 					if (remote_check && !mbox->busy && mbox->check_func)
 						{
+						if (mbox->thread)
+							g_thread_unref(mbox->thread);
 						mbox->busy = TRUE;
 						mbox->thread = g_thread_new("mail_check",
 								mail_check_thread, mbox);
@@ -4359,7 +4361,10 @@ gkrellm_init_mail_monitor(void)
 	SSL_library_init();
 	ssl_locks = g_new(GMutex *, num_locks);
 	for (i = 0; i < num_locks; i++)
-		ssl_locks[i] = g_mutex_new();
+		{
+		ssl_locks[i] = g_new(GMutex, 1);
+		g_mutex_init(ssl_locks[i]);
+		}
 	CRYPTO_set_locking_callback(ssl_locking_cb);
 #endif
 #endif

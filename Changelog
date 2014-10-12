@@ -2,6 +2,8 @@ GKrellM Changelog
 -----------------
 2.3.6 - Not released
 ------------------------
+	* Patch from Ville Skytta: fix some netbsd.c and winops-win32.c issues
+	  flagged by cppcheck.
 	* Patch from Neil Booth: Add multiple CPU capability to CPU monitor for
 	  Dragonfly.  Acquired dragonfly.c from web so could apply patch.
 	  I have no clue why I never had a dragonfly.c.
@@ -15,6 +17,10 @@ GKrellM Changelog
 	  o pt.po new translation from Ze based on pt_BR.po
 	  o fr.po from Jerome UZEL
 	* Bugfixes
+	  o fix memory leaks: add g_thread_unref() for all GThread pointers
+	    returned from g_thread_new() calls.
+	  o Flag config as modified when changing a charts Resolution per Grid
+	    and bump max grid resolution to 500000000.
 	  o Store lockfiles under /var/lock/gkrellm-UID directories to make
 	    lockfiles work for multiple users.
 	* Only link against and initialize Libgcrypt when building with

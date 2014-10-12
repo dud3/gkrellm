@@ -1964,10 +1964,13 @@ client_mode_connect_thread(void *data)
 void
 gkrellm_client_mode_connect_thread(void)
 	{
+	GThread	*gth;
+
 	if (client_mode_thread_busy || !_GK.client_mode)
 		return;
 	client_mode_thread_busy = TRUE;
-	g_thread_new("client_mode_connect", client_mode_connect_thread, NULL);
+	gth = g_thread_new("client_mode_connect", client_mode_connect_thread,NULL);
+	g_thread_unref(gth);
 	}
 
 

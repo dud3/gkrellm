@@ -510,6 +510,7 @@ close_cdrom_thread(void *device)
 static void
 close_tray(FSmon *fs)
 	{
+	GThread			*gth;
 	Mount			*m;
 	static gchar	*close_target;
 	gchar			buf[512];
@@ -528,7 +529,9 @@ close_tray(FSmon *fs)
 		if (*close_target)
 			{
 			cdrom_thread_busy = TRUE;
-			g_thread_new("close_cdrom", close_cdrom_thread, close_target);
+			gth = g_thread_new("close_cdrom",
+							close_cdrom_thread, close_target);
+			g_thread_unref(gth);
 			}
 		}
 	}
@@ -544,6 +547,7 @@ eject_cdrom_thread(void *device)
 static void
 eject_tray(FSmon *fs)
 	{
+	GThread			*gth;
 	Mount			*m;
 	static gchar	*eject_target;
 	gchar			buf[512];
@@ -562,7 +566,9 @@ eject_tray(FSmon *fs)
 		if (*eject_target)
 			{
 			cdrom_thread_busy = TRUE;
-			g_thread_new("eject_cdrom", eject_cdrom_thread, eject_target);
+			gth = g_thread_new("eject_cdrom",
+					eject_cdrom_thread, eject_target);
+			g_thread_unref(gth);
 			}
 		}
 	}
@@ -713,6 +719,7 @@ animate_eject_button(FSmon *fs, gboolean force_close)
 static void
 fs_update(void)
 	{
+	GThread			*gth;
 	FSmon			*fs;
 	GkrellmPanel	*p;
 	GkrellmKrell	*k;
@@ -797,7 +804,8 @@ fs_update(void)
 				else if (!fs->busy)
 					{
 					fs->busy = TRUE;
-					g_thread_new("get_fsusage", get_fsusage_thread, fs);
+					gth = g_thread_new("get_fsusage", get_fsusage_thread, fs);
+					g_thread_unref(gth);
 					}
 				fs->krell_factor = fs->blocks > 2097152 ? 1024 : 1;
 				}

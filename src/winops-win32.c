@@ -134,6 +134,7 @@ gkrellm_winop_place_gkrellm(gchar *geom)
 		newY = atoi(part);
 		if (ysign == -1)
 			newY = _GK.h_display - h_gkrell + newY;
+		free(part);
 		}
 
 	if (   newX >= 0 && newX < _GK.w_display - 10

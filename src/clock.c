@@ -447,6 +447,7 @@ create_clock(GtkWidget *vbox, gint first_create)
 static void
 update_clock(void)
 	{
+	GThread			*gth;
 	struct tm		*ptm;
 	static gint		min_prev, hour_prev = -1, sec_prev = -1;
 	ChimeData		*chime;
@@ -479,7 +480,8 @@ update_clock(void)
 				chime = g_new0(ChimeData, 1);
 				chime -> command = g_strdup(hour_chime_command);
 				chime -> count = loop_chime_enable ? ptm->tm_hour : 1;
-				g_thread_new("chime", chime_func, chime);
+				gth = g_thread_new("chime", chime_func, chime);
+				g_thread_unref(gth);
 				}
 			}
 		else
@@ -491,7 +493,8 @@ update_clock(void)
 				chime = g_new0(ChimeData, 1);
 				chime -> command = g_strdup(quarter_chime_command);
 				chime -> count = 1;
-				g_thread_new("chime", chime_func, chime);
+				gth = g_thread_new("chime", chime_func, chime);
+				g_thread_unref(gth);
 				}
 			}
 		}

@@ -6,25 +6,25 @@
 # Rodrigo Fabiano Rosa <rodrigo@insignelinux.org>, 2006.
 # Phantom X <megaphantomx@bol.com.br>, 2008.
 # Phantom X <megaphantomx at bol.com.br>, 2009, 2010.
-# Zé <ze@mageia.org>, 2011.
+# Zé <ze@mageia.org>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-10-07 10:00-0500\n"
-"PO-Revision-Date: 2011-07-29 08:00+0100\n"
-"Last-Translator: Zé <ze@mageia.org>\n"
-"Language-Team: Portuguese <>\n"
-"Language: \n"
+"PO-Revision-Date: 2012-02-23 23:08+0000\n"
+"Last-Translator: Zé\n"
+"Language-Team: Portuguese <kde-i18n-doc@kde.org>\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 1.2\n"
+"X-Generator: Lokalize 1.5\n"
 "Plural-Forms:  nplurals=2; plural=(n > 1);\n"
 
 #: ../src/alerts.c:1165
 msgid "GKrellM Set Alerts"
-msgstr "Conjunto de alertas GKrellM"
+msgstr "Conjunto de Alertas GKrellM"
 
 #: ../src/alerts.c:1177 ../src/battery.c:1134 ../src/gui.c:567
 #: ../src/sensors.c:2820
@@ -78,7 +78,7 @@ msgstr "Uma repetição de zero segundos executa o comando uma vez por alerta."
 
 #: ../src/battery.c:578 ../src/battery.c:976 ../src/battery.c:1009
 msgid "GKrellM Battery"
-msgstr "Bateria do GKrellM"
+msgstr "Bateria GKrellM"
 
 #: ../src/battery.c:579
 msgid ""
@@ -106,7 +106,7 @@ msgid ""
 "The Battery alert units are changed\n"
 "and the alert must be reconfigured."
 msgstr ""
-"As unidades de alerta da bateria estão alteradas\n"
+"As unidades de alerta da bateria foram alteradas\n"
 "e o alerta tem que ser reconfigurado."
 
 #: ../src/battery.c:1117 ../src/mail.c:3848 ../src/sensors.c:2688
@@ -124,15 +124,12 @@ msgid ""
 "time to charge which is calculated based on the current battery percentage\n"
 "level, user supplied total battery times, and a linear extrapolation model.\n"
 msgstr ""
-"Se os tempos da bateria não foram reportados pela BIOS ou se os tempos "
-"reportados\n"
-"não forem exastos, seleccione esta opção para mostrar o tempo restante da "
-"bateria\n"
-"ou o tempo de carga que é calculado segundo a percentagem do nível actual "
-"da\n"
-"bateria, o tempo total de carga da bateria do uutilizadoro, e um modelo "
-"linear de "
-"extrapolação.\n"
+"Se os tempos da bateria não foram reportados pela BIOS ou se os tempos\n"
+"reportados não forem exactos, seleccione esta opção para mostrar o tempo\n"
+"restante da bateria ou o tempo de carga que é calculado segundo a percen-\n"
+"tagem do nível actual da bateria, o tempo total de carga da bateria do "
+"utilizador,\n"
+"e um modelo linear de extrapolação.\n"
 
 #: ../src/battery.c:1124
 msgid "<b>Total Battery Times\n"
@@ -190,7 +187,7 @@ msgstr "\t$c    Estado de carga (verdadeiro ou falso) \n"
 
 #: ../src/battery.c:1143 ../src/fs.c:2496 ../src/inet.c:1823 ../src/mem.c:1284
 msgid "<h>Mouse Button Actions:\n"
-msgstr "<h>Ações do botão do rato:\n"
+msgstr "<h>Acções do botão do rato:\n"
 
 #: ../src/battery.c:1144 ../src/fs.c:2497 ../src/gui.c:1038 ../src/inet.c:1824
 #: ../src/mail.c:3889 ../src/mail.c:3892 ../src/mem.c:1285
@@ -290,11 +287,11 @@ msgstr ""
 
 #: ../src/chart.c:2310 ../src/chart.c:2467
 msgid "/Control/Auto mode sticks at peak value"
-msgstr "/Controlo/Continuar em modo automático até ao valor de pico"
+msgstr "/Controlo/Modo automático mantém-se no valor de pico"
 
 #: ../src/chart.c:2314 ../src/chart.c:2465
 msgid "/Control/Auto mode recalibrate"
-msgstr "/Controlo/Recalibrar modo automático"
+msgstr "/Controlo/modo automático recalibrar"
 
 #: ../src/chart.c:2463
 msgid "/Control"
@@ -314,7 +311,7 @@ msgstr "/Controlo/Sequência.../1 1.5 2 3 5 7"
 
 #: ../src/chart.c:2538
 msgid "GKrellM Chart Config"
-msgstr "Configuração dos Graicos GKrellM"
+msgstr "Configuração dos Gráficos GKrellM"
 
 #: ../src/chart.c:2559
 msgid "Line style"
@@ -326,11 +323,11 @@ msgstr "Invertido"
 
 #: ../src/chart.c:2574
 msgid "Split view"
-msgstr "Vista dividida"
+msgstr "Dividir vista"
 
 #: ../src/chart.c:2586
 msgid "Hide"
-msgstr "Ocultar"
+msgstr "Esconder"
 
 #: ../src/chart.c:2601
 msgid "Resolution per Grid"
@@ -354,15 +351,15 @@ msgstr "Altura do gráfico"
 
 #: ../src/clock.c:49
 msgid "%l:%M <span foreground=\"$A\"><small>%S</small></span>"
-msgstr "%l:%M <span foreground=\"$A\"><small>%S</small></span>"
+msgstr ""
 
 #: ../src/clock.c:54
 msgid "%a <span foreground=\"$A\"><big><big>%e</big></big></span> %b"
-msgstr "%a <span foreground=\"$A\"><big><big>%e</big></big></span> %b"
+msgstr ""
 
 #: ../src/clock.c:688
 msgid "<h>Clock/Calendar Format Strings\n"
-msgstr "<h>Texto do Relógio/Calendário\n"
+msgstr "<h>Formato do Texto do Relógio/Calendário\n"
 
 #: ../src/clock.c:689
 msgid ""
@@ -378,8 +375,9 @@ msgid ""
 "clock with seconds, a 12 hour clock with AM/PM indicator, or a 24 hour\n"
 "clock with seconds.\n"
 msgstr ""
-"Para o relógio, so textos predefinidos fornecidos mostrarão um relógio de\n"
-"12 horas com segundos, um relógio de 12 horas com indicador AM/PM, ou\n"
+"Para o relógio, apenas os textos predefinidos fornecidos mostrarão um "
+"relógio\n"
+"de 12 horas com segundos, um relógio de 12 horas com indicador AM/PM, ou\n"
 "um relógio de 24 horas com segundos.\n"
 
 #: ../src/clock.c:696
@@ -421,7 +419,7 @@ msgstr "Repetir o comando de acordo com o número de horas"
 #: ../src/config.c:272
 #, c-format
 msgid "Bad textcolor line %s\n"
-msgstr "Linha %s da cor do texto errado\n"
+msgstr "Cor %s da linha e texto errada\n"
 
 #: ../src/config.c:1052 ../src/config.c:1083
 #, c-format
@@ -462,11 +460,11 @@ msgstr "Tempo do sistema"
 
 #: ../src/cpu.c:856
 msgid "user time"
-msgstr "Tempo do usuário"
+msgstr "Tempo do utilizador"
 
 #: ../src/cpu.c:865 ../src/cpu.c:869 ../src/cpu.c:1117
 msgid "nice time"
-msgstr "Tempo alto"
+msgstr "Tempo 'nice'"
 
 #: ../src/cpu.c:977 ../src/cpu.c:1444
 msgid "CPU"
@@ -484,8 +482,7 @@ msgstr "<h>Rótulos do gráfico\n"
 #: ../src/cpu.c:1277 ../src/disk.c:1353 ../src/inet.c:1813 ../src/mem.c:1255
 #: ../src/net.c:2919 ../src/proc.c:896
 msgid "Substitution variables for the format string for chart labels:\n"
-msgstr ""
-"As variáveis de substituições para as identificações dos rótulos do gráfico\n"
+msgstr "As variáveis de substituição para o texto dos rótulos dos gráficos:\n"
 
 #: ../src/cpu.c:1278
 msgid "\t$L    the CPU label\n"
@@ -493,19 +490,19 @@ msgstr "\t$L    Rótulo do CPU\n"
 
 #: ../src/cpu.c:1279
 msgid "\t$T    total CPU time percent usage\n"
-msgstr "\t$T    Percentagem do tempo de uso total do CPU\n"
+msgstr "\t$T    Percentagem de tempo de uso total do CPU\n"
 
 #: ../src/cpu.c:1280
 msgid "\t$s    sys time percent usage\n"
-msgstr "\t$s    Percentagem do tempo de uso do sistema\n"
+msgstr "\t$s    Percentagem de tempo de uso do sistema\n"
 
 #: ../src/cpu.c:1281
 msgid "\t$u    user time percent usage\n"
-msgstr "\t$u    percentagem do tempo de uso do utilizador\n"
+msgstr "\t$u    Percentagem de tempo de uso do utilizador\n"
 
 #: ../src/cpu.c:1282
 msgid "\t$n    nice time percent usage\n"
-msgstr "\t$n    Percentagem do tempo de uso\n"
+msgstr "\t$n    Percentagem de tempo de uso\n"
 
 #: ../src/cpu.c:1311
 msgid "Enable CPU"
@@ -514,7 +511,7 @@ msgstr "Activar CPU"
 #: ../src/cpu.c:1316
 msgid "Exclude nice CPU time from krell even if nice is shown on chart"
 msgstr ""
-"Excluir o melhor tempo do CPU do krell mesmo se o 'nice' seja mostrado no "
+"Excluir o melhor tempo do CPU do krell mesmo que o 'nice' seja mostrado no "
 "gráfico"
 
 #: ../src/cpu.c:1321 ../src/proc.c:928
@@ -527,8 +524,7 @@ msgstr ""
 msgid "Apply any CPU chart config height change to all CPU charts"
 msgstr ""
 "Aplicar qualquer alteração de configuração da altura do gráfico do CPU a "
-"todos "
-"os gráficos do CPU"
+"todos os gráficos do CPU"
 
 #: ../src/cpu.c:1331
 msgid "SMP Charts Select"
@@ -549,11 +545,11 @@ msgstr "Composto e real"
 #: ../src/cpu.c:1361 ../src/disk.c:1434 ../src/inet.c:2023 ../src/mem.c:1349
 #: ../src/net.c:3078 ../src/proc.c:961
 msgid "Format String for Chart Labels"
-msgstr "Formato do texto dos rótulos do gráfico"
+msgstr "Formato do texto para os rótulos do gráfico"
 
 #: ../src/cpu.c:1374
 msgid "\\fu \\.$u\\n\\fs \\.$s"
-msgstr "\\fu·\\.$u\\n\\fs·\\.$s"
+msgstr ""
 
 #: ../src/cpu.c:1376
 msgid "\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s"
@@ -619,7 +615,7 @@ msgstr "\t$w    bytes escritos\n"
 
 #: ../src/disk.c:1447
 msgid "\\f\\ww\\r\\f$M\\D2\\f\\ar\\. $r\\D1\\f\\aw\\. $w"
-msgstr "\\f\\ww\\r\\f$M\\D2\\f\\ar\\.·$r\\D1\\f\\aw\\.·$w"
+msgstr ""
 
 #: ../src/fs.c:39 ../src/mem.c:63
 msgid "$t - $f free"
@@ -635,7 +631,7 @@ msgstr ""
 
 #: ../src/fs.c:880
 msgid "GKrellM Mount Error"
-msgstr "Erro de monstagem do GKrellM"
+msgstr "Erro de montagem do GKrellM"
 
 #: ../src/fs.c:1570
 msgid "Primary"
@@ -654,7 +650,7 @@ msgid ""
 "At least one primary fs monitor must exist to click on in order to show\n"
 "secondary ones.\n"
 msgstr ""
-"Pelo menos um monitor principal do sistema de ficheiros deve existir\n"
+"Pelo menos um monitorizador principal do sistema de ficheiros deve existir\n"
 "para poder mostrar os secundários.\n"
 
 #: ../src/fs.c:2025
@@ -718,7 +714,7 @@ msgstr ""
 "e um rótulo para descrever cada ponto de montagem. O krell mostra a\n"
 "taxa de blocos usados sobre o número total de blocos disponíveis.\n"
 "Os comandos de montagem podem ser activados para pontos de montagem\n"
-"de dua maneiras:\n"
+"de duas maneiras:\n"
 "\n"
 
 #: ../src/fs.c:2431
@@ -759,7 +755,7 @@ msgstr "\tou\n"
 msgid ""
 "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,defaults 0 0\n"
 "\n"
-msgstr "<i>\t\t/dev/fd0 /mnt/floppy ext2 user,defaults 0 0\n"
+msgstr ""
 
 #: ../src/fs.c:2447
 msgid "<b>\t2) Mounting using custom commands: "
@@ -796,7 +792,7 @@ msgid ""
 "\tin /etc/sudoers if using sudo.\n"
 "\n"
 msgstr ""
-"\tNotas: o ponto de montagem especificado num comando de monstagem\n"
+"\tNotas: o ponto de montagem especificado num comando de montagem\n"
 "\tpersonalizado (neste exemplo /mnt/A) deve ser o mesmo que indicou\n"
 "\tna entrada \"Ponto de montagem\". Deve ter a opção NOPASSWD\n"
 "\tactivada em /etc/sudoers e usar \"sudo\".\n"
@@ -804,7 +800,7 @@ msgstr ""
 
 #: ../src/fs.c:2462
 msgid "<h>Primary and Secondary Monitors\n"
-msgstr "<h>Monitor Primário e Secundário\n"
+msgstr "<h>Monitorizador Primário e Secundário\n"
 
 #: ../src/fs.c:2463
 #, no-c-format
@@ -824,25 +820,25 @@ msgid ""
 "mount/umount convenience.\n"
 "\n"
 msgstr ""
-"Os monitorizadres dos sistema de ficheiros podem ser criados como primários\n"
+"Os monitorizadores dos sistema de ficheiros podem ser criados como primários\n"
 "(sempre visível) ou secundários, os quais podem ser ocultados e depois "
 "mostrados\n"
 "quando for de interesse.\n"
 "Por exemplo, poderá criar monitorizadores primários para a raíz, pasta "
 "pessoal,\n"
-"ou utilizador para poderem estar sempre visiveis, mas crie monitorizadores\n"
+"ou utilizador para poderem estar sempre visíveis, mas crie monitorizadores\n"
 "secundários para pontos de montagem menos usados como floppy, zip, partições\n"
 "de salvaguarda, outros tipos de sistema de ficheiros, etc.\n"
-"Os monitorizadoes FS secundários também podem ser configurarados para serem\n"
-"empre serem visíveis se forem montados activando a opção \"Mostrar se "
-"montado\". \n"
+"Os monitorizadores de Sistemas de Ficheiros secundários também podem ser\n "
+"configurados para serem sempre serem visíveis se forem montados activando\n"
+"a opção \"Mostrar se montado\". \n"
 "Ao usar esta característica pode mostrar o grupo secundário, montar um "
-"sistema de\n"
-"ficheiros, e manter aquele monitorzador de FS visível mesmo que o grupo "
-"secundário\n"
-"esteja oculto. Um ponto de montagem predefinido de cdrom será mostrado como\n"
-"100% cheio, mas um monitorizador para este poderia ser criado com montagem\n"
-"activada apenas para possuir a conveniência de montagem/desmontagem.\n"
+"sistema\n"
+"de ficheiros, e manter aquele monitorizador de FS visível mesmo que o grupo\n"
+"secundário esteja oculto. Um ponto de montagem predefinido de cdrom será\n"
+"mostrado como 100% cheio, mas um monitorizador para este poderia ser criado\n"
+"com montagem activada apenas para possuir a conveniência de "
+"montagem/desmontagem.\n"
 "\n"
 
 #: ../src/fs.c:2480 ../src/mem.c:1261
@@ -852,7 +848,7 @@ msgstr "<h>Rótulos do Painel\n"
 #: ../src/fs.c:2481
 msgid "Substitution variables for the format string for file system panels:\n"
 msgstr ""
-"Váriaveis de substituição para o formato do texto para os paineis do sistema "
+"Variáveis de substituição para o formato do texto para os painéis do sistema "
 "de ficheiros:\n"
 
 #: ../src/fs.c:2482
@@ -889,7 +885,7 @@ msgstr "\t$D    o disco\n"
 
 #: ../src/fs.c:2498
 msgid "click on a panel to scroll a programmable display\n"
-msgstr "clique no painel paramostrar um texto programado\n"
+msgstr "clique no painel para mostrar um texto programado\n"
 
 #: ../src/fs.c:2499
 msgid "\t\tof file system capacities (default is total and free space).\n"
@@ -904,7 +900,7 @@ msgstr "<b>\tRoda "
 #: ../src/fs.c:2501
 msgid "Shows and hides the secondary file system monitors.\n"
 msgstr ""
-"Mostra e esconde os monitorizadores secundário do sistma de ficheiros.\n"
+"Mostra e esconde os monitorizadores secundário do sistema de ficheiros.\n"
 
 #: ../src/fs.c:2519
 msgid "Panels"
@@ -921,13 +917,13 @@ msgstr "Auto-ejectar quando os dispositivos forem desmontados"
 #: ../src/fs.c:2552
 msgid "Seconds between data updates for local mounted file systems"
 msgstr ""
-"Segundos entre as datas de atualização para sistemas de ficheiros montados "
+"Segundos entre as datas de actualização para sistemas de ficheiros montados "
 "localmente"
 
 #: ../src/fs.c:2557
 msgid "Seconds between data updates for remote mounted file systems"
 msgstr ""
-"Segundos entre as datas de atualização para sistema de ficheiros montados "
+"Segundos entre as datas de actualização para sistema de ficheiros montados "
 "remotamente"
 
 #: ../src/fs.c:2561 ../src/mem.c:1371
@@ -1032,8 +1028,10 @@ msgid ""
 "on meter style monitors.  Depending on the monitor, they show fast\n"
 "response data rates, a percentage of some capacity, or something else.\n"
 msgstr ""
-"Os krells são os indicadores debaixo de cada gráfico e nos monitores de\n"
-"estilo medidor. Dependendo do monitor, mostram os índices de velocidade,\n"
+"Os krells são os indicadores debaixo de cada gráfico e nos monitorizadores "
+"de\n"
+"estilo medidor. Dependendo do monitorizador, mostram os índices de "
+"velocidade,\n"
 "a percentagem de alguma capacidade ou qualquer outra coisa.\n"
 
 #: ../src/gui.c:1001
@@ -1049,8 +1047,8 @@ msgid ""
 "some combination of the auto scaling modes may give best results.\n"
 msgstr ""
 "A predefinição para a maioria dos gráficos e para se auto-ajustar\n"
-"ao número de colunas e linhas de forma que os dados apreseantados\n"
-"sejam visiveis. Pode alterar para uma grelha fixa de 1-5 e/ou uma\n"
+"ao número de colunas e linhas de forma que os dados apresentados\n"
+"sejam visíveis. Pode alterar para uma grelha fixa de 1-5 e/ou uma\n"
 "resolução de grelha fixa na configuração da grelha. No entanto,\n"
 "algumas combinações dos modos de escala automático podem\n"
 "apresentar melhores resultados.\n"
@@ -1066,7 +1064,7 @@ msgstr ""
 
 #: ../src/gui.c:1012
 msgid "\t\\t    top left\n"
-msgstr "\t\\t    topo esquerdo\n"
+msgstr "\t\\t    superior esquerdo\n"
 
 #: ../src/gui.c:1013
 msgid "\t\\b    bottom left\n"
@@ -1079,7 +1077,7 @@ msgstr "\t\\n    próxima linha\n"
 #: ../src/gui.c:1015
 msgid "\t\\N    next line only if last string had visible characters\n"
 msgstr ""
-"\t\\N    próxima linha apenas se o último texto tiver caracteres visivéis\n"
+"\t\\N    próxima linha apenas se o último texto tiver caracteres visíveis\n"
 
 #: ../src/gui.c:1016
 msgid "\t\\p    previous line\n"
@@ -1091,7 +1089,7 @@ msgstr "\t\\c    centrar o texto\n"
 
 #: ../src/gui.c:1018
 msgid "\t\\C    begin drawing text at the center\n"
-msgstr "\t\\C    iniciar apresenação do texto centralizado\n"
+msgstr "\t\\C    iniciar apresentação do texto centralizado\n"
 
 #: ../src/gui.c:1019
 msgid "\t\\r    right justify\n"
@@ -1151,11 +1149,12 @@ msgid ""
 "\tmove the mouse into the panel area of the monitor.\n"
 "\n"
 msgstr ""
-"\tMuitos monitores podem ser configurados para executar comandos.\n"
+"\tMuitos monitorizadores podem ser configurados para executar comandos.\n"
 "\tIndique apenas o comando onde vir uma entrada \"Comando\" e também um\n"
 "\tcomentário se quiser que apareça uma dica para o comando. Após indicar o\n"
-"\tcomando, para um monitor, ficará visível um botão para o lançá quando\n"
-"\tmover o rato dentro da área do painel do monitor.\n"
+"\tcomando, para um monitorizador, ficará visível um botão para o lançá "
+"quando\n"
+"\tmover o rato dentro da área do painel do monitorizador.\n"
 "\n"
 
 #: ../src/gui.c:1037 ../src/mail.c:3888
@@ -1168,7 +1167,7 @@ msgstr ""
 
 #: ../src/gui.c:1039
 msgid "clicking on charts will toggle a display of some extra info.\n"
-msgstr "ao clicar no gráfico aparecerãp algumas informações extra.\n"
+msgstr "ao clicar no gráfico aparecerão algumas informações extra.\n"
 
 #: ../src/gui.c:1040 ../src/gui.c:1042
 msgid "<b>\tRight "
@@ -1197,11 +1196,11 @@ msgstr "Mostrar nome do sistema"
 
 #: ../src/gui.c:1088
 msgid "Remember screen location at exit and move to it at next startup"
-msgstr "Lembrar localização ao sair e movê-lo para o próximoarranque"
+msgstr "Lembrar localização ao sair e movê-lo para o próximo arranque"
 
 #: ../src/gui.c:1094
 msgid "Allow multiple instances"
-msgstr "Permitir várias intâncias"
+msgstr "Permitir várias instâncias"
 
 #: ../src/gui.c:1101
 msgid ""
@@ -1283,7 +1282,7 @@ msgstr "Seguir mudanças do tema GTK para temas de nome similar"
 
 #: ../src/gui.c:1941
 msgid "Default"
-msgstr "Prdefinido"
+msgstr "Predefinido"
 
 #: ../src/gui.c:1956
 msgid "Scale"
@@ -1332,7 +1331,7 @@ msgstr "Integrados"
 
 #: ../src/gui.c:2364 ../src/plugins.c:1733
 msgid "Plugins"
-msgstr "Extras"
+msgstr "'Plugins'"
 
 #: ../src/gui.c:2369
 msgid "Themes"
@@ -1344,7 +1343,7 @@ msgstr "Acerca"
 
 #: ../src/gui.c:2399
 msgid "Monitors"
-msgstr "Monitores"
+msgstr "Monitorizadores"
 
 #: ../src/gui.c:2471 ../src/gui.c:2482
 msgid "/Quit"
@@ -1408,18 +1407,19 @@ msgid ""
 "For example, if you created an inet monitor:\n"
 msgstr ""
 "Os gráficos inet mostram o histórico os acessos às portas TCP num gráfico\n"
-"horário ou por minuto. Por baixo do gr áfico existe uma faixa onde as marcas\n"
+"horário ou por minuto. Por baixo do gráfico existe uma faixa onde as marcas\n"
 "são mostradas por acessos às portas em intervalos de segundos. O krell inet\n"
 "tem uma escala com o valor máximo de 5 acessos e amostras por segundo.\n"
 "A janela de informação extra mostra as conexões das portas TCP actuais.\n"
 "\n"
-"Para cada monitor de internet, pode especificar dois conjuntos de dados\n"
+"Para cada monitorizador de internet, pode especificar dois conjuntos de "
+"dados\n"
 "rotulados com um ou dois números de porta indicados por cada conjunto de "
 "dados.\n"
 "São permitidas duas portas porque algumas portas internet são relacionadas\n"
 "pode-as agrupar.  Veja /etc/services pelos números de porta.\n"
 "\n"
-"Por exemplo, se criou um monitor inet:\n"
+"Por exemplo, se criou um monitorizador inet:\n"
 
 #: ../src/inet.c:1803
 msgid "<i>\thttp 80 8080   ftp 21\n"
@@ -1462,7 +1462,7 @@ msgstr "\t$l    o rótulo para Dados0\n"
 
 #: ../src/inet.c:1818
 msgid "\t$A    current active connections for Data1\n"
-msgstr "\t$A    as conexões ativas para Dados1\n"
+msgstr "\t$A    as conexões activas para Dados1\n"
 
 #: ../src/inet.c:1819
 msgid "\t$CN   total connections in last N minutes (or hours) for Data1\n"
@@ -1479,7 +1479,7 @@ msgid ""
 "\t\tcurrent TCP port connections.\n"
 msgstr ""
 "Clique no gráfico inet para mostrar as informações suplementares das\n"
-"\t\tconexões atuais das portas TCP.\n"
+"\t\tconexões actuais das portas TCP.\n"
 
 #: ../src/inet.c:1828
 msgid "click on an inet chart to toggle hour/minute charts.\n"
@@ -1680,7 +1680,7 @@ msgstr ""
 " separador, então faça isto indicando um comando de obtenção/verificação\n"
 "de correio. Por exemplo, o fetchmail pode ser executado periodicamente para\n"
 "transferir as mensagens de correio de um servidor remoto para as suas caixas\n"
-"de correio local onde o GKrellM as pode contr.\n"
+"de correio local onde o GKrellM as pode contar.\n"
 "\n"
 "Ou, o GKrellM pode ler a saída e reportar os resultados de alguns programas "
 "de\n"
@@ -1688,7 +1688,7 @@ msgstr ""
 "um\n"
 "comando como este que verifica o correio sem o transferir, então deve dizer "
 "ao\n"
-"GKrellM que isto é o comportamento esperado ao selecionar no separador "
+"GKrellM que isto é o comportamento esperado ao seleccionar no separador "
 "Opções:\n"
 
 #: ../src/mail.c:3875
@@ -1774,7 +1774,7 @@ msgstr "Programa para obter/verificar correio:"
 
 #: ../src/mail.c:4000
 msgid "Run fetch/check program at local interval"
-msgstr "Executar programa para obter/verificar em intevalo local"
+msgstr "Executar programa para obter/verificar em intervalo local"
 
 #: ../src/mail.c:4010
 msgid "Check local mailboxes every"
@@ -1854,7 +1854,7 @@ msgstr "Animação"
 
 #: ../src/mail.c:4207
 msgid "Animation Select"
-msgstr "Seleção de Animação"
+msgstr "Selecção de Animação"
 
 #: ../src/mail.c:4212
 msgid "None"
@@ -1947,7 +1947,7 @@ msgid ""
 "\n"
 "Read the Info pages in the config for setup help."
 msgstr ""
-"Pode configurar os seus monitores ao clicar com o botão\n"
+"Pode configurar os seus monitorizadores ao clicar com o botão\n"
 "direito no quadro superior do GKrellM ou premindo a tecla F1\n"
 "com o rato na janela do GKrellM.\n"
 "\n"
@@ -1955,7 +1955,7 @@ msgstr ""
 
 #: ../src/main.c:174
 msgid "Error: Could not load all fonts.\n"
-msgstr "Erro: Não foi possível carregar todosos tipos de letra.\n"
+msgstr "Erro: Não foi possível carregar todos os tipos de letra.\n"
 
 #: ../src/main.c:1704
 msgid "GKrellM Introduction"
@@ -1971,7 +1971,7 @@ msgstr ""
 
 #: ../src/main.c:1784
 msgid "   -t, --theme theme_dir    Select a theme directory.\n"
-msgstr "   -t, --theme dir_tema    Selecciona o diretório do tema.\n"
+msgstr "   -t, --theme dir_tema    Selecciona o directório do tema.\n"
 
 #: ../src/main.c:1785
 msgid "   -g, --geometry +x+y      Position the window on the screen.\n"
@@ -2020,7 +2020,7 @@ msgid ""
 msgstr ""
 "   -f, --force-host-config  Cria ficheiros de configuração gerados ao anexar\n"
 "                            o nome do hospedeiro aos nomes dos ficheiros de "
-"configração.\n"
+"configuração.\n"
 "                            As execuções subsequentes automaticamente usarão "
 "essas\n"
 "                            configurações a não ser que seja especificada uma "
@@ -2040,7 +2040,7 @@ msgid ""
 msgstr ""
 "   -s, --server nome_hospedeiro    Corre em modo cliente: conecta ao "
 "\"nome_hospedeiro\" e\n"
-"                            lê os dados de monitoração de um servidor "
+"                            lê os dados de monitorização de um servidor "
 "gkrellmd.\n"
 
 #: ../src/main.c:1802
@@ -2079,7 +2079,8 @@ msgid ""
 "       --demo               Force enabling of many monitors so themers can\n"
 "                            see everything. All config saving is inhibited.\n"
 msgstr ""
-"       --demo               Força a activação de vários monitores para que os "
+"       --demo               Força a activação de vários monitorizadores para "
+"que os "
 "temas possam\n"
 "                            ver tudo. Todas as gravações de configuração "
 "são inibidas.\n"
@@ -2121,7 +2122,7 @@ msgstr ""
 "     0x1000  despejar dados do servidor gkrellmd\n"
 "     0x2000  GUI\n"
 "     0x8000  bateria\n"
-"     0x20000 plugin \n"
+"     0x20000 'plugin' \n"
 "\n"
 
 #: ../src/main.c:1832
@@ -2159,7 +2160,7 @@ msgstr "Entrada Swap"
 
 #: ../src/mem.c:718
 msgid "Swap in/out pages per sec"
-msgstr "Entrada/saída de swap  - páginas por segundos"
+msgstr "Entrada/saída swap  - páginas por segundos"
 
 #: ../src/mem.c:827 ../src/mem.c:1391 ../src/mem.c:1422
 msgid "Mem"
@@ -2176,7 +2177,7 @@ msgstr "Memória"
 
 #: ../src/mem.c:1247
 msgid "<h>Used and Free\n"
-msgstr "<h>Usado e Livre\n"
+msgstr "<h>Usada e Livre\n"
 
 #: ../src/mem.c:1248
 msgid ""
@@ -2209,7 +2210,7 @@ msgid ""
 "Substitution variables for the format string for the Mem and Swap\n"
 "panels (a MiB is a binary megabyte - 2^20):\n"
 msgstr ""
-"As variáveis de substituições para o formato do texto para os paineis\n"
+"As variáveis de substituições para o formato do texto para os painéis\n"
 "de Memória e Swap (um MiB é um binário megabyte - 2^20):\n"
 
 #: ../src/mem.c:1265
@@ -2423,7 +2424,7 @@ msgid ""
 msgstr ""
 "O estado de espera do botão temporizador não se aplica para interfaces\n"
 "\tisdn que estão sempre roteadas. O estado ligado é o de isdn em-linha\n"
-"\temquanto o interface ippp é roteado.  O temporizadorem-linha é reiniciado\n"
+"\temquanto o interface ippp é roteado.  O temporizador em-linha é reiniciado\n"
 "\tquando ocorrem transições do interface isdn de um congelamento para um\n"
 "\testado em-linha\n"
 
@@ -2466,7 +2467,7 @@ msgid ""
 "cumulative weekly receive + transmit bytes.\n"
 msgstr ""
 "As variáveis cumulativas devem ter um qualificador 'd', 'w' ou 'm' para\n"
-"os tatais diário, semanal ou mensal.  Por examplo:  $Ow para uma\n"
+"os totais diário, semanal ou mensal.  Por exemplo:  $Ow para uma\n"
 "recepção cumulativa semanal + bytes enviados.\n"
 
 #: ../src/net.c:2956
@@ -2487,11 +2488,11 @@ msgstr "Interface para ligar ao botão temporizador"
 
 #: ../src/net.c:3002
 msgid "Start Command"
-msgstr "Comando para Iniciar"
+msgstr "Comando de Iniciar"
 
 #: ../src/net.c:3013
 msgid "Stop Command"
-msgstr "Comando para Parar"
+msgstr "Comando de Parar"
 
 #: ../src/net.c:3027
 #, c-format
@@ -2522,7 +2523,7 @@ msgstr ""
 
 #: ../src/net.c:3102
 msgid "Start day for cumulative monthly transmit and receive bytes"
-msgstr "Dia inicial para acumular no mês o envio e recepção de bytes"
+msgstr "Dia inicial para enviar e receber em bytes o acumulado mensal"
 
 #: ../src/net.c:3121
 msgid "Net"
@@ -2530,7 +2531,7 @@ msgstr "Rede"
 
 #: ../src/net.c:3182
 msgid "Net Timer"
-msgstr "Temporizador"
+msgstr "Temporizador da Rede"
 
 #: ../src/plugins.c:834
 #, c-format
@@ -2552,7 +2553,7 @@ msgstr "\tErro: %s\n"
 
 #: ../src/plugins.c:938
 msgid "\tOoops! plugin returned NULL, aborting\n"
-msgstr "\tOoops! O 'plugin' retornou NULL, a abortar\n"
+msgstr "\tUps! O 'plugin' retornou NULL, a abortar\n"
 
 #: ../src/plugins.c:950
 msgid "\tWarning: style name \""
@@ -2568,11 +2569,11 @@ msgstr ""
 
 #: ../src/plugins.c:960
 msgid "\tWarning: config keyword \""
-msgstr "\tPerigo: configurações do teclado"
+msgstr "\tAviso: configuração do teclado"
 
 #: ../src/plugins.c:1218
 msgid "Ignoring duplicate plugin "
-msgstr "A ignorar 'plugin' duplicado "
+msgstr "A ignorar o 'plugin' duplicado "
 
 #: ../src/plugins.c:1250
 msgid "*** Command line plugin:\n"
@@ -2584,7 +2585,7 @@ msgstr "Posição do 'Plugin' GKrellM"
 
 #: ../src/plugins.c:1537
 msgid "Builtin Monitors"
-msgstr "Monitores integrados"
+msgstr "Monitorizadores Integrados"
 
 #: ../src/plugins.c:1567
 msgid "Place Plugin"
@@ -2592,7 +2593,7 @@ msgstr "Posição do 'Plugin'"
 
 #: ../src/plugins.c:1573
 msgid "Before selected builtin monitor"
-msgstr "Antes do monitor embutido selecionado"
+msgstr "Antes do monitorizador embutido seleccionado"
 
 #: ../src/plugins.c:1580
 msgid "With gravity"
@@ -2600,7 +2601,7 @@ msgstr "Com gravidade"
 
 #: ../src/plugins.c:1585
 msgid "After selected builtin monitor"
-msgstr "Após o monitor embutido selecionado"
+msgstr "Após o monitorizador embutido seleccionado"
 
 #: ../src/plugins.c:1593
 msgid "Plugin Defaults"
@@ -2612,7 +2613,7 @@ msgstr "da linha de comando"
 
 #: ../src/plugins.c:1753
 msgid "Plugin"
-msgstr ""
+msgstr "'Plugin'"
 
 #: ../src/plugins.c:1774
 msgid "Place"
@@ -2632,7 +2633,7 @@ msgstr "Carga"
 
 #: ../src/proc.c:559
 msgid "Forks"
-msgstr "Birfurcação"
+msgstr "Bifurcação"
 
 #: ../src/proc.c:568
 msgid "Average process load per minute"
@@ -2765,7 +2766,7 @@ msgstr ""
 #: ../src/sensors.c:2692
 msgid "Enter a zero factor and a blank label to restore default values.\n"
 msgstr ""
-"Indique um fator zero e um rótulo em branco para restaurar os valores "
+"Indique um factor zero e um rótulo em branco para restaurar os valores "
 "predefinidos.\n"
 
 #: ../src/sensors.c:2694
@@ -2832,7 +2833,7 @@ msgstr ""
 
 #: ../src/uptime.c:282
 msgid "Enable Uptime"
-msgstr "Habilitar Tempo de serviço"
+msgstr "Activar Tempo de serviço"
 
 #: ../src/uptime.c:289 ../src/uptime.c:299
 msgid "Uptime"
@@ -2845,11 +2846,11 @@ msgstr "Quota indeterminada\n"
 #: ../src/utils.c:233
 #, c-format
 msgid "Cannot create directory: %s\n"
-msgstr "Impossível criar diretório: %s\n"
+msgstr "Não é possível criar o directório: %s\n"
 
 #: ../src/winops-gtk-mac.c:133 ../src/winops-x11.c:387
 msgid "Exiting because multiple instances option is off.\n"
-msgstr "Saindo pois a opção de múltiplas instâncias está desativada.\n"
+msgstr "Saindo pois a opção de múltiplas instâncias está desactivada.\n"
 
 #: ../src/winops-x11.c:458
 msgid "Warning: -w flag is ignored when the window dock type is set"

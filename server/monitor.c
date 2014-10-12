@@ -1489,6 +1489,7 @@ get_fsusage_thread(void *data)
 static void
 update_fs(GkrellmdMonitor *mon, gboolean first_update)
 	{
+	GThread		*gth;
 	GList		*list;
 	Mount		*m;
 	static gint	check_tick;
@@ -1517,7 +1518,8 @@ update_fs(GkrellmdMonitor *mon, gboolean first_update)
 		else if (nfs_check && m->is_nfs && !m->busy)
 			{
 			m->busy = TRUE;
-			g_thread_new("get_fsusage", get_fsusage_thread, m);
+			gth = g_thread_new("get_fsusage", get_fsusage_thread, m);
+			g_thread_unref(gth);
 			}
 		}
 	if (first_update || gkrellm_sys_fs_fstab_modified())
@@ -1851,10 +1853,13 @@ read_sensors(void *data)
 static void
 run_sensors_thread(void)
 	{
+	GThread		*gth;
+
 	if (thread_busy)
 		return;
 	thread_busy = TRUE;
-	g_thread_new("read_sensors", read_sensors, NULL);
+	gth = g_thread_new("read_sensors", read_sensors, NULL);
+	g_thread_unref(gth);
 	}
 
 

@@ -2036,6 +2036,7 @@ cb_chart_grid_resolution(GtkWidget *adjustment, GkrellmChart *cp)
 	gint			res;
 	gfloat			fres;
 
+	_GK.config_modified = TRUE;
 	cf = cp->config;
 	spin = GTK_SPIN_BUTTON(cf->grid_resolution_spin_button);
 	if (cf->map_sequence)

@@ -807,7 +807,7 @@ void
 gkrellm_place_plugin(GList **monitor_list, GkrellmMonitor *plugin)
 	{
 	GkrellmMonitor	*mon;
-	GList			*list, *plist, *waste;
+	GList			*list, *plist;
 	gint			n, gravity, after_flag;
 	gchar			buf[120];
 
@@ -857,10 +857,9 @@ gkrellm_place_plugin(GList **monitor_list, GkrellmMonitor *plugin)
 						}
 					list = plist;
 					}
-				if (list == *monitor_list)
-					*monitor_list = g_list_prepend(list, plugin);
-				else
-					waste = g_list_prepend(list, plugin);
+				if ((n = g_list_position(*monitor_list, list)) < 0)
+					n = 0;
+				*monitor_list = g_list_insert(*monitor_list, plugin, n);
 				}
 			return;
 			}

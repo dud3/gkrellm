@@ -415,7 +415,7 @@ gkrellm_net_led_positions(gint *x_rx_led, gint *y_rx_led,
 #endif
 
 #define	MIN_GRID_RES		5
-#define	MAX_GRID_RES		100000000
+#define	MAX_GRID_RES		500000000
 #define	DEFAULT_GRID_RES 	20000
 
   /* States for the timer button are indexes to the corresponding
