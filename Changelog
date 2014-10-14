@@ -2,6 +2,15 @@ GKrellM Changelog
 -----------------
 2.3.6 - Not released
 ------------------------
+	NOTE: git commit log history may now be viewed at:
+	          http://git.srcbox.net/gkrellm/
+	so this Changelog text file is probably not going to be maintained for
+	gkrellm releases after 2.3.6.
+
+	* Each real CPU chart may be  individually enabled instead of as a group
+	  so CPU charts may be split into multiple instances.  For systems
+	  with large numbers of CPUs.
+	* Make drawing CPU panel labels optional to allow saving vertical space.
 	* Patch from Ville Skytta: fix some netbsd.c and winops-win32.c issues
 	  flagged by cppcheck.
 	* Patch from Neil Booth: Add multiple CPU capability to CPU monitor for

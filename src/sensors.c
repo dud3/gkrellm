@@ -708,22 +708,28 @@ static gint		pixel_grub;
 static gfloat		sensor_float_factor = 1.0,
 					gkrellm_float_factor = 1.0;
 
-void
+gboolean
 gkrellm_sensor_reset_location(gpointer sr)
 	{
-	GList	*list;
-	Sensor	*sensor;
+	GList		*list;
+	Sensor		*sensor;
+	gboolean	result = FALSE;
 
-	for (list = sensor_list; list; list = list->next)
+	if (sr)
 		{
-		sensor = (Sensor *) list->data;
-		if (sr == sensor)
+		for (list = sensor_list; list; list = list->next)
 			{
-			sensor->location = SENSOR_PANEL_LOCATION;
-			sensor_reset_optionmenu(sensor);
-			break;
+			sensor = (Sensor *) list->data;
+			if (sr == sensor)
+				{
+				sensor->location = SENSOR_PANEL_LOCATION;
+				sensor_reset_optionmenu(sensor);
+				result = TRUE;
+				break;
+				}
 			}
 		}
+	return result;
 	}
 
 
@@ -2335,29 +2341,32 @@ cb_location_menu(GtkComboBox *om, gpointer data)
 static void
 create_location_menu(gint group)
 	{
+	gchar		*label;
 	gint		n, n_cpus;
 
 	if (group == sensor_last_group)
 		return;
 	sensor_last_group = group;
 
-        gtk_combo_box_append_text(GTK_COMBO_BOX(optionmenu), "default");
+	gtk_combo_box_append_text(GTK_COMBO_BOX(optionmenu), "default");
 
 	if (group == SENSOR_GROUP_MAINBOARD)
 		{
-                    gtk_combo_box_append_text(GTK_COMBO_BOX(optionmenu),
-                                              gkrellm_proc_get_sensor_panel_label());
+		label = gkrellm_proc_get_sensor_panel_label();
+		if (label)
+			gtk_combo_box_append_text(GTK_COMBO_BOX(optionmenu), label);
 
 		n_cpus = gkrellm_smp_cpus() + 1;
 		for (n = 0; n < n_cpus; ++n)
 			{
-                    gtk_combo_box_append_text(GTK_COMBO_BOX(optionmenu),
-                                              gkrellm_cpu_get_sensor_panel_label(n));
+			label = gkrellm_cpu_get_sensor_panel_label(n);
+			if (label)
+				gtk_combo_box_append_text(GTK_COMBO_BOX(optionmenu), label);
 			}
 		}
 	else if (group == SENSOR_GROUP_DISK)
 		{
-                    gtk_combo_box_append_text(GTK_COMBO_BOX(optionmenu), _("Disk"));
+		gtk_combo_box_append_text(GTK_COMBO_BOX(optionmenu), _("Disk"));
 		}
 	g_signal_connect(G_OBJECT(optionmenu), "changed",
 				G_CALLBACK(cb_location_menu), NULL);

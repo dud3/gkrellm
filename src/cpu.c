@@ -49,10 +49,6 @@ static void	cb_alert_config_create(GkrellmAlert *ap, GtkWidget *vbox,
 #define	CPU_TICKS_PER_SECOND	100		/* XXX */
 #endif
 
-  /* Values for smp_mode - must be same order as buttons in config */
-#define	SMP_REAL_MODE				0
-#define	SMP_COMPOSITE_MODE			1
-#define	SMP_COMPOSITE_AND_REAL_MODE	2
 
 typedef struct
 	{
@@ -104,11 +100,18 @@ GList			*cpu_mon_list,
 void			(*read_cpu_data)();
 static CpuMon	*composite_cpu;
 
-static GkrellmAlert	*cpu_alert;		/* One alert dupped for each CPU */
+static GkrellmAlert	*cpu_alert;		/* One alert duped for each CPU */
 static gboolean	alert_includes_nice;
 
-static gint		smp_mode;
-static gboolean	cpu_enabled  = TRUE;
+static gint		old_smp_mode;		/* Remove these in 2.3.7 release */
+static gint		old_cpu_enabled;
+
+
+static gboolean	show_panel_labels = TRUE;
+
+static gboolean	any_cpu_enabled,
+				any_real_cpu_enabled;
+
 static gboolean	omit_nice_mode,
 				config_tracking,
 				sys_handles_composite_data,
@@ -171,18 +174,24 @@ gkrellm_cpu_set_number_of_cpus(gint n)
 			cpu->name = g_strdup("cpu");
 			if (n_smp_cpus > 0)
 				{
+				/* For SMP, default is composite not enabled.
+				*/
 				cpu->is_composite = TRUE;
 				cpu->instance = -1;
 				composite_cpu = cpu;
 				}
 			else
+				{
 				cpu->instance = GPOINTER_TO_INT(instance_list->data);
+				cpu->enabled = TRUE;
+				}
 			}
 		else
 			{
 			list = g_list_nth(instance_list, i - 1);
 			cpu->instance = GPOINTER_TO_INT(list->data);
 			cpu->name = g_strdup_printf("cpu%d", cpu->instance);
+			cpu->enabled = TRUE;
 			}
 		cpu->panel_label = g_strdup_printf(_("CPU%s"), &(cpu->name)[3]);
 		cpu_mon_list = g_list_append(cpu_mon_list, cpu);
@@ -282,7 +291,6 @@ gkrellm_cpu_stats(gint n, gulong *user, gulong *nice,
 static void
 format_cpu_data(CpuMon *cpu, gchar *src_string, gchar *buf, gint size)
 	{
-	GkrellmChart	*cp;
 	gchar			c, *s;
 	gint			len, sys, user, nice = 0, total, t;
 
@@ -292,7 +300,6 @@ format_cpu_data(CpuMon *cpu, gchar *src_string, gchar *buf, gint size)
 	*buf = '\0';
 	if (!src_string)
 		return;
-	cp = cpu->chart;
 	sys = gkrellm_get_current_chartdata(cpu->sys_cd);
 	user = gkrellm_get_current_chartdata(cpu->user_cd);
 	total = sys + user;
@@ -317,7 +324,9 @@ format_cpu_data(CpuMon *cpu, gchar *src_string, gchar *buf, gint size)
 			else if (c == 'n')
 				t = nice;
 			else if (c == 'L')
-				len = snprintf(buf, size, "%s", cp->panel->label->string);
+				len = snprintf(buf, size, "%s", cpu->panel_label);
+			else if (c == 'N')
+				len = snprintf(buf, size, "%s", &(cpu->name)[3]);
 			else if (c == 'H')
 				len = snprintf(buf, size, "%s", gkrellm_sys_get_host_name());
 			else
@@ -454,14 +463,18 @@ update_cpu(void)
 	for (list = cpu_mon_list; list; list = list->next)
 		{
 		cpu = (CpuMon *) list->data;
+
+		/* Track cpu activity data to provide a helper for the mem monitor.
+		*/
+		if (list == cpu_mon_list)	/* Use composite cpu values */
+			_GK.cpu_sys_activity = (int)(cpu->sys - cpu->sys_cd->previous);
+
 		if (!cpu->enabled)
 			continue;
+
 		cp = cpu->chart;
 		p = cp->panel;
-		if (smp_mode == SMP_REAL_MODE)
-			_GK.cpu_sys_activity += (int)(cpu->sys - cpu->sys_cd->previous);
-		else if (list == cpu_mon_list)	/* Use composite cpu values */
-			_GK.cpu_sys_activity = (int)(cpu->sys - cpu->sys_cd->previous);
+
 		total = cpu->user + cpu->nice + cpu->sys + cpu->idle;
 		if (GK.second_tick)
 			{
@@ -473,8 +486,8 @@ update_cpu(void)
 				alert_value += cpu->nice;
 			alert_total_diff = total - cpu->previous_alert_total;
 			if (   alert_total_diff > 0
-				&& (   ( cpu->is_composite && smp_mode == SMP_COMPOSITE_MODE)
-					|| (!cpu->is_composite && smp_mode != SMP_COMPOSITE_MODE)
+				&& (   ( cpu->is_composite && !any_real_cpu_enabled)
+					|| (!cpu->is_composite &&  any_real_cpu_enabled)
 				   )
 			   )
 				gkrellm_check_alert(cpu->alert,
@@ -573,22 +586,6 @@ setup_cpu_scaling(GkrellmChartconfig *cf)
 	gkrellm_set_chartconfig_grid_resolution(cf,
 				CPU_TICKS_PER_SECOND / grids);
 	}
-
-static gboolean
-enable_cpu_visibility(CpuMon *cpu)
-	{
-	gint	enabled = cpu_enabled;
-
-	if (n_smp_cpus > 0)
-		{
-		if (   (cpu->is_composite && smp_mode == SMP_REAL_MODE)
-			|| (! cpu->is_composite && smp_mode == SMP_COMPOSITE_MODE)
-		   )
-			enabled = FALSE;
-		}
-	return gkrellm_chart_enable_visibility(cpu->chart, enabled, &cpu->enabled);
-	}
-
 
 static void
 cb_cpu_temp_alert_trigger(GkrellmAlert *alert, CpuMon *cpu)
@@ -825,12 +822,11 @@ create_cpu(GtkWidget *vbox, gint first_create)
 	GList			*list;
 
 	load_nice_data_piximages();
+	any_cpu_enabled = any_real_cpu_enabled = FALSE;
 	for (list = cpu_mon_list; list; list = list->next)
 		{
 		cpu = (CpuMon *) list->data;
 
-		/* Default to all cpu charts visible.  Correct this as last step.
-		*/
 		if (first_create)
 			{
 			/* don't really need the cpu->vbox unless I start destroying...
@@ -840,7 +836,12 @@ create_cpu(GtkWidget *vbox, gint first_create)
 			gtk_widget_show(cpu->vbox);
 			cpu->chart = gkrellm_chart_new0();
 			cpu->chart->panel = gkrellm_panel_new0();
-			cpu->enabled = TRUE;
+			if (cpu->enabled)
+				{
+				any_cpu_enabled = TRUE;
+				if (!cpu->is_composite)
+					any_real_cpu_enabled = TRUE;
+				}
 			}
 		cp = cpu->chart;
 		p = cp->panel;
@@ -880,19 +881,24 @@ create_cpu(GtkWidget *vbox, gint first_create)
 		gkrellm_chartconfig_height_connect(cp->config, cb_height, cpu);
 		setup_cpu_scaling(cp->config);
 
-		gkrellm_sensors_create_decals(p, style_id,
-					&cpu->sensor_decal, &cpu->fan_decal);
+		cpu->sensor_decal = cpu->fan_decal = NULL;
+		if (show_panel_labels)
+			gkrellm_sensors_create_decals(p, style_id,
+						&cpu->sensor_decal, &cpu->fan_decal);
 
-		gkrellm_panel_configure(p, cpu->panel_label, style);
+		gkrellm_panel_configure(p,
+					show_panel_labels ? cpu->panel_label : NULL, style);
+
 		gkrellm_panel_create(cpu->vbox, mon_cpu, p);
 
 		cpu->save_label_position = p->label->position;
-		if (cpu->sensor_decal)
-			adjust_sensors_display(cpu, TRUE);
+		adjust_sensors_display(cpu, TRUE);
 
 		gkrellm_alloc_chartdata(cp);
-		enable_cpu_visibility(cpu);
 		cpu->new_text_format = TRUE;
+
+		if (!cpu->enabled)
+			gkrellm_chart_hide(cp, TRUE);
 
 		if (first_create)
 			{
@@ -910,7 +916,7 @@ create_cpu(GtkWidget *vbox, gint first_create)
 			refresh_cpu_chart(cpu);
 		gkrellm_setup_launcher(p, &cpu->launch, CHART_PANEL_TYPE, 4);
 		}
-	if (cpu_enabled)
+	if (any_cpu_enabled)
 		gkrellm_spacers_show(mon_cpu);
 	else
 		gkrellm_spacers_hide(mon_cpu);
@@ -921,7 +927,7 @@ create_cpu(GtkWidget *vbox, gint first_create)
 #define	CPU_CONFIG_KEYWORD	"cpu"
 
 static GtkWidget	*text_format_combo_box;
-static GtkWidget	*smp_button[3];
+
 #if !defined(WIN32)
 static GtkWidget	*alert_config_nice_button;
 #endif
@@ -935,7 +941,9 @@ cb_alert_trigger(GkrellmAlert *alert, CpuMon *cpu)
 	alert->panel = cpu->chart->panel;
 	ds = cpu->sensor_decal;
 	df = cpu->fan_decal;
-	if (gkrellm_is_decal_visible(ds) && !gkrellm_is_decal_visible(df))
+	if (    gkrellm_is_decal_visible(ds)
+	    && !gkrellm_is_decal_visible(df)
+	   )
 		{
 		ad = &alert->ad;
 		ad->x = 0;
@@ -989,9 +997,18 @@ save_cpu_config(FILE *f)
 	GList	*list;
 	CpuMon	*cpu;
 
+	/* FIXME XXX: temporary maintenance of old config for transition
+	|  from 2.3.5 to 2.3.6.  Probably remove in 2.3.7.
+	*/
+	fprintf(f, "%s enable %d\n", CPU_CONFIG_KEYWORD, old_cpu_enabled);
+	fprintf(f, "%s smp_mode %d\n", CPU_CONFIG_KEYWORD, old_smp_mode);
+
 	for (list = cpu_mon_list; list; list = list->next)
 		{
 		cpu = (CpuMon *) list->data;
+		fprintf(f, "%s enabled %s %d\n", CPU_CONFIG_KEYWORD,
+					cpu->name, cpu->enabled);
+
 		if (*(cpu->launch.command) != '\0')
 			fprintf(f, "%s launch %s %s\n", CPU_CONFIG_KEYWORD,
 						cpu->name, cpu->launch.command);
@@ -1003,8 +1020,8 @@ save_cpu_config(FILE *f)
 		gkrellm_save_chartconfig(f, cpu->chart_config,
 					CPU_CONFIG_KEYWORD, cpu->name);
 		}
-	fprintf(f, "%s enable %d\n", CPU_CONFIG_KEYWORD, cpu_enabled);
-	fprintf(f, "%s smp_mode %d\n", CPU_CONFIG_KEYWORD, smp_mode);
+	fprintf(f, "%s show_panel_labels %d\n", CPU_CONFIG_KEYWORD,
+				show_panel_labels);
 	fprintf(f, "%s omit_nice_mode %d\n", CPU_CONFIG_KEYWORD, omit_nice_mode);
 	fprintf(f, "%s config_tracking %d\n", CPU_CONFIG_KEYWORD, config_tracking);
 	fprintf(f, "%s sensor_mode %d\n", CPU_CONFIG_KEYWORD,
@@ -1030,10 +1047,12 @@ load_cpu_config(gchar *arg)
 	n = sscanf(arg, "%31s %[^\n]", config, item);
 	if (n == 2)
 		{
-		if (!strcmp(config, "enable"))
-			sscanf(item, "%d", &cpu_enabled);
-		else if (!strcmp(config, "smp_mode"))
-			sscanf(item, "%d\n", &smp_mode);
+		if (!strcmp(config, "enable"))				/* XXX remove in 2.3.7 */
+			sscanf(item, "%d", &old_cpu_enabled);
+		else if (!strcmp(config, "smp_mode"))		/* XXX remove in 2.3.7 */
+			sscanf(item, "%d\n", &old_smp_mode);
+		else if (!strcmp(config, "show_panel_labels"))
+			sscanf(item, "%d\n", &show_panel_labels);
 		else if (!strcmp(config, "omit_nice_mode"))
 			sscanf(item, "%d\n", &omit_nice_mode);
 		else if (!strcmp(config, "config_tracking"))
@@ -1053,6 +1072,16 @@ load_cpu_config(gchar *arg)
 				if (strcmp(cpu->name, cpu_name) == 0)
 					gkrellm_load_chartconfig(&cpu->chart_config, command,
 							nice_time_unsupported ? 2 : 3);
+				}
+			}
+		else if (!strcmp(config, "enabled"))
+			{
+			sscanf(item, "%31s %[^\n]", cpu_name, command);
+			for (list = cpu_mon_list; list; list = list->next)
+				{
+				cpu = (CpuMon *) list->data;
+				if (strcmp(cpu->name, cpu_name) == 0)
+					sscanf(command, "%d\n", &cpu->enabled);
 				}
 			}
 		else if (!strcmp(config, GKRELLM_ALERTCONFIG_KEYWORD))
@@ -1137,12 +1166,16 @@ fix_panel(CpuMon *cpu)
 	return result;
 	}
 
+  /* Called from sensor monitor when user wants to relocate a temp or fan
+  |  sensor to a CPU panel.  Return TRUE if this is acceptable.
+  */
 gboolean
 gkrellm_cpu_set_sensor(gpointer sr, gint type, gint n)
 	{
 	CpuMon	*cpu;
 
-	if (   (cpu = (CpuMon *) g_list_nth_data(cpu_mon_list, n)) == NULL
+	if (   !show_panel_labels
+		|| (cpu = (CpuMon *) g_list_nth_data(cpu_mon_list, n)) == NULL
 		|| !cpu->enabled
 	   )
 		return FALSE;
@@ -1164,6 +1197,55 @@ cb_sensor_separate(GtkWidget *button, gpointer data)
 	sensor_separate_mode = GTK_TOGGLE_BUTTON(button)->active;
 	for (list = cpu_mon_list; list; list = list->next)
 		fix_panel((CpuMon *) list->data);
+	}
+
+static void
+cb_show_panel_labels(GtkWidget *button, gpointer data)
+    {
+	CpuMon			*cpu;
+	GkrellmPanel	*p;
+	GkrellmStyle	*style;
+	GList			*list;
+	gboolean		rebuild_temps = FALSE, rebuild_fans = FALSE;
+
+	show_panel_labels = GTK_TOGGLE_BUTTON(button)->active;
+	style = gkrellm_panel_style(style_id);
+
+	for (list = cpu_mon_list; list; list = list->next)
+		{
+		cpu = (CpuMon *) list->data;
+		p = cpu->chart->panel;
+
+		gkrellm_reset_alert_soft(cpu->alert);
+
+		if (!show_panel_labels)
+			{
+			if (gkrellm_sensor_reset_location(cpu->sensor_temp))
+				rebuild_temps = TRUE;
+			if (gkrellm_sensor_reset_location(cpu->sensor_fan))
+				rebuild_fans = TRUE;
+			cpu->sensor_temp = NULL;
+			cpu->sensor_fan = NULL;
+			fix_panel(cpu);
+
+			gkrellm_destroy_decal_list(p);
+			gkrellm_panel_configure(p, NULL, style);
+			}
+		else
+			{
+			fix_panel(cpu);
+			gkrellm_destroy_decal_list(p);
+			gkrellm_sensors_create_decals(p, style_id,
+						&cpu->sensor_decal, &cpu->fan_decal);
+			gkrellm_panel_configure(p, cpu->panel_label, style);
+			}
+		gkrellm_panel_create(cpu->vbox, mon_cpu, p);
+		cpu->save_label_position = p->label->position;
+		gkrellm_setup_launcher(p, &cpu->launch, CHART_PANEL_TYPE, 4);
+		}
+
+	if (rebuild_temps || rebuild_fans)
+		gkrellm_sensors_rebuild(rebuild_temps, rebuild_fans, FALSE);
 	}
 
 static void
@@ -1191,66 +1273,55 @@ cb_text_format(GtkWidget *widget, gpointer data)
 		}
 	}
 
+
 static void
 cb_enable(GtkWidget *button, gpointer data)
     {
-	GList	*list;
-	CpuMon	*cpu;
+	GList		*list;
+	CpuMon		*cpu;
+	gint		i;
+	gboolean	enabled, rebuild_temps = FALSE, rebuild_fans = FALSE;
 
-	cpu_enabled = GTK_TOGGLE_BUTTON(button)->active;
-	for (list = cpu_mon_list; list; list = list->next)
+	enabled = GTK_TOGGLE_BUTTON(button)->active;
+	any_cpu_enabled = any_real_cpu_enabled = FALSE;
+	for (i = 0, list = cpu_mon_list; list; ++i, list = list->next)
 		{
 		cpu = (CpuMon *) list->data;
-		if (enable_cpu_visibility(cpu) && cpu->enabled)
+		if (   i == GPOINTER_TO_INT(data)
+		    && gkrellm_chart_enable_visibility(cpu->chart,
+						enabled, &cpu->enabled)
+		   )
+			{
 			gkrellm_reset_and_draw_chart(cpu->chart);
-		gkrellm_apply_launcher(&cpu->launch_entry, &cpu->tooltip_entry,
+			gkrellm_apply_launcher(&cpu->launch_entry, &cpu->tooltip_entry,
 					cpu->chart->panel, &cpu->launch, gkrellm_launch_button_cb);
-		gkrellm_reset_alert_soft(cpu->alert);
+			gkrellm_reset_alert_soft(cpu->alert);
+			if (!cpu->enabled)
+				{
+			    if (gkrellm_sensor_reset_location(cpu->sensor_temp))
+					rebuild_temps = TRUE;
+				if (gkrellm_sensor_reset_location(cpu->sensor_fan))
+					rebuild_fans = TRUE;
+				cpu->sensor_temp = NULL;
+				cpu->sensor_fan = NULL;
+				fix_panel(cpu);
+				}
+			}
+		if (cpu->enabled)
+			{
+			any_cpu_enabled = TRUE;
+			if (!cpu->is_composite)
+				any_real_cpu_enabled = TRUE;
+			}
 		}
-	if (cpu_enabled)
+	if (rebuild_temps || rebuild_fans)
+		gkrellm_sensors_rebuild(rebuild_temps, rebuild_fans, FALSE);
+	if (any_cpu_enabled)
 		gkrellm_spacers_show(mon_cpu);
 	else
 		gkrellm_spacers_hide(mon_cpu);
 	}
 
-static void
-cb_smp_mode(GtkWidget *button, gpointer data)
-	{
-	GList		*list;
-	CpuMon		*cpu;
-	gint		i = GPOINTER_TO_INT(data);
-	gboolean	prev_enabled, rebuild_temps = FALSE, rebuild_fans = FALSE;
-
-	if (GTK_TOGGLE_BUTTON(button)->active)
-		smp_mode = i;
-	for (list = cpu_mon_list; list; list = list->next)
-		{
-		cpu = (CpuMon *) list->data;
-		prev_enabled = cpu->enabled;
-		if (enable_cpu_visibility(cpu) && cpu->enabled)
-			gkrellm_reset_and_draw_chart(cpu->chart);
-		if (prev_enabled && !cpu->enabled)
-			{
-			if (cpu->sensor_temp)
-				{
-				gkrellm_sensor_reset_location(cpu->sensor_temp);
-				rebuild_temps |= TRUE;
-				}
-			if (cpu->sensor_fan)
-				{
-				gkrellm_sensor_reset_location(cpu->sensor_fan);
-				rebuild_fans |= TRUE;
-				}
-			cpu->sensor_temp = NULL;
-			cpu->sensor_fan = NULL;
-			fix_panel(cpu);
-			}
-		gkrellm_apply_launcher(&cpu->launch_entry, &cpu->tooltip_entry,
-					cpu->chart->panel, &cpu->launch, gkrellm_launch_button_cb);
-		}
-	if (rebuild_temps || rebuild_fans)
-		gkrellm_sensors_rebuild(rebuild_temps, rebuild_fans, FALSE);
-	}
 
 static void
 cb_config_tracking(GtkWidget *button, gpointer data)
@@ -1272,6 +1343,7 @@ static gchar	*cpu_info_text[] =
 N_("<h>Chart Labels\n"),
 N_("Substitution variables for the format string for chart labels:\n"),
 N_("\t$L    the CPU label\n"),
+N_("\t$N    the CPU number\n"),
 N_("\t$T    total CPU time percent usage\n"),
 N_("\t$s    sys time percent usage\n"),
 N_("\t$u    user time percent usage\n"),
@@ -1285,10 +1357,9 @@ create_cpu_tab(GtkWidget *tab_vbox)
 	{
 	GtkWidget	*tabs;
 	GtkWidget	*button;
-	GtkWidget	*hbox, *vbox, *vbox1;
+	GtkWidget	*hbox, *vbox, *vbox1, *vbox2;
 	GtkWidget	*text;
 	GtkWidget	*table;
-	GSList		*group;
 	GList		*list;
 	CpuMon		*cpu;
 	gchar		buf[128];
@@ -1301,10 +1372,16 @@ create_cpu_tab(GtkWidget *tab_vbox)
 
 /* -- Options tab */
 	vbox = gkrellm_gtk_framed_notebook_page(tabs, _("Options"));
-	gkrellm_gtk_check_button_connected(vbox, NULL, cpu_enabled,
-			FALSE, FALSE, 10,
-			cb_enable, NULL,
-			_("Enable CPU"));
+
+	if (n_smp_cpus == 0)
+		{
+		gkrellm_gtk_check_button_connected(vbox, NULL, any_cpu_enabled,
+				FALSE, FALSE, 10,
+				cb_enable, GINT_TO_POINTER(0),
+				_("Enable CPU"));
+		show_panel_labels = TRUE;
+		}
+
 	if (!nice_time_unsupported)
 		gkrellm_gtk_check_button_connected(vbox, NULL,
 				omit_nice_mode, FALSE, FALSE, 0,
@@ -1319,35 +1396,34 @@ create_cpu_tab(GtkWidget *tab_vbox)
 	if (n_smp_cpus > 0)
 		{
 		gkrellm_gtk_check_button_connected(vbox, &button,
-				config_tracking, FALSE, FALSE, 10,
-				cb_config_tracking, NULL,
-		_("Apply any CPU chart config height change to all CPU charts"));
+			config_tracking, FALSE, FALSE, 0,
+			cb_config_tracking, NULL,
+			_("Apply any CPU chart config height change to all CPU charts"));
+
+		gkrellm_gtk_check_button_connected(vbox, NULL,
+			show_panel_labels, FALSE, FALSE, 0,
+			cb_show_panel_labels, NULL,
+			_("Show labels in panels (no labels reduces vertical space)"));
 
 		vbox1 = gkrellm_gtk_category_vbox(vbox,
 				_("SMP Charts Select"),
 				4, 0, TRUE);
 
-		button = gtk_radio_button_new_with_label(NULL, _("Real CPUs."));
-		gtk_box_pack_start(GTK_BOX(vbox1), button, TRUE, TRUE, 0);
-		smp_button[0] = button;
-		group = gtk_radio_button_get_group(GTK_RADIO_BUTTON (button));
+		vbox2 = gkrellm_gtk_scrolled_vbox(vbox1, NULL,
+					GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
-		button = gtk_radio_button_new_with_label(group, _("Composite CPU."));
-		gtk_box_pack_start(GTK_BOX(vbox1), button, TRUE, TRUE, 0);
-		group = gtk_radio_button_get_group(GTK_RADIO_BUTTON (button));
-		smp_button[1] = button;
+		for (i = 0, list = cpu_mon_list; list; list = list->next, ++i)
+			{
+			cpu = (CpuMon *) list->data;
+			if (i == 0)
+				snprintf(buf, sizeof(buf), _("Composite CPU."));
+			else
+				snprintf(buf, sizeof(buf), _("%s"), cpu->name);
 
-		button = gtk_radio_button_new_with_label(group,
-					_("Composite and real"));
-		gtk_box_pack_start(GTK_BOX(vbox1), button, TRUE, TRUE, 0);
-		smp_button[2] = button;
-
-		button = smp_button[smp_mode];
-		gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button), TRUE);
-
-		for (i = 0; i < 3; ++i)
-			g_signal_connect(G_OBJECT(smp_button[i]), "toggled",
-						G_CALLBACK(cb_smp_mode), GINT_TO_POINTER(i));
+			gkrellm_gtk_check_button_connected(vbox2, NULL, cpu->enabled,
+					FALSE, FALSE, 0,
+					cb_enable, GINT_TO_POINTER(i), buf);
+			}
 		}
 
 /* -- Setup tab */
@@ -1372,6 +1448,9 @@ create_cpu_tab(GtkWidget *tab_vbox)
 		_("\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s"));
 	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
 		_("\\ww\\D3\\f\\au\\.$u\\D0\\f\\as\\.$s"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		_("\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s\\D1\\f\\r$L"));
+
 	if (!nice_time_unsupported)
 		{
 		gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),

@@ -475,7 +475,7 @@ gint		gkrellm_sensor_read_voltage(gpointer sr, gfloat *);
 GkrellmAlert *gkrellm_sensor_alert(gpointer sr);
 void		gkrellm_sensor_alert_connect(gpointer sr,
 						void (*fn)(), gpointer data);
-void		gkrellm_sensor_reset_location(gpointer sr);
+gboolean	gkrellm_sensor_reset_location(gpointer sr);
 void		gkrellm_sensors_rebuild(gboolean do_temp, gboolean do_fan,
 						gboolean do_volt);
 void		gkrellm_sensors_model_update(void);
