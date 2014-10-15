@@ -1449,7 +1449,11 @@ create_cpu_tab(GtkWidget *tab_vbox)
 	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
 		_("\\ww\\D3\\f\\au\\.$u\\D0\\f\\as\\.$s"));
 	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
-		_("\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s\\D1\\f\\r$L"));
+		_("\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s\\D3\\f\\r$L"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		_("\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s\\D3\\f\\r$L"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		_("\\ww\\D3\\f$L\\n\\f\\as\\.$s\\n\\f\\au\\.$u"));
 
 	if (!nice_time_unsupported)
 		{

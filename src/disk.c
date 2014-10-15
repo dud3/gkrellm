@@ -1451,7 +1451,7 @@ create_disk_tab(GtkWidget *tab_vbox)
 	vbox1 = gkrellm_gtk_category_vbox(vbox,
 				_("Launch Commands"),
 				4, 0, TRUE);
-	launch_vbox = gkrellm_gtk_scrolled_vbox(vbox, NULL,
+	launch_vbox = gkrellm_gtk_scrolled_vbox(vbox1, NULL,
 						GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 	gtk_widget_show(launch_vbox);
 	gtk_widget_realize(launch_vbox);

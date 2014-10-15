@@ -688,11 +688,13 @@ gkrellm_gtk_category_vbox(GtkWidget *box, gchar *category_header,
 	GtkWidget	*vbox, *vbox1, *hbox, *label;
 	gchar		*s;
 
-	vbox = gtk_vbox_new(FALSE, 0);
+	vbox = gtk_vbox_new(TRUE, 0);
+	gtk_box_set_homogeneous(GTK_BOX(vbox), FALSE);
+
 	if (pack_start)
-		gtk_box_pack_start(GTK_BOX(box), vbox, FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(box), vbox, TRUE, TRUE, 0);
 	else
-		gtk_box_pack_end(GTK_BOX(box), vbox, FALSE, FALSE, 0);
+		gtk_box_pack_end(GTK_BOX(box), vbox, TRUE, TRUE, 0);
 
 	if (category_header)
 		{
@@ -706,7 +708,7 @@ gkrellm_gtk_category_vbox(GtkWidget *box, gchar *category_header,
 		}
 
 	hbox = gtk_hbox_new(FALSE, 0);
-	gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox), hbox, TRUE, TRUE, 0);
 
 	label = gtk_label_new("    ");
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);

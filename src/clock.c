@@ -726,7 +726,7 @@ create_clock_tab(GtkWidget *tab_vbox)
 	label = gtk_label_new(_("Display format string:"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 2);
 	cal_format_combo_box = gtk_combo_box_entry_new_text();
-	gtk_box_pack_start(GTK_BOX(vbox1), cal_format_combo_box, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox1), cal_format_combo_box, FALSE, FALSE, 0);
 	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo_box), cal_format);
 	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo_box), DEFAULT_CAL_FORMAT);
 	gtk_combo_box_append_text(GTK_COMBO_BOX(cal_format_combo_box), ALT1_CAL_FORMAT);
@@ -745,7 +745,7 @@ create_clock_tab(GtkWidget *tab_vbox)
 	label = gtk_label_new(_("Display format string:"));
 	gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 2);
 	clock_format_combo_box = gtk_combo_box_entry_new_text();
-	gtk_box_pack_start(GTK_BOX(vbox1), clock_format_combo_box, TRUE, TRUE, 0);
+	gtk_box_pack_start(GTK_BOX(vbox1), clock_format_combo_box, FALSE, FALSE, 0);
 	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo_box), clock_format);
 	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo_box), DEFAULT_CLOCK_FORMAT);
 	gtk_combo_box_append_text(GTK_COMBO_BOX(clock_format_combo_box), ALT1_CLOCK_FORMAT);
