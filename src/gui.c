@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2010 Bill Wilson
+|  Copyright (C) 1999-2014 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -756,7 +756,7 @@ create_about_tab(GtkWidget *vbox)
 	gtk_box_pack_start(GTK_BOX(vbox), label, TRUE, TRUE, 0);
 
 	buf = g_strdup_printf(_("GKrellM %d.%d.%d%s\nGNU Krell Monitors\n\n"
-				"Copyright (c) 1999-2010 by Bill Wilson\n"
+				"Copyright (c) 1999-2014 by Bill Wilson\n"
 				"billw@gkrellm.net\n"
 				"http://gkrellm.net\n\n"
 				"Released under the GNU General Public License"),

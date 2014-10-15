@@ -1,5 +1,5 @@
 /* GKrellM
-|  Copyright (C) 1999-2010 Bill Wilson
+|  Copyright (C) 1999-2014 Bill Wilson
 |
 |  Author:  Bill Wilson    billw@gkrellm.net
 |  Latest versions might be found at:  http://gkrellm.net
@@ -108,8 +108,8 @@
 */
 #define	GKRELLM_VERSION_MAJOR	2
 #define	GKRELLM_VERSION_MINOR	3
-#define	GKRELLM_VERSION_REV		5
-#define	GKRELLM_EXTRAVERSION	""
+#define	GKRELLM_VERSION_REV		6
+#define	GKRELLM_EXTRAVERSION	"-RC1"
 
 #define GKRELLM_CHECK_VERSION(major,minor,rev)    \
 	(GKRELLM_VERSION_MAJOR > (major) || \
