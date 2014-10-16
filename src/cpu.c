@@ -1443,6 +1443,8 @@ create_cpu_tab(GtkWidget *tab_vbox)
 	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
 		DEFAULT_TEXT_FORMAT);
 	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
+		_("\\f$L\\n$T"));
+	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
 		_("\\fu \\.$u\\n\\fs \\.$s"));
 	gtk_combo_box_append_text(GTK_COMBO_BOX(text_format_combo_box),
 		_("\\ww\\D2\\f\\au\\.$u\\D1\\f\\as\\.$s"));
