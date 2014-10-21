@@ -1553,9 +1553,10 @@ create_widget_tree()
 
 	gtk_widget_realize(gtree.window);
 
-	/* gtk_window_set_resizable() */
-	g_object_set(G_OBJECT(gtree.window), "allow_shrink", FALSE, NULL);
-	g_object_set(G_OBJECT(gtree.window), "allow_grow", FALSE, NULL);
+	/* Set the toplevel window size handling to be under program control.
+	*/
+	gtk_window_set_resizable((GtkWindow *) gtree.window, FALSE);
+
 	if (!decorated)
 		gtk_window_set_decorated((GtkWindow *) gtree.window, FALSE);
 
