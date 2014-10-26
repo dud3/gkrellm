@@ -1349,7 +1349,7 @@ replace_plugins()
 			{
 			gtk_box_pack_start(GTK_BOX(gkrellm_monitor_vbox()),
 					mon->privat->main_vbox, FALSE, FALSE, 0);
-			g_object_ref(G_OBJECT(mon->privat->main_vbox));
+			g_object_unref(G_OBJECT(mon->privat->main_vbox));
 			}
 		}
 	}
