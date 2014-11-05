@@ -1712,8 +1712,10 @@ process_server_line(KeyTable *table, gint table_size, gchar *line)
 static gboolean
 read_server_setup(gint fd)
 	{
-	gchar			buf[4097]; /* TODO: Use dynamic receive buffer */
-	gint			table_size;
+	gchar	buf[4097]; /* TODO: Use dynamic receive buffer */
+	gint	table_size;
+	gint	rs;
+	gint	retries = 10;
 
 	gkrellm_debug(DEBUG_CLIENT, "read_server_setup()\n");
 
@@ -1726,13 +1728,18 @@ read_server_setup(gint fd)
 
 	gkrellm_free_glist_and_data(&client_plugin_setup_line_list);
 
-    gint rs;
-
 	while (1)
 		{
 		rs = gkrellm_getline(fd, buf, sizeof(buf));
-        if (rs < 0)
-            return FALSE;
+		if (rs < 0)
+			return FALSE;
+		if (rs == 0)
+			{
+			if (--retries)
+				usleep(10000);
+			else
+				return FALSE;
+			}
 		if (!strcmp(buf, "</gkrellmd_setup>"))
 			break;
 		process_server_line(&setup_table[0], table_size, buf);
@@ -1751,6 +1758,12 @@ read_server_setup(gint fd)
 		rs = gkrellm_getline(fd, buf, sizeof(buf));
         if (rs < 0)
             return FALSE;
+        if (rs==0){
+        	if(--retries)
+        		usleep(10000);
+        	else
+        		return FALSE;
+        }
 		if (!strcmp(buf, "</initial_update>"))
 			break;
 		process_server_line(&update_table[0], table_size, buf);
