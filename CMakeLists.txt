@@ -5,7 +5,7 @@ project(gkrellm C)
 # Don't forget to update gkrellm.h and gkrellmd.h defines as well
 set(GKRELLM_VERSION_MAJOR 2)
 set(GKRELLM_VERSION_MINOR 3)
-set(GKRELLM_VERSION_PATCH 5)
+set(GKRELLM_VERSION_PATCH 6)
 
 # Add local cmake modules
 set(CMAKE_MODULE_PATH
