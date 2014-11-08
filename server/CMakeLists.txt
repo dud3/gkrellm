@@ -4,7 +4,6 @@ set(GKRELLMD_SOURCES
     monitor.c
     mail.c
     plugins.c
-    glib.c
     utils.c
     sysdeps-unix.c
     ../shared/log.c
