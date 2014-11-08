@@ -91,6 +91,7 @@ target_link_libraries(gkrellm
     ${GMODULE2_LIBRARIES}
     ${GTHREAD2_LIBRARIES}
     ${GDK_PIXBUF_LIBRARIES}
+    ${MATH_LIBRARY}
     )
 
 if (APPLE)

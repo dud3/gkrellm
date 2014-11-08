@@ -54,6 +54,10 @@ else ()
     message(STATUS "NLS support needs both libintl (runtime) and gettext (compiletime)")
 endif ()
 
+if(UNIX AND NOT APPLE)
+    find_library(MATH_LIBRARY m)
+endif()
+
 # GLIB2
 pkg_check_modules(GLIB2 glib-2.0 REQUIRED)
 include_directories(${GLIB2_INCLUDE_DIRS})
