@@ -1895,7 +1895,7 @@ gchar *gkrellm_sys_get_system_name(void)
 	gkrellm_debug(DEBUG_SYSDEP, "Retrieving system name\n");
 
 	// Default value for sysname
-	g_strlcpy(sysname, "Unknown", sizeof(sysname));
+	g_strlcpy(sysname, "Windows Unknown", sizeof(sysname));
 
 	// Query version info
 	memset(&vi, 0, sizeof(OSVERSIONINFOEXW));
