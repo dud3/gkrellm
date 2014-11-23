@@ -1917,14 +1917,19 @@ gchar *gkrellm_sys_get_system_name(void)
 	else
 		GetSystemInfo(&si);
 
-	if (vi.dwMajorVersion == 6 && vi.dwMinorVersion == 0)
-		{
-		// Windows 6.0 aka Vista or Server 2008
+	/* NT Workstation identifies some Client/Desktop Windows version */
+	gboolean isWks = (vi.wProductType == VER_NT_WORKSTATION);
 
-		if (vi.wProductType == VER_NT_WORKSTATION)
-			g_strlcpy(sysname, "Windows Vista", sizeof(sysname));
-		else
-			g_strlcpy(sysname, "Windows Server 2008", sizeof(sysname));
+	if (vi.dwMajorVersion == 6)
+		{
+		if (vi.dwMinorVersion == 0)
+			g_strlcpy(sysname, isWks ? "Windows Vista" : "Windows Server 2008", sizeof(sysname));
+		else if (vi.dwMinorVersion == 1)
+			g_strlcpy(sysname, isWks ? "Windows 7" : "Windows Server 2008 R2", sizeof(sysname));
+		else if (vi.dwMinorVersion == 2)
+			g_strlcpy(sysname, isWks ? "Windows 8" : "Windows Server 2012", sizeof(sysname));
+		else if (vi.dwMinorVersion == 3)
+			g_strlcpy(sysname, isWks ? "Windows 8.1" : "Windows Server 2012 R2", sizeof(sysname));
 		}
 	else if (vi.dwMajorVersion == 5)
 		{
@@ -1932,10 +1937,7 @@ gchar *gkrellm_sys_get_system_name(void)
 
 		if (vi.dwMinorVersion == 0)
 			{
-	         if (vi.wProductType == VER_NT_WORKSTATION)
-	        	 g_strlcpy(sysname, "Windows 2000 Professional", sizeof(sysname));
-	         else
-	        	 g_strlcpy(sysname, "Windows 2000 Server", sizeof(sysname));
+			g_strlcpy(sysname, isWks ? "Windows 2000 Professional" : "Windows 2000 Server", sizeof(sysname));
 			}
 		else if (vi.dwMinorVersion == 1)
 			{
