@@ -123,30 +123,21 @@ debug=0
 export enable_nls
 export debug
 
+GKRELLM_PC_EXTRA=
+
 all gkrellm: gkrellm.pc
 	(cd po && ${MAKE} all)
 	(cd src && ${MAKE} gkrellm)
 	(cd server && ${MAKE} gkrellmd)
 
-# win32 needs a Libs: line and ${prefix} for paths so we install a different
-# pkg-config file than what gets used on unix
-# TODO: move to src/Makefile and install a gkrellmd.pc from server/Makefile
-gkrellm.pc_win: Makefile
-	echo "prefix=$(INSTALLROOT)" > gkrellm.pc
-	echo "Name: GKrellM" >> gkrellm.pc
-	echo "Description: Extensible GTK system monitoring application" >> gkrellm.pc
-	echo "Version: $(VERSION)" >> gkrellm.pc
-	echo "Requires: gtk+-2.0 >= 2.4.0" >> gkrellm.pc
-	echo 'Cflags: -I$${prefix}/include' >> gkrellm.pc
-	echo 'Libs: -L$${prefix}/lib -lgkrellm' >> gkrellm.pc
-
 gkrellm.pc: Makefile
-	echo "prefix=$(INSTALLROOT)" > gkrellm.pc
-	echo "Name: GKrellM" >> gkrellm.pc
-	echo "Description: Extensible GTK system monitoring application" >> gkrellm.pc
-	echo "Version: $(VERSION)" >> gkrellm.pc
-	echo "Requires: gtk+-2.0 >= 2.4.0" >> gkrellm.pc
-	echo "Cflags: -I$(INCLUDEDIR)" >> gkrellm.pc
+	echo 'prefix=$(INSTALLROOT)\n'\
+	'Name: GKrellM\n'\
+	'Description: Extensible GTK system monitoring application\n'\
+	'Version: $(VERSION)\n'\
+	'Requires: gtk+-2.0 >= 2.4.0\n'\
+	'Cflags: -I$(INCLUDEDIR)\n'\
+	'$(GKRELLM_PC_EXTRA)' > gkrellm.pc
 
 install: install_gkrellm.pc
 	(cd po && ${MAKE} install)
@@ -159,7 +150,7 @@ uninstall:
 	(cd server && ${MAKE} uninstall)
 	rm -f $(PKGCONFIGDIR)/gkrellm.pc
 
-install_gkrellm.pc:
+install_gkrellm.pc: gkrellm.pc
 	$(INSTALL) -d $(PKGCONFIGDIR)
 	$(INSTALL) -m $(INCLUDEMODE) -c gkrellm.pc $(PKGCONFIGDIR)
 
@@ -293,7 +284,8 @@ gtop1.0: gkrellm.pc
 	(cd src && ${MAKE} gkrellm )
 	(cd server && ${MAKE} gkrellmd )
 
-windows: gkrellm.pc_win
+windows: GKRELLM_PC_EXTRA:=Libs: -L$${prefix}/lib -Wl,-Bstatic,-lgkrellm,-Bdynamic
+windows: gkrellm.pc
 	(cd po && ${MAKE} LOCALEDIR="share/locale" all)
 	(cd src && ${MAKE} LOCALEDIR="share/locale" windows )
 	(cd server && ${MAKE} LOCALEDIR="share/locale" windows)
