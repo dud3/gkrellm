@@ -49,15 +49,11 @@ gkrellm_winop_reset(void)
 void
 gkrellm_winop_options(gint argc, gchar **argv)
 	{
-	HWND hWnd = GDK_WINDOW_HWND(gkrellm_get_top_window()->window);
-
 	// This essentially hides the taskbar entry on win32, unfortunately
-	// gtk_window_set_skip_taskbar_hint() is broken in GTK+ 2.14
+	// gtk_window_set_skip_taskbar_hint() does not have any effect
 	gtk_window_set_type_hint(GTK_WINDOW(gkrellm_get_top_window()), GDK_WINDOW_TYPE_HINT_UTILITY);
 
-	// Set stay-on-top flag if requested
-	if (_GK.on_top)
-		SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+	gkrellm_winop_state_above(_GK.on_top);
 	}
 
 void
@@ -344,6 +340,8 @@ gkrellm_winop_state_skip_pager(gboolean state)
 void
 gkrellm_winop_state_above(gboolean state)
 	{
+	GtkWindow *window = GTK_WINDOW(gkrellm_get_top_window());
+	gtk_window_set_keep_above(window, state);
 	}
 
 void
