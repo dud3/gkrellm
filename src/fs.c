@@ -724,7 +724,7 @@ fs_update(void)
 	GkrellmPanel	*p;
 	GkrellmKrell	*k;
 	GList			*list;
-	glong			used, avail;
+	gint64			used, avail;
 	gint			full_scale, index, w_scroll, w;
 	gboolean		fs_check, nfs_check, force_check, force_draw,
 					mounting_enabled;
@@ -807,13 +807,20 @@ fs_update(void)
 					gth = g_thread_new("get_fsusage", get_fsusage_thread, fs);
 					g_thread_unref(gth);
 					}
-				fs->krell_factor = fs->blocks > 2097152 ? 1024 : 1;
+				if (fs->blocks > 2147483648LL)
+					fs->krell_factor = 1024 * 1024;
+				else if (fs->blocks > 2097152LL)
+					fs->krell_factor = 1024 * 1024;
+				else
+					fs->krell_factor = 1;
 				}
 
 			avail = fs->bavail >= 0 ? fs->bavail : 0;
 			used = fs->blocks - fs->bfree;
-			full_scale = (gint) (used + avail) / fs->krell_factor;
-			used /= fs->krell_factor;
+
+			full_scale = (gint) ((used + avail) / (gint64) fs->krell_factor);
+			used = used / (gint64) fs->krell_factor;
+
 			gkrellm_set_krell_full_scale(k, full_scale, 1);
 
 			if (!fs->busy)
@@ -823,7 +830,7 @@ fs_update(void)
 				   )
 					gkrellm_update_krell(p, k, 0);
 				else
-					gkrellm_update_krell(p, k, used);
+					gkrellm_update_krell(p, k, (gulong) used);
 				if (full_scale > 0)
 					gkrellm_check_alert(fs->alert,
 							100.0 * (gfloat) used / (gfloat) full_scale);
