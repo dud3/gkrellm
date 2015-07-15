@@ -310,11 +310,11 @@ gkrellm_sys_fs_get_fsusage(gpointer fs, gchar *dir)
 	if (!statfs(dir, &st))
 #endif
 		gkrellm_fs_assign_fsusage_data(fs,
-					(glong) st.f_blocks, (glong) st.f_bavail,
+					(gint64) st.f_blocks, (gint64) st.f_bavail,
 #if (defined(__NetBSD__) && __NetBSD_Version__ >= 299000900) /* NetBSD 2.99.9 */
-					(glong) st.f_bfree, (glong) st.f_frsize);
+					(gint64) st.f_bfree, (gint64) st.f_frsize);
 #else
-					(glong) st.f_bfree, (glong) st.f_bsize);
+					(gint64) st.f_bfree, (gint64) st.f_bsize);
 #endif
 	else
 		gkrellm_fs_assign_fsusage_data(fs, 0, 0, 0, 0);

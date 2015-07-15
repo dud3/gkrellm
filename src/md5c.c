@@ -105,6 +105,7 @@ void MD5Final(unsigned char digest[16], struct MD5Context *ctx)
 {
     unsigned int count;
     unsigned char *p;
+	uint32	*l;
 
     /* Compute number of bytes mod 64 */
     count = (ctx->bits[0] >> 3) & 0x3F;
@@ -133,13 +134,21 @@ void MD5Final(unsigned char digest[16], struct MD5Context *ctx)
     byteReverse(ctx->in, 14);
 
     /* Append length in bits and transform */
-    ((uint32 *) ctx->in)[14] = ctx->bits[0];
-    ((uint32 *) ctx->in)[15] = ctx->bits[1];
+	/* Avoid compiler warnings */
+	l = (uint32 *) ctx->in;
+	l[14] = ctx->bits[0];
+	l[15] = ctx->bits[1];
+
+//    ((uint32 *) ctx->in)[14] = ctx->bits[0];
+//    ((uint32 *) ctx->in)[15] = ctx->bits[1];
 
     MD5Transform(ctx->buf, (uint32 *) ctx->in);
     byteReverse((unsigned char *) ctx->buf, 4);
     memmove(digest, ctx->buf, 16);
-    memset(ctx, 0, sizeof(ctx));	/* In case it's sensitive */
+
+	/* Doesn't make sense, but avoid compiler warning and get same binary */
+    memset(ctx, 0, sizeof(void *));	/* In case it's sensitive */
+//    memset(ctx, 0, sizeof(ctx));	/* In case it's sensitive */
 }
 
 /* The four core functions - F1 is optimized somewhat */

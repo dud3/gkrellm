@@ -1461,8 +1461,8 @@ gkrellm_sys_fs_get_fsusage(gpointer fs, gchar *dir)
 
 	if (!statfs(dir, &st))
 		gkrellm_fs_assign_fsusage_data(fs,
-					(glong) st.f_blocks, (glong) st.f_bavail,
-					(glong) st.f_bfree, (glong) st.f_bsize);
+					(gint64) st.f_blocks, (gint64) st.f_bavail,
+					(gint64) st.f_bfree, (gint64) st.f_bsize);
 	else
 		gkrellm_fs_assign_fsusage_data(fs, 0, 0, 0, 0);
 	}

@@ -369,8 +369,8 @@ gkrellm_sys_fs_get_fsusage(gpointer fs, gchar *dir)
 	glibtop_fsusage	fsusage;
 
 	glibtop_get_fsusage(&fsusage, dir);
-	gkrellm_fs_assign_fsusage_data(fs, (glong) fsusage.blocks,
-				(glong) fsusage.bavail, (glong) fsusage.bfree, 512);
+	gkrellm_fs_assign_fsusage_data(fs, (gint64) fsusage.blocks,
+				(gint64) fsusage.bavail, (gint64) fsusage.bfree, 512);
 	}
 
 gboolean

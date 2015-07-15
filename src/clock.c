@@ -204,7 +204,9 @@ strftime_format(gchar *format, gchar *alt_color)
 	else
 		t = &gkrellm_current_tm;
 
-	locale_format = g_locale_from_utf8 (format, -1, NULL, NULL, NULL);
+	locale_format = g_locale_from_utf8(format, -1, NULL, NULL, NULL);
+	if (!locale_format)
+		locale_format = g_strdup(format);
 	strftime(buf1, sizeof(buf1), locale_format, t);
 	g_free (locale_format);
 	format_alt_color(buf1, buf2, sizeof(buf2), alt_color);

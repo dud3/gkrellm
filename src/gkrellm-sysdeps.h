@@ -257,7 +257,7 @@ void	gkrellm_fs_client_divert(void (*get_fsusage_func)(),
 				void (*get_mounts_func)(), void (*get_fstab_func)(),
 				gboolean (*fstab_modified_func)());
 void	gkrellm_fs_assign_fsusage_data(gpointer fs,
-				glong blocks, glong avail, glong free, glong bsize);
+				gint64 blocks, gint64 avail, gint64 free, gint64 bsize);
 void	gkrellm_fs_add_to_fstab_list(gchar *dir, gchar *dev, gchar *type,
 				gchar *options);
 void	gkrellm_fs_add_to_mounts_list(gchar *dir, gchar *dev, gchar *type);

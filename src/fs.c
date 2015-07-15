@@ -96,7 +96,7 @@ typedef struct
 	gulong		krell_factor;		/* avoid krell math overflow */
 
 	gboolean	busy;
-	glong		blocks,
+	gint64		blocks,
 				bfree,
 				bavail,
 				bsize;
@@ -236,7 +236,7 @@ gkrellm_fs_add_to_fstab_list(gchar *dir, gchar *dev, gchar *type, gchar *opt)
 
 void
 gkrellm_fs_assign_fsusage_data(gpointer fspointer,
-			glong blocks, glong bavail, glong bfree, glong bsize)
+			gint64 blocks, gint64 bavail, gint64 bfree, gint64 bsize)
 	{
 	FSmon	*fs = (FSmon *) fspointer;
 
@@ -358,7 +358,7 @@ static GkrellmSizeAbbrev	fs_binary_abbrev[] =
 static gint
 format_fs_data(FSmon *fs, gchar *src_string, gchar *buf, gint size)
 	{
-	glong		b, u, a;
+	gint64		b, u, a;
 	gint		len;
 	gchar		*s;
 	gchar		tbuf[32], ubuf[32], abuf[32];
