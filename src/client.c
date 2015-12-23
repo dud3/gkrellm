@@ -753,7 +753,7 @@ typedef struct
 	gchar	*directory,
 			*device,
 			*type;
-	gulong	blocks,
+	gint64	blocks,
 			bavail,
 			bfree,
 			bsize;
@@ -821,7 +821,9 @@ client_mounts_line_from_server(gchar *line)
 	else
 		{
 		m = g_new0(Mount, 1);
-		sscanf(line, "%127s %63s %63s %lu %lu %lu %lu", dir, dev, type,
+		sscanf(line,
+			"%127s %63s %63s %" PRIu64 " %" PRIu64 " %" PRIu64 " %" PRIu64,
+				dir, dev, type,
 				&m->blocks, &m->bavail, &m->bfree, &m->bsize);
 		m->directory = g_strdup(dir);
 		m->device = g_strdup(dev);

@@ -1307,7 +1307,7 @@ typedef struct
 				*device,
 				*type,
 				*options;
-	glong		blocks,
+	gint64		blocks,
 				bavail,
 				bfree,
 				bsize;
@@ -1390,7 +1390,7 @@ gkrellm_fs_add_to_fstab_list(gchar *dir, gchar *dev, gchar *type, gchar *opt)
 
 void
 gkrellm_fs_assign_fsusage_data(gpointer pointer,
-			glong blocks, glong bavail, glong bfree, glong bsize)
+		gint64 blocks, gint64 bavail, gint64 bfree, gint64 bsize)
 	{
 	Mount	*m = (Mount *) pointer;
 
@@ -1542,7 +1542,8 @@ serve_fs_data(GkrellmdMonitor *mon, gboolean first_serve)
 		for (list = mounts_list; list; list = list->next)
 			{
 			m = (Mount *) list->data;
-			snprintf(buf, sizeof(buf), "%s %s %s %ld %ld %ld %ld\n",
+			snprintf(buf, sizeof(buf),
+				"%s %s %s %" PRIu64 " %" PRIu64 " %" PRIu64 " %" PRIu64 "\n",
 					m->directory, m->device, m->type,
 					m->blocks, m->bavail, m->bfree, m->bsize);
 			/*gkrellm_debug(DEBUG_SERVER,
@@ -1558,7 +1559,8 @@ serve_fs_data(GkrellmdMonitor *mon, gboolean first_serve)
 			m = (Mount *) list->data;
 			if (!m->changed)
 				continue;
-			snprintf(buf, sizeof(buf), "%s %s %ld %ld %ld %ld\n",
+			snprintf(buf, sizeof(buf),
+				"%s %s %" PRIu64 " %" PRIu64 " %" PRIu64 " %" PRIu64 "\n",
 					m->directory, m->device,
 					m->blocks, m->bavail, m->bfree, m->bsize);
 			/*gkrellm_debug(DEBUG_SERVER,
