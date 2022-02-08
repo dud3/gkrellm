@@ -1800,6 +1800,7 @@ acpi_battery_data(BatteryFile *bf)
 #define	SYSFS_POWER_SUPPLIES		"/sys/class/power_supply/"
 #define	SYSFS_TYPE_BATTERY			"battery"
 #define	SYSFS_TYPE_AC_ADAPTER		"mains"
+#define	SYSFS_TYPE_USB				"usb"
 
 
 #define VARIANTS		5
@@ -2036,6 +2037,8 @@ setup_sysfs_power_entry (gchar const *sysentry)
 		if (read_sysfs_entry (buf, sizeof (buf), type))
 			{
 			if (!strcasecmp (buf, SYSFS_TYPE_AC_ADAPTER))
+				retval = setup_sysfs_ac_power (sysdir);
+			else if (!strcasecmp (buf, SYSFS_TYPE_USB))
 				retval = setup_sysfs_ac_power (sysdir);
 			else if (!strcasecmp (buf, SYSFS_TYPE_BATTERY))
 				retval = setup_sysfs_battery (sysdir);
